@@ -1,7 +1,7 @@
 import Config from 'src/config'
 import IStateAllPages from '../../../../tuber-client/src/controllers/interfaces/IStateAllPages'
 import researchPageJson from './research.page.state'
-import devInstallPage from 'src/INSTALL.DEV/dev.install/dev.install.page.state'
+import devInstallPage from 'src/INSTALL.DEV/dev.install.page.state'
 import devSignedInAppBar from 'src/INSTALL.DEV/dev.signedin-appbar.page.state'
 import appBar from 'src/state/default.content/default.appBar.state'
 

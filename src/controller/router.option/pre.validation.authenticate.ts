@@ -29,7 +29,7 @@ import { jsonDialogDefaultAlert as alert } from 'src/state/dialogs'
  * @see https://jwt.io/introduction
  * @see https://compile7.org/decompile/authorization-request-headers-explained/
  */
-const session_pre_authentication: RouteShorthandOptions['preValidation'] = async function (
+const authenticate: RouteShorthandOptions['preValidation'] = async function (
   request, reply, done
 ) {
   process.stdout.write('Working on session middleware... ')
@@ -65,4 +65,4 @@ const session_pre_authentication: RouteShorthandOptions['preValidation'] = async
   reply.send(alert('Wrong username or password!'))
 }
 
-export default session_pre_authentication
+export default authenticate

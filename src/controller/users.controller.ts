@@ -1,9 +1,10 @@
-import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify'
-import { AUTHENTICATION_OPTIONS } from 'src/component/router.option'
-import users_post from './endpoint/post.users.endpoint'
+import { FastifyInstance, FastifyRequest, FastifyReply, RouteShorthandOptions } from 'fastify'
+import users_post from './middleware/post.users.endpoint'
+import authenticate from 'src/controller/router.option/pre.validation.authenticate'
 
-const opts = {
-  ...AUTHENTICATION_OPTIONS,
+const opts: RouteShorthandOptions = {
+  preValidation: authenticate,
+
   // TODO Add custom route options here
 }
 

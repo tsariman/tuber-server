@@ -7,7 +7,7 @@ import pages from 'src/state/pages'
 import forms from 'src/state/forms'
 import appBar from 'src/state/default.content/default.appBar.state'
 import theme from 'src/state/theme.state'
-import { DEFAULT_OPTIONS } from 'src/component/router.option'
+import { DEFAULT_OPTIONS } from 'src/controller/router.option'
 
 const opts = {
   ...DEFAULT_OPTIONS,

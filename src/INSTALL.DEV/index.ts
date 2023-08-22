@@ -4,10 +4,10 @@
    Create the admin user */
 
 import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
-import dev_create_update_dev_user from './endpoints/dev.user'
-import dev_database_reset from './endpoints/dev.database.reset'
-import { dev_load_test_drawer, dev_unload_test_drawer } from './endpoints'
-import { DEFAULT_OPTIONS } from 'src/component/router.option'
+import dev_create_update_dev_user from './middleware/dev.user'
+import dev_database_reset from './middleware/dev.database.reset'
+import { dev_load_test_drawer, dev_unload_test_drawer } from './middleware'
+import { DEFAULT_OPTIONS } from 'src/controller/router.option'
 
 const opts = {
   ...DEFAULT_OPTIONS,

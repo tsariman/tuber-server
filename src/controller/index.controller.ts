@@ -1,7 +1,7 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
 import { promises } from 'fs'
 import { resolve } from 'path'
-import { DEFAULT_OPTIONS } from 'src/component/router.option'
+import { DEFAULT_OPTIONS } from 'src/controller/router.option'
 
 const opts = {
   ...DEFAULT_OPTIONS,

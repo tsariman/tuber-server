@@ -1,4 +1,4 @@
-import IStatePage from '../../../../tuber-client/src/controllers/interfaces/IStatePage'
+import IStatePage from '../../../tuber-client/src/controllers/interfaces/IStatePage'
 
 const devInstallPage: IStatePage = {
   'content': '$form:devInstall:dev-install',
