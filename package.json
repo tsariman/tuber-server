@@ -1,0 +1,33 @@
+{
+  "name": "tuber-server",
+  "version": "0.1.0",
+  "packageManager": "yarn@3.2.4",
+  "scripts": {
+    "watch": "tsc --watch --preserveWatchOutput --pretty",
+    "dev": "cross-env NODE_ENV=development nodemon",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "build": "rimraf dist && tsc",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "@fastify/cookie": "^9.0.4",
+    "@fastify/cors": "^8.3.0",
+    "@fastify/session": "^10.4.0",
+    "bcrypt": "^5.1.0",
+    "fastify": "^4.19.0",
+    "jsonwebtoken": "^9.0.1",
+    "mongoose": "^7.3.1"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
+    "@types/node": "^20.3.3",
+    "cross-env": "^7.0.3",
+    "fastify-tsconfig": "^1.0.1",
+    "nodemon": "^2.0.22",
+    "prettier": "^2.8.8",
+    "rimraf": "^5.0.1",
+    "ts-node": "^10.9.1",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.1.6"
+  }
+}

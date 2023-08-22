@@ -1,0 +1,5 @@
+[PURPOSE]
+This folder exist to prevent duplicate content and to have the ability to make
+changes to content in one location.
+
+The content found in this folder will be inherited by other content throughout the project.
