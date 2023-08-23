@@ -3,9 +3,10 @@ import router from './router'
 
 // [PROD] comment out this line
 import cors from '@fastify/cors'
-import fastifySession from '@fastify/session'
+import fastifySession from '@fastify/secure-session'
 import fastifyCookie from '@fastify/cookie'
-import ROTATION_KEYS from './session.secrets'
+import fs from 'fs'
+import path from 'path'
 
 const server = fastify({
   // logger one for production
@@ -14,15 +15,10 @@ const server = fastify({
 
 server.register(fastifyCookie)
 
-const oneDay = 1000 * 60 * 60 * 24
 server.register(fastifySession, {
-  cookieName: 'sessionId',
-  secret: ROTATION_KEYS,
-  saveUninitialized: true,
-  cookie: {
-    maxAge: oneDay,
-    secure: 'auto',
-  },
+  sessionName: 'session',
+  cookieName: 'my-session-cookie',
+  key: fs.readFileSync(path.join(__dirname, 'secret-key'))
 })
 
 // [PROD] Comment out this code

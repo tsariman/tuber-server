@@ -3,7 +3,7 @@ import { existsSync } from 'fs'
 import { connect, disconnect } from 'mongoose'
 import * as fs from 'fs/promises'
 import { IUser } from 'src/schema/users'
-import { jsonDialogDefaultAlert as alert } from 'src/state/dialogs'
+import { defaultDialogAlertJson as alert } from 'src/state/dialogs'
 import C from 'src/config'
 import {
   DEV_DEFAULT_USER,

@@ -1,6 +1,6 @@
 import IStateForm from '../../../../tuber-client/src/controllers/interfaces/IStateForm'
 
-const jsonFormNewNote: IStateForm = {
+const newNoteFormJson: IStateForm = {
   'items': [
     {
       'type': 'stack',
@@ -79,4 +79,4 @@ const jsonFormNewNote: IStateForm = {
   ]
 }
 
-export default jsonFormNewNote
+export default newNoteFormJson

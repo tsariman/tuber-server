@@ -1,6 +1,6 @@
 import IStateForm from '../../../../tuber-client/src/controllers/interfaces/IStateForm'
 
-const loginForm: IStateForm = {
+const loginFormJson: IStateForm = {
   '_type': 'box',
   'props': {
     'sx': {
@@ -13,7 +13,12 @@ const loginForm: IStateForm = {
   'items': [
     {
       'type': 'stack',
-      'props': { 'spacing': 2 },
+      'props': {
+        'spacing': 2,
+        'sx': {
+          'mt': 1
+        }
+      },
       'items': [
         {
           'type': 'text',
@@ -55,4 +60,4 @@ const loginForm: IStateForm = {
   ]
 }
 
-export default loginForm
+export default loginFormJson

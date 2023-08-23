@@ -1,3 +1,4 @@
+import { getAuthenticationLinkJson } from 'src/state/nav.link'
 import IStatePage from '../../../tuber-client/src/controllers/interfaces/IStatePage'
 
 const devInstallPage: IStatePage = {
@@ -23,14 +24,9 @@ const devInstallPage: IStatePage = {
           'route': 'help-dev-install'
         },
       },
-      {
-        'has': {
-          'text': 'Login',
-          'route': 'login'
-        }
-      },
     ],
   },
 }
+devInstallPage.appBar?.items?.push(getAuthenticationLinkJson())
 
 export default devInstallPage

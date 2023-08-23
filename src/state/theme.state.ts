@@ -1,14 +1,14 @@
-import { background } from '.'
+import { backgroundJson } from '.'
 
 // Material-UI Theme
 // TODO Modify to change the overall appearance of the page
 /** Material-UI Theme */
-const theme = {
+const themeJson = {
   'components': {
     'MuiDrawer': {
       'styleOverrides': {
         'paper': {
-          'backgroundColor': background.color,
+          'backgroundColor': backgroundJson.color,
           'borderLeft': 'none',
           'borderRight': 'none'
         },
@@ -18,14 +18,14 @@ const theme = {
       'styleOverrides': {
         'colorPrimary': {
           'color': '#000000de',
-          'backgroundColor': background.color
+          'backgroundColor': backgroundJson.color
         },
       },
     },
   },
   'palette': {
     'background': {
-      'default': background.color
+      'default': backgroundJson.color
     }
   },
   'typography': {
@@ -33,4 +33,4 @@ const theme = {
   }
 }
 
-export default theme
+export default themeJson

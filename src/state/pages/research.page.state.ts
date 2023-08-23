@@ -1,24 +1,19 @@
-import Config from 'src/config'
 import IStatePage from '../../../../tuber-client/src/controllers/interfaces/IStatePage'
-import { FastifySessionObject } from '@fastify/session'
-
-const items: Required<IStatePage>['appBar']['items'] = []
-const session = Config.read<FastifySessionObject>('session')
-if (session && !session.authenticated) {
-  items.push({
-    'has': {
-      'text': 'Login',
-      'route': 'login'
-    }
-  })
-}
 
 const researchPageJson: IStatePage = {
   'content': '$webapp : tubeResearcher',
   // 'hideDrawer': true,
   'appBar': {
     'appBarStyle': 'middle_search',
-    items,
+    'items': [
+      {
+        'type': 'icon',
+        'has': {
+          'icon': 'power_settings_new_outline',
+          'route': 'login'
+        }
+      }
+    ],
     'inputBaseProps': {
       'id': 'video-url',
       'placeholder': 'Paste Video URL Here ...',

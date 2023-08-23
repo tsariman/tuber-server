@@ -2,7 +2,7 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import * as fs from 'fs/promises'
 import { existsSync } from 'fs'
 import C from 'src/config'
-import { jsonDialogDefaultAlert as alert } from 'src/state/dialogs'
+import { defaultDialogAlertJson as alert } from 'src/state/dialogs'
 import mongoose, { connect, disconnect } from 'mongoose'
 import { DEV_USER_FILENAME } from '../dev.install.common'
 

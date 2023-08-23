@@ -1,17 +1,21 @@
-import { background } from '..'
-import IStateAllDialogs from '../../../../tuber-client/src/controllers/interfaces/IStateAllDialogs'
+import { backgroundJson } from '..'
+import IStateDialog from '../../../../tuber-client/src/controllers/interfaces/IStateDialog'
+import { dialogDefaultCloseButtonJson } from '../button'
 
-const dialogs: IStateAllDialogs = {}
-
-dialogs['noteAddDialog'] = {
+/**
+ * __Note:__ The name of the dialog will be the key of the dialog in
+ *       `IStateAllDialogs`
+ */
+export const noteAddDialogJson: IStateDialog = {
   '_type': 'form',
   '_id': 'pro-insert-new-note',
+  '_name': 'noteAddDialog',
   'title': 'Insert New Note',
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
     'PaperProps': {
-      'sx': { 'backgroundColor': background.color }
+      'sx': { 'backgroundColor': backgroundJson.color }
     }
   },
   'titleProps': {
@@ -41,12 +45,26 @@ dialogs['noteAddDialog'] = {
   'open': true
 }
 
-// TODO Insert dialogs here
+export const loginDialogJson: IStateDialog = {
+  '_type': 'form',
+  '_name': 'loginDialog',
+  'title': 'Enter Your Credentials',
+  'props': {
+    'fullWidth': true,
+    'maxWidth': 'sm'
+  },
+  'titleProps': {
+    'sx': { 'textAlign': 'center' }
+  },
+  'content': '$form : login : users',
+  'actions': [ dialogDefaultCloseButtonJson ],
 
-export default dialogs
+  // Careful! Must be true
+  'open': true
+}
 
 /** Default alert dialog */
-export function jsonDialogDefaultAlert(content: any) {
+export function defaultDialogAlertJson(content: any) {
   return {
     'state': {
       'dialog': {

@@ -1,7 +1,7 @@
 import IStateAppBar from '../../../../tuber-client/src/controllers/interfaces/IStateAppBar'
 
 /** Default app bar json. */
-const appBar: IStateAppBar = {
+export const defaultAppBarJson: IStateAppBar = {
   'appBarStyle': 'mini',
   'props': {
     'elevation': 0,
@@ -12,4 +12,3 @@ const appBar: IStateAppBar = {
   }
 }
 
-export default appBar

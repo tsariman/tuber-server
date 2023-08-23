@@ -4,7 +4,7 @@ import Config from 'src/config'
 import { UserModel } from 'src/model/user'
 import { ILoginCredentials } from 'src/schema/common.types'
 import { check_password } from 'src/component/security'
-import { jsonDialogDefaultAlert as alert } from 'src/state/dialogs'
+import { defaultDialogAlertJson as alert } from 'src/state/dialogs'
 
 /**
  * [TODO] #1 In authentication, when the user successfully logs in using their
