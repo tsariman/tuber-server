@@ -1,4 +1,4 @@
 import { model } from 'mongoose'
-import userSchema, { IUser } from 'src/schema/users'
+import userSchema, { TUser } from 'src/schema/users'
 
-export const UserModel  = model<IUser>('users', userSchema)
+export const UserModel  = model<TUser>('users', userSchema)

@@ -15,3 +15,6 @@ export interface ILoginCredentials {
   username: string
   password: string
 }
+
+/** @see https://stackoverflow.com/a/69328045/1875859 */
+export type WithRequired<T, K extends keyof T> = T & { [P in K]-?: T[P] }

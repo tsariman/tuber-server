@@ -15,29 +15,31 @@ export const defaultLoginLinkJson: IStateLink = {
   }
 }
 
-export const loginLinkJson: IStateLink = {
+export const loginLInkJson: IStateLink = {
   'type': 'icon',
   'has': {
     'icon': 'power_settings_new_outline',
-    'handle': 'onclick : tuberCallbacks.loginDialog'
+    'route': 'login'
   }
 }
 
-export const getAuthenticationLinkJson = (username?: string): IStateLink => (
-  username ? {
-    'type': 'hybrid',
-    'has': {
-      'icon': 'power_settings_new_outline',
-      'text': username,
-    }
-  }: {
-    'type': 'icon',
-    'has': {
-      'icon': 'power_settings_new_outline',
-      'route': 'login'
-    }
+export const powerLinkJson: IStateLink = {
+  'type': 'icon',
+  'has': {
+    'icon': 'power_settings_new_outline',
+    'handle': 'onclick : tuberCallbacks.loginDialog',
+    'iconProps': { 'sx': {'color': 'red' }}
   }
-)
+}
+
+export const getAuthPowerLinkJson = (username: string): IStateLink => ({
+  'type': 'hybrid',
+  'has': {
+    'icon': 'power_settings_new_outline',
+    'text': username,
+    'iconProps': { 'sx': {'color': 'green' }}
+  }
+})
 
 export const authenticatedLinkJson: IStateLink = {
   'type': 'hybrid',

@@ -2,9 +2,11 @@ import { RouteShorthandOptions } from 'fastify'
 import { connect, disconnect } from 'mongoose'
 import Config from 'src/config'
 import { UserModel } from 'src/model/user'
-import { ILoginCredentials } from 'src/schema/common.types'
-import { check_password } from 'src/component/security'
+import { ILoginCredentials } from 'src/utility/common.types'
+import { check_password } from 'src/business.logic/security'
 import { defaultDialogAlertJson as alert } from 'src/state/dialogs'
+
+
 
 /**
  * [TODO] #1 In authentication, when the user successfully logs in using their
@@ -32,12 +34,18 @@ import { defaultDialogAlertJson as alert } from 'src/state/dialogs'
 const authenticate: RouteShorthandOptions['preValidation'] = async function (
   request, reply, done
 ) {
-  process.stdout.write('Working on session middleware... ')
-  if (request.session.authenticated) {
-    done()
-  }
+  process.stdout.write('Working on pre validation authentication... ')
   await connect(Config.DB_URL)
   const { username, password } = request.body as ILoginCredentials
+
+
+
+
+
+
+
+
+
   if (username) {
     console.log(`username: '${username}', password: '${password}'`)
     try {
@@ -46,11 +54,7 @@ const authenticate: RouteShorthandOptions['preValidation'] = async function (
         if (user.password) {
           const passwordCorrect = await check_password(password, user.password)
           if (passwordCorrect) {
-            request.session.authenticated = true
-            request.session.user = user
-            console.log('User \'%s\' successfully logged in.', username)
-            await disconnect()
-            Config.write('session', request.session)
+            // [TODO] Write session related logic here
             done()
           }
         }

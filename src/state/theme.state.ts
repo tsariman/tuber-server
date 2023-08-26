@@ -22,6 +22,13 @@ const themeJson = {
         },
       },
     },
+    'MuiDialogContentText': {
+      'styleOverrides': {
+        'root': {
+          'padding-top': 8
+        }
+      }
+    }
   },
   'palette': {
     'background': {

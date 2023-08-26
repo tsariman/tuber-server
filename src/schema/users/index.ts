@@ -1,5 +1,5 @@
 import { Schema } from 'mongoose'
-import { TRole } from '../common.types'
+import { TRole, WithRequired } from '../../utility/common.types'
 
 export interface IUser {
   active?: boolean
@@ -11,6 +11,7 @@ export interface IUser {
   firstname?: string
   lastname?: string
   password?: string
+  jwt_version?: number
   avatar?: string
   last_accessed?: Date
   modified?: Date
@@ -19,7 +20,15 @@ export interface IUser {
   rules?: string[]
 }
 
-const userSchema = new Schema<IUser>({
+/**
+ * Similar to the user interface except some keys which were optional are now
+ * required.
+ */
+export type TUser = WithRequired<IUser, 'active' | 'jwt_version' | 'created'>
+
+export type TCipheredUser = Pick<TUser, 'name' | 'jwt_version'>
+
+const userSchema = new Schema<TUser>({
   active: {type: Boolean, default: true },
   name: {type: String, unique: true},
   email: {type: String, unique: true},
@@ -29,6 +38,7 @@ const userSchema = new Schema<IUser>({
   firstname: String,
   lastname: String,
   password: { type: String, default: null },
+  jwt_version: { type: Number, default: 0 },
   avatar: String,
   last_accessed:  Date,
   modified: Date,

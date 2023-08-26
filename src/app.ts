@@ -3,10 +3,14 @@ import router from './router'
 
 // [PROD] comment out this line
 import cors from '@fastify/cors'
-import fastifySession from '@fastify/secure-session'
 import fastifyCookie from '@fastify/cookie'
-import fs from 'fs'
-import path from 'path'
+import { TCipheredUser } from './schema/users'
+
+declare module 'fastify' {
+  interface FastifyRequest {
+    usr: TCipheredUser
+  }
+}
 
 const server = fastify({
   // logger one for production
@@ -14,12 +18,6 @@ const server = fastify({
 })
 
 server.register(fastifyCookie)
-
-server.register(fastifySession, {
-  sessionName: 'session',
-  cookieName: 'my-session-cookie',
-  key: fs.readFileSync(path.join(__dirname, 'secret-key'))
-})
 
 // [PROD] Comment out this code
 // Middleware: CORS

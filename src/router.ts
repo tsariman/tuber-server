@@ -1,16 +1,16 @@
 import { FastifyInstance } from 'fastify'
-import indexController from './controller/index.controller'
-import bootstrapController from './controller/bootstrap.controller'
-import devInstallController from './INSTALL.DEV'
+import index_controller from './controller/index.controller'
+import bootstrap_controller from './controller/bootstrap.controller'
+import dev_install_controller from './INSTALL.DEV'
 import Config from './config'
-import usersController from './controller/users.controller'
+import users_controller from './controller/users.controller'
 
 export default async function router(fastify: FastifyInstance) {
   // usersController
-  fastify.register(indexController, { prefix: '/' })
-  fastify.register(bootstrapController, { prefix: '/3dad18f2d7bf2214a082c735880bcde9' })
-  fastify.register(usersController, { prefix: '/users' })
+  fastify.register(index_controller, { prefix: '/' })
+  fastify.register(bootstrap_controller, { prefix: '/3dad18f2d7bf2214a082c735880bcde9' })
+  fastify.register(users_controller, { prefix: '/users' })
   if (Config.DEV) {
-    fastify.register(devInstallController, { prefix: '/install-dev' })
+    fastify.register(dev_install_controller, { prefix: '/install-dev' })
   }
 }

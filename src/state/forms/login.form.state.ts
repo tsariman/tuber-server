@@ -13,12 +13,7 @@ const loginFormJson: IStateForm = {
   'items': [
     {
       'type': 'stack',
-      'props': {
-        'spacing': 2,
-        'sx': {
-          'mt': 1
-        }
-      },
+      'props': { 'spacing': 2 },
       'items': [
         {
           'type': 'text',

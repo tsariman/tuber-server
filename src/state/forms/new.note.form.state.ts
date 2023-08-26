@@ -10,8 +10,7 @@ const newNoteFormJson: IStateForm = {
           'type': 'stack',
           'props': {
             'direction': 'row',
-            'spacing': 1,
-            'sx': { 'mt': 1 }
+            'spacing': 1
           },
           'items': [
             {

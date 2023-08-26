@@ -1,16 +1,9 @@
-import { FastifyInstance, FastifyRequest, FastifyReply, RouteShorthandOptions } from 'fastify'
-import users_post from './middleware/post.users.endpoint'
-import authenticate from 'src/controller/router.option/pre.validation.authenticate'
+import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify'
+import post_users_ep from '../endpoint/post.users.ep'
 
-const opts: RouteShorthandOptions = {
-  preValidation: authenticate,
-
-  // TODO Add custom route options here
-}
-
-export default async function usersController(fastify: FastifyInstance) {
+export default async function users_controller(fastify: FastifyInstance) {
   // GET /api/v1/user
-  fastify.get('/', opts, async function (
+  fastify.get('/', async function (
     _request: FastifyRequest,
     reply: FastifyReply
   ) {
@@ -25,6 +18,6 @@ export default async function usersController(fastify: FastifyInstance) {
     })
   })
 
-  fastify.post('/', opts, users_post)
+  fastify.post('/', post_users_ep)
 
 }

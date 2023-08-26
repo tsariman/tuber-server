@@ -1,6 +1,6 @@
 import { backgroundJson } from '..'
 import IStateDialog from '../../../../tuber-client/src/controllers/interfaces/IStateDialog'
-import { dialogDefaultCloseButtonJson } from '../button'
+// import { dialogDefaultCloseButtonJson } from '../button'
 
 /**
  * __Note:__ The name of the dialog will be the key of the dialog in
@@ -40,9 +40,7 @@ export const noteAddDialogJson: IStateDialog = {
       }
     }
   ],
-
-  // Careful! Must be true
-  'open': true
+  'open': true // Careful! Must be set to true
 }
 
 export const loginDialogJson: IStateDialog = {
@@ -51,16 +49,14 @@ export const loginDialogJson: IStateDialog = {
   'title': 'Enter Your Credentials',
   'props': {
     'fullWidth': true,
-    'maxWidth': 'sm'
+    'maxWidth': 'xs'
   },
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
   'content': '$form : login : users',
-  'actions': [ dialogDefaultCloseButtonJson ],
-
-  // Careful! Must be true
-  'open': true
+  // 'actions': [ dialogDefaultCloseButtonJson ],
+  'open': true // Careful! Must be set to true
 }
 
 /** Default alert dialog */
