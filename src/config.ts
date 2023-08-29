@@ -55,7 +55,7 @@ const USER_CONFIG = {
    * In memory user-caching for request response purposes. Helps alleviate
    * database access.
    */
-  USER_CACHE
+  USER_CACHE,
 }
 
 const credentials = dbGetUrlCredentials(
@@ -82,25 +82,26 @@ const initObj = {
   DB_URL,
 
   /** This is the `console.log()` but will only print if app is in debug mode. */
-  log: (whatever: any) => {
+  log: function(...args: any) {
     if (USER_CONFIG.DEBUG) {
-      console.log(whatever)
+      console.log(...args)
+      // console.log.apply(null, arguments as any)
     }
   },
 
   /** This is the `console.error()` but will only print if app is in debug mode. */
-  err: (whatever: any) => {
+  err: function(...args: any) {
     if (USER_CONFIG.DEBUG) {
-      console.error(whatever)
+      console.error(...args)
     }
   },
 
   /** Output to console on the same line. */
-  wl: (whatever: any) => {
+  print: function(message: any) {
     if (USER_CONFIG.DEBUG) {
-      process.stdout.write(whatever)
+      process.stdout.write(message)
     }
-  }
+  },
 }
 
 Config.init(initObj)

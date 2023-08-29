@@ -17,6 +17,7 @@ export const DEV_USER = model<IUser>('User', userSchema)
 /** Template for default user for the purpose of developing and testing. */
 export const DEV_DEFAULT_USER: IUser = {
   name: 'riviere',
+  password: DEV_DEFAULT_USER_PWD,
   role: 'developer',
   email: 'dev@tuberesearcher.local',
   // [TODO][PRIORITY-LOW] Work on avatar

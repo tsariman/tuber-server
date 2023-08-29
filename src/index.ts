@@ -13,21 +13,22 @@ app.listen({ port: Config.FASTIFY_PORT }, (err, address) => {
   process.stdout.write(`🚀 tuber server running at ${address}\n`)
   
   mongodbConnect().then(() => {
-    Config.log(`Database URL: '${Config.DB_URL}'`)
+    Config.log('Database URL:', Config.DB_URL)
   }, err => {
-    process.stdout.write('Failed!\n\n')
+    Config.print('Failed!\n\n')
+    Config.log('Database URL:', Config.DB_URL)
     console.error(err)
     process.exit(1)
   })
 
   async function mongodbConnect() {
-    process.stdout.write('Connecting to mongodb... ')
+    Config.print('Connecting to mongodb... ')
 
     // [fixed-issue] Mongodb refuses connection if you use 'localhost'
     //               instead of '127.0.0.1'
     // https://www.mongodb.com/community/forums/t/mongooseserverselectionerror-connect-econnrefused-127-0-0-1-27017/123421
     await mongoose.connect(Config.DB_URL)
-    process.stdout.write('Success!\n\n')
+    Config.print('Success!\n\n')
     await mongoose.connection.close()
   }
 })

@@ -2,7 +2,7 @@ import { defaultAppBarJson } from 'src/state/default.content'
 import IStatePage from '../../../../tuber-client/src/controllers/interfaces/IStatePage'
 
 export const loginPage: IStatePage = {
-  'content': '$form:login:users',
+  'content': '$form : login : authentification',
   'layout': 'layout_centered_no_scroll',
   'appBar': {
     'appBarStyle': 'mini',

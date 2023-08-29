@@ -1,39 +1,52 @@
 import { Schema } from 'mongoose'
-import { TRole, WithRequired } from '../../utility/common.types'
+import { WithRequired } from '../../utility/common.types'
+import { TRole } from 'src/business.logic/security/permissions'
+import { FastifyRequest } from 'fastify'
 
 export interface IUser {
   active?: boolean
   name: string
   email: string
   phone?: string
-  role: TRole
+  role?: TRole
   username?: string
   firstname?: string
   lastname?: string
-  password?: string
+  password: string
   jwt_version?: number
   avatar?: string
   last_accessed?: Date
   modified?: Date
   created?: Date
-  restrictions?: string[]
+  restrictions?: {[key: string]: string}
   rules?: string[]
 }
+
+export interface IUsersEndpoint {
+  Body: IUser
+  Params: {
+    name: string
+  }
+}
+
+export type TUsersFastifyRequest = FastifyRequest<IUsersEndpoint>
 
 /**
  * Similar to the user interface except some keys which were optional are now
  * required.
  */
-export type TUser = WithRequired<IUser, 'active' | 'jwt_version' | 'created'>
+export type TUser = { _id: string } & WithRequired<IUser,
+  'active' | 'jwt_version' | 'created' | 'role'
+>
 
-export type TCipheredUser = Pick<TUser, 'name' | 'jwt_version'>
+export type TCipheredUser = Pick<TUser, 'name' | 'jwt_version' | 'role'>
 
 const userSchema = new Schema<TUser>({
   active: {type: Boolean, default: true },
   name: {type: String, unique: true},
   email: {type: String, unique: true},
   phone: String,
-  role: String,
+  role: { type: String, default: 'user' },
   username: String,
   firstname: String,
   lastname: String,
@@ -49,7 +62,7 @@ const userSchema = new Schema<TUser>({
    * cases.
    * [PRIORITY - LOW]
    */
-  restrictions: [ String ],
+  restrictions: Object,
   /**
    * Cron job rules to be applied in special cases. e.g. At a certain date
    * and/or time, the document will automatically be modified via a scheduled

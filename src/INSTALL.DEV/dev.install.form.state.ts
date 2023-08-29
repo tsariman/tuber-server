@@ -101,6 +101,25 @@ const devInstallForm: IStateForm = {
         }
       ]
     },
+    { 'type': 'hr' },
+    {
+      'type': 'json_button',
+      'has': {
+        'label': 'Create new user',
+        'handle': 'onClick : tuberCallbacks.devUserAdd'
+      }
+    },
+    { 'type': 'html',
+      'props': { 'sx': { 'display': 'inline' } },
+      'has': { 'content': '|' }
+    },
+    {
+      'type': 'json_button',
+      'has': {
+        'label': 'Populate user collection',
+        'handle': 'onclick : tuberCallbacks.devUserPopulate'
+      }
+    }
   ]
 }
 

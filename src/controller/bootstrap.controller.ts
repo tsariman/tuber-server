@@ -19,37 +19,37 @@ import devInstallForm from 'src/INSTALL.DEV/dev.install.form.state'
 import researchPageAppBarJson from 'src/state/appBar/research.page.appbar.state'
 import { homeLinkJson, powerLinkJson } from 'src/state/nav.link'
 
-/** Application configuration */
-const appJson: IStateApp = {
-  'inDebugMode': false,
-  'inDevelMode': false,
-  'logoUri': '../tuber.png',
-  'logoWidth': 212,
-  'logoHeight': 35,
-  'title': '[DEV] Tuberesearcher',
-  'homePage': 'login',
-  'isBootstrapped': true
-}
-
-const appBarJson: IStateAppBar = {
-  ...defaultAppBarJson
-}
-
-const pagesJson: IStateAllPages = {}
-pagesJson['login'] = loginPage
-// TODO: Insert more pages here
-
-const formsJson: IStateAllForms = {}
-formsJson['loginForm'] = loginFormJson
-formsJson['newNoteForm'] = newNoteFormJson
-// TODO: Insert more forms here
-
-const dialogsJson: IStateAllDialogs = {}
-dialogsJson['noteAddDialog'] = noteAddDialogJson
-dialogsJson['loginDialog'] = loginDialogJson
-// TODO: Insert more dialogs here
-
 export default async function bootstrap_controller(fastify: FastifyInstance) {
+
+  /** Application configuration */
+  const appJson: IStateApp = {
+    'inDebugMode': false,
+    'inDevelMode': false,
+    'logoUri': '../tuber.png',
+    'logoWidth': 212,
+    'logoHeight': 35,
+    'title': '[DEV] Tuberesearcher',
+    'homePage': 'login',
+    'isBootstrapped': true
+  }
+
+  const appBarJson: IStateAppBar = {
+    ...defaultAppBarJson
+  }
+
+  const pagesJson: IStateAllPages = {}
+  pagesJson['login'] = loginPage
+  // TODO: Insert more pages here
+
+  const formsJson: IStateAllForms = {}
+  formsJson['loginForm'] = loginFormJson
+  formsJson['newNoteForm'] = newNoteFormJson
+  // TODO: Insert more forms here
+
+  const dialogsJson: IStateAllDialogs = {}
+  dialogsJson['noteAddDialog'] = noteAddDialogJson
+  dialogsJson['loginDialog'] = loginDialogJson
+  // TODO: Insert more dialogs here
 
   fastify.post('/', async function (
     _request: FastifyRequest,
@@ -65,7 +65,19 @@ export default async function bootstrap_controller(fastify: FastifyInstance) {
       if (devInstallPageJson.appBar) {
         // [TODO] Write logic for power button
       }
-      pagesJson['dev-install'] = devInstallPageJson
+      pagesJson['dev-install'] = {
+        ...devInstallPageJson,
+        'appBar': {
+          ...devInstallPageJson,
+          'items': [
+            ...(devInstallPageJson.appBar 
+              && devInstallPageJson.appBar.items
+              || []
+            ),
+            powerLinkJson
+          ]
+        },
+      }
       pagesJson['dev-signedin-appbar'] = devSignedInAppBar
       pagesJson['research-app'] = {
         ...researchPageJson,
