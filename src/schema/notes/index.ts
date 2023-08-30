@@ -1,4 +1,7 @@
-import { Schema } from 'mongoose'
+import { FastifyRequest } from 'fastify'
+import mongoose, { Schema } from 'mongoose'
+import paginate from 'mongoose-paginate-v2'
+import { WithRequired } from 'src/utility/common.types'
 
 export interface INote {
   active?: boolean
@@ -17,7 +20,22 @@ export interface INote {
   rules?: string[]
 }
 
-const noteSchema = new Schema<INote>({
+export interface INotesEndpoint {
+  Body: INote
+  Params: {
+    id: string
+  }
+}
+
+export type TNotesFastifyRequest = FastifyRequest<INotesEndpoint>
+
+export type TNote = { _id: string } & WithRequired<INote,
+  'active' | 'created_at' | 'modified_at' | 'private' | 'user_id'
+>
+
+export interface INoteDocument extends mongoose.Document, INote {}
+
+const noteSchema = new Schema<TNote>({
   active: { type: Boolean, default: true },
   private: { type: Boolean, default: false },
   created_at: { type: Date, default: Date.now },
@@ -33,5 +51,7 @@ const noteSchema = new Schema<INote>({
   restrictions: [ String ],
   rules: [ String ]
 })
+
+noteSchema.plugin(paginate)
 
 export default noteSchema

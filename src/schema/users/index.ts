@@ -2,6 +2,7 @@ import { Schema } from 'mongoose'
 import { WithRequired } from '../../utility/common.types'
 import { TRole } from 'src/business.logic/security/permissions'
 import { FastifyRequest } from 'fastify'
+import paginate from 'mongoose-paginate-v2'
 
 export interface IUser {
   active?: boolean
@@ -16,8 +17,8 @@ export interface IUser {
   jwt_version?: number
   avatar?: string
   last_accessed?: Date
-  modified?: Date
-  created?: Date
+  modified_at?: Date
+  created_at?: Date
   restrictions?: {[key: string]: string}
   rules?: string[]
 }
@@ -36,7 +37,7 @@ export type TUsersFastifyRequest = FastifyRequest<IUsersEndpoint>
  * required.
  */
 export type TUser = { _id: string } & WithRequired<IUser,
-  'active' | 'jwt_version' | 'created' | 'role'
+  'active' | 'jwt_version' | 'created_at' | 'role'
 >
 
 export type TCipheredUser = Pick<TUser, 'name' | 'jwt_version' | 'role'>
@@ -54,8 +55,8 @@ const userSchema = new Schema<TUser>({
   jwt_version: { type: Number, default: 0 },
   avatar: String,
   last_accessed:  Date,
-  modified: Date,
-  created: { type: Date, default: Date.now },
+  modified_at: Date,
+  created_at: { type: Date, default: Date.now },
   /**
    * List of permission strings that will be enforced on this document.
    * By default, there is no need for access permissions except in special
@@ -71,5 +72,7 @@ const userSchema = new Schema<TUser>({
    */
   rules: [ String ]
 })
+
+userSchema.plugin(paginate)
 
 export default userSchema

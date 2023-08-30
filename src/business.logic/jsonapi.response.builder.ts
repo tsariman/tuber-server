@@ -58,6 +58,9 @@ export default class JsonapiResponseBuilder<T> {
           obj[key] = obj[key].trim()
           break
         case 'object':
+          if (obj[key] === null) {
+            break
+          }
           if (Array.isArray(obj[key])) {
             obj[key] = obj[key].map(
               (item: any) => this.applyStringSpecification(item)
@@ -66,6 +69,9 @@ export default class JsonapiResponseBuilder<T> {
             obj[key] = this.applyStringSpecification(obj[key])
           }
           break
+        case 'undefined':
+        case 'function':
+        default:
       }
     })
     return obj
