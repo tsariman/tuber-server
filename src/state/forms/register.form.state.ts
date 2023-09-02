@@ -1,8 +1,7 @@
 import IStateForm from '../../../../tuber-client/src/controllers/interfaces/IStateForm'
 
-const loginFormJson: IStateForm = {
+const registerFormJson: IStateForm = {
   '_type': 'box',
-  '_key': 'loginForm',
   'props': {
     'sx': {
       'p': 3,
@@ -18,31 +17,33 @@ const loginFormJson: IStateForm = {
       'items': [
         {
           'type': 'text',
-          'name': 'username',
+          'name': 'name',
           'label': 'Username'
         },
         {
-          'type': 'password',
-          'label': 'Password',
-          'name': 'password'
+          'type': 'text',
+          'label': 'First Name',
+          'name': 'firstname'
         },
         {
-          'type': 'checkboxes',
-          'label': 'Available options',
-          'name': 'options',
+          'type': 'text',
+          'label': 'Last Name',
+          'name': 'lastname'
+        },
+        {
+          'type': 'text',
+          'label': 'Email',
+          'name': 'email'
+        },
+        {
+          'type': 'html',
           'has': {
-            'items': [
-              {
-                'name': 'keep-logged-in',
-                'label': 'Keep me logged in'
-              },
-              {
-                'name': 'like-pawgs',
-                'label': 'I like PAWGs'
-              }
-            ],
+            'content': `<h3>Password/h3> <p>Your randomly generated password 
+              will be emailed to you.</p>
+            `
           }
         },
+        
         {
           'type': 'submit',
           'has': {
@@ -56,4 +57,4 @@ const loginFormJson: IStateForm = {
   ]
 }
 
-export default loginFormJson
+export default registerFormJson

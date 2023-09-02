@@ -28,7 +28,7 @@ export const powerLinkJson: IStateLink = {
   'has': {
     'icon': 'power_settings_new_outline',
     'handle': 'onclick : tuberCallbacks.loginDialog',
-    'iconProps': { 'sx': {'color': 'red' }}
+    'iconProps': { 'sx': { 'color': 'grey.500' }}
   }
 }
 
@@ -37,7 +37,7 @@ export const getAuthPowerLinkJson = (username: string): IStateLink => ({
   'has': {
     'icon': 'power_settings_new_outline',
     'text': username,
-    'iconProps': { 'sx': {'color': 'green' }}
+    'iconProps': { 'sx': { 'color': 'green' }}
   }
 })
 

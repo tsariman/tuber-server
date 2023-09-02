@@ -1,4 +1,4 @@
-import { Schema } from 'mongoose'
+import mongoose, { Schema } from 'mongoose'
 import { WithRequired } from '../../utility/common.types'
 import { TRole } from 'src/business.logic/security/permissions'
 import { FastifyRequest } from 'fastify'
@@ -13,6 +13,7 @@ export interface IUser {
   username?: string
   firstname?: string
   lastname?: string
+  gender?: 'male' | 'female'
   password: string
   jwt_version?: number
   avatar?: string
@@ -36,11 +37,13 @@ export type TUsersFastifyRequest = FastifyRequest<IUsersEndpoint>
  * Similar to the user interface except some keys which were optional are now
  * required.
  */
-export type TUser = { _id: string } & WithRequired<IUser,
+export type TUser = WithRequired<IUser,              // { _id: string } & WithRequired<IUser,
   'active' | 'jwt_version' | 'created_at' | 'role'
 >
 
 export type TCipheredUser = Pick<TUser, 'name' | 'jwt_version' | 'role'>
+
+export interface IUserDocument extends mongoose.Document, TUser {}
 
 const userSchema = new Schema<TUser>({
   active: {type: Boolean, default: true },

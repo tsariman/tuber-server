@@ -1,7 +1,11 @@
-import { model, connect, disconnect, PaginateModel } from 'mongoose'
+import { model, connect, disconnect, PaginateModel, PaginateResult } from 'mongoose'
 import Config from 'src/config'
 import noteSchema, { INote, INoteDocument } from 'src/schema/notes'
 
+const PAGINATION_OPTONS = {
+  limit: Config.PAGINATION_NOTE_LIMIT,
+  sort: { createdAt: -1 }
+}
 
 export const NoteModel = model<
   INoteDocument,
@@ -23,9 +27,14 @@ export const create_note = async function (noteInfo: INote): Promise<INoteDocume
   return note
 }
 
-export const get_note_collection = async function (): Promise<INoteDocument[]> {
+export const get_note_collection = async function (
+  page = 1
+): Promise<PaginateResult<INoteDocument>> {
   await connect(Config.DB_URL)
-  const noteCollection = await NoteModel.find()
+  const result = await NoteModel.paginate({}, {
+    ...PAGINATION_OPTONS,
+    page
+  })
   await disconnect()
-  return noteCollection
+  return result
 }

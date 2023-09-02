@@ -56,6 +56,9 @@ const USER_CONFIG = {
    * database access.
    */
   USER_CACHE,
+
+  PAGINATION_NOTE_LIMIT: Number(process.env.PAGINATION_NOTE_LIMIT) || 10,
+  PAGINATION_USER_LIMIT: Number(process.env.PAGINATION_USER_LIMIT) || 10,
 }
 
 const credentials = dbGetUrlCredentials(
@@ -102,6 +105,13 @@ const initObj = {
       process.stdout.write(message)
     }
   },
+
+  /** Throw exception and prints message. */
+  die: function(message: any) {
+    if (USER_CONFIG.DEBUG) {
+      throw new Error(message)
+    }
+  }
 }
 
 Config.init(initObj)

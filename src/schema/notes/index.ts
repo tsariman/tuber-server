@@ -13,9 +13,9 @@ export interface INote {
   videoid: string
   platform: string
   startSeconds: number
-  endSeconds: number
+  endSeconds?: number
   title: string
-  note: string
+  note?: string
   restrictions?: string[]
   rules?: string[]
 }
@@ -29,11 +29,11 @@ export interface INotesEndpoint {
 
 export type TNotesFastifyRequest = FastifyRequest<INotesEndpoint>
 
-export type TNote = { _id: string } & WithRequired<INote,
+export type TNote = WithRequired<INote,
   'active' | 'created_at' | 'modified_at' | 'private' | 'user_id'
 >
 
-export interface INoteDocument extends mongoose.Document, INote {}
+export interface INoteDocument extends mongoose.Document, TNote {}
 
 const noteSchema = new Schema<TNote>({
   active: { type: Boolean, default: true },

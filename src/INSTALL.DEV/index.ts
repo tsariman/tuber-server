@@ -8,6 +8,13 @@ import dev_create_update_dev_user from './middleware/dev.user'
 import dev_database_reset from './middleware/dev.database.reset'
 import { dev_load_test_drawer, dev_unload_test_drawer } from './middleware'
 import { DEFAULT_OPTIONS } from 'src/middleware/router.option'
+import { dev_populate_notes, dev_populate_users } from './middleware/dev.populate.collections'
+
+interface IDevPopulateEndpoint {
+  Params: {
+    total: string
+  }
+}
 
 const opts = {
   ...DEFAULT_OPTIONS,
@@ -29,4 +36,12 @@ export default async function dev_install_controller(fastify: FastifyInstance) {
   fastify.post('/database-reset', dev_database_reset)
   fastify.post('/load-test-drawer', dev_load_test_drawer)
   fastify.post('/unload-test-drawer', dev_unload_test_drawer)
+  fastify.post<IDevPopulateEndpoint>(
+    '/populate/users/:total',
+    dev_populate_users
+  )
+  fastify.post<IDevPopulateEndpoint>(
+    '/populate/notes/:total',
+    dev_populate_notes
+  )
 }

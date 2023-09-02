@@ -10,3 +10,13 @@ export interface IDoc<T=any> { _doc: T }
 
 /** Names of collection endpoint */
 export type TEndpoint = 'users' | 'entries' | 'notes'
+
+/**
+ * Use when assigning values to object properties using a string as the key.  
+ * e.g.
+ * ```ts
+ * const obj: IGenericObject = {}
+ * obj['key'] = 'value'
+ * ```
+ */
+export interface IGenericObject { [key: string]: any }

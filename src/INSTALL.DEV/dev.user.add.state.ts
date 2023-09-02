@@ -3,7 +3,7 @@ import IStateForm from '../../../tuber-client/src/controllers/interfaces/IStateF
 
 export const devUserAddDialogJson: IStateDialog = {
   '_type': 'form',
-  '_name': 'devUserAddDialog',
+  '_key': 'devUserAddDialog',
   'title': 'Create New User',
   'props': {
     'fullWidth': true,

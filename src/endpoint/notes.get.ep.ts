@@ -9,10 +9,12 @@ export default async function notes_get_collection_endpoint (
   reply: FastifyReply
 ) {
   try {
-    const noteCollection = await get_note_collection()
+    const result = await get_note_collection()
+    const noteDocs = result.docs
     reply.code(200).send(
-      new JsonapiResponseBuilder(noteCollection, 'notes', 'collection')
-      .build()
+      new JsonapiResponseBuilder(noteDocs, 'notes', 'collection')
+        .buildLinks(result)
+        .build()
     )
   } catch (e: any) {
     reply.code(500).send(new JsonapiErrorBuilder()

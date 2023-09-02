@@ -9,9 +9,11 @@ export default async function users_get_collection_endpoint (
   reply: FastifyReply
 ) {
   try {
-    const userCollection = await get_user_collection()
+    const result = await get_user_collection()
+    const userDocs = result.docs
     reply.code(200).send(
-      new JsonapiResponseBuilder(userCollection, 'users', 'collection')
+      new JsonapiResponseBuilder(userDocs, 'users', 'collection')
+      .buildLinks(result)
       .build()
     )
   } catch (e: any) {

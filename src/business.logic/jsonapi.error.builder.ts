@@ -2,62 +2,85 @@ import { TOptional } from 'src/utility/common.types'
 import {
   IJsonapiError,
   IJsonapiErrorLinks,
-  IJsonapiErrorSource
+  IJsonapiErrorResponse,
+  IJsonapiErrorSource,
+  IJsonapiLink
 } from "../../../tuber-client/src/controllers/interfaces/IJsonapi"
 
 export type TJsonapiError = TOptional<IJsonapiError, 'code' | 'title'>
 
+const errorSkeleton: IJsonapiError = {
+  code: '',
+  title: '',
+}
+
 export default class JsonapiErrorBuilder {
-  private errors: TJsonapiError[]
+  private response: IJsonapiErrorResponse
   private index: number
 
   constructor() {
-    this.errors = []
+    this.response = { errors: [] }
     this.index = 0
-    this.errors.push({})
+    this.response.errors.push({
+      ...errorSkeleton
+    })
   }
 
+  meta(key: string, val: any) {
+    this.response.meta = this.response.meta || {}
+    this.response.meta[key] = val
+    return this
+  }
+  setLink(key: string, val: string) {
+    this.response.links = this.response.links || { self: '' }
+    this.response.links[key] = val
+    return this
+  }
+  hrefLink(key: string, href: string, meta?: any) {
+    this.response.links = this.response.links || { self: '' }
+    const link: IJsonapiLink = { href, meta }
+    this.response.links[key] = link
+    return this
+  }
   toString() {
-    return { errors: this.errors }
+    return this.response
   }
   next() {
     this.index++
-    this.errors.push({})
+    this.response.errors.push({
+      ...errorSkeleton
+    })
     return this
   }
   id(val: string) {
-    this.errors[this.index].id = val
+    this.response.errors[this.index].id = val
     return this
   }
   link(val: IJsonapiErrorLinks) {
-    this.errors[this.index].links = val
+    this.response.errors[this.index].links = val
     return this
   }
   status(val: number) {
-    this.errors[this.index].status = ''+val
+    this.response.errors[this.index].status = ''+val
     return this
   }
   code(val: string) {
-    this.errors[this.index].code = val
+    this.response.errors[this.index].code = val
     return this
   }
   title(val: string) {
-    this.errors[this.index].title = val
+    this.response.errors[this.index].title = val
     return this
   }
   detail(val: string) {
-    this.errors[this.index].detail = val
+    this.response.errors[this.index].detail = val
     return this
   }
   source(val: IJsonapiErrorSource) {
-    this.errors[this.index].source = val
-    return this
-  }
-  meta(val: any) {
-    this.errors[this.index].meta = val
+    this.response.errors[this.index].source = val
     return this
   }
   build() {
-    return this.errors
+    return this.response
   }
 }

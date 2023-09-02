@@ -1,9 +1,13 @@
 import { 
+  IJsonapiLink,
   IJsonapiResource,
   IJsonapiResourceLinkage,
   IJsonapiResponse
 } from '../../../tuber-client/src/controllers/interfaces/IJsonapi'
 import { IDoc, TEndpoint } from 'src/utility/common.types'
+import JsonapiResponsePaginationBuilder, { 
+  IPaginatedResult
+} from './jsonapi.pagination.builder'
 
 type JSONAPI_RESOURCE_TYPE = 'collection' | 'object' | 'null' | 'linkage'
 
@@ -38,7 +42,28 @@ export default class JsonapiResponseBuilder<T> {
 
   toString = () => this.response
 
-  meta(key: string, val: any) {
+  buildLinks = (opts: IPaginatedResult<T>) => {
+    this.response.links = new JsonapiResponsePaginationBuilder(opts).build()
+    return this
+  }
+
+  link = (key: string, val: string) => {
+    this.response.links = this.response.links || { self: ''}
+    this.response.links[key] = val
+    return this
+  }
+
+  hrefLink = (key: string, href: string, meta: any) => {
+    this.response.links = this.response.links || { self: '' }
+    const link: IJsonapiLink = { href }
+    if (meta) {
+      link.meta = meta
+    }
+    this.response.links[key] = link
+    return this
+  }
+
+  meta = (key: string, val: any) => {
     this.response.meta = this.response.meta || {}
     this.response.meta[key] = val
     return this
@@ -108,6 +133,7 @@ export default class JsonapiResponseBuilder<T> {
         this.response.data = null
         break
     }
+
     this.alreadyBuilt = true
     return this.response
   }

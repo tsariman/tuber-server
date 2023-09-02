@@ -9,7 +9,7 @@ import IStateDialog from '../../../../tuber-client/src/controllers/interfaces/IS
 export const noteAddDialogJson: IStateDialog = {
   '_type': 'form',
   '_id': 'pro-insert-new-note',
-  '_name': 'noteAddDialog',
+  '_key': 'noteAddDialog',
   'title': 'Insert New Note',
   'props': {
     'fullWidth': true,
@@ -21,7 +21,7 @@ export const noteAddDialogJson: IStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': '$form:newNote:notes',
+  'content': '$form : newNote : notes',
   'actions': [
     {
       'type': 'json_button',
@@ -43,9 +43,29 @@ export const noteAddDialogJson: IStateDialog = {
   'open': true // Careful! Must be set to true
 }
 
+export const videoNoteAddDialogJson: IStateDialog = {
+  '_type': 'form',
+  '_id': 'pro-insert-new-video-note',
+  '_key': 'videoNoteAddDialog',
+  'title': 'Insert New Video Note',
+  'props': {
+    'fullWidth': true,
+    'maxWidth': 'md',
+    'PaperProps': {
+      'sx': { 'backgroundColor': backgroundJson.color }
+    }
+  },
+  'titleProps': {
+    'sx': { 'textAlign': 'center' }
+  },
+  'content': '$form : newVideoNote : notes',
+  'actions': [],
+  'open': true // Careful! Must be set to true
+}
+
 export const loginDialogJson: IStateDialog = {
   '_type': 'form',
-  '_name': 'loginDialog',
+  '_key': 'loginDialog',
   'title': 'Enter Your Credentials',
   'props': {
     'fullWidth': true,
@@ -54,7 +74,23 @@ export const loginDialogJson: IStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': '$form : login : users',
+  'content': '$form : login : authentification',
+  // 'actions': [ dialogDefaultCloseButtonJson ],
+  'open': true // Careful! Must be set to true
+}
+
+export const registerDialogJson: IStateDialog = {
+  '_type': 'form',
+  '_key': 'registerDialog',
+  'title': 'Register New User',
+  'props': {
+    'fullWidth': true,
+    'maxWidth': 'xs'
+  },
+  'titleProps': {
+    'sx': { 'textAlign': 'center' }
+  },
+  'content': '$form : register : users',
   // 'actions': [ dialogDefaultCloseButtonJson ],
   'open': true // Careful! Must be set to true
 }
