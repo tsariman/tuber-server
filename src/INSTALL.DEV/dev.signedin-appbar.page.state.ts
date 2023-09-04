@@ -1,6 +1,7 @@
 import IStatePage from '../../../tuber-client/src/controllers/interfaces/IStatePage'
 
 const devSignedInAppBar: IStatePage = {
+  '_key': 'dev-signedin-appbar',
   'appBar': {
     'items': [
       {

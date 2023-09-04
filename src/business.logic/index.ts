@@ -46,7 +46,13 @@ export const set_state_by_key = (
   fragment: IGenericObject
 ) => {
   const _key = fragment['_key']
-  Config.log(fragment)
   if (!_key) Config.die('Fragment must have a `_key`.')
   state[_key] = fragment
+}
+
+/** Retrieve the value of `_key` from state */
+export const get_state_key = (state: IGenericObject) => {
+  const _key = state['_key']
+  if (!_key) Config.die('Fragment must have a `_key`.')
+  return _key
 }

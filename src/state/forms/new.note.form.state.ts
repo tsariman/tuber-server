@@ -20,11 +20,9 @@ const newNoteFormJson: IStateForm = {
               'label': 'Start',
               'props': {
                 'sx': { 'width': 240 }
-              }
+              },
+              'inputProps': { 'readOnly': true },
             },
-
-            // [TODO] Cause an error on field if value equal or smaller than
-            //        `start_second` field.
             {
               'type': 'number',
               'name': 'end_seconds',
@@ -38,11 +36,9 @@ const newNoteFormJson: IStateForm = {
               'name': 'videoid',
               'label': 'Video ID',
               'props': {
-                'fullWidth': true
+                'fullWidth': true,
               },
-              'inputProps': {
-                'readOnly': true
-              }
+              'inputProps': { 'readOnly': true }
             },
             {
               'type': 'textfield',
@@ -51,9 +47,7 @@ const newNoteFormJson: IStateForm = {
               'props': {
                 'sx': { 'width': 240 },
               },
-              'inputProps': {
-                'readOnly': true
-              }
+              'inputProps': { 'readOnly': true }
             },
           ]
         },

@@ -2,6 +2,7 @@ import IStateForm from "../../../tuber-client/src/controllers/interfaces/IStateF
 
 const devInstallForm: IStateForm = {
   '_type': 'box',
+  '_key': 'devInstallForm',
   'props': { 'p': 2, 'mt': 10 },
   'paperBackground': true,
   'paperProps': {

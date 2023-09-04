@@ -43,10 +43,10 @@ export const noteAddDialogJson: IStateDialog = {
   'open': true // Careful! Must be set to true
 }
 
-export const videoNoteAddDialogJson: IStateDialog = {
+export const noteAddFromUrlDialogJson: IStateDialog = {
   '_type': 'form',
-  '_id': 'pro-insert-new-video-note',
-  '_key': 'videoNoteAddDialog',
+  '_id': 'pro-insert-note-from-url',
+  '_key': 'noteAddFromUrlDialog',
   'title': 'Insert New Video Note',
   'props': {
     'fullWidth': true,
@@ -58,7 +58,7 @@ export const videoNoteAddDialogJson: IStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': '$form : newVideoNote : notes',
+  'content': '$form : newNoteFromUrl : notes',
   'actions': [],
   'open': true // Careful! Must be set to true
 }

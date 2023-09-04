@@ -47,6 +47,7 @@ export const authAppBarLinksJson: IStateAppBar['items'] = [
 ]
 
 const devInstallPageJson: IStatePage = {
+  '_key': 'dev-install',
   'content': '$form:devInstall:dev-install',
   'layout': 'layout_default',
   'appBar': {

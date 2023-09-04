@@ -48,3 +48,12 @@ export const authenticatedLinkJson: IStateLink = {
     'text': '',
   }
 }
+
+export const noteAddFromUrlLinkJson: IStateLink = {
+  'type': 'icon',
+  'has': {
+    'icon': 'playlist_add_outline',
+    'handle': 'onclick : tuberCallbacks.noteShowAddFromUrl',
+    'iconProps': { 'sx': { 'color': 'grey.600' }}
+  }
+}

@@ -13,8 +13,8 @@ const researchPageAppBarJson: IStateAppBar = {
   ],
   'inputBaseProps': {
     'id': 'video-url',
-    'placeholder': 'Paste Video URL Here ...',
-    'inputProps': { 'aria-label': 'Video URL' },
+    'placeholder': 'Search ...',
+    'inputProps': { 'aria-label': 'Search Notes' },
   },
   'searchFieldIcon': {
     'icon': 'alternate_email_outline',
@@ -24,8 +24,8 @@ const researchPageAppBarJson: IStateAppBar = {
   },
   'searchFieldIconButton': {
     'has': {
-      'icon': 'playlist_add_outline',
-      'handle': 'onclick : tuberCallbacks.noteAddFromUrl'
+      'icon': 'search_outline',
+      'handle': 'onclick : tuberCallbacks.appBarSearchForNotes'
     }
   },
   'searchFieldIconButtonProps': {

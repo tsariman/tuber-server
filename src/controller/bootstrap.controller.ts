@@ -2,7 +2,7 @@ import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify'
 import Config from 'src/config'
 import IStateApp from '../../../tuber-client/src/controllers/interfaces/IStateApp'
 import { backgroundJson } from 'src/state'
-import { loginDialogJson, noteAddDialogJson, videoNoteAddDialogJson } from 'src/state/dialogs'
+import { loginDialogJson, noteAddDialogJson, noteAddFromUrlDialogJson } from 'src/state/dialogs'
 import { loginPage } from 'src/state/pages'
 import { defaultAppBarJson } from 'src/state/default.content'
 import themeJson from 'src/state/theme.state'
@@ -17,9 +17,9 @@ import researchPageJson from 'src/state/pages/research.page.state'
 import loginFormJson from 'src/state/forms/login.form.state'
 import newNoteFormJson from 'src/state/forms/new.note.form.state'
 import researchPageAppBarJson from 'src/state/appBar/research.page.appbar.state'
-import { homeLinkJson, powerLinkJson } from 'src/state/nav.link'
-import newVideoNoteFormJson from 'src/state/forms/new.video.note.form.state'
-import { set_state_by_key } from 'src/business.logic'
+import { homeLinkJson, noteAddFromUrlLinkJson, powerLinkJson } from 'src/state/nav.link'
+import newVideoNoteFormJson from 'src/state/forms/new.note.from.url.form.state'
+import { get_state_key, set_state_by_key } from 'src/business.logic'
 
 export default async function bootstrap_controller(fastify: FastifyInstance) {
 
@@ -52,7 +52,7 @@ export default async function bootstrap_controller(fastify: FastifyInstance) {
   const dialogsJson: IStateAllDialogs = {}
   set_state_by_key(dialogsJson, noteAddDialogJson)
   set_state_by_key(dialogsJson, loginDialogJson)
-  set_state_by_key(dialogsJson, videoNoteAddDialogJson)
+  set_state_by_key(dialogsJson, noteAddFromUrlDialogJson)
 
   // TODO: Insert more dialogs here
 
@@ -70,7 +70,7 @@ export default async function bootstrap_controller(fastify: FastifyInstance) {
       if (devInstallPageJson.appBar) {
         // [TODO] Write logic for power button
       }
-      pagesJson['dev-install'] = {
+      pagesJson[get_state_key(devInstallPageJson)] = {
         ...devInstallPageJson,
         'appBar': {
           ...devInstallPageJson,
@@ -83,18 +83,18 @@ export default async function bootstrap_controller(fastify: FastifyInstance) {
           ]
         },
       }
-      pagesJson['dev-signedin-appbar'] = devSignedInAppBar
-      pagesJson['research-app'] = {
+      pagesJson[get_state_key(devSignedInAppBar)] = devSignedInAppBar
+      pagesJson[get_state_key(researchPageJson)] = {
         ...researchPageJson,
         appBar: {
           ...researchPageAppBarJson,
-          items: [ homeLinkJson, powerLinkJson ]
+          items: [ noteAddFromUrlLinkJson, homeLinkJson, powerLinkJson ]
         }
       }
     }
 
     if (Config.DEV) {
-      formsJson['devInstallForm'] = devInstallForm
+      formsJson[get_state_key(devInstallForm)] = devInstallForm
     }
 
     reply.send({

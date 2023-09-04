@@ -1,19 +1,12 @@
 import IStatePage from '../../../../tuber-client/src/controllers/interfaces/IStatePage'
 
 const researchPageJson: IStatePage = {
+  '_key': 'research-app',
   'content': '$webapp : tubeResearcher',
   // 'hideDrawer': true,
   'appBar': {
     'appBarStyle': 'middle_search',
-    'items': [
-      {
-        'type': 'icon',
-        'has': {
-          'icon': 'power_settings_new_outline',
-          'route': 'login'
-        }
-      }
-    ],
+    'items': [ ],
     'inputBaseProps': {
       'id': 'video-url',
       'placeholder': 'Paste Video URL Here ...',
@@ -27,8 +20,8 @@ const researchPageJson: IStatePage = {
     },
     'searchFieldIconButton': {
       'has': {
-        'icon': 'playlist_add_outline',
-        'handle': 'onclick : tuberCallbacks.noteAddFromUrl'
+        'icon': 'search_outline',
+        'handle': 'onclick : tuberCallbacks.appBarSearchForNotes'
       }
     },
     'searchFieldIconButtonProps': {
