@@ -31,6 +31,9 @@ const newVideoNoteFormJson: IStateForm = {
                 }
               }
             }
+          },
+          'has': {
+            'handle': 'onkeydown : tuberCallbacks.appBarSearchForNotesOnKeyDown',
           }
         },
       ] as IStateFormItem[]

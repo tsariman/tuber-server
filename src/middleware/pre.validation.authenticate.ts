@@ -2,9 +2,9 @@ import { RouteShorthandOptions } from 'fastify'
 import { connect, disconnect } from 'mongoose'
 import Config from 'src/config'
 import { UserModel } from 'src/model/user'
-import { ILoginCredentials } from 'src/utility/common.types'
 import { check_password } from 'src/business.logic/security'
 import { defaultDialogAlertJson as alert } from 'src/state/dialogs'
+import { ILoginCredentials } from 'src/business.logic/security/permissions'
 
 
 

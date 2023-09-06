@@ -10,7 +10,7 @@ export const rnd_platform = () => {
  * characters.
  */
 const gen_random_videoid = (length: number): string => {
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_'
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-'
   let result = ''
   for (let i = 0; i < length; i++) {
     result += chars.charAt(Math.floor(Math.random() * chars.length))
@@ -27,7 +27,7 @@ const gen_random_notes = (number = 100) => {
       platform: rnd_platform(),
       startSeconds: Math.floor(Math.random() * 300),
       title: videoid,
-      note: videoid,
+      detail: videoid,
       restrictions: [],
       rules: []
     })

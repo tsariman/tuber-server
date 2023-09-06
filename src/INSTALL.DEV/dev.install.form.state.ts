@@ -120,6 +120,17 @@ const devInstallForm: IStateForm = {
         'label': 'Populate user collection',
         'handle': 'onclick : tuberCallbacks.devUserPopulate'
       }
+    },
+    { 'type': 'html',
+      'props': { 'sx': { 'display': 'inline' } },
+      'has': { 'content': '|' }
+    },
+    {
+      'type': 'json_button',
+      'has': {
+        'label': 'Get notes collection test',
+        'handle': 'onclick : tuberCallbacks.devGetNotes'
+      }
     }
   ]
 }

@@ -61,8 +61,8 @@ const newNoteFormJson: IStateForm = {
         },
         {
           'type': 'textarea',
-          'name': 'note',
-          'label': 'Note',
+          'name': 'detail',
+          'label': 'Detail',
           'props': {
             'multiline': true,
             'rows': 4

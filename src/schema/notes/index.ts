@@ -15,7 +15,7 @@ export interface INote {
   startSeconds: number
   endSeconds?: number
   title: string
-  note?: string
+  detail?: string
   restrictions?: string[]
   rules?: string[]
 }
@@ -47,7 +47,7 @@ const noteSchema = new Schema<TNote>({
   startSeconds: Number,
   endSeconds: Number,
   title: String,
-  note: String,
+  detail: String,
   restrictions: [ String ],
   rules: [ String ]
 })
