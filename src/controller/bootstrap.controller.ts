@@ -20,6 +20,7 @@ import researchPageAppBarJson from 'src/state/appBar/research.page.appbar.state'
 import { homeLinkJson, noteAddFromUrlLinkJson, powerLinkJson } from 'src/state/nav.link'
 import newVideoNoteFormJson from 'src/state/forms/new.note.from.url.form.state'
 import { get_state_key, set_state_by_key } from 'src/business.logic'
+import { get_documents_count } from 'src/INSTALL.DEV'
 
 export default async function bootstrap_controller(fastify: FastifyInstance) {
 
@@ -55,6 +56,8 @@ export default async function bootstrap_controller(fastify: FastifyInstance) {
   set_state_by_key(dialogsJson, noteAddFromUrlDialogJson)
 
   // TODO: Insert more dialogs here
+
+  const pagesData = {} as { [key: string]: any }
 
   fastify.post('/', async function (
     _request: FastifyRequest,
@@ -94,7 +97,10 @@ export default async function bootstrap_controller(fastify: FastifyInstance) {
     }
 
     if (Config.DEV) {
-      formsJson[get_state_key(devInstallForm)] = devInstallForm
+      const key = get_state_key(devInstallForm)
+      formsJson[key] = devInstallForm
+      const counts = await get_documents_count()
+      pagesData[key] = counts
     }
 
     reply.send({
@@ -103,6 +109,7 @@ export default async function bootstrap_controller(fastify: FastifyInstance) {
         'theme': themeJson,
         'appBar': appBarJson,
         'pages': pagesJson,
+        'pagesData': pagesData,
         'background': backgroundJson,
         'forms': formsJson,
         'dialogs': dialogsJson

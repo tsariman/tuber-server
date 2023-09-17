@@ -9,7 +9,7 @@ export function dbGetUrlCredentials(user?: string, pass?: string) {
 }
 
 /** Determines the local IP address. */
-export function getIp(inDebugMode = false, address?: string) {
+export function getIp(inDevMode = false, address?: string) {
   if (address) { return address }
   let ip = ''
   const interfaces = os.networkInterfaces()
@@ -17,13 +17,13 @@ export function getIp(inDebugMode = false, address?: string) {
     const info = interfaces[prop]
     if (info) {
       info.map(interfac3 => {
-        if (!inDebugMode
+        if (!inDevMode
           && interfac3.family === 'IPv4'
           && interfac3.address !== '127.0.0.1'
           && !interfac3.internal
         ) {
           ip = interfac3.address
-        } else if (inDebugMode
+        } else if (inDevMode
           && interfac3.family === 'IPv4'
           && interfac3.internal
         ) {

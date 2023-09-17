@@ -1,11 +1,11 @@
 import mongoose, { Schema } from 'mongoose'
-import { WithRequired } from '../../utility/common.types'
+import { IJsonapiQuerystring, WithRequired } from '../../business.logic/common.types'
 import { TRole } from 'src/business.logic/security/permissions'
 import { FastifyRequest } from 'fastify'
 import paginate from 'mongoose-paginate-v2'
 
 export interface IUser {
-  active?: boolean
+  is_active?: boolean
   name: string
   email: string
   phone?: string
@@ -29,6 +29,7 @@ export interface IUsersEndpoint {
   Params: {
     name: string
   }
+  Querystring: IJsonapiQuerystring
 }
 
 export type TUsersFastifyRequest = FastifyRequest<IUsersEndpoint>
@@ -38,7 +39,7 @@ export type TUsersFastifyRequest = FastifyRequest<IUsersEndpoint>
  * required.
  */
 export type TUser = WithRequired<IUser,              // { _id: string } & WithRequired<IUser,
-  'active' | 'jwt_version' | 'created_at' | 'role'
+  'is_active' | 'jwt_version' | 'created_at' | 'role'
 >
 
 export type TCipheredUser = Pick<TUser, 'name' | 'jwt_version' | 'role'>
@@ -46,7 +47,7 @@ export type TCipheredUser = Pick<TUser, 'name' | 'jwt_version' | 'role'>
 export interface IUserDocument extends mongoose.Document, TUser {}
 
 const userSchema = new Schema<TUser>({
-  active: {type: Boolean, default: true },
+  is_active: {type: Boolean, default: true },
   name: {type: String, unique: true},
   email: {type: String, unique: true},
   phone: String,

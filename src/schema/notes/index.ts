@@ -1,19 +1,19 @@
 import { FastifyRequest } from 'fastify'
 import mongoose, { Schema } from 'mongoose'
 import paginate from 'mongoose-paginate-v2'
-import { WithRequired } from 'src/utility/common.types'
+import { IJsonapiQuerystring, WithRequired } from 'src/business.logic/common.types'
 
 export interface INote {
-  active?: boolean
+  is_active?: boolean
   created_at?: Date
   modified_at?: Date
-  private?: boolean
+  is_private?: boolean
   user_id?: string
   group?: string
   videoid: string
   platform: string
-  startSeconds: number
-  endSeconds?: number
+  start_seconds: number
+  end_seconds?: number
   title: string
   detail?: string
   restrictions?: string[]
@@ -25,27 +25,28 @@ export interface INotesEndpoint {
   Params: {
     id: string
   }
+  Querystring: IJsonapiQuerystring
 }
 
 export type TNotesFastifyRequest = FastifyRequest<INotesEndpoint>
 
 export type TNote = WithRequired<INote,
-  'active' | 'created_at' | 'modified_at' | 'private' | 'user_id'
+  'is_active' | 'created_at' | 'modified_at' | 'is_private' | 'user_id'
 >
 
 export interface INoteDocument extends mongoose.Document, TNote {}
 
 const noteSchema = new Schema<TNote>({
-  active: { type: Boolean, default: true },
-  private: { type: Boolean, default: false },
+  is_active: { type: Boolean, default: true },
+  is_private: { type: Boolean, default: false },
   created_at: { type: Date, default: Date.now },
   modified_at: Date,
   user_id: String,
   group: String,
   videoid: String,
   platform: String,
-  startSeconds: Number,
-  endSeconds: Number,
+  start_seconds: Number,
+  end_seconds: Number,
   title: String,
   detail: String,
   restrictions: [ String ],

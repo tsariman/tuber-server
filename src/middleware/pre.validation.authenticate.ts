@@ -1,7 +1,7 @@
 import { RouteShorthandOptions } from 'fastify'
 import { connect, disconnect } from 'mongoose'
 import Config from 'src/config'
-import { UserModel } from 'src/model/user'
+import { UserPaginationModel } from 'src/model/user'
 import { check_password } from 'src/business.logic/security'
 import { defaultDialogAlertJson as alert } from 'src/state/dialogs'
 import { ILoginCredentials } from 'src/business.logic/security/permissions'
@@ -47,9 +47,9 @@ const authenticate: RouteShorthandOptions['preValidation'] = async function (
 
 
   if (username) {
-    console.log(`username: '${username}', password: '${password}'`)
+    Config.log(`username: '${username}', password: '${password}'`)
     try {
-      const user = await UserModel.findOne({ name: username })
+      const user = await UserPaginationModel.findOne({ name: username })
       if (user) {
         if (user.password) {
           const passwordCorrect = await check_password(password, user.password)
@@ -60,7 +60,7 @@ const authenticate: RouteShorthandOptions['preValidation'] = async function (
         }
       }
     } catch (e: any) {
-      console.error(e.message)
+      Config.err(e.message)
       await disconnect()
       reply.send(alert(e.message))
     }

@@ -1,7 +1,7 @@
 import { FastifyInstance } from 'fastify'
 import index_controller from './controller/index.controller'
 import bootstrap_controller from './controller/bootstrap.controller'
-import dev_install_controller from './INSTALL.DEV'
+import dev_install_controller from './INSTALL.DEV/dev.controller'
 import Config from './config'
 import users_controller from './controller/users.controller'
 import authentification_controller from './controller/authentification.controller'

@@ -11,7 +11,8 @@ export default async function notes_post_endpoint (
   try {
     const note = await create_note(request.body)
     reply.code(201).send(
-      new JsonapiResponseBuilder(note, 'notes', 'object').build()
+      new JsonapiResponseBuilder(note, 'notes', 'object')
+      .build()
     )
   } catch (e: any) {
     const errors = new JsonapiErrorBuilder()

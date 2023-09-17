@@ -36,7 +36,7 @@ export const noteAddDialogJson: IStateDialog = {
       'props': { 'color': 'primary' },
       'has': {
         'text': 'Save',
-        'handle': ''
+        'handle': 'tuberCallbacks.noteAddFormSubmitCallback'
       }
     }
   ],
@@ -96,7 +96,7 @@ export const registerDialogJson: IStateDialog = {
 }
 
 /** Default alert dialog */
-export function defaultDialogAlertJson(content: any) {
+export function defaultDialogAlertJson<T=any>(content: T) {
   return {
     'state': {
       'dialog': {
@@ -107,7 +107,7 @@ export function defaultDialogAlertJson(content: any) {
         'titleProps': {
           'sx': { 'textAlign': 'center' }
         },
-        'content': JSON.stringify(content, null, 2),
+        'content': content, // JSON.stringify(content, null, 2),
         'actions': [
           {
             'type': 'json_button',
@@ -119,7 +119,31 @@ export function defaultDialogAlertJson(content: any) {
           }
         ],
         'open': true // Dialog will open immediately
-      }
+      } as IStateDialog
     }
   }
+}
+
+export function dialogAlertJson<T=any>(content: T): IStateDialog {
+  return {
+    '_type': 'alert',
+    '_id': 'dev-drop-testing-database',
+    'title': 'Server Response',
+    'props': { 'fullWidth': true },
+    'titleProps': {
+      'sx': { 'textAlign': 'center' }
+    },
+    'content': content, // JSON.stringify(content, null, 2),
+    'actions': [
+      {
+        'type': 'json_button',
+        'props': { 'color': 'secondary' },
+        'has': {
+          'text': 'Close',
+          'handle': 'tuberCallbacks.defaultClose'
+        }
+      }
+    ],
+    'open': true // Dialog will open immediately
+  } as IStateDialog
 }

@@ -2,7 +2,7 @@ import { FastifyRequest, FastifyReply, FastifyInstance } from 'fastify'
 import { connect, disconnect } from 'mongoose'
 import { check_password } from 'src/business.logic/security'
 import Config from 'src/config'
-import { UserModel } from 'src/model/user'
+import { UserPaginationModel } from 'src/model/user'
 import { defaultDialogAlertJson as alert } from 'src/state/dialogs'
 import jwt from 'jsonwebtoken'
 import { TCipheredUser } from 'src/schema/users'
@@ -19,9 +19,9 @@ export default async function authentification_controller (fastify: FastifyInsta
     await connect(Config.DB_URL)
     const { username, password } = request.body as ILoginCredentials
     if (username) {
-      console.log(`username: '${username}', password: '${password}'`)
+      Config.log(`username: '${username}', password: '${password}'`)
       try {
-        const user = await UserModel.findOne({ name: username })
+        const user = await UserPaginationModel.findOne({ name: username })
         if (user) {
           if (password && user.password) {
             const passwordCorrect = await check_password(password, user.password)

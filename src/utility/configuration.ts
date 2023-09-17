@@ -108,7 +108,7 @@ const config: IConfiguration = {
         if (!(key in invalid_keys)) { // if key is invalid
           config[key] = data[key]
         } else {
-          console.log(`'${key}' cannot be specified as a key.`)
+          console.error(`'${key}' cannot be specified as a key.`)
         }
       }
     }

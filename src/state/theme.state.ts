@@ -25,7 +25,7 @@ const themeJson = {
     'MuiDialogContentText': {
       'styleOverrides': {
         'root': {
-          'padding-top': 8
+          'paddingTop': 8
         }
       }
     }

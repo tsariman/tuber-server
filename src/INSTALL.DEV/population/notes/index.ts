@@ -1,7 +1,16 @@
-import { INote } from "src/schema/notes"
+import { INote } from 'src/schema/notes'
 
 export const rnd_platform = () => {
-  const platforms = ['youtube', 'vimeo', 'twitch', 'facebook', 'dailymotion']
+  const platforms = [
+    'youtube',
+    'vimeo',
+    'dailymotion',
+    'rumble',
+    'bitchute',
+    'odysee',
+    'twitch',
+    'facebook'
+  ]
   return platforms[platforms.length * Math.random() << 0]
 }
 
@@ -25,8 +34,8 @@ const gen_random_notes = (number = 100) => {
     notes.push({
       videoid,
       platform: rnd_platform(),
-      startSeconds: Math.floor(Math.random() * 300),
-      title: videoid,
+      start_seconds: Math.floor(Math.random() * 300),
+      title: `[${i}] ${videoid}`,
       detail: videoid,
       restrictions: [],
       rules: []

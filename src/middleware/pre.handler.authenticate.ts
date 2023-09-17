@@ -9,7 +9,7 @@ import {
 import jwt from 'jsonwebtoken'
 import Config from 'src/config'
 import { TCipheredUser } from 'src/schema/users'
-import { UserModel } from 'src/model/user'
+import { UserPaginationModel } from 'src/model/user'
 
 const pre_handler_authenticate: RouteShorthandOptions['preHandler'] = async function(
   request,
@@ -41,7 +41,7 @@ const pre_handler_authenticate: RouteShorthandOptions['preHandler'] = async func
     // User not found in cache
     if (!cachedUsr) {
       Config.log('Authentication: User not found in cache. Retrieving from database.')
-      const dbUser = await UserModel.findOne({ name: cUsr1.name })
+      const dbUser = await UserPaginationModel.findOne({ name: cUsr1.name })
       if (!dbUser) {
         Config.log('Authentication: User not found in database.')
         reply.code(401).send($401_UNAUTHORIZED_ACCESS)

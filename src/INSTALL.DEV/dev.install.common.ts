@@ -3,7 +3,6 @@ import { model } from 'mongoose'
 import Config from 'src/config'
 import userSchema, { IUser } from 'src/schema/users'
 
-
 /**
  * The name of the file in which the id of the default developer user will be
  * saved.

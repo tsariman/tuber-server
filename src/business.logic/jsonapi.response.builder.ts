@@ -4,10 +4,11 @@ import {
   IJsonapiResourceLinkage,
   IJsonapiResponse
 } from '../../../tuber-client/src/controllers/interfaces/IJsonapi'
-import { IDoc, TEndpoint } from 'src/utility/common.types'
+import { IDoc, TEndpoint } from 'src/business.logic/common.types'
 import JsonapiResponsePaginationBuilder, { 
   IPaginatedResult
 } from './jsonapi.pagination.builder'
+import Config from 'src/config'
 
 type JSONAPI_RESOURCE_TYPE = 'collection' | 'object' | 'null' | 'linkage'
 
@@ -22,6 +23,8 @@ export default class JsonapiResponseBuilder<T> {
     'linkage': {} as IJsonapiResourceLinkage
   }
   private resourceType: JSONAPI_RESOURCE_TYPE
+  /** Filter to remove unwanted properties @deprecated */
+  private resourceFilter: (item: T & IDoc) => any
   private dataMember: T
   private alreadyBuilt: boolean
 
@@ -35,12 +38,24 @@ export default class JsonapiResponseBuilder<T> {
     }
     this.response.data = []
     this.skeletonResource = { type: endpoint }
+    this.resourceFilter = (): any => {
+      Config.die('Resource filter not set.')
+      return { _doc: {} }
+    }
     this.resourceType = type
     this.dataMember = data
     this.alreadyBuilt = false
   }
 
   toString = () => this.response
+
+  /** Get the function that filter resource. @deprecated */
+  getResourceFilter = () => this.resourceFilter
+
+  setResourceFilter = (fn: (item: T & IDoc) => any) => {
+    this.resourceFilter = fn
+    return this
+  }
 
   buildLinks = (opts: IPaginatedResult<T>) => {
     this.response.links = new JsonapiResponsePaginationBuilder(opts).build()
@@ -66,6 +81,11 @@ export default class JsonapiResponseBuilder<T> {
   meta = (key: string, val: any) => {
     this.response.meta = this.response.meta || {}
     this.response.meta[key] = val
+    return this
+  }
+
+  state = (s: any) => {
+    this.response.state = s.state
     return this
   }
 
@@ -103,12 +123,11 @@ export default class JsonapiResponseBuilder<T> {
   }
 
   private getResource = (data: T & IDoc): IJsonapiResource => {
-    const { _doc: {
-      _id, password, __v, jwt_version, ...attributes
-    } } = data
+    // const attributes = this.resourceFilter(data)
+    const { _doc: { _id, ...attributes } } = data
     return {
       ...this.skeletonResource,
-      id: _id,
+      id: data._doc._id,
       attributes: this.applyStringSpecification(attributes)
     } as IJsonapiResource
   }

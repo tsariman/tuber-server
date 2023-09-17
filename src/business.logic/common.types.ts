@@ -20,3 +20,9 @@ export type TEndpoint = 'users' | 'entries' | 'notes'
  * ```
  */
 export interface IGenericObject { [key: string]: any }
+
+/** Generic jsonapi query string */
+export interface IJsonapiQuerystring {
+  'page[number]'?: string
+  'page[size]'?: string
+}

@@ -1,4 +1,4 @@
-import { TOptional } from 'src/utility/common.types'
+import { TOptional } from 'src/business.logic/common.types'
 import {
   IJsonapiError,
   IJsonapiErrorLinks,

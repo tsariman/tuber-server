@@ -22,7 +22,10 @@ const USER_CONFIG = {
 
   // [PROD] Change database name to production database name
   /** Mongodb database name. */
-  DB_NAME: process.env.DB_NAME || 'db_name_not_set',
+  DB_NAME: process.env.DB_NAME || 'db-name-not-set',
+
+  /** Mongo */
+  DB_NAME_TEST: process.env.DB_NAME_TEST || `${process.env.DB_NAME}-test`,
 
   /** Mongodb database port. */
   DB_PORT: Number(process.env.DB_PORT) || 27017,
@@ -37,7 +40,8 @@ const USER_CONFIG = {
 
   // [PROD] Enter Mongodb's production IP address here
   /** In production, it will contain the IP address of the mongodb URL. */
-  DB_IP_ADDRESS: process.env.DB_IP_ADDRESS || '',
+  DB_HOST: process.env.DB_IP_ADDRESS || '',
+  // DB_IP_ADDRESS: process.env.DB_IP_ADDRESS || '', // [TODO] Remove this
 
   /**
    * The cost factor. It controls how much time is needed to calculate a single
@@ -57,8 +61,26 @@ const USER_CONFIG = {
    */
   USER_CACHE,
 
-  PAGINATION_NOTE_LIMIT: Number(process.env.PAGINATION_NOTE_LIMIT) || 10,
-  PAGINATION_USER_LIMIT: Number(process.env.PAGINATION_USER_LIMIT) || 10,
+  /** The number of notes to return per page. */
+  PAGINATION_NOTES_LIMIT: process.env.PAGINATION_NOTES_LIMIT || '10',
+  /** The number of users to return per page. */
+  PAGINATION_USERS_LIMIT: process.env.PAGINATION_USERS_LIMIT || '10',
+
+  /** Max number of notes pages to load in memory client-side */
+  MAX_LOADED_NOTE_PAGES: process.env.MAX_LOADED_NOTE_PAGES || '4',
+  /** Max number of users pages to load in memory client-side */
+  MAX_LOADED_USER_PAGES: process.env.MAX_LOADED_USER_PAGES || '4',
+
+  /** Database mongoose-paginate-v2 query */
+  DB_PAGINATION_QUERY: {
+    is_active: true // Only return active documents
+                    // When a document is deleted, is_active is set to false
+  },
+
+  /** Database mongoose-paginate-v2 options */
+  DB_PAGINATION_OPTIONS: {
+    // sort: { created_at: -1 } // Comment this out when debugging pagination
+  },
 }
 
 const credentials = dbGetUrlCredentials(
@@ -69,11 +91,11 @@ const credentials = dbGetUrlCredentials(
 const DB_URL = [
   'mongodb://',
   credentials,
-  getIp(USER_CONFIG.DEBUG, USER_CONFIG.DB_IP_ADDRESS),
+  getIp(USER_CONFIG.DEBUG, USER_CONFIG.DB_HOST),
   ':',
   USER_CONFIG.DB_PORT,
   '/',
-  USER_CONFIG.DB_NAME
+  USER_CONFIG.DEV ? USER_CONFIG.DB_NAME_TEST : USER_CONFIG.DB_NAME
 ].join('')
 
 const initObj = {
