@@ -21,7 +21,7 @@ const researchPageJson: IStatePage = {
     'searchFieldIconButton': {
       'has': {
         'icon': 'search_outline',
-        'handle': 'onclick : tuberCallbacks.appBarSearchForNotes'
+        'onclickHandle': 'tuberCallbacks.appBarSearchForAnnotations'
       }
     },
     'searchFieldIconButtonProps': {

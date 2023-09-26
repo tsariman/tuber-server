@@ -6,11 +6,11 @@ import IStateDialog from '../../../../tuber-client/src/controllers/interfaces/IS
  * __Note:__ The name of the dialog will be the key of the dialog in
  *       `IStateAllDialogs`
  */
-export const noteAddDialogJson: IStateDialog = {
+export const annotationAddDialogJson: IStateDialog = {
   '_type': 'form',
-  '_id': 'pro-insert-new-note',
-  '_key': 'noteAddDialog',
-  'title': 'Insert New Note',
+  '_id': 'pro-insert-new-annotation',
+  '_key': 'annotationAddDialog',
+  'title': 'Insert New Annotation',
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
@@ -21,14 +21,14 @@ export const noteAddDialogJson: IStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': '$form : newNote : notes',
+  'content': '$form : newAnnotation : annotations',
   'actions': [
     {
       'type': 'json_button',
       'props': { 'color': 'secondary' },
       'has': {
         'text': 'Cancel',
-        'handle': 'tuberCallbacks.defaultClose'
+        'onclickHandle': 'tuberCallbacks.defaultClose'
       }
     },
     {
@@ -36,18 +36,18 @@ export const noteAddDialogJson: IStateDialog = {
       'props': { 'color': 'primary' },
       'has': {
         'text': 'Save',
-        'handle': 'tuberCallbacks.noteAddFormSubmitCallback'
+        'onclickHandle': 'tuberCallbacks.annotationAddFormSubmitCallback'
       }
     }
   ],
   'open': true // Careful! Must be set to true
 }
 
-export const noteAddFromUrlDialogJson: IStateDialog = {
+export const annotationAddFromUrlDialogJson: IStateDialog = {
   '_type': 'form',
-  '_id': 'pro-insert-note-from-url',
-  '_key': 'noteAddFromUrlDialog',
-  'title': 'Insert New Video Note',
+  '_id': 'pro-insert-annotation-from-url',
+  '_key': 'annotationAddFromUrlDialog',
+  'title': 'Insert New Video Annotation',
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
@@ -58,8 +58,45 @@ export const noteAddFromUrlDialogJson: IStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': '$form : newNoteFromUrl : notes',
+  'content': '$form : newAnnotationFromUrl : annotations',
   'actions': [],
+  'open': true // Careful! Must be set to true
+}
+
+export const annotationEditDialogJson: IStateDialog = {
+  '_type': 'form',
+  '_id': 'pro-change-existing-annotation',
+  '_key': 'annotationEditDialog',
+  'title': 'Edit Annotation',
+  'props': {
+    'fullWidth': true,
+    'maxWidth': 'md',
+    'PaperProps': {
+      'sx': { 'backgroundColor': backgroundJson.color }
+    }
+  },
+  'titleProps': {
+    'sx': { 'textAlign': 'center' }
+  },
+  'content': '$form : newAnnotation : annotations',
+  'actions': [
+    {
+      'type': 'json_button',
+      'props': { 'color': 'secondary' },
+      'has': {
+        'text': 'Cancel',
+        'onclickHandle': 'tuberCallbacks.defaultClose'
+      }
+    },
+    {
+      'type': 'json_button',
+      'props': { 'color': 'primary' },
+      'has': {
+        'text': 'Save',
+        'onclickHandle': 'tuberCallbacks.annotationEditFormSubmitCallback'
+      }
+    }
+  ],
   'open': true // Careful! Must be set to true
 }
 
@@ -114,7 +151,7 @@ export function defaultDialogAlertJson<T=any>(content: T) {
             'props': { 'color': 'secondary' },
             'has': {
               'text': 'Close',
-              'handle': 'tuberCallbacks.defaultClose'
+              'onclickHandle': 'tuberCallbacks.defaultClose'
             }
           }
         ],
@@ -140,7 +177,7 @@ export function dialogAlertJson<T=any>(content: T): IStateDialog {
         'props': { 'color': 'secondary' },
         'has': {
           'text': 'Close',
-          'handle': 'tuberCallbacks.defaultClose'
+          'onclickHandle': 'tuberCallbacks.defaultClose'
         }
       }
     ],

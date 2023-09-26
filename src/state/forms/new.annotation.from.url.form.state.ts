@@ -1,8 +1,8 @@
 import IStateForm from '../../../../tuber-client/src/controllers/interfaces/IStateForm'
 import IStateFormItem from '../../../../tuber-client/src/controllers/interfaces/IStateFormItem'
 
-const newVideoNoteFormJson: IStateForm = {
-  '_key': 'newNoteFromUrlForm',
+const newVideoAnnotationFormJson: IStateForm = {
+  '_key': 'newAnnotationFromUrlForm',
   'items': [
     {
       'type': 'stack',
@@ -27,13 +27,13 @@ const newVideoNoteFormJson: IStateForm = {
                 'type': 'icon',
                 'has': {
                   'icon': 'arrow_forward_ios_outline',
-                  'handle': 'onclick : tuberCallbacks.noteAddFromUrl',
+                  'onclickHandle': 'tuberCallbacks.annotationAddFromUrl',
                 }
               }
             }
           },
           'has': {
-            'handle': 'onkeydown : tuberCallbacks.appBarSearchForNotesOnKeyDown',
+            'onkeydownHandle': 'tuberCallbacks.appBarSearchForAnnotationsOnKeyDown',
           }
         },
       ] as IStateFormItem[]
@@ -41,4 +41,4 @@ const newVideoNoteFormJson: IStateForm = {
   ]
 }
 
-export default newVideoNoteFormJson
+export default newVideoAnnotationFormJson

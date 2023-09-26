@@ -1,7 +1,7 @@
 import IStateForm from '../../../../tuber-client/src/controllers/interfaces/IStateForm'
 
-const newNoteFormJson: IStateForm = {
-  '_key': 'newNoteForm',
+const editAnnotationFormJson = {
+  '_key': 'editAnnotationForm',
   'items': [
     {
       'type': 'stack',
@@ -57,12 +57,16 @@ const newNoteFormJson: IStateForm = {
           'label': 'TItle',
           'props': {
             'fullWidth': true
+          },
+          'has': {
+            'maxLength': 80,
+            'maxLengthMessage': 'Your title is too long. (80 characters max)'
           }
         },
         {
           'type': 'textarea',
-          'name': 'detail',
-          'label': 'Detail',
+          'name': 'note',
+          'label': 'Note',
           'props': {
             'multiline': true,
             'rows': 4
@@ -71,6 +75,6 @@ const newNoteFormJson: IStateForm = {
       ]
     },
   ]
-}
+} as IStateForm
 
-export default newNoteFormJson
+export default editAnnotationFormJson

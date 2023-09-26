@@ -2,7 +2,7 @@ import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify'
 import Config from 'src/config'
 import IStateApp from '../../../tuber-client/src/controllers/interfaces/IStateApp'
 import { backgroundJson } from 'src/state'
-import { loginDialogJson, noteAddDialogJson, noteAddFromUrlDialogJson } from 'src/state/dialogs'
+import { loginDialogJson, annotationAddDialogJson, annotationAddFromUrlDialogJson, annotationEditDialogJson } from 'src/state/dialogs'
 import { loginPage } from 'src/state/pages'
 import { defaultAppBarJson } from 'src/state/default.content'
 import themeJson from 'src/state/theme.state'
@@ -15,12 +15,13 @@ import devSignedInAppBar from 'src/INSTALL.DEV/dev.signedin-appbar.page.state'
 import devInstallForm from 'src/INSTALL.DEV/dev.install.form.state'
 import researchPageJson from 'src/state/pages/research.page.state'
 import loginFormJson from 'src/state/forms/login.form.state'
-import newNoteFormJson from 'src/state/forms/new.note.form.state'
+import newAnnotationFormJson from 'src/state/forms/new.annotation.form.state'
 import researchPageAppBarJson from 'src/state/appBar/research.page.appbar.state'
-import { homeLinkJson, noteAddFromUrlLinkJson, powerLinkJson } from 'src/state/nav.link'
-import newVideoNoteFormJson from 'src/state/forms/new.note.from.url.form.state'
+import { homeLinkJson, annotationAddFromUrlLinkJson, powerLinkJson } from 'src/state/nav.link'
+import newVideoAnnotationFormJson from 'src/state/forms/new.annotation.from.url.form.state'
 import { get_state_key, set_state_by_key } from 'src/business.logic'
 import { get_documents_count } from 'src/INSTALL.DEV'
+import editAnnotationFormJson from 'src/state/forms/edit.annotation.form.state'
 
 export default async function bootstrap_controller(fastify: FastifyInstance) {
 
@@ -46,14 +47,16 @@ export default async function bootstrap_controller(fastify: FastifyInstance) {
 
   const formsJson: IStateAllForms = {}
   set_state_by_key(formsJson, loginFormJson)
-  set_state_by_key(formsJson, newNoteFormJson)
-  set_state_by_key(formsJson, newVideoNoteFormJson)
+  set_state_by_key(formsJson, newAnnotationFormJson)
+  set_state_by_key(formsJson, editAnnotationFormJson)
+  set_state_by_key(formsJson, newVideoAnnotationFormJson)
   // TODO: Insert more forms here
 
   const dialogsJson: IStateAllDialogs = {}
-  set_state_by_key(dialogsJson, noteAddDialogJson)
+  set_state_by_key(dialogsJson, annotationAddDialogJson)
+  set_state_by_key(dialogsJson, annotationEditDialogJson)
   set_state_by_key(dialogsJson, loginDialogJson)
-  set_state_by_key(dialogsJson, noteAddFromUrlDialogJson)
+  set_state_by_key(dialogsJson, annotationAddFromUrlDialogJson)
 
   // TODO: Insert more dialogs here
 
@@ -91,7 +94,7 @@ export default async function bootstrap_controller(fastify: FastifyInstance) {
         ...researchPageJson,
         appBar: {
           ...researchPageAppBarJson,
-          items: [ noteAddFromUrlLinkJson, homeLinkJson, powerLinkJson ]
+          items: [ annotationAddFromUrlLinkJson, homeLinkJson, powerLinkJson ]
         }
       }
     }

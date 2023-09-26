@@ -4,8 +4,8 @@ import Config from 'src/config'
 
 /** Kept as an example use of hogan.js @deprecated */
 export async function dev_install_form_summary() {
-  await mongoose.connect(Config.DB_URL)
-  const noteCount = await mongoose.connection.db.collection('notes')
+  await mongoose.connect(Config.DB_URI)
+  const annotationCount = await mongoose.connection.db.collection('annotations')
     .countDocuments() || 'empty'
   const userCount = await mongoose.connection.db.collection('users')
     .countDocuments() || 'empty'
@@ -18,9 +18,9 @@ export async function dev_install_form_summary() {
     </p>
     <h3>Collections</h3>
     <p>
-      &#128172;<span style="color:#0074d8"><b>Notes</b></span> <em>({{ noteCount }})</em>
+      &#128172;<span style="color:#0074d8"><b>Annotations</b></span> <em>({{ annotationCount }})</em>
       <br />
       &#128526;<span style="color:#0074d8"><b>Users</b></span> <em>({{ userCount }})</em>
     </p>
-  `).render({ noteCount, userCount })
+  `).render({ annotationCount, userCount })
 }

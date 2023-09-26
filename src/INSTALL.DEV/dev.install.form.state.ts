@@ -30,7 +30,7 @@ const devInstallForm = {
           </p>
           <h3>Collections</h3>
           <p>
-            &#128172;<span style="color:#0074d8"><b>Notes</b></span> <em>({{ noteCount }})</em>
+            &#128172;<span style="color:#0074d8"><b>Annotations</b></span> <em>({{ annotationCount }})</em>
             <br />
             &#128526;<span style="color:#0074d8"><b>Users</b></span> <em>({{ userCount }})</em>
           </p>
@@ -42,7 +42,7 @@ const devInstallForm = {
       'type': 'json_button',
       'has': {
         'label': 'Create dev user',
-        'handle': 'onclick : tuberCallbacks.devCreateUser'
+        'onclickHandle': 'tuberCallbacks.devCreateUser'
       },
     },
     { 'type': 'html',
@@ -53,7 +53,7 @@ const devInstallForm = {
       'type': 'json_button',
       'has': {
         'label': 'Reset database',
-        'handle': 'onclick : tuberCallbacks.devResetDatabase'
+        'onclickHandle': 'tuberCallbacks.devResetDatabase'
       }
     },
     { 'type': 'html',
@@ -64,7 +64,7 @@ const devInstallForm = {
       'type': 'json_button',
       'has': {
         'label': 'Test Drawer',
-        'handle': 'onclick : tuberCallbacks.devLoadDrawer'
+        'onclickHandle': 'tuberCallbacks.devLoadDrawer'
       }
     },
     { 'type': 'html',
@@ -75,7 +75,7 @@ const devInstallForm = {
       'type': 'json_button',
       'has': {
         'label': 'Remove Drawer',
-        'handle': 'onclick : tuberCallbacks.devUnloadDrawer'
+        'onclickHandle': 'tuberCallbacks.devUnloadDrawer'
       }
     },
     { 'type': 'html',
@@ -85,8 +85,8 @@ const devInstallForm = {
     {
       'type': 'json_button',
       'has': {
-        'label': 'Test Add New Note',
-        'handle': 'onclick : tuberCallbacks.noteAdd'
+        'label': 'Test Add New annotation',
+        'onclickHandle': 'tuberCallbacks.annotationAdd'
       }
     },
     { 'type': 'hr' },
@@ -113,7 +113,7 @@ const devInstallForm = {
           'type': 'json_button',
           'has': {
             'text': 'Test Clipboard',
-            'handle': 'onclick : tuberCallbacks.devClipboardTest'
+            'onclickHandle': 'tuberCallbacks.devClipboardTest'
           },
           'props': {
             'variant': 'contained',
@@ -128,7 +128,7 @@ const devInstallForm = {
       'type': 'json_button',
       'has': {
         'label': 'Create new user',
-        'handle': 'onClick : tuberCallbacks.devUserAdd'
+        'onclickHandle': 'tuberCallbacks.devUserAdd'
       }
     },
     { 'type': 'html',
@@ -139,7 +139,7 @@ const devInstallForm = {
       'type': 'json_button',
       'has': {
         'label': 'Populate user collection',
-        'handle': 'onclick : tuberCallbacks.devUserPopulate'
+        'onclickHandle': 'tuberCallbacks.devUserPopulate'
       }
     },
     { 'type': 'html',
@@ -149,8 +149,8 @@ const devInstallForm = {
     {
       'type': 'json_button',
       'has': {
-        'label': 'Get notes collection test',
-        'handle': 'onclick : tuberCallbacks.devGetNotes'
+        'label': 'Get annotations collection test',
+        'onclickHandle': 'tuberCallbacks.devGetAnnotations'
       }
     },
     {
@@ -162,7 +162,7 @@ const devInstallForm = {
       'type': 'json_button',
       'has': {
         'label': 'Test spinner',
-        'handle': 'onclick : tuberCallbacks.devNoResponse'
+        'onclickHandle': 'tuberCallbacks.devNoResponse'
       }
     },
     {
@@ -193,7 +193,7 @@ const devInstallForm = {
               'sx': { 'm': 1 }
             },
             'items': [
-              { 'label': 'Notes', 'value': 'notes' },
+              { 'label': 'Annotations', 'value': 'annotations' },
               { 'label': 'Users', 'value': 'users' }
             ]
           }
@@ -202,7 +202,7 @@ const devInstallForm = {
           'type': 'json_button',
           'has': {
             'label': 'Drop Collection',
-            'handle': 'onclick : tuberCallbacks.devDropCollection'
+            'onclickHandle': 'tuberCallbacks.devDropCollection'
           },
           'props': {
             'variant': 'contained',
@@ -231,7 +231,7 @@ const devInstallForm = {
               'sx': { 'm': 1 }
             },
             'items': [
-              { 'label': 'Notes', 'value': 'notes' },
+              { 'label': 'Annotations', 'value': 'annotations' },
               { 'label': 'Users', 'value': 'users' }
             ]
           }
@@ -264,7 +264,7 @@ const devInstallForm = {
           'type': 'json_button',
           'has': {
             'label': 'Populate Collection',
-            'handle': 'onclick : tuberCallbacks.devPopulateCollection'
+            'onclickHandle': 'tuberCallbacks.devPopulateCollection'
           },
           'props': {
             'variant': 'contained',

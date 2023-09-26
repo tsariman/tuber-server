@@ -22,7 +22,7 @@ export default async function dev_database_reset (
     C.log(error)
   }
   async function devDropDatabase() {
-    await connect(C.DB_URL)
+    await connect(C.DB_URI)
     await mongoose.connection.db.dropDatabase().then(() => {
       C.log('[request] Database was dropped.')
     })

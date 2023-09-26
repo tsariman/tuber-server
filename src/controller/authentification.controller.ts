@@ -16,7 +16,7 @@ export default async function authentification_controller (fastify: FastifyInsta
     reply: FastifyReply,
   ) {
     process.stdout.write('Authenticating user... ')
-    await connect(Config.DB_URL)
+    await connect(Config.DB_URI)
     const { username, password } = request.body as ILoginCredentials
     if (username) {
       Config.log(`username: '${username}', password: '${password}'`)

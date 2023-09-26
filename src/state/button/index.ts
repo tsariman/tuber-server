@@ -6,6 +6,6 @@ export const dialogDefaultCloseButtonJson: IStateFormItem = {
   'props': { 'color': 'secondary' },
   'has': {
     'text': 'Cancel',
-    'handle': 'tuberCallbacks.defaultClose'
+    'onclickHandle': 'tuberCallbacks.defaultClose'
   }
 }

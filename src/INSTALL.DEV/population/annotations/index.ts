@@ -1,4 +1,4 @@
-import { INote } from 'src/schema/notes'
+import { IAnnotation } from 'src/schema/annotations'
 
 export const rnd_platform = () => {
   const platforms = [
@@ -27,21 +27,21 @@ const gen_random_videoid = (length: number): string => {
   return result
 }
 
-const gen_random_notes = (number = 100) => {
-  const notes: INote[] = []
+const gen_random_annotations = (number = 100) => {
+  const annotations: IAnnotation[] = []
   for (let i = 0; i < number; i++) {
     const videoid = gen_random_videoid(11)
-    notes.push({
-      videoid,
+    annotations.push({
+      videoid: videoid,
       platform: rnd_platform(),
       start_seconds: Math.floor(Math.random() * 300),
       title: `[${i}] ${videoid}`,
-      detail: videoid,
+      note: videoid,
       restrictions: [],
       rules: []
     })
   }
-  return notes
+  return annotations
 }
 
-export default gen_random_notes
+export default gen_random_annotations

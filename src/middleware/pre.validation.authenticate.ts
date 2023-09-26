@@ -35,7 +35,7 @@ const authenticate: RouteShorthandOptions['preValidation'] = async function (
   request, reply, done
 ) {
   process.stdout.write('Working on pre validation authentication... ')
-  await connect(Config.DB_URL)
+  await connect(Config.DB_URI)
   const { username, password } = request.body as ILoginCredentials
 
 

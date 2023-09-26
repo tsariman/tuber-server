@@ -1,17 +1,17 @@
 import { FastifyReply } from 'fastify'
 import JsonapiErrorBuilder from 'src/business.logic/jsonapi.error.builder'
 import JsonapiResponseBuilder from 'src/business.logic/jsonapi.response.builder'
-import { create_note } from 'src/model/note'
-import { TNotesFastifyRequest } from 'src/schema/notes'
+import { create_annotation } from 'src/model/annotation'
+import { TAnnotationPostFastifyRequest } from 'src/schema/annotations'
 
-export default async function notes_post_endpoint (
-  request: TNotesFastifyRequest,
+export default async function annotations_post_endpoint (
+  request: TAnnotationPostFastifyRequest,
   reply: FastifyReply
 ) {
   try {
-    const note = await create_note(request.body)
+    const annotation = await create_annotation(request.body.data.attributes)
     reply.code(201).send(
-      new JsonapiResponseBuilder(note, 'notes', 'object')
+      new JsonapiResponseBuilder(annotation, 'annotations', 'object')
       .build()
     )
   } catch (e: any) {

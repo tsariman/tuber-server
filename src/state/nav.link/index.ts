@@ -27,7 +27,7 @@ export const powerLinkJson: IStateLink = {
   'type': 'icon',
   'has': {
     'icon': 'power_settings_new_outline',
-    'handle': 'onclick : tuberCallbacks.loginDialog',
+    'onclickHandle': 'tuberCallbacks.loginDialog',
     'iconProps': { 'sx': { 'color': 'grey.500' }}
   }
 }
@@ -49,11 +49,11 @@ export const authenticatedLinkJson: IStateLink = {
   }
 }
 
-export const noteAddFromUrlLinkJson: IStateLink = {
+export const annotationAddFromUrlLinkJson: IStateLink = {
   'type': 'icon',
   'has': {
     'icon': 'playlist_add_outline',
-    'handle': 'onclick : tuberCallbacks.noteShowAddFromUrl',
+    'onclickHandle': 'tuberCallbacks.annotationShowAddFromUrl',
     'iconProps': { 'sx': { 'color': 'grey.600' }}
   }
 }

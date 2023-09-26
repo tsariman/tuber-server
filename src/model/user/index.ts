@@ -53,7 +53,7 @@ export const exclude_user_fields = (user: IDoc) => {
 }
 
 export const get_user_by_name = async (name: string): Promise<IUser | null> => {
-  await connect(Config.DB_URL)
+  await connect(Config.DB_URI)
   const userDoc = await UserPaginationModel.findOne({ name })
   await disconnect()
   return userDoc
@@ -61,7 +61,7 @@ export const get_user_by_name = async (name: string): Promise<IUser | null> => {
 
 /** Create a new user */
 export const create_user = async (userInfo: IUser): Promise<IUser> => {
-  await connect(Config.DB_URL)
+  await connect(Config.DB_URI)
   const um = await UserPaginationModel.create({
     ...userInfo,
     password: await get_hashed_password(userInfo.password)
@@ -77,7 +77,7 @@ export const get_user_collection = async (
 ): Promise<PaginateResult<IUserDocument>> => {
   const page = Number(get_query(req, 'page[number]', '1'))
   const limit = Number(get_query(req, 'page[size]', Config.PAGINATION_USER_LIMIT))
-  await connect(Config.DB_URL)
+  await connect(Config.DB_URI)
   const result = await UserPaginationModel.paginate(PAGINATION_QUERY, {
     ...PAGINATION_OPTONS,
     page,
@@ -89,7 +89,7 @@ export const get_user_collection = async (
 
 /** Find a user by email using mongoose */
 export const get_user_by_email = async (email: string): Promise<IUser | null> => {
-  await connect(Config.DB_URL)
+  await connect(Config.DB_URI)
   const userDoc = await UserModel.findOne({ email })
   await disconnect()
   return userDoc
@@ -97,7 +97,7 @@ export const get_user_by_email = async (email: string): Promise<IUser | null> =>
 
 /** Return total number of documents in the users collection */
 export const get_user_collection_count = async (): Promise<number> => {
-  await connect(Config.DB_URL)
+  await connect(Config.DB_URI)
   const count = await UserModel.countDocuments()
   await disconnect()
   return count

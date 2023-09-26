@@ -29,7 +29,7 @@ export default async function dev_create_update_dev_user (
       const buffer = await fs.readFile(DEV_USER_FILENAME)
       const id = buffer.toString()
       if (id) {
-        await connect(C.DB_URL)
+        await connect(C.DB_URI)
         // [TODO] #3 If the developer user exist, reset the password and push
         //        a notification that indicates that the password was
         //        resetted along with the password itself.
@@ -52,7 +52,7 @@ export default async function dev_create_update_dev_user (
 
   /** Creates the default dev user. */
   async function createDefaultUser() {
-    await connect(C.DB_URL)
+    await connect(C.DB_URI)
     // https://mongoosejs.com/docs/typescript.html#creating-your-first-document
     const password = await devGetHashedDefaultUsrPwd()
     const devUser: IUser = { ...DEV_DEFAULT_USER, password }

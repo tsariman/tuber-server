@@ -8,7 +8,7 @@ import dev_create_update_dev_user from './endpoint/dev.user'
 import dev_database_reset from './endpoint/dev.database.reset'
 import { dev_load_test_drawer, dev_unload_test_drawer } from './endpoint'
 import { DEFAULT_OPTIONS } from 'src/middleware/router.option'
-import { dev_populate_notes, dev_populate_users } from './endpoint/dev.populate.collections'
+import { dev_populate_annotations, dev_populate_users } from './endpoint/dev.populate.collections'
 import Config from 'src/config'
 import { limit_array, ms_to_seconds } from 'src/business.logic'
 import mongoose, { connect, disconnect } from 'mongoose'
@@ -18,8 +18,8 @@ import {
 } from 'src/state/dialogs'
 import { UserPaginationModel } from 'src/model/user'
 import gen_random_users from './population/users'
-import { NotePaginationModel } from 'src/model/note'
-import gen_random_notes from './population/notes'
+import { AnnotationPaginationModel } from 'src/model/annotation'
+import gen_random_annotations from './population/annotations'
 
 interface IDevPopulateEndpoint {
   Params: {
@@ -60,10 +60,10 @@ export default async function dev_install_controller(fastify: FastifyInstance) {
     '/populate/users/:total',
     dev_populate_users
   )
-  // Populates the notes collection with random data.
+  // Populates the annotations collection with random data.
   fastify.post<IDevPopulateEndpoint>(
-    '/populate/notes/:total',
-    dev_populate_notes
+    '/populate/annotations/:total',
+    dev_populate_annotations
   )
   // No response endpoint for testing purposes.
   fastify.get('/no-response/:hangTime', {
@@ -88,11 +88,11 @@ export default async function dev_install_controller(fastify: FastifyInstance) {
   ) {
     const { collection } = req.params
     Config.print(`Dropping '${collection}' collection... `)
-    await connect(Config.DB_URL)
+    await connect(Config.DB_URI)
     await mongoose.connection.db.dropCollection(collection)
     Config.log('done!')
     const devInstallForm = {
-      'noteCount': await NotePaginationModel.countDocuments(),
+      'annotationCount': await AnnotationPaginationModel.countDocuments(),
       'userCount': await UserPaginationModel.countDocuments()
     }
     await disconnect()
@@ -113,7 +113,7 @@ export default async function dev_install_controller(fastify: FastifyInstance) {
     const { collection, quantity } = req.body
     Config.print(`Populating '${collection}' collection with ${quantity} documents... `)
     const number = parseInt(quantity, 10)
-    await connect(Config.DB_URL)
+    await connect(Config.DB_URI)
     switch (collection) {
       case 'users':
         try {
@@ -140,13 +140,13 @@ export default async function dev_install_controller(fastify: FastifyInstance) {
           reply.send(alert(`Failed to populate '${collection}' collection with ${quantity} documents!`))
         }
         return
-      case 'notes':
+      case 'annotations':
         try {
-          limit_array( // Prevent overloading the client with too many notes
-            await NotePaginationModel.insertMany(gen_random_notes(number)),
-            parseInt(Config.PAGINATION_NOTES_LIMIT)
+          limit_array( // Prevent overloading the client with too many annotations
+            await AnnotationPaginationModel.insertMany(gen_random_annotations(number)),
+            parseInt(Config.PAGINATION_ANNOTATIONS_LIMIT)
           )
-          const noteCount = await NotePaginationModel.countDocuments()
+          const annotationCount = await AnnotationPaginationModel.countDocuments()
           await disconnect()
           Config.log('done!')
           reply.send({
@@ -154,7 +154,7 @@ export default async function dev_install_controller(fastify: FastifyInstance) {
               'dialog': dialogAlert(`Populated '${collection}' collection with ${quantity} documents!`),
               'pagesData': {
                 'devInstallForm': {
-                  'noteCount': noteCount
+                  'annotationCount': annotationCount
                 }
               }
             }

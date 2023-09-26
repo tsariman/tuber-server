@@ -9,7 +9,7 @@ export type TOptional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
 export interface IDoc<T=any> { _doc: T }
 
 /** Names of collection endpoint */
-export type TEndpoint = 'users' | 'entries' | 'notes'
+export type TEndpoint = 'users' | 'entries' | 'annotations'
 
 /**
  * Use when assigning values to object properties using a string as the key.  

@@ -17,9 +17,9 @@ app.listen({ port: Config.FASTIFY_PORT }, (err, address) => {
   // [fixed-issue] Mongodb refuses connection if you use 'localhost'
   //               instead of '127.0.0.1'
   // https://www.mongodb.com/community/forums/t/mongooseserverselectionerror-connect-econnrefused-127-0-0-1-27017/123421
-  mongoose.connect(Config.DB_URL).then(async () => {
+  mongoose.connect(Config.DB_URI).then(async () => {
     Config.log('Success!')
-    Config.log('Database URL:', Config.DB_URL)
+    Config.log('Database URI:', Config.DB_URI)
 
     // Check if dev user exists
     if (Config.DEV) {
@@ -36,7 +36,7 @@ app.listen({ port: Config.FASTIFY_PORT }, (err, address) => {
     await mongoose.disconnect()
   }, err => {
     Config.log('Failed!\n')
-    Config.log('Database URL:', Config.DB_URL)
+    Config.log('Database URI:', Config.DB_URI)
     console.error(err)
     process.exit(1)
   })

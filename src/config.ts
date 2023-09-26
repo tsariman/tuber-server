@@ -61,13 +61,13 @@ const USER_CONFIG = {
    */
   USER_CACHE,
 
-  /** The number of notes to return per page. */
-  PAGINATION_NOTES_LIMIT: process.env.PAGINATION_NOTES_LIMIT || '10',
+  /** The number of annotations to return per page. */
+  PAGINATION_ANNOTATIONS_LIMIT: process.env.PAGINATION_ANNOTATIONS_LIMIT || '10',
   /** The number of users to return per page. */
   PAGINATION_USERS_LIMIT: process.env.PAGINATION_USERS_LIMIT || '10',
 
-  /** Max number of notes pages to load in memory client-side */
-  MAX_LOADED_NOTE_PAGES: process.env.MAX_LOADED_NOTE_PAGES || '4',
+  /** Max number of annotations pages to load in memory client-side */
+  MAX_LOADED_ANNOTATION_PAGES: process.env.MAX_LOADED_ANNOTATION_PAGES || '4',
   /** Max number of users pages to load in memory client-side */
   MAX_LOADED_USER_PAGES: process.env.MAX_LOADED_USER_PAGES || '4',
 
@@ -88,7 +88,7 @@ const credentials = dbGetUrlCredentials(
   USER_CONFIG.DB_PASSWORD
 )
 
-const DB_URL = [
+const DB_URI = [
   'mongodb://',
   credentials,
   getIp(USER_CONFIG.DEBUG, USER_CONFIG.DB_HOST),
@@ -103,8 +103,8 @@ const initObj = {
 
   /** Default mongodb database development URL. */
   DB_DEV_DEFAULT_URL: 'mongodb://127.0.0.1:27017/test',
-  /** Mongodb development and production URL, if all goest well. */
-  DB_URL,
+  /** Mongodb development and production URI, if all goes well. */
+  DB_URI,
 
   /** This is the `console.log()` but will only print if app is in debug mode. */
   log: function(...args: any) {
