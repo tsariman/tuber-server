@@ -70,6 +70,10 @@ const editAnnotationFormJson = {
           'props': {
             'multiline': true,
             'rows': 4
+          },
+          'has': {
+            'maxLength': 560,
+            'maxLengthMessage': 'Note is too long (500 characters max)'
           }
         }
       ]

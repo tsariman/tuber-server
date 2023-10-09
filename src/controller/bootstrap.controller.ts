@@ -2,7 +2,13 @@ import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify'
 import Config from 'src/config'
 import IStateApp from '../../../tuber-client/src/controllers/interfaces/IStateApp'
 import { backgroundJson } from 'src/state'
-import { loginDialogJson, annotationAddDialogJson, annotationAddFromUrlDialogJson, annotationEditDialogJson } from 'src/state/dialogs'
+import {
+  loginDialogJson,
+  annotationAddDialogJson,
+  annotationAddFromUrlDialogJson,
+  annotationEditDialogJson,
+  deleteAnnotationDialogJson
+} from 'src/state/dialogs'
 import { loginPage } from 'src/state/pages'
 import { defaultAppBarJson } from 'src/state/default.content'
 import themeJson from 'src/state/theme.state'
@@ -22,6 +28,7 @@ import newVideoAnnotationFormJson from 'src/state/forms/new.annotation.from.url.
 import { get_state_key, set_state_by_key } from 'src/business.logic'
 import { get_documents_count } from 'src/INSTALL.DEV'
 import editAnnotationFormJson from 'src/state/forms/edit.annotation.form.state'
+import { IBootstrapResponse } from 'src/business.logic/common.types'
 
 export default async function bootstrap_controller(fastify: FastifyInstance) {
 
@@ -34,6 +41,7 @@ export default async function bootstrap_controller(fastify: FastifyInstance) {
     'logoHeight': 35,
     'title': '[DEV] Tuberesearcher',
     'homePage': 'login',
+    'spinnerDisabled': true,
     'isBootstrapped': true
   }
 
@@ -57,6 +65,7 @@ export default async function bootstrap_controller(fastify: FastifyInstance) {
   set_state_by_key(dialogsJson, annotationEditDialogJson)
   set_state_by_key(dialogsJson, loginDialogJson)
   set_state_by_key(dialogsJson, annotationAddFromUrlDialogJson)
+  set_state_by_key(dialogsJson, deleteAnnotationDialogJson)
 
   // TODO: Insert more dialogs here
 
@@ -117,6 +126,6 @@ export default async function bootstrap_controller(fastify: FastifyInstance) {
         'forms': formsJson,
         'dialogs': dialogsJson
       }
-    })
+    } as IBootstrapResponse)
   })
 }

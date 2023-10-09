@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { existsSync } from 'fs'
-import { connect, disconnect } from 'mongoose'
+// import { connect, disconnect } from 'mongoose'
 import * as fs from 'fs/promises'
 import { IUser } from 'src/schema/users'
 import { defaultDialogAlertJson as alert } from 'src/state/dialogs'
@@ -29,7 +29,7 @@ export default async function dev_create_update_dev_user (
       const buffer = await fs.readFile(DEV_USER_FILENAME)
       const id = buffer.toString()
       if (id) {
-        await connect(C.DB_URI)
+        // await connect(C.DB_URI)
         // [TODO] #3 If the developer user exist, reset the password and push
         //        a notification that indicates that the password was
         //        resetted along with the password itself.
@@ -40,7 +40,7 @@ export default async function dev_create_update_dev_user (
           C.log('Default dev password resetted. \n')
           C.log(`Password is '${DEV_DEFAULT_USER_PWD}' \n`)
         })
-        await disconnect()
+        // await disconnect()
         reply.send(alert('Default dev password resetted.'))
       }
     } else {
@@ -52,7 +52,7 @@ export default async function dev_create_update_dev_user (
 
   /** Creates the default dev user. */
   async function createDefaultUser() {
-    await connect(C.DB_URI)
+    // await connect(C.DB_URI)
     // https://mongoosejs.com/docs/typescript.html#creating-your-first-document
     const password = await devGetHashedDefaultUsrPwd()
     const devUser: IUser = { ...DEV_DEFAULT_USER, password }
@@ -67,7 +67,7 @@ export default async function dev_create_update_dev_user (
         }
       })
     })
-    await disconnect()
+    // await disconnect()
   }
 
 }

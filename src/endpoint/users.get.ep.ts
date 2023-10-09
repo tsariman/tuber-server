@@ -14,8 +14,8 @@ export default async function users_get_collection_endpoint (
     reply.code(200).send(
       new JsonapiResponseBuilder(userDocs, 'users', 'collection')
       .setResourceFilter(exclude_user_fields)
-      .buildLinks(result)
-      .build()
+      .buildPaginationV2Links(result)
+      .mPaginationV2build()
     )
   } catch (e: any) {
     reply.code(500).send(new JsonapiErrorBuilder()

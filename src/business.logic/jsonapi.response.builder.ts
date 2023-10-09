@@ -4,9 +4,15 @@ import {
   IJsonapiResourceLinkage,
   IJsonapiResponse
 } from '../../../tuber-client/src/controllers/interfaces/IJsonapi'
-import { IDoc, TEndpoint } from 'src/business.logic/common.types'
+import {
+  IAggregateDoc,
+  IMPV2Doc,
+  TEndpoint
+} from 'src/business.logic/common.types'
 import JsonapiResponsePaginationBuilder, { 
-  IPaginatedResult
+  IMinimalPaginationOptions,
+  IPaginatedResult,
+  get_pagination_options
 } from './jsonapi.pagination.builder'
 import Config from 'src/config'
 
@@ -24,7 +30,7 @@ export default class JsonapiResponseBuilder<T> {
   }
   private resourceType: JSONAPI_RESOURCE_TYPE
   /** Filter to remove unwanted properties @deprecated */
-  private resourceFilter: (item: T & IDoc) => any
+  private resourceFilter: (item: T & IMPV2Doc) => any
   private dataMember: T
   private alreadyBuilt: boolean
 
@@ -52,12 +58,18 @@ export default class JsonapiResponseBuilder<T> {
   /** Get the function that filter resource. @deprecated */
   getResourceFilter = () => this.resourceFilter
 
-  setResourceFilter = (fn: (item: T & IDoc) => any) => {
+  setResourceFilter = (fn: (item: T & IMPV2Doc) => any) => {
     this.resourceFilter = fn
     return this
   }
 
-  buildLinks = (opts: IPaginatedResult<T>) => {
+  buildLinks = (mOpts: IMinimalPaginationOptions) => {
+    const opts = get_pagination_options(mOpts)
+    this.response.links = new JsonapiResponsePaginationBuilder(opts).build()
+    return this
+  }
+
+  buildPaginationV2Links = (opts: IPaginatedResult) => {
     this.response.links = new JsonapiResponsePaginationBuilder(opts).build()
     return this
   }
@@ -122,12 +134,49 @@ export default class JsonapiResponseBuilder<T> {
     return obj
   }
 
-  private getResource = (data: T & IDoc): IJsonapiResource => {
+  /** Get the resource for mongoose-pagination-v2 @deprecated */
+  private getMPV2Resource = (data: T & IMPV2Doc): IJsonapiResource => {
     // const attributes = this.resourceFilter(data)
     const { _doc: { _id, ...attributes } } = data
     return {
       ...this.skeletonResource,
       id: data._doc._id,
+      attributes: this.applyStringSpecification(attributes)
+    } as IJsonapiResource
+  }
+
+  /** Build the response for mongoose-paginate-v2 @deprecated */
+  mPaginationV2build() {
+    if (this.alreadyBuilt) {
+      throw new Error('Response already built')
+    }
+    this.response.data = this.RESOURCE_OF_TYPE[this.resourceType]
+    switch (this.resourceType) {
+      case 'collection':
+        this.response.data = (this.dataMember as (T & IMPV2Doc)[]).map(
+          item => this.getMPV2Resource(item)
+        )
+        break
+      case 'object':
+        this.response.data = this.getMPV2Resource(this.dataMember as T & IMPV2Doc)
+        break
+      case 'linkage':
+        throw new Error('Not implemented')
+      case 'null':
+        this.response.data = null
+        break
+    }
+
+    this.alreadyBuilt = true
+    return this.response
+  }
+
+  /** Get the resource */
+  private getResource = (data: T & IAggregateDoc): IJsonapiResource => {
+    const { _id, __v, ...attributes } = data
+    return {
+      ...this.skeletonResource,
+      id: data._id,
       attributes: this.applyStringSpecification(attributes)
     } as IJsonapiResource
   }
@@ -139,12 +188,14 @@ export default class JsonapiResponseBuilder<T> {
     this.response.data = this.RESOURCE_OF_TYPE[this.resourceType]
     switch (this.resourceType) {
       case 'collection':
-        this.response.data = (this.dataMember as (T & IDoc)[]).map(
+        this.response.data = (this.dataMember as (T & IAggregateDoc)[]).map(
           item => this.getResource(item)
         )
         break
       case 'object':
-        this.response.data = this.getResource(this.dataMember as T & IDoc)
+        this.response.data = this.getResource(
+          this.dataMember as T & IAggregateDoc
+        )
         break
       case 'linkage':
         throw new Error('Not implemented')

@@ -9,7 +9,7 @@ export async function dev_install_form_summary() {
     .countDocuments() || 'empty'
   const userCount = await mongoose.connection.db.collection('users')
     .countDocuments() || 'empty'
-  await mongoose.disconnect()
+  // await mongoose.disconnect()
 
   return hogan.compile(`
     <p>

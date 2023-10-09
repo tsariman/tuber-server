@@ -12,7 +12,7 @@ export default async function users_post_endpoint (
   try {
     const user = await create_user(request.body)
     reply.code(201).send(
-      new JsonapiResponseBuilder(user, 'users', 'object').build()
+      new JsonapiResponseBuilder(user, 'users', 'object').mPaginationV2build()
     )
   } catch (e: any) {
     const mongoDbError = get_mongodb_error(e.message)

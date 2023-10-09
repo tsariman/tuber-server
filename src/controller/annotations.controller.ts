@@ -3,8 +3,14 @@ import annotations_get_collection_endpoint from 'src/endpoint/annotations.get.ep
 import annotations_get_by_id_endpoint from 'src/endpoint/annotations.get.id.ep'
 import annotations_post_endpoint from 'src/endpoint/annotations.post.ep'
 import annotations_put_by_id_endpoint from 'src/endpoint/annotations.put.id.ep'
+import annotations_delete_by_id_endpoint from 'src/endpoint/annotations.delete.id.ep'
 import { DEFAULT_OPTIONS } from 'src/middleware/router.option'
-import { IAnnotationGet, IAnnotationPost, IAnnotationPut } from 'src/schema/annotations'
+import {
+  IAnnotationGet,
+  IAnnotationPost,
+  IAnnotationPut,
+  IAnnotationDelete
+} from 'src/schema/annotations'
 
 const opts = {
   ...DEFAULT_OPTIONS,
@@ -24,4 +30,5 @@ export default async function notes_controller(fastify: FastifyInstance) {
   fastify.put<IAnnotationPut>('/:id', opts, annotations_put_by_id_endpoint)
 
   // DELETE /notes/:id (delete)
+  fastify.delete<IAnnotationDelete>('/:id', opts, annotations_delete_by_id_endpoint)
 }

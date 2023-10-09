@@ -1,5 +1,5 @@
 import { RouteShorthandOptions } from 'fastify'
-import { connect, disconnect } from 'mongoose'
+// import { connect, disconnect } from 'mongoose'
 import Config from 'src/config'
 import { UserPaginationModel } from 'src/model/user'
 import { check_password } from 'src/business.logic/security'
@@ -35,7 +35,7 @@ const authenticate: RouteShorthandOptions['preValidation'] = async function (
   request, reply, done
 ) {
   process.stdout.write('Working on pre validation authentication... ')
-  await connect(Config.DB_URI)
+  // await connect(Config.DB_URI)
   const { username, password } = request.body as ILoginCredentials
 
 
@@ -61,11 +61,11 @@ const authenticate: RouteShorthandOptions['preValidation'] = async function (
       }
     } catch (e: any) {
       Config.err(e.message)
-      await disconnect()
+      // await disconnect()
       reply.send(alert(e.message))
     }
   }
-  await disconnect()
+  // await disconnect()
   reply.send(alert('Wrong username or password!'))
 }
 

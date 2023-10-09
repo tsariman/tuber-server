@@ -1,18 +1,16 @@
 import {
   model,
-  connect,
-  disconnect,
+  // connect,
+  // disconnect,
   PaginateModel,
   PaginateResult
 } from 'mongoose'
-import { get_query } from 'src/business.logic'
-import { IDoc } from 'src/business.logic/common.types'
+import { IMPV2Doc } from 'src/business.logic/common.types'
 import Config from 'src/config'
 import annotationSchema, {
   IAnnotation,
   IAnnotationDocument,
   TAnnotation,
-  TAnnotationGetFastifyRequest
 } from 'src/schema/annotations'
 
 /** mongoose-paginate-v2 query */
@@ -44,7 +42,7 @@ export const AnnotationPaginationModel = model<
 export const AnnotationModel = model<TAnnotation>('annotations', annotationSchema)
 
 /** Exclude fields from the annotation document. @deprecated */
-export const exclude_annotation_fields = (annotation: IDoc) => {
+export const exclude_annotation_fields = (annotation: IMPV2Doc) => {
   const {
     _doc: {
       _id,
@@ -62,9 +60,9 @@ export const exclude_annotation_fields = (annotation: IDoc) => {
 export const get_annotation_by_id = async function (
   id: string
 ): Promise<IAnnotationDocument | null> {
-  await connect(Config.DB_URI)
+  // await connect(Config.DB_URI)
   const annotationDoc = await AnnotationPaginationModel.findById(id)
-  await disconnect()
+  // await disconnect()
   return annotationDoc
 }
 
@@ -74,33 +72,30 @@ export const create_annotation = async function (
   if (!annotationInfo) {
     throw new Error('Annotation info is required')
   }
-  await connect(Config.DB_URI)
+  // await connect(Config.DB_URI)
   const annotationModel = await AnnotationPaginationModel.create(annotationInfo)
   const annotation = await annotationModel.save()
-  await disconnect()
+  // await disconnect()
   return annotation
 }
 
 export const get_annotation_collection = async function (
-  req: TAnnotationGetFastifyRequest
+  page: number,
+  limit: number
 ): Promise<PaginateResult<IAnnotationDocument>> {
-  const page = Number(get_query(req, 'page[number]', '1'))
-  const limit = Number(get_query(req, 'page[size]', Config.PAGINATION_ANNOTATIONS_LIMIT))
-  Config.print(`Getting annotations collection (page ${page}, limit ${limit})... `)
-  await connect(Config.DB_URI)
+  // await connect(Config.DB_URI)
   const result = await AnnotationPaginationModel.paginate(PAGINATION_QUERY, {
     ...PAGINATION_OPTONS,
     page,
     limit
   })
-  await disconnect()
-  Config.log('Done!')
+  // await disconnect()
   return result
 }
 
 export const get_annotation_document_count = async function (): Promise<number> {
-  await connect(Config.DB_URI)
+  // await connect(Config.DB_URI)
   const count = await AnnotationModel.countDocuments()
-  await disconnect()
+  // await disconnect()
   return count
 }

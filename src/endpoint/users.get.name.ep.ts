@@ -11,7 +11,7 @@ export default async function users_get_by_name_endpoint (
   const user = await get_user_by_name(request.params.name)
   if (user) {
     reply.code(200).send(
-      new JsonapiResponseBuilder(user, 'users', 'object').build()
+      new JsonapiResponseBuilder(user, 'users', 'object').mPaginationV2build()
     )
   }
   reply.code(404).send(new JsonapiErrorBuilder()

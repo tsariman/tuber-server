@@ -1,6 +1,7 @@
 import { FastifyRequest } from 'fastify'
 import Config from 'src/config'
 import { IGenericObject, IJsonapiQuerystring } from './common.types'
+import { request } from 'urllib'
 
 /** Returns `true` if the argument is an object. */
 export const is_object = (obj: any) => {
@@ -51,15 +52,19 @@ export const set_state_by_key = (
   state[_key] = fragment
 }
 
-/** Retrieve the value of `_key` from state */
-export const get_state_key = (state: IGenericObject) => {
-  const _key = state['_key']
+/** Retrieve the value of `_key` from state. */
+export const get_state_key = (state: IGenericObject): string => {
+  const _key: string = state['_key']
   if (!_key) Config.die('Fragment must have a `_key`.')
   return _key
 }
 
 /** Get query string value */
-export const get_query = (req: FastifyRequest, key: keyof IJsonapiQuerystring, $default = ''): string => {
+export const get_query = (
+  req: FastifyRequest,
+  key: keyof IJsonapiQuerystring,
+  $default = ''
+): string => {
   try {
     const query = req.query as IJsonapiQuerystring
     return query[key] ?? $default
@@ -80,4 +85,18 @@ export const ms_to_seconds = (ms: number) => {
 /** Return a limited number of document in an array if its length exceed the provided limit */
 export const limit_array = <T=any>(arr: T[], limit: number): T[] => {
   return arr.length > limit ? arr.slice(0, limit) : arr
+}
+
+/** Check if collection search index exist for Mongodb Atlas. */
+export async function find_index_by_name(indexName: string, collectionName: string) {
+  const allIndexesResponse = await request(
+    `${Config.DB_ATLAS_SEARCH_INDEX_API_URL}/${Config.DB_NAME}/${collectionName}`,
+    {
+      dataType: 'json',
+      contentType: 'application/json',
+      method: 'GET',
+      digestAuth: Config.DB_ATLAS_DIGEST_AUTH
+    }
+  )
+  return (allIndexesResponse.data as any[]).find(i => i.name === indexName)
 }

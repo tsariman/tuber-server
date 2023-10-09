@@ -33,7 +33,7 @@ const newVideoAnnotationFormJson: IStateForm = {
             }
           },
           'has': {
-            'onkeydownHandle': 'tuberCallbacks.appBarSearchForAnnotationsOnKeyDown',
+            'onkeydownHandle': 'tuberCallbacks.appBarAddAnnotationOnKeyDown',
           }
         },
       ] as IStateFormItem[]

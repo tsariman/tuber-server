@@ -1,8 +1,7 @@
 import { bracketize_object_querystring } from '.'
 import { IJsonapiPaginationLinks } from '../../../tuber-client/src/controllers/interfaces/IJsonapi'
 
-export interface IPaginatedResult<T> {
-  docs: T
+export interface IPaginatedResult {
   totalDocs: number
   limit: number
   page?: number
@@ -12,6 +11,15 @@ export interface IPaginatedResult<T> {
   prevPage?: number | null
   hasPrevPage: boolean
   pagingCounter: number
+}
+
+export type TpaginatedResultOptional = Partial<IPaginatedResult>
+
+export interface IMinimalPaginationOptions<T=any> {
+  docs?: T
+  page?: number
+  limit?: number
+  totalDocs?: number
 }
 
 /*
@@ -30,14 +38,40 @@ example:
 /**
  * @see https://jsonapi.org/format/#fetching-pagination
  */
-export default class JsonapiResponsePaginationBuilder<T=any> {
+export default class JsonapiResponsePaginationBuilder {
 
   private links: IJsonapiPaginationLinks
-  private options: IPaginatedResult<T>
+  private options: IPaginatedResult
 
-  constructor(opts: IPaginatedResult<T>) {
+  constructor(opts: IPaginatedResult) {
     this.options = opts
     this.links = { self: '' }
+  }
+
+  setOptions = ({
+    docs = [],
+    page = 1,
+    limit = 10,
+    totalDocs = 0
+  }: IMinimalPaginationOptions) => {
+    const totalPages = Math.ceil(totalDocs / limit) || 1
+    const nextPage = page < totalPages ? page + 1 : null
+    const hasNextPage = page < totalPages
+    const prevPage = page > 1 ? page - 1 : null
+    const hasPrevPage = page > 1
+    const pagingCounter = ((page - 1) * page) + 1
+    return {
+      docs,
+      totalDocs,
+      limit,
+      page,
+      totalPages,
+      nextPage,
+      hasNextPage,
+      prevPage,
+      hasPrevPage,
+      pagingCounter
+    }
   }
 
   build(): IJsonapiPaginationLinks {
@@ -111,3 +145,41 @@ export default class JsonapiResponsePaginationBuilder<T=any> {
   }
 
 }
+
+/** Get pagination options based on page, total docs, limit... etc. */
+export function get_pagination_options({
+  page = 1,
+  limit = 10,
+  totalDocs = 0
+}: IMinimalPaginationOptions): IPaginatedResult {
+  const totalPages = Math.ceil(totalDocs / limit) || 1
+  const nextPage = page < totalPages ? page + 1 : null
+  const hasNextPage = page < totalPages
+  const prevPage = page > 1 ? page - 1 : null
+  const hasPrevPage = page > 1
+  const pagingCounter = ((page - 1) * page) + 1
+  return {
+    totalDocs,
+    limit,
+    page,
+    totalPages,
+    nextPage,
+    hasNextPage,
+    prevPage,
+    hasPrevPage,
+    pagingCounter
+  }
+}
+
+/*
+docs: results,
+totalDocs,
+limit,
+page,
+totalPages: (Math.ceil(totalDocs / limit)) || 1,
+nextPage: page < ((Math.ceil(totalDocs / limit)) || 1) ? page + 1 : null,
+hasNextPage: page < ((Math.ceil(totalDocs / limit)) || 1),
+prevPage: page > 1 ? page - 1 : null,
+hasPrevPage: page > 1,
+pagingCounter: ((page - 1) * page) + 1,
+*/

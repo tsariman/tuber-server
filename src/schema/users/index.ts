@@ -17,6 +17,10 @@ export interface IUser {
   password: string
   jwt_version?: number
   avatar?: string
+  votes?: {
+    annotation_id: string
+    rating: 1 | -1
+  }[]
   last_accessed?: Date
   modified_at?: Date
   created_at?: Date
@@ -40,11 +44,11 @@ export type TUsersFastifyRequest = FastifyRequest<IUsersEndpoint>
  */
 export type TUser = WithRequired<IUser,              // { _id: string } & WithRequired<IUser,
   'is_active' | 'jwt_version' | 'created_at' | 'role'
->
+> & { _id: string }
 
-export type TCipheredUser = Pick<TUser, 'name' | 'jwt_version' | 'role'>
+export type TCipheredUser = Pick<TUser, '_id' | 'name' | 'jwt_version' | 'role'>
 
-export interface IUserDocument extends mongoose.Document, TUser {}
+export interface IUserDocument extends Omit<TUser, '_id'>, mongoose.Document {}
 
 const userSchema = new Schema<TUser>({
   is_active: {type: Boolean, default: true },
@@ -58,6 +62,7 @@ const userSchema = new Schema<TUser>({
   password: { type: String, default: null },
   jwt_version: { type: Number, default: 0 },
   avatar: String,
+  votes: [{ annotation_id: String, rating: Number }],
   last_accessed:  Date,
   modified_at: Date,
   created_at: { type: Date, default: Date.now },

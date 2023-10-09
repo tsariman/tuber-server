@@ -19,8 +19,6 @@ export interface IAnnotation {
   rating?: number
   upvotes?: number
   downvotes?: number
-  tags?: string[] // Contains hashtags. Not sure it's needed since the annotation
-                  // field can contain hashtags
   group_id?: string
   html_tag?: string // Within the context of a group, this is the HTML tag that
                     // the annotation is associated with
@@ -29,6 +27,7 @@ export interface IAnnotation {
   rules?: string[]
 }
 
+/** Available fields for a get request. */
 export interface IAnnotationGet {
   Body: IAnnotation
   Params: {
@@ -37,12 +36,14 @@ export interface IAnnotationGet {
   Querystring: IJsonapiQuerystring
 }
 
+/** Available fields for a post request. */
 export interface IAnnotationPost {
   Body: {
     data: IJsonapiResource<IAnnotation>
   }
 }
 
+/** Available fields for a put request. */
 export interface IAnnotationPut {
   Body: {
     data: IJsonapiResource<IAnnotation>
@@ -52,9 +53,16 @@ export interface IAnnotationPut {
   }
 }
 
+export interface IAnnotationDelete {
+  Params: {
+    id: string
+  }
+}
+
 export type TAnnotationGetFastifyRequest = FastifyRequest<IAnnotationGet>
 export type TAnnotationPostFastifyRequest = FastifyRequest<IAnnotationPost>
 export type TAnnotationPutFastifyRequest = FastifyRequest<IAnnotationPut>
+export type TAnnotationDeleteFastifyRequest = FastifyRequest<IAnnotationDelete>
 
 export type TAnnotation = WithRequired<IAnnotation,
   'is_active' | 'created_at' | 'modified_at' | 'is_private' | 'user_id'
@@ -79,10 +87,11 @@ const annotationSchema = new Schema<TAnnotation>({
   rating: Number,
   upvotes: { type: Number, default: 0 },
   downvotes: { type: Number, default: 0 },
-  tags: [ String ],
   restrictions: [ String ],
   rules: [ String ]
 })
+
+annotationSchema.index({ title: 1, note: 1 })
 
 annotationSchema.plugin(paginate)
 

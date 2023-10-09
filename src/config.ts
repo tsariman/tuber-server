@@ -1,7 +1,7 @@
 import NodeCache from 'node-cache'
-import { dbGetUrlCredentials, getIp } from './utility'
-import Config, { IConfiguration } from './utility/configuration'
 import * as dotenv from 'dotenv'
+import { dbGetUrlCredentials, get_ip } from './utility'
+import Config, { IConfiguration } from './utility/configuration'
 
 dotenv.config({ path: `${__dirname}/../.env` })
 
@@ -20,28 +20,47 @@ const USER_CONFIG = {
   /** Application port */
   FASTIFY_PORT: Number(process.env.FASTIFY_PORT) || 8080,
 
-  // [PROD] Change database name to production database name
-  /** Mongodb database name. */
-  DB_NAME: process.env.DB_NAME || 'db-name-not-set',
+  DB_PROTOCOL: process.env.DB_PROTOCOL || 'mongodb://',
 
-  /** Mongo */
-  DB_NAME_TEST: process.env.DB_NAME_TEST || `${process.env.DB_NAME}-test`,
+  /** Mongodb production database name. */
+  DB_PROD_NAME: process.env.DB_NAME || 'db-name-not-set',
 
-  /** Mongodb database port. */
-  DB_PORT: Number(process.env.DB_PORT) || 27017,
+  /** Mongodb development database name */
+  DB_DEV_NAME: process.env.DB_TEST_NAME || `${process.env.DB_PROD_NAME}-test`,
 
   // [PROD] Enter Mongodb's production username here
   /** Mongodb database username. */
-  DB_USERNAME: process.env.DB_USERNAME || '',
+  DB_USERNAME: process.env.DB_USERNAME ?? '',
 
   // [PROD] Enter Mongodb's production password here
   /** Mongodb database password. */
-  DB_PASSWORD: process.env.DB_PASSWORD || '',
+  DB_PASSWORD: process.env.DB_PASSWORD ?? '',
 
-  // [PROD] Enter Mongodb's production IP address here
-  /** In production, it will contain the IP address of the mongodb URL. */
-  DB_HOST: process.env.DB_IP_ADDRESS || '',
-  // DB_IP_ADDRESS: process.env.DB_IP_ADDRESS || '', // [TODO] Remove this
+  /** The domain name or the IP address of the mongodb URL. */
+  DB_HOST: process.env.DB_HOST ?? '127.0.0.1',
+
+  /** Mongodb database port. */
+  DB_PORT: process.env.DB_PORT, // 27017
+
+  DB_URI_QUERYSTRING: process.env.DB_URI_QUERYSTRING,
+
+  /** @see https://youtu.be/Z05rVI5mhzE?si=zAKs8NByVUvxdo03&t=464 */
+  DB_ATLAS_API_PUBLIC_KEY: process.env.DB_ATLAS_API_PUBLIC_KEY ?? '',
+  /** @see https://youtu.be/Z05rVI5mhzE?si=zAKs8NByVUvxdo03&t=464 */
+  DB_ATLAS_API_PRIVATE_KEY: process.env.DB_ATLAS_API_PRIVATE_KEY ?? '',
+
+  DB_ATLAS_PROJECT_ID: process.env.DB_ATLAS_PROJECT_ID ?? '',
+  DB_ATLAS_CLUSTER_NAME: process.env.DB_ATLAS_CLUSTER_NAME ?? '',
+
+  DB_ATLAS_API_BASE_URL: process.env.DB_ATLAS_API_BASE_URL ?? '',
+  /**
+   * The annotation search index is defined in the MongoDB Atlas cloud using
+   * api keys.
+   */
+  DB_ATLAS_ANNOTATION_SEARCH_INDEX_NAME:
+    process.env.DB_ATLAS_ANNOTATION_SEARCH_INDEX_NAME
+    ?? ''
+  ,
 
   /**
    * The cost factor. It controls how much time is needed to calculate a single
@@ -83,28 +102,48 @@ const USER_CONFIG = {
   },
 }
 
-const credentials = dbGetUrlCredentials(
-  USER_CONFIG.DB_USERNAME,
-  USER_CONFIG.DB_PASSWORD
-)
-
-const DB_URI = [
-  'mongodb://',
-  credentials,
-  getIp(USER_CONFIG.DEBUG, USER_CONFIG.DB_HOST),
-  ':',
-  USER_CONFIG.DB_PORT,
-  '/',
-  USER_CONFIG.DEV ? USER_CONFIG.DB_NAME_TEST : USER_CONFIG.DB_NAME
-].join('')
-
 const initObj = {
   ...USER_CONFIG,
-
+  
   /** Default mongodb database development URL. */
   DB_DEV_DEFAULT_URL: 'mongodb://127.0.0.1:27017/test',
+
+  /** Database name */
+  DB_NAME: USER_CONFIG.DEV ? USER_CONFIG.DB_DEV_NAME : USER_CONFIG.DB_PROD_NAME,
+
   /** Mongodb development and production URI, if all goes well. */
-  DB_URI,
+  DB_URI: [
+    USER_CONFIG.DB_PROTOCOL,
+    dbGetUrlCredentials(USER_CONFIG.DB_USERNAME, USER_CONFIG.DB_PASSWORD),
+    get_ip(USER_CONFIG.DEBUG, USER_CONFIG.DB_HOST),
+    USER_CONFIG.DB_PORT ? `:${USER_CONFIG.DB_PORT}` : '',
+    '/',
+    USER_CONFIG.DEV ? USER_CONFIG.DB_DEV_NAME : USER_CONFIG.DB_PROD_NAME,
+    USER_CONFIG.DB_URI_QUERYSTRING ? `?${USER_CONFIG.DB_URI_QUERYSTRING}` : ''
+  ].join(''),
+
+  DB_ATLAS_CLUSTER_API_URL: [
+    USER_CONFIG.DB_ATLAS_API_BASE_URL,
+    '/groups/',
+    USER_CONFIG.DB_ATLAS_PROJECT_ID,
+    '/clusters/',
+    USER_CONFIG.DB_ATLAS_CLUSTER_NAME
+  ].join(''),
+
+  DB_ATLAS_SEARCH_INDEX_API_URL: [
+    USER_CONFIG.DB_ATLAS_API_BASE_URL,
+    '/groups/',
+    USER_CONFIG.DB_ATLAS_PROJECT_ID,
+    '/clusters/',
+    USER_CONFIG.DB_ATLAS_CLUSTER_NAME,
+    '/fts/indexes'
+  ].join(''),
+
+  DB_ATLAS_DIGEST_AUTH: [
+    USER_CONFIG.DB_ATLAS_API_PUBLIC_KEY,
+    ':',
+    USER_CONFIG.DB_ATLAS_API_PRIVATE_KEY
+  ].join(''),
 
   /** This is the `console.log()` but will only print if app is in debug mode. */
   log: function(...args: any) {
@@ -139,6 +178,6 @@ const initObj = {
 Config.init(initObj)
 
 // Makes config object key available in suggestions
-export type IAppConfig = IConfiguration & typeof initObj
+export type TAppConfig = IConfiguration & typeof initObj
 
-export default Config as IAppConfig
+export default Config as TAppConfig

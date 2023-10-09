@@ -9,7 +9,7 @@ export function dbGetUrlCredentials(user?: string, pass?: string) {
 }
 
 /** Determines the local IP address. */
-export function getIp(inDevMode = false, address?: string) {
+export function get_ip(inDevMode = false, address?: string) {
   if (address) { return address }
   let ip = ''
   const interfaces = os.networkInterfaces()

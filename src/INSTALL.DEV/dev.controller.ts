@@ -11,7 +11,7 @@ import { DEFAULT_OPTIONS } from 'src/middleware/router.option'
 import { dev_populate_annotations, dev_populate_users } from './endpoint/dev.populate.collections'
 import Config from 'src/config'
 import { limit_array, ms_to_seconds } from 'src/business.logic'
-import mongoose, { connect, disconnect } from 'mongoose'
+import mongoose from 'mongoose'
 import {
   defaultDialogAlertJson as alert,
   dialogAlertJson as dialogAlert
@@ -20,6 +20,7 @@ import { UserPaginationModel } from 'src/model/user'
 import gen_random_users from './population/users'
 import { AnnotationPaginationModel } from 'src/model/annotation'
 import gen_random_annotations from './population/annotations'
+import annotations_api_setup_search_index_endpoint from 'src/endpoint/annotations.api.search.index.ep'
 
 interface IDevPopulateEndpoint {
   Params: {
@@ -88,14 +89,14 @@ export default async function dev_install_controller(fastify: FastifyInstance) {
   ) {
     const { collection } = req.params
     Config.print(`Dropping '${collection}' collection... `)
-    await connect(Config.DB_URI)
+    // await connect(Config.DB_URI)
     await mongoose.connection.db.dropCollection(collection)
     Config.log('done!')
     const devInstallForm = {
       'annotationCount': await AnnotationPaginationModel.countDocuments(),
       'userCount': await UserPaginationModel.countDocuments()
     }
-    await disconnect()
+    // await disconnect()
     reply.send({
       'state': {
         'dialog': dialogAlert(`Dropped '${collection}' collection!`),
@@ -113,7 +114,7 @@ export default async function dev_install_controller(fastify: FastifyInstance) {
     const { collection, quantity } = req.body
     Config.print(`Populating '${collection}' collection with ${quantity} documents... `)
     const number = parseInt(quantity, 10)
-    await connect(Config.DB_URI)
+    // await connect(Config.DB_URI)
     switch (collection) {
       case 'users':
         try {
@@ -122,7 +123,7 @@ export default async function dev_install_controller(fastify: FastifyInstance) {
             parseInt(Config.PAGINATION_USERS_LIMIT)
           )
           const userCount = await UserPaginationModel.countDocuments()
-          await disconnect()
+          // await disconnect()
           Config.log('done!')
           reply.send({
             'state': {
@@ -147,11 +148,11 @@ export default async function dev_install_controller(fastify: FastifyInstance) {
             parseInt(Config.PAGINATION_ANNOTATIONS_LIMIT)
           )
           const annotationCount = await AnnotationPaginationModel.countDocuments()
-          await disconnect()
+          // await disconnect()
           Config.log('done!')
           reply.send({
             'state': {
-              'dialog': dialogAlert(`Populated '${collection}' collection with ${quantity} documents!`),
+              'dialog': dialogAlert(`Populated <span style="color:#3399ff">${collection}</span> collection with ${quantity} documents!`),
               'pagesData': {
                 'devInstallForm': {
                   'annotationCount': annotationCount
@@ -171,4 +172,8 @@ export default async function dev_install_controller(fastify: FastifyInstance) {
         return
     }
   })
+  fastify.post('/setup-collection-index-search/annotations',
+    {},
+    annotations_api_setup_search_index_endpoint
+  )
 }

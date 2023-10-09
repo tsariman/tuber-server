@@ -1,5 +1,5 @@
 import { FastifyRequest, FastifyReply, FastifyInstance } from 'fastify'
-import { connect, disconnect } from 'mongoose'
+// import { connect, disconnect } from 'mongoose'
 import { check_password } from 'src/business.logic/security'
 import Config from 'src/config'
 import { UserPaginationModel } from 'src/model/user'
@@ -16,7 +16,7 @@ export default async function authentification_controller (fastify: FastifyInsta
     reply: FastifyReply,
   ) {
     process.stdout.write('Authenticating user... ')
-    await connect(Config.DB_URI)
+    // await connect(Config.DB_URI)
     const { username, password } = request.body as ILoginCredentials
     if (username) {
       Config.log(`username: '${username}', password: '${password}'`)
@@ -27,8 +27,8 @@ export default async function authentification_controller (fastify: FastifyInsta
             const passwordCorrect = await check_password(password, user.password)
             if (passwordCorrect) {
               // [TODO] Write session related logic here
-              const { name, role, jwt_version } = user
-              const usr: TCipheredUser = { name, role, jwt_version }
+              const { _id, name, role, jwt_version } = user
+              const usr: TCipheredUser = { _id, name, role, jwt_version }
               const accessToken = jwt.sign(usr, Config.ACCESS_TOKEN_SECRET)
               Config.USER_CACHE.set(name, usr)
               reply.send({
@@ -46,11 +46,11 @@ export default async function authentification_controller (fastify: FastifyInsta
         }
       } catch (e: any) {
         console.error(e.message)
-        await disconnect()
+        // await disconnect()
         reply.send(alert(e.message))
       }
     }
-    await disconnect()
+    // await disconnect()
     reply.send(alert('Wrong username or password!'))
     reply.send({
       state: {

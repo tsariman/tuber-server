@@ -2,6 +2,7 @@ import { FastifyInstance } from 'fastify'
 import index_controller from './controller/index.controller'
 import bootstrap_controller from './controller/bootstrap.controller'
 import dev_install_controller from './INSTALL.DEV/dev.controller'
+import prod_install_controller from './INSTALL/prod.controller'
 import Config from './config'
 import users_controller from './controller/users.controller'
 import authentification_controller from './controller/authentification.controller'
@@ -15,5 +16,7 @@ export default async function router(fastify: FastifyInstance) {
   fastify.register(annotations_controller, { prefix: '/annotations' })
   if (Config.DEV) {
     fastify.register(dev_install_controller, { prefix: '/install-dev' })
+  } else { /*[TODO] Add permission here. Administrator and above */
+    fastify.register(prod_install_controller, { prefix: '/install' })
   }
 }

@@ -132,6 +132,37 @@ export const registerDialogJson: IStateDialog = {
   'open': true // Careful! Must be set to true
 }
 
+export const deleteAnnotationDialogJson: IStateDialog = {
+  '_type': 'alert',
+  '_key': 'annotationDeleteDialog',
+  '_id': 'pro-delete-existing-annotation',
+  'title': 'Delete Annotation',
+  'props': { 'fullWidth': true },
+  'titleProps': {
+    'sx': { 'textAlign': 'center' }
+  },
+  'content': 'Are you sure you want to delete this annotation?',
+  'actions': [
+    {
+      'type': 'json_button',
+      'props': { 'color': 'secondary' },
+      'has': {
+        'text': 'Cancel',
+        'onclickHandle': 'tuberCallbacks.defaultClose'
+      }
+    },
+    {
+      'type': 'json_button',
+      'props': { 'color': 'primary' },
+      'has': {
+        'text': 'Delete',
+        'onclickHandle': 'tuberCallbacks.annotationDeleteCallback'
+      }
+    }
+  ],
+  'open': true // Careful! Must be set to true
+}
+
 /** Default alert dialog */
 export function defaultDialogAlertJson<T=any>(content: T) {
   return {

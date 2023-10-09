@@ -47,6 +47,7 @@ const pre_handler_authenticate: RouteShorthandOptions['preHandler'] = async func
         reply.code(401).send($401_UNAUTHORIZED_ACCESS)
       } else {
         const newUsr: TCipheredUser = {
+          _id: dbUser._id,
           name: dbUser.name,
           role: dbUser.role,
           jwt_version: dbUser.jwt_version
