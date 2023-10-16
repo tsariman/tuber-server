@@ -1,8 +1,8 @@
-import { authenticatedLinkJson, powerLinkJson } from 'src/state/nav.link'
+import { authenticatedLinkState, powerLinkState } from '../state/nav.link'
 import IStateAppBar from '../../../tuber-client/src/controllers/interfaces/IStateAppBar'
 import IStatePage from '../../../tuber-client/src/controllers/interfaces/IStatePage'
 
-export const appBarLinksJson: IStateAppBar['items'] = [
+export const appBarLinksState: IStateAppBar['items'] = [
   {
     'has': {
       'text': 'Research',
@@ -21,10 +21,10 @@ export const appBarLinksJson: IStateAppBar['items'] = [
       'route': 'help-dev-install'
     },
   },
-  powerLinkJson
+  powerLinkState
 ]
 
-export const authAppBarLinksJson: IStateAppBar['items'] = [
+export const authAppBarLinksState: IStateAppBar['items'] = [
   {
     'has': {
       'text': 'Research',
@@ -43,10 +43,10 @@ export const authAppBarLinksJson: IStateAppBar['items'] = [
       'route': 'help-dev-install'
     },
   },
-  authenticatedLinkJson
+  authenticatedLinkState
 ]
 
-const devInstallPageJson: IStatePage = {
+const devInstallPageState: IStatePage = {
   '_key': 'dev-install',
   'content': '$form:devInstall:dev-install',
   'layout': 'layout_default',
@@ -73,6 +73,5 @@ const devInstallPageJson: IStatePage = {
     ],
   },
 }
-// devInstallPage.appBar?.items?.push(getAuthenticationLinkJson())
 
-export default devInstallPageJson
+export default devInstallPageState

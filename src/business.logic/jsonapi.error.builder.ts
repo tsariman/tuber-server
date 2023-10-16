@@ -1,4 +1,4 @@
-import { TOptional } from 'src/business.logic/common.types'
+import { TOptional } from '../business.logic/common.types'
 import {
   IJsonapiError,
   IJsonapiErrorLinks,
@@ -29,6 +29,12 @@ export default class JsonapiErrorBuilder {
   meta(key: string, val: any) {
     this.response.meta = this.response.meta || {}
     this.response.meta[key] = val
+    return this
+  }
+  errorMeta(key: string, val: any) {
+    const meta = this.response.errors[this.index].meta || {}
+    meta[key] = val
+    this.response.errors[this.index].meta = meta
     return this
   }
   setLink(key: string, val: string) {

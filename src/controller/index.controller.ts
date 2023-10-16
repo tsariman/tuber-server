@@ -1,7 +1,7 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
 import { promises } from 'fs'
 import { resolve } from 'path'
-import { DEFAULT_OPTIONS } from 'src/middleware/router.option'
+import { DEFAULT_OPTIONS } from '../middleware/router.option'
 
 const opts = {
   ...DEFAULT_OPTIONS,

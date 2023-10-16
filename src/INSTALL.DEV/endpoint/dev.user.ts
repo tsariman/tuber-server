@@ -2,9 +2,9 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import { existsSync } from 'fs'
 // import { connect, disconnect } from 'mongoose'
 import * as fs from 'fs/promises'
-import { IUser } from 'src/schema/users'
-import { defaultDialogAlertJson as alert } from 'src/state/dialogs'
-import C from 'src/config'
+import { IUser } from '../../schema/users'
+import { defaultDialogAlertState as alert } from '../../state/dialogs'
+import C from '../../config'
 import {
   DEV_DEFAULT_USER,
   DEV_DEFAULT_USER_PWD,

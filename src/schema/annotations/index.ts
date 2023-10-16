@@ -1,7 +1,7 @@
 import { FastifyRequest } from 'fastify'
 import mongoose, { Schema } from 'mongoose'
 import paginate from 'mongoose-paginate-v2'
-import { IJsonapiQuerystring, WithRequired } from 'src/business.logic/common.types'
+import { IJsonapiQuerystring, WithRequired } from '../../business.logic/common.types'
 import { IJsonapiResource } from '../../../../tuber-client/src/controllers/interfaces/IJsonapi'
 
 export interface IAnnotation {
@@ -11,6 +11,10 @@ export interface IAnnotation {
   is_private?: boolean
   user_id?: string
   videoid: string
+  /** When the videoid is not enough e.g. Rumble */
+  url?: string
+  embed_url?: string
+  slug?: string
   platform: string
   start_seconds: number
   end_seconds?: number
@@ -79,16 +83,19 @@ const annotationSchema = new Schema<TAnnotation>({
   user_id: String,
   group_id: String,
   videoid: String,
+  url: String,
+  embed_url: String,
+  slug: String,
   platform: String,
   start_seconds: Number,
   end_seconds: Number,
   title: String,
   note: String,
   rating: Number,
-  upvotes: { type: Number, default: 0 },
-  downvotes: { type: Number, default: 0 },
-  restrictions: [ String ],
-  rules: [ String ]
+  upvotes: Number,
+  downvotes: Number,
+  restrictions: { type: [ String ], default: undefined },
+  rules: { type: [ String ], default: undefined }
 })
 
 annotationSchema.index({ title: 1, note: 1 })

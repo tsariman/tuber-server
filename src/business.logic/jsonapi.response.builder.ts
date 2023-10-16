@@ -8,13 +8,13 @@ import {
   IAggregateDoc,
   IMPV2Doc,
   TEndpoint
-} from 'src/business.logic/common.types'
+} from '../business.logic/common.types'
 import JsonapiResponsePaginationBuilder, { 
   IMinimalPaginationOptions,
   IPaginatedResult,
   get_pagination_options
 } from './jsonapi.pagination.builder'
-import Config from 'src/config'
+import Config from '../config'
 
 type JSONAPI_RESOURCE_TYPE = 'collection' | 'object' | 'null' | 'linkage'
 

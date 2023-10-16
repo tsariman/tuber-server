@@ -1,6 +1,6 @@
 import mongoose, { Schema } from 'mongoose'
 import { IJsonapiQuerystring, WithRequired } from '../../business.logic/common.types'
-import { TRole } from 'src/business.logic/security/permissions'
+import { TRole } from '../../business.logic/security/permissions'
 import { FastifyRequest } from 'fastify'
 import paginate from 'mongoose-paginate-v2'
 
@@ -62,7 +62,11 @@ const userSchema = new Schema<TUser>({
   password: { type: String, default: null },
   jwt_version: { type: Number, default: 0 },
   avatar: String,
-  votes: [{ annotation_id: String, rating: Number }],
+  votes: [{
+    annotation_id: String,
+    rating: Number,
+    created_at: { type: Date, default: Date.now }
+  }],
   last_accessed:  Date,
   modified_at: Date,
   created_at: { type: Date, default: Date.now },

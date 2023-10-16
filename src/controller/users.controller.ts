@@ -1,9 +1,9 @@
 import { FastifyInstance } from 'fastify'
-import users_get_collection_endpoint from 'src/endpoint/users.get.ep'
-import users_get_by_name_endpoint from 'src/endpoint/users.get.name.ep'
-import users_post_endpoint from 'src/endpoint/users.post.ep'
-import { DEFAULT_OPTIONS } from 'src/middleware/router.option'
-import { IUsersEndpoint } from 'src/schema/users'
+import users_get_collection_endpoint from '../endpoint/users.get.ep'
+import users_get_by_name_endpoint from '../endpoint/users.get.name.ep'
+import users_post_endpoint from '../endpoint/users.post.ep'
+import { DEFAULT_OPTIONS } from '../middleware/router.option'
+import { IUsersEndpoint } from '../schema/users'
 
 const opts = {
   ...DEFAULT_OPTIONS,

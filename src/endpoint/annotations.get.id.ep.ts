@@ -1,9 +1,9 @@
 import { FastifyReply } from 'fastify'
-import JsonapiErrorBuilder from 'src/business.logic/jsonapi.error.builder'
-import JsonapiResponseBuilder from 'src/business.logic/jsonapi.response.builder'
-import Config from 'src/config'
-import { get_annotation_by_id } from 'src/model/annotation'
-import { TAnnotationGetFastifyRequest } from 'src/schema/annotations'
+import JsonapiErrorBuilder from '../business.logic/jsonapi.error.builder'
+import JsonapiResponseBuilder from '../business.logic/jsonapi.response.builder'
+import Config from '../config'
+import { get_annotation_by_id } from '../model/annotation'
+import { TAnnotationGetFastifyRequest } from '../schema/annotations'
 
 export default async function annotations_get_by_id_endpoint (
   request: TAnnotationGetFastifyRequest,

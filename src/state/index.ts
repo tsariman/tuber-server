@@ -5,12 +5,12 @@ import IStateBackground from "../../../tuber-client/src/controllers/interfaces/I
 export const NET_STATE_PATCH_DELETE = '<#DEL>'
 
 // Gray background for page
-export const backgroundJson: IStateBackground = {
+export const backgroundState: IStateBackground = {
   'color': '#f0f0f0', // '#F0F8FF'
 }
 
 // Grey app bar with text-transform disabled
-export const appBarJson: IStateAppBar = {
+export const appBarState: IStateAppBar = {
   'props': {
     'elevation': 0,
     // 'color': 'transparent',

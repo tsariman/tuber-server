@@ -1,9 +1,9 @@
 import { FastifyReply } from 'fastify'
-import { MONGODB_DUPLICATE_KEY_ERROR, get_mongodb_error } from 'src/business.logic/errors'
-import JsonapiErrorBuilder from 'src/business.logic/jsonapi.error.builder'
-import JsonapiResponseBuilder from 'src/business.logic/jsonapi.response.builder'
-import { create_user } from 'src/model/user'
-import { TUsersFastifyRequest } from 'src/schema/users'
+import { MONGODB_DUPLICATE_KEY_ERROR, get_mongodb_error } from '../business.logic/errors'
+import JsonapiErrorBuilder from '../business.logic/jsonapi.error.builder'
+import JsonapiResponseBuilder from '../business.logic/jsonapi.response.builder'
+import { create_user } from '../model/user'
+import { TUsersFastifyRequest } from '../schema/users'
 
 export default async function users_post_endpoint (
   request: TUsersFastifyRequest,

@@ -12,7 +12,9 @@ app.listen({ port: Config.FASTIFY_PORT }, (err, address) => {
     process.exit(1)
   }
 
-  process.stdout.write(`🚀 tuber server running at ${address}\n`)
+  process.stdout.write(`🚀 tuber server running at ${address}\n\n`)
+  process.stdout.write(`process.env.NODE_ENV = ${Config.NODE_ENV}\n`)
+  process.stdout.write(`Config.DEV = ${Config.DEV}\n`)
 
   // TODO That comparison might not be the best way to test if we're connecting
   //      to MongoDB Atlas

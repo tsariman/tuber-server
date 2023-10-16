@@ -1,4 +1,4 @@
-import { IAnnotation } from 'src/schema/annotations'
+import { IAnnotation } from '../../../schema/annotations'
 
 export const rnd_platform = () => {
   const platforms = [

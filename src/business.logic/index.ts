@@ -1,7 +1,7 @@
 import { FastifyRequest } from 'fastify'
-import Config from 'src/config'
-import { IGenericObject, IJsonapiQuerystring } from './common.types'
 import { request } from 'urllib'
+import Config from '../config'
+import { IGenericObject, IJsonapiQuerystring } from './common.types'
 
 /** Returns `true` if the argument is an object. */
 export const is_object = (obj: any) => {

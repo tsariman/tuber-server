@@ -40,4 +40,16 @@ export interface IJsonapiQuerystring {
   // TODO Add more expected query strings
 }
 
-export interface IBootstrapResponse { state: INetState }
+export interface IBootstrapResponse {
+  state: INetState
+  meta: IGenericObject
+}
+
+export type TPlatform = '_blank'
+  | 'youtube'
+  | 'vimeo'
+  | 'dailymotion'
+  | 'rumble'
+  | 'bitchute'
+  | 'odysee'
+  | 'unknown'

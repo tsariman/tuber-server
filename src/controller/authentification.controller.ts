@@ -1,13 +1,13 @@
 import { FastifyRequest, FastifyReply, FastifyInstance } from 'fastify'
 // import { connect, disconnect } from 'mongoose'
-import { check_password } from 'src/business.logic/security'
-import Config from 'src/config'
-import { UserPaginationModel } from 'src/model/user'
-import { defaultDialogAlertJson as alert } from 'src/state/dialogs'
+import { check_password } from '../business.logic/security'
+import Config from '../config'
+import { UserPaginationModel } from '../model/user'
+import { defaultDialogAlertState as alert } from '../state/dialogs'
 import jwt from 'jsonwebtoken'
-import { TCipheredUser } from 'src/schema/users'
+import { TCipheredUser } from '../schema/users'
 import { INetState } from '../../../tuber-client/src/controllers/interfaces/IState'
-import { ILoginCredentials } from 'src/business.logic/security/permissions'
+import { ILoginCredentials } from '../business.logic/security/permissions'
 
 export default async function authentification_controller (fastify: FastifyInstance) {
 

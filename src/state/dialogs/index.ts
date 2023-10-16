@@ -1,27 +1,34 @@
-import { backgroundJson } from '..'
+import Config from '../../config'
+import { backgroundState } from '..'
 import IStateDialog from '../../../../tuber-client/src/controllers/interfaces/IStateDialog'
-// import { dialogDefaultCloseButtonJson } from '../button'
+import { NEW_VIDEO_URL_FORM_UNSUFFIXED_NAME } from '../forms/new.video.url.form.state'
+import {
+  NEW_YOUTUBE_ANNNOTATION_UNSUFFIXED_NAME
+} from '../forms/new.youtube.annotation.form.state'
+import {
+  EDIT_YOUTUBE_ANNOTATION_UNSUFFIXED_NAME
+} from '../forms/edit.youtube.annotation.form.state'
 
-/**
- * __Note:__ The name of the dialog will be the key of the dialog in
- *       `IStateAllDialogs`
- */
-export const annotationAddDialogJson: IStateDialog = {
+const _6 = '6'
+const _6_KEY = 'newYouTubeAnnotationDialog'
+Config.register('state', _6, _6_KEY)
+/** Dialog to create a new YouTube video annotation @id 6 */
+export const newYoutubeAnnotationDialogState: IStateDialog = {
   '_type': 'form',
-  '_id': 'pro-insert-new-annotation',
-  '_key': 'annotationAddDialog',
-  'title': 'Insert New Annotation',
+  '_id': _6,
+  '_key': _6_KEY,
+  'title': 'Insert New YouTube Annotation',
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
     'PaperProps': {
-      'sx': { 'backgroundColor': backgroundJson.color }
+      'sx': { 'backgroundColor': backgroundState.color }
     }
   },
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': '$form : newAnnotation : annotations',
+  'content': `$form : ${NEW_YOUTUBE_ANNNOTATION_UNSUFFIXED_NAME} : annotations`,
   'actions': [
     {
       'type': 'json_button',
@@ -36,49 +43,57 @@ export const annotationAddDialogJson: IStateDialog = {
       'props': { 'color': 'primary' },
       'has': {
         'text': 'Save',
-        'onclickHandle': 'tuberCallbacks.annotationAddFormSubmitCallback'
+        'onclickHandle': 'tuberCallbacks._6_C_1'
       }
     }
   ],
   'open': true // Careful! Must be set to true
 }
 
-export const annotationAddFromUrlDialogJson: IStateDialog = {
+const _2 = '2'
+const _2_KEY = 'newVideoUrlDialog'
+Config.register('state', _2, _2_KEY)
+/** Dialog that contains the form to insert the new video url. @id 2 */
+export const newVideoUrlDialogState: IStateDialog = {
   '_type': 'form',
-  '_id': 'pro-insert-annotation-from-url',
-  '_key': 'annotationAddFromUrlDialog',
-  'title': 'Insert New Video Annotation',
+  '_id': _2,
+  '_key': _2_KEY,
+  'title': 'Insert the URL of Video to be Annotated',
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
     'PaperProps': {
-      'sx': { 'backgroundColor': backgroundJson.color }
+      'sx': { 'backgroundColor': backgroundState.color }
     }
   },
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': '$form : newAnnotationFromUrl : annotations',
+  'content': `$form : ${NEW_VIDEO_URL_FORM_UNSUFFIXED_NAME} : annotations`,
   'actions': [],
   'open': true // Careful! Must be set to true
 }
 
-export const annotationEditDialogJson: IStateDialog = {
+const _7 = '7'
+const _7_KEY = 'editYouTubeAnnotationDialog'
+Config.register('state', _7, _7_KEY)
+/** Dialog to edit an existing YouTube video annotation @id 7 */
+export const editYoutubeAnnotationDialogState: IStateDialog = {
   '_type': 'form',
-  '_id': 'pro-change-existing-annotation',
-  '_key': 'annotationEditDialog',
+  '_id': _7,
+  '_key': _7_KEY,
   'title': 'Edit Annotation',
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
     'PaperProps': {
-      'sx': { 'backgroundColor': backgroundJson.color }
+      'sx': { 'backgroundColor': backgroundState.color }
     }
   },
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': '$form : newAnnotation : annotations',
+  'content': `'$form : ${EDIT_YOUTUBE_ANNOTATION_UNSUFFIXED_NAME} : annotations'`,
   'actions': [
     {
       'type': 'json_button',
@@ -93,14 +108,14 @@ export const annotationEditDialogJson: IStateDialog = {
       'props': { 'color': 'primary' },
       'has': {
         'text': 'Save',
-        'onclickHandle': 'tuberCallbacks.annotationEditFormSubmitCallback'
+        'onclickHandle': 'tuberCallbacks._7_C_1'
       }
     }
   ],
   'open': true // Careful! Must be set to true
 }
 
-export const loginDialogJson: IStateDialog = {
+export const loginDialogState: IStateDialog = {
   '_type': 'form',
   '_key': 'loginDialog',
   'title': 'Enter Your Credentials',
@@ -116,7 +131,7 @@ export const loginDialogJson: IStateDialog = {
   'open': true // Careful! Must be set to true
 }
 
-export const registerDialogJson: IStateDialog = {
+export const registerDialogState: IStateDialog = {
   '_type': 'form',
   '_key': 'registerDialog',
   'title': 'Register New User',
@@ -132,7 +147,7 @@ export const registerDialogJson: IStateDialog = {
   'open': true // Careful! Must be set to true
 }
 
-export const deleteAnnotationDialogJson: IStateDialog = {
+export const deleteAnnotationDialogState: IStateDialog = {
   '_type': 'alert',
   '_key': 'annotationDeleteDialog',
   '_id': 'pro-delete-existing-annotation',
@@ -164,7 +179,7 @@ export const deleteAnnotationDialogJson: IStateDialog = {
 }
 
 /** Default alert dialog */
-export function defaultDialogAlertJson<T=any>(content: T) {
+export function defaultDialogAlertState<T=any>(content: T) {
   return {
     'state': {
       'dialog': {
@@ -192,7 +207,7 @@ export function defaultDialogAlertJson<T=any>(content: T) {
   }
 }
 
-export function dialogAlertJson<T=any>(content: T): IStateDialog {
+export function dialogAlertState<T=any>(content: T): IStateDialog {
   return {
     '_type': 'alert',
     '_id': 'dev-drop-testing-database',

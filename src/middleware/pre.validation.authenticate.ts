@@ -1,10 +1,10 @@
 import { RouteShorthandOptions } from 'fastify'
 // import { connect, disconnect } from 'mongoose'
-import Config from 'src/config'
-import { UserPaginationModel } from 'src/model/user'
-import { check_password } from 'src/business.logic/security'
-import { defaultDialogAlertJson as alert } from 'src/state/dialogs'
-import { ILoginCredentials } from 'src/business.logic/security/permissions'
+import Config from '../config'
+import { UserPaginationModel } from '../model/user'
+import { check_password } from '../business.logic/security'
+import { defaultDialogAlertState as alert } from '../state/dialogs'
+import { ILoginCredentials } from '../business.logic/security/permissions'
 
 
 

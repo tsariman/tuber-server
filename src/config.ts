@@ -3,19 +3,25 @@ import * as dotenv from 'dotenv'
 import { dbGetUrlCredentials, get_ip } from './utility'
 import Config, { IConfiguration } from './utility/configuration'
 
+interface IGenericObject { [key: string]: any }
+
 dotenv.config({ path: `${__dirname}/../.env` })
 
 const USER_CACHE = new NodeCache({ stdTTL: Number(process.env.STDTTL) || 900 })
+const STATE_REGISTRY: IGenericObject = {}
 
 /** TODO Configure the app here. */
 const USER_CONFIG = {
-  // [PROD] Set to false
-  /** Whether the app is in debugging mode or not. */
-  DEBUG: process.env.DEBUG === 'true', // boolean
+  NODE_ENV: process.env.NODE_ENV,
 
   // [PROD] Set to false
   /** Set to `true` when app is actively under development. */
   DEV: process.env.NODE_ENV === 'development',
+
+  // [PROD] Set to false
+  /** Whether the app is in debugging mode or not. */
+  DEBUG: process.env.NODE_ENV === 'development'
+    || process.env.DEBUG === 'true', // boolean
 
   /** Application port */
   FASTIFY_PORT: Number(process.env.FASTIFY_PORT) || 8080,
@@ -172,7 +178,27 @@ const initObj = {
     if (USER_CONFIG.DEBUG) {
       throw new Error(message)
     }
+  },
+
+  register: function <T=any>(
+    type:'state',
+    id: string,
+    key: T
+  ): void {
+    switch (type) {
+    case 'state':
+      STATE_REGISTRY[id] = key
+      return
+    }
+  },
+
+  getRegistry: function (type:'state') {
+    switch (type) {
+    case 'state':
+      return STATE_REGISTRY
+    }
   }
+
 }
 
 Config.init(initObj)

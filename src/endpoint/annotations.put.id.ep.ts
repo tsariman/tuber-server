@@ -1,9 +1,9 @@
 import { FastifyReply } from 'fastify'
 // import { connect, disconnect } from 'mongoose'
-import JsonapiErrorBuilder from 'src/business.logic/jsonapi.error.builder'
-import Config from 'src/config'
-import { AnnotationModel } from 'src/model/annotation'
-import { TAnnotationPutFastifyRequest } from 'src/schema/annotations'
+import JsonapiErrorBuilder from '../business.logic/jsonapi.error.builder'
+import Config from '../config'
+import { AnnotationModel } from '../model/annotation'
+import { TAnnotationPutFastifyRequest } from '../schema/annotations'
 
 export default async function annotations_put_by_id_endpoint (
   request: TAnnotationPutFastifyRequest,
@@ -27,7 +27,7 @@ export default async function annotations_put_by_id_endpoint (
     // await connect(Config.DB_URI)
     const annotation = await AnnotationModel.findByIdAndUpdate(
       request.params.id,
-      request.body.data.attributes,
+      { ...attributes, modified_at: new Date() },
       { new: true }
     )
     // await disconnect()

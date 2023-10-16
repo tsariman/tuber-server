@@ -1,5 +1,8 @@
 import { request } from 'urllib'
-import Config from 'src/config'
+import Config from '../config'
+import { FastifyReply, FastifyRequest } from 'fastify'
+import { defaultDialogAlertState as alert } from '../state/dialogs'
+import JsonapiErrorBuilder from '../business.logic/jsonapi.error.builder'
 
 const COLLECTION_NAME = 'annotations'
 
@@ -7,7 +10,10 @@ const COLLECTION_NAME = 'annotations'
  * Setup atlas search index for the annotations collection.  
  * [TODO] Don't forget to set permission for this endpoint. `Dev` and above.
  */
-export default async function annotations_api_setup_search_index_endpoint () {
+export default async function annotations_api_setup_search_index_endpoint (
+  _req: FastifyRequest,
+  reply: FastifyReply
+) {
   const annotationSearchIndex = await find_index_by_name('annotation_search')
   if (!annotationSearchIndex) {
     Config.print('Creating atlas annotation search index... ')
@@ -28,6 +34,17 @@ export default async function annotations_api_setup_search_index_endpoint () {
     })
     Config.log('done.')
     Config.log('http response:', httpResponse)
+  } else {
+    const message = 'annotation_search index already exist.'
+    Config.log(message)
+    reply.code(409).send({
+      ...alert('annotation_search index already exist!'),
+      ...new JsonapiErrorBuilder()
+        .code('conflict')
+        .status(409)
+        .title(message)
+        .build()
+    })
   }
 }
 

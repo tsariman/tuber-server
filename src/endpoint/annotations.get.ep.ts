@@ -1,14 +1,14 @@
 import { FastifyReply } from 'fastify'
 import { PipelineStage } from 'mongoose'
-import { get_query } from 'src/business.logic'
-import JsonapiErrorBuilder from 'src/business.logic/jsonapi.error.builder'
-import JsonapiResponseBuilder from 'src/business.logic/jsonapi.response.builder'
-import Config from 'src/config'
+import { get_query } from '../business.logic'
+import JsonapiErrorBuilder from '../business.logic/jsonapi.error.builder'
+import JsonapiResponseBuilder from '../business.logic/jsonapi.response.builder'
+import Config from '../config'
 import {
   AnnotationModel,
   get_annotation_collection
-} from 'src/model/annotation'
-import { TAnnotationGetFastifyRequest } from 'src/schema/annotations'
+} from '../model/annotation'
+import { TAnnotationGetFastifyRequest } from '../schema/annotations'
 
 export default async function annotations_get_collection_endpoint (
   req: TAnnotationGetFastifyRequest,
@@ -73,6 +73,22 @@ export default async function annotations_get_collection_endpoint (
         }
       })
       const aggregationResult = await AnnotationModel.aggregate(pipeline)
+      if (!aggregationResult[0]) {
+        // [TODO] Remove this error reporting. An undefined aggregate result
+        //        most likely means there are no document matching the query.
+        Config.log('aggregationResult[0] is undefined')
+        reply.code(404).send(new JsonapiErrorBuilder()
+          .code('not_found')
+          .status(404)
+          .title('The aggregate result array first object is undefined.')
+          .detail('Either the query is faulty or the aggregate pipeline failed '
+            +'Or there are no annotations that match the query')
+          .source({ 'parameter': 'query' })
+          .errorMeta('query', searchQuery)
+          .build()
+        )
+        return
+      }
       const { totalItems, results } = aggregationResult[0]
       if (aggregationResult.length > 0) {
         reply.code(200).send(new JsonapiResponseBuilder(

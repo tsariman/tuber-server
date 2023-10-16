@@ -5,13 +5,13 @@ import {
   PaginateModel,
   PaginateResult
 } from 'mongoose'
-import { IMPV2Doc } from 'src/business.logic/common.types'
-import Config from 'src/config'
+import { IMPV2Doc } from '../../business.logic/common.types'
+import Config from '../../config'
 import annotationSchema, {
   IAnnotation,
   IAnnotationDocument,
   TAnnotation,
-} from 'src/schema/annotations'
+} from '../../schema/annotations'
 
 /** mongoose-paginate-v2 query */
 const PAGINATION_QUERY = {

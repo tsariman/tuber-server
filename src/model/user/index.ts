@@ -5,11 +5,11 @@ import {
   // disconnect,
   model
 } from 'mongoose'
-import { get_query } from 'src/business.logic'
-import { IMPV2Doc } from 'src/business.logic/common.types'
-import { get_hashed_password } from 'src/business.logic/security'
-import Config from 'src/config'
-import userSchema, { IUser, IUserDocument, TUser, TUsersFastifyRequest } from 'src/schema/users'
+import { get_query } from '../../business.logic'
+import { IMPV2Doc } from '../../business.logic/common.types'
+import { get_hashed_password } from '../../business.logic/security'
+import Config from '../../config'
+import userSchema, { IUser, IUserDocument, TUser, TUsersFastifyRequest } from '../../schema/users'
 
 /** mongoose-paginate-v2 query */
 const PAGINATION_QUERY = {

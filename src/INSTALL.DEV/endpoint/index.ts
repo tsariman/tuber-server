@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import devTestDrawer from '../dev.test.drawer.state'
 import { INetState } from '../../../../tuber-client/src/controllers/interfaces/IState'
-import { NET_STATE_PATCH_DELETE } from 'src/state'
+import { NET_STATE_PATCH_DELETE } from '../../state'
 
 export async function dev_load_test_drawer (
   _request: FastifyRequest,

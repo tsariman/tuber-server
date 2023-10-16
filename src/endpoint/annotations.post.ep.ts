@@ -1,9 +1,9 @@
 import { FastifyReply } from 'fastify'
-import JsonapiErrorBuilder from 'src/business.logic/jsonapi.error.builder'
-import JsonapiResponseBuilder from 'src/business.logic/jsonapi.response.builder'
-import Config from 'src/config'
-import { create_annotation } from 'src/model/annotation'
-import { TAnnotationPostFastifyRequest } from 'src/schema/annotations'
+import JsonapiErrorBuilder from '../business.logic/jsonapi.error.builder'
+import JsonapiResponseBuilder from '../business.logic/jsonapi.response.builder'
+import Config from '../config'
+import { create_annotation } from '../model/annotation'
+import { TAnnotationPostFastifyRequest } from '../schema/annotations'
 
 export default async function annotations_post_endpoint (
   request: TAnnotationPostFastifyRequest,
@@ -11,10 +11,16 @@ export default async function annotations_post_endpoint (
 ) {
   try {
     Config.print('Creating annotation... ')
-    const annotation = await create_annotation(request.body.data.attributes)
+    const annotation = request.body.data.attributes
+    // const fixedAnnotation = await fix_missing_annotation_data(annotation)
+    // if (!fixedAnnotation?.videoid) {
+    //   throw new Error('Unable to acquire video ID from Rumble URL.')
+    // }
+    // const dbAnnotation = await create_annotation(fixedAnnotation)
+    const dbAnnotation = await create_annotation(annotation)
     Config.log('done.')
     reply.code(201).send(
-      new JsonapiResponseBuilder(annotation, 'annotations', 'object')
+      new JsonapiResponseBuilder(dbAnnotation, 'annotations', 'object')
       .mPaginationV2build()
     )
   } catch (e: any) {

@@ -1,6 +1,6 @@
 
 import bcrypt from 'bcrypt'
-import Config from 'src/config'
+import Config from '../../config'
 
 export async function get_hashed_password(password?: string) {
   if (password) {

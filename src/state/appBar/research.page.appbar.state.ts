@@ -1,6 +1,6 @@
 import IStateAppBar from '../../../../tuber-client/src/controllers/interfaces/IStateAppBar'
 
-const researchPageAppBarJson: IStateAppBar = {
+const researchPageAppBarState: IStateAppBar = {
   'appBarStyle': 'middle_search',
   'items': [
     {
@@ -33,4 +33,4 @@ const researchPageAppBarJson: IStateAppBar = {
   }
 }
 
-export default researchPageAppBarJson
+export default researchPageAppBarState

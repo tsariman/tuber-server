@@ -1,16 +1,16 @@
 import { FastifyInstance } from 'fastify'
-import annotations_get_collection_endpoint from 'src/endpoint/annotations.get.ep'
-import annotations_get_by_id_endpoint from 'src/endpoint/annotations.get.id.ep'
-import annotations_post_endpoint from 'src/endpoint/annotations.post.ep'
-import annotations_put_by_id_endpoint from 'src/endpoint/annotations.put.id.ep'
-import annotations_delete_by_id_endpoint from 'src/endpoint/annotations.delete.id.ep'
-import { DEFAULT_OPTIONS } from 'src/middleware/router.option'
+import annotations_get_collection_endpoint from '../endpoint/annotations.get.ep'
+import annotations_get_by_id_endpoint from '../endpoint/annotations.get.id.ep'
+import annotations_post_endpoint from '../endpoint/annotations.post.ep'
+import annotations_put_by_id_endpoint from '../endpoint/annotations.put.id.ep'
+import annotations_delete_by_id_endpoint from '../endpoint/annotations.delete.id.ep'
+import { DEFAULT_OPTIONS } from '../middleware/router.option'
 import {
   IAnnotationGet,
   IAnnotationPost,
   IAnnotationPut,
   IAnnotationDelete
-} from 'src/schema/annotations'
+} from '../schema/annotations'
 
 const opts = {
   ...DEFAULT_OPTIONS,

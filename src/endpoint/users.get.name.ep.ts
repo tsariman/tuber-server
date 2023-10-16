@@ -1,8 +1,8 @@
 import { FastifyReply } from 'fastify'
-import JsonapiErrorBuilder from 'src/business.logic/jsonapi.error.builder'
-import JsonapiResponseBuilder from 'src/business.logic/jsonapi.response.builder'
-import { get_user_by_name } from 'src/model/user'
-import { TUsersFastifyRequest } from 'src/schema/users'
+import JsonapiErrorBuilder from '../business.logic/jsonapi.error.builder'
+import JsonapiResponseBuilder from '../business.logic/jsonapi.response.builder'
+import { get_user_by_name } from '../model/user'
+import { TUsersFastifyRequest } from '../schema/users'
 
 export default async function users_get_by_name_endpoint (
   request: TUsersFastifyRequest,

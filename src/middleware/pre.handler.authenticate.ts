@@ -1,5 +1,5 @@
 import { RouteShorthandOptions } from 'fastify'
-import { MISSING_ACCESS_TOKEN, DEFAULT_AUTH_HEADER } from 'src/constants'
+import { MISSING_ACCESS_TOKEN, DEFAULT_AUTH_HEADER } from '../constants'
 import {
   $400_MISSING_PAYLOAD,
   $401_MISSING_ACCESS_TOKEN,
@@ -7,9 +7,9 @@ import {
   $403_ACCESS_TOKEN_FORBIDDEN
 } from '../business.logic/errors'
 import jwt from 'jsonwebtoken'
-import Config from 'src/config'
-import { TCipheredUser } from 'src/schema/users'
-import { UserPaginationModel } from 'src/model/user'
+import Config from '../config'
+import { TCipheredUser } from '../schema/users'
+import { UserPaginationModel } from '../model/user'
 
 const pre_handler_authenticate: RouteShorthandOptions['preHandler'] = async function(
   request,

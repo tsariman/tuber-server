@@ -1,6 +1,6 @@
 import IStateForm from '../../../../tuber-client/src/controllers/interfaces/IStateForm'
 
-const registerFormJson: IStateForm = {
+const registerFormState: IStateForm = {
   '_type': 'box',
   'props': {
     'sx': {
@@ -57,4 +57,4 @@ const registerFormJson: IStateForm = {
   ]
 }
 
-export default registerFormJson
+export default registerFormState

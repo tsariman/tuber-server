@@ -1,6 +1,6 @@
 import IStatePage from '../../../../tuber-client/src/controllers/interfaces/IStatePage'
 
-const researchPageJson: IStatePage = {
+const researchPageState: IStatePage = {
   '_key': 'research-app',
   'content': '$webapp : tubeResearcher',
   // 'hideDrawer': true,
@@ -31,4 +31,4 @@ const researchPageJson: IStatePage = {
   'layout': 'layout_none_no_appbar'
 }
 
-export default researchPageJson
+export default researchPageState

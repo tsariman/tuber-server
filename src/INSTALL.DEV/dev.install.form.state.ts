@@ -253,10 +253,12 @@ const devInstallForm = {
             },
             'items': [
               { 'label': '50', 'value': '50' },
-              { 'label': '100', 'value': '100' },
               { 'label': '200', 'value': '200' },
-              { 'label': '500', 'value': '500' },
               { 'label': '1000', 'value': '1000' },
+              { 'label': '5000', 'value': '5000' },
+              { 'label': '20000', 'value': '20000' },
+              { 'label': '100000', 'value': '100000' },
+              { 'label': '500000', 'value': '500000' }
             ]
           }
         },
@@ -265,6 +267,23 @@ const devInstallForm = {
           'has': {
             'label': 'Populate Collection',
             'onclickHandle': 'tuberCallbacks.devPopulateCollection'
+          },
+          'props': {
+            'variant': 'contained',
+            'size': 'small',
+            'disableElevation': true
+          }
+        },
+        {
+          'type': 'html',
+          'props': { 'sx': { 'display': 'inline' } },
+          'has': { 'content': '|' }
+        },
+        {
+          'type': 'json_button',
+          'has': {
+            'label': 'Create Annotation Search Index',
+            'onclickHandle': 'tuberCallbacks.devCreateAnnotationSearchIndex'
           },
           'props': {
             'variant': 'contained',
