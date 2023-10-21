@@ -2,28 +2,18 @@ import Config from '../../config'
 import IStateForm from '../../../../tuber-client/src/controllers/interfaces/IStateForm'
 import { remove_form_suffix } from './_forms.business.logic'
 
-const _10 = '10'
-const _10_KEY = 'editRumbleAnnotationForm'
-Config.register('state', _10, _10_KEY)
-/** Form for creating a edit rumble video annotation @id 10 */
-const editRumbleAnnotationFormState = {
-  '_id': _10,
-  '_key': _10_KEY,
+const _12 = '12'
+const _12_KEY = 'newVimeoAnnotationForm'
+Config.register('state', _12, _12_KEY)
+/** Form for creating a new Vimeo video annotation @id 12 */
+const newVimeoAnnotationFormState = {
+  '_id': _12,
+  '_key': _12_KEY,
   'items': [
     {
       'type': 'stack',
       'props': { 'spacing': 2 },
       'items': [
-        {
-          'type': 'textfield',
-          'name': 'slug',
-          'label': 'Video URL Slug',
-          'props': { 'fullWidth': true },
-          'inputProps': {
-            'readOnly': true,
-            'sx': { 'backgroundColor': 'grey.300' }
-          }
-        },
         {
           'type': 'stack',
           'props': {
@@ -95,10 +85,6 @@ const editRumbleAnnotationFormState = {
           'props': {
             'multiline': true,
             'rows': 4
-          },
-          'has': {
-            'maxLength': 1000,
-            'maxLengthMessage': 'Note is too long (1000 characters max)'
           }
         }
       ]
@@ -106,8 +92,8 @@ const editRumbleAnnotationFormState = {
   ]
 } as IStateForm
 
-export const EDIT_RUMBLE_ANNOTATION_UNSUFFIXED_NAME = remove_form_suffix(
-  editRumbleAnnotationFormState._key
+export const NEW_VIMEO_ANNNOTATION_UNSUFFIXED_NAME = remove_form_suffix(
+  newVimeoAnnotationFormState._key
 )
 
-export default editRumbleAnnotationFormState
+export default newVimeoAnnotationFormState

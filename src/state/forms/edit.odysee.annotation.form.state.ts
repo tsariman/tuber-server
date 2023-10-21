@@ -2,13 +2,13 @@ import Config from '../../config'
 import IStateForm from '../../../../tuber-client/src/controllers/interfaces/IStateForm'
 import { remove_form_suffix } from './_forms.business.logic'
 
-const _10 = '10'
-const _10_KEY = 'editRumbleAnnotationForm'
-Config.register('state', _10, _10_KEY)
-/** Form for creating a edit rumble video annotation @id 10 */
-const editRumbleAnnotationFormState = {
-  '_id': _10,
-  '_key': _10_KEY,
+const _18 = '18'
+const _18_KEY = 'editOdyseeAnnotationForm'
+Config.register('state', _18, _18_KEY)
+/** Form for creating a edit odysee video annotation @id 18 */
+const editOdyseeAnnotationFormState = {
+  '_id': _18,
+  '_key': _18_KEY,
   'items': [
     {
       'type': 'stack',
@@ -18,7 +18,9 @@ const editRumbleAnnotationFormState = {
           'type': 'textfield',
           'name': 'slug',
           'label': 'Video URL Slug',
-          'props': { 'fullWidth': true },
+          'props': {
+            'fullWidth': true,
+          },
           'inputProps': {
             'readOnly': true,
             'sx': { 'backgroundColor': 'grey.300' }
@@ -57,10 +59,7 @@ const editRumbleAnnotationFormState = {
               'name': 'videoid',
               'label': 'Video ID',
               'props': { 'fullWidth': true },
-              'inputProps': {
-                'readOnly': true,
-                'sx': { 'backgroundColor': 'grey.300' }
-              }
+              'inputProps': { 'disabled': true }
             },
             {
               'type': 'textfield',
@@ -84,7 +83,7 @@ const editRumbleAnnotationFormState = {
             'fullWidth': true
           },
           'has': {
-            'maxLength': 80,
+            'maxLength': 100,
             'maxLengthMessage': 'Your title is too long. (80 characters max)'
           }
         },
@@ -106,8 +105,8 @@ const editRumbleAnnotationFormState = {
   ]
 } as IStateForm
 
-export const EDIT_RUMBLE_ANNOTATION_UNSUFFIXED_NAME = remove_form_suffix(
-  editRumbleAnnotationFormState._key
+export const EDIT_ODYSEE_ANNOTATION_UNSUFFIXED_NAME = remove_form_suffix(
+  editOdyseeAnnotationFormState._key
 )
 
-export default editRumbleAnnotationFormState
+export default editOdyseeAnnotationFormState

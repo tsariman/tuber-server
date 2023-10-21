@@ -14,16 +14,6 @@ const editYouTubeAnnotationFormState = {
       'type': 'stack',
       'props': { 'spacing': 2 },
       'items': [
-        // {
-        //   'type': 'textfield',
-        //   'name': 'url',
-        //   'label': 'Video URL',
-        //   'props': {
-        //     'fullWidth': true,
-        //     'sx': { 'backgroundColor': 'grey.300' }
-        //   },
-        //   'inputProps': { 'readOnly': true }
-        // },
         {
           'type': 'stack',
           'props': {
@@ -36,42 +26,46 @@ const editYouTubeAnnotationFormState = {
               'name': 'start_seconds',
               'label': 'Start',
               'props': {
-                'sx': {
-                  'width': 240,
-                  'backgroundColor': 'grey.300'
-                }
+                'sx': { 'width': 240 }
               },
-              'inputProps': { 'readOnly': true },
+              'inputProps': {
+                'readOnly': true,
+                'sx': { 'backgroundColor': 'grey.300' }
+              },
             },
             {
               'type': 'number',
               'name': 'end_seconds',
               'label': 'Length',
               'props': {
-                'sx': { 'width': 240 }
+                'sx': { 'width': 240 },
+              },
+              'inputProps': {
+                'disabled': true,
+                'sx': { 'backgroundColor': 'grey.300' }
               }
             },
             {
               'type': 'textfield',
               'name': 'videoid',
               'label': 'Video ID',
-              'props': {
-                'fullWidth': true,
+              'props': { 'fullWidth': true },
+              'inputProps': {
+                'readOnly': true,
                 'sx': { 'backgroundColor': 'grey.300' }
-              },
-              'inputProps': { 'readOnly': true }
+              }
             },
             {
               'type': 'textfield',
               'name': 'platform',
               'label': 'Platform',
               'props': {
-                'sx': {
-                  'width': 240,
-                  'backgroundColor': 'grey.300'
-                },
+                'sx': { 'width': 240 },
               },
-              'inputProps': { 'readOnly': true }
+              'inputProps': {
+                'readOnly': true,
+                'sx': { 'backgroundColor': 'grey.300' }
+              }
             },
           ]
         },

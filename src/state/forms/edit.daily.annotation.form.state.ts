@@ -2,28 +2,18 @@ import Config from '../../config'
 import IStateForm from '../../../../tuber-client/src/controllers/interfaces/IStateForm'
 import { remove_form_suffix } from './_forms.business.logic'
 
-const _10 = '10'
-const _10_KEY = 'editRumbleAnnotationForm'
-Config.register('state', _10, _10_KEY)
-/** Form for creating a edit rumble video annotation @id 10 */
-const editRumbleAnnotationFormState = {
-  '_id': _10,
-  '_key': _10_KEY,
+const _20 = '20'
+const _20_KEY = 'editDailyAnnotationForm'
+Config.register('state', _20, _20_KEY)
+/** Form for editing an existing Dailymotion annotation. @id 20 */
+const editDailyAnnotationFormState = {
+  '_id': _20,
+  '_key': _20_KEY, // 'editAnnotationForm',
   'items': [
     {
       'type': 'stack',
       'props': { 'spacing': 2 },
       'items': [
-        {
-          'type': 'textfield',
-          'name': 'slug',
-          'label': 'Video URL Slug',
-          'props': { 'fullWidth': true },
-          'inputProps': {
-            'readOnly': true,
-            'sx': { 'backgroundColor': 'grey.300' }
-          }
-        },
         {
           'type': 'stack',
           'props': {
@@ -36,7 +26,10 @@ const editRumbleAnnotationFormState = {
               'name': 'start_seconds',
               'label': 'Start',
               'props': {
-                'sx': { 'width': 240 },
+                'sx': {
+                  'width': 240,
+                },
+                'helperText': 'time in second(s)'
               },
               'inputProps': {
                 'readOnly': true,
@@ -50,13 +43,15 @@ const editRumbleAnnotationFormState = {
               'props': {
                 'sx': { 'width': 240 },
               },
-              'inputProps': { 'disabled': true }
+              'inputProps': {'disabled': true }
             },
             {
               'type': 'textfield',
               'name': 'videoid',
               'label': 'Video ID',
-              'props': { 'fullWidth': true },
+              'props': {
+                'fullWidth': true,
+              },
               'inputProps': {
                 'readOnly': true,
                 'sx': { 'backgroundColor': 'grey.300' }
@@ -67,7 +62,9 @@ const editRumbleAnnotationFormState = {
               'name': 'platform',
               'label': 'Platform',
               'props': {
-                'sx': { 'width': 240 },
+                'sx': {
+                  'width': 240,
+                },
               },
               'inputProps': {
                 'readOnly': true,
@@ -106,8 +103,8 @@ const editRumbleAnnotationFormState = {
   ]
 } as IStateForm
 
-export const EDIT_RUMBLE_ANNOTATION_UNSUFFIXED_NAME = remove_form_suffix(
-  editRumbleAnnotationFormState._key
+export const EDIT_DAILY_ANNOTATION_UNSUFFIXED_NAME = remove_form_suffix(
+  editDailyAnnotationFormState._key
 )
 
-export default editRumbleAnnotationFormState
+export default editDailyAnnotationFormState

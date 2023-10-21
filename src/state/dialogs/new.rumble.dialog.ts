@@ -7,7 +7,7 @@ const _8 = '8'
 const _8_KEY = 'newRumbleAnnotationDialog'
 Config.register('state', _8, _8_KEY)
 /** Dialog to create a new Rumble video annotation @id 8 */
-export const newRumbleAnnotationDialogState: IStateDialog = {
+const newRumbleAnnotationDialogState: IStateDialog = {
   '_type': 'form',
   '_id': _8,
   '_key': _8_KEY,
@@ -44,3 +44,5 @@ export const newRumbleAnnotationDialogState: IStateDialog = {
   ],
   'open': true
 }
+
+export default newRumbleAnnotationDialogState

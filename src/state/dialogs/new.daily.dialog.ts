@@ -1,17 +1,17 @@
 import Config from '../../config'
-import { backgroundState } from '..'
 import IStateDialog from '../../../../tuber-client/src/controllers/interfaces/IStateDialog'
-import { EDIT_RUMBLE_ANNOTATION_UNSUFFIXED_NAME } from '../forms/edit.rumble.annotation.form.state'
+import { backgroundState } from '..'
+import { NEW_DAILY_ANNNOTATION_UNSUFFIXED_NAME } from '../forms/new.daily.annotation.form.state'
 
-const _11 = '11'
-const _11_KEY = 'editRumbleAnnotationDialog'
-Config.register('state', _11, _11_KEY)
-/** Dialog to edit a Rumble video annotation @id 11 */
-const editRumbleAnnotationDialogState: IStateDialog = {
+const _21 = '21'
+const _21_KEY = 'newDailyAnnotationDialog'
+Config.register('state', _21, _21_KEY)
+/** Dialog to create a new Dailymotion video annotation @id 21 */
+const newDailyAnnotationDialogState: IStateDialog = {
   '_type': 'form',
-  '_id': _11,
-  '_key': _11_KEY,
-  'title': 'Edit Rumble Annotation',
+  '_id': _21,
+  '_key': _21_KEY,
+  'title': 'Insert New Dailymotion Annotation',
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
@@ -22,7 +22,7 @@ const editRumbleAnnotationDialogState: IStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': `$form : ${EDIT_RUMBLE_ANNOTATION_UNSUFFIXED_NAME} : annotations`,
+  'content': `$form : ${NEW_DAILY_ANNNOTATION_UNSUFFIXED_NAME} : annotations`,
   'actions': [
     {
       'type': 'json_button',
@@ -36,13 +36,12 @@ const editRumbleAnnotationDialogState: IStateDialog = {
       'type': 'json_button',
       'props': { 'color': 'primary' },
       'has': {
-        'disableOnError': true,
         'text': 'Save',
-        'onclickHandle': 'tuberCallbacks._11_C_1'
+        'onclickHandle': 'tuberCallbacks._21_C_1'
       }
     }
   ],
   'open': true
 }
 
-export default editRumbleAnnotationDialogState
+export default newDailyAnnotationDialogState

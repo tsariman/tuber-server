@@ -35,10 +35,6 @@ const loginFormState: IStateForm = {
               {
                 'name': 'keep-logged-in',
                 'label': 'Keep me logged in'
-              },
-              {
-                'name': 'like-pawgs',
-                'label': 'I like PAWGs'
               }
             ],
           }

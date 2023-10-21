@@ -2,28 +2,18 @@ import Config from '../../config'
 import IStateForm from '../../../../tuber-client/src/controllers/interfaces/IStateForm'
 import { remove_form_suffix } from './_forms.business.logic'
 
-const _10 = '10'
-const _10_KEY = 'editRumbleAnnotationForm'
-Config.register('state', _10, _10_KEY)
-/** Form for creating a edit rumble video annotation @id 10 */
-const editRumbleAnnotationFormState = {
-  '_id': _10,
-  '_key': _10_KEY,
+const _25 = '25'
+const _25_KEY = 'editFacebookAnnotationForm'
+Config.register('state', _25, _25_KEY)
+/** Form for creating a edit facebook video annotation @id 25 */
+const editFacebookAnnotationFormState = {
+  '_id': _25,
+  '_key': _25_KEY,
   'items': [
     {
       'type': 'stack',
       'props': { 'spacing': 2 },
       'items': [
-        {
-          'type': 'textfield',
-          'name': 'slug',
-          'label': 'Video URL Slug',
-          'props': { 'fullWidth': true },
-          'inputProps': {
-            'readOnly': true,
-            'sx': { 'backgroundColor': 'grey.300' }
-          }
-        },
         {
           'type': 'stack',
           'props': {
@@ -44,13 +34,16 @@ const editRumbleAnnotationFormState = {
               },
             },
             {
-              'type': 'number',
-              'name': 'end_seconds',
-              'label': 'Length',
+              'type': 'textfield',
+              'name': 'author',
+              'label': 'Author',
               'props': {
                 'sx': { 'width': 240 },
               },
-              'inputProps': { 'disabled': true }
+              'inputProps': {
+                'readOnly': true,
+                'sx': { 'backgroundColor': 'grey.300' }
+              }
             },
             {
               'type': 'textfield',
@@ -106,8 +99,8 @@ const editRumbleAnnotationFormState = {
   ]
 } as IStateForm
 
-export const EDIT_RUMBLE_ANNOTATION_UNSUFFIXED_NAME = remove_form_suffix(
-  editRumbleAnnotationFormState._key
+export const EDIT_FACEBOOK_ANNOTATION_UNSUFFIXED_NAME = remove_form_suffix(
+  editFacebookAnnotationFormState._key
 )
 
-export default editRumbleAnnotationFormState
+export default editFacebookAnnotationFormState

@@ -1,17 +1,17 @@
 import Config from '../../config'
 import { backgroundState } from '..'
 import IStateDialog from '../../../../tuber-client/src/controllers/interfaces/IStateDialog'
-import { EDIT_RUMBLE_ANNOTATION_UNSUFFIXED_NAME } from '../forms/edit.rumble.annotation.form.state'
+import { EDIT_UNKNOWN_ANNOTATION_UNSUFFIXED_NAME } from '../forms/edit.unknown.annotation.form.state'
 
-const _11 = '11'
-const _11_KEY = 'editRumbleAnnotationDialog'
-Config.register('state', _11, _11_KEY)
-/** Dialog to edit a Rumble video annotation @id 11 */
-const editRumbleAnnotationDialogState: IStateDialog = {
+const _31 = '31'
+const _31_KEY = 'editUnknownAnnotationDialog'
+Config.register('state', _31, _31_KEY)
+/** Dialog to edit an unknown video platform annotation @id 31 */
+const editUnknownAnnotationDialogState: IStateDialog = {
   '_type': 'form',
-  '_id': _11,
-  '_key': _11_KEY,
-  'title': 'Edit Rumble Annotation',
+  '_id': _31,
+  '_key': _31_KEY,
+  'title': 'Edit Unknown Annotation',
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
@@ -22,7 +22,7 @@ const editRumbleAnnotationDialogState: IStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': `$form : ${EDIT_RUMBLE_ANNOTATION_UNSUFFIXED_NAME} : annotations`,
+  'content': `$form : ${EDIT_UNKNOWN_ANNOTATION_UNSUFFIXED_NAME} : annotations`,
   'actions': [
     {
       'type': 'json_button',
@@ -38,11 +38,11 @@ const editRumbleAnnotationDialogState: IStateDialog = {
       'has': {
         'disableOnError': true,
         'text': 'Save',
-        'onclickHandle': 'tuberCallbacks._11_C_1'
+        'onclickHandle': 'tuberCallbacks._31_C_1'
       }
     }
   ],
   'open': true
 }
 
-export default editRumbleAnnotationDialogState
+export default editUnknownAnnotationDialogState

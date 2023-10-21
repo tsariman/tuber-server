@@ -35,9 +35,29 @@ import { get_documents_count } from '../INSTALL.DEV'
 import editYouTubeAnnotationFormState from '../state/forms/edit.youtube.annotation.form.state'
 import { IBootstrapResponse } from '../business.logic/common.types'
 import newRumbleAnnotationFormState from '../state/forms/new.rumble.annotation.form.state'
-import { newRumbleAnnotationDialogState } from '../state/dialogs/new.rumble.dialog'
+import newRumbleAnnotationDialogState from '../state/dialogs/new.rumble.dialog'
 import editRumbleAnnotationFormState from '../state/forms/edit.rumble.annotation.form.state'
-import { editRumbleAnnotationDialogState } from '../state/dialogs/edit.rumble.dialog'
+import editRumbleAnnotationDialogState from '../state/dialogs/edit.rumble.dialog'
+import newVimeoAnnotationFormState from '../state/forms/new.vimeo.annotation.form.state'
+import editVimeoAnnotationFormState from '../state/forms/edit.vimeo.annotation.form.state'
+import newVimeoAnnotationDialogState from '../state/dialogs/new.vimeo.dialog'
+import editVimeoAnnotationDialogState from 'src/state/dialogs/edit.vimeo.dialog'
+import newOdyseeAnnotationFormState from 'src/state/forms/new.odysee.annotation.form.state'
+import editOdyseeAnnotationFormState from 'src/state/forms/edit.odysee.annotation.form.state'
+import newDailyAnnotationFormState from 'src/state/forms/new.daily.annotation.form.state'
+import newOdyseeAnnotationDialogState from 'src/state/dialogs/new.odysee.dialog'
+import newDailyAnnotationDialogState from 'src/state/dialogs/new.daily.dialog'
+import editDailyAnnotationDialogState from 'src/state/dialogs/edit.daily.dialog'
+import editOdyseeAnnotationDialogState from 'src/state/dialogs/edit.odysee.dialog'
+import newFacebookAnnotationFormState from 'src/state/forms/new.facebook.annotation.form.state'
+import editFacebookAnnotationFormState from 'src/state/forms/edit.facebook.annotation.form.state'
+import newFacebookAnnotationDialogState from 'src/state/dialogs/new.facebook.dialog'
+import editFacebookAnnotationDialogState from 'src/state/dialogs/edit.facebook.dialog'
+import newUnknownAnnotationFormState from 'src/state/forms/new.unknown.annotation.form.state'
+import editUnknownAnnotationFormState from 'src/state/forms/edit.unknown.annotation.form.state'
+import newUnknownAnnotationDialogState from 'src/state/dialogs/new.unknown.dialog'
+import editUnknownAnnotationDialogState from 'src/state/dialogs/edit.unknown.dialog'
+import editDailyAnnotationFormState from 'src/state/forms/edit.daily.annotation.form.state'
 
 export default async function bootstrap_controller(fastify: FastifyInstance) {
 
@@ -68,6 +88,16 @@ export default async function bootstrap_controller(fastify: FastifyInstance) {
   set_state_by_key(formsState, newRumbleAnnotationFormState)
   set_state_by_key(formsState, editYouTubeAnnotationFormState)
   set_state_by_key(formsState, editRumbleAnnotationFormState)
+  set_state_by_key(formsState, newVimeoAnnotationFormState)
+  set_state_by_key(formsState, editVimeoAnnotationFormState)
+  set_state_by_key(formsState, newOdyseeAnnotationFormState)
+  set_state_by_key(formsState, editOdyseeAnnotationFormState)
+  set_state_by_key(formsState, newDailyAnnotationFormState)
+  set_state_by_key(formsState, editDailyAnnotationFormState)
+  set_state_by_key(formsState, newFacebookAnnotationFormState)
+  set_state_by_key(formsState, editFacebookAnnotationFormState)
+  set_state_by_key(formsState, newUnknownAnnotationFormState)
+  set_state_by_key(formsState, editUnknownAnnotationFormState)
   set_state_by_key(formsState, newVideoUrlFormState)
   // TODO: Insert more forms here
 
@@ -76,6 +106,16 @@ export default async function bootstrap_controller(fastify: FastifyInstance) {
   set_state_by_key(dialogsState, newRumbleAnnotationDialogState)
   set_state_by_key(dialogsState, editYoutubeAnnotationDialogState)
   set_state_by_key(dialogsState, editRumbleAnnotationDialogState)
+  set_state_by_key(dialogsState, newVimeoAnnotationDialogState)
+  set_state_by_key(dialogsState, editVimeoAnnotationDialogState)
+  set_state_by_key(dialogsState, newOdyseeAnnotationDialogState)
+  set_state_by_key(dialogsState, editOdyseeAnnotationDialogState)
+  set_state_by_key(dialogsState, newDailyAnnotationDialogState)
+  set_state_by_key(dialogsState, editDailyAnnotationDialogState)
+  set_state_by_key(dialogsState, newFacebookAnnotationDialogState)
+  set_state_by_key(dialogsState, editFacebookAnnotationDialogState)
+  set_state_by_key(dialogsState, newUnknownAnnotationDialogState)
+  set_state_by_key(dialogsState, editUnknownAnnotationDialogState)
   set_state_by_key(dialogsState, loginDialogState)
   set_state_by_key(dialogsState, newVideoUrlDialogState)
   set_state_by_key(dialogsState, deleteAnnotationDialogState)

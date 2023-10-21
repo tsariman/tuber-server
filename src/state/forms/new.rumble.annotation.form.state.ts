@@ -18,11 +18,11 @@ const newRumbleAnnotationFormState = {
           'type': 'textfield',
           'name': 'slug',
           'label': 'Video URL Slug',
-          'props': {
-            'fullWidth': true,
+          'props': { 'fullWidth': true },
+          'inputProps': {
+            'readOnly': true,
             'sx': { 'backgroundColor': 'grey.300' }
-          },
-          'inputProps': { 'readOnly': true }
+          }
         },
         {
           'type': 'stack',
@@ -36,20 +36,21 @@ const newRumbleAnnotationFormState = {
               'name': 'start_seconds',
               'label': 'Start',
               'props': {
-                'sx': {
-                  'width': 240,
-                  'backgroundColor': 'grey.300'
-                },
+                'sx': { 'width': 240 },
               },
-              'inputProps': { 'readOnly': true },
+              'inputProps': {
+                'readOnly': true,
+                'sx': { 'backgroundColor': 'grey.300' }
+              },
             },
             {
               'type': 'number',
               'name': 'end_seconds',
               'label': 'Length',
               'props': {
-                'sx': { 'width': 240 }
-              }
+                'sx': { 'width': 240 },
+              },
+              'inputProps': { 'disabled': true }
             },
             {
               'type': 'textfield',
@@ -64,12 +65,12 @@ const newRumbleAnnotationFormState = {
               'name': 'platform',
               'label': 'Platform',
               'props': {
-                'sx': {
-                  'width': 240,
-                  'backgroundColor': 'grey.300'
-                },
+                'sx': { 'width': 240 },
               },
-              'inputProps': { 'readOnly': true }
+              'inputProps': {
+                'readOnly': true,
+                'sx': { 'backgroundColor': 'grey.300' }
+              }
             },
           ]
         },

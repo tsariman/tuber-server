@@ -82,7 +82,7 @@ export const editYoutubeAnnotationDialogState: IStateDialog = {
   '_type': 'form',
   '_id': _7,
   '_key': _7_KEY,
-  'title': 'Edit Annotation',
+  'title': 'Edit YouTube Annotation',
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',

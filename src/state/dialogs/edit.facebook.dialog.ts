@@ -1,17 +1,17 @@
 import Config from '../../config'
 import { backgroundState } from '..'
 import IStateDialog from '../../../../tuber-client/src/controllers/interfaces/IStateDialog'
-import { EDIT_RUMBLE_ANNOTATION_UNSUFFIXED_NAME } from '../forms/edit.rumble.annotation.form.state'
+import { EDIT_FACEBOOK_ANNOTATION_UNSUFFIXED_NAME } from '../forms/edit.facebook.annotation.form.state'
 
-const _11 = '11'
-const _11_KEY = 'editRumbleAnnotationDialog'
-Config.register('state', _11, _11_KEY)
-/** Dialog to edit a Rumble video annotation @id 11 */
-const editRumbleAnnotationDialogState: IStateDialog = {
+const _27 = '27'
+const _27_KEY = 'editFacebookAnnotationDialog'
+Config.register('state', _27, _27_KEY)
+/** Dialog to edit a Facebook video annotation @id 27 */
+const editFacebookAnnotationDialogState: IStateDialog = {
   '_type': 'form',
-  '_id': _11,
-  '_key': _11_KEY,
-  'title': 'Edit Rumble Annotation',
+  '_id': _27,
+  '_key': _27_KEY,
+  'title': 'Edit Facebook Annotation',
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
@@ -22,7 +22,7 @@ const editRumbleAnnotationDialogState: IStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': `$form : ${EDIT_RUMBLE_ANNOTATION_UNSUFFIXED_NAME} : annotations`,
+  'content': `$form : ${EDIT_FACEBOOK_ANNOTATION_UNSUFFIXED_NAME} : annotations`,
   'actions': [
     {
       'type': 'json_button',
@@ -38,11 +38,11 @@ const editRumbleAnnotationDialogState: IStateDialog = {
       'has': {
         'disableOnError': true,
         'text': 'Save',
-        'onclickHandle': 'tuberCallbacks._11_C_1'
+        'onclickHandle': 'tuberCallbacks._27_C_1'
       }
     }
   ],
   'open': true
 }
 
-export default editRumbleAnnotationDialogState
+export default editFacebookAnnotationDialogState

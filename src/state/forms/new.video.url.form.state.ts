@@ -22,6 +22,21 @@ const newVideoUrlFormState: IStateForm = {
       },
       'items': [
         {
+          'type': 'html',
+          'props': {
+            'sx': { 'textAlign': 'center' }
+          },
+          'has': {
+            'content': `
+              <img
+                src="../img/tutorial-pasteinurl.gif"
+                style="width: 100%"
+                alt="Example that demonstrate how to copy a URL."
+              />
+            `
+          }
+        },
+        {
           'type': 'text',
           'name': 'url',
           'label': 'Paste Video URL Here ...',

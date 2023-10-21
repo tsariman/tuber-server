@@ -1,17 +1,17 @@
-import Config from '../../config'
 import { backgroundState } from '..'
 import IStateDialog from '../../../../tuber-client/src/controllers/interfaces/IStateDialog'
-import { EDIT_RUMBLE_ANNOTATION_UNSUFFIXED_NAME } from '../forms/edit.rumble.annotation.form.state'
+import Config from '../../config'
+import { EDIT_VIMEO_ANNOTATION_UNSUFFIXED_NAME } from '../forms/edit.vimeo.annotation.form.state'
 
-const _11 = '11'
-const _11_KEY = 'editRumbleAnnotationDialog'
-Config.register('state', _11, _11_KEY)
-/** Dialog to edit a Rumble video annotation @id 11 */
-const editRumbleAnnotationDialogState: IStateDialog = {
+const _15 = '15'
+const _15_KEY = 'editVimeoAnnotationDialog'
+Config.register('state', _15, _15_KEY)
+/** Dialog to edit an existing Vimeo video annotation @id 15 */
+const editVimeoAnnotationDialogState: IStateDialog = {
   '_type': 'form',
-  '_id': _11,
-  '_key': _11_KEY,
-  'title': 'Edit Rumble Annotation',
+  '_id': _15,
+  '_key': _15_KEY,
+  'title': 'Edit Vimeo Annotation',
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
@@ -22,7 +22,7 @@ const editRumbleAnnotationDialogState: IStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': `$form : ${EDIT_RUMBLE_ANNOTATION_UNSUFFIXED_NAME} : annotations`,
+  'content': `'$form : ${EDIT_VIMEO_ANNOTATION_UNSUFFIXED_NAME} : annotations'`,
   'actions': [
     {
       'type': 'json_button',
@@ -36,13 +36,12 @@ const editRumbleAnnotationDialogState: IStateDialog = {
       'type': 'json_button',
       'props': { 'color': 'primary' },
       'has': {
-        'disableOnError': true,
         'text': 'Save',
-        'onclickHandle': 'tuberCallbacks._11_C_1'
+        'onclickHandle': 'tuberCallbacks._15_C_1'
       }
     }
   ],
   'open': true
 }
 
-export default editRumbleAnnotationDialogState
+export default editVimeoAnnotationDialogState

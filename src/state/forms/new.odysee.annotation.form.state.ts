@@ -2,13 +2,13 @@ import Config from '../../config'
 import IStateForm from '../../../../tuber-client/src/controllers/interfaces/IStateForm'
 import { remove_form_suffix } from './_forms.business.logic'
 
-const _10 = '10'
-const _10_KEY = 'editRumbleAnnotationForm'
-Config.register('state', _10, _10_KEY)
-/** Form for creating a edit rumble video annotation @id 10 */
-const editRumbleAnnotationFormState = {
-  '_id': _10,
-  '_key': _10_KEY,
+const _17 = '17'
+const _17_KEY = 'newOdyseeAnnotationForm'
+Config.register('state', _17, _17_KEY)
+/** Form for creating a new odysee video annotation @id 17 */
+const newOdyseeAnnotationFormState = {
+  '_id': _17,
+  '_key': _17_KEY,
   'items': [
     {
       'type': 'stack',
@@ -56,11 +56,10 @@ const editRumbleAnnotationFormState = {
               'type': 'textfield',
               'name': 'videoid',
               'label': 'Video ID',
-              'props': { 'fullWidth': true },
-              'inputProps': {
-                'readOnly': true,
-                'sx': { 'backgroundColor': 'grey.300' }
-              }
+              'props': {
+                'fullWidth': true,
+              },
+              'inputProps': { 'disabled': true }
             },
             {
               'type': 'textfield',
@@ -95,10 +94,6 @@ const editRumbleAnnotationFormState = {
           'props': {
             'multiline': true,
             'rows': 4
-          },
-          'has': {
-            'maxLength': 1000,
-            'maxLengthMessage': 'Note is too long (1000 characters max)'
           }
         }
       ]
@@ -106,8 +101,8 @@ const editRumbleAnnotationFormState = {
   ]
 } as IStateForm
 
-export const EDIT_RUMBLE_ANNOTATION_UNSUFFIXED_NAME = remove_form_suffix(
-  editRumbleAnnotationFormState._key
+export const NEW_ODYSEE_ANNOTATION_UNSUFFIXED_NAME = remove_form_suffix(
+  newOdyseeAnnotationFormState._key
 )
 
-export default editRumbleAnnotationFormState
+export default newOdyseeAnnotationFormState

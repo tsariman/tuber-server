@@ -6,10 +6,12 @@ import { IJsonapiResource } from '../../../../tuber-client/src/controllers/inter
 
 export interface IAnnotation {
   is_active?: boolean
+  is_published?: boolean
   created_at?: Date
   modified_at?: Date
   is_private?: boolean
   user_id?: string
+  author?: string // used by facebook
   videoid: string
   /** When the videoid is not enough e.g. Rumble */
   url?: string
@@ -80,7 +82,9 @@ const annotationSchema = new Schema<TAnnotation>({
   created_at: { type: Date, default: Date.now },
   modified_at: Date,
   is_private: { type: Boolean, default: false },
+  is_published: Boolean,
   user_id: String,
+  author: String,
   group_id: String,
   videoid: String,
   url: String,
