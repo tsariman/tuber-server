@@ -11,12 +11,18 @@ import {
   IAnnotationPut,
   IAnnotationDelete
 } from '../schema/annotations'
+import Config from '../config'
+import dev_annotations_post_endpoint from '../INSTALL.DEV/endpoint/dev.annotations.post.ep'
 
 const opts = {
   ...DEFAULT_OPTIONS,
 }
 
 export default async function notes_controller(fastify: FastifyInstance) {
+  const postAnnotation = Config.DEV
+    ? dev_annotations_post_endpoint
+    : annotations_post_endpoint
+
   // GET /notes
   fastify.get<IAnnotationGet>('/', opts, annotations_get_collection_endpoint)
 
@@ -24,7 +30,7 @@ export default async function notes_controller(fastify: FastifyInstance) {
   fastify.get<IAnnotationGet>('/:id', opts, annotations_get_by_id_endpoint)
 
   // POST /notes
-  fastify.post<IAnnotationPost>('/', opts, annotations_post_endpoint)
+  fastify.post<IAnnotationPost>('/', opts, postAnnotation)
 
   // PUT /notes/:id (update)
   fastify.put<IAnnotationPut>('/:id', opts, annotations_put_by_id_endpoint)

@@ -7,7 +7,8 @@ import {
   newYoutubeAnnotationDialogState,
   newVideoUrlDialogState,
   editYoutubeAnnotationDialogState,
-  deleteAnnotationDialogState
+  deleteAnnotationDialogState,
+  clientAlertDialogState
 } from '../state/dialogs'
 import { loginPage } from '../state/pages'
 import { defaultAppBarState } from '../state/default.content'
@@ -41,23 +42,23 @@ import editRumbleAnnotationDialogState from '../state/dialogs/edit.rumble.dialog
 import newVimeoAnnotationFormState from '../state/forms/new.vimeo.annotation.form.state'
 import editVimeoAnnotationFormState from '../state/forms/edit.vimeo.annotation.form.state'
 import newVimeoAnnotationDialogState from '../state/dialogs/new.vimeo.dialog'
-import editVimeoAnnotationDialogState from 'src/state/dialogs/edit.vimeo.dialog'
-import newOdyseeAnnotationFormState from 'src/state/forms/new.odysee.annotation.form.state'
-import editOdyseeAnnotationFormState from 'src/state/forms/edit.odysee.annotation.form.state'
-import newDailyAnnotationFormState from 'src/state/forms/new.daily.annotation.form.state'
-import newOdyseeAnnotationDialogState from 'src/state/dialogs/new.odysee.dialog'
-import newDailyAnnotationDialogState from 'src/state/dialogs/new.daily.dialog'
-import editDailyAnnotationDialogState from 'src/state/dialogs/edit.daily.dialog'
-import editOdyseeAnnotationDialogState from 'src/state/dialogs/edit.odysee.dialog'
-import newFacebookAnnotationFormState from 'src/state/forms/new.facebook.annotation.form.state'
-import editFacebookAnnotationFormState from 'src/state/forms/edit.facebook.annotation.form.state'
-import newFacebookAnnotationDialogState from 'src/state/dialogs/new.facebook.dialog'
-import editFacebookAnnotationDialogState from 'src/state/dialogs/edit.facebook.dialog'
-import newUnknownAnnotationFormState from 'src/state/forms/new.unknown.annotation.form.state'
-import editUnknownAnnotationFormState from 'src/state/forms/edit.unknown.annotation.form.state'
-import newUnknownAnnotationDialogState from 'src/state/dialogs/new.unknown.dialog'
-import editUnknownAnnotationDialogState from 'src/state/dialogs/edit.unknown.dialog'
-import editDailyAnnotationFormState from 'src/state/forms/edit.daily.annotation.form.state'
+import editVimeoAnnotationDialogState from '../state/dialogs/edit.vimeo.dialog'
+import newOdyseeAnnotationFormState from '../state/forms/new.odysee.annotation.form.state'
+import editOdyseeAnnotationFormState from '../state/forms/edit.odysee.annotation.form.state'
+import newDailyAnnotationFormState from '../state/forms/new.daily.annotation.form.state'
+import newOdyseeAnnotationDialogState from '../state/dialogs/new.odysee.dialog'
+import newDailyAnnotationDialogState from '../state/dialogs/new.daily.dialog'
+import editDailyAnnotationDialogState from '../state/dialogs/edit.daily.dialog'
+import editOdyseeAnnotationDialogState from '../state/dialogs/edit.odysee.dialog'
+import newFacebookAnnotationFormState from '../state/forms/new.facebook.annotation.form.state'
+import editFacebookAnnotationFormState from '../state/forms/edit.facebook.annotation.form.state'
+import newFacebookAnnotationDialogState from '../state/dialogs/new.facebook.dialog'
+import editFacebookAnnotationDialogState from '../state/dialogs/edit.facebook.dialog'
+import newUnknownAnnotationFormState from '../state/forms/new.unknown.annotation.form.state'
+import editUnknownAnnotationFormState from '../state/forms/edit.unknown.annotation.form.state'
+import newUnknownAnnotationDialogState from '../state/dialogs/new.unknown.dialog'
+import editUnknownAnnotationDialogState from '../state/dialogs/edit.unknown.dialog'
+import editDailyAnnotationFormState from '../state/forms/edit.daily.annotation.form.state'
 
 export default async function bootstrap_controller(fastify: FastifyInstance) {
 
@@ -119,7 +120,7 @@ export default async function bootstrap_controller(fastify: FastifyInstance) {
   set_state_by_key(dialogsState, loginDialogState)
   set_state_by_key(dialogsState, newVideoUrlDialogState)
   set_state_by_key(dialogsState, deleteAnnotationDialogState)
-
+  set_state_by_key(dialogsState, clientAlertDialogState)
   // TODO: Insert more dialogs here
 
   const pagesData = {} as { [key: string]: any }

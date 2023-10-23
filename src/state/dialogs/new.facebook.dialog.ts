@@ -25,7 +25,7 @@ const newFacebookAnnotationDialogState: IStateDialog = {
   'content': `$form : ${NEW_FACEBOOK_ANNOTATION_UNSUFFIXED_NAME} : annotations`,
   'actions': [
     {
-      'type': 'json_button',
+      'type': 'state_button',
       'props': { 'color': 'secondary' },
       'has': {
         'text': 'Cancel',
@@ -33,7 +33,7 @@ const newFacebookAnnotationDialogState: IStateDialog = {
       }
     },
     {
-      'type': 'json_button',
+      'type': 'state_button',
       'props': { 'color': 'primary' },
       'has': {
         'disableOnError': true,

@@ -39,7 +39,7 @@ const devInstallForm = {
       }
     },
     {
-      'type': 'json_button',
+      'type': 'state_button',
       'has': {
         'label': 'Create dev user',
         'onclickHandle': 'tuberCallbacks.devCreateUser'
@@ -50,7 +50,7 @@ const devInstallForm = {
       'has': { 'content': '|' }
     },
     {
-      'type': 'json_button',
+      'type': 'state_button',
       'has': {
         'label': 'Reset database',
         'onclickHandle': 'tuberCallbacks.devResetDatabase'
@@ -61,7 +61,7 @@ const devInstallForm = {
       'has': { 'content': '|' }
     },
     {
-      'type': 'json_button',
+      'type': 'state_button',
       'has': {
         'label': 'Test Drawer',
         'onclickHandle': 'tuberCallbacks.devLoadDrawer'
@@ -72,7 +72,7 @@ const devInstallForm = {
       'has': { 'content': '|' }
     },
     {
-      'type': 'json_button',
+      'type': 'state_button',
       'has': {
         'label': 'Remove Drawer',
         'onclickHandle': 'tuberCallbacks.devUnloadDrawer'
@@ -83,7 +83,7 @@ const devInstallForm = {
       'has': { 'content': '|' }
     },
     {
-      'type': 'json_button',
+      'type': 'state_button',
       'has': {
         'label': 'Test Add New annotation',
         'onclickHandle': 'tuberCallbacks.annotationAdd'
@@ -110,7 +110,7 @@ const devInstallForm = {
           }
         },
         {
-          'type': 'json_button',
+          'type': 'state_button',
           'has': {
             'text': 'Test Clipboard',
             'onclickHandle': 'tuberCallbacks.devClipboardTest'
@@ -125,7 +125,7 @@ const devInstallForm = {
     },
     { 'type': 'hr' },
     {
-      'type': 'json_button',
+      'type': 'state_button',
       'has': {
         'label': 'Create new user',
         'onclickHandle': 'tuberCallbacks.devUserAdd'
@@ -136,7 +136,7 @@ const devInstallForm = {
       'has': { 'content': '|' }
     },
     {
-      'type': 'json_button',
+      'type': 'state_button',
       'has': {
         'label': 'Populate user collection',
         'onclickHandle': 'tuberCallbacks.devUserPopulate'
@@ -147,7 +147,7 @@ const devInstallForm = {
       'has': { 'content': '|' }
     },
     {
-      'type': 'json_button',
+      'type': 'state_button',
       'has': {
         'label': 'Get annotations collection test',
         'onclickHandle': 'tuberCallbacks.devGetAnnotations'
@@ -159,7 +159,7 @@ const devInstallForm = {
       'has': { 'content': '|' }
     },
     {
-      'type': 'json_button',
+      'type': 'state_button',
       'has': {
         'label': 'Test spinner',
         'onclickHandle': 'tuberCallbacks.devNoResponse'
@@ -199,7 +199,7 @@ const devInstallForm = {
           }
         },
         {
-          'type': 'json_button',
+          'type': 'state_button',
           'has': {
             'label': 'Drop Collection',
             'onclickHandle': 'tuberCallbacks.devDropCollection'
@@ -263,7 +263,7 @@ const devInstallForm = {
           }
         },
         {
-          'type': 'json_button',
+          'type': 'state_button',
           'has': {
             'label': 'Populate Collection',
             'onclickHandle': 'tuberCallbacks.devPopulateCollection'
@@ -280,7 +280,7 @@ const devInstallForm = {
           'has': { 'content': '|' }
         },
         {
-          'type': 'json_button',
+          'type': 'state_button',
           'has': {
             'label': 'Create Annotation Search Index',
             'onclickHandle': 'tuberCallbacks.devCreateAnnotationSearchIndex'

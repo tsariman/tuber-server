@@ -2,7 +2,7 @@ import IStateFormItem from '../../../../tuber-client/src/controllers/interfaces/
 
 
 export const dialogDefaultCloseButtonJson: IStateFormItem = {
-  'type': 'json_button',
+  'type': 'state_button',
   'props': { 'color': 'secondary' },
   'has': {
     'text': 'Cancel',

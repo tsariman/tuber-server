@@ -31,7 +31,7 @@ export const newYoutubeAnnotationDialogState: IStateDialog = {
   'content': `$form : ${NEW_YOUTUBE_ANNNOTATION_UNSUFFIXED_NAME} : annotations`,
   'actions': [
     {
-      'type': 'json_button',
+      'type': 'state_button',
       'props': { 'color': 'secondary' },
       'has': {
         'text': 'Cancel',
@@ -39,7 +39,7 @@ export const newYoutubeAnnotationDialogState: IStateDialog = {
       }
     },
     {
-      'type': 'json_button',
+      'type': 'state_button',
       'props': { 'color': 'primary' },
       'has': {
         'text': 'Save',
@@ -47,7 +47,7 @@ export const newYoutubeAnnotationDialogState: IStateDialog = {
       }
     }
   ],
-  'open': true // Careful! Must be set to true
+  'open': true
 }
 
 const _2 = '2'
@@ -71,7 +71,7 @@ export const newVideoUrlDialogState: IStateDialog = {
   },
   'content': `$form : ${NEW_VIDEO_URL_FORM_UNSUFFIXED_NAME} : annotations`,
   'actions': [],
-  'open': true // Careful! Must be set to true
+  'open': true
 }
 
 const _7 = '7'
@@ -96,7 +96,7 @@ export const editYoutubeAnnotationDialogState: IStateDialog = {
   'content': `'$form : ${EDIT_YOUTUBE_ANNOTATION_UNSUFFIXED_NAME} : annotations'`,
   'actions': [
     {
-      'type': 'json_button',
+      'type': 'state_button',
       'props': { 'color': 'secondary' },
       'has': {
         'text': 'Cancel',
@@ -104,7 +104,7 @@ export const editYoutubeAnnotationDialogState: IStateDialog = {
       }
     },
     {
-      'type': 'json_button',
+      'type': 'state_button',
       'props': { 'color': 'primary' },
       'has': {
         'text': 'Save',
@@ -112,12 +112,16 @@ export const editYoutubeAnnotationDialogState: IStateDialog = {
       }
     }
   ],
-  'open': true // Careful! Must be set to true
+  'open': true
 }
 
+const _32 = '32'
+const _32_KEY = 'loginDialog'
+Config.register('state', _32, _32_KEY)
 export const loginDialogState: IStateDialog = {
   '_type': 'form',
-  '_key': 'loginDialog',
+  '_id': _32,
+  '_key': _32_KEY,
   'title': 'Enter Your Credentials',
   'props': {
     'fullWidth': true,
@@ -127,13 +131,16 @@ export const loginDialogState: IStateDialog = {
     'sx': { 'textAlign': 'center' }
   },
   'content': '$form : login : authentification',
-  // 'actions': [ dialogDefaultCloseButtonJson ],
-  'open': true // Careful! Must be set to true
+  'open': true
 }
 
+const _33 = '33'
+const _33_KEY = 'registerDialog'
+Config.register('state', _33, _33_KEY)
 export const registerDialogState: IStateDialog = {
   '_type': 'form',
-  '_key': 'registerDialog',
+  '_id': _33,
+  '_key': _33_KEY,
   'title': 'Register New User',
   'props': {
     'fullWidth': true,
@@ -143,14 +150,16 @@ export const registerDialogState: IStateDialog = {
     'sx': { 'textAlign': 'center' }
   },
   'content': '$form : register : users',
-  // 'actions': [ dialogDefaultCloseButtonJson ],
-  'open': true // Careful! Must be set to true
+  'open': true
 }
 
+const _34 = '34'
+const _34_KEY = 'annotationDeleteDialog'
+Config.register('state', _34, _34_KEY)
 export const deleteAnnotationDialogState: IStateDialog = {
   '_type': 'alert',
-  '_key': 'annotationDeleteDialog',
-  '_id': 'pro-delete-existing-annotation',
+  '_id': _34,
+  '_key': _34_KEY,
   'title': 'Delete Annotation',
   'props': { 'fullWidth': true },
   'titleProps': {
@@ -159,7 +168,7 @@ export const deleteAnnotationDialogState: IStateDialog = {
   'content': 'Are you sure you want to delete this annotation?',
   'actions': [
     {
-      'type': 'json_button',
+      'type': 'state_button',
       'props': { 'color': 'secondary' },
       'has': {
         'text': 'Cancel',
@@ -167,7 +176,7 @@ export const deleteAnnotationDialogState: IStateDialog = {
       }
     },
     {
-      'type': 'json_button',
+      'type': 'state_button',
       'props': { 'color': 'primary' },
       'has': {
         'text': 'Delete',
@@ -176,6 +185,31 @@ export const deleteAnnotationDialogState: IStateDialog = {
     }
   ],
   'open': true // Careful! Must be set to true
+}
+
+const _35 = '35'
+const _35_KEY = 'clientAlertDialog'
+Config.register('state', _35, _35_KEY)
+export const clientAlertDialogState: IStateDialog = {
+  '_type': 'alert',
+  '_id': _35,
+  '_key': _35_KEY,
+  'title': 'Feedback',
+  'props': { 'fullWidth': true },
+  'titleProps': {
+    'sx': { 'textAlign': 'center' }
+  },
+  'content': '',
+  'actions': [
+    {
+      'type': 'state_button',
+      'props': { 'color': 'secondary' },
+      'has': {
+        'text': 'Cancel',
+        'onclickHandle': 'tuberCallbacks.defaultClose'
+      }
+    }
+  ]
 }
 
 /** Default alert dialog */
@@ -190,10 +224,10 @@ export function defaultDialogAlertState<T=any>(content: T) {
         'titleProps': {
           'sx': { 'textAlign': 'center' }
         },
-        'content': content, // JSON.stringify(content, null, 2),
+        'content': content,
         'actions': [
           {
-            'type': 'json_button',
+            'type': 'state_button',
             'props': { 'color': 'secondary' },
             'has': {
               'text': 'Close',
@@ -201,11 +235,13 @@ export function defaultDialogAlertState<T=any>(content: T) {
             }
           }
         ],
-        'open': true // Dialog will open immediately
+        'open': true
       } as IStateDialog
     }
   }
 }
+
+export const alert = defaultDialogAlertState
 
 export function dialogAlertState<T=any>(content: T): IStateDialog {
   return {
@@ -216,10 +252,10 @@ export function dialogAlertState<T=any>(content: T): IStateDialog {
     'titleProps': {
       'sx': { 'textAlign': 'center' }
     },
-    'content': content, // JSON.stringify(content, null, 2),
+    'content': content,
     'actions': [
       {
-        'type': 'json_button',
+        'type': 'state_button',
         'props': { 'color': 'secondary' },
         'has': {
           'text': 'Close',
@@ -227,6 +263,6 @@ export function dialogAlertState<T=any>(content: T): IStateDialog {
         }
       }
     ],
-    'open': true // Dialog will open immediately
+    'open': true
   } as IStateDialog
 }

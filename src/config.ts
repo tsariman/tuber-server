@@ -13,9 +13,6 @@ const STATE_REGISTRY: IGenericObject = {}
 /** TODO Configure the app here. */
 const USER_CONFIG = {
   NODE_ENV: process.env.NODE_ENV,
-
-  // [PROD] Set to false
-  /** Set to `true` when app is actively under development. */
   DEV: process.env.NODE_ENV === 'development',
 
   // [PROD] Set to false

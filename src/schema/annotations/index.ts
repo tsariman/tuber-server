@@ -1,7 +1,7 @@
 import { FastifyRequest } from 'fastify'
 import mongoose, { Schema } from 'mongoose'
 import paginate from 'mongoose-paginate-v2'
-import { IJsonapiQuerystring, WithRequired } from '../../business.logic/common.types'
+import { IGenericObject, IJsonapiQuerystring, WithRequired } from '../../business.logic/common.types'
 import { IJsonapiResource } from '../../../../tuber-client/src/controllers/interfaces/IJsonapi'
 
 export interface IAnnotation {
@@ -45,7 +45,8 @@ export interface IAnnotationGet {
 /** Available fields for a post request. */
 export interface IAnnotationPost {
   Body: {
-    data: IJsonapiResource<IAnnotation>
+    data: IJsonapiResource<IAnnotation>,
+    meta: IGenericObject
   }
 }
 

@@ -25,7 +25,7 @@ const editUnknownAnnotationDialogState: IStateDialog = {
   'content': `$form : ${EDIT_UNKNOWN_ANNOTATION_UNSUFFIXED_NAME} : annotations`,
   'actions': [
     {
-      'type': 'json_button',
+      'type': 'state_button',
       'props': { 'color': 'secondary' },
       'has': {
         'text': 'Cancel',
@@ -33,7 +33,7 @@ const editUnknownAnnotationDialogState: IStateDialog = {
       }
     },
     {
-      'type': 'json_button',
+      'type': 'state_button',
       'props': { 'color': 'primary' },
       'has': {
         'disableOnError': true,
