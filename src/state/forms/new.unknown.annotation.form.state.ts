@@ -24,7 +24,7 @@ const newUnknownAnnotationFormState = {
           'inputProps': {
             'readOnly': true,
             'sx': { 'backgroundColor': 'grey.300' }
-          }
+          },
         },
         {
           'type': 'textfield',
@@ -33,6 +33,22 @@ const newUnknownAnnotationFormState = {
           'props': {
             'fullWidth': true,
           },
+          'has': {
+            'required': true,
+            'requiredMessage': 'Paste-in the embed URL or iframe HTML code.'
+          }
+        },
+        {
+          'type': 'html',
+          'has': {
+            'content': `
+              <span style="font-size:1.2rem;color:blue">
+                Note:
+              </span>
+              Don't hesitate to paste-in the entire embed HTML code above. Bare in
+              mind, some embed URLs need to be customized for them to work.
+            `
+          }
         },
         {
           'type': 'textfield',
@@ -42,6 +58,8 @@ const newUnknownAnnotationFormState = {
             'fullWidth': true
           },
           'has': {
+            'required': true,
+            'requiredMessage': 'You need a title.',
             'maxLength': 80,
             'maxLengthMessage': 'Your title is too long. (80 characters max)'
           }
@@ -53,6 +71,10 @@ const newUnknownAnnotationFormState = {
           'props': {
             'multiline': true,
             'rows': 4
+          },
+          'has': {
+            'maxLength': 1000,
+            'maxLengthMessage': 'Note is too long. (1000 characters max)'
           }
         }
       ]

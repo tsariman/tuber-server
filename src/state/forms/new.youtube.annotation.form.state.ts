@@ -69,11 +69,13 @@ const newYouTubeAnnotationFormState = {
         {
           'type': 'textfield',
           'name': 'title',
-          'label': 'TItle',
+          'label': 'Title',
           'props': {
             'fullWidth': true
           },
           'has': {
+            'required': true,
+            'requiredMessage': 'You need a title.',
             'maxLength': 80,
             'maxLengthMessage': 'Your title is too long. (80 characters max)'
           }
@@ -85,6 +87,10 @@ const newYouTubeAnnotationFormState = {
           'props': {
             'multiline': true,
             'rows': 4
+          },
+          'has': {
+            'maxLength': 1000,
+            'maxLengthMessage': 'Note is too long (1000 characters max)'
           }
         }
       ]

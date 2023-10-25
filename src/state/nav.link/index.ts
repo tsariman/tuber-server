@@ -55,8 +55,9 @@ export const annotationAddFromUrlLinkState: IStateLink = {
   '_id': _3,
   'has': {
     'icon': 'playlist_add_outline',
-    'onclickHandle': `tuberCallbacks._3_C_1`, // annotationShowAddFromUrl
-    'iconProps': { 'sx': { 'color': 'grey.600' }}
+    // Button to create a new annotation from a video URL
+    'onclickHandle': `tuberCallbacks._3_C_1`,
+    'iconProps': { 'sx': { 'color': 'grey.600' }},
   }
 }
 

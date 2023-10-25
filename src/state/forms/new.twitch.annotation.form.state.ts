@@ -2,13 +2,13 @@ import Config from '../../config'
 import IStateForm from '../../../../tuber-client/src/controllers/interfaces/IStateForm'
 import { remove_form_suffix } from './_forms.business.logic'
 
-const _13 = '13'
-const _13_KEY = 'editVimeoAnnotationForm'
-Config.register('state', _13, _13_KEY)
-/** Form for editing an existing Vimeo annotation. @id 13 */
-const editVimeoAnnotationFormState = {
-  '_id': _13,
-  '_key': _13_KEY, // 'editAnnotationForm',
+const _38 = '38'
+const _38_KEY = 'newTwitchAnnotationForm'
+Config.register('state', _38, _38_KEY)
+/** Form for creating a new Twitch video annotation @id 38 */
+const newTwitchAnnotationFormState = {
+  '_id': _38,
+  '_key': _38_KEY,
   'items': [
     {
       'type': 'stack',
@@ -26,7 +26,7 @@ const editVimeoAnnotationFormState = {
               'name': 'start_seconds',
               'label': 'Start',
               'props': {
-                'sx': { 'width': 240 }
+                'sx': { 'width': 240 },
               },
               'inputProps': {
                 'readOnly': true,
@@ -74,8 +74,6 @@ const editVimeoAnnotationFormState = {
             'fullWidth': true
           },
           'has': {
-            'required': true,
-            'requiredMessage': 'You need a title.',
             'maxLength': 80,
             'maxLengthMessage': 'Your title is too long. (80 characters max)'
           }
@@ -87,10 +85,6 @@ const editVimeoAnnotationFormState = {
           'props': {
             'multiline': true,
             'rows': 4
-          },
-          'has': {
-            'maxLength': 1000,
-            'maxLengthMessage': 'Note is too long. (1000 characters max)'
           }
         }
       ]
@@ -98,8 +92,8 @@ const editVimeoAnnotationFormState = {
   ]
 } as IStateForm
 
-export const EDIT_VIMEO_ANNOTATION_UNSUFFIXED_NAME = remove_form_suffix(
-  editVimeoAnnotationFormState._key
+export const NEW_TWITCH_ANNNOTATION_UNSUFFIXED_NAME = remove_form_suffix(
+  newTwitchAnnotationFormState._key
 )
 
-export default editVimeoAnnotationFormState
+export default newTwitchAnnotationFormState

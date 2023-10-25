@@ -2,13 +2,13 @@ import Config from '../../config'
 import IStateForm from '../../../../tuber-client/src/controllers/interfaces/IStateForm'
 import { remove_form_suffix } from './_forms.business.logic'
 
-const _13 = '13'
-const _13_KEY = 'editVimeoAnnotationForm'
-Config.register('state', _13, _13_KEY)
-/** Form for editing an existing Vimeo annotation. @id 13 */
-const editVimeoAnnotationFormState = {
-  '_id': _13,
-  '_key': _13_KEY, // 'editAnnotationForm',
+const _39 = '39'
+const _39_KEY = 'editTwitchAnnotationForm'
+Config.register('state', _39, _39_KEY)
+/** Form for editing an existing Twitch annotation. @id 39 */
+const editTwitchAnnotationFormState = {
+  '_id': _39,
+  '_key': _39_KEY, // 'editAnnotationForm',
   'items': [
     {
       'type': 'stack',
@@ -98,8 +98,8 @@ const editVimeoAnnotationFormState = {
   ]
 } as IStateForm
 
-export const EDIT_VIMEO_ANNOTATION_UNSUFFIXED_NAME = remove_form_suffix(
-  editVimeoAnnotationFormState._key
+export const EDIT_TWITCH_ANNOTATION_UNSUFFIXED_NAME = remove_form_suffix(
+  editTwitchAnnotationFormState._key
 )
 
-export default editVimeoAnnotationFormState
+export default editTwitchAnnotationFormState

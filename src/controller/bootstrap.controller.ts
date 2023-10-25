@@ -59,6 +59,10 @@ import editUnknownAnnotationFormState from '../state/forms/edit.unknown.annotati
 import newUnknownAnnotationDialogState from '../state/dialogs/new.unknown.dialog'
 import editUnknownAnnotationDialogState from '../state/dialogs/edit.unknown.dialog'
 import editDailyAnnotationFormState from '../state/forms/edit.daily.annotation.form.state'
+import newTwitchAnnotationDialogState from 'src/state/dialogs/new.twitch.dialog'
+import editTwitchAnnotationDialogState from 'src/state/dialogs/edit.twitch.dialog'
+import newTwitchAnnotationFormState from 'src/state/forms/new.twitch.annotation.form.state'
+import editTwitchAnnotationFormState from 'src/state/forms/edit.twitch.annotation.form.state'
 
 export default async function bootstrap_controller(fastify: FastifyInstance) {
 
@@ -99,6 +103,8 @@ export default async function bootstrap_controller(fastify: FastifyInstance) {
   set_state_by_key(formsState, editFacebookAnnotationFormState)
   set_state_by_key(formsState, newUnknownAnnotationFormState)
   set_state_by_key(formsState, editUnknownAnnotationFormState)
+  set_state_by_key(formsState, newTwitchAnnotationFormState)
+  set_state_by_key(formsState, editTwitchAnnotationFormState)
   set_state_by_key(formsState, newVideoUrlFormState)
   // TODO: Insert more forms here
 
@@ -115,6 +121,8 @@ export default async function bootstrap_controller(fastify: FastifyInstance) {
   set_state_by_key(dialogsState, editDailyAnnotationDialogState)
   set_state_by_key(dialogsState, newFacebookAnnotationDialogState)
   set_state_by_key(dialogsState, editFacebookAnnotationDialogState)
+  set_state_by_key(dialogsState, newTwitchAnnotationDialogState)
+  set_state_by_key(dialogsState, editTwitchAnnotationDialogState)
   set_state_by_key(dialogsState, newUnknownAnnotationDialogState)
   set_state_by_key(dialogsState, editUnknownAnnotationDialogState)
   set_state_by_key(dialogsState, loginDialogState)
