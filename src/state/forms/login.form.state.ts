@@ -19,12 +19,20 @@ const loginFormState: IStateForm = {
         {
           'type': 'text',
           'name': 'username',
-          'label': 'Username'
+          'label': 'Username',
+          'has': {
+            'required': true,
+            'requiredMessage': 'Type-in your username first'
+          }
         },
         {
           'type': 'password',
           'label': 'Password',
-          'name': 'password'
+          'name': 'password',
+          'has': {
+            'required': true,
+            'requiredMessage': 'You forgot the password'
+          }
         },
         {
           'type': 'checkboxes',

@@ -1,6 +1,7 @@
 import Config from '../../config'
 import IStateForm from '../../../../tuber-client/src/controllers/interfaces/IStateForm'
 import { remove_form_suffix } from './_forms.business.logic'
+import * as C from '../../constants'
 
 const _29 = '29'
 const _29_KEY = 'editUnknownAnnotationForm'
@@ -42,8 +43,10 @@ const editUnknownAnnotationFormState = {
             'fullWidth': true
           },
           'has': {
-            'maxLength': 80,
-            'maxLengthMessage': 'Your title is too long. (80 characters max)'
+            'required': true,
+            'requiredMessage': C.TITLE_REQUIRED_MESSAGE,
+            'maxLength': C.TITLE_MAX_LENGTH,
+            'maxLengthMessage': C.TITLE_MAX_LENGTH_MESSAGE
           }
         },
         {
@@ -52,7 +55,11 @@ const editUnknownAnnotationFormState = {
           'label': 'Note',
           'props': {
             'multiline': true,
-            'rows': 4
+            'rows': C.NOTE_FIELD_ROWS
+          },
+          'has': {
+            'maxLength': C.NOTE_MAX_LENGTH,
+            'maxLengthMessage': C.NOTE_MAX_LENGTH_MESSAGE
           }
         }
       ]

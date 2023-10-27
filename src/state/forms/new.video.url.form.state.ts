@@ -57,6 +57,8 @@ const newVideoUrlFormState: IStateForm = {
           },
           'has': {
             'onkeydownHandle': `tuberCallbacks._1_C_2`,
+            'required': true,
+            'requiredMessage': 'You forgot the URL of the video'
           }
         },
       ] as IStateFormItem[]

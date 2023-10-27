@@ -3738,5 +3738,6 @@ export default {
   'virtualrealporn': 1,
   'wankzvr': 1,
   'literotica': 1,
-  'tags.literotica': 1
+  'tags.literotica': 1,
+  'kink': 1,
 }

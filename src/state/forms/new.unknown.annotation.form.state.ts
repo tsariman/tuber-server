@@ -1,6 +1,7 @@
 import Config from '../../config'
 import IStateForm from '../../../../tuber-client/src/controllers/interfaces/IStateForm'
 import { remove_form_suffix } from './_forms.business.logic'
+import * as C from '../../constants'
 
 const _28 = '28'
 const _28_KEY = 'newUnknownAnnotationForm'
@@ -25,6 +26,10 @@ const newUnknownAnnotationFormState = {
             'readOnly': true,
             'sx': { 'backgroundColor': 'grey.300' }
           },
+          'has': {
+            'required': true,
+            'requiredMessage': 'Where did that URL go?',
+          }
         },
         {
           'type': 'textfield',
@@ -35,7 +40,7 @@ const newUnknownAnnotationFormState = {
           },
           'has': {
             'required': true,
-            'requiredMessage': 'Paste-in the embed URL or iframe HTML code.'
+            'requiredMessage': C.EMBED_URL_MESSAGE,
           }
         },
         {
@@ -53,15 +58,15 @@ const newUnknownAnnotationFormState = {
         {
           'type': 'textfield',
           'name': 'title',
-          'label': 'TItle',
+          'label': 'Title',
           'props': {
             'fullWidth': true
           },
           'has': {
             'required': true,
-            'requiredMessage': 'You need a title.',
-            'maxLength': 80,
-            'maxLengthMessage': 'Your title is too long. (80 characters max)'
+            'requiredMessage': C.TITLE_REQUIRED_MESSAGE,
+            'maxLength': C.TITLE_MAX_LENGTH,
+            'maxLengthMessage': C.TITLE_MAX_LENGTH_MESSAGE,
           }
         },
         {
@@ -70,11 +75,11 @@ const newUnknownAnnotationFormState = {
           'label': 'Note',
           'props': {
             'multiline': true,
-            'rows': 4
+            'rows': C.NOTE_FIELD_ROWS
           },
           'has': {
-            'maxLength': 1000,
-            'maxLengthMessage': 'Note is too long. (1000 characters max)'
+            'maxLength': C.NOTE_MAX_LENGTH,
+            'maxLengthMessage': C.NOTE_MAX_LENGTH_MESSAGE
           }
         }
       ]

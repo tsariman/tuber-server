@@ -1,6 +1,7 @@
 import Config from '../../config'
 import IStateForm from '../../../../tuber-client/src/controllers/interfaces/IStateForm'
 import { remove_form_suffix } from './_forms.business.logic'
+import * as C from '../../constants'
 
 const _13 = '13'
 const _13_KEY = 'editVimeoAnnotationForm'
@@ -32,15 +33,10 @@ const editVimeoAnnotationFormState = {
                 'readOnly': true,
                 'sx': { 'backgroundColor': 'grey.300' }
               },
-            },
-            {
-              'type': 'number',
-              'name': 'end_seconds',
-              'label': 'Length',
-              'props': {
-                'sx': { 'width': 240 },
-              },
-              'inputProps': { 'disabled': true }
+              'has': {
+                'required': true,
+                'requiredMessage': C.START_SECONDS_REQUIRED_MESSAGE,
+              }
             },
             {
               'type': 'textfield',
@@ -75,9 +71,9 @@ const editVimeoAnnotationFormState = {
           },
           'has': {
             'required': true,
-            'requiredMessage': 'You need a title.',
-            'maxLength': 80,
-            'maxLengthMessage': 'Your title is too long. (80 characters max)'
+            'requiredMessage': C.TITLE_REQUIRED_MESSAGE,
+            'maxLength': C.TITLE_MAX_LENGTH,
+            'maxLengthMessage': C.TITLE_MAX_LENGTH_MESSAGE,
           }
         },
         {
@@ -86,11 +82,11 @@ const editVimeoAnnotationFormState = {
           'label': 'Note',
           'props': {
             'multiline': true,
-            'rows': 4
+            'rows': C.NOTE_FIELD_ROWS
           },
           'has': {
-            'maxLength': 1000,
-            'maxLengthMessage': 'Note is too long. (1000 characters max)'
+            'maxLength': C.NOTE_MAX_LENGTH,
+            'maxLengthMessage': C.NOTE_MAX_LENGTH_MESSAGE
           }
         }
       ]
