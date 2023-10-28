@@ -57,11 +57,11 @@ const USER_CONFIG = {
 
   DB_ATLAS_API_BASE_URL: process.env.DB_ATLAS_API_BASE_URL ?? '',
   /**
-   * The annotation search index is defined in the MongoDB Atlas cloud using
+   * The bookmark search index is defined in the MongoDB Atlas cloud using
    * api keys.
    */
-  DB_ATLAS_ANNOTATION_SEARCH_INDEX_NAME:
-    process.env.DB_ATLAS_ANNOTATION_SEARCH_INDEX_NAME
+  DB_ATLAS_BOOKMARK_SEARCH_INDEX_NAME:
+    process.env.DB_ATLAS_BOOKMARK_SEARCH_INDEX_NAME
     ?? ''
   ,
 
@@ -83,13 +83,13 @@ const USER_CONFIG = {
    */
   USER_CACHE,
 
-  /** The number of annotations to return per page. */
-  PAGINATION_ANNOTATIONS_LIMIT: process.env.PAGINATION_ANNOTATIONS_LIMIT || '10',
+  /** The number of bookmarks to return per page. */
+  PAGINATION_BOOKMARKS_LIMIT: process.env.PAGINATION_BOOKMARKS_LIMIT || '10',
   /** The number of users to return per page. */
   PAGINATION_USERS_LIMIT: process.env.PAGINATION_USERS_LIMIT || '10',
 
-  /** Max number of annotations pages to load in memory client-side */
-  MAX_LOADED_ANNOTATION_PAGES: process.env.MAX_LOADED_ANNOTATION_PAGES || '4',
+  /** Max number of bookmarks pages to load in memory client-side */
+  MAX_LOADED_BOOKMARK_PAGES: process.env.MAX_LOADED_BOOKMARK_PAGES || '4',
   /** Max number of users pages to load in memory client-side */
   MAX_LOADED_USER_PAGES: process.env.MAX_LOADED_USER_PAGES || '4',
 

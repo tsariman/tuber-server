@@ -4,10 +4,10 @@ import { remove_form_suffix } from './_forms.business.logic'
 import * as C from '../../constants'
 
 const _28 = '28'
-const _28_KEY = 'newUnknownAnnotationForm'
+const _28_KEY = 'newUnknownBookmarkForm'
 Config.register('state', _28, _28_KEY)
-/** Form for creating a new unknown video annotation @id 28 */
-const newUnknownAnnotationFormState = {
+/** Form for creating a new unknown video bookmark @id 28 */
+const newUnknownBookmarkFormState = {
   '_id': _28,
   '_key': _28_KEY,
   'items': [
@@ -87,8 +87,8 @@ const newUnknownAnnotationFormState = {
   ]
 } as IStateForm
 
-export const NEW_UNKNOWN_ANNOTATION_UNSUFFIXED_NAME = remove_form_suffix(
-  newUnknownAnnotationFormState._key
+export const NEW_UNKNOWN_BOOKMARK_UNSUFFIXED_NAME = remove_form_suffix(
+  newUnknownBookmarkFormState._key
 )
 
-export default newUnknownAnnotationFormState
+export default newUnknownBookmarkFormState

@@ -3,18 +3,28 @@ import IStateForm from '../../../../tuber-client/src/controllers/interfaces/ISta
 import { remove_form_suffix } from './_forms.business.logic'
 import * as C from '../../constants'
 
-const _38 = '38'
-const _38_KEY = 'newTwitchAnnotationForm'
-Config.register('state', _38, _38_KEY)
-/** Form for creating a new Twitch video annotation @id 38 */
-const newTwitchAnnotationFormState = {
-  '_id': _38,
-  '_key': _38_KEY,
+const _10 = '10'
+const _10_KEY = 'editRumbleBookmarkForm'
+Config.register('state', _10, _10_KEY)
+/** Form for creating a edit rumble video bookmark @id 10 */
+const editRumbleBookmarkFormState = {
+  '_id': _10,
+  '_key': _10_KEY,
   'items': [
     {
       'type': 'stack',
       'props': { 'spacing': 2 },
       'items': [
+        {
+          'type': 'textfield',
+          'name': 'slug',
+          'label': 'Video URL Slug',
+          'props': { 'fullWidth': true },
+          'inputProps': {
+            'readOnly': true,
+            'sx': { 'backgroundColor': 'grey.300' }
+          }
+        },
         {
           'type': 'stack',
           'props': {
@@ -71,7 +81,7 @@ const newTwitchAnnotationFormState = {
           },
           'has': {
             'required': true,
-            'requiredMessage': C.TITLE_MAX_LENGTH_MESSAGE,
+            'requiredMessage': C.TITLE_REQUIRED_MESSAGE,
             'maxLength': C.TITLE_MAX_LENGTH,
             'maxLengthMessage': C.TITLE_MAX_LENGTH_MESSAGE
           }
@@ -94,8 +104,8 @@ const newTwitchAnnotationFormState = {
   ]
 } as IStateForm
 
-export const NEW_TWITCH_ANNNOTATION_UNSUFFIXED_NAME = remove_form_suffix(
-  newTwitchAnnotationFormState._key
+export const EDIT_RUMBLE_BOOKMARK_UNSUFFIXED_NAME = remove_form_suffix(
+  editRumbleBookmarkFormState._key
 )
 
-export default newTwitchAnnotationFormState
+export default editRumbleBookmarkFormState

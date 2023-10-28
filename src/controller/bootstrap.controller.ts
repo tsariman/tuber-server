@@ -4,10 +4,10 @@ import IStateApp from '../../../tuber-client/src/controllers/interfaces/IStateAp
 import { backgroundState } from '../state'
 import {
   loginDialogState,
-  newYoutubeAnnotationDialogState,
+  newYoutubeBookmarkDialogState,
   newVideoUrlDialogState,
-  editYoutubeAnnotationDialogState,
-  deleteAnnotationDialogState,
+  editYoutubeBookmarkDialogState,
+  deleteBookmarkDialogState,
   clientAlertDialogState
 } from '../state/dialogs'
 import { loginPage } from '../state/pages'
@@ -22,47 +22,47 @@ import devSignedInAppBar from '../INSTALL.DEV/dev.signedin-appbar.page.state'
 import devInstallForm from '../INSTALL.DEV/dev.install.form.state'
 import researchPageState from '../state/pages/research.page.state'
 import loginFormState from '../state/forms/login.form.state'
-import newYouTubeAnnotationFormState from '../state/forms/new.youtube.annotation.form.state'
+import newYouTubeBookmarkFormState from '../state/forms/new.youtube.bookmark.form.state'
 import researchPageAppBarState from '../state/appBar/research.page.appbar.state'
 import {
   homeLinkState,
-  annotationAddFromUrlLinkState,
+  bookmarkAddFromUrlLinkState,
   powerLinkState,
   defaultErrorsViewLinkState
 } from '../state/nav.link'
 import newVideoUrlFormState from '../state/forms/new.video.url.form.state'
 import { get_state_key, set_state_by_key } from '../business.logic'
 import { get_documents_count } from '../INSTALL.DEV'
-import editYouTubeAnnotationFormState from '../state/forms/edit.youtube.annotation.form.state'
+import editYouTubeBookmarkFormState from '../state/forms/edit.youtube.bookmark.form.state'
 import { IBootstrapResponse } from '../business.logic/common.types'
-import newRumbleAnnotationFormState from '../state/forms/new.rumble.annotation.form.state'
-import newRumbleAnnotationDialogState from '../state/dialogs/new.rumble.dialog'
-import editRumbleAnnotationFormState from '../state/forms/edit.rumble.annotation.form.state'
-import editRumbleAnnotationDialogState from '../state/dialogs/edit.rumble.dialog'
-import newVimeoAnnotationFormState from '../state/forms/new.vimeo.annotation.form.state'
-import editVimeoAnnotationFormState from '../state/forms/edit.vimeo.annotation.form.state'
-import newVimeoAnnotationDialogState from '../state/dialogs/new.vimeo.dialog'
-import editVimeoAnnotationDialogState from '../state/dialogs/edit.vimeo.dialog'
-import newOdyseeAnnotationFormState from '../state/forms/new.odysee.annotation.form.state'
-import editOdyseeAnnotationFormState from '../state/forms/edit.odysee.annotation.form.state'
-import newDailyAnnotationFormState from '../state/forms/new.daily.annotation.form.state'
-import newOdyseeAnnotationDialogState from '../state/dialogs/new.odysee.dialog'
-import newDailyAnnotationDialogState from '../state/dialogs/new.daily.dialog'
-import editDailyAnnotationDialogState from '../state/dialogs/edit.daily.dialog'
-import editOdyseeAnnotationDialogState from '../state/dialogs/edit.odysee.dialog'
-import newFacebookAnnotationFormState from '../state/forms/new.facebook.annotation.form.state'
-import editFacebookAnnotationFormState from '../state/forms/edit.facebook.annotation.form.state'
-import newFacebookAnnotationDialogState from '../state/dialogs/new.facebook.dialog'
-import editFacebookAnnotationDialogState from '../state/dialogs/edit.facebook.dialog'
-import newUnknownAnnotationFormState from '../state/forms/new.unknown.annotation.form.state'
-import editUnknownAnnotationFormState from '../state/forms/edit.unknown.annotation.form.state'
-import newUnknownAnnotationDialogState from '../state/dialogs/new.unknown.dialog'
-import editUnknownAnnotationDialogState from '../state/dialogs/edit.unknown.dialog'
-import editDailyAnnotationFormState from '../state/forms/edit.daily.annotation.form.state'
-import newTwitchAnnotationDialogState from 'src/state/dialogs/new.twitch.dialog'
-import editTwitchAnnotationDialogState from 'src/state/dialogs/edit.twitch.dialog'
-import newTwitchAnnotationFormState from 'src/state/forms/new.twitch.annotation.form.state'
-import editTwitchAnnotationFormState from 'src/state/forms/edit.twitch.annotation.form.state'
+import newRumbleBookmarkFormState from '../state/forms/new.rumble.bookmark.form.state'
+import newRumbleBookmarkDialogState from '../state/dialogs/new.rumble.dialog'
+import editRumbleBookmarkFormState from '../state/forms/edit.rumble.bookmark.form.state'
+import editRumbleBookmarkDialogState from '../state/dialogs/edit.rumble.dialog'
+import newVimeoBookmarkFormState from '../state/forms/new.vimeo.bookmark.form.state'
+import editVimeoBookmarkFormState from '../state/forms/edit.vimeo.bookmark.form.state'
+import newVimeoBookmarkDialogState from '../state/dialogs/new.vimeo.dialog'
+import editVimeoBookmarkDialogState from '../state/dialogs/edit.vimeo.dialog'
+import newOdyseeBookmarkFormState from '../state/forms/new.odysee.bookmark.form.state'
+import editOdyseeBookmarkFormState from '../state/forms/edit.odysee.bookmark.form.state'
+import newDailyBookmarkFormState from '../state/forms/new.daily.bookmark.form.state'
+import newOdyseeBookmarkDialogState from '../state/dialogs/new.odysee.dialog'
+import newDailyBookmarkDialogState from '../state/dialogs/new.daily.dialog'
+import editDailyBookmarkDialogState from '../state/dialogs/edit.daily.dialog'
+import editOdyseeBookmarkDialogState from '../state/dialogs/edit.odysee.dialog'
+import newFacebookBookmarkFormState from '../state/forms/new.facebook.bookmark.form.state'
+import editFacebookBookmarkFormState from '../state/forms/edit.facebook.bookmark.form.state'
+import newFacebookBookmarkDialogState from '../state/dialogs/new.facebook.dialog'
+import editFacebookBookmarkDialogState from '../state/dialogs/edit.facebook.dialog'
+import newUnknownBookmarkFormState from '../state/forms/new.unknown.bookmark.form.state'
+import editUnknownBookmarkFormState from '../state/forms/edit.unknown.bookmark.form.state'
+import newUnknownBookmarkDialogState from '../state/dialogs/new.unknown.dialog'
+import editUnknownBookmarkDialogState from '../state/dialogs/edit.unknown.dialog'
+import editDailyBookmarkFormState from '../state/forms/edit.daily.bookmark.form.state'
+import newTwitchBookmarkDialogState from 'src/state/dialogs/new.twitch.dialog'
+import editTwitchBookmarkDialogState from 'src/state/dialogs/edit.twitch.dialog'
+import newTwitchBookmarkFormState from 'src/state/forms/new.twitch.bookmark.form.state'
+import editTwitchBookmarkFormState from 'src/state/forms/edit.twitch.bookmark.form.state'
 
 export default async function bootstrap_controller(fastify: FastifyInstance) {
 
@@ -75,7 +75,6 @@ export default async function bootstrap_controller(fastify: FastifyInstance) {
     // 'logoHeight': 35,
     'title': '[DEV] Tuberesearcher',
     'homePage': 'login',
-    'spinnerDisabled': true,
     'isBootstrapped': true
   }
 
@@ -89,45 +88,45 @@ export default async function bootstrap_controller(fastify: FastifyInstance) {
 
   const formsState: IStateAllForms = {}
   set_state_by_key(formsState, loginFormState)
-  set_state_by_key(formsState, newYouTubeAnnotationFormState)
-  set_state_by_key(formsState, newRumbleAnnotationFormState)
-  set_state_by_key(formsState, editYouTubeAnnotationFormState)
-  set_state_by_key(formsState, editRumbleAnnotationFormState)
-  set_state_by_key(formsState, newVimeoAnnotationFormState)
-  set_state_by_key(formsState, editVimeoAnnotationFormState)
-  set_state_by_key(formsState, newOdyseeAnnotationFormState)
-  set_state_by_key(formsState, editOdyseeAnnotationFormState)
-  set_state_by_key(formsState, newDailyAnnotationFormState)
-  set_state_by_key(formsState, editDailyAnnotationFormState)
-  set_state_by_key(formsState, newFacebookAnnotationFormState)
-  set_state_by_key(formsState, editFacebookAnnotationFormState)
-  set_state_by_key(formsState, newUnknownAnnotationFormState)
-  set_state_by_key(formsState, editUnknownAnnotationFormState)
-  set_state_by_key(formsState, newTwitchAnnotationFormState)
-  set_state_by_key(formsState, editTwitchAnnotationFormState)
+  set_state_by_key(formsState, newYouTubeBookmarkFormState)
+  set_state_by_key(formsState, newRumbleBookmarkFormState)
+  set_state_by_key(formsState, editYouTubeBookmarkFormState)
+  set_state_by_key(formsState, editRumbleBookmarkFormState)
+  set_state_by_key(formsState, newVimeoBookmarkFormState)
+  set_state_by_key(formsState, editVimeoBookmarkFormState)
+  set_state_by_key(formsState, newOdyseeBookmarkFormState)
+  set_state_by_key(formsState, editOdyseeBookmarkFormState)
+  set_state_by_key(formsState, newDailyBookmarkFormState)
+  set_state_by_key(formsState, editDailyBookmarkFormState)
+  set_state_by_key(formsState, newFacebookBookmarkFormState)
+  set_state_by_key(formsState, editFacebookBookmarkFormState)
+  set_state_by_key(formsState, newUnknownBookmarkFormState)
+  set_state_by_key(formsState, editUnknownBookmarkFormState)
+  set_state_by_key(formsState, newTwitchBookmarkFormState)
+  set_state_by_key(formsState, editTwitchBookmarkFormState)
   set_state_by_key(formsState, newVideoUrlFormState)
   // TODO: Insert more forms here
 
   const dialogsState: IStateAllDialogs = {}
-  set_state_by_key(dialogsState, newYoutubeAnnotationDialogState)
-  set_state_by_key(dialogsState, newRumbleAnnotationDialogState)
-  set_state_by_key(dialogsState, editYoutubeAnnotationDialogState)
-  set_state_by_key(dialogsState, editRumbleAnnotationDialogState)
-  set_state_by_key(dialogsState, newVimeoAnnotationDialogState)
-  set_state_by_key(dialogsState, editVimeoAnnotationDialogState)
-  set_state_by_key(dialogsState, newOdyseeAnnotationDialogState)
-  set_state_by_key(dialogsState, editOdyseeAnnotationDialogState)
-  set_state_by_key(dialogsState, newDailyAnnotationDialogState)
-  set_state_by_key(dialogsState, editDailyAnnotationDialogState)
-  set_state_by_key(dialogsState, newFacebookAnnotationDialogState)
-  set_state_by_key(dialogsState, editFacebookAnnotationDialogState)
-  set_state_by_key(dialogsState, newTwitchAnnotationDialogState)
-  set_state_by_key(dialogsState, editTwitchAnnotationDialogState)
-  set_state_by_key(dialogsState, newUnknownAnnotationDialogState)
-  set_state_by_key(dialogsState, editUnknownAnnotationDialogState)
+  set_state_by_key(dialogsState, newYoutubeBookmarkDialogState)
+  set_state_by_key(dialogsState, newRumbleBookmarkDialogState)
+  set_state_by_key(dialogsState, editYoutubeBookmarkDialogState)
+  set_state_by_key(dialogsState, editRumbleBookmarkDialogState)
+  set_state_by_key(dialogsState, newVimeoBookmarkDialogState)
+  set_state_by_key(dialogsState, editVimeoBookmarkDialogState)
+  set_state_by_key(dialogsState, newOdyseeBookmarkDialogState)
+  set_state_by_key(dialogsState, editOdyseeBookmarkDialogState)
+  set_state_by_key(dialogsState, newDailyBookmarkDialogState)
+  set_state_by_key(dialogsState, editDailyBookmarkDialogState)
+  set_state_by_key(dialogsState, newFacebookBookmarkDialogState)
+  set_state_by_key(dialogsState, editFacebookBookmarkDialogState)
+  set_state_by_key(dialogsState, newTwitchBookmarkDialogState)
+  set_state_by_key(dialogsState, editTwitchBookmarkDialogState)
+  set_state_by_key(dialogsState, newUnknownBookmarkDialogState)
+  set_state_by_key(dialogsState, editUnknownBookmarkDialogState)
   set_state_by_key(dialogsState, loginDialogState)
   set_state_by_key(dialogsState, newVideoUrlDialogState)
-  set_state_by_key(dialogsState, deleteAnnotationDialogState)
+  set_state_by_key(dialogsState, deleteBookmarkDialogState)
   set_state_by_key(dialogsState, clientAlertDialogState)
   // TODO: Insert more dialogs here
 
@@ -168,7 +167,7 @@ export default async function bootstrap_controller(fastify: FastifyInstance) {
           items: [ 
             defaultErrorsViewLinkState,
             homeLinkState,
-            annotationAddFromUrlLinkState,
+            bookmarkAddFromUrlLinkState,
             powerLinkState
           ]
         }
@@ -197,5 +196,14 @@ export default async function bootstrap_controller(fastify: FastifyInstance) {
         'state_registry': Config.getRegistry('state'),
       }
     } as IBootstrapResponse)
+  })
+
+  fastify.post('/2', async function (
+    _req: FastifyRequest,
+    reply: FastifyReply
+  ) {
+    reply.send({
+      state: { 'dialog': newVideoUrlDialogState }
+    })
   })
 }

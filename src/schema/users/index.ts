@@ -18,7 +18,7 @@ export interface IUser {
   jwt_version?: number
   avatar?: string
   votes?: {
-    annotation_id: string
+    bookmark_id: string
     rating: 1 | -1
   }[]
   last_accessed?: Date
@@ -63,7 +63,7 @@ const userSchema = new Schema<TUser>({
   jwt_version: { type: Number, default: 0 },
   avatar: String,
   votes: [{
-    annotation_id: String,
+    bookmark_id: String,
     rating: Number,
     created_at: { type: Date, default: Date.now }
   }],

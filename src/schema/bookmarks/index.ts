@@ -4,7 +4,7 @@ import paginate from 'mongoose-paginate-v2'
 import { IGenericObject, IJsonapiQuerystring, WithRequired } from '../../business.logic/common.types'
 import { IJsonapiResource } from '../../../../tuber-client/src/controllers/interfaces/IJsonapi'
 
-export interface IAnnotation {
+export interface IBookmark {
   is_active?: boolean
   is_published?: boolean
   created_at?: Date
@@ -27,15 +27,15 @@ export interface IAnnotation {
   downvotes?: number
   group_id?: string
   html_tag?: string // Within the context of a group, this is the HTML tag that
-                    // the annotation is associated with
+                    // the bookmark is associated with
   sort_order?: number
   restrictions?: string[]
   rules?: string[]
 }
 
 /** Available fields for a get request. */
-export interface IAnnotationGet {
-  Body: IAnnotation
+export interface IBookmarkGet {
+  Body: IBookmark
   Params: {
     id: string
   }
@@ -43,41 +43,41 @@ export interface IAnnotationGet {
 }
 
 /** Available fields for a post request. */
-export interface IAnnotationPost {
+export interface IBookmarkPost {
   Body: {
-    data: IJsonapiResource<IAnnotation>,
+    data: IJsonapiResource<IBookmark>,
     meta: IGenericObject
   }
 }
 
 /** Available fields for a put request. */
-export interface IAnnotationPut {
+export interface IBookmarkPut {
   Body: {
-    data: IJsonapiResource<IAnnotation>
+    data: IJsonapiResource<IBookmark>
   }
   Params: {
     id: string
   }
 }
 
-export interface IAnnotationDelete {
+export interface IBookmarkDelete {
   Params: {
     id: string
   }
 }
 
-export type TAnnotationGetFastifyRequest = FastifyRequest<IAnnotationGet>
-export type TAnnotationPostFastifyRequest = FastifyRequest<IAnnotationPost>
-export type TAnnotationPutFastifyRequest = FastifyRequest<IAnnotationPut>
-export type TAnnotationDeleteFastifyRequest = FastifyRequest<IAnnotationDelete>
+export type TBookmarkGetFastifyRequest = FastifyRequest<IBookmarkGet>
+export type TBookmarkPostFastifyRequest = FastifyRequest<IBookmarkPost>
+export type TBookmarkPutFastifyRequest = FastifyRequest<IBookmarkPut>
+export type TBookmarkDeleteFastifyRequest = FastifyRequest<IBookmarkDelete>
 
-export type TAnnotation = WithRequired<IAnnotation,
+export type TBookmark = WithRequired<IBookmark,
   'is_active' | 'created_at' | 'modified_at' | 'is_private' | 'user_id'
 >
 
-export interface IAnnotationDocument extends mongoose.Document, TAnnotation {}
+export interface IBookmarkDocument extends mongoose.Document, TBookmark {}
 
-const annotationSchema = new Schema<TAnnotation>({
+const bookmarkSchema = new Schema<TBookmark>({
   is_active: { type: Boolean, default: true },
   html_tag: String,
   created_at: { type: Date, default: Date.now },
@@ -103,8 +103,8 @@ const annotationSchema = new Schema<TAnnotation>({
   rules: { type: [ String ], default: undefined }
 })
 
-annotationSchema.index({ title: 1, note: 1 })
+bookmarkSchema.index({ title: 1, note: 1 })
 
-annotationSchema.plugin(paginate)
+bookmarkSchema.plugin(paginate)
 
-export default annotationSchema
+export default bookmarkSchema

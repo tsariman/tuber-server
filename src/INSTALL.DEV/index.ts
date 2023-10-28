@@ -1,22 +1,22 @@
 // import { connect, disconnect } from 'mongoose'
-import { IAnnotation } from '../schema/annotations'
+import { IBookmark } from '../schema/bookmarks'
 import Config from '../config'
-import { AnnotationModel } from '../model/annotation'
+import { BookmarkModel } from '../model/bookmark'
 import { UserModel } from '../model/user'
 
 export async function get_documents_count () {
   // await connect(Config.DB_URI)
-  const annotationCount = (await AnnotationModel.countDocuments()).toString()
+  const bookmarkCount = (await BookmarkModel.countDocuments()).toString()
   const userCount = (await UserModel.countDocuments()).toString()
   // await disconnect()
-  Config.log('counts:', { annotationCount, userCount })
-  return { annotationCount, userCount }
+  Config.log('counts:', { bookmarkCount, userCount })
+  return { bookmarkCount, userCount }
 }
 
-export function gen_random_annotation_votes(
-  annotation?: IAnnotation
-): IAnnotation | undefined {
-  if (!annotation) { return }
+export function gen_random_bookmark_votes(
+  bookmark?: IBookmark
+): IBookmark | undefined {
+  if (!bookmark) { return }
   const level = _gen_random_votes_level()
   const ratio = _gen_random_votes_ratio()
 
@@ -28,7 +28,7 @@ export function gen_random_annotation_votes(
   const downvotes = down * ratio.down
 
   return {
-    ...annotation,
+    ...bookmark,
     upvotes,
     downvotes
   }

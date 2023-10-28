@@ -3,30 +3,28 @@ import IStateForm from '../../../../tuber-client/src/controllers/interfaces/ISta
 import { remove_form_suffix } from './_forms.business.logic'
 import * as C from '../../constants'
 
-const _18 = '18'
-const _18_KEY = 'editOdyseeAnnotationForm'
-Config.register('state', _18, _18_KEY)
-/** Form for creating a edit odysee video annotation @id 18 */
-const editOdyseeAnnotationFormState = {
-  '_id': _18,
-  '_key': _18_KEY,
+const _17 = '17'
+const _17_KEY = 'newOdyseeBookmarkForm'
+Config.register('state', _17, _17_KEY)
+/** Form for creating a new odysee video bookmark @id 17 */
+const newOdyseeBookmarkFormState = {
+  '_id': _17,
+  '_key': _17_KEY,
   'items': [
     {
       'type': 'stack',
       'props': { 'spacing': 2 },
       'items': [
-        {
-          'type': 'textfield',
-          'name': 'slug',
-          'label': 'Video URL Slug',
-          'props': {
-            'fullWidth': true,
-          },
-          'inputProps': {
-            'readOnly': true,
-            'sx': { 'backgroundColor': 'grey.300' }
-          }
-        },
+        // {
+        //   'type': 'textfield',
+        //   'name': 'slug',
+        //   'label': 'Video URL Slug',
+        //   'props': { 'fullWidth': true },
+        //   'inputProps': {
+        //     'readOnly': true,
+        //     'sx': { 'backgroundColor': 'grey.300' }
+        //   }
+        // },
         {
           'type': 'stack',
           'props': {
@@ -52,10 +50,15 @@ const editOdyseeAnnotationFormState = {
             },
             {
               'type': 'textfield',
-              'name': 'videoid',
-              'label': 'Video ID',
-              'props': { 'fullWidth': true },
-              'inputProps': { 'disabled': true }
+              'name': 'slug',
+              'label': 'Video URL Slug',
+              'props': {
+                'fullWidth': true,
+              },
+              'inputProps': {
+                'readOnly': true,
+                'sx': { 'backgroundColor': 'grey.300' }
+              }
             },
             {
               'type': 'textfield',
@@ -74,7 +77,7 @@ const editOdyseeAnnotationFormState = {
         {
           'type': 'textfield',
           'name': 'title',
-          'label': 'TItle',
+          'label': 'Title',
           'props': {
             'fullWidth': true
           },
@@ -103,8 +106,8 @@ const editOdyseeAnnotationFormState = {
   ]
 } as IStateForm
 
-export const EDIT_ODYSEE_ANNOTATION_UNSUFFIXED_NAME = remove_form_suffix(
-  editOdyseeAnnotationFormState._key
+export const NEW_ODYSEE_BOOKMARK_UNSUFFIXED_NAME = remove_form_suffix(
+  newOdyseeBookmarkFormState._key
 )
 
-export default editOdyseeAnnotationFormState
+export default newOdyseeBookmarkFormState

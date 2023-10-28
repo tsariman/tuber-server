@@ -1,17 +1,17 @@
 import { backgroundState } from '..'
 import IStateDialog from '../../../../tuber-client/src/controllers/interfaces/IStateDialog'
 import Config from '../../config'
-import { EDIT_VIMEO_ANNOTATION_UNSUFFIXED_NAME } from '../forms/edit.vimeo.annotation.form.state'
+import { EDIT_VIMEO_BOOKMARK_UNSUFFIXED_NAME } from '../forms/edit.vimeo.bookmark.form.state'
 
 const _15 = '15'
-const _15_KEY = 'editVimeoAnnotationDialog'
+const _15_KEY = 'editVimeoBookmarkDialog'
 Config.register('state', _15, _15_KEY)
-/** Dialog to edit an existing Vimeo video annotation @id 15 */
-const editVimeoAnnotationDialogState: IStateDialog = {
+/** Dialog to edit an existing Vimeo video bookmark @id 15 */
+const editVimeoBookmarkDialogState: IStateDialog = {
   '_type': 'form',
   '_id': _15,
   '_key': _15_KEY,
-  'title': 'Edit Vimeo Annotation',
+  'title': 'Edit Vimeo Bookmark',
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
@@ -22,7 +22,7 @@ const editVimeoAnnotationDialogState: IStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': `'$form : ${EDIT_VIMEO_ANNOTATION_UNSUFFIXED_NAME} : annotations'`,
+  'content': `'$form : ${EDIT_VIMEO_BOOKMARK_UNSUFFIXED_NAME} : bookmarks'`,
   'actions': [
     {
       'type': 'state_button',
@@ -44,4 +44,4 @@ const editVimeoAnnotationDialogState: IStateDialog = {
   'open': true
 }
 
-export default editVimeoAnnotationDialogState
+export default editVimeoBookmarkDialogState

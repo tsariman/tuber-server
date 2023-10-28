@@ -30,15 +30,15 @@ app.listen({ port: Config.FASTIFY_PORT }, (err, address) => {
 
     // If using Mongodb Atlas,
     if (database === 'Atlas') {
-      Config.print('\nCheck annotations search index... ')
-      const searchIndex = await find_index_by_name('annotation_search', 'annotations')
+      Config.print('\nCheck bookmarks search index... ')
+      const searchIndex = await find_index_by_name('bookmark_search', 'bookmarks')
       if (searchIndex) {
         Config.log('done.')
       } else {
-        Config.log(`failed.\nannotations index needs to be defined.`)
-        Config.log(`Visit endpoint: /install-dev/setup-collection-index-search/annotations`)
+        Config.log(`failed.\nbookmarks index needs to be defined.`)
+        Config.log(`Visit endpoint: /install-dev/setup-collection-index-search/bookmarks`)
         Config.log('OR')
-        Config.log(`Visit endpoint: /install/setup-collection-index-search/annotations`)
+        Config.log(`Visit endpoint: /install/setup-collection-index-search/bookmarks`)
       }
     }
 

@@ -2,23 +2,23 @@ import { FastifyReply } from 'fastify'
 // import { connect, disconnect } from 'mongoose'
 import JsonapiErrorBuilder from '../business.logic/jsonapi.error.builder'
 import Config from '../config'
-import { AnnotationModel } from '../model/annotation'
-import { TAnnotationDeleteFastifyRequest } from '../schema/annotations'
+import { BookmarkModel } from '../model/bookmark'
+import { TBookmarkDeleteFastifyRequest } from '../schema/bookmarks'
 
-export default async function annotations_delete_by_id_endpoint (
-  request: TAnnotationDeleteFastifyRequest,
+export default async function bookmarks_delete_by_id_endpoint (
+  request: TBookmarkDeleteFastifyRequest,
   reply: FastifyReply
 ) {
   try {
-    Config.print('Disabling annotation... ')
+    Config.print('Disabling bookmark... ')
     // await connect(Config.DB_URI)
-    const annotation = await AnnotationModel.findByIdAndUpdate(
+    const bookmark = await BookmarkModel.findByIdAndUpdate(
       request.params.id,
       { is_active: false },
       { new: true }
     )
     // await disconnect()
-    if (annotation) {
+    if (bookmark) {
       Config.log('done.')
       reply.code(204).send()
     } else {
@@ -27,7 +27,7 @@ export default async function annotations_delete_by_id_endpoint (
         .status(404)
         .code('not_found')
         .title('Not Found')
-        .detail(`Annotation with id ${request.params.id} not found`)
+        .detail(`Bookmark with id ${request.params.id} not found`)
         .build()
       )
     }

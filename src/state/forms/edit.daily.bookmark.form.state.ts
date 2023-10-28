@@ -3,13 +3,13 @@ import IStateForm from '../../../../tuber-client/src/controllers/interfaces/ISta
 import { remove_form_suffix } from './_forms.business.logic'
 import * as C from '../../constants'
 
-const _5 = '5'
-const _5_KEY = 'editYouTubeAnnotationForm'
-Config.register('state', _5, _5_KEY)
-/** Form for editing an existing YouTube annotation. @id 5 */
-const editYouTubeAnnotationFormState = {
-  '_id': _5,
-  '_key': _5_KEY, // 'editAnnotationForm',
+const _20 = '20'
+const _20_KEY = 'editDailyBookmarkForm'
+Config.register('state', _20, _20_KEY)
+/** Form for editing an existing Dailymotion bookmark. @id 20 */
+const editDailyBookmarkFormState = {
+  '_id': _20,
+  '_key': _20_KEY, // 'editBookmarkForm',
   'items': [
     {
       'type': 'stack',
@@ -27,7 +27,10 @@ const editYouTubeAnnotationFormState = {
               'name': 'start_seconds',
               'label': 'Start',
               'props': {
-                'sx': { 'width': 240 }
+                'sx': {
+                  'width': 240,
+                },
+                'helperText': 'time in second(s)'
               },
               'inputProps': {
                 'readOnly': true,
@@ -39,22 +42,12 @@ const editYouTubeAnnotationFormState = {
               }
             },
             {
-              'type': 'number',
-              'name': 'end_seconds',
-              'label': 'Length',
-              'props': {
-                'sx': { 'width': 240 },
-              },
-              'inputProps': {
-                'disabled': true,
-                'sx': { 'backgroundColor': 'grey.300' }
-              }
-            },
-            {
               'type': 'textfield',
               'name': 'videoid',
               'label': 'Video ID',
-              'props': { 'fullWidth': true },
+              'props': {
+                'fullWidth': true,
+              },
               'inputProps': {
                 'readOnly': true,
                 'sx': { 'backgroundColor': 'grey.300' }
@@ -65,7 +58,9 @@ const editYouTubeAnnotationFormState = {
               'name': 'platform',
               'label': 'Platform',
               'props': {
-                'sx': { 'width': 240 },
+                'sx': {
+                  'width': 240,
+                },
               },
               'inputProps': {
                 'readOnly': true,
@@ -77,7 +72,7 @@ const editYouTubeAnnotationFormState = {
         {
           'type': 'textfield',
           'name': 'title',
-          'label': 'Title',
+          'label': 'TItle',
           'props': {
             'fullWidth': true
           },
@@ -85,7 +80,7 @@ const editYouTubeAnnotationFormState = {
             'required': true,
             'requiredMessage': C.TITLE_REQUIRED_MESSAGE,
             'maxLength': C.TITLE_MAX_LENGTH,
-            'maxLengthMessage': C.TITLE_MAX_LENGTH_MESSAGE
+            'maxLengthMessage': C.TITLE_MAX_LENGTH_MESSAGE,
           }
         },
         {
@@ -106,8 +101,8 @@ const editYouTubeAnnotationFormState = {
   ]
 } as IStateForm
 
-export const EDIT_YOUTUBE_ANNOTATION_UNSUFFIXED_NAME = remove_form_suffix(
-  editYouTubeAnnotationFormState._key
+export const EDIT_DAILY_BOOKMARK_UNSUFFIXED_NAME = remove_form_suffix(
+  editDailyBookmarkFormState._key
 )
 
-export default editYouTubeAnnotationFormState
+export default editDailyBookmarkFormState

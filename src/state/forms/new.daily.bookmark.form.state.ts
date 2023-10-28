@@ -4,10 +4,10 @@ import { remove_form_suffix } from './_forms.business.logic'
 import * as C from '../../constants'
 
 const _19 = '19'
-const _19_KEY = 'newDailyAnnotationForm'
+const _19_KEY = 'newDailyBookmarkForm'
 Config.register('state', _19, _19_KEY)
-/** Form for creating a new Dailymotion video annotation @id 19 */
-const newDailyAnnotationFormState = {
+/** Form for creating a new Dailymotion video bookmark @id 19 */
+const newDailyBookmarkFormState = {
   '_id': _19,
   '_key': _19_KEY,
   'items': [
@@ -110,7 +110,7 @@ const newDailyAnnotationFormState = {
 } as IStateForm
 
 export const NEW_DAILY_ANNNOTATION_UNSUFFIXED_NAME = remove_form_suffix(
-  newDailyAnnotationFormState._key
+  newDailyBookmarkFormState._key
 )
 
-export default newDailyAnnotationFormState
+export default newDailyBookmarkFormState

@@ -3,28 +3,18 @@ import IStateForm from '../../../../tuber-client/src/controllers/interfaces/ISta
 import { remove_form_suffix } from './_forms.business.logic'
 import * as C from '../../constants'
 
-const _10 = '10'
-const _10_KEY = 'editRumbleAnnotationForm'
-Config.register('state', _10, _10_KEY)
-/** Form for creating a edit rumble video annotation @id 10 */
-const editRumbleAnnotationFormState = {
-  '_id': _10,
-  '_key': _10_KEY,
+const _25 = '25'
+const _25_KEY = 'editFacebookBookmarkForm'
+Config.register('state', _25, _25_KEY)
+/** Form for creating a edit facebook video bookmark @id 25 */
+const editFacebookBookmarkFormState = {
+  '_id': _25,
+  '_key': _25_KEY,
   'items': [
     {
       'type': 'stack',
       'props': { 'spacing': 2 },
       'items': [
-        {
-          'type': 'textfield',
-          'name': 'slug',
-          'label': 'Video URL Slug',
-          'props': { 'fullWidth': true },
-          'inputProps': {
-            'readOnly': true,
-            'sx': { 'backgroundColor': 'grey.300' }
-          }
-        },
         {
           'type': 'stack',
           'props': {
@@ -46,6 +36,18 @@ const editRumbleAnnotationFormState = {
               'has': {
                 'required': true,
                 'requiredMessage': C.START_SECONDS_REQUIRED_MESSAGE,
+              }
+            },
+            {
+              'type': 'textfield',
+              'name': 'author',
+              'label': 'Author',
+              'props': {
+                'sx': { 'width': 240 },
+              },
+              'inputProps': {
+                'readOnly': true,
+                'sx': { 'backgroundColor': 'grey.300' }
               }
             },
             {
@@ -83,7 +85,7 @@ const editRumbleAnnotationFormState = {
             'required': true,
             'requiredMessage': C.TITLE_REQUIRED_MESSAGE,
             'maxLength': C.TITLE_MAX_LENGTH,
-            'maxLengthMessage': C.TITLE_MAX_LENGTH_MESSAGE
+            'maxLengthMessage': C.TITLE_MAX_LENGTH_MESSAGE,
           }
         },
         {
@@ -104,8 +106,8 @@ const editRumbleAnnotationFormState = {
   ]
 } as IStateForm
 
-export const EDIT_RUMBLE_ANNOTATION_UNSUFFIXED_NAME = remove_form_suffix(
-  editRumbleAnnotationFormState._key
+export const EDIT_FACEBOOK_BOOKMARK_UNSUFFIXED_NAME = remove_form_suffix(
+  editFacebookBookmarkFormState._key
 )
 
-export default editRumbleAnnotationFormState
+export default editFacebookBookmarkFormState

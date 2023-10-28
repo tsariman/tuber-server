@@ -2,27 +2,27 @@ import { FastifyReply } from 'fastify'
 import JsonapiErrorBuilder from '../business.logic/jsonapi.error.builder'
 import JsonapiResponseBuilder from '../business.logic/jsonapi.response.builder'
 import Config from '../config'
-import { get_annotation_by_id } from '../model/annotation'
-import { TAnnotationGetFastifyRequest } from '../schema/annotations'
+import { get_bookmark_by_id } from '../model/bookmark'
+import { TBookmarkGetFastifyRequest } from '../schema/bookmarks'
 
-export default async function annotations_get_by_id_endpoint (
-  request: TAnnotationGetFastifyRequest,
+export default async function bookmarks_get_by_id_endpoint (
+  request: TBookmarkGetFastifyRequest,
   reply: FastifyReply
 ) {
   try {
-    Config.print(`Getting annotation with id '${request.params.id}'... `)
-    const annotation = await get_annotation_by_id(request.params.id)
-    if (annotation) {
+    Config.print(`Getting bookmark with id '${request.params.id}'... `)
+    const bookmark = await get_bookmark_by_id(request.params.id)
+    if (bookmark) {
       Config.log('done.')
       reply.code(200).send(
-        new JsonapiResponseBuilder(annotation, 'annotations', 'object').mPaginationV2build()
+        new JsonapiResponseBuilder(bookmark, 'bookmarks', 'object').mPaginationV2build()
       )
     } else {
-      Config.log('failed.\nAnnotation not found.')
+      Config.log('failed.\nBookmark not found.')
       reply.code(404).send(new JsonapiErrorBuilder()
         .status(404)
         .title('Not Found')
-        .detail(`Annotation with id '${request.params.id}' not found.`)
+        .detail(`Bookmark with id '${request.params.id}' not found.`)
         .build()
       )
     }

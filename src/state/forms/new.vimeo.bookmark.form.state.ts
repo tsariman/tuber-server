@@ -3,13 +3,13 @@ import IStateForm from '../../../../tuber-client/src/controllers/interfaces/ISta
 import { remove_form_suffix } from './_forms.business.logic'
 import * as C from '../../constants'
 
-const _25 = '25'
-const _25_KEY = 'editFacebookAnnotationForm'
-Config.register('state', _25, _25_KEY)
-/** Form for creating a edit facebook video annotation @id 25 */
-const editFacebookAnnotationFormState = {
-  '_id': _25,
-  '_key': _25_KEY,
+const _12 = '12'
+const _12_KEY = 'newVimeoBookmarkForm'
+Config.register('state', _12, _12_KEY)
+/** Form for creating a new Vimeo video bookmark @id 12 */
+const newVimeoBookmarkFormState = {
+  '_id': _12,
+  '_key': _12_KEY,
   'items': [
     {
       'type': 'stack',
@@ -36,18 +36,6 @@ const editFacebookAnnotationFormState = {
               'has': {
                 'required': true,
                 'requiredMessage': C.START_SECONDS_REQUIRED_MESSAGE,
-              }
-            },
-            {
-              'type': 'textfield',
-              'name': 'author',
-              'label': 'Author',
-              'props': {
-                'sx': { 'width': 240 },
-              },
-              'inputProps': {
-                'readOnly': true,
-                'sx': { 'backgroundColor': 'grey.300' }
               }
             },
             {
@@ -98,7 +86,7 @@ const editFacebookAnnotationFormState = {
           },
           'has': {
             'maxLength': C.NOTE_MAX_LENGTH,
-            'maxLengthMessage': C.NOTE_MAX_LENGTH_MESSAGE
+            'maxLengthMessage': C.NOTE_MAX_LENGTH_MESSAGE,
           }
         }
       ]
@@ -106,8 +94,8 @@ const editFacebookAnnotationFormState = {
   ]
 } as IStateForm
 
-export const EDIT_FACEBOOK_ANNOTATION_UNSUFFIXED_NAME = remove_form_suffix(
-  editFacebookAnnotationFormState._key
+export const NEW_VIMEO_ANNNOTATION_UNSUFFIXED_NAME = remove_form_suffix(
+  newVimeoBookmarkFormState._key
 )
 
-export default editFacebookAnnotationFormState
+export default newVimeoBookmarkFormState

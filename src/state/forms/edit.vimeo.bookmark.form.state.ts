@@ -3,13 +3,13 @@ import IStateForm from '../../../../tuber-client/src/controllers/interfaces/ISta
 import { remove_form_suffix } from './_forms.business.logic'
 import * as C from '../../constants'
 
-const _20 = '20'
-const _20_KEY = 'editDailyAnnotationForm'
-Config.register('state', _20, _20_KEY)
-/** Form for editing an existing Dailymotion annotation. @id 20 */
-const editDailyAnnotationFormState = {
-  '_id': _20,
-  '_key': _20_KEY, // 'editAnnotationForm',
+const _13 = '13'
+const _13_KEY = 'editVimeoBookmarkForm'
+Config.register('state', _13, _13_KEY)
+/** Form for editing an existing Vimeo bookmark. @id 13 */
+const editVimeoBookmarkFormState = {
+  '_id': _13,
+  '_key': _13_KEY, // 'editBookmarkForm',
   'items': [
     {
       'type': 'stack',
@@ -27,10 +27,7 @@ const editDailyAnnotationFormState = {
               'name': 'start_seconds',
               'label': 'Start',
               'props': {
-                'sx': {
-                  'width': 240,
-                },
-                'helperText': 'time in second(s)'
+                'sx': { 'width': 240 }
               },
               'inputProps': {
                 'readOnly': true,
@@ -45,9 +42,7 @@ const editDailyAnnotationFormState = {
               'type': 'textfield',
               'name': 'videoid',
               'label': 'Video ID',
-              'props': {
-                'fullWidth': true,
-              },
+              'props': { 'fullWidth': true },
               'inputProps': {
                 'readOnly': true,
                 'sx': { 'backgroundColor': 'grey.300' }
@@ -58,9 +53,7 @@ const editDailyAnnotationFormState = {
               'name': 'platform',
               'label': 'Platform',
               'props': {
-                'sx': {
-                  'width': 240,
-                },
+                'sx': { 'width': 240 },
               },
               'inputProps': {
                 'readOnly': true,
@@ -101,8 +94,8 @@ const editDailyAnnotationFormState = {
   ]
 } as IStateForm
 
-export const EDIT_DAILY_ANNOTATION_UNSUFFIXED_NAME = remove_form_suffix(
-  editDailyAnnotationFormState._key
+export const EDIT_VIMEO_BOOKMARK_UNSUFFIXED_NAME = remove_form_suffix(
+  editVimeoBookmarkFormState._key
 )
 
-export default editDailyAnnotationFormState
+export default editVimeoBookmarkFormState

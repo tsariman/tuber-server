@@ -1,30 +1,20 @@
 import Config from '../../config'
 import IStateForm from '../../../../tuber-client/src/controllers/interfaces/IStateForm'
 import { remove_form_suffix } from './_forms.business.logic'
-import * as C from 'src/constants'
+import * as C from '../../constants'
 
-const _9 = '9'
-const _9_KEY = 'newRumbleAnnotationForm'
-Config.register('state', _9, _9_KEY)
-/** Form for creating a new rumble video annotation @id 9 */
-const newRumbleAnnotationFormState = {
-  '_id': _9,
-  '_key': _9_KEY,
+const _39 = '39'
+const _39_KEY = 'editTwitchBookmarkForm'
+Config.register('state', _39, _39_KEY)
+/** Form for editing an existing Twitch bookmark. @id 39 */
+const editTwitchBookmarkFormState = {
+  '_id': _39,
+  '_key': _39_KEY, // 'editBookmarkForm',
   'items': [
     {
       'type': 'stack',
       'props': { 'spacing': 2 },
       'items': [
-        {
-          'type': 'textfield',
-          'name': 'slug',
-          'label': 'Video URL Slug',
-          'props': { 'fullWidth': true },
-          'inputProps': {
-            'readOnly': true,
-            'sx': { 'backgroundColor': 'grey.300' }
-          }
-        },
         {
           'type': 'stack',
           'props': {
@@ -37,7 +27,7 @@ const newRumbleAnnotationFormState = {
               'name': 'start_seconds',
               'label': 'Start',
               'props': {
-                'sx': { 'width': 240 },
+                'sx': { 'width': 240 }
               },
               'inputProps': {
                 'readOnly': true,
@@ -50,15 +40,12 @@ const newRumbleAnnotationFormState = {
             },
             {
               'type': 'textfield',
-              'name': 'embed_url',
-              'label': 'Embed IFRAME URL',
-              'props': {
-                'fullWidth': true,
-                'helperText': 'Click the "Embed" button below video to get the embed URL'
-              },
-              'has': {
-                'required': true,
-                'requiredMessage': 'Click the "Embed" button below video to get the embed URL'
+              'name': 'videoid',
+              'label': 'Video ID',
+              'props': { 'fullWidth': true },
+              'inputProps': {
+                'readOnly': true,
+                'sx': { 'backgroundColor': 'grey.300' }
               }
             },
             {
@@ -86,7 +73,7 @@ const newRumbleAnnotationFormState = {
             'required': true,
             'requiredMessage': C.TITLE_REQUIRED_MESSAGE,
             'maxLength': C.TITLE_MAX_LENGTH,
-            'maxLengthMessage': C.TITLE_MAX_LENGTH_MESSAGE
+            'maxLengthMessage': C.TITLE_MAX_LENGTH_MESSAGE,
           }
         },
         {
@@ -95,7 +82,7 @@ const newRumbleAnnotationFormState = {
           'label': 'Note',
           'props': {
             'multiline': true,
-            'rows': C.NOTE_FIELD_ROWS,
+            'rows': C.NOTE_FIELD_ROWS
           },
           'has': {
             'maxLength': C.NOTE_MAX_LENGTH,
@@ -107,8 +94,8 @@ const newRumbleAnnotationFormState = {
   ]
 } as IStateForm
 
-export const NEW_RUMBLE_ANNOTATION_UNSUFFIXED_NAME = remove_form_suffix(
-  newRumbleAnnotationFormState._key
+export const EDIT_TWITCH_BOOKMARK_UNSUFFIXED_NAME = remove_form_suffix(
+  editTwitchBookmarkFormState._key
 )
 
-export default newRumbleAnnotationFormState
+export default editTwitchBookmarkFormState

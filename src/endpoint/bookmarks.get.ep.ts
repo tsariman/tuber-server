@@ -5,13 +5,13 @@ import JsonapiErrorBuilder from '../business.logic/jsonapi.error.builder'
 import JsonapiResponseBuilder from '../business.logic/jsonapi.response.builder'
 import Config from '../config'
 import {
-  AnnotationModel,
-  get_annotation_collection
-} from '../model/annotation'
-import { TAnnotationGetFastifyRequest } from '../schema/annotations'
+  BookmarkModel,
+  get_bookmark_collection
+} from '../model/bookmark'
+import { TBookmarkGetFastifyRequest } from '../schema/bookmarks'
 
-export default async function annotations_get_collection_endpoint (
-  req: TAnnotationGetFastifyRequest,
+export default async function bookmarks_get_collection_endpoint (
+  req: TBookmarkGetFastifyRequest,
   reply: FastifyReply
 ) {
   try {
@@ -20,13 +20,13 @@ export default async function annotations_get_collection_endpoint (
     const limit = parseInt(get_query(
       req,
       'page[size]',
-      Config.PAGINATION_ANNOTATIONS_LIMIT
+      Config.PAGINATION_BOOKMARKS_LIMIT
     ))
     if (searchQuery) {
       const pipeline: PipelineStage[] = []
       pipeline.push({
         $search: {
-          index: Config.DB_ATLAS_ANNOTATION_SEARCH_INDEX_NAME,
+          index: Config.DB_ATLAS_BOOKMARK_SEARCH_INDEX_NAME,
           text: {
             query: searchQuery,
             path: ['title', 'note' ],
@@ -72,7 +72,7 @@ export default async function annotations_get_collection_endpoint (
           totalItems: 1,
         }
       })
-      const aggregationResult = await AnnotationModel.aggregate(pipeline)
+      const aggregationResult = await BookmarkModel.aggregate(pipeline)
       if (!aggregationResult[0]) {
         // [TODO] Remove this error reporting. An undefined aggregate result
         //        most likely means there are no document matching the query.
@@ -82,7 +82,7 @@ export default async function annotations_get_collection_endpoint (
           .status(404)
           .title('The aggregate result array first object is undefined.')
           .detail('Either the query is faulty or the aggregate pipeline failed '
-            +'Or there are no annotations that match the query')
+            +'Or there are no bookmarks that match the query')
           .source({ 'parameter': 'query' })
           .errorMeta('query', searchQuery)
           .build()
@@ -93,10 +93,10 @@ export default async function annotations_get_collection_endpoint (
       if (aggregationResult.length > 0) {
         reply.code(200).send(new JsonapiResponseBuilder(
             results,
-            'annotations',
+            'bookmarks',
             'collection'
           )
-          .meta('max_loaded_pages', Config.MAX_LOADED_ANNOTATION_PAGES)
+          .meta('max_loaded_pages', Config.MAX_LOADED_BOOKMARK_PAGES)
           .buildLinks({ docs: results, page, limit, totalDocs: totalItems })
           .build()
         )
@@ -109,13 +109,13 @@ export default async function annotations_get_collection_endpoint (
         })
       }
     } else {
-      Config.print(`Getting annotations collection (page ${page}, limit ${limit})... `)
-      const result = await get_annotation_collection(page, limit)
+      Config.print(`Getting bookmarks collection (page ${page}, limit ${limit})... `)
+      const result = await get_bookmark_collection(page, limit)
       Config.log('done.')
-      const annotationDocs = result.docs
+      const bookmarkDocs = result.docs
       reply.code(200).send(
-        new JsonapiResponseBuilder(annotationDocs, 'annotations', 'collection')
-          .meta('max_loaded_pages', Config.MAX_LOADED_ANNOTATION_PAGES)
+        new JsonapiResponseBuilder(bookmarkDocs, 'bookmarks', 'collection')
+          .meta('max_loaded_pages', Config.MAX_LOADED_BOOKMARK_PAGES)
           .buildPaginationV2Links(result)
           .mPaginationV2build()
       )

@@ -1,17 +1,17 @@
 import fetch from 'cross-fetch'
-import { IAnnotation } from '../schema/annotations'
+import { IBookmark } from '../schema/bookmarks'
 import { TPlatform } from './common.types'
 import C from '../config'
 
-export default async function fix_missing_annotation_data (
-  annotation?: IAnnotation
-): Promise<IAnnotation|undefined> {
-  if (!annotation) { return annotation }
-  switch (annotation.platform as TPlatform) {
+export default async function fix_missing_bookmark_data (
+  bookmark?: IBookmark
+): Promise<IBookmark|undefined> {
+  if (!bookmark) { return bookmark }
+  switch (bookmark.platform as TPlatform) {
 
     case 'rumble': {
-      if (annotation.url) {
-        const url = new URL(annotation.url)
+      if (bookmark.url) {
+        const url = new URL(bookmark.url)
 
         // Had to get rid of query string because it was causing errors.
         const compliantUrl = url.origin + url.pathname
@@ -22,7 +22,7 @@ export default async function fix_missing_annotation_data (
         const [ m1, videoid ] = matches
         if (m1 && videoid) {
           return {
-            ...annotation,
+            ...bookmark,
             videoid
           }
         } else {
@@ -32,5 +32,5 @@ export default async function fix_missing_annotation_data (
     }
 
   }
-  return annotation
+  return bookmark
 }

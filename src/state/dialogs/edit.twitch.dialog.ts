@@ -1,17 +1,17 @@
 import { backgroundState } from '..'
 import IStateDialog from '../../../../tuber-client/src/controllers/interfaces/IStateDialog'
 import Config from '../../config'
-import { EDIT_TWITCH_ANNOTATION_UNSUFFIXED_NAME } from '../forms/edit.twitch.annotation.form.state'
+import { EDIT_TWITCH_BOOKMARK_UNSUFFIXED_NAME } from '../forms/edit.twitch.bookmark.form.state'
 
 const _37 = '37'
-const _37_KEY = 'editTwitchAnnotationDialog'
+const _37_KEY = 'editTwitchBookmarkDialog'
 Config.register('state', _37, _37_KEY)
-/** Dialog to edit an existing Twitch video annotation @id 37 */
-const editTwitchAnnotationDialogState: IStateDialog = {
+/** Dialog to edit an existing Twitch video bookmark @id 37 */
+const editTwitchBookmarkDialogState: IStateDialog = {
   '_type': 'form',
   '_id': _37,
   '_key': _37_KEY,
-  'title': 'Edit Twitch Annotation',
+  'title': 'Edit Twitch Bookmark',
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
@@ -22,7 +22,7 @@ const editTwitchAnnotationDialogState: IStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': `'$form : ${EDIT_TWITCH_ANNOTATION_UNSUFFIXED_NAME} : annotations'`,
+  'content': `'$form : ${EDIT_TWITCH_BOOKMARK_UNSUFFIXED_NAME} : bookmarks'`,
   'actions': [
     {
       'type': 'state_button',
@@ -44,4 +44,4 @@ const editTwitchAnnotationDialogState: IStateDialog = {
   'open': true
 }
 
-export default editTwitchAnnotationDialogState
+export default editTwitchBookmarkDialogState

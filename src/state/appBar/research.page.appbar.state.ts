@@ -14,7 +14,7 @@ const researchPageAppBarState: IStateAppBar = {
   'inputBaseProps': {
     'id': 'video-url',
     'placeholder': 'Search ...',
-    'inputProps': { 'aria-label': 'Search Annotations' },
+    'inputProps': { 'aria-label': 'Search Bookmarks' },
   },
   'searchFieldIcon': {
     'icon': 'alternate_email_outline',
@@ -25,7 +25,7 @@ const researchPageAppBarState: IStateAppBar = {
   'searchFieldIconButton': {
     'has': {
       'icon': 'search_outline',
-      'onclickHandle': 'tuberCallbacks.appBarSearchForAnnotations'
+      'onclickHandle': 'tuberCallbacks.appBarSearchForBookmarks'
     }
   },
   'searchFieldIconButtonProps': {

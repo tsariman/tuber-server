@@ -50,12 +50,12 @@ export const authenticatedLinkState: IStateLink = {
 }
 
 const _3 = '3'
-export const annotationAddFromUrlLinkState: IStateLink = {
+export const bookmarkAddFromUrlLinkState: IStateLink = {
   'type': 'icon',
   '_id': _3,
   'has': {
     'icon': 'playlist_add_outline',
-    // Button to create a new annotation from a video URL
+    // Button to create a new bookmark from a video URL
     'onclickHandle': `tuberCallbacks._3_C_1`,
     'iconProps': { 'sx': { 'color': 'grey.600' }},
   }

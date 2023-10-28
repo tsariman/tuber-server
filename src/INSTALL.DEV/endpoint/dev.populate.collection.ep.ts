@@ -3,8 +3,8 @@ import Config from '../../config'
 import { limit_array } from '../../business.logic'
 import { UserPaginationModel } from '../../model/user'
 import gen_random_users from '../population/users'
-import { AnnotationPaginationModel } from '../../model/annotation'
-import gen_random_annotations from '../population/annotations'
+import { BookmarkPaginationModel } from '../../model/bookmark'
+import gen_random_bookmarks from '../population/bookmarks'
 import {
   defaultDialogAlertState as alert,
   dialogAlertState as dialogAlert
@@ -44,13 +44,13 @@ export default async function dev_populate_collection (
         reply.send(alert(`Failed to populate '${collection}' collection with ${quantity} documents!`))
       }
       return
-    case 'annotations':
+    case 'bookmarks':
       try {
-        limit_array( // Prevent overloading the client with too many annotations
-          await AnnotationPaginationModel.insertMany(gen_random_annotations(number)),
-          parseInt(Config.PAGINATION_ANNOTATIONS_LIMIT)
+        limit_array( // Prevent overloading the client with too many bookmarks
+          await BookmarkPaginationModel.insertMany(gen_random_bookmarks(number)),
+          parseInt(Config.PAGINATION_BOOKMARKS_LIMIT)
         )
-        const annotationCount = await AnnotationPaginationModel.countDocuments()
+        const bookmarkCount = await BookmarkPaginationModel.countDocuments()
         // await disconnect()
         Config.log('done!')
         reply.send({
@@ -58,7 +58,7 @@ export default async function dev_populate_collection (
             'dialog': dialogAlert(`Populated <span style="color:#3399ff">${collection}</span> collection with ${quantity} documents!`),
             'pagesData': {
               'devInstallForm': {
-                'annotationCount': annotationCount
+                'bookmarkCount': bookmarkCount
               }
             }
           }

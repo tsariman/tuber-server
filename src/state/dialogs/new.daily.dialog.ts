@@ -1,17 +1,17 @@
 import Config from '../../config'
 import IStateDialog from '../../../../tuber-client/src/controllers/interfaces/IStateDialog'
 import { backgroundState } from '..'
-import { NEW_DAILY_ANNNOTATION_UNSUFFIXED_NAME } from '../forms/new.daily.annotation.form.state'
+import { NEW_DAILY_ANNNOTATION_UNSUFFIXED_NAME } from '../forms/new.daily.bookmark.form.state'
 
 const _21 = '21'
-const _21_KEY = 'newDailyAnnotationDialog'
+const _21_KEY = 'newDailyBookmarkDialog'
 Config.register('state', _21, _21_KEY)
-/** Dialog to create a new Dailymotion video annotation @id 21 */
-const newDailyAnnotationDialogState: IStateDialog = {
+/** Dialog to create a new Dailymotion video bookmark @id 21 */
+const newDailyBookmarkDialogState: IStateDialog = {
   '_type': 'form',
   '_id': _21,
   '_key': _21_KEY,
-  'title': 'Insert New Dailymotion Annotation',
+  'title': 'Insert New Dailymotion Bookmark',
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
@@ -22,7 +22,7 @@ const newDailyAnnotationDialogState: IStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': `$form : ${NEW_DAILY_ANNNOTATION_UNSUFFIXED_NAME} : annotations`,
+  'content': `$form : ${NEW_DAILY_ANNNOTATION_UNSUFFIXED_NAME} : bookmarks`,
   'actions': [
     {
       'type': 'state_button',
@@ -44,4 +44,4 @@ const newDailyAnnotationDialogState: IStateDialog = {
   'open': true
 }
 
-export default newDailyAnnotationDialogState
+export default newDailyBookmarkDialogState

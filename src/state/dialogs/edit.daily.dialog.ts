@@ -1,17 +1,17 @@
 import Config from '../../config'
 import IStateDialog from '../../../../tuber-client/src/controllers/interfaces/IStateDialog'
 import { backgroundState } from '..'
-import { EDIT_DAILY_ANNOTATION_UNSUFFIXED_NAME } from '../forms/edit.daily.annotation.form.state'
+import { EDIT_DAILY_BOOKMARK_UNSUFFIXED_NAME } from '../forms/edit.daily.bookmark.form.state'
 
 const _22 = '22'
-const _22_KEY = 'editDailyAnnotationDialog'
+const _22_KEY = 'editDailyBookmarkDialog'
 Config.register('state', _22, _22_KEY)
-/** Dialog to edit an existing Dailymotion video annotation @id 22 */
-const editDailyAnnotationDialogState: IStateDialog = {
+/** Dialog to edit an existing Dailymotion video bookmark @id 22 */
+const editDailyBookmarkDialogState: IStateDialog = {
   '_type': 'form',
   '_id': _22,
   '_key': _22_KEY,
-  'title': 'Edit Dailymotion Annotation',
+  'title': 'Edit Dailymotion Bookmark',
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
@@ -22,7 +22,7 @@ const editDailyAnnotationDialogState: IStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': `'$form : ${EDIT_DAILY_ANNOTATION_UNSUFFIXED_NAME} : annotations'`,
+  'content': `'$form : ${EDIT_DAILY_BOOKMARK_UNSUFFIXED_NAME} : bookmarks'`,
   'actions': [
     {
       'type': 'state_button',
@@ -44,4 +44,4 @@ const editDailyAnnotationDialogState: IStateDialog = {
   'open': true
 }
 
-export default editDailyAnnotationDialogState
+export default editDailyBookmarkDialogState

@@ -1,17 +1,17 @@
 import Config from '../../config'
 import { backgroundState } from '..'
 import IStateDialog from '../../../../tuber-client/src/controllers/interfaces/IStateDialog'
-import { EDIT_UNKNOWN_ANNOTATION_UNSUFFIXED_NAME } from '../forms/edit.unknown.annotation.form.state'
+import { EDIT_UNKNOWN_BOOKMARK_UNSUFFIXED_NAME } from '../forms/edit.unknown.bookmark.form.state'
 
 const _31 = '31'
-const _31_KEY = 'editUnknownAnnotationDialog'
+const _31_KEY = 'editUnknownBookmarkDialog'
 Config.register('state', _31, _31_KEY)
-/** Dialog to edit an unknown video platform annotation @id 31 */
-const editUnknownAnnotationDialogState: IStateDialog = {
+/** Dialog to edit an unknown video platform bookmark @id 31 */
+const editUnknownBookmarkDialogState: IStateDialog = {
   '_type': 'form',
   '_id': _31,
   '_key': _31_KEY,
-  'title': 'Edit Unknown Annotation',
+  'title': 'Edit Unknown Bookmark',
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
@@ -22,7 +22,7 @@ const editUnknownAnnotationDialogState: IStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': `$form : ${EDIT_UNKNOWN_ANNOTATION_UNSUFFIXED_NAME} : annotations`,
+  'content': `$form : ${EDIT_UNKNOWN_BOOKMARK_UNSUFFIXED_NAME} : bookmarks`,
   'actions': [
     {
       'type': 'state_button',
@@ -45,4 +45,4 @@ const editUnknownAnnotationDialogState: IStateDialog = {
   'open': true
 }
 
-export default editUnknownAnnotationDialogState
+export default editUnknownBookmarkDialogState

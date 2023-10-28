@@ -1,17 +1,17 @@
 import Config from '../../config'
 import IStateDialog from '../../../../tuber-client/src/controllers/interfaces/IStateDialog'
 import { backgroundState } from '..'
-import { NEW_TWITCH_ANNNOTATION_UNSUFFIXED_NAME } from '../forms/new.twitch.annotation.form.state'
+import { NEW_TWITCH_ANNNOTATION_UNSUFFIXED_NAME } from '../forms/new.twitch.bookmark.form.state'
 
 const _36 = '36'
-const _36_KEY = 'newTwitchAnnotationDialog'
+const _36_KEY = 'newTwitchBookmarkDialog'
 Config.register('state', _36, _36_KEY)
-/** Dialog to create a new Twitch video annotation @id 36 */
-const newTwitchAnnotationDialogState: IStateDialog = {
+/** Dialog to create a new Twitch video bookmark @id 36 */
+const newTwitchBookmarkDialogState: IStateDialog = {
   '_type': 'form',
   '_id': _36,
   '_key': _36_KEY,
-  'title': 'Insert New Twitch Annotation',
+  'title': 'Insert New Twitch Bookmark',
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
@@ -22,7 +22,7 @@ const newTwitchAnnotationDialogState: IStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': `$form : ${NEW_TWITCH_ANNNOTATION_UNSUFFIXED_NAME} : annotations`,
+  'content': `$form : ${NEW_TWITCH_ANNNOTATION_UNSUFFIXED_NAME} : bookmarks`,
   'actions': [
     {
       'type': 'state_button',
@@ -44,4 +44,4 @@ const newTwitchAnnotationDialogState: IStateDialog = {
   'open': true
 }
 
-export default newTwitchAnnotationDialogState
+export default newTwitchBookmarkDialogState

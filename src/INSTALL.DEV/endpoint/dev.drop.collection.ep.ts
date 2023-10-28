@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import Config from '../../config'
 import mongoose from 'mongoose'
-import { AnnotationPaginationModel } from '../../model/annotation'
+import { BookmarkPaginationModel } from '../../model/bookmark'
 import { UserPaginationModel } from '../../model/user'
 import {
   // defaultDialogAlertState as alert,
@@ -18,7 +18,7 @@ export default async function dev_drop_collection (
   await mongoose.connection.db.dropCollection(collection)
   Config.log('done!')
   const devInstallForm = {
-    'annotationCount': await AnnotationPaginationModel.countDocuments(),
+    'bookmarkCount': await BookmarkPaginationModel.countDocuments(),
     'userCount': await UserPaginationModel.countDocuments()
   }
   reply.send({

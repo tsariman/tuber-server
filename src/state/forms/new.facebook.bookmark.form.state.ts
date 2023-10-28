@@ -3,42 +3,36 @@ import IStateForm from '../../../../tuber-client/src/controllers/interfaces/ISta
 import { remove_form_suffix } from './_forms.business.logic'
 import * as C from '../../constants'
 
-const _29 = '29'
-const _29_KEY = 'editUnknownAnnotationForm'
-Config.register('state', _29, _29_KEY)
-/** Form for editing an existing unknown platform video annotation @id 29 */
-const editUnknownAnnotationFormState = {
-  '_id': _29,
-  '_key': _29_KEY,
+const _24 = '24'
+const _24_KEY = 'newFacebookBookmarkForm'
+Config.register('state', _24, _24_KEY)
+/** Form for creating a new facebook video bookmark @id 24 */
+const newFacebookBookmarkFormState = {
+  '_id': _24,
+  '_key': _24_KEY,
   'items': [
     {
       'type': 'stack',
       'props': { 'spacing': 2 },
       'items': [
         {
-          'type': 'textfield',
-          'name': 'url',
-          'label': 'Video URL',
-          'props': { 'fullWidth': true },
-          'inputProps': {
-            'readOnly': true,
-            'sx': { 'backgroundColor': 'grey.300' }
-          }
-        },
-        {
-          'type': 'textfield',
+          'type': 'textarea',
           'name': 'embed_url',
-          'label': 'Embed IFRAME URL',
-          'props': { 'fullWidth': true },
-          'inputProps': {
-            'readOnly': true,
-            'sx': { 'backgroundColor': 'grey.300' }
+          'label': 'Embed HTML Code',
+          'props': {
+            'fullWidth': true,
+            'multiline': true,
+            'rows': 5
+          },
+          'has': {
+            'required': true,
+            'requiredMessage': 'We need the embed HTML code',
           }
         },
         {
           'type': 'textfield',
           'name': 'title',
-          'label': 'TItle',
+          'label': 'Title',
           'props': {
             'fullWidth': true
           },
@@ -67,8 +61,8 @@ const editUnknownAnnotationFormState = {
   ]
 } as IStateForm
 
-export const EDIT_UNKNOWN_ANNOTATION_UNSUFFIXED_NAME = remove_form_suffix(
-  editUnknownAnnotationFormState._key
+export const NEW_FACEBOOK_BOOKMARK_UNSUFFIXED_NAME = remove_form_suffix(
+  newFacebookBookmarkFormState._key
 )
 
-export default editUnknownAnnotationFormState
+export default newFacebookBookmarkFormState

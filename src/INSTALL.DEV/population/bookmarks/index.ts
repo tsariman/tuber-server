@@ -1,4 +1,4 @@
-import { IAnnotation } from '../../../schema/annotations'
+import { IBookmark } from '../../../schema/bookmarks'
 
 export const rnd_platform = () => {
   const platforms = [
@@ -27,11 +27,11 @@ const gen_random_videoid = (length: number): string => {
   return result
 }
 
-const gen_random_annotations = (number = 100) => {
-  const annotations: IAnnotation[] = []
+const gen_random_bookmarks = (number = 100) => {
+  const bookmarks: IBookmark[] = []
   for (let i = 0; i < number; i++) {
     const videoid = gen_random_videoid(11)
-    annotations.push({
+    bookmarks.push({
       videoid: videoid,
       platform: rnd_platform(),
       start_seconds: Math.floor(Math.random() * 300),
@@ -41,7 +41,7 @@ const gen_random_annotations = (number = 100) => {
       rules: []
     })
   }
-  return annotations
+  return bookmarks
 }
 
-export default gen_random_annotations
+export default gen_random_bookmarks

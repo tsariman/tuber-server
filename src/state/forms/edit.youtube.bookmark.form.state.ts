@@ -3,13 +3,13 @@ import IStateForm from '../../../../tuber-client/src/controllers/interfaces/ISta
 import { remove_form_suffix } from './_forms.business.logic'
 import * as C from '../../constants'
 
-const _39 = '39'
-const _39_KEY = 'editTwitchAnnotationForm'
-Config.register('state', _39, _39_KEY)
-/** Form for editing an existing Twitch annotation. @id 39 */
-const editTwitchAnnotationFormState = {
-  '_id': _39,
-  '_key': _39_KEY, // 'editAnnotationForm',
+const _5 = '5'
+const _5_KEY = 'editYouTubeBookmarkForm'
+Config.register('state', _5, _5_KEY)
+/** Form for editing an existing YouTube bookmark. @id 5 */
+const editYouTubeBookmarkFormState = {
+  '_id': _5,
+  '_key': _5_KEY, // 'editBookmarkForm',
   'items': [
     {
       'type': 'stack',
@@ -36,6 +36,18 @@ const editTwitchAnnotationFormState = {
               'has': {
                 'required': true,
                 'requiredMessage': C.START_SECONDS_REQUIRED_MESSAGE,
+              }
+            },
+            {
+              'type': 'number',
+              'name': 'end_seconds',
+              'label': 'Length',
+              'props': {
+                'sx': { 'width': 240 },
+              },
+              'inputProps': {
+                'disabled': true,
+                'sx': { 'backgroundColor': 'grey.300' }
               }
             },
             {
@@ -73,7 +85,7 @@ const editTwitchAnnotationFormState = {
             'required': true,
             'requiredMessage': C.TITLE_REQUIRED_MESSAGE,
             'maxLength': C.TITLE_MAX_LENGTH,
-            'maxLengthMessage': C.TITLE_MAX_LENGTH_MESSAGE,
+            'maxLengthMessage': C.TITLE_MAX_LENGTH_MESSAGE
           }
         },
         {
@@ -94,8 +106,8 @@ const editTwitchAnnotationFormState = {
   ]
 } as IStateForm
 
-export const EDIT_TWITCH_ANNOTATION_UNSUFFIXED_NAME = remove_form_suffix(
-  editTwitchAnnotationFormState._key
+export const EDIT_YOUTUBE_BOOKMARK_UNSUFFIXED_NAME = remove_form_suffix(
+  editYouTubeBookmarkFormState._key
 )
 
-export default editTwitchAnnotationFormState
+export default editYouTubeBookmarkFormState

@@ -4,24 +4,24 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import { defaultDialogAlertState as alert } from '../state/dialogs'
 import JsonapiErrorBuilder from '../business.logic/jsonapi.error.builder'
 
-const COLLECTION_NAME = 'annotations'
+const COLLECTION_NAME = 'bookmarks'
 
 /**
- * Setup atlas search index for the annotations collection.  
+ * Setup atlas search index for the bookmarks collection.  
  * [TODO] Don't forget to set permission for this endpoint. `Dev` and above.
  */
-export default async function annotations_api_setup_search_index_endpoint (
+export default async function bookmarks_api_setup_search_index_endpoint (
   _req: FastifyRequest,
   reply: FastifyReply
 ) {
-  const annotationSearchIndex = await find_index_by_name('annotation_search')
-  if (!annotationSearchIndex) {
-    Config.print('Creating atlas annotation search index... ')
+  const bookmarkSearchIndex = await find_index_by_name('bookmark_search')
+  if (!bookmarkSearchIndex) {
+    Config.print('Creating atlas bookmark search index... ')
     const httpResponse = await request(Config.DB_ATLAS_SEARCH_INDEX_API_URL, {
       data: {
         database: Config.DB_NAME,
         collectionName: COLLECTION_NAME,
-        name: 'annotation_search',
+        name: 'bookmark_search',
         // https://www.mongodb.com/docs/atlas/atlas-search/index-definitions/#sys
         mappings: {
           dynamic: true,
@@ -35,10 +35,10 @@ export default async function annotations_api_setup_search_index_endpoint (
     Config.log('done.')
     Config.log('http response:', httpResponse)
   } else {
-    const message = 'annotation_search index already exist.'
+    const message = 'bookmark_search index already exist.'
     Config.log(message)
     reply.code(409).send({
-      ...alert('annotation_search index already exist!'),
+      ...alert('bookmark_search index already exist!'),
       ...new JsonapiErrorBuilder()
         .code('conflict')
         .status(409)

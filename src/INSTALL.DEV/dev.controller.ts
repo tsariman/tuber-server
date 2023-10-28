@@ -8,8 +8,8 @@ import dev_create_update_dev_user from './endpoint/dev.user'
 import dev_database_reset from './endpoint/dev.database.reset'
 import { dev_load_test_drawer, dev_unload_test_drawer } from './endpoint'
 import { DEFAULT_OPTIONS } from '../middleware/router.option'
-import { dev_populate_annotations, dev_populate_users } from './endpoint/dev.populate.collections'
-import annotations_api_setup_search_index_endpoint from '../endpoint/annotations.api.search.index.ep'
+import { dev_populate_bookmarks, dev_populate_users } from './endpoint/dev.populate.collections'
+import bookmarks_api_setup_search_index_endpoint from '../endpoint/bookmarks.api.search.index.ep'
 import dev_populate_collection from './endpoint/dev.populate.collection.ep'
 import dev_drop_collection from './endpoint/dev.drop.collection.ep'
 import dev_no_response_hangtime from './endpoint/dev.no.response.hangtime.ep'
@@ -50,10 +50,10 @@ export default async function dev_install_controller(fastify: FastifyInstance) {
     '/populate/users/:total',
     dev_populate_users
   )
-  // Populates the annotations collection with random data.
+  // Populates the bookmarks collection with random data.
   fastify.post<IDevPopulateEndpoint>(
-    '/populate/annotations/:total',
-    dev_populate_annotations
+    '/populate/bookmarks/:total',
+    dev_populate_bookmarks
   )
   // No response endpoint for testing purposes.
   fastify.get('/no-response/:hangTime', {}, dev_no_response_hangtime)
@@ -61,8 +61,8 @@ export default async function dev_install_controller(fastify: FastifyInstance) {
   fastify.delete('/drop-collection/:collection', {}, dev_drop_collection)
   // Populate a collection with random data.
   fastify.post('/populate-collection', {}, dev_populate_collection)
-  fastify.post('/setup-collection-index-search/annotations',
+  fastify.post('/setup-collection-index-search/bookmarks',
     {},
-    annotations_api_setup_search_index_endpoint
+    bookmarks_api_setup_search_index_endpoint
   )
 }

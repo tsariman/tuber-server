@@ -20,7 +20,7 @@ export interface IAggregateDoc {
 }
 
 /** Names of collection endpoint */
-export type TEndpoint = 'users' | 'entries' | 'annotations'
+export type TEndpoint = 'users' | 'entries' | 'bookmarks'
 
 /**
  * Use when assigning values to object properties using a string as the key.  

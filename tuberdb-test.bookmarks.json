@@ -1,0 +1,129 @@
+[{
+  "_id": {
+    "$oid": "6508d455bd8a9dce5e8db05d"
+  },
+  "is_active": true,
+  "is_private": false,
+  "videoid": "nIoXOplUvAw",
+  "platform": "youtube",
+  "start_seconds": 79,
+  "end_seconds": 5,
+  "title": "Blender basics: 3D Viewport",
+  "note": "This is called the 3D viewport and it is where you'll spend 90% of your time.",
+  "restrictions": [],
+  "rules": [],
+  "created_at": {
+    "$date": "2023-09-18T22:51:01.331Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6508d75cbd8a9dce5e8db082"
+  },
+  "is_active": true,
+  "is_private": false,
+  "videoid": "nIoXOplUvAw",
+  "platform": "youtube",
+  "start_seconds": 101,
+  "end_seconds": 5,
+  "title": "Blender basics: Camera",
+  "note": "That weird-looking wire shape is the camera",
+  "restrictions": [],
+  "rules": [],
+  "created_at": {
+    "$date": "2023-09-18T23:03:56.626Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6508e437fa3dbe03235560f1"
+  },
+  "is_active": true,
+  "is_private": false,
+  "videoid": "nIoXOplUvAw",
+  "platform": "youtube",
+  "start_seconds": 108,
+  "title": "Blender basics: How to render an image",
+  "note": "You can also you the hotkey \"F12\" as a shortcut to render the image.",
+  "restrictions": [],
+  "rules": [],
+  "created_at": {
+    "$date": "2023-09-18T23:58:47.386Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6508f4edfa3dbe0323556104"
+  },
+  "is_active": true,
+  "is_private": false,
+  "videoid": "nIoXOplUvAw",
+  "platform": "youtube",
+  "start_seconds": 173,
+  "end_seconds": 5,
+  "title": "Blender basics: How to moving the cube",
+  "note": "Moving the cube along X, Y, or Z axis.",
+  "restrictions": [],
+  "rules": [],
+  "created_at": {
+    "$date": "2023-09-19T01:10:05.330Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6508f7f9fa3dbe0323556111"
+  },
+  "is_active": true,
+  "is_private": false,
+  "videoid": "nIoXOplUvAw",
+  "platform": "youtube",
+  "start_seconds": 199,
+  "title": "Blender basics: \"G\" for grab",
+  "note": "Use the \"G\" hotkey to grab onto to object in blender.",
+  "restrictions": [],
+  "rules": [],
+  "created_at": {
+    "$date": "2023-09-19T01:23:05.372Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6508fa3bfa3dbe032355611e"
+  },
+  "is_active": true,
+  "is_private": false,
+  "videoid": "nIoXOplUvAw",
+  "platform": "youtube",
+  "start_seconds": 254,
+  "title": "Blender basics: After typing \"G\", type the letter of the axis",
+  "note": "After hitting the hotkey \"G\" to grab an object in the 3D viewport, to move it along a specific axis (X, Y, Z), type the letter of the axis.",
+  "restrictions": [],
+  "rules": [],
+  "created_at": {
+    "$date": "2023-09-19T01:32:43.242Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6508fb65fa3dbe0323556125"
+  },
+  "is_active": true,
+  "is_private": false,
+  "videoid": "nIoXOplUvAw",
+  "platform": "youtube",
+  "start_seconds": 276,
+  "title": "Blender basics: Snapping to axis in free move",
+  "note": "Alternatively, you can press and hold the middle mouse button while moving the object to snap and move along a specific axis.",
+  "restrictions": [],
+  "rules": [],
+  "created_at": {
+    "$date": "2023-09-19T01:37:41.752Z"
+  },
+  "__v": 0
+}]

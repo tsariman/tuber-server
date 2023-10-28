@@ -30,7 +30,7 @@ const devInstallForm = {
           </p>
           <h3>Collections</h3>
           <p>
-            &#128172;<span style="color:#0074d8"><b>Annotations</b></span> <em>({{ annotationCount }})</em>
+            &#128172;<span style="color:#0074d8"><b>Bookmarks</b></span> <em>({{ bookmarkCount }})</em>
             <br />
             &#128526;<span style="color:#0074d8"><b>Users</b></span> <em>({{ userCount }})</em>
           </p>
@@ -85,8 +85,8 @@ const devInstallForm = {
     {
       'type': 'state_button',
       'has': {
-        'label': 'Test Add New annotation',
-        'onclickHandle': 'tuberCallbacks.annotationAdd'
+        'label': 'Test Add New bookmark',
+        'onclickHandle': 'tuberCallbacks.bookmarkAdd'
       }
     },
     { 'type': 'hr' },
@@ -149,8 +149,8 @@ const devInstallForm = {
     {
       'type': 'state_button',
       'has': {
-        'label': 'Get annotations collection test',
-        'onclickHandle': 'tuberCallbacks.devGetAnnotations'
+        'label': 'Get bookmarks collection test',
+        'onclickHandle': 'tuberCallbacks.devGetBookmarks'
       }
     },
     {
@@ -193,7 +193,7 @@ const devInstallForm = {
               'sx': { 'm': 1 }
             },
             'items': [
-              { 'label': 'Annotations', 'value': 'annotations' },
+              { 'label': 'Bookmarks', 'value': 'bookmarks' },
               { 'label': 'Users', 'value': 'users' }
             ]
           }
@@ -231,7 +231,7 @@ const devInstallForm = {
               'sx': { 'm': 1 }
             },
             'items': [
-              { 'label': 'Annotations', 'value': 'annotations' },
+              { 'label': 'Bookmarks', 'value': 'bookmarks' },
               { 'label': 'Users', 'value': 'users' }
             ]
           }
@@ -282,8 +282,8 @@ const devInstallForm = {
         {
           'type': 'state_button',
           'has': {
-            'label': 'Create Annotation Search Index',
-            'onclickHandle': 'tuberCallbacks.devCreateAnnotationSearchIndex'
+            'label': 'Create Bookmark Search Index',
+            'onclickHandle': 'tuberCallbacks.devCreateBookmarkSearchIndex'
           },
           'props': {
             'variant': 'contained',

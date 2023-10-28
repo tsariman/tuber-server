@@ -3,13 +3,13 @@ import IStateForm from '../../../../tuber-client/src/controllers/interfaces/ISta
 import { remove_form_suffix } from './_forms.business.logic'
 import * as C from '../../constants'
 
-const _12 = '12'
-const _12_KEY = 'newVimeoAnnotationForm'
-Config.register('state', _12, _12_KEY)
-/** Form for creating a new Vimeo video annotation @id 12 */
-const newVimeoAnnotationFormState = {
-  '_id': _12,
-  '_key': _12_KEY,
+const _38 = '38'
+const _38_KEY = 'newTwitchBookmarkForm'
+Config.register('state', _38, _38_KEY)
+/** Form for creating a new Twitch video bookmark @id 38 */
+const newTwitchBookmarkFormState = {
+  '_id': _38,
+  '_key': _38_KEY,
   'items': [
     {
       'type': 'stack',
@@ -71,9 +71,9 @@ const newVimeoAnnotationFormState = {
           },
           'has': {
             'required': true,
-            'requiredMessage': C.TITLE_REQUIRED_MESSAGE,
+            'requiredMessage': C.TITLE_MAX_LENGTH_MESSAGE,
             'maxLength': C.TITLE_MAX_LENGTH,
-            'maxLengthMessage': C.TITLE_MAX_LENGTH_MESSAGE,
+            'maxLengthMessage': C.TITLE_MAX_LENGTH_MESSAGE
           }
         },
         {
@@ -86,7 +86,7 @@ const newVimeoAnnotationFormState = {
           },
           'has': {
             'maxLength': C.NOTE_MAX_LENGTH,
-            'maxLengthMessage': C.NOTE_MAX_LENGTH_MESSAGE,
+            'maxLengthMessage': C.NOTE_MAX_LENGTH_MESSAGE
           }
         }
       ]
@@ -94,8 +94,8 @@ const newVimeoAnnotationFormState = {
   ]
 } as IStateForm
 
-export const NEW_VIMEO_ANNNOTATION_UNSUFFIXED_NAME = remove_form_suffix(
-  newVimeoAnnotationFormState._key
+export const NEW_TWITCH_ANNNOTATION_UNSUFFIXED_NAME = remove_form_suffix(
+  newTwitchBookmarkFormState._key
 )
 
-export default newVimeoAnnotationFormState
+export default newTwitchBookmarkFormState

@@ -1,17 +1,17 @@
 import Config from '../../config'
 import { backgroundState } from '..'
 import IStateDialog from '../../../../tuber-client/src/controllers/interfaces/IStateDialog'
-import { EDIT_RUMBLE_ANNOTATION_UNSUFFIXED_NAME } from '../forms/edit.rumble.annotation.form.state'
+import { EDIT_RUMBLE_BOOKMARK_UNSUFFIXED_NAME } from '../forms/edit.rumble.bookmark.form.state'
 
 const _11 = '11'
-const _11_KEY = 'editRumbleAnnotationDialog'
+const _11_KEY = 'editRumbleBookmarkDialog'
 Config.register('state', _11, _11_KEY)
-/** Dialog to edit a Rumble video annotation @id 11 */
-const editRumbleAnnotationDialogState: IStateDialog = {
+/** Dialog to edit a Rumble video bookmark @id 11 */
+const editRumbleBookmarkDialogState: IStateDialog = {
   '_type': 'form',
   '_id': _11,
   '_key': _11_KEY,
-  'title': 'Edit Rumble Annotation',
+  'title': 'Edit Rumble Bookmark',
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
@@ -22,7 +22,7 @@ const editRumbleAnnotationDialogState: IStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': `$form : ${EDIT_RUMBLE_ANNOTATION_UNSUFFIXED_NAME} : annotations`,
+  'content': `$form : ${EDIT_RUMBLE_BOOKMARK_UNSUFFIXED_NAME} : bookmarks`,
   'actions': [
     {
       'type': 'state_button',
@@ -45,4 +45,4 @@ const editRumbleAnnotationDialogState: IStateDialog = {
   'open': true
 }
 
-export default editRumbleAnnotationDialogState
+export default editRumbleBookmarkDialogState

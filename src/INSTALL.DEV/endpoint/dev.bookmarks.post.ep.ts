@@ -2,25 +2,25 @@ import { FastifyReply } from 'fastify'
 import JsonapiErrorBuilder from '../../business.logic/jsonapi.error.builder'
 import JsonapiResponseBuilder from '../../business.logic/jsonapi.response.builder'
 import Config from '../../config'
-import { create_annotation } from '../../model/annotation'
-import { TAnnotationPostFastifyRequest } from '../../schema/annotations'
-import { gen_random_annotation_votes } from '..'
+import { create_bookmark } from '../../model/bookmark'
+import { TBookmarkPostFastifyRequest } from '../../schema/bookmarks'
+import { gen_random_bookmark_votes } from '..'
 
-export default async function dev_annotations_post_endpoint (
-  req: TAnnotationPostFastifyRequest,
+export default async function dev_bookmarks_post_endpoint (
+  req: TBookmarkPostFastifyRequest,
   reply: FastifyReply
 ) {
   try {
-    Config.print('Creating annotation... ')
+    Config.print('Creating bookmark... ')
     const reqAttr = req.body.data.attributes
 
     // Generate random votes for development purposes
-    const annotation = gen_random_annotation_votes(reqAttr)
+    const bookmark = gen_random_bookmark_votes(reqAttr)
 
-    const dbAnnotation = await create_annotation(annotation)
+    const dbBookmark = await create_bookmark(bookmark)
     Config.log('done.')
     reply.code(201).send(
-      new JsonapiResponseBuilder(dbAnnotation, 'annotations', 'object')
+      new JsonapiResponseBuilder(dbBookmark, 'bookmarks', 'object')
       .mPaginationV2build()
     )
   } catch (e: any) {

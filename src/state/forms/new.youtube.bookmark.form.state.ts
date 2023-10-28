@@ -3,28 +3,18 @@ import IStateForm from '../../../../tuber-client/src/controllers/interfaces/ISta
 import { remove_form_suffix } from './_forms.business.logic'
 import * as C from '../../constants'
 
-const _17 = '17'
-const _17_KEY = 'newOdyseeAnnotationForm'
-Config.register('state', _17, _17_KEY)
-/** Form for creating a new odysee video annotation @id 17 */
-const newOdyseeAnnotationFormState = {
-  '_id': _17,
-  '_key': _17_KEY,
+const _4 = '4'
+const _4_KEY = 'newYouTubeBookmarkForm'
+Config.register('state', _4, _4_KEY)
+/** Form for creating a new YouTube video bookmark @id 4 */
+const newYouTubeBookmarkFormState = {
+  '_id': _4,
+  '_key': _4_KEY,
   'items': [
     {
       'type': 'stack',
       'props': { 'spacing': 2 },
       'items': [
-        {
-          'type': 'textfield',
-          'name': 'slug',
-          'label': 'Video URL Slug',
-          'props': { 'fullWidth': true },
-          'inputProps': {
-            'readOnly': true,
-            'sx': { 'backgroundColor': 'grey.300' }
-          }
-        },
         {
           'type': 'stack',
           'props': {
@@ -49,14 +39,21 @@ const newOdyseeAnnotationFormState = {
               }
             },
             {
+              'type': 'number',
+              'name': 'end_seconds',
+              'label': 'Length',
+              'props': {
+                'sx': { 'width': 240 },
+              },
+              'inputProps': { 'disabled': true }
+            },
+            {
               'type': 'textfield',
               'name': 'videoid',
-              'label': 'Video ID will be automatically filled in',
-              'props': {
-                'fullWidth': true,
-              },
+              'label': 'Video ID',
+              'props': { 'fullWidth': true },
               'inputProps': {
-                'disabled': true,
+                'readOnly': true,
                 'sx': { 'backgroundColor': 'grey.300' }
               }
             },
@@ -85,7 +82,7 @@ const newOdyseeAnnotationFormState = {
             'required': true,
             'requiredMessage': C.TITLE_REQUIRED_MESSAGE,
             'maxLength': C.TITLE_MAX_LENGTH,
-            'maxLengthMessage': C.TITLE_MAX_LENGTH_MESSAGE
+            'maxLengthMessage': C.TITLE_MAX_LENGTH_MESSAGE,
           }
         },
         {
@@ -106,8 +103,8 @@ const newOdyseeAnnotationFormState = {
   ]
 } as IStateForm
 
-export const NEW_ODYSEE_ANNOTATION_UNSUFFIXED_NAME = remove_form_suffix(
-  newOdyseeAnnotationFormState._key
+export const NEW_YOUTUBE_BOOKMARK_UNSUFFIXED_NAME = remove_form_suffix(
+  newYouTubeBookmarkFormState._key
 )
 
-export default newOdyseeAnnotationFormState
+export default newYouTubeBookmarkFormState

@@ -3,21 +3,21 @@ import { backgroundState } from '..'
 import IStateDialog from '../../../../tuber-client/src/controllers/interfaces/IStateDialog'
 import { NEW_VIDEO_URL_FORM_UNSUFFIXED_NAME } from '../forms/new.video.url.form.state'
 import {
-  NEW_YOUTUBE_ANNNOTATION_UNSUFFIXED_NAME
-} from '../forms/new.youtube.annotation.form.state'
+  NEW_YOUTUBE_BOOKMARK_UNSUFFIXED_NAME
+} from '../forms/new.youtube.bookmark.form.state'
 import {
-  EDIT_YOUTUBE_ANNOTATION_UNSUFFIXED_NAME
-} from '../forms/edit.youtube.annotation.form.state'
+  EDIT_YOUTUBE_BOOKMARK_UNSUFFIXED_NAME
+} from '../forms/edit.youtube.bookmark.form.state'
 
 const _6 = '6'
-const _6_KEY = 'newYouTubeAnnotationDialog'
+const _6_KEY = 'newYouTubeBookmarkDialog'
 Config.register('state', _6, _6_KEY)
-/** Dialog to create a new YouTube video annotation @id 6 */
-export const newYoutubeAnnotationDialogState: IStateDialog = {
+/** Dialog to create a new YouTube video bookmark @id 6 */
+export const newYoutubeBookmarkDialogState: IStateDialog = {
   '_type': 'form',
   '_id': _6,
   '_key': _6_KEY,
-  'title': 'Insert New YouTube Annotation',
+  'title': 'Insert New YouTube Bookmark',
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
@@ -28,7 +28,7 @@ export const newYoutubeAnnotationDialogState: IStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': `$form : ${NEW_YOUTUBE_ANNNOTATION_UNSUFFIXED_NAME} : annotations`,
+  'content': `$form : ${NEW_YOUTUBE_BOOKMARK_UNSUFFIXED_NAME} : bookmarks`,
   'actions': [
     {
       'type': 'state_button',
@@ -69,20 +69,20 @@ export const newVideoUrlDialogState: IStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': `$form : ${NEW_VIDEO_URL_FORM_UNSUFFIXED_NAME} : annotations`,
+  'content': `$form : ${NEW_VIDEO_URL_FORM_UNSUFFIXED_NAME} : bookmarks`,
   'actions': [],
   'open': true
 }
 
 const _7 = '7'
-const _7_KEY = 'editYouTubeAnnotationDialog'
+const _7_KEY = 'editYouTubeBookmarkDialog'
 Config.register('state', _7, _7_KEY)
-/** Dialog to edit an existing YouTube video annotation @id 7 */
-export const editYoutubeAnnotationDialogState: IStateDialog = {
+/** Dialog to edit an existing YouTube video bookmark @id 7 */
+export const editYoutubeBookmarkDialogState: IStateDialog = {
   '_type': 'form',
   '_id': _7,
   '_key': _7_KEY,
-  'title': 'Edit YouTube Annotation',
+  'title': 'Edit YouTube Bookmark',
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
@@ -93,7 +93,7 @@ export const editYoutubeAnnotationDialogState: IStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': `'$form : ${EDIT_YOUTUBE_ANNOTATION_UNSUFFIXED_NAME} : annotations'`,
+  'content': `'$form : ${EDIT_YOUTUBE_BOOKMARK_UNSUFFIXED_NAME} : bookmarks'`,
   'actions': [
     {
       'type': 'state_button',
@@ -154,18 +154,18 @@ export const registerDialogState: IStateDialog = {
 }
 
 const _34 = '34'
-const _34_KEY = 'annotationDeleteDialog'
+const _34_KEY = 'bookmarkDeleteDialog'
 Config.register('state', _34, _34_KEY)
-export const deleteAnnotationDialogState: IStateDialog = {
+export const deleteBookmarkDialogState: IStateDialog = {
   '_type': 'alert',
   '_id': _34,
   '_key': _34_KEY,
-  'title': 'Delete Annotation',
+  'title': 'Delete Bookmark',
   'props': { 'fullWidth': true },
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': 'Are you sure you want to delete this annotation?',
+  'content': 'Are you sure you want to delete this bookmark?',
   'actions': [
     {
       'type': 'state_button',
@@ -180,7 +180,7 @@ export const deleteAnnotationDialogState: IStateDialog = {
       'props': { 'color': 'primary' },
       'has': {
         'text': 'Delete',
-        'onclickHandle': 'tuberCallbacks.annotationDeleteCallback'
+        'onclickHandle': 'tuberCallbacks.bookmarkDeleteCallback'
       }
     }
   ],

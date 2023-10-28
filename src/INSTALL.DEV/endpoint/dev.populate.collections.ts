@@ -4,8 +4,8 @@ import gen_random_users from "../population/users"
 import JsonapiResponseBuilder from "src/business.logic/jsonapi.response.builder"
 import Config from "src/config"
 // import { connect, disconnect } from "mongoose"
-import gen_random_annotations from "../population/annotations"
-import { AnnotationPaginationModel, exclude_annotation_fields } from "src/model/annotation"
+import gen_random_bookmarks from "../population/bookmarks"
+import { BookmarkPaginationModel, exclude_bookmark_fields } from "src/model/bookmark"
 import { limit_array } from "src/business.logic"
 
 /** 
@@ -37,23 +37,23 @@ export async function dev_populate_users (
  * Populates the annoations collection with random data. Used when populating
  * collections on individual routes.
  */
-export async function dev_populate_annotations (
+export async function dev_populate_bookmarks (
   request: FastifyRequest<{ Params: { total: string }}>,
   reply: FastifyReply
 ) {
   const { total } = request.params
   const number = parseInt(total, 10)
-  const genAnnotations = gen_random_annotations(number)
+  const genBookmarks = gen_random_bookmarks(number)
   // await connect(Config.DB_URI)
-  const dbAnnotations = limit_array(
-    await AnnotationPaginationModel.insertMany(genAnnotations),
-    parseInt(Config.PAGINATION_ANNOTATIONS_LIMIT, 10)
+  const dbBookmarks = limit_array(
+    await BookmarkPaginationModel.insertMany(genBookmarks),
+    parseInt(Config.PAGINATION_BOOKMARKS_LIMIT, 10)
   )
   // await disconnect()
   reply.send(
-    new JsonapiResponseBuilder(dbAnnotations, 'annotations', 'collection')
-      .meta('max_loaded_pages', Config.MAX_LOADED_ANNOTATION_PAGES)
-      .setResourceFilter(exclude_annotation_fields)
+    new JsonapiResponseBuilder(dbBookmarks, 'bookmarks', 'collection')
+      .meta('max_loaded_pages', Config.MAX_LOADED_BOOKMARK_PAGES)
+      .setResourceFilter(exclude_bookmark_fields)
       .mPaginationV2build()
   )
 }

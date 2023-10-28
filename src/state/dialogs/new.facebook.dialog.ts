@@ -1,17 +1,17 @@
 import Config from '../../config'
 import { backgroundState } from '..'
 import IStateDialog from '../../../../tuber-client/src/controllers/interfaces/IStateDialog'
-import { NEW_FACEBOOK_ANNOTATION_UNSUFFIXED_NAME } from '../forms/new.facebook.annotation.form.state'
+import { NEW_FACEBOOK_BOOKMARK_UNSUFFIXED_NAME } from '../forms/new.facebook.bookmark.form.state'
 
 const _26 = '26'
-const _26_KEY = 'newFacebookAnnotationDialog'
+const _26_KEY = 'newFacebookBookmarkDialog'
 Config.register('state', _26, _26_KEY)
-/** Dialog to create a new Facebook video annotation @id 26 */
-const newFacebookAnnotationDialogState: IStateDialog = {
+/** Dialog to create a new Facebook video bookmark @id 26 */
+const newFacebookBookmarkDialogState: IStateDialog = {
   '_type': 'form',
   '_id': _26,
   '_key': _26_KEY,
-  'title': 'Insert new Facebook Annotation',
+  'title': 'Insert new Facebook Bookmark',
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
@@ -22,7 +22,7 @@ const newFacebookAnnotationDialogState: IStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': `$form : ${NEW_FACEBOOK_ANNOTATION_UNSUFFIXED_NAME} : annotations`,
+  'content': `$form : ${NEW_FACEBOOK_BOOKMARK_UNSUFFIXED_NAME} : bookmarks`,
   'actions': [
     {
       'type': 'state_button',
@@ -45,4 +45,4 @@ const newFacebookAnnotationDialogState: IStateDialog = {
   'open': true
 }
 
-export default newFacebookAnnotationDialogState
+export default newFacebookBookmarkDialogState

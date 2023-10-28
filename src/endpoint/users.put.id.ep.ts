@@ -1,5 +1,5 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { AnnotationModel } from '../model/annotation'
+import { BookmarkModel } from '../model/bookmark'
 import { UserModel } from '../model/user'
 import JsonapiErrorBuilder from '../business.logic/jsonapi.error.builder'
 
@@ -8,10 +8,10 @@ export async function users_vote_put_by_id_endpoint(
   reply: FastifyReply
 ) {
   const { userId } = req.params as { userId: string }
-  const { annotationId, rating } = req.body as { annotationId: string, rating: 1 | -1 }
+  const { bookmarkId, rating } = req.body as { bookmarkId: string, rating: 1 | -1 }
 
   try {
-    const msg = await _update_user_vote(userId, annotationId, rating)
+    const msg = await _update_user_vote(userId, bookmarkId, rating)
     if (msg === 'OK') {
       reply.code(204).send()
     } else if (msg === 'User not found') {
@@ -22,20 +22,20 @@ export async function users_vote_put_by_id_endpoint(
         .detail('The user you are trying to vote as does not exist.')
         .build()
       )
-    } else if (msg === 'User has already voted on this annotation') {
+    } else if (msg === 'User has already voted on this bookmark') {
       reply.code(409).send(new JsonapiErrorBuilder()
         .code('conflict')
         .status(409)
-        .title('User has already voted on this annotation')
-        .detail('The user you are trying to vote as has already voted on this annotation.')
+        .title('User has already voted on this bookmark')
+        .detail('The user you are trying to vote as has already voted on this bookmark.')
         .build()
       )
-    } else if (msg === 'Annotation not found') {
+    } else if (msg === 'Bookmark not found') {
       reply.code(404).send(new JsonapiErrorBuilder()
         .code('not_found')
         .status(404)
-        .title('Annotation not found')
-        .detail('The annotation you are trying to vote on does not exist.')
+        .title('Bookmark not found')
+        .detail('The bookmark you are trying to vote on does not exist.')
         .build()
       )
     }
@@ -54,11 +54,11 @@ export async function users_vote_put_by_id_endpoint(
 /**  */
 async function _update_user_vote(
   userId: string,
-  annotationId: string,
+  bookmarkId: string,
   rating: 1 | -1
-): Promise<'Annotation not found'
+): Promise<'Bookmark not found'
   | 'User not found'
-  | 'User has already voted on this annotation'
+  | 'User has already voted on this bookmark'
   | 'OK'
 > {
   // Find the user document by their ID
@@ -68,44 +68,44 @@ async function _update_user_vote(
     return 'User not found'
   }
 
-  // Check if the user has already voted on the annotation
+  // Check if the user has already voted on the bookmark
   user.votes = user.votes || []
-  const voteIndex = user.votes.findIndex(v => v.annotation_id === annotationId)
+  const voteIndex = user.votes.findIndex(v => v.bookmark_id === bookmarkId)
 
   if (voteIndex === -1) {
-    // If the user has not voted on the annotation, add the annotation ID and the vote to the user's votes array
-    user.votes.push({ annotation_id: annotationId, rating })
+    // If the user has not voted on the bookmark, add the bookmark ID and the vote to the user's votes array
+    user.votes.push({ bookmark_id: bookmarkId, rating })
   } else if (user.votes[voteIndex].rating !== rating) {
-    // If the user has already voted on the annotation, check if the new vote is different from the original vote
+    // If the user has already voted on the bookmark, check if the new vote is different from the original vote
     // If the new vote is different, update the vote in the user's votes array
     user.votes[voteIndex].rating = rating
   } else {
-    return 'User has already voted on this annotation'
+    return 'User has already voted on this bookmark'
   }
 
   // Save the updated user document
   await user.save()
 
-  // Update the annotation's upvote or downvote count based on the new vote
-  const annotation = await AnnotationModel.findById(annotationId);
+  // Update the bookmark's upvote or downvote count based on the new vote
+  const bookmark = await BookmarkModel.findById(bookmarkId);
 
-  if (!annotation) {
-    return 'Annotation not found'
+  if (!bookmark) {
+    return 'Bookmark not found'
   }
 
-  annotation.upvotes = annotation.upvotes || 0
-  annotation.downvotes = annotation.downvotes || 0
+  bookmark.upvotes = bookmark.upvotes || 0
+  bookmark.downvotes = bookmark.downvotes || 0
 
   if (rating === 1) {
-    annotation.upvotes += 1
-    annotation.downvotes -= 1
+    bookmark.upvotes += 1
+    bookmark.downvotes -= 1
   } else if (rating === -1) {
-    annotation.upvotes -= 1
-    annotation.downvotes += 1
+    bookmark.upvotes -= 1
+    bookmark.downvotes += 1
   }
 
-  // Save the updated annotation document
-  await annotation.save()
+  // Save the updated bookmark document
+  await bookmark.save()
 
   return 'OK'
 }

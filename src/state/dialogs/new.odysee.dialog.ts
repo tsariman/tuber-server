@@ -1,17 +1,17 @@
 import Config from '../../config'
 import { backgroundState } from '..'
 import IStateDialog from '../../../../tuber-client/src/controllers/interfaces/IStateDialog'
-import { NEW_ODYSEE_ANNOTATION_UNSUFFIXED_NAME } from '../forms/new.odysee.annotation.form.state'
+import { NEW_ODYSEE_BOOKMARK_UNSUFFIXED_NAME } from '../forms/new.odysee.bookmark.form.state'
 
 const _16 = '16'
-const _16_KEY = 'newOdyseeAnnotationDialog'
+const _16_KEY = 'newOdyseeBookmarkDialog'
 Config.register('state', _16, _16_KEY)
-/** Dialog to create a new Odysee video annotation @id 16 */
-const newOdyseeAnnotationDialogState: IStateDialog = {
+/** Dialog to create a new Odysee video bookmark @id 16 */
+const newOdyseeBookmarkDialogState: IStateDialog = {
   '_type': 'form',
   '_id': _16,
   '_key': _16_KEY,
-  'title': 'Insert new Odysee Annotation',
+  'title': 'Insert new Odysee Bookmark',
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
@@ -22,7 +22,7 @@ const newOdyseeAnnotationDialogState: IStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': `$form : ${NEW_ODYSEE_ANNOTATION_UNSUFFIXED_NAME} : annotations`,
+  'content': `$form : ${NEW_ODYSEE_BOOKMARK_UNSUFFIXED_NAME} : bookmarks`,
   'actions': [
     {
       'type': 'state_button',
@@ -45,4 +45,4 @@ const newOdyseeAnnotationDialogState: IStateDialog = {
   'open': true
 }
 
-export default newOdyseeAnnotationDialogState
+export default newOdyseeBookmarkDialogState
