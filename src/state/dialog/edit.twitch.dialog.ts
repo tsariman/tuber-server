@@ -3,14 +3,14 @@ import IStateDialog from '../../../../tuber-client/src/controllers/interfaces/IS
 import Config from '../../config'
 import { EDIT_TWITCH_BOOKMARK_UNSUFFIXED_NAME } from '../form/edit.twitch.bookmark.form.state'
 
-const _37 = '37'
-const _37_KEY = 'editTwitchBookmarkDialog'
-Config.register('state', _37, _37_KEY)
+const $37 = '37'
+const $37_KEY = 'editTwitchBookmarkDialog'
+Config.register('state', $37, $37_KEY)
 /** Dialog to edit an existing Twitch video bookmark @id 37 */
 const editTwitchBookmarkDialogState: IStateDialog = {
   '_type': 'form',
-  '_id': _37,
-  '_key': _37_KEY,
+  '_id': $37,
+  '_key': $37_KEY,
   'title': 'Edit Twitch Bookmark',
   'props': {
     'fullWidth': true,
@@ -37,7 +37,7 @@ const editTwitchBookmarkDialogState: IStateDialog = {
       'props': { 'color': 'primary' },
       'has': {
         'text': 'Save',
-        'onclickHandle': 'tuberCallbacks._37_C_1'
+        'onclickHandle': 'tuberCallbacks.$37_C_1'
       }
     }
   ],

@@ -3,14 +3,14 @@ import { backgroundState } from '..'
 import IStateDialog from '../../../../tuber-client/src/controllers/interfaces/IStateDialog'
 import { NEW_ODYSEE_BOOKMARK_UNSUFFIXED_NAME } from '../form/new.odysee.bookmark.form.state'
 
-const _16 = '16'
-const _16_KEY = 'newOdyseeBookmarkDialog'
-Config.register('state', _16, _16_KEY)
+const $16 = '16'
+const $16_KEY = 'newOdyseeBookmarkDialog'
+Config.register('state', $16, $16_KEY)
 /** Dialog to create a new Odysee video bookmark @id 16 */
 const newOdyseeBookmarkDialogState: IStateDialog = {
   '_type': 'form',
-  '_id': _16,
-  '_key': _16_KEY,
+  '_id': $16,
+  '_key': $16_KEY,
   'title': 'Insert new Odysee Bookmark',
   'props': {
     'fullWidth': true,
@@ -38,7 +38,7 @@ const newOdyseeBookmarkDialogState: IStateDialog = {
       'has': {
         'disableOnError': true,
         'text': 'Save',
-        'onclickHandle': 'tuberCallbacks._16_C_1'
+        'onclickHandle': 'tuberCallbacks.$16_C_1'
       }
     }
   ],

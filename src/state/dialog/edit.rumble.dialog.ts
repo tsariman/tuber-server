@@ -3,14 +3,14 @@ import { backgroundState } from '..'
 import IStateDialog from '../../../../tuber-client/src/controllers/interfaces/IStateDialog'
 import { EDIT_RUMBLE_BOOKMARK_UNSUFFIXED_NAME } from '../form/edit.rumble.bookmark.form.state'
 
-const _11 = '11'
-const _11_KEY = 'editRumbleBookmarkDialog'
-Config.register('state', _11, _11_KEY)
+const $11 = '11'
+const $11_KEY = 'editRumbleBookmarkDialog'
+Config.register('state', $11, $11_KEY)
 /** Dialog to edit a Rumble video bookmark @id 11 */
 const editRumbleBookmarkDialogState: IStateDialog = {
   '_type': 'form',
-  '_id': _11,
-  '_key': _11_KEY,
+  '_id': $11,
+  '_key': $11_KEY,
   'title': 'Edit Rumble Bookmark',
   'props': {
     'fullWidth': true,
@@ -38,7 +38,7 @@ const editRumbleBookmarkDialogState: IStateDialog = {
       'has': {
         'disableOnError': true,
         'text': 'Save',
-        'onclickHandle': 'tuberCallbacks._11_C_1'
+        'onclickHandle': 'tuberCallbacks.$11_C_1'
       }
     }
   ],

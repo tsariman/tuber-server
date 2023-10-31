@@ -1,13 +1,13 @@
 import Config from '../../config'
 import IStatePage from '../../../../tuber-client/src/controllers/interfaces/IStatePage'
 
-const _40 = '40'
-const _40_KEY = 'research-app'
-Config.register('state', _40, _40_KEY)
+const $40 = '40'
+export const $40_KEY = 'research-app'
+Config.register('state', $40, $40_KEY)
 /** @id 40 */
 const researchPageState: IStatePage = {
-  '_id': _40,
-  '_key': _40_KEY,
+  '_id': $40,
+  '_key': $40_KEY,
   'content': '$webapp : tubeResearcher',
   'appBar': {
     'appBarStyle': 'middle_search',

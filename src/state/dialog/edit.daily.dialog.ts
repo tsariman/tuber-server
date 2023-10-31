@@ -3,14 +3,14 @@ import IStateDialog from '../../../../tuber-client/src/controllers/interfaces/IS
 import { backgroundState } from '..'
 import { EDIT_DAILY_BOOKMARK_UNSUFFIXED_NAME } from '../form/edit.daily.bookmark.form.state'
 
-const _22 = '22'
-const _22_KEY = 'editDailyBookmarkDialog'
-Config.register('state', _22, _22_KEY)
+const $22 = '22'
+const $22_KEY = 'editDailyBookmarkDialog'
+Config.register('state', $22, $22_KEY)
 /** Dialog to edit an existing Dailymotion video bookmark @id 22 */
 const editDailyBookmarkDialogState: IStateDialog = {
   '_type': 'form',
-  '_id': _22,
-  '_key': _22_KEY,
+  '_id': $22,
+  '_key': $22_KEY,
   'title': 'Edit Dailymotion Bookmark',
   'props': {
     'fullWidth': true,
@@ -37,7 +37,7 @@ const editDailyBookmarkDialogState: IStateDialog = {
       'props': { 'color': 'primary' },
       'has': {
         'text': 'Save',
-        'onclickHandle': 'tuberCallbacks._22_C_1'
+        'onclickHandle': 'tuberCallbacks.$22_C_1'
       }
     }
   ],

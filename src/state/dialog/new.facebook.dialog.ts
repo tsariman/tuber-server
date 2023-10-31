@@ -3,14 +3,14 @@ import { backgroundState } from '..'
 import IStateDialog from '../../../../tuber-client/src/controllers/interfaces/IStateDialog'
 import { NEW_FACEBOOK_BOOKMARK_UNSUFFIXED_NAME } from '../form/new.facebook.bookmark.form.state'
 
-const _26 = '26'
-const _26_KEY = 'newFacebookBookmarkDialog'
-Config.register('state', _26, _26_KEY)
+const $26 = '26'
+const $26_KEY = 'newFacebookBookmarkDialog'
+Config.register('state', $26, $26_KEY)
 /** Dialog to create a new Facebook video bookmark @id 26 */
 const newFacebookBookmarkDialogState: IStateDialog = {
   '_type': 'form',
-  '_id': _26,
-  '_key': _26_KEY,
+  '_id': $26,
+  '_key': $26_KEY,
   'title': 'Insert new Facebook Bookmark',
   'props': {
     'fullWidth': true,
@@ -38,7 +38,7 @@ const newFacebookBookmarkDialogState: IStateDialog = {
       'has': {
         'disableOnError': true,
         'text': 'Save',
-        'onclickHandle': 'tuberCallbacks._26_C_1'
+        'onclickHandle': 'tuberCallbacks.$26_C_1'
       }
     }
   ],

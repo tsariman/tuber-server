@@ -3,14 +3,14 @@ import IStateForm from '../../../../tuber-client/src/controllers/interfaces/ISta
 import IStateFormItem from '../../../../tuber-client/src/controllers/interfaces/IStateFormItem'
 import { remove_form_suffix } from './_forms.business.logic'
 
-const _1 = '1' // ID
-const _1_KEY = 'newVideoUrlForm'
-Config.register('state', _1, _1_KEY)
+const $1 = '1' // ID
+const $1_KEY = 'newVideoUrlForm'
+Config.register('state', $1, $1_KEY)
 
 /** Form to insert a new video URL. @id 1 */
 const newVideoUrlFormState: IStateForm = {
-  '_id': _1,
-  '_key': _1_KEY,
+  '_id': $1,
+  '_key': $1_KEY,
   'items': [
     {
       'type': 'stack',
@@ -50,13 +50,13 @@ const newVideoUrlFormState: IStateForm = {
                 'type': 'icon',
                 'has': {
                   'icon': 'arrow_forward_ios_outline',
-                  'onclickHandle': `tuberCallbacks._1_C_1`,
+                  'onclickHandle': `tuberCallbacks.$1_C_1`,
                 }
               }
             }
           },
           'has': {
-            'onkeydownHandle': `tuberCallbacks._1_C_2`,
+            'onkeydownHandle': `tuberCallbacks.$1_C_2`,
             'required': true,
             'requiredMessage': 'You forgot the URL of the video'
           }

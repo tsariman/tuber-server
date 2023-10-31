@@ -3,14 +3,14 @@ import { backgroundState } from '..'
 import IStateDialog from '../../../../tuber-client/src/controllers/interfaces/IStateDialog'
 import { NEW_RUMBLE_BOOKMARK_UNSUFFIXED_NAME } from '../form/new.rumble.bookmark.form.state'
 
-const _8 = '8'
-const _8_KEY = 'newRumbleBookmarkDialog'
-Config.register('state', _8, _8_KEY)
+const $8 = '8'
+const $8_KEY = 'newRumbleBookmarkDialog'
+Config.register('state', $8, $8_KEY)
 /** Dialog to create a new Rumble video bookmark @id 8 */
 const newRumbleBookmarkDialogState: IStateDialog = {
   '_type': 'form',
-  '_id': _8,
-  '_key': _8_KEY,
+  '_id': $8,
+  '_key': $8_KEY,
   'title': 'Insert new Rumble Bookmark',
   'props': {
     'fullWidth': true,
@@ -38,7 +38,7 @@ const newRumbleBookmarkDialogState: IStateDialog = {
       'has': {
         'disableOnError': true,
         'text': 'Save',
-        'onclickHandle': 'tuberCallbacks._8_C_1'
+        'onclickHandle': 'tuberCallbacks.$8_C_1'
       }
     }
   ],

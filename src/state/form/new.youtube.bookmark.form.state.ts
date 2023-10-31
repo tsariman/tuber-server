@@ -3,13 +3,13 @@ import IStateForm from '../../../../tuber-client/src/controllers/interfaces/ISta
 import { remove_form_suffix } from './_forms.business.logic'
 import * as C from '../../constants'
 
-const _4 = '4'
-const _4_KEY = 'newYouTubeBookmarkForm'
-Config.register('state', _4, _4_KEY)
+const $4 = '4'
+const $4_KEY = 'newYouTubeBookmarkForm'
+Config.register('state', $4, $4_KEY)
 /** Form for creating a new YouTube video bookmark @id 4 */
 const newYouTubeBookmarkFormState = {
-  '_id': _4,
-  '_key': _4_KEY,
+  '_id': $4,
+  '_key': $4_KEY,
   'items': [
     {
       'type': 'stack',

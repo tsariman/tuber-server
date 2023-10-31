@@ -3,14 +3,14 @@ import IStateDialog from '../../../../tuber-client/src/controllers/interfaces/IS
 import { backgroundState } from '..'
 import { NEW_VIMEO_ANNNOTATION_UNSUFFIXED_NAME } from '../form/new.vimeo.bookmark.form.state'
 
-const _14 = '14'
-const _14_KEY = 'newVimeoBookmarkDialog'
-Config.register('state', _14, _14_KEY)
+const $14 = '14'
+const $14_KEY = 'newVimeoBookmarkDialog'
+Config.register('state', $14, $14_KEY)
 /** Dialog to create a new Vimeo video bookmark @id 14 */
 const newVimeoBookmarkDialogState: IStateDialog = {
   '_type': 'form',
-  '_id': _14,
-  '_key': _14_KEY,
+  '_id': $14,
+  '_key': $14_KEY,
   'title': 'Insert New Vimeo Bookmark',
   'props': {
     'fullWidth': true,
@@ -37,7 +37,7 @@ const newVimeoBookmarkDialogState: IStateDialog = {
       'props': { 'color': 'primary' },
       'has': {
         'text': 'Save',
-        'onclickHandle': 'tuberCallbacks._14_C_1'
+        'onclickHandle': 'tuberCallbacks.$14_C_1'
       }
     }
   ],

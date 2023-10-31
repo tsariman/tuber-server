@@ -3,14 +3,14 @@ import IStateDialog from '../../../../tuber-client/src/controllers/interfaces/IS
 import { backgroundState } from '..'
 import { NEW_TWITCH_ANNNOTATION_UNSUFFIXED_NAME } from '../form/new.twitch.bookmark.form.state'
 
-const _36 = '36'
-const _36_KEY = 'newTwitchBookmarkDialog'
-Config.register('state', _36, _36_KEY)
+const $36 = '36'
+const $36_KEY = 'newTwitchBookmarkDialog'
+Config.register('state', $36, $36_KEY)
 /** Dialog to create a new Twitch video bookmark @id 36 */
 const newTwitchBookmarkDialogState: IStateDialog = {
   '_type': 'form',
-  '_id': _36,
-  '_key': _36_KEY,
+  '_id': $36,
+  '_key': $36_KEY,
   'title': 'Insert New Twitch Bookmark',
   'props': {
     'fullWidth': true,
@@ -37,7 +37,7 @@ const newTwitchBookmarkDialogState: IStateDialog = {
       'props': { 'color': 'primary' },
       'has': {
         'text': 'Save',
-        'onclickHandle': 'tuberCallbacks._36_C_1'
+        'onclickHandle': 'tuberCallbacks.$36_C_1'
       }
     }
   ],

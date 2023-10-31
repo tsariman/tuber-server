@@ -3,14 +3,14 @@ import IStateDialog from '../../../../tuber-client/src/controllers/interfaces/IS
 import Config from '../../config'
 import { EDIT_VIMEO_BOOKMARK_UNSUFFIXED_NAME } from '../form/edit.vimeo.bookmark.form.state'
 
-const _15 = '15'
-const _15_KEY = 'editVimeoBookmarkDialog'
-Config.register('state', _15, _15_KEY)
+const $15 = '15'
+const $15_KEY = 'editVimeoBookmarkDialog'
+Config.register('state', $15, $15_KEY)
 /** Dialog to edit an existing Vimeo video bookmark @id 15 */
 const editVimeoBookmarkDialogState: IStateDialog = {
   '_type': 'form',
-  '_id': _15,
-  '_key': _15_KEY,
+  '_id': $15,
+  '_key': $15_KEY,
   'title': 'Edit Vimeo Bookmark',
   'props': {
     'fullWidth': true,
@@ -37,7 +37,7 @@ const editVimeoBookmarkDialogState: IStateDialog = {
       'props': { 'color': 'primary' },
       'has': {
         'text': 'Save',
-        'onclickHandle': 'tuberCallbacks._15_C_1'
+        'onclickHandle': 'tuberCallbacks.$15_C_1'
       }
     }
   ],

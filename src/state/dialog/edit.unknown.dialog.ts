@@ -3,14 +3,14 @@ import { backgroundState } from '..'
 import IStateDialog from '../../../../tuber-client/src/controllers/interfaces/IStateDialog'
 import { EDIT_UNKNOWN_BOOKMARK_UNSUFFIXED_NAME } from '../form/edit.unknown.bookmark.form.state'
 
-const _31 = '31'
-const _31_KEY = 'editUnknownBookmarkDialog'
-Config.register('state', _31, _31_KEY)
+const $31 = '31'
+const $31_KEY = 'editUnknownBookmarkDialog'
+Config.register('state', $31, $31_KEY)
 /** Dialog to edit an unknown video platform bookmark @id 31 */
 const editUnknownBookmarkDialogState: IStateDialog = {
   '_type': 'form',
-  '_id': _31,
-  '_key': _31_KEY,
+  '_id': $31,
+  '_key': $31_KEY,
   'title': 'Edit Unknown Bookmark',
   'props': {
     'fullWidth': true,
@@ -38,7 +38,7 @@ const editUnknownBookmarkDialogState: IStateDialog = {
       'has': {
         'disableOnError': true,
         'text': 'Save',
-        'onclickHandle': 'tuberCallbacks._31_C_1'
+        'onclickHandle': 'tuberCallbacks.$31_C_1'
       }
     }
   ],

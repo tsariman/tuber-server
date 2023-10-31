@@ -1,4 +1,4 @@
-import IStateForm from '../../../tuber-client/src/controllers/interfaces/IStateForm'
+import IStateForm from '../../../../tuber-client/src/controllers/interfaces/IStateForm'
 
 /** Development shortcuts form. */
 

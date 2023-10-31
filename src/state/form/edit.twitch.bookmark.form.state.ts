@@ -3,13 +3,13 @@ import IStateForm from '../../../../tuber-client/src/controllers/interfaces/ISta
 import { remove_form_suffix } from './_forms.business.logic'
 import * as C from '../../constants'
 
-const _39 = '39'
-const _39_KEY = 'editTwitchBookmarkForm'
-Config.register('state', _39, _39_KEY)
+const $39 = '39'
+const $39_KEY = 'editTwitchBookmarkForm'
+Config.register('state', $39, $39_KEY)
 /** Form for editing an existing Twitch bookmark. @id 39 */
 const editTwitchBookmarkFormState = {
-  '_id': _39,
-  '_key': _39_KEY, // 'editBookmarkForm',
+  '_id': $39,
+  '_key': $39_KEY,
   'items': [
     {
       'type': 'stack',

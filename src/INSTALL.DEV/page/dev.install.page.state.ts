@@ -1,12 +1,14 @@
-import { authenticatedLinkState, powerLinkState } from '../state/nav.link'
-import IStateAppBar from '../../../tuber-client/src/controllers/interfaces/IStateAppBar'
-import IStatePage from '../../../tuber-client/src/controllers/interfaces/IStatePage'
+import { authenticatedLinkState, powerLinkState } from '../../state/nav.link'
+import IStateAppBar from '../../../../tuber-client/src/controllers/interfaces/IStateAppBar'
+import IStatePage from '../../../../tuber-client/src/controllers/interfaces/IStatePage'
+import Config from '../../config'
+import { $40_KEY } from 'src/state/page/research.page.state'
 
 export const appBarLinksState: IStateAppBar['items'] = [
   {
     'has': {
       'text': 'Research',
-      'route': 'research-app'
+      'route': $40_KEY,
     }
   },
   {
@@ -28,7 +30,7 @@ export const authAppBarLinksState: IStateAppBar['items'] = [
   {
     'has': {
       'text': 'Research',
-      'route': 'research-app'
+      'route':  $40_KEY,
     }
   },
   {
@@ -46,8 +48,13 @@ export const authAppBarLinksState: IStateAppBar['items'] = [
   authenticatedLinkState
 ]
 
+const $44 = '44'
+export const $44_KEY = 'dev-install'
+Config.registre('state', $44, $44_KEY)
+/** @id 44 */
 const devInstallPageState: IStatePage = {
-  '_key': 'dev-install',
+  '_id': $44,
+  '_key': $44_KEY,
   'content': '$form:devInstall:dev-install',
   'layout': 'layout_default',
   'appBar': {
@@ -55,7 +62,7 @@ const devInstallPageState: IStatePage = {
       {
         'has': {
           'text': 'Research',
-          'route': 'research-app'
+          'route':  $40_KEY,
         }
       },
       {

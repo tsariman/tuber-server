@@ -9,14 +9,14 @@ import {
   EDIT_YOUTUBE_BOOKMARK_UNSUFFIXED_NAME
 } from '../form/edit.youtube.bookmark.form.state'
 
-const _6 = '6'
-const _6_KEY = 'newYouTubeBookmarkDialog'
-Config.register('state', _6, _6_KEY)
+const $6 = '6'
+const $6_KEY = 'newYouTubeBookmarkDialog'
+Config.register('state', $6, $6_KEY)
 /** Dialog to create a new YouTube video bookmark @id 6 */
 export const newYoutubeBookmarkDialogState: IStateDialog = {
   '_type': 'form',
-  '_id': _6,
-  '_key': _6_KEY,
+  '_id': $6,
+  '_key': $6_KEY,
   'title': 'Insert New YouTube Bookmark',
   'props': {
     'fullWidth': true,
@@ -43,21 +43,21 @@ export const newYoutubeBookmarkDialogState: IStateDialog = {
       'props': { 'color': 'primary' },
       'has': {
         'text': 'Save',
-        'onclickHandle': 'tuberCallbacks._6_C_1'
+        'onclickHandle': 'tuberCallbacks.$6_C_1'
       }
     }
   ],
   'open': true
 }
 
-const _2 = '2'
-const _2_KEY = 'newVideoUrlDialog'
-Config.register('state', _2, _2_KEY)
+const $2 = '2'
+const $2_KEY = 'newVideoUrlDialog'
+Config.register('state', $2, $2_KEY)
 /** Dialog that contains the form to insert the new video url. @id 2 */
 export const newVideoUrlDialogState: IStateDialog = {
   '_type': 'form',
-  '_id': _2,
-  '_key': _2_KEY,
+  '_id': $2,
+  '_key': $2_KEY,
   'title': 'Insert the URL of Video to be Bookmarked',
   'props': {
     'fullWidth': true,
@@ -74,14 +74,14 @@ export const newVideoUrlDialogState: IStateDialog = {
   'open': true
 }
 
-const _7 = '7'
-const _7_KEY = 'editYouTubeBookmarkDialog'
-Config.register('state', _7, _7_KEY)
+const $7 = '7'
+const $7_KEY = 'editYouTubeBookmarkDialog'
+Config.register('state', $7, $7_KEY)
 /** Dialog to edit an existing YouTube video bookmark @id 7 */
 export const editYoutubeBookmarkDialogState: IStateDialog = {
   '_type': 'form',
-  '_id': _7,
-  '_key': _7_KEY,
+  '_id': $7,
+  '_key': $7_KEY,
   'title': 'Edit YouTube Bookmark',
   'props': {
     'fullWidth': true,
@@ -108,21 +108,21 @@ export const editYoutubeBookmarkDialogState: IStateDialog = {
       'props': { 'color': 'primary' },
       'has': {
         'text': 'Save',
-        'onclickHandle': 'tuberCallbacks._7_C_1'
+        'onclickHandle': 'tuberCallbacks.$7_C_1'
       }
     }
   ],
   'open': true
 }
 
-const _32 = '32'
-const _32_KEY = 'loginDialog'
-Config.register('state', _32, _32_KEY)
+const $32 = '32'
+const $32_KEY = 'loginDialog'
+Config.register('state', $32, $32_KEY)
 /** @id 32 */
 export const loginDialogState: IStateDialog = {
   '_type': 'form',
-  '_id': _32,
-  '_key': _32_KEY,
+  '_id': $32,
+  '_key': $32_KEY,
   'title': 'Enter Your Credentials',
   'props': {
     'fullWidth': true,
@@ -135,14 +135,14 @@ export const loginDialogState: IStateDialog = {
   'open': true
 }
 
-const _33 = '33'
-const _33_KEY = 'registerDialog'
-Config.register('state', _33, _33_KEY)
+const $33 = '33'
+const $33_KEY = 'registerDialog'
+Config.register('state', $33, $33_KEY)
 /** @id 33 */
 export const registerDialogState: IStateDialog = {
   '_type': 'form',
-  '_id': _33,
-  '_key': _33_KEY,
+  '_id': $33,
+  '_key': $33_KEY,
   'title': 'Register New User',
   'props': {
     'fullWidth': true,
@@ -155,14 +155,14 @@ export const registerDialogState: IStateDialog = {
   'open': true
 }
 
-const _34 = '34'
-const _34_KEY = 'bookmarkDeleteDialog'
-Config.register('state', _34, _34_KEY)
+const $34 = '34'
+const $34_KEY = 'bookmarkDeleteDialog'
+Config.register('state', $34, $34_KEY)
 /** @id 34 */
 export const deleteBookmarkDialogState: IStateDialog = {
   '_type': 'alert',
-  '_id': _34,
-  '_key': _34_KEY,
+  '_id': $34,
+  '_key': $34_KEY,
   'title': 'Delete Bookmark',
   'props': { 'fullWidth': true },
   'titleProps': {
@@ -190,14 +190,14 @@ export const deleteBookmarkDialogState: IStateDialog = {
   'open': true // Careful! Must be set to true
 }
 
-const _35 = '35'
-const _35_KEY = 'clientAlertDialog'
-Config.register('state', _35, _35_KEY)
+const $35 = '35'
+const $35_KEY = 'clientAlertDialog'
+Config.register('state', $35, $35_KEY)
 /** @id 35 */
 export const clientAlertDialogState: IStateDialog = {
   '_type': 'alert',
-  '_id': _35,
-  '_key': _35_KEY,
+  '_id': $35,
+  '_key': $35_KEY,
   'title': 'Feedback',
   'props': { 'fullWidth': true },
   'titleProps': {
