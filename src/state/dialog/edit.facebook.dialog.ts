@@ -1,17 +1,17 @@
 import Config from '../../config'
 import { backgroundState } from '..'
 import IStateDialog from '../../../../tuber-client/src/controllers/interfaces/IStateDialog'
-import { NEW_FACEBOOK_BOOKMARK_UNSUFFIXED_NAME } from '../forms/new.facebook.bookmark.form.state'
+import { EDIT_FACEBOOK_BOOKMARK_UNSUFFIXED_NAME } from '../form/edit.facebook.bookmark.form.state'
 
-const _26 = '26'
-const _26_KEY = 'newFacebookBookmarkDialog'
-Config.register('state', _26, _26_KEY)
-/** Dialog to create a new Facebook video bookmark @id 26 */
-const newFacebookBookmarkDialogState: IStateDialog = {
+const _27 = '27'
+const _27_KEY = 'editFacebookBookmarkDialog'
+Config.register('state', _27, _27_KEY)
+/** Dialog to edit a Facebook video bookmark @id 27 */
+const editFacebookBookmarkDialogState: IStateDialog = {
   '_type': 'form',
-  '_id': _26,
-  '_key': _26_KEY,
-  'title': 'Insert new Facebook Bookmark',
+  '_id': _27,
+  '_key': _27_KEY,
+  'title': 'Edit Facebook Bookmark',
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
@@ -22,7 +22,7 @@ const newFacebookBookmarkDialogState: IStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': `$form : ${NEW_FACEBOOK_BOOKMARK_UNSUFFIXED_NAME} : bookmarks`,
+  'content': `$form : ${EDIT_FACEBOOK_BOOKMARK_UNSUFFIXED_NAME} : bookmarks`,
   'actions': [
     {
       'type': 'state_button',
@@ -38,11 +38,11 @@ const newFacebookBookmarkDialogState: IStateDialog = {
       'has': {
         'disableOnError': true,
         'text': 'Save',
-        'onclickHandle': 'tuberCallbacks._26_C_1'
+        'onclickHandle': 'tuberCallbacks._27_C_1'
       }
     }
   ],
   'open': true
 }
 
-export default newFacebookBookmarkDialogState
+export default editFacebookBookmarkDialogState

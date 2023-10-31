@@ -1,7 +1,7 @@
 import Config from '../../config'
 import IStateDialog from '../../../../tuber-client/src/controllers/interfaces/IStateDialog'
 import { backgroundState } from '..'
-import { NEW_DAILY_ANNNOTATION_UNSUFFIXED_NAME } from '../forms/new.daily.bookmark.form.state'
+import { NEW_DAILY_ANNNOTATION_UNSUFFIXED_NAME } from '../form/new.daily.bookmark.form.state'
 
 const _21 = '21'
 const _21_KEY = 'newDailyBookmarkDialog'

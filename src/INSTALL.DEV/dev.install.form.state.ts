@@ -21,7 +21,6 @@ const devInstallForm = {
     },
     {
       'type': 'html',
-      'props': { 'sx': { } },
       'has': {
         'content': `
           <p>
@@ -45,8 +44,8 @@ const devInstallForm = {
         'onclickHandle': 'tuberCallbacks.devCreateUser'
       },
     },
-    { 'type': 'html',
-      'props': { 'sx': { 'display': 'inline' } },
+    {
+      'type': 'html_tag',
       'has': { 'content': '|' }
     },
     {
@@ -56,8 +55,8 @@ const devInstallForm = {
         'onclickHandle': 'tuberCallbacks.devResetDatabase'
       }
     },
-    { 'type': 'html',
-      'props': { 'sx': { 'display': 'inline' } },
+    {
+      'type': 'html_tag',
       'has': { 'content': '|' }
     },
     {
@@ -67,8 +66,8 @@ const devInstallForm = {
         'onclickHandle': 'tuberCallbacks.devLoadDrawer'
       }
     },
-    { 'type': 'html',
-      'props': { 'sx': { 'display': 'inline' } },
+    {
+      'type': 'html_tag',
       'has': { 'content': '|' }
     },
     {
@@ -78,8 +77,8 @@ const devInstallForm = {
         'onclickHandle': 'tuberCallbacks.devUnloadDrawer'
       }
     },
-    { 'type': 'html',
-      'props': { 'sx': { 'display': 'inline' } },
+    {
+      'type': 'html_tag',
       'has': { 'content': '|' }
     },
     {
@@ -131,8 +130,8 @@ const devInstallForm = {
         'onclickHandle': 'tuberCallbacks.devUserAdd'
       }
     },
-    { 'type': 'html',
-      'props': { 'sx': { 'display': 'inline' } },
+    {
+      'type': 'html_tag',
       'has': { 'content': '|' }
     },
     {
@@ -142,8 +141,8 @@ const devInstallForm = {
         'onclickHandle': 'tuberCallbacks.devUserPopulate'
       }
     },
-    { 'type': 'html',
-      'props': { 'sx': { 'display': 'inline' } },
+    {
+      'type': 'html_tag',
       'has': { 'content': '|' }
     },
     {
@@ -154,8 +153,7 @@ const devInstallForm = {
       }
     },
     {
-      'type': 'html',
-      'props': { 'sx': { 'display': 'inline' } },
+      'type': 'html_tag',
       'has': { 'content': '|' }
     },
     {
@@ -166,8 +164,18 @@ const devInstallForm = {
       }
     },
     {
-      'type': 'html',
-      'props': { 'sx': { 'display': 'inline' } },
+      'type': 'html_tag',
+      'has': { 'content': '|' }
+    },
+    {
+      'type': 'state_button',
+      'has': {
+        'label': 'Test getting platform thumbnails',
+        'onclickHandle': 'tuberCallbacks.devTestGetThumbnail'
+      }
+    },
+    {
+      'type': 'html_tag',
       'has': { 'content': '|' }
     },
     {
@@ -211,8 +219,7 @@ const devInstallForm = {
           }
         },
         {
-          'type': 'html',
-          'props': { 'sx': { 'display': 'inline' } },
+          'type': 'html_tag',
           'has': { 'content': '|' }
         },
         {
@@ -275,8 +282,7 @@ const devInstallForm = {
           }
         },
         {
-          'type': 'html',
-          'props': { 'sx': { 'display': 'inline' } },
+          'type': 'html_tag',
           'has': { 'content': '|' }
         },
         {

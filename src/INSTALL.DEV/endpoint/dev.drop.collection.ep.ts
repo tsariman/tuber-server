@@ -6,7 +6,7 @@ import { UserPaginationModel } from '../../model/user'
 import {
   // defaultDialogAlertState as alert,
   dialogAlertState as dialogAlert
-} from '../../state/dialogs'
+} from '../../state/dialog'
 
 export default async function dev_drop_collection (
   req: FastifyRequest<{ Params: { collection: string } }>,

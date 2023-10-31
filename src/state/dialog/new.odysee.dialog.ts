@@ -1,17 +1,17 @@
+import Config from '../../config'
 import { backgroundState } from '..'
 import IStateDialog from '../../../../tuber-client/src/controllers/interfaces/IStateDialog'
-import Config from '../../config'
-import { EDIT_TWITCH_BOOKMARK_UNSUFFIXED_NAME } from '../forms/edit.twitch.bookmark.form.state'
+import { NEW_ODYSEE_BOOKMARK_UNSUFFIXED_NAME } from '../form/new.odysee.bookmark.form.state'
 
-const _37 = '37'
-const _37_KEY = 'editTwitchBookmarkDialog'
-Config.register('state', _37, _37_KEY)
-/** Dialog to edit an existing Twitch video bookmark @id 37 */
-const editTwitchBookmarkDialogState: IStateDialog = {
+const _16 = '16'
+const _16_KEY = 'newOdyseeBookmarkDialog'
+Config.register('state', _16, _16_KEY)
+/** Dialog to create a new Odysee video bookmark @id 16 */
+const newOdyseeBookmarkDialogState: IStateDialog = {
   '_type': 'form',
-  '_id': _37,
-  '_key': _37_KEY,
-  'title': 'Edit Twitch Bookmark',
+  '_id': _16,
+  '_key': _16_KEY,
+  'title': 'Insert new Odysee Bookmark',
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
@@ -22,7 +22,7 @@ const editTwitchBookmarkDialogState: IStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': `'$form : ${EDIT_TWITCH_BOOKMARK_UNSUFFIXED_NAME} : bookmarks'`,
+  'content': `$form : ${NEW_ODYSEE_BOOKMARK_UNSUFFIXED_NAME} : bookmarks`,
   'actions': [
     {
       'type': 'state_button',
@@ -36,12 +36,13 @@ const editTwitchBookmarkDialogState: IStateDialog = {
       'type': 'state_button',
       'props': { 'color': 'primary' },
       'has': {
+        'disableOnError': true,
         'text': 'Save',
-        'onclickHandle': 'tuberCallbacks._37_C_1'
+        'onclickHandle': 'tuberCallbacks._16_C_1'
       }
     }
   ],
   'open': true
 }
 
-export default editTwitchBookmarkDialogState
+export default newOdyseeBookmarkDialogState

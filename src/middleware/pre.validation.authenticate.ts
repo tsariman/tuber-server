@@ -3,7 +3,7 @@ import { RouteShorthandOptions } from 'fastify'
 import Config from '../config'
 import { UserPaginationModel } from '../model/user'
 import { check_password } from '../business.logic/security'
-import { defaultDialogAlertState as alert } from '../state/dialogs'
+import { defaultDialogAlertState as alert } from '../state/dialog'
 import { ILoginCredentials } from '../business.logic/security/permissions'
 
 

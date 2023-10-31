@@ -1,17 +1,17 @@
-import Config from '../../config'
 import { backgroundState } from '..'
 import IStateDialog from '../../../../tuber-client/src/controllers/interfaces/IStateDialog'
-import { EDIT_UNKNOWN_BOOKMARK_UNSUFFIXED_NAME } from '../forms/edit.unknown.bookmark.form.state'
+import Config from '../../config'
+import { EDIT_TWITCH_BOOKMARK_UNSUFFIXED_NAME } from '../form/edit.twitch.bookmark.form.state'
 
-const _31 = '31'
-const _31_KEY = 'editUnknownBookmarkDialog'
-Config.register('state', _31, _31_KEY)
-/** Dialog to edit an unknown video platform bookmark @id 31 */
-const editUnknownBookmarkDialogState: IStateDialog = {
+const _37 = '37'
+const _37_KEY = 'editTwitchBookmarkDialog'
+Config.register('state', _37, _37_KEY)
+/** Dialog to edit an existing Twitch video bookmark @id 37 */
+const editTwitchBookmarkDialogState: IStateDialog = {
   '_type': 'form',
-  '_id': _31,
-  '_key': _31_KEY,
-  'title': 'Edit Unknown Bookmark',
+  '_id': _37,
+  '_key': _37_KEY,
+  'title': 'Edit Twitch Bookmark',
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
@@ -22,7 +22,7 @@ const editUnknownBookmarkDialogState: IStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': `$form : ${EDIT_UNKNOWN_BOOKMARK_UNSUFFIXED_NAME} : bookmarks`,
+  'content': `'$form : ${EDIT_TWITCH_BOOKMARK_UNSUFFIXED_NAME} : bookmarks'`,
   'actions': [
     {
       'type': 'state_button',
@@ -36,13 +36,12 @@ const editUnknownBookmarkDialogState: IStateDialog = {
       'type': 'state_button',
       'props': { 'color': 'primary' },
       'has': {
-        'disableOnError': true,
         'text': 'Save',
-        'onclickHandle': 'tuberCallbacks._31_C_1'
+        'onclickHandle': 'tuberCallbacks._37_C_1'
       }
     }
   ],
   'open': true
 }
 
-export default editUnknownBookmarkDialogState
+export default editTwitchBookmarkDialogState

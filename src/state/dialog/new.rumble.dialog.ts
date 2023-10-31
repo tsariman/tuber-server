@@ -1,17 +1,17 @@
 import Config from '../../config'
 import { backgroundState } from '..'
 import IStateDialog from '../../../../tuber-client/src/controllers/interfaces/IStateDialog'
-import { EDIT_FACEBOOK_BOOKMARK_UNSUFFIXED_NAME } from '../forms/edit.facebook.bookmark.form.state'
+import { NEW_RUMBLE_BOOKMARK_UNSUFFIXED_NAME } from '../form/new.rumble.bookmark.form.state'
 
-const _27 = '27'
-const _27_KEY = 'editFacebookBookmarkDialog'
-Config.register('state', _27, _27_KEY)
-/** Dialog to edit a Facebook video bookmark @id 27 */
-const editFacebookBookmarkDialogState: IStateDialog = {
+const _8 = '8'
+const _8_KEY = 'newRumbleBookmarkDialog'
+Config.register('state', _8, _8_KEY)
+/** Dialog to create a new Rumble video bookmark @id 8 */
+const newRumbleBookmarkDialogState: IStateDialog = {
   '_type': 'form',
-  '_id': _27,
-  '_key': _27_KEY,
-  'title': 'Edit Facebook Bookmark',
+  '_id': _8,
+  '_key': _8_KEY,
+  'title': 'Insert new Rumble Bookmark',
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
@@ -22,7 +22,7 @@ const editFacebookBookmarkDialogState: IStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': `$form : ${EDIT_FACEBOOK_BOOKMARK_UNSUFFIXED_NAME} : bookmarks`,
+  'content': `$form : ${NEW_RUMBLE_BOOKMARK_UNSUFFIXED_NAME} : bookmarks`,
   'actions': [
     {
       'type': 'state_button',
@@ -38,11 +38,11 @@ const editFacebookBookmarkDialogState: IStateDialog = {
       'has': {
         'disableOnError': true,
         'text': 'Save',
-        'onclickHandle': 'tuberCallbacks._27_C_1'
+        'onclickHandle': 'tuberCallbacks._8_C_1'
       }
     }
   ],
   'open': true
 }
 
-export default editFacebookBookmarkDialogState
+export default newRumbleBookmarkDialogState

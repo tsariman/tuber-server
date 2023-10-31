@@ -1,8 +1,14 @@
+import Config from '../../config'
 import IStateForm from '../../../../tuber-client/src/controllers/interfaces/IStateForm'
 
+const _41 = '41'
+const _41_KEY = 'loginForm'
+Config.register('state', _41, _41_KEY)
+/** @id 41 */
 const loginFormState: IStateForm = {
   '_type': 'box',
-  '_key': 'loginForm',
+  '_id': _41,
+  '_key': _41_KEY,
   'props': {
     'sx': {
       'p': 3,

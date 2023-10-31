@@ -1,7 +1,7 @@
 import { request } from 'urllib'
 import Config from '../config'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { defaultDialogAlertState as alert } from '../state/dialogs'
+import { defaultDialogAlertState as alert } from '../state/dialog'
 import JsonapiErrorBuilder from '../business.logic/jsonapi.error.builder'
 
 const COLLECTION_NAME = 'bookmarks'

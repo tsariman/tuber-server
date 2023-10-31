@@ -1,4 +1,4 @@
-import { defaultAppBarState } from '../../state/default.content'
+import { defaultAppBarState } from '../default.content'
 import IStatePage from '../../../../tuber-client/src/controllers/interfaces/IStatePage'
 
 export const loginPage: IStatePage = {

@@ -1,13 +1,13 @@
 import Config from '../../config'
 import { backgroundState } from '..'
 import IStateDialog from '../../../../tuber-client/src/controllers/interfaces/IStateDialog'
-import { NEW_VIDEO_URL_FORM_UNSUFFIXED_NAME } from '../forms/new.video.url.form.state'
+import { NEW_VIDEO_URL_FORM_UNSUFFIXED_NAME } from '../form/new.video.url.form.state'
 import {
   NEW_YOUTUBE_BOOKMARK_UNSUFFIXED_NAME
-} from '../forms/new.youtube.bookmark.form.state'
+} from '../form/new.youtube.bookmark.form.state'
 import {
   EDIT_YOUTUBE_BOOKMARK_UNSUFFIXED_NAME
-} from '../forms/edit.youtube.bookmark.form.state'
+} from '../form/edit.youtube.bookmark.form.state'
 
 const _6 = '6'
 const _6_KEY = 'newYouTubeBookmarkDialog'
@@ -58,7 +58,7 @@ export const newVideoUrlDialogState: IStateDialog = {
   '_type': 'form',
   '_id': _2,
   '_key': _2_KEY,
-  'title': 'Insert the URL of Video to be Annotated',
+  'title': 'Insert the URL of Video to be Bookmarked',
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
@@ -118,6 +118,7 @@ export const editYoutubeBookmarkDialogState: IStateDialog = {
 const _32 = '32'
 const _32_KEY = 'loginDialog'
 Config.register('state', _32, _32_KEY)
+/** @id 32 */
 export const loginDialogState: IStateDialog = {
   '_type': 'form',
   '_id': _32,
@@ -137,6 +138,7 @@ export const loginDialogState: IStateDialog = {
 const _33 = '33'
 const _33_KEY = 'registerDialog'
 Config.register('state', _33, _33_KEY)
+/** @id 33 */
 export const registerDialogState: IStateDialog = {
   '_type': 'form',
   '_id': _33,
@@ -156,6 +158,7 @@ export const registerDialogState: IStateDialog = {
 const _34 = '34'
 const _34_KEY = 'bookmarkDeleteDialog'
 Config.register('state', _34, _34_KEY)
+/** @id 34 */
 export const deleteBookmarkDialogState: IStateDialog = {
   '_type': 'alert',
   '_id': _34,
@@ -190,6 +193,7 @@ export const deleteBookmarkDialogState: IStateDialog = {
 const _35 = '35'
 const _35_KEY = 'clientAlertDialog'
 Config.register('state', _35, _35_KEY)
+/** @id 35 */
 export const clientAlertDialogState: IStateDialog = {
   '_type': 'alert',
   '_id': _35,

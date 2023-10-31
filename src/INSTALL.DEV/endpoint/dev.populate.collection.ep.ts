@@ -8,7 +8,7 @@ import gen_random_bookmarks from '../population/bookmarks'
 import {
   defaultDialogAlertState as alert,
   dialogAlertState as dialogAlert
-} from '../../state/dialogs'
+} from '../../state/dialog'
 
 export default async function dev_populate_collection (
   req: FastifyRequest<{ Body: { collection: string, quantity: string } }>,

@@ -83,6 +83,8 @@ const newYouTubeBookmarkFormState = {
             'requiredMessage': C.TITLE_REQUIRED_MESSAGE,
             'maxLength': C.TITLE_MAX_LENGTH,
             'maxLengthMessage': C.TITLE_MAX_LENGTH_MESSAGE,
+            'invalidationRegex': '[/#.]',
+            'invalidationMessage': `Characters not allowed: '/', '#', '.'`
           }
         },
         {

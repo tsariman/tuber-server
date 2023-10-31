@@ -1,7 +1,7 @@
 import Config from '../../config'
 import { backgroundState } from '..'
 import IStateDialog from '../../../../tuber-client/src/controllers/interfaces/IStateDialog'
-import { EDIT_ODYSEE_BOOKMARK_UNSUFFIXED_NAME } from '../forms/edit.odysee.bookmark.form.state'
+import { EDIT_ODYSEE_BOOKMARK_UNSUFFIXED_NAME } from '../form/edit.odysee.bookmark.form.state'
 
 const _23 = '23'
 const _23_KEY = 'editOdyseeBookmarkDialog'

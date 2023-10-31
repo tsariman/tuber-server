@@ -1,17 +1,17 @@
+import Config from '../../config'
 import { backgroundState } from '..'
 import IStateDialog from '../../../../tuber-client/src/controllers/interfaces/IStateDialog'
-import Config from '../../config'
-import { EDIT_VIMEO_BOOKMARK_UNSUFFIXED_NAME } from '../forms/edit.vimeo.bookmark.form.state'
+import { EDIT_UNKNOWN_BOOKMARK_UNSUFFIXED_NAME } from '../form/edit.unknown.bookmark.form.state'
 
-const _15 = '15'
-const _15_KEY = 'editVimeoBookmarkDialog'
-Config.register('state', _15, _15_KEY)
-/** Dialog to edit an existing Vimeo video bookmark @id 15 */
-const editVimeoBookmarkDialogState: IStateDialog = {
+const _31 = '31'
+const _31_KEY = 'editUnknownBookmarkDialog'
+Config.register('state', _31, _31_KEY)
+/** Dialog to edit an unknown video platform bookmark @id 31 */
+const editUnknownBookmarkDialogState: IStateDialog = {
   '_type': 'form',
-  '_id': _15,
-  '_key': _15_KEY,
-  'title': 'Edit Vimeo Bookmark',
+  '_id': _31,
+  '_key': _31_KEY,
+  'title': 'Edit Unknown Bookmark',
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
@@ -22,7 +22,7 @@ const editVimeoBookmarkDialogState: IStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': `'$form : ${EDIT_VIMEO_BOOKMARK_UNSUFFIXED_NAME} : bookmarks'`,
+  'content': `$form : ${EDIT_UNKNOWN_BOOKMARK_UNSUFFIXED_NAME} : bookmarks`,
   'actions': [
     {
       'type': 'state_button',
@@ -36,12 +36,13 @@ const editVimeoBookmarkDialogState: IStateDialog = {
       'type': 'state_button',
       'props': { 'color': 'primary' },
       'has': {
+        'disableOnError': true,
         'text': 'Save',
-        'onclickHandle': 'tuberCallbacks._15_C_1'
+        'onclickHandle': 'tuberCallbacks._31_C_1'
       }
     }
   ],
   'open': true
 }
 
-export default editVimeoBookmarkDialogState
+export default editUnknownBookmarkDialogState

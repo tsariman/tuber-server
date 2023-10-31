@@ -13,7 +13,7 @@ export const devUserAddDialogJson: IStateDialog = {
     'sx': { 'textAlign': 'center' }
   },
   'content': '$form : devUserAdd : users',
-  'open': true // Dialog will open automatically
+  'open': true
 }
 
 export const devUserAddFormJson: IStateForm = {
@@ -35,8 +35,8 @@ export const devUserAddFormJson: IStateForm = {
         },
         {
           'type': 'json_select',
-          'text': 'Role',
           'has': {
+            'text': 'Role',
             'items': [
               {
                 'title': 'User',

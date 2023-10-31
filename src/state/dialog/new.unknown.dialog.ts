@@ -1,7 +1,7 @@
 import Config from '../../config'
 import { backgroundState } from '..'
 import IStateDialog from '../../../../tuber-client/src/controllers/interfaces/IStateDialog'
-import { NEW_UNKNOWN_BOOKMARK_UNSUFFIXED_NAME } from '../forms/new.unknown.bookmark.form.state'
+import { NEW_UNKNOWN_BOOKMARK_UNSUFFIXED_NAME } from '../form/new.unknown.bookmark.form.state'
 
 const _30 = '30'
 const _30_KEY = 'newUnknownBookmarkDialog'

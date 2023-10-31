@@ -1,17 +1,17 @@
-import Config from '../../config'
 import { backgroundState } from '..'
 import IStateDialog from '../../../../tuber-client/src/controllers/interfaces/IStateDialog'
-import { EDIT_RUMBLE_BOOKMARK_UNSUFFIXED_NAME } from '../forms/edit.rumble.bookmark.form.state'
+import Config from '../../config'
+import { EDIT_VIMEO_BOOKMARK_UNSUFFIXED_NAME } from '../form/edit.vimeo.bookmark.form.state'
 
-const _11 = '11'
-const _11_KEY = 'editRumbleBookmarkDialog'
-Config.register('state', _11, _11_KEY)
-/** Dialog to edit a Rumble video bookmark @id 11 */
-const editRumbleBookmarkDialogState: IStateDialog = {
+const _15 = '15'
+const _15_KEY = 'editVimeoBookmarkDialog'
+Config.register('state', _15, _15_KEY)
+/** Dialog to edit an existing Vimeo video bookmark @id 15 */
+const editVimeoBookmarkDialogState: IStateDialog = {
   '_type': 'form',
-  '_id': _11,
-  '_key': _11_KEY,
-  'title': 'Edit Rumble Bookmark',
+  '_id': _15,
+  '_key': _15_KEY,
+  'title': 'Edit Vimeo Bookmark',
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
@@ -22,7 +22,7 @@ const editRumbleBookmarkDialogState: IStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': `$form : ${EDIT_RUMBLE_BOOKMARK_UNSUFFIXED_NAME} : bookmarks`,
+  'content': `'$form : ${EDIT_VIMEO_BOOKMARK_UNSUFFIXED_NAME} : bookmarks'`,
   'actions': [
     {
       'type': 'state_button',
@@ -36,13 +36,12 @@ const editRumbleBookmarkDialogState: IStateDialog = {
       'type': 'state_button',
       'props': { 'color': 'primary' },
       'has': {
-        'disableOnError': true,
         'text': 'Save',
-        'onclickHandle': 'tuberCallbacks._11_C_1'
+        'onclickHandle': 'tuberCallbacks._15_C_1'
       }
     }
   ],
   'open': true
 }
 
-export default editRumbleBookmarkDialogState
+export default editVimeoBookmarkDialogState

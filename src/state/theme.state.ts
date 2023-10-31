@@ -1,6 +1,5 @@
 import { backgroundState } from '.'
 
-// Material-UI Theme
 // TODO Modify to change the overall appearance of the page
 /** Material-UI Theme */
 const themeState = {
@@ -26,6 +25,14 @@ const themeState = {
       'styleOverrides': {
         'root': {
           'paddingTop': 8
+        }
+      }
+    },
+    'MuiButton': {
+      'styleOverrides': {
+        'root': {
+          'textTransform': 'none',
+          'fontSize': '1rem'
         }
       }
     }

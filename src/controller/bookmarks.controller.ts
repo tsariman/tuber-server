@@ -18,7 +18,7 @@ const opts = {
   ...DEFAULT_OPTIONS,
 }
 
-export default async function notes_controller(fastify: FastifyInstance) {
+export default async function bookmarks_controller(fastify: FastifyInstance) {
   const postBookmark = Config.DEV
     ? dev_bookmarks_post_endpoint
     : bookmarks_post_endpoint

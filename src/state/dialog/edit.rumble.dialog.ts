@@ -1,17 +1,17 @@
 import Config from '../../config'
 import { backgroundState } from '..'
 import IStateDialog from '../../../../tuber-client/src/controllers/interfaces/IStateDialog'
-import { NEW_RUMBLE_BOOKMARK_UNSUFFIXED_NAME } from '../forms/new.rumble.bookmark.form.state'
+import { EDIT_RUMBLE_BOOKMARK_UNSUFFIXED_NAME } from '../form/edit.rumble.bookmark.form.state'
 
-const _8 = '8'
-const _8_KEY = 'newRumbleBookmarkDialog'
-Config.register('state', _8, _8_KEY)
-/** Dialog to create a new Rumble video bookmark @id 8 */
-const newRumbleBookmarkDialogState: IStateDialog = {
+const _11 = '11'
+const _11_KEY = 'editRumbleBookmarkDialog'
+Config.register('state', _11, _11_KEY)
+/** Dialog to edit a Rumble video bookmark @id 11 */
+const editRumbleBookmarkDialogState: IStateDialog = {
   '_type': 'form',
-  '_id': _8,
-  '_key': _8_KEY,
-  'title': 'Insert new Rumble Bookmark',
+  '_id': _11,
+  '_key': _11_KEY,
+  'title': 'Edit Rumble Bookmark',
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
@@ -22,7 +22,7 @@ const newRumbleBookmarkDialogState: IStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': `$form : ${NEW_RUMBLE_BOOKMARK_UNSUFFIXED_NAME} : bookmarks`,
+  'content': `$form : ${EDIT_RUMBLE_BOOKMARK_UNSUFFIXED_NAME} : bookmarks`,
   'actions': [
     {
       'type': 'state_button',
@@ -38,11 +38,11 @@ const newRumbleBookmarkDialogState: IStateDialog = {
       'has': {
         'disableOnError': true,
         'text': 'Save',
-        'onclickHandle': 'tuberCallbacks._8_C_1'
+        'onclickHandle': 'tuberCallbacks._11_C_1'
       }
     }
   ],
   'open': true
 }
 
-export default newRumbleBookmarkDialogState
+export default editRumbleBookmarkDialogState
