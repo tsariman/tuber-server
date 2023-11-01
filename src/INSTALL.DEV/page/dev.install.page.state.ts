@@ -2,7 +2,7 @@ import { authenticatedLinkState, powerLinkState } from '../../state/nav.link'
 import IStateAppBar from '../../../../tuber-client/src/controllers/interfaces/IStateAppBar'
 import IStatePage from '../../../../tuber-client/src/controllers/interfaces/IStatePage'
 import Config from '../../config'
-import { $40_KEY } from 'src/state/page/research.page.state'
+import { $40_KEY, $44_KEY } from '../../constants'
 
 export const appBarLinksState: IStateAppBar['items'] = [
   {
@@ -49,8 +49,7 @@ export const authAppBarLinksState: IStateAppBar['items'] = [
 ]
 
 const $44 = '44'
-export const $44_KEY = 'dev-install'
-Config.registre('state', $44, $44_KEY)
+Config.register('state', $44, $44_KEY)
 /** @id 44 */
 const devInstallPageState: IStatePage = {
   '_id': $44,

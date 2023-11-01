@@ -63,6 +63,8 @@ import newTwitchBookmarkDialogState from '../state/dialog/new.twitch.dialog'
 import editTwitchBookmarkDialogState from '../state/dialog/edit.twitch.dialog'
 import newTwitchBookmarkFormState from '../state/form/new.twitch.bookmark.form.state'
 import editTwitchBookmarkFormState from '../state/form/edit.twitch.bookmark.form.state'
+import devTestThumbnailFormState from 'src/INSTALL.DEV/form/dev.test.thumbnail.form.state'
+import devTestThumbnailPageState from 'src/INSTALL.DEV/page'
 
 export default async function bootstrap_controller(fastify: FastifyInstance) {
 
@@ -140,9 +142,6 @@ export default async function bootstrap_controller(fastify: FastifyInstance) {
       appState['inDebugMode'] = true
       appState['inDevelMode'] = true
       appState['homePage'] = 'dev-install'
-    }
-
-    if (Config.DEV) {
       if (devInstallPageState.appBar) {
         // [TODO] Write logic for power button
       }
@@ -172,9 +171,8 @@ export default async function bootstrap_controller(fastify: FastifyInstance) {
           ]
         }
       }
-    }
-
-    if (Config.DEV) {
+      set_state_by_key(pagesState, devTestThumbnailPageState)
+      set_state_by_key(formsState, devTestThumbnailFormState)
       const key = get_state_key(devInstallForm)
       formsState[key] = devInstallForm
       const counts = await get_documents_count()

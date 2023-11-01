@@ -2,9 +2,9 @@ import Config from '../../config'
 import { backgroundState } from '..'
 import IStateDialog from '../../../../tuber-client/src/controllers/interfaces/IStateDialog'
 import { EDIT_UNKNOWN_BOOKMARK_UNSUFFIXED_NAME } from '../form/edit.unknown.bookmark.form.state'
+import { $31_KEY } from '../../constants'
 
 const $31 = '31'
-const $31_KEY = 'editUnknownBookmarkDialog'
 Config.register('state', $31, $31_KEY)
 /** Dialog to edit an unknown video platform bookmark @id 31 */
 const editUnknownBookmarkDialogState: IStateDialog = {

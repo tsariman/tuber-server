@@ -18,7 +18,7 @@ export const devUserAddFormJson: IStateForm = {
           'label': 'Email'
         },
         {
-          'type': 'json_select',
+          'type': 'state_select',
           'has': {
             'text': 'Role',
             'items': [

@@ -2,9 +2,9 @@ import Config from '../../config'
 import { backgroundState } from '..'
 import IStateDialog from '../../../../tuber-client/src/controllers/interfaces/IStateDialog'
 import { NEW_ODYSEE_BOOKMARK_UNSUFFIXED_NAME } from '../form/new.odysee.bookmark.form.state'
+import { $16_KEY } from '../../constants'
 
 const $16 = '16'
-const $16_KEY = 'newOdyseeBookmarkDialog'
 Config.register('state', $16, $16_KEY)
 /** Dialog to create a new Odysee video bookmark @id 16 */
 const newOdyseeBookmarkDialogState: IStateDialog = {

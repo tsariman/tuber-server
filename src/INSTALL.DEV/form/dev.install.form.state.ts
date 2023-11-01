@@ -1,10 +1,14 @@
+import Config from '../../config'
 import IStateForm from '../../../../tuber-client/src/controllers/interfaces/IStateForm'
+import { $46_KEY, $47_KEY } from '../../constants'
 
-/** Development shortcuts form. */
-
+const $47 = '47'
+Config.register('state', $47, $47_KEY)
+/** Development shortcuts form. @id 47 */
 const devInstallForm = {
   '_type': 'box',
-  '_key': 'devInstallForm',
+  '_id': $47,
+  '_key': $47_KEY,
   'props': { 'p': 2, 'mt': 10 },
   'paperBackground': true,
   'paperProps': {
@@ -34,7 +38,7 @@ const devInstallForm = {
             &#128526;<span style="color:#0074d8"><b>Users</b></span> <em>({{ userCount }})</em>
           </p>
         `,
-        'key': 'devInstallForm'
+        'key': $47_KEY
       }
     },
     {
@@ -82,7 +86,7 @@ const devInstallForm = {
       'has': { 'content': '|' }
     },
     {
-      'type': 'state_button',
+      'type': 'a',
       'has': {
         'label': 'Test Add New bookmark',
         'onclickHandle': 'tuberCallbacks.bookmarkAdd'
@@ -124,7 +128,7 @@ const devInstallForm = {
     },
     { 'type': 'hr' },
     {
-      'type': 'state_button',
+      'type': 'a',
       'has': {
         'label': 'Create new user',
         'onclickHandle': 'tuberCallbacks.devUserAdd'
@@ -168,10 +172,10 @@ const devInstallForm = {
       'has': { 'content': '|' }
     },
     {
-      'type': 'state_button',
+      'type': 'a',
       'has': {
-        'label': 'Test getting platform thumbnails',
-        'onclickHandle': 'tuberCallbacks.devTestGetThumbnail'
+        'label': ' Test getting platform thumbnails ',
+        'route': $46_KEY
       }
     },
     {
@@ -186,7 +190,7 @@ const devInstallForm = {
       },
       'items': [
         {
-          'type': 'json_select',
+          'type': 'state_select',
           'name': 'drop-collection',
           'label': 'Drop Collection',
           'props': {
@@ -223,7 +227,7 @@ const devInstallForm = {
           'has': { 'content': '|' }
         },
         {
-          'type': 'json_select',
+          'type': 'state_select',
           'name': 'populate-collection',
           'label': 'Populate Collection',
           'props': {
@@ -244,7 +248,7 @@ const devInstallForm = {
           }
         },
         {
-          'type': 'json_select',
+          'type': 'state_select',
           'name': 'population-quantity',
           'label': 'Population Quantity',
           'props': {

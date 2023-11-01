@@ -1,9 +1,9 @@
+import { remove_form_suffix } from 'src/state/form/_forms.business.logic'
 import IStatePage from '../../../../tuber-client/src/controllers/interfaces/IStatePage'
 import Config from '../../config'
-import { $44_KEY } from './dev.install.page.state'
+import { $44_KEY, $45_KEY, $46_KEY } from '../../constants'
 
 const $46 = '46'
-const $46_KEY = 'dev-test-thumbnail'
 Config.register('state', $46, $46_KEY)
 const devTestThumbnailPageState: IStatePage = {
   '_id': $46,
@@ -16,9 +16,13 @@ const devTestThumbnailPageState: IStatePage = {
           'route': $44_KEY
         }
       }
-    ]
+    ],
+    'toolbarProps': {
+      'variant': 'dense'
+    }
   },
-  'content': '$form : devTestThumbnail : '
+  'content': `$form : ${remove_form_suffix($45_KEY)}`,
+  'layout': 'layout_centered_no_scroll'
 }
 
 export default devTestThumbnailPageState

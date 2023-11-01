@@ -1,8 +1,8 @@
 import Config from '../../config'
 import IStatePage from '../../../../tuber-client/src/controllers/interfaces/IStatePage'
+import { $40_KEY } from '../../constants'
 
 const $40 = '40'
-export const $40_KEY = 'research-app'
 Config.register('state', $40, $40_KEY)
 /** @id 40 */
 const researchPageState: IStatePage = {
@@ -26,7 +26,7 @@ const researchPageState: IStatePage = {
     'searchFieldIconButton': {
       'has': {
         'icon': 'search_outline',
-        'onclickHandle': 'tuberCallbacks.appBarSearchForBookmarks'
+        'onclickHandle': 'tuberCallbacks.appBarSearchBookmarks'
       }
     },
     'searchFieldIconButtonProps': {

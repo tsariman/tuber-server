@@ -25,7 +25,7 @@ const researchPageAppBarState: IStateAppBar = {
   'searchFieldIconButton': {
     'has': {
       'icon': 'search_outline',
-      'onclickHandle': 'tuberCallbacks.appBarSearchForBookmarks'
+      'onclickHandle': 'tuberCallbacks.appBarSearchBookmarks'
     }
   },
   'searchFieldIconButtonProps': {

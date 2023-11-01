@@ -4,12 +4,11 @@ import { remove_form_suffix } from './_forms.business.logic'
 import * as C from '../../constants'
 
 const $12 = '12'
-const $12_KEY = 'newVimeoBookmarkForm'
-Config.register('state', $12, $12_KEY)
+Config.register('state', $12, C.$12_KEY)
 /** Form for creating a new Vimeo video bookmark @id 12 */
 const newVimeoBookmarkFormState = {
   '_id': $12,
-  '_key': $12_KEY,
+  '_key': C.$12_KEY,
   'items': [
     {
       'type': 'stack',

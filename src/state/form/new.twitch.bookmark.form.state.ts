@@ -4,12 +4,11 @@ import { remove_form_suffix } from './_forms.business.logic'
 import * as C from '../../constants'
 
 const $38 = '38'
-const $38_KEY = 'newTwitchBookmarkForm'
-Config.register('state', $38, $38_KEY)
+Config.register('state', $38, C.$38_KEY)
 /** Form for creating a new Twitch video bookmark @id 38 */
 const newTwitchBookmarkFormState = {
   '_id': $38,
-  '_key': $38_KEY,
+  '_key': C.$38_KEY,
   'items': [
     {
       'type': 'stack',

@@ -4,12 +4,11 @@ import { remove_form_suffix } from './_forms.business.logic'
 import * as C from '../../constants'
 
 const $19 = '19'
-const $19_KEY = 'newDailyBookmarkForm'
-Config.register('state', $19, $19_KEY)
+Config.register('state', $19, C.$19_KEY)
 /** Form for creating a new Dailymotion video bookmark @id 19 */
 const newDailyBookmarkFormState = {
   '_id': $19,
-  '_key': $19_KEY,
+  '_key': C.$19_KEY,
   'items': [
     {
       'type': 'stack',

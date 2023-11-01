@@ -4,12 +4,11 @@ import { remove_form_suffix } from './_forms.business.logic'
 import * as C from '../../constants'
 
 const $29 = '29'
-const $29_KEY = 'editUnknownBookmarkForm'
-Config.register('state', $29, $29_KEY)
+Config.register('state', $29, C.$29_KEY)
 /** Form for editing an existing unknown platform video bookmark @id 29 */
 const editUnknownBookmarkFormState = {
   '_id': $29,
-  '_key': $29_KEY,
+  '_key': C.$29_KEY,
   'items': [
     {
       'type': 'stack',

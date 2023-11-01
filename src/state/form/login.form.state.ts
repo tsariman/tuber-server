@@ -1,8 +1,8 @@
 import Config from '../../config'
 import IStateForm from '../../../../tuber-client/src/controllers/interfaces/IStateForm'
+import { $41_KEY } from '../../constants'
 
 const $41 = '41'
-const $41_KEY = 'loginForm'
 Config.register('state', $41, $41_KEY)
 /** @id 41 */
 const loginFormState: IStateForm = {

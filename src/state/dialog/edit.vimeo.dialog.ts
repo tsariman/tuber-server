@@ -1,10 +1,10 @@
+import { $15_KEY } from '../../constants'
 import { backgroundState } from '..'
 import IStateDialog from '../../../../tuber-client/src/controllers/interfaces/IStateDialog'
 import Config from '../../config'
 import { EDIT_VIMEO_BOOKMARK_UNSUFFIXED_NAME } from '../form/edit.vimeo.bookmark.form.state'
 
 const $15 = '15'
-const $15_KEY = 'editVimeoBookmarkDialog'
 Config.register('state', $15, $15_KEY)
 /** Dialog to edit an existing Vimeo video bookmark @id 15 */
 const editVimeoBookmarkDialogState: IStateDialog = {

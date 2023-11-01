@@ -2,9 +2,9 @@ import Config from '../../config'
 import IStateDialog from '../../../../tuber-client/src/controllers/interfaces/IStateDialog'
 import { backgroundState } from '..'
 import { NEW_VIMEO_ANNNOTATION_UNSUFFIXED_NAME } from '../form/new.vimeo.bookmark.form.state'
+import { $14_KEY } from '../../constants'
 
 const $14 = '14'
-const $14_KEY = 'newVimeoBookmarkDialog'
 Config.register('state', $14, $14_KEY)
 /** Dialog to create a new Vimeo video bookmark @id 14 */
 const newVimeoBookmarkDialogState: IStateDialog = {

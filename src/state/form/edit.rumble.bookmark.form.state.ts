@@ -4,12 +4,11 @@ import { remove_form_suffix } from './_forms.business.logic'
 import * as C from '../../constants'
 
 const $10 = '10'
-const $10_KEY = 'editRumbleBookmarkForm'
-Config.register('state', $10, $10_KEY)
+Config.register('state', $10, C.$10_KEY)
 /** Form for creating a edit rumble video bookmark @id 10 */
 const editRumbleBookmarkFormState = {
   '_id': $10,
-  '_key': $10_KEY,
+  '_key': C.$10_KEY,
   'items': [
     {
       'type': 'stack',

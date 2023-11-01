@@ -2,9 +2,9 @@ import Config from '../../config'
 import IStateDialog from '../../../../tuber-client/src/controllers/interfaces/IStateDialog'
 import { backgroundState } from '..'
 import { NEW_DAILY_ANNNOTATION_UNSUFFIXED_NAME } from '../form/new.daily.bookmark.form.state'
+import { $21_KEY } from '../../constants'
 
 const $21 = '21'
-const $21_KEY = 'newDailyBookmarkDialog'
 Config.register('state', $21, $21_KEY)
 /** Dialog to create a new Dailymotion video bookmark @id 21 */
 const newDailyBookmarkDialogState: IStateDialog = {
