@@ -25,6 +25,7 @@ export interface IBookmark {
   rating?: number
   upvotes?: number
   downvotes?: number
+  thumbnail_url?: string
   group_id?: string
   html_tag?: string // Within the context of a group, this is the HTML tag that
                     // the bookmark is associated with

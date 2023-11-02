@@ -18,11 +18,11 @@ const newRumbleBookmarkFormState = {
           'type': 'textfield',
           'name': 'slug',
           'label': 'Video URL Slug',
-          'props': { 'fullWidth': true },
-          'inputProps': {
-            'readOnly': true,
-            'sx': { 'backgroundColor': 'grey.300' }
-          }
+          'props': {
+            'fullWidth': true,
+            'variant': 'filled'
+          },
+          'inputProps': { 'readOnly': true }
         },
         {
           'type': 'stack',
@@ -37,11 +37,9 @@ const newRumbleBookmarkFormState = {
               'label': 'Start',
               'props': {
                 'sx': { 'width': 240 },
+                'variant': 'filled'
               },
-              'inputProps': {
-                'readOnly': true,
-                'sx': { 'backgroundColor': 'grey.300' }
-              },
+              'inputProps': { 'readOnly': true },
               'has': {
                 'required': true,
                 'requiredMessage': C.START_SECONDS_REQUIRED_MESSAGE,
@@ -49,16 +47,13 @@ const newRumbleBookmarkFormState = {
             },
             {
               'type': 'textfield',
-              'name': 'embed_url',
-              'label': 'Embed IFRAME URL',
+              'name': 'videoid',
+              'label': 'Video ID will be resolved eventually...',
               'props': {
                 'fullWidth': true,
-                'helperText': 'Click the "Embed" button below video to get the embed URL'
+                'variant': 'filled'
               },
-              'has': {
-                'required': true,
-                'requiredMessage': 'Click the "Embed" button below video to get the embed URL'
-              }
+              'inputProps': { 'disabled': true }
             },
             {
               'type': 'textfield',
@@ -66,11 +61,9 @@ const newRumbleBookmarkFormState = {
               'label': 'Platform',
               'props': {
                 'sx': { 'width': 240 },
+                'variant': 'filled'
               },
-              'inputProps': {
-                'readOnly': true,
-                'sx': { 'backgroundColor': 'grey.300' }
-              }
+              'inputProps': { 'readOnly': true }
             },
           ]
         },

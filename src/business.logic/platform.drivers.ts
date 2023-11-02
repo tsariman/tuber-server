@@ -2,6 +2,7 @@ import fetch from 'cross-fetch'
 import { IBookmark } from '../schema/bookmarks'
 import { TPlatform } from './common.types'
 import C from '../config'
+import { RUMBLE_URL } from '../constants'
 
 export default async function fix_missing_bookmark_data (
   bookmark?: IBookmark
@@ -10,8 +11,10 @@ export default async function fix_missing_bookmark_data (
   switch (bookmark.platform as TPlatform) {
 
     case 'rumble': {
-      if (bookmark.url) {
-        const url = new URL(bookmark.url)
+
+      // Get rumble video id
+      if (bookmark.slug) {
+        const url = new URL(`${RUMBLE_URL}${bookmark.slug}.html`)
 
         // Had to get rid of query string because it was causing errors.
         const compliantUrl = url.origin + url.pathname

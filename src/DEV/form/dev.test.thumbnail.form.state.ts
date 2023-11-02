@@ -9,7 +9,7 @@ const devTestThumbnailFormState: IStateForm = {
   '_type': 'box',
   '_id': $45,
   '_key': $45_KEY,
-  'props': { 'p': 2, 'minWidth': 476 },
+  'props': { 'p': 2, 'width': 476 },
   'paperBackground': true,
   'paperProps': {
     'elevation': 0,
@@ -22,7 +22,7 @@ const devTestThumbnailFormState: IStateForm = {
       'label': 'Paste Video URL Here ...',
       'props': {
         'fullWidth': true,
-        'variant': 'filled',
+        'variant': 'standard'
       }
     },
     {
@@ -53,5 +53,5 @@ const devTestThumbnailFormState: IStateForm = {
     }
   ]
 }
-console.log('$46_KEY', $46_KEY)
+
 export default devTestThumbnailFormState

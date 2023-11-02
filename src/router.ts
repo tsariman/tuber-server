@@ -15,7 +15,7 @@ export default async function router(fastify: FastifyInstance) {
   fastify.register(users_controller, { prefix: '/users' })
   fastify.register(bookmarks_controller, { prefix: '/bookmarks' })
   if (Config.DEV) {
-    fastify.register(dev_install_controller, { prefix: '/install-dev' })
+    fastify.register(dev_install_controller, { prefix: '/dev' })
   } else { /*[TODO] Add permission here. Administrator and above */
     fastify.register(prod_install_controller, { prefix: '/install' })
   }

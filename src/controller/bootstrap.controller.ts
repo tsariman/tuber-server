@@ -65,6 +65,7 @@ import newTwitchBookmarkFormState from '../state/form/new.twitch.bookmark.form.s
 import editTwitchBookmarkFormState from '../state/form/edit.twitch.bookmark.form.state'
 import devTestThumbnailFormState from 'src/INSTALL.DEV/form/dev.test.thumbnail.form.state'
 import devTestThumbnailPageState from 'src/INSTALL.DEV/page'
+import { $46_KEY } from '../constants'
 
 export default async function bootstrap_controller(fastify: FastifyInstance) {
 
@@ -177,6 +178,9 @@ export default async function bootstrap_controller(fastify: FastifyInstance) {
       formsState[key] = devInstallForm
       const counts = await get_documents_count()
       pagesData[key] = counts
+      pagesData[$46_KEY] = {
+        imgUrl: `${Config.IMAGE_FOLDER}dev-thumbnail-test-placeholder.jpg`
+      }
     }
 
     reply.send({

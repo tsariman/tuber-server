@@ -14,6 +14,7 @@ import dev_populate_collection from './endpoint/dev.populate.collection.ep'
 import dev_drop_collection from './endpoint/dev.drop.collection.ep'
 import dev_no_response_hangtime from './endpoint/dev.no.response.hangtime.ep'
 import dev_get_html_page from './endpoint/dev.get.html.page.ep'
+import dev_rumble_get_thumbnail from './endpoint/dev.rumble.thumbnail.ep'
 
 interface IDevPopulateEndpoint {
   Params: {
@@ -65,4 +66,6 @@ export default async function dev_install_controller(fastify: FastifyInstance) {
     {},
     bookmarks_api_setup_search_index_endpoint
   )
+  // Get a rumble video thumbnail
+  fastify.get('/rumble/thumbnails', {}, dev_rumble_get_thumbnail)
 }

@@ -40,10 +40,7 @@ const newVideoUrlFormState: IStateForm = {
           'type': 'text',
           'name': 'url',
           'label': 'Paste Video URL Here ...',
-          'props': {
-            'fullWidth': true,
-            'variant': 'filled',
-          },
+          'props': { 'fullWidth': true },
           'inputProps': {
             'end': {
               'icon': {

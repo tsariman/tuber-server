@@ -23,6 +23,8 @@ const USER_CONFIG = {
   /** Application port */
   FASTIFY_PORT: Number(process.env.FASTIFY_PORT) || 8080,
 
+  IMAGE_FOLDER: process.env.IMAGE_FOLDER || '',
+
   DB_PROTOCOL: process.env.DB_PROTOCOL || 'mongodb://',
 
   /** Mongodb production database name. */

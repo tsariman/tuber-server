@@ -36,7 +36,7 @@ app.listen({ port: Config.FASTIFY_PORT }, (err, address) => {
         Config.log('done.')
       } else {
         Config.log(`failed.\nbookmarks index needs to be defined.`)
-        Config.log(`Visit endpoint: /install-dev/setup-collection-index-search/bookmarks`)
+        Config.log(`Visit endpoint: /dev/setup-collection-index-search/bookmarks`)
         Config.log('OR')
         Config.log(`Visit endpoint: /install/setup-collection-index-search/bookmarks`)
       }

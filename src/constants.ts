@@ -14,6 +14,7 @@ export const NOTE_FIELD_ROWS = 6
 export const NOTE_MAX_LENGTH = 500
 export const NOTE_MAX_LENGTH_MESSAGE = `Note is too long. (${NOTE_MAX_LENGTH} characters max)`
 export const EMBED_URL_MESSAGE = 'Paste-in the embed URL or iframe HTML code'
+export const RUMBLE_URL = 'https://rumble.com/'
 
 export const $1_KEY = 'newVideoUrlForm'
 export const $2_KEY = 'newVideoUrlDialog'
