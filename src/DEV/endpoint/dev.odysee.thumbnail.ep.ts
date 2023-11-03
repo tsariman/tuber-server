@@ -1,12 +1,12 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import JsonapiErrorBuilder from '../../business.logic/jsonapi.error.builder'
 import { $46_KEY } from '../../constants'
-import { rumble_fetch_thumbnail } from '../../business.logic/platform/rumble'
+import { odysee_fetch_thumbnail } from '../../business.logic/platform/odysee'
 
 /** 
- * Example URL: http://localhost:8080/dev/rumble/thumbnails?slug=<paste-slug-here>
+ * Example URL: http://localhost:8080/dev/odysee/thumbnails?slug=<paste-slug-here>
  */
-export default async function dev_rumble_get_thumbnail(
+export default async function dev_odysee_get_thumbnail(
   req: FastifyRequest<{ Querystring: { slug?: string }}>,
   reply: FastifyReply
 ) {
@@ -22,7 +22,7 @@ export default async function dev_rumble_get_thumbnail(
     return
   }
   try {
-    const thumbnailUrl = await rumble_fetch_thumbnail(slug)
+    const thumbnailUrl = await odysee_fetch_thumbnail(slug)
     if (thumbnailUrl) {
       reply.code(200).send({
         'state': {

@@ -17,9 +17,9 @@ import IStateAllPages from '../../../tuber-client/src/controllers/interfaces/ISt
 import IStateAllForms from '../../../tuber-client/src/controllers/interfaces/IStateAllForms'
 import IStateAllDialogs from '../../../tuber-client/src/controllers/interfaces/IStateAllDialogs'
 import IStateAppBar from '../../../tuber-client/src/controllers/interfaces/IStateAppBar'
-import devInstallPageState from '../INSTALL.DEV/page/dev.install.page.state'
-import devSignedInPage from '../INSTALL.DEV/page/dev.signedin-appbar.page.state'
-import devInstallForm from '../INSTALL.DEV/form/dev.install.form.state'
+import devInstallPageState from '../DEV/page/dev.install.page.state'
+import devSignedInPage from '../DEV/page/dev.signedin-appbar.page.state'
+import devInstallForm from '../DEV/form/dev.install.form.state'
 import researchPageState from '../state/page/research.page.state'
 import loginFormState from '../state/form/login.form.state'
 import newYouTubeBookmarkFormState from '../state/form/new.youtube.bookmark.form.state'
@@ -32,7 +32,7 @@ import {
 } from '../state/nav.link'
 import newVideoUrlFormState from '../state/form/new.video.url.form.state'
 import { get_state_key, set_state_by_key } from '../business.logic'
-import { get_documents_count } from '../INSTALL.DEV'
+import { get_documents_count } from '../DEV'
 import editYouTubeBookmarkFormState from '../state/form/edit.youtube.bookmark.form.state'
 import { IBootstrapResponse } from '../business.logic/common.types'
 import newRumbleBookmarkFormState from '../state/form/new.rumble.bookmark.form.state'
@@ -63,8 +63,8 @@ import newTwitchBookmarkDialogState from '../state/dialog/new.twitch.dialog'
 import editTwitchBookmarkDialogState from '../state/dialog/edit.twitch.dialog'
 import newTwitchBookmarkFormState from '../state/form/new.twitch.bookmark.form.state'
 import editTwitchBookmarkFormState from '../state/form/edit.twitch.bookmark.form.state'
-import devTestThumbnailFormState from 'src/INSTALL.DEV/form/dev.test.thumbnail.form.state'
-import devTestThumbnailPageState from 'src/INSTALL.DEV/page'
+import devTestThumbnailFormState from 'src/DEV/form/dev.test.thumbnail.form.state'
+import devTestThumbnailPageState from 'src/DEV/page'
 import { $46_KEY } from '../constants'
 
 export default async function bootstrap_controller(fastify: FastifyInstance) {
@@ -179,7 +179,7 @@ export default async function bootstrap_controller(fastify: FastifyInstance) {
       const counts = await get_documents_count()
       pagesData[key] = counts
       pagesData[$46_KEY] = {
-        imgUrl: `${Config.IMAGE_FOLDER}dev-thumbnail-test-placeholder.jpg`
+        thumbnailUrl: `${Config.IMAGE_FOLDER}dev-thumbnail-test-placeholder.jpg`
       }
     }
 

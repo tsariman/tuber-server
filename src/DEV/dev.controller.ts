@@ -15,6 +15,7 @@ import dev_drop_collection from './endpoint/dev.drop.collection.ep'
 import dev_no_response_hangtime from './endpoint/dev.no.response.hangtime.ep'
 import dev_get_html_page from './endpoint/dev.get.html.page.ep'
 import dev_rumble_get_thumbnail from './endpoint/dev.rumble.thumbnail.ep'
+import dev_odysee_get_thumbnail from './endpoint/dev.odysee.thumbnail.ep'
 
 interface IDevPopulateEndpoint {
   Params: {
@@ -27,7 +28,7 @@ const opts = {
   // TODO Add custom route options here
 }
 
-export default async function dev_install_controller(fastify: FastifyInstance) {
+export default async function dev_controller(fastify: FastifyInstance) {
 
   fastify.get('/', opts, async function (
     _request: FastifyRequest,
@@ -68,4 +69,5 @@ export default async function dev_install_controller(fastify: FastifyInstance) {
   )
   // Get a rumble video thumbnail
   fastify.get('/rumble/thumbnails', {}, dev_rumble_get_thumbnail)
+  fastify.get('/odysee/thumbnails', {}, dev_odysee_get_thumbnail)
 }

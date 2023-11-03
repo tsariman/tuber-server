@@ -12,7 +12,7 @@ import {
   IBookmarkDelete
 } from '../schema/bookmarks'
 import Config from '../config'
-import dev_bookmarks_post_endpoint from '../INSTALL.DEV/endpoint/dev.bookmarks.post.ep'
+import dev_bookmarks_post_endpoint from '../DEV/endpoint/dev.bookmarks.post.ep'
 
 const opts = {
   ...DEFAULT_OPTIONS,

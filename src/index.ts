@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 import app from './app'
 import Config from './config'
-import { DEV_DEFAULT_USER, DEV_USER } from './INSTALL.DEV/dev.install.common'
+import { DEV_DEFAULT_USER, DEV_USER } from './DEV/dev.install.common'
 import { find_index_by_name } from './business.logic'
 
 mongoose.set('strictQuery', false)
