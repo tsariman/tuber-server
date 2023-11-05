@@ -3,11 +3,10 @@ import IStateForm from '../../../../tuber-client/src/controllers/interfaces/ISta
 import { remove_form_suffix } from './_forms.business.logic'
 import * as C from '../../constants'
 
-const $9 = '9'
-Config.register('state', $9, C.$9_KEY)
+Config.register('state', '9', C.$9_KEY)
 /** Form for creating a new rumble video bookmark @id 9 */
 const newRumbleBookmarkFormState = {
-  '_id': $9,
+  '_id': '9',
   '_key': C.$9_KEY,
   'items': [
     {

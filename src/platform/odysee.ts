@@ -1,4 +1,4 @@
-import { ODYSEE_URL } from '../../constants'
+import { ODYSEE_URL } from '../constants'
 
 export async function odysee_fetch_thumbnail(slug: string): Promise<string> {
   const response = await fetch(`https://odysee.com/$/oembed?url=${ODYSEE_URL}${slug}`)

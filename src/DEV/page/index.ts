@@ -3,13 +3,18 @@ import IStatePage from '../../../../tuber-client/src/controllers/interfaces/ISta
 import Config from '../../config'
 import { $44_KEY, $45_KEY, $46_KEY } from '../../constants'
 
-const $46 = '46'
-Config.register('state', $46, $46_KEY)
+Config.register('state', '46', $46_KEY)
 const devTestThumbnailPageState: IStatePage = {
-  '_id': $46,
+  '_id': '46',
   '_key': $46_KEY,
   'appBar': {
     'items': [
+      {
+        'has': {
+          'text': 'Client errors',
+          'route': 'default-errors-view'
+        }
+      },
       {
         'has': {
           'text': 'Back',

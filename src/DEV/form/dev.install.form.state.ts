@@ -2,12 +2,11 @@ import Config from '../../config'
 import IStateForm from '../../../../tuber-client/src/controllers/interfaces/IStateForm'
 import { $46_KEY, $47_KEY } from '../../constants'
 
-const $47 = '47'
-Config.register('state', $47, $47_KEY)
+Config.register('state', '47', $47_KEY)
 /** Development shortcuts form. @id 47 */
 const devInstallForm = {
   '_type': 'box',
-  '_id': $47,
+  '_id': '47',
   '_key': $47_KEY,
   'props': { 'p': 2, 'mt': 10 },
   'paperBackground': true,

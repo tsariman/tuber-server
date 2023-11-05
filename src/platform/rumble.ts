@@ -1,4 +1,4 @@
-import { RUMBLE_URL } from '../../constants'
+import { RUMBLE_URL } from '../constants'
 
 export async function rumble_fetch_thumbnail(slug: string): Promise<string> {
   const urlObj = new URL(`${RUMBLE_URL}${slug}.html`)

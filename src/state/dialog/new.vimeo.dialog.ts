@@ -4,12 +4,11 @@ import { backgroundState } from '..'
 import { NEW_VIMEO_ANNNOTATION_UNSUFFIXED_NAME } from '../form/new.vimeo.bookmark.form.state'
 import { $14_KEY } from '../../constants'
 
-const $14 = '14'
-Config.register('state', $14, $14_KEY)
+Config.register('state', '14', $14_KEY)
 /** Dialog to create a new Vimeo video bookmark @id 14 */
 const newVimeoBookmarkDialogState: IStateDialog = {
   '_type': 'form',
-  '_id': $14,
+  '_id': '14',
   '_key': $14_KEY,
   'title': 'Insert New Vimeo Bookmark',
   'props': {

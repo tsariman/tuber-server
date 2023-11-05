@@ -4,12 +4,11 @@ import IStateDialog from '../../../../tuber-client/src/controllers/interfaces/IS
 import { NEW_RUMBLE_BOOKMARK_UNSUFFIXED_NAME } from '../form/new.rumble.bookmark.form.state'
 import { $8_KEY } from '../../constants'
 
-const $8 = '8'
-Config.register('state', $8, $8_KEY)
+Config.register('state', '8', $8_KEY)
 /** Dialog to create a new Rumble video bookmark @id 8 */
 const newRumbleBookmarkDialogState: IStateDialog = {
   '_type': 'form',
-  '_id': $8,
+  '_id': '8',
   '_key': $8_KEY,
   'title': 'Insert new Rumble Bookmark',
   'props': {

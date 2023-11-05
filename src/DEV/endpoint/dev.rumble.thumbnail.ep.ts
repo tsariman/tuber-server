@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import JsonapiErrorBuilder from '../../business.logic/jsonapi.error.builder'
 import { $46_KEY } from '../../constants'
-import { rumble_fetch_thumbnail } from '../../business.logic/platform/rumble'
+import { rumble_fetch_thumbnail } from '../../platform/rumble'
 
 /** 
  * Example URL: http://localhost:8080/dev/rumble/thumbnails?slug=<paste-slug-here>
@@ -15,8 +15,7 @@ export default async function dev_rumble_get_thumbnail(
     reply.code(400).send(new JsonapiErrorBuilder()
       .code('bad_request')
       .status(400)
-      .title('query query parameter is required')
-      .detail('query query parameter is required')
+      .title('Query parameter is required')
       .build()
     )
     return

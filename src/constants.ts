@@ -16,6 +16,8 @@ export const NOTE_MAX_LENGTH_MESSAGE = `Note is too long. (${NOTE_MAX_LENGTH} ch
 export const EMBED_URL_MESSAGE = 'Paste-in the embed URL or iframe HTML code'
 export const RUMBLE_URL = 'https://rumble.com/'
 export const ODYSEE_URL = 'https://odysee.com/'
+export const VIMEO_URL = 'https://vimeo.com/'
+export const DAILYMOTION_URL = 'https://www.dailymotion.com/'
 
 export const $1_KEY = 'newVideoUrlForm'
 export const $2_KEY = 'newVideoUrlDialog'
@@ -64,3 +66,4 @@ export const $44_KEY = 'dev-install'
 export const $45_KEY = 'devTestThumbnailForm'
 export const $46_KEY = 'dev-test-thumbnail'
 export const $47_KEY = 'devInstallForm'
+export const $48_KEY = 'set-authorization'

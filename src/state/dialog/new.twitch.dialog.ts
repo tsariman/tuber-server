@@ -4,12 +4,11 @@ import { backgroundState } from '..'
 import { NEW_TWITCH_ANNNOTATION_UNSUFFIXED_NAME } from '../form/new.twitch.bookmark.form.state'
 import { $36_KEY } from '../../constants'
 
-const $36 = '36'
-Config.register('state', $36, $36_KEY)
+Config.register('state', '36', $36_KEY)
 /** Dialog to create a new Twitch video bookmark @id 36 */
 const newTwitchBookmarkDialogState: IStateDialog = {
   '_type': 'form',
-  '_id': $36,
+  '_id': '36',
   '_key': $36_KEY,
   'title': 'Insert New Twitch Bookmark',
   'props': {

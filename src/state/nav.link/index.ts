@@ -49,10 +49,10 @@ export const authenticatedLinkState: IStateLink = {
   }
 }
 
-const $3 = '3'
+// Config.register('state', '3', $3_KEY)
 export const bookmarkAddFromUrlLinkState: IStateLink = {
   'type': 'icon',
-  '_id': $3,
+  '_id': '3',
   'has': {
     'icon': 'playlist_add_outline',
     // Button to create a new bookmark from a video URL

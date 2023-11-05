@@ -4,12 +4,11 @@ import IStateDialog from '../../../../tuber-client/src/controllers/interfaces/IS
 import { EDIT_ODYSEE_BOOKMARK_UNSUFFIXED_NAME } from '../form/edit.odysee.bookmark.form.state'
 import { $23_KEY } from '../../constants'
 
-const $23 = '23'
-Config.register('state', $23, $23_KEY)
+Config.register('state', '23', $23_KEY)
 /** Dialog to create a edit Odysee video bookmark @id 23 */
 const editOdyseeBookmarkDialogState: IStateDialog = {
   '_type': 'form',
-  '_id': $23,
+  '_id': '23',
   '_key': $23_KEY,
   'title': 'Edit Odysee Bookmark',
   'props': {

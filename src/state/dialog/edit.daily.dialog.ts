@@ -4,12 +4,11 @@ import { backgroundState } from '..'
 import { EDIT_DAILY_BOOKMARK_UNSUFFIXED_NAME } from '../form/edit.daily.bookmark.form.state'
 import { $22_KEY } from '../../constants'
 
-const $22 = '22'
-Config.register('state', $22, $22_KEY)
+Config.register('state', '22', $22_KEY)
 /** Dialog to edit an existing Dailymotion video bookmark @id 22 */
 const editDailyBookmarkDialogState: IStateDialog = {
   '_type': 'form',
-  '_id': $22,
+  '_id': '22',
   '_key': $22_KEY,
   'title': 'Edit Dailymotion Bookmark',
   'props': {

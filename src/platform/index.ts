@@ -1,6 +1,6 @@
-import { IBookmark } from '../../schema/bookmarks'
-import { RUMBLE_URL } from '../../constants'
-import C from '../../config'
+import { IBookmark } from '../schema/bookmarks'
+import { RUMBLE_URL } from '../constants'
+import C from '../config'
 
 export async function rumble_fix_missing_data(bookmark: IBookmark): Promise<IBookmark|false> {
   // Get rumble video id

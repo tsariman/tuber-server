@@ -4,12 +4,10 @@ import IStateFormItem from '../../../../tuber-client/src/controllers/interfaces/
 import { remove_form_suffix } from './_forms.business.logic'
 import { $1_KEY } from '../../constants'
 
-const $1 = '1' // ID
-Config.register('state', $1, $1_KEY)
-
+Config.register('state', '1', $1_KEY)
 /** Form to insert a new video URL. @id 1 */
 const newVideoUrlFormState: IStateForm = {
-  '_id': $1,
+  '_id': '1',
   '_key': $1_KEY,
   'items': [
     {

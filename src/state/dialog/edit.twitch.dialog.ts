@@ -4,12 +4,11 @@ import IStateDialog from '../../../../tuber-client/src/controllers/interfaces/IS
 import Config from '../../config'
 import { EDIT_TWITCH_BOOKMARK_UNSUFFIXED_NAME } from '../form/edit.twitch.bookmark.form.state'
 
-const $37 = '37'
-Config.register('state', $37, $37_KEY)
+Config.register('state', '37', $37_KEY)
 /** Dialog to edit an existing Twitch video bookmark @id 37 */
 const editTwitchBookmarkDialogState: IStateDialog = {
   '_type': 'form',
-  '_id': $37,
+  '_id': '37',
   '_key': $37_KEY,
   'title': 'Edit Twitch Bookmark',
   'props': {

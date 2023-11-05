@@ -48,11 +48,10 @@ export const authAppBarLinksState: IStateAppBar['items'] = [
   authenticatedLinkState
 ]
 
-const $44 = '44'
-Config.register('state', $44, $44_KEY)
+Config.register('state', '44', $44_KEY)
 /** @id 44 */
 const devInstallPageState: IStatePage = {
-  '_id': $44,
+  '_id': '44',
   '_key': $44_KEY,
   'content': '$form:devInstall:dev-install',
   'layout': 'layout_default',

@@ -3,11 +3,10 @@ import IStateForm from '../../../../tuber-client/src/controllers/interfaces/ISta
 import { remove_form_suffix } from './_forms.business.logic'
 import * as C from '../../constants'
 
-const $13 = '13'
-Config.register('state', $13, C.$13_KEY)
+Config.register('state', '13', C.$13_KEY)
 /** Form for editing an existing Vimeo bookmark. @id 13 */
 const editVimeoBookmarkFormState = {
-  '_id': $13,
+  '_id': '13',
   '_key': C.$13_KEY,
   'items': [
     {

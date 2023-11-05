@@ -4,12 +4,11 @@ import { backgroundState } from '..'
 import { NEW_DAILY_ANNNOTATION_UNSUFFIXED_NAME } from '../form/new.daily.bookmark.form.state'
 import { $21_KEY } from '../../constants'
 
-const $21 = '21'
-Config.register('state', $21, $21_KEY)
+Config.register('state', '21', $21_KEY)
 /** Dialog to create a new Dailymotion video bookmark @id 21 */
 const newDailyBookmarkDialogState: IStateDialog = {
   '_type': 'form',
-  '_id': $21,
+  '_id': '21',
   '_key': $21_KEY,
   'title': 'Insert New Dailymotion Bookmark',
   'props': {

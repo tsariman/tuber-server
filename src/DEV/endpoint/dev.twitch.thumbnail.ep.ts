@@ -1,17 +1,14 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import JsonapiErrorBuilder from '../../business.logic/jsonapi.error.builder'
+import { twitch_fetch_thumbnail } from '../../platform/twitch'
 import { $46_KEY } from '../../constants'
-import { odysee_fetch_thumbnail } from '../../platform/odysee'
 
-/** 
- * Example URL: http://localhost:8080/dev/odysee/thumbnails?slug=<paste-slug-here>
- */
-export default async function dev_odysee_get_thumbnail(
-  req: FastifyRequest<{ Querystring: { slug?: string }}>,
+export default async function dev_twitch_get_thumbnail(
+  req: FastifyRequest<{ Querystring: { videoid?: string }}>,
   reply: FastifyReply
 ) {
-  const slug = req.query.slug
-  if (!slug) {
+  const videoid = req.query.videoid
+  if (!videoid) {
     reply.code(400).send(new JsonapiErrorBuilder()
       .code('bad_request')
       .status(400)
@@ -21,7 +18,7 @@ export default async function dev_odysee_get_thumbnail(
     return
   }
   try {
-    const thumbnailUrl = await odysee_fetch_thumbnail(slug)
+    const thumbnailUrl = await twitch_fetch_thumbnail(videoid)
     if (thumbnailUrl) {
       reply.code(200).send({
         'state': {
@@ -35,7 +32,7 @@ export default async function dev_odysee_get_thumbnail(
         .code('not_found')
         .status(404)
         .title('not found')
-        .detail('Check the slug and try again.')
+        .detail('Check the video ID and try again.')
         .build()
       )
     }

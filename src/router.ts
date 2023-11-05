@@ -7,6 +7,7 @@ import Config from './config'
 import users_controller from './controller/users.controller'
 import authentification_controller from './controller/authentification.controller'
 import bookmarks_controller from './controller/bookmarks.controller'
+import platform_controller from './platform/controller'
 
 export default async function router(fastify: FastifyInstance) {
   fastify.register(authentification_controller, { prefix: '/authentification'})
@@ -19,4 +20,7 @@ export default async function router(fastify: FastifyInstance) {
   } else { /*[TODO] Add permission here. Administrator and above */
     fastify.register(prod_install_controller, { prefix: '/install' })
   }
+
+  // [TODO] Add permission here. Administrator and above
+  fastify.register(platform_controller, { prefix: '/platform' })
 }

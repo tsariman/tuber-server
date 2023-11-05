@@ -4,12 +4,11 @@ import IStateDialog from '../../../../tuber-client/src/controllers/interfaces/IS
 import { EDIT_FACEBOOK_BOOKMARK_UNSUFFIXED_NAME } from '../form/edit.facebook.bookmark.form.state'
 import { $27_KEY } from '../../constants'
 
-const $27 = '27'
-Config.register('state', $27, $27_KEY)
+Config.register('state', '27', $27_KEY)
 /** Dialog to edit a Facebook video bookmark @id 27 */
 const editFacebookBookmarkDialogState: IStateDialog = {
   '_type': 'form',
-  '_id': $27,
+  '_id': '27',
   '_key': $27_KEY,
   'title': 'Edit Facebook Bookmark',
   'props': {
