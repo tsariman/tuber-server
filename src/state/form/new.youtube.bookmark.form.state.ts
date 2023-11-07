@@ -26,6 +26,7 @@ const newYouTubeBookmarkFormState = {
               'label': 'Start',
               'props': {
                 'sx': { 'width': 240 },
+                'variant': 'filled'
               },
               'inputProps': {
                 'readOnly': true,
@@ -42,6 +43,7 @@ const newYouTubeBookmarkFormState = {
               'label': 'Length',
               'props': {
                 'sx': { 'width': 240 },
+                'variant': 'filled'
               },
               'inputProps': { 'disabled': true }
             },
@@ -49,11 +51,11 @@ const newYouTubeBookmarkFormState = {
               'type': 'textfield',
               'name': 'videoid',
               'label': 'Video ID',
-              'props': { 'fullWidth': true },
-              'inputProps': {
-                'readOnly': true,
-                'sx': { 'backgroundColor': 'grey.300' }
-              }
+              'props': {
+                'fullWidth': true,
+                'variant': 'filled'
+              },
+              'inputProps': { 'readOnly': true }
             },
             {
               'type': 'textfield',
@@ -62,10 +64,7 @@ const newYouTubeBookmarkFormState = {
               'props': {
                 'sx': { 'width': 240 },
               },
-              'inputProps': {
-                'readOnly': true,
-                'sx': { 'backgroundColor': 'grey.300' }
-              }
+              'inputProps': { 'readOnly': true }
             },
           ]
         },

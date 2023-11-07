@@ -13,16 +13,6 @@ const newOdyseeBookmarkFormState = {
       'type': 'stack',
       'props': { 'spacing': 2 },
       'items': [
-        // {
-        //   'type': 'textfield',
-        //   'name': 'slug',
-        //   'label': 'Video URL Slug',
-        //   'props': { 'fullWidth': true },
-        //   'inputProps': {
-        //     'readOnly': true,
-        //     'sx': { 'backgroundColor': 'grey.300' }
-        //   }
-        // },
         {
           'type': 'stack',
           'props': {
@@ -36,11 +26,9 @@ const newOdyseeBookmarkFormState = {
               'label': 'Start',
               'props': {
                 'sx': { 'width': 240 },
+                'variant': 'filled'
               },
-              'inputProps': {
-                'readOnly': true,
-                'sx': { 'backgroundColor': 'grey.300' }
-              },
+              'inputProps': { 'readOnly': true },
               'has': {
                 'required': true,
                 'requiredMessage': C.START_SECONDS_REQUIRED_MESSAGE,
@@ -52,11 +40,9 @@ const newOdyseeBookmarkFormState = {
               'label': 'Video URL Slug',
               'props': {
                 'fullWidth': true,
+                'variant': 'filled'
               },
-              'inputProps': {
-                'readOnly': true,
-                'sx': { 'backgroundColor': 'grey.300' }
-              }
+              'inputProps': { 'readOnly': true }
             },
             {
               'type': 'textfield',
@@ -64,11 +50,9 @@ const newOdyseeBookmarkFormState = {
               'label': 'Platform',
               'props': {
                 'sx': { 'width': 240 },
+                'variant': 'filled'
               },
-              'inputProps': {
-                'readOnly': true,
-                'sx': { 'backgroundColor': 'grey.300' }
-              }
+              'inputProps': { 'readOnly': true }
             },
           ]
         },

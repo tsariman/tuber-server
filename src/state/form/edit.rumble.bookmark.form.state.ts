@@ -17,11 +17,11 @@ const editRumbleBookmarkFormState = {
           'type': 'textfield',
           'name': 'slug',
           'label': 'Video URL Slug',
-          'props': { 'fullWidth': true },
-          'inputProps': {
-            'readOnly': true,
-            'sx': { 'backgroundColor': 'grey.300' }
-          }
+          'props': {
+            'fullWidth': true,
+            'variant': 'filled'
+          },
+          'inputProps': { 'readOnly': true }
         },
         {
           'type': 'stack',
@@ -36,11 +36,9 @@ const editRumbleBookmarkFormState = {
               'label': 'Start',
               'props': {
                 'sx': { 'width': 240 },
+                'variant': 'filled'
               },
-              'inputProps': {
-                'readOnly': true,
-                'sx': { 'backgroundColor': 'grey.300' }
-              },
+              'inputProps': { 'readOnly': true },
               'has': {
                 'required': true,
                 'requiredMessage': C.START_SECONDS_REQUIRED_MESSAGE,
@@ -50,11 +48,11 @@ const editRumbleBookmarkFormState = {
               'type': 'textfield',
               'name': 'videoid',
               'label': 'Video ID',
-              'props': { 'fullWidth': true },
-              'inputProps': {
-                'readOnly': true,
-                'sx': { 'backgroundColor': 'grey.300' }
-              }
+              'props': {
+                'fullWidth': true,
+                'variant': 'filled'
+              },
+              'inputProps': { 'readOnly': true }
             },
             {
               'type': 'textfield',
@@ -62,11 +60,9 @@ const editRumbleBookmarkFormState = {
               'label': 'Platform',
               'props': {
                 'sx': { 'width': 240 },
+                'variant': 'filled'
               },
-              'inputProps': {
-                'readOnly': true,
-                'sx': { 'backgroundColor': 'grey.300' }
-              }
+              'inputProps': { 'readOnly': true }
             },
           ]
         },

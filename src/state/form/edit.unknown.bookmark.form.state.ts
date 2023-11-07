@@ -17,21 +17,21 @@ const editUnknownBookmarkFormState = {
           'type': 'textfield',
           'name': 'url',
           'label': 'Video URL',
-          'props': { 'fullWidth': true },
-          'inputProps': {
-            'readOnly': true,
-            'sx': { 'backgroundColor': 'grey.300' }
-          }
+          'props': {
+            'fullWidth': true,
+            'variant': 'filled'
+          },
+          'inputProps': { 'readOnly': true }
         },
         {
           'type': 'textfield',
           'name': 'embed_url',
           'label': 'Embed IFRAME URL',
-          'props': { 'fullWidth': true },
-          'inputProps': {
-            'readOnly': true,
-            'sx': { 'backgroundColor': 'grey.300' }
-          }
+          'props': {
+            'fullWidth': true,
+            'variant': 'filled'
+          },
+          'inputProps': { 'readOnly': true }
         },
         {
           'type': 'textfield',

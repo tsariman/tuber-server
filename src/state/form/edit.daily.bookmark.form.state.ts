@@ -28,12 +28,10 @@ const editDailyBookmarkFormState = {
                 'sx': {
                   'width': 240,
                 },
-                'helperText': 'time in second(s)'
+                'helperText': 'time in second(s)',
+                'variant': 'filled'
               },
-              'inputProps': {
-                'readOnly': true,
-                'sx': { 'backgroundColor': 'grey.300' }
-              },
+              'inputProps': { 'readOnly': true },
               'has': {
                 'required': true,
                 'requiredMessage': C.START_SECONDS_REQUIRED_MESSAGE,
@@ -45,25 +43,19 @@ const editDailyBookmarkFormState = {
               'label': 'Video ID',
               'props': {
                 'fullWidth': true,
+                'variant': 'filled'
               },
-              'inputProps': {
-                'readOnly': true,
-                'sx': { 'backgroundColor': 'grey.300' }
-              }
+              'inputProps': { 'readOnly': true }
             },
             {
               'type': 'textfield',
               'name': 'platform',
               'label': 'Platform',
               'props': {
-                'sx': {
-                  'width': 240,
-                },
+                'sx': { 'width': 240 },
+                'variant': 'filled'
               },
-              'inputProps': {
-                'readOnly': true,
-                'sx': { 'backgroundColor': 'grey.300' }
-              }
+              'inputProps': { 'readOnly': true }
             },
           ]
         },
