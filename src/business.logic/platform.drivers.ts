@@ -1,6 +1,6 @@
 import fetch from 'cross-fetch'
 import { IBookmark } from '../schema/bookmarks'
-import { TPlatform } from './common.types'
+import { TPlatform } from '../common.types'
 import C from '../config'
 import { RUMBLE_URL } from '../constants'
 

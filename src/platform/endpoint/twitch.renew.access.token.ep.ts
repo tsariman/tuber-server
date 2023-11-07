@@ -29,8 +29,8 @@ export default async function twitch_renew_access_token_enpoint(
   await authorization_save(
     'twitch',
     {
-      purpose: 'access_token',
-      key: json.access_token,
+      name: 'access_token',
+      value: json.access_token,
       expires_in: json.expires_in,
     }
   )

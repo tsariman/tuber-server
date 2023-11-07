@@ -8,7 +8,7 @@ import {
   IAggregateDoc,
   IMPV2Doc,
   TEndpoint
-} from '../business.logic/common.types'
+} from '../common.types'
 import JsonapiResponsePaginationBuilder, { 
   IMinimalPaginationOptions,
   IPaginatedResult,

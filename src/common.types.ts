@@ -1,4 +1,4 @@
-import { INetState } from '../../../tuber-client/src/controllers/interfaces/IState'
+import { INetState } from '../../tuber-client/src/controllers/interfaces/IState'
 
 /** @see https://stackoverflow.com/a/69328045/1875859 */
 export type WithRequired<T, K extends keyof T> = T & { [P in K]-?: T[P] }
@@ -55,3 +55,12 @@ export type TPlatform = '_blank'
   | 'facebook'
   | 'bitchute'
   | 'unknown'
+
+export interface IStateMapEntry<T=any> {
+  state: T
+  clearance?: string
+}
+
+export interface IStateMap {
+  [entry: string]: IStateMapEntry
+}

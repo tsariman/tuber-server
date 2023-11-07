@@ -75,4 +75,5 @@ export default async function dev_controller(fastify: FastifyInstance) {
   fastify.get('/odysee/thumbnails', {}, dev_odysee_get_thumbnail)
   fastify.get('/vimeo/thumbnails', {}, dev_vimeo_get_thumbnail)
   fastify.get('/twitch/thumbnails', {}, dev_twitch_get_thumbnail)
+  fastify.get('/twitch/renew-access-token', {}, twitch_renew_access_token_enpoint)
 }

@@ -34,7 +34,7 @@ import newVideoUrlFormState from '../state/form/new.video.url.form.state'
 import { get_state_key, set_state_by_key } from '../business.logic'
 import { get_documents_count } from '../DEV'
 import editYouTubeBookmarkFormState from '../state/form/edit.youtube.bookmark.form.state'
-import { IBootstrapResponse } from '../business.logic/common.types'
+import { IBootstrapResponse } from '../common.types'
 import newRumbleBookmarkFormState from '../state/form/new.rumble.bookmark.form.state'
 import newRumbleBookmarkDialogState from '../state/dialog/new.rumble.dialog'
 import editRumbleBookmarkFormState from '../state/form/edit.rumble.bookmark.form.state'
@@ -64,13 +64,14 @@ import editTwitchBookmarkDialogState from '../state/dialog/edit.twitch.dialog'
 import newTwitchBookmarkFormState from '../state/form/new.twitch.bookmark.form.state'
 import editTwitchBookmarkFormState from '../state/form/edit.twitch.bookmark.form.state'
 import devTestThumbnailFormState from 'src/DEV/form/dev.test.thumbnail.form.state'
-import devTestThumbnailPageState from 'src/DEV/page'
+import { devTestThumbnailPageState } from 'src/DEV/page'
 import { $46_KEY } from '../constants'
 
 export default async function bootstrap_controller(fastify: FastifyInstance) {
 
   /** Application configuration */
   const appState: IStateApp = {
+    'fetchingStateAllowed': true,
     'inDebugMode': false,
     'inDevelMode': false,
     'logoUri': '../tuber.png',

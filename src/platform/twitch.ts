@@ -12,33 +12,6 @@ export async function twitch_fetch_thumbnail(videoid: string): Promise<string> {
     }
   })
   const json = await response1.json()
-  const maxTries = 2
-  let tries = 0
-  do {
-    if (json.data?.[0]?.thumbnail_url) {
-      break
-    }
-    const response2 = await fetch(C.TWITCH_API_TOKEN_REQUEST_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      body: new URLSearchParams({
-        client_id: C.TWITCH_API_CLIENT_ID,
-        client_secret: C.TWITCH_API_CLIENT_SECRET,
-        grant_type: 'client_credentials'
-      }).toString()
-    })
-    const json2 = await response2.json()
-    if (!json2.data) {
-      // [TODO] Renew token
-      const response3 = await fetch(url, {})
-
-      return ''
-    }
-    json.data = json2.data
-    tries++
-  } while (tries < maxTries)
   if (!json.data?.[0]?.thumbnail_url) {
     return ''
   }

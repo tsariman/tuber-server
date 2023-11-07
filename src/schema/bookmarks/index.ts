@@ -1,7 +1,7 @@
 import { FastifyRequest } from 'fastify'
 import mongoose, { Schema } from 'mongoose'
 import paginate from 'mongoose-paginate-v2'
-import { IGenericObject, IJsonapiQuerystring, WithRequired } from '../../business.logic/common.types'
+import { IGenericObject, IJsonapiQuerystring, WithRequired } from '../../common.types'
 import { IJsonapiResource } from '../../../../tuber-client/src/controllers/interfaces/IJsonapi'
 
 export interface IBookmark {

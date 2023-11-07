@@ -29,7 +29,7 @@ export default async function bookmarks_get_collection_endpoint (
           index: Config.DB_ATLAS_BOOKMARK_SEARCH_INDEX_NAME,
           text: {
             query: searchQuery,
-            path: ['title', 'note' ],
+            path: [ 'title', 'note' ],
             fuzzy: {}
           },
         },

@@ -5,7 +5,7 @@ import {
   PaginateModel,
   PaginateResult
 } from 'mongoose'
-import { IMPV2Doc } from '../../business.logic/common.types'
+import { IMPV2Doc } from '../../common.types'
 import Config from '../../config'
 import bookmarkSchema, {
   IBookmark,

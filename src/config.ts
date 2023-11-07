@@ -2,13 +2,9 @@ import NodeCache from 'node-cache'
 import * as dotenv from 'dotenv'
 import { dbGetUrlCredentials, get_ip } from './utility'
 import Config, { IConfiguration } from './utility/configuration'
-
-interface IGenericObject { [key: string]: any }
+import { IStateMap, IStateMapEntry } from './common.types'
 
 dotenv.config({ path: `${__dirname}/../.env` })
-
-const USER_CACHE = new NodeCache({ stdTTL: Number(process.env.STDTTL) || 900 })
-const STATE_REGISTRY: IGenericObject = {}
 
 /** TODO Configure the app here. */
 const USER_CONFIG = {
@@ -79,11 +75,6 @@ const USER_CONFIG = {
   ACCESS_TOKEN_SECRET: process.env.ACCESS_TOKEN_SECRET || 'NO_access_token_secret_defined',
   /** Jwt refresh token secret */
   RERESH_TOKEN_SECRET: process.env.REFRESH_TOKEN_SECRET || 'NO_refresh_token_secret_defined',
-  /**
-   * In memory user-caching for request response purposes. Helps alleviate
-   * database access.
-   */
-  USER_CACHE,
 
   /** The number of bookmarks to return per page. */
   PAGINATION_BOOKMARKS_LIMIT: process.env.PAGINATION_BOOKMARKS_LIMIT || '10',
@@ -127,9 +118,21 @@ const USER_CONFIG = {
   TWITCH_API_TOKEN_REQUEST_URL: process.env.TWITCH_API_TOKEN_REQUEST_URL ?? '',
 }
 
+interface IGenericObject { [key: string]: any }
+
+const USER_CACHE = new NodeCache({ stdTTL: Number(process.env.STDTTL) || 900 })
+const STATE_REGISTRY: IGenericObject = {}
+const STATE_MAP: IStateMap = {}
+
 const initObj = {
   ...USER_CONFIG,
-  
+
+  /**
+   * In memory user-caching for request response purposes. Helps alleviate
+   * database access.
+   */
+  USER_CACHE,
+
   /** Default mongodb database development URL. */
   DB_DEV_DEFAULT_URL: 'mongodb://127.0.0.1:27017/test',
 
@@ -216,8 +219,15 @@ const initObj = {
     case 'state':
       return STATE_REGISTRY
     }
-  }
+  },
 
+  stateMapSet: function (key: string, state: any, clearance?: string): void {
+    STATE_MAP[key] = { state, clearance }
+  },
+
+  stateMapGet: function<T=any>(key: string): IStateMapEntry<T> {
+    return STATE_MAP[key]
+  }
 }
 
 Config.init(initObj)

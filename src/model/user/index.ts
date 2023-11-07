@@ -6,7 +6,7 @@ import {
   model
 } from 'mongoose'
 import { get_query } from '../../business.logic'
-import { IMPV2Doc } from '../../business.logic/common.types'
+import { IMPV2Doc } from '../../common.types'
 import { get_hashed_password } from '../../business.logic/security'
 import Config from '../../config'
 import userSchema, { IUser, IUserDocument, TUser, TUsersFastifyRequest } from '../../schema/users'

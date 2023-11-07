@@ -1,5 +1,5 @@
 import mongoose, { Schema } from 'mongoose'
-import { IJsonapiQuerystring, WithRequired } from '../../business.logic/common.types'
+import { IJsonapiQuerystring, WithRequired } from '../../common.types'
 import { TRole } from '../../business.logic/security/permissions'
 import { FastifyRequest } from 'fastify'
 import paginate from 'mongoose-paginate-v2'

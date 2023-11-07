@@ -70,10 +70,10 @@ export interface ILoginCredentials {
   password: string
 }
 
-export function isLoginCredentials (obj: any): obj is ILoginCredentials {
+export function is_login_credentials (obj: any): obj is ILoginCredentials {
   return obj.username && obj.password
 }
 
-export const hasPermission = (permission: TPermission, role: TRole) => {
+export const has_permission = (permission: TPermission, role: TRole) => {
   return PERMISSIONS_LEVEL[permission] <= ROLE_CLEARANCE_LEVEL[role]
 }

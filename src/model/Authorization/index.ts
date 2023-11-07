@@ -3,7 +3,7 @@ import authorizationSchema, {
 } from 'src/schema/authorizations'
 import Config from '../../config'
 import { PaginateModel, PaginateResult, model } from 'mongoose'
-import { TPlatform } from 'src/business.logic/common.types'
+import { TPlatform } from 'src/common.types'
 
 /** mongoose-paginate-v2 query */
 const PAGINATION_QUERY = {
@@ -36,7 +36,7 @@ export const AuthorizationModel = model<IAuthorizationDocument>(
 )
 
 export async function get_authorization_by_host(host: string) {
-  return await AuthorizationPaginationModel.findOne({ host })
+  return await AuthorizationPaginationModel.findOne({ platform: host })
 }
 
 export async function get_authorization_collection(
@@ -58,10 +58,10 @@ export async function authorization_save(
   const authorizationDoc = await get_authorization_by_host(host)
   if (authorizationDoc) {
     const keyIndex = authorizationDoc.keys.findIndex(
-      k => k.purpose === key.purpose
+      k => k.name === key.name
     )
     if (keyIndex > -1) {
-      authorizationDoc.keys[keyIndex].key = key.key
+      authorizationDoc.keys[keyIndex].value = key.value
     } else {
       authorizationDoc.keys.push(key)
     }

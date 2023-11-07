@@ -1,6 +1,6 @@
 import Config from '../../config'
 import IStateForm from '../../../../tuber-client/src/controllers/interfaces/IStateForm'
-import { $46_KEY, $47_KEY } from '../../constants'
+import { $46_KEY, $47_KEY, $48_KEY } from '../../constants'
 
 Config.register('state', '47', $47_KEY)
 /** Development shortcuts form. @id 47 */
@@ -175,6 +175,28 @@ const devInstallForm = {
       'has': {
         'label': ' Test getting platform thumbnails ',
         'route': $46_KEY
+      }
+    },
+    {
+      'type': 'html_tag',
+      'has': { 'content': '|' }
+    },
+    {
+      'type': 'a',
+      'has': {
+        'label': ' Set authorization ',
+        'route': $48_KEY
+      }
+    },
+    {
+      'type': 'html_tag',
+      'has': { 'content': '|' }
+    },
+    {
+      'type': 'a',
+      'has': {
+        'label': ' Visit fake page ',
+        'route': 'i-lead-to-nowhere'
       }
     },
     {

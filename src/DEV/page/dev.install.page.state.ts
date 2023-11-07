@@ -13,7 +13,7 @@ export const appBarLinksState: IStateAppBar['items'] = [
   },
   {
     'has': {
-      'text': 'Client errors',
+      'text': 'Errors',
       'route': 'default-errors-view'
     }
   },
@@ -35,7 +35,7 @@ export const authAppBarLinksState: IStateAppBar['items'] = [
   },
   {
     'has': {
-      'text': 'Client errors',
+      'text': 'Errors',
       'route': 'default-errors-view'
     }
   },
