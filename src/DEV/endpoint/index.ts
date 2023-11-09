@@ -3,7 +3,7 @@ import devTestDrawer from '../dev.test.drawer.state'
 import { INetState } from '../../../../tuber-client/src/controllers/interfaces/IState'
 import { NET_STATE_PATCH_DELETE } from '../../state'
 
-export async function dev_load_test_drawer (
+export async function dev_post_load_test_drawer_endpoint (
   _request: FastifyRequest,
   reply: FastifyReply
 ) {
@@ -22,7 +22,7 @@ export async function dev_load_test_drawer (
   })
 }
 
-export async function dev_unload_test_drawer (
+export async function dev_post_unload_test_drawer_endpoint (
   _request: FastifyRequest,
   reply: FastifyReply
 ) {

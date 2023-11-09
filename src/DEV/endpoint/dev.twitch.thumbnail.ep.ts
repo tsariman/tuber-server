@@ -3,7 +3,7 @@ import JsonapiErrorBuilder from '../../business.logic/jsonapi.error.builder'
 import { twitch_fetch_thumbnail } from '../../platform/twitch'
 import { $46_KEY } from '../../constants'
 
-export default async function dev_twitch_get_thumbnail(
+export default async function dev_get_twitch_thumbnail_endpoint(
   req: FastifyRequest<{ Querystring: { videoid?: string }}>,
   reply: FastifyReply
 ) {

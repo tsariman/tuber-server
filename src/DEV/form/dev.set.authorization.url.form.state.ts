@@ -1,14 +1,16 @@
-import { $49_KEY } from '../../constants'
-import Config from '../../config'
+import Config from 'src/config'
+import { $50_KEY } from '../../constants'
 import IStateForm from '../../../../tuber-client/src/controllers/interfaces/IStateForm'
 
-Config.register('state', '49', $49_KEY)
-/** @id 49 */
-export const devSetAuthorizationFormState: IStateForm = {
-  '_id': '49',
-  '_key': $49_KEY,
+Config.register('state', '50', $50_KEY)
+/** @id 50 */
+const devSetAuthorizationUrlFormState: IStateForm = {
+  '_id': '50',
+  '_key': $50_KEY,
+  '_type': 'stack',
   'props': {
     'sx': { 'p': 2, 'width': 476 },
+    'spacing': 2,
   },
   'paperBackground': true,
   'paperProps': {
@@ -18,13 +20,11 @@ export const devSetAuthorizationFormState: IStateForm = {
   'items': [
     {
       'type': 'state_select',
-      'name': 'host',
-      'label': 'Select Host',
-      'props': {
-        'variant': 'standard',
-        'fullWidth': true,
-      },
+      'name': 'platform',
+      'label': 'Choose platform',
+      'props': { 'variant': 'standard' },
       'has': {
+        'formControlProps': { 'fullWidth': true },
         'items': [
           { 'label': 'Twitch', 'value': 'twitch' },
           { 'label': 'YouTube', 'value': 'youtube' },
@@ -39,8 +39,8 @@ export const devSetAuthorizationFormState: IStateForm = {
     },
     {
       'type': 'text',
-      'name': 'name',
-      'label': 'Name',
+      'name': 'purpose',
+      'label': 'Purpose',
       'props': {
         'fullWidth': true,
         'variant': 'standard'
@@ -48,8 +48,8 @@ export const devSetAuthorizationFormState: IStateForm = {
     },
     {
       'type': 'text',
-      'name': 'value',
-      'label': 'Key',
+      'name': 'url',
+      'label': 'URL',
       'props': {
         'fullWidth': true,
         'variant': 'standard'
@@ -61,11 +61,11 @@ export const devSetAuthorizationFormState: IStateForm = {
         'sx': { 'width': '100%' }
       },
       'has': {
-        'label': 'Set Authorization',
-        'onclickHandle': 'tuberCallbacks.$49_C_1'
+        'label': 'Set Authorization URL',
+        'onclickHandle': 'tuberCallbacks.$50_C_1'
       }
     },
   ]
 }
 
-export default devSetAuthorizationFormState
+export default devSetAuthorizationUrlFormState

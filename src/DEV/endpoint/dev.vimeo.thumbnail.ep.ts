@@ -3,7 +3,7 @@ import { $46_KEY } from '../../constants'
 import JsonapiErrorBuilder from '../../business.logic/jsonapi.error.builder'
 import { vimeo_fetch_thumbnail } from '../../platform/vimeo'
 
-export default async function dev_vimeo_get_thumbnail(
+export default async function dev_get_vimeo_thumbnail_endpoint(
   req: FastifyRequest<{ Querystring: { videoid?: string }}>,
   reply: FastifyReply
 ) {

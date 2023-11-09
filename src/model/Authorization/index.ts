@@ -1,5 +1,8 @@
 import authorizationSchema, {
-  IAuthorizationDocument, IAuthorizationKey
+  IAuthorizationDocument,
+  IAuthorizationKey,
+  IAuthorizationUrl,
+  TAuthorizationKeyNew
 } from 'src/schema/authorizations'
 import Config from '../../config'
 import { PaginateModel, PaginateResult, model } from 'mongoose'
@@ -35,11 +38,11 @@ export const AuthorizationModel = model<IAuthorizationDocument>(
   authorizationSchema
 )
 
-export async function get_authorization_by_host(host: string) {
-  return await AuthorizationPaginationModel.findOne({ platform: host })
+export async function authorization_get_by_host(platform: string) {
+  return await AuthorizationPaginationModel.findOne({ platform })
 }
 
-export async function get_authorization_collection(
+export async function authorization_get_collection(
   page: number,
   limit: number
 ): Promise<PaginateResult<IAuthorizationDocument>> {
@@ -51,24 +54,26 @@ export async function get_authorization_collection(
 }
 
 /** Save authorization credentials in the database. */
-export async function authorization_save(
-  host: TPlatform,
-  key: IAuthorizationKey
+export async function authorization_key_save(
+  platform: TPlatform,
+  key: TAuthorizationKeyNew
 ): Promise<void> {
-  const authorizationDoc = await get_authorization_by_host(host)
+  const authorizationDoc = await authorization_get_by_host(platform)
   if (authorizationDoc) {
     const keyIndex = authorizationDoc.keys.findIndex(
       k => k.name === key.name
     )
     if (keyIndex > -1) {
       authorizationDoc.keys[keyIndex].value = key.value
+      authorizationDoc.keys[keyIndex].expires_in = key.expires_in
+      authorizationDoc.keys[keyIndex].modified_at = new Date()
     } else {
       authorizationDoc.keys.push(key)
     }
     await authorizationDoc.save()
   } else {
     const authorization = new AuthorizationModel({
-      host,
+      platform,
       keys: [ key ]
     })
     await authorization.save()
@@ -76,10 +81,108 @@ export async function authorization_save(
 }
 
 /** Retrieve authorization credentials from the database. */
-export async function authorization_retrieve(host: string) {
-  const authorizationDoc = await get_authorization_by_host(host)
+export async function authorization_keys_retrieve(platform: string) {
+  const authorizationDoc = await authorization_get_by_host(platform)
   if (!authorizationDoc) {
     return null
   }
   return authorizationDoc.keys
+}
+
+/**
+ * Given an authorization document, it will return the key with the associated
+ * name.
+ */
+export function authorization_key_get(name: string, keys: IAuthorizationKey[]) {
+  let key: IAuthorizationKey | null = null
+  keys.every(k => {
+    if (k.name === name) {
+      key = k
+      return false
+    }
+    return true
+  })
+  return key
+}
+
+export async function authorization_url_save(
+  platform: TPlatform,
+  url: IAuthorizationUrl
+): Promise<void> {
+  const authorizationDoc = await authorization_get_by_host(platform)
+  if (authorizationDoc && authorizationDoc.urls) {
+    const urlIndex = authorizationDoc.urls.findIndex(
+      (u: IAuthorizationUrl) => u.purpose === url.purpose
+    )
+    if (urlIndex > -1) {
+      authorizationDoc.urls[urlIndex].url = url.url
+      authorizationDoc.urls[urlIndex].modified_at = new Date()
+    } else {
+      authorizationDoc.urls.push(url)
+    }
+    await authorizationDoc.save()
+  } else {
+    const authorization = new AuthorizationModel({
+      platform,
+      urls: [ url ]
+    })
+    await authorization.save()
+  }
+}
+
+/**
+ * Given an authorization document, it will return the key with the associated
+ * purpose.
+ */
+export async function authorization_url_get(
+  platform: TPlatform,
+  purpose: string
+): Promise<IAuthorizationUrl | null> {
+  const authorizationDoc = await authorization_get_by_host(platform)
+  if (!authorizationDoc || !authorizationDoc.urls) {
+    return null
+  }
+  const urlIndex = authorizationDoc.urls.findIndex(
+    (u: IAuthorizationUrl) => u.purpose === purpose
+  )
+  if (urlIndex > -1) {
+    return authorizationDoc.urls[urlIndex]
+  }
+  return null
+}
+
+export async function authorization_url_get_all(
+  platform: TPlatform
+): Promise<IAuthorizationUrl[]> {
+  const authorizationDoc = await authorization_get_by_host(platform)
+  if (!authorizationDoc || !authorizationDoc.urls) {
+    return []
+  }
+  return authorizationDoc.urls
+}
+
+export async function authorization_url_delete(
+  platform: TPlatform,
+  purpose: string
+) {
+  const authorizationDoc = await authorization_get_by_host(platform)
+  if (!authorizationDoc || !authorizationDoc.urls) {
+    return
+  }
+  const urlIndex = authorizationDoc.urls.findIndex(
+    (u: IAuthorizationUrl) => u.purpose === purpose
+  )
+  if (urlIndex > -1) {
+    authorizationDoc.urls.splice(urlIndex, 1)
+    await authorizationDoc.save()
+  }
+}
+
+export async function authorization_url_delete_all(platform: TPlatform) {
+  const authorizationDoc = await authorization_get_by_host(platform)
+  if (!authorizationDoc || !authorizationDoc.urls) {
+    return
+  }
+  authorizationDoc.urls = []
+  await authorizationDoc.save()
 }

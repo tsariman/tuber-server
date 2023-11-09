@@ -8,7 +8,7 @@ type TDevHandRequest = FastifyRequest<{
   }
 }>
 
-export default async function dev_no_response_hangtime (
+export default async function dev_get_no_response_hangtime_endpoint (
   request: TDevHandRequest,
   _reply: FastifyReply
 ) {

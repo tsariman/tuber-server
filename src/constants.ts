@@ -60,11 +60,22 @@ export const $38_KEY = 'newTwitchBookmarkForm'
 export const $39_KEY = 'editTwitchBookmarkForm'
 export const $40_KEY = 'research-app'
 export const $41_KEY = 'loginForm'
-export const $42_KEY = 'loginPage'
+export const $42_KEY = 'login'
 export const $43_KEY = 'signed-In'
 export const $44_KEY = 'dev-install'
 export const $45_KEY = 'devTestThumbnailForm'
 export const $46_KEY = 'dev-test-thumbnail'
 export const $47_KEY = 'devInstallForm'
-export const $48_KEY = 'set-authorization'
-export const $49_KEY = 'devSetAuthorizationForm'
+export const $48_KEY = 'set-authorization-key'
+export const $49_KEY = 'devSetAuthorizationKeyForm'
+export const $50_KEY = 'devSetAuthorizationUrlForm'
+export const $51_KEY = 'set-authorization-url'
+export const $52_KEY = '<taken>'
+
+export const PATHS: Record<string, string> = {
+  '1': 'dev/',
+  '2': 'bookmarks',
+  '6': 'bookmarks',
+  '7': 'bookmarks',
+  '52': '/setup-collection-index-search/bookmarks',
+}

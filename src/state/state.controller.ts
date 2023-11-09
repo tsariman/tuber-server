@@ -1,12 +1,11 @@
-import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
+import { FastifyInstance } from 'fastify'
 import { DEFAULT_OPTIONS } from '../middleware/router.option'
-import Config from '../config'
-import { INetState } from '../../../tuber-client/src/controllers/interfaces/IState'
-import JsonapiErrorBuilder from '../business.logic/jsonapi.error.builder'
+import post_state_pages_endpoint from './endpoint/post.state.pages.ep'
+import post_state_forms_endpoint from './endpoint/post.state.forms.ep'
 
-interface IStatePost {
+export interface IStatePost {
   Body: {
-    key: string
+    key?: string
   }
 }
 
@@ -20,46 +19,6 @@ export default async function state_controller(fastify: FastifyInstance) {
    * PAGES
    * POST /state/pages
    */
-  fastify.post<IStatePost>('/pages', opts, async function (
-    req: FastifyRequest<IStatePost>,
-    reply: FastifyReply
-  ) {
-    try {
-      const key = req.body.key
-      Config.print(`Loading '${key}' state... `)
-      const pageState = Config.stateMapGet(key)?.state
-      if (pageState) {
-        Config.log('done.')
-        reply.code(200).send({
-          state: {
-            'pages': { [key]: pageState }
-          } as INetState
-        })
-      } else {
-        Config.log('failed.')
-        reply.code(404).send({
-          state: {
-            'pages': {
-              [key]: {
-                'appBarInherited': 'default-notfound',
-                'contentInherited': 'default-notfound',
-                'layout': 'layout_centered',
-                'data': { 'message': `Page not found!` },
-              }
-            }
-          } as INetState
-        })
-      }
-    } catch (e: any) {
-      Config.log('failed.\nInternal Server Error.', e)
-      reply.code(500).send(new JsonapiErrorBuilder()
-        .status(500)
-        .code('internal_server_error')
-        .title(e.message)
-        .detail(e.stack)
-        .build()
-      )
-    }
-  })
-
+  fastify.post<IStatePost>('/pages', opts, post_state_pages_endpoint)
+  fastify.post<IStatePost>('/forms', opts, post_state_forms_endpoint)
 }

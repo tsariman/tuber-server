@@ -13,7 +13,7 @@ import {
   devGetHashedDefaultUsrPwd
 } from '../dev.install.common'
 
-export default async function dev_create_update_dev_user (
+export default async function dev_post_create_update_dev_user_endpoint (
   _request: FastifyRequest,
   reply: FastifyReply
 ) {

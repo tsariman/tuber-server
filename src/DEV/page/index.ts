@@ -1,13 +1,16 @@
 import { remove_form_suffix } from 'src/state/form/_forms.business.logic'
 import IStatePage from '../../../../tuber-client/src/controllers/interfaces/IStatePage'
 import Config from '../../config'
-import { $44_KEY, $45_KEY, $46_KEY, $48_KEY, $49_KEY } from '../../constants'
+import * as C from '../../constants'
 import { defaultAppBarState } from '../../state/default.content'
+import IStateAllPages from '../../../../tuber-client/src/controllers/interfaces/IStateAllPages'
+import devInstallPageState from './dev.install.page.state'
 
-Config.register('state', '46', $46_KEY)
+Config.register('state', '46', C.$46_KEY)
+/** @id 46 */
 export const devTestThumbnailPageState: IStatePage = {
   '_id': '46',
-  '_key': $46_KEY,
+  '_key': C.$46_KEY,
   'appBar': {
     'items': [
       {
@@ -19,7 +22,7 @@ export const devTestThumbnailPageState: IStatePage = {
       {
         'has': {
           'text': 'Back',
-          'route': $44_KEY
+          'route': C.$44_KEY
         }
       }
     ],
@@ -27,17 +30,16 @@ export const devTestThumbnailPageState: IStatePage = {
       'variant': 'dense'
     }
   },
-  'content': `$form : ${remove_form_suffix($45_KEY)}`,
+  'content': `$form : ${remove_form_suffix(C.$45_KEY)}`,
   'layout': 'layout_centered_no_scroll'
 }
-Config.stateMapSet($46_KEY, devTestThumbnailPageState)
 
-Config.register('state', '48', $48_KEY)
+Config.register('state', '48', C.$48_KEY)
 /** @id 48 */
-export const devSetAuthorizationPageState: IStatePage = {
+export const devSetAuthorizationKeyPageState: IStatePage = {
   '_id': '48',
-  '_key': $48_KEY,
-  'content': `$form : ${remove_form_suffix($49_KEY)} : authorizations`,
+  '_key': C.$48_KEY,
+  'content': `$form : ${remove_form_suffix(C.$49_KEY)} : save-authorization-key`,
   'layout': 'layout_centered_no_scroll',
   'appBar': {
     'appBarStyle': 'mini',
@@ -58,4 +60,39 @@ export const devSetAuthorizationPageState: IStatePage = {
     ]
   },
 }
-Config.stateMapSet($48_KEY, devSetAuthorizationPageState)
+
+Config.register('state', '51', C.$51_KEY)
+/** @id 51 */
+export const devSetAuthorizationUrlPageState: IStatePage = {
+  '_id': '51',
+  '_key': C.$51_KEY,
+  'content': `$form : ${remove_form_suffix(C.$50_KEY)} : save-authorization-url`,
+  'layout': 'layout_centered_no_scroll',
+  'appBar': {
+    'appBarStyle': 'mini',
+    'props': defaultAppBarState.props,
+    'items': [
+      {
+        'has': {
+          'text': 'Errors',
+          'route': 'default-errors-view'
+        }
+      },
+      {
+        'has': {
+          'text': 'Home',
+          'route': '/'
+        }
+      }
+    ]
+  },
+}
+
+const DEV_STATE_PAGES: IStateAllPages = {
+  [C.$44_KEY]: devInstallPageState,
+  [C.$46_KEY]: devTestThumbnailPageState,
+  [C.$48_KEY]: devSetAuthorizationKeyPageState,
+  [C.$51_KEY]: devSetAuthorizationUrlPageState,
+}
+
+export default DEV_STATE_PAGES

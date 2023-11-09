@@ -10,7 +10,7 @@ import {
   dialogAlertState as dialogAlert
 } from '../../state/dialog'
 
-export default async function dev_populate_collection (
+export default async function dev_post_populate_collection_endpoint (
   req: FastifyRequest<{ Body: { collection: string, quantity: string } }>,
   reply: FastifyReply
 ) {

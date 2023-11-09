@@ -4,7 +4,7 @@ import { $43_KEY } from '../../constants'
 
 /** @id 43 */
 Config.register('state', '43', $43_KEY)
-const devSignedInPage: IStatePage = {
+const devSignedInPageState: IStatePage = {
   '_id': '43',
   '_key': $43_KEY,
   'appBar': {
@@ -24,4 +24,4 @@ const devSignedInPage: IStatePage = {
   }
 }
 
-export default devSignedInPage
+export default devSignedInPageState

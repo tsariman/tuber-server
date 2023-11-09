@@ -3,7 +3,7 @@ import fetch from 'cross-fetch'
 import JsonapiErrorBuilder from '../../business.logic/jsonapi.error.builder'
 import C from '../../config'
 
-export default async function dev_get_html_page(
+export default async function dev_get_html_page_endpoint(
   req: FastifyRequest<{ Querystring: { url?: string } }>,
   reply: FastifyReply
 ) {

@@ -10,7 +10,7 @@ import {
   deleteBookmarkDialogState,
   clientAlertDialogState
 } from '../state/dialog'
-import { loginPage } from '../state/page'
+import { loginPageState } from '../state/page'
 import { defaultAppBarState } from '../state/default.content'
 import themeState from '../state/theme.state'
 import IStateAllPages from '../../../tuber-client/src/controllers/interfaces/IStateAllPages'
@@ -18,8 +18,8 @@ import IStateAllForms from '../../../tuber-client/src/controllers/interfaces/ISt
 import IStateAllDialogs from '../../../tuber-client/src/controllers/interfaces/IStateAllDialogs'
 import IStateAppBar from '../../../tuber-client/src/controllers/interfaces/IStateAppBar'
 import devInstallPageState from '../DEV/page/dev.install.page.state'
-import devSignedInPage from '../DEV/page/dev.signedin-appbar.page.state'
-import devInstallForm from '../DEV/form/dev.install.form.state'
+import devSignedInPageState from '../DEV/page/dev.signedin-appbar.page.state'
+import devInstallFormState from '../DEV/form/dev.install.form.state'
 import researchPageState from '../state/page/research.page.state'
 import loginFormState from '../state/form/login.form.state'
 import newYouTubeBookmarkFormState from '../state/form/new.youtube.bookmark.form.state'
@@ -87,7 +87,7 @@ export default async function bootstrap_controller(fastify: FastifyInstance) {
   }
 
   const pagesState: IStateAllPages = {}
-  set_state_by_key(pagesState, loginPage)
+  set_state_by_key(pagesState, loginPageState)
   // TODO: Insert more pages here
 
   const formsState: IStateAllForms = {}
@@ -160,7 +160,7 @@ export default async function bootstrap_controller(fastify: FastifyInstance) {
           ]
         },
       }
-      pagesState[get_state_key(devSignedInPage)] = devSignedInPage
+      pagesState[get_state_key(devSignedInPageState)] = devSignedInPageState
       pagesState[get_state_key(researchPageState)] = {
         ...researchPageState,
         appBar: {
@@ -175,8 +175,8 @@ export default async function bootstrap_controller(fastify: FastifyInstance) {
       }
       set_state_by_key(pagesState, devTestThumbnailPageState)
       set_state_by_key(formsState, devTestThumbnailFormState)
-      const key = get_state_key(devInstallForm)
-      formsState[key] = devInstallForm
+      const key = get_state_key(devInstallFormState)
+      formsState[key] = devInstallFormState
       const counts = await get_documents_count()
       pagesData[key] = counts
       pagesData[$46_KEY] = {

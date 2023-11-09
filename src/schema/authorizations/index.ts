@@ -12,12 +12,19 @@ export interface IAuthorizationUrl {
 export interface IAuthorizationKey {
   name: string
   value: string
-  expires_in?: Date
+  expires_in?: number
   created_at?: Date
   modified_at?: Date,
   restrictions?: string[]
   rules?: string[]
 }
+
+export type TAuthorizationKeyNew = Omit<IAuthorizationKey,
+  'created_at'
+  | 'modified_at'
+  | 'rules'
+  | 'restrictions'
+>
 
 export interface IAuthorizations {
   is_active?: boolean
@@ -37,23 +44,29 @@ const authorizationSchema = new mongoose.Schema<IAuthorizations>({
   created_at: { type: Date, default: Date.now },
   modified_at: Date,
   platform: { type: String, required: true, unique: true },
-  urls: [{
-    purpose: { type: String, required: true, unique: true },
-    url: String,
-    created_at: { type: Date, default: Date.now },
-    modified_at: Date,
-    restrictions: { type: [ String ], default: undefined },
-    rules: { type: [ String ], default: undefined }
-  }],
-  keys: [{
-    name: { type: String, required: true, unique: true },
-    value: String,
-    expires_in: Date,
-    created_at: { type: Date, default: Date.now },
-    modified_at: Date,
-    restrictions: { type: [ String ], default: undefined },
-    rules: { type: [ String ], default: undefined }
-  }],
+  urls: {
+    type: [{
+      purpose: { type: String, required: true, unique: true },
+      url: String,
+      created_at: { type: Date, default: Date.now },
+      modified_at: Date,
+      restrictions: { type: [ String ], default: undefined },
+      rules: { type: [ String ], default: undefined }
+    }],
+    default: undefined
+  },
+  keys: {
+    type: [{
+      name: { type: String, required: true, unique: true },
+      value: String,
+      expires_in: Number,
+      created_at: { type: Date, default: Date.now },
+      modified_at: Date,
+      restrictions: { type: [ String ], default: undefined },
+      rules: { type: [ String ], default: undefined }
+    }],
+    default: undefined
+  },
   restrictions: { type: [ String ], default: undefined },
   rules: { type: [ String ], default: undefined }
 })

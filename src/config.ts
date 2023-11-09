@@ -2,7 +2,6 @@ import NodeCache from 'node-cache'
 import * as dotenv from 'dotenv'
 import { dbGetUrlCredentials, get_ip } from './utility'
 import Config, { IConfiguration } from './utility/configuration'
-import { IStateMap, IStateMapEntry } from './common.types'
 
 dotenv.config({ path: `${__dirname}/../.env` })
 
@@ -122,7 +121,6 @@ interface IGenericObject { [key: string]: any }
 
 const USER_CACHE = new NodeCache({ stdTTL: Number(process.env.STDTTL) || 900 })
 const STATE_REGISTRY: IGenericObject = {}
-const STATE_MAP: IStateMap = {}
 
 const initObj = {
   ...USER_CONFIG,
@@ -220,14 +218,6 @@ const initObj = {
       return STATE_REGISTRY
     }
   },
-
-  stateMapSet: function (key: string, state: any, clearance?: string): void {
-    STATE_MAP[key] = { state, clearance }
-  },
-
-  stateMapGet: function<T=any>(key: string): IStateMapEntry<T> {
-    return STATE_MAP[key]
-  }
 }
 
 Config.init(initObj)

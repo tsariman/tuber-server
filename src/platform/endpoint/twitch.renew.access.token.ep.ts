@@ -1,11 +1,11 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import C from '../../config'
-import { authorization_save } from 'src/model/Authorization'
+import { authorization_key_save } from 'src/model/authorization'
 
 /**
  * Endpoint is meant to be called by the server to renew the access token.
  */
-export default async function twitch_renew_access_token_enpoint(
+export default async function get_twitch_renew_access_token_endpoint(
   _req: FastifyRequest,
   _reply: FastifyReply
 ) {
@@ -26,7 +26,7 @@ export default async function twitch_renew_access_token_enpoint(
   // [TODO] Handle errors here.
 
   // [TODO] Save the new token to the database.
-  await authorization_save(
+  await authorization_key_save(
     'twitch',
     {
       name: 'access_token',

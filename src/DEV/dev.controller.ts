@@ -4,21 +4,40 @@
    Create the admin user */
 
 import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
-import dev_create_update_dev_user from './endpoint/dev.user'
-import dev_database_reset from './endpoint/dev.database.reset'
-import { dev_load_test_drawer, dev_unload_test_drawer } from './endpoint'
+import dev_post_create_update_dev_user_endpoint from './endpoint/dev.user'
+import dev_post_database_reset_endpoint from './endpoint/dev.database.reset'
+import {
+  dev_post_load_test_drawer_endpoint,
+  dev_post_unload_test_drawer_endpoint
+} from './endpoint'
 import { DEFAULT_OPTIONS } from '../middleware/router.option'
-import { dev_populate_bookmarks, dev_populate_users } from './endpoint/dev.populate.collections'
-import bookmarks_api_setup_search_index_endpoint from '../endpoint/bookmarks.api.search.index.ep'
-import dev_populate_collection from './endpoint/dev.populate.collection.ep'
-import dev_drop_collection from './endpoint/dev.drop.collection.ep'
-import dev_no_response_hangtime from './endpoint/dev.no.response.hangtime.ep'
-import dev_get_html_page from './endpoint/dev.get.html.page.ep'
-import dev_rumble_get_thumbnail from './endpoint/dev.rumble.thumbnail.ep'
+import {
+  dev_post_bookmarks_populate_endpoint,
+  dev_post_users_populate_endpoint
+} from './endpoint/dev.populate.collections'
+import bookmarks_api_setup_search_index_endpoint
+  from '../endpoint/bookmarks.api.search.index.ep'
+import dev_post_populate_collection_endpoint
+  from './endpoint/dev.populate.collection.ep'
+import dev_delete_drop_collection_endpoint
+  from './endpoint/dev.drop.collection.ep'
+import dev_get_no_response_hangtime_endpoint
+  from './endpoint/dev.no.response.hangtime.ep'
+import dev_get_html_page_endpoint from './endpoint/dev.get.html.page.ep'
+import dev_get_rumble_thumbnail_endpoint
+  from './endpoint/dev.rumble.thumbnail.ep'
 import dev_odysee_get_thumbnail from './endpoint/dev.odysee.thumbnail.ep'
-import dev_vimeo_get_thumbnail from './endpoint/dev.vimeo.thumbnail.ep'
-import dev_twitch_get_thumbnail from './endpoint/dev.twitch.thumbnail.ep'
-import twitch_renew_access_token_enpoint from '../platform/endpoint/twitch.renew.access.token.ep'
+import dev_get_vimeo_thumbnail_endpoint from './endpoint/dev.vimeo.thumbnail.ep'
+import dev_get_twitch_thumbnail_endpoint
+  from './endpoint/dev.twitch.thumbnail.ep'
+import get_twitch_renew_access_token_endpoint
+  from '../platform/endpoint/twitch.renew.access.token.ep'
+import dev_post_state_pages_endpoint from './endpoint/dev.post.state.pages.ep'
+import dev_post_state_forms_endpoint from './endpoint/dev.post.state.forms.ep'
+import  {
+  dev_post_authorizations_save_key_endpoint,
+  dev_post_authorizations_save_url_endpoint
+}  from './endpoint/dev.save.authorizations.ep'
 
 interface IDevPopulateEndpoint {
   Params: {
@@ -40,40 +59,68 @@ export default async function dev_controller(fastify: FastifyInstance) {
 
   })
 
-  fastify.get('/get-html-page', {}, dev_get_html_page)
+  fastify.get('/get-html-page', {}, dev_get_html_page_endpoint)
 
   // Creates the default user for development purposes.
-  fastify.post('/user', dev_create_update_dev_user)
+  fastify.post('/user', dev_post_create_update_dev_user_endpoint)
   // Reset the database for development purposes.
-  fastify.post('/database-reset', dev_database_reset)
+  fastify.post('/database-reset', dev_post_database_reset_endpoint)
   // Adds the test drawer to client side.
-  fastify.post('/load-test-drawer', dev_load_test_drawer)
+  fastify.post('/load-test-drawer', dev_post_load_test_drawer_endpoint)
   // Removes the test drawer from client side.
-  fastify.post('/unload-test-drawer', dev_unload_test_drawer)
+  fastify.post('/unload-test-drawer', dev_post_unload_test_drawer_endpoint)
   // Populates the users collection with random data.
-  fastify.post<IDevPopulateEndpoint>(
-    '/populate/users/:total',
-    dev_populate_users
+  fastify.post<IDevPopulateEndpoint>('/populate/users/:total',
+    {},
+    dev_post_users_populate_endpoint
   )
   // Populates the bookmarks collection with random data.
-  fastify.post<IDevPopulateEndpoint>(
-    '/populate/bookmarks/:total',
-    dev_populate_bookmarks
+  fastify.post<IDevPopulateEndpoint>('/populate/bookmarks/:total',
+    {},
+    dev_post_bookmarks_populate_endpoint
   )
   // No response endpoint for testing purposes.
-  fastify.get('/no-response/:hangTime', {}, dev_no_response_hangtime)
+  fastify.get('/no-response/:hangTime',
+    {},
+    dev_get_no_response_hangtime_endpoint
+  )
   // Drops a collection from the database.
-  fastify.delete('/drop-collection/:collection', {}, dev_drop_collection)
+  fastify.delete('/drop-collection/:collection',
+    {},
+    dev_delete_drop_collection_endpoint
+  )
   // Populate a collection with random data.
-  fastify.post('/populate-collection', {}, dev_populate_collection)
+  fastify.post(
+    '/populate-collection',
+    {},
+    dev_post_populate_collection_endpoint
+  )
+  // [TODO] Move these endpoints to the bookmarks controller.
   fastify.post('/setup-collection-index-search/bookmarks',
     {},
     bookmarks_api_setup_search_index_endpoint
   )
+  // [TODO] Maybe useless. Remove it.
+  fastify.post('/state/pages', {}, dev_post_state_pages_endpoint)
+  // [TODO] Maybe useless. Remove it.
+  fastify.post('/state/forms', {}, dev_post_state_forms_endpoint)
+  // Save authorizations to the database.
+  fastify.post('/save-authorization-key',
+    {},
+    dev_post_authorizations_save_key_endpoint
+  )
+  fastify.post('/save-authorization-url',
+    {},
+    dev_post_authorizations_save_url_endpoint
+  )
   // Get a rumble video thumbnail
-  fastify.get('/rumble/thumbnails', {}, dev_rumble_get_thumbnail)
+  fastify.get('/rumble/thumbnails', {}, dev_get_rumble_thumbnail_endpoint)
   fastify.get('/odysee/thumbnails', {}, dev_odysee_get_thumbnail)
-  fastify.get('/vimeo/thumbnails', {}, dev_vimeo_get_thumbnail)
-  fastify.get('/twitch/thumbnails', {}, dev_twitch_get_thumbnail)
-  fastify.get('/twitch/renew-access-token', {}, twitch_renew_access_token_enpoint)
+  fastify.get('/vimeo/thumbnails', {}, dev_get_vimeo_thumbnail_endpoint)
+  fastify.get('/twitch/thumbnails', {}, dev_get_twitch_thumbnail_endpoint)
+  // [TODO] Does not belong here. Move it to apporiate controller.
+  fastify.get('/twitch/renew-access-token',
+    {},
+    get_twitch_renew_access_token_endpoint
+  )
 }

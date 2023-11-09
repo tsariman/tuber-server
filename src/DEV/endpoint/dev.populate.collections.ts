@@ -12,7 +12,7 @@ import { limit_array } from "src/business.logic"
  * Populates the users collection with random users. Used when populating
  * collections on individual routes.
  */
-export async function dev_populate_users (
+export async function dev_post_users_populate_endpoint (
   request: FastifyRequest<{ Params: { total: string }}>,
   reply: FastifyReply
 ) {
@@ -37,7 +37,7 @@ export async function dev_populate_users (
  * Populates the annoations collection with random data. Used when populating
  * collections on individual routes.
  */
-export async function dev_populate_bookmarks (
+export async function dev_post_bookmarks_populate_endpoint (
   request: FastifyRequest<{ Params: { total: string }}>,
   reply: FastifyReply
 ) {

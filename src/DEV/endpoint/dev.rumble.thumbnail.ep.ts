@@ -6,7 +6,7 @@ import { rumble_fetch_thumbnail } from '../../platform/rumble'
 /** 
  * Example URL: http://localhost:8080/dev/rumble/thumbnails?slug=<paste-slug-here>
  */
-export default async function dev_rumble_get_thumbnail(
+export default async function dev_get_rumble_thumbnail_endpoint(
   req: FastifyRequest<{ Querystring: { slug?: string }}>,
   reply: FastifyReply
 ) {
