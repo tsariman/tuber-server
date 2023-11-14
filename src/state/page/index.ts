@@ -1,5 +1,4 @@
 import { defaultAppBarState } from '../default.content'
-import IStatePage from '../../../../tuber-client/src/controllers/interfaces/IStatePage'
 import Config from '../../config'
 import * as C from '../../constants'
 import researchPageState from './research.page.state'
@@ -8,13 +7,14 @@ import {
   devSetAuthorizationUrlPageState,
   devTestThumbnailPageState
 } from 'src/DEV/page'
-import IStateAllPages from '../../../../tuber-client/src/controllers/interfaces/IStateAllPages'
 import devInstallPageState from 'src/DEV/page/dev.install.page.state'
 import devSignedInPageState from 'src/DEV/page/dev.signedin-appbar.page.state'
+import adminReadablePageState from 'src/ADMIN/page/admin.readable.page.state'
+import { TStateAllPages, TStatePage } from '../../common.types'
 
 Config.register('state', '42', C.$42_KEY)
 /** @id 42 */
-export const loginPageState: IStatePage = {
+export const loginPageState: TStatePage = {
   '_id': '42',
   '_key': C.$42_KEY,
   'content': '$form : login : authentification',
@@ -34,10 +34,13 @@ export const loginPageState: IStatePage = {
   'hideDrawer': true
 }
 
-const STATE_PAGES: IStateAllPages = {
+const STATE_PAGES: TStateAllPages = {
   [C.$40_KEY]: researchPageState,
   [C.$42_KEY]: loginPageState,
 }
+
+// [TODO] Wrap in a conditional to check if the user is an admin
+STATE_PAGES[C.$53_KEY] = adminReadablePageState
 
 if (Config.DEV) {
   STATE_PAGES[C.$43_KEY] = devSignedInPageState

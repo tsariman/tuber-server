@@ -1,14 +1,13 @@
 import { remove_form_suffix } from 'src/state/form/_forms.business.logic'
-import IStatePage from '../../../../tuber-client/src/controllers/interfaces/IStatePage'
 import Config from '../../config'
 import * as C from '../../constants'
 import { defaultAppBarState } from '../../state/default.content'
-import IStateAllPages from '../../../../tuber-client/src/controllers/interfaces/IStateAllPages'
 import devInstallPageState from './dev.install.page.state'
+import { TStateAllPages, TStatePage } from '../../common.types'
 
 Config.register('state', '46', C.$46_KEY)
 /** @id 46 */
-export const devTestThumbnailPageState: IStatePage = {
+export const devTestThumbnailPageState: TStatePage = {
   '_id': '46',
   '_key': C.$46_KEY,
   'appBar': {
@@ -36,7 +35,7 @@ export const devTestThumbnailPageState: IStatePage = {
 
 Config.register('state', '48', C.$48_KEY)
 /** @id 48 */
-export const devSetAuthorizationKeyPageState: IStatePage = {
+export const devSetAuthorizationKeyPageState: TStatePage = {
   '_id': '48',
   '_key': C.$48_KEY,
   'content': `$form : ${remove_form_suffix(C.$49_KEY)} : save-authorization-key`,
@@ -63,7 +62,7 @@ export const devSetAuthorizationKeyPageState: IStatePage = {
 
 Config.register('state', '51', C.$51_KEY)
 /** @id 51 */
-export const devSetAuthorizationUrlPageState: IStatePage = {
+export const devSetAuthorizationUrlPageState: TStatePage = {
   '_id': '51',
   '_key': C.$51_KEY,
   'content': `$form : ${remove_form_suffix(C.$50_KEY)} : save-authorization-url`,
@@ -88,7 +87,7 @@ export const devSetAuthorizationUrlPageState: IStatePage = {
   },
 }
 
-const DEV_STATE_PAGES: IStateAllPages = {
+const DEV_STATE_PAGES: TStateAllPages = {
   [C.$44_KEY]: devInstallPageState,
   [C.$46_KEY]: devTestThumbnailPageState,
   [C.$48_KEY]: devSetAuthorizationKeyPageState,

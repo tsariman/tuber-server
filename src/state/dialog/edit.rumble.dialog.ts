@@ -1,12 +1,12 @@
 import Config from '../../config'
 import { backgroundState } from '..'
-import IStateDialog from '../../../../tuber-client/src/controllers/interfaces/IStateDialog'
-import { EDIT_RUMBLE_BOOKMARK_UNSUFFIXED_NAME } from '../form/edit.rumble.bookmark.form.state'
-import { $11_KEY } from '../../constants'
+import { $10_KEY, $11_KEY } from '../../constants'
+import { remove_form_suffix } from '../form/_forms.business.logic'
+import { TStateDialog } from '../../common.types'
 
 Config.register('state', '11', $11_KEY)
 /** Dialog to edit a Rumble video bookmark @id 11 */
-const editRumbleBookmarkDialogState: IStateDialog = {
+const editRumbleBookmarkDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '11',
   '_key': $11_KEY,
@@ -21,7 +21,7 @@ const editRumbleBookmarkDialogState: IStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': `$form : ${EDIT_RUMBLE_BOOKMARK_UNSUFFIXED_NAME} : bookmarks`,
+  'content': `$form : ${remove_form_suffix($10_KEY)} : bookmarks`,
   'actions': [
     {
       'type': 'state_button',

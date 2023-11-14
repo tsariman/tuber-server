@@ -1,21 +1,21 @@
-import { TOptional } from '../common.types'
 import {
-  IJsonapiError,
-  IJsonapiErrorLinks,
-  IJsonapiErrorResponse,
-  IJsonapiErrorSource,
-  IJsonapiLink
-} from "../../../tuber-client/src/controllers/interfaces/IJsonapi"
+  TIJsonapiError,
+  TJsonapiErrorLinks,
+  TJsonapiErrorResponse,
+  TJsonapiErrorSource,
+  TJsonapiLink,
+  TOptional
+} from '../common.types'
 
-export type TJsonapiError = TOptional<IJsonapiError, 'code' | 'title'>
+export type TJsonapiError = TOptional<TIJsonapiError, 'code' | 'title'>
 
-const errorSkeleton: IJsonapiError = {
+const errorSkeleton: TIJsonapiError = {
   code: '',
   title: '',
 }
 
 export default class JsonapiErrorBuilder {
-  private response: IJsonapiErrorResponse
+  private response: TJsonapiErrorResponse
   private index: number
 
   constructor() {
@@ -44,7 +44,7 @@ export default class JsonapiErrorBuilder {
   }
   hrefLink(key: string, href: string, meta?: any) {
     this.response.links = this.response.links || { self: '' }
-    const link: IJsonapiLink = { href, meta }
+    const link: TJsonapiLink = { href, meta }
     this.response.links[key] = link
     return this
   }
@@ -62,7 +62,7 @@ export default class JsonapiErrorBuilder {
     this.response.errors[this.index].id = val
     return this
   }
-  link(val: IJsonapiErrorLinks) {
+  link(val: TJsonapiErrorLinks) {
     this.response.errors[this.index].links = val
     return this
   }
@@ -82,11 +82,21 @@ export default class JsonapiErrorBuilder {
     this.response.errors[this.index].detail = val
     return this
   }
-  source(val: IJsonapiErrorSource) {
+  source(val: TJsonapiErrorSource) {
     this.response.errors[this.index].source = val
     return this
   }
   build() {
     return this.response
   }
+}
+
+/** Generic 500 error response to help prevent repetitive code. */
+export const generic_500_error_response = (e: any) => {
+  return new JsonapiErrorBuilder()
+    .status(500)
+    .code('internal_server_error')
+    .title(e.message)
+    .detail(e.stack)
+    .build()
 }

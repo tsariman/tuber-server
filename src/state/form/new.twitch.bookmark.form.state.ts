@@ -1,6 +1,5 @@
+import { TStateForm } from '../../common.types'
 import Config from '../../config'
-import IStateForm from '../../../../tuber-client/src/controllers/interfaces/IStateForm'
-import { remove_form_suffix } from './_forms.business.logic'
 import * as C from '../../constants'
 
 Config.register('state', '38', C.$38_KEY)
@@ -86,10 +85,6 @@ const newTwitchBookmarkFormState = {
       ]
     },
   ]
-} as IStateForm
-
-export const NEW_TWITCH_ANNNOTATION_UNSUFFIXED_NAME = remove_form_suffix(
-  newTwitchBookmarkFormState._key
-)
+} as TStateForm
 
 export default newTwitchBookmarkFormState

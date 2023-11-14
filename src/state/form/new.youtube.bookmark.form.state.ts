@@ -1,6 +1,5 @@
+import { TStateForm } from '../../common.types'
 import Config from '../../config'
-import IStateForm from '../../../../tuber-client/src/controllers/interfaces/IStateForm'
-import { remove_form_suffix } from './_forms.business.logic'
 import * as C from '../../constants'
 
 Config.register('state', '4', C.$4_KEY)
@@ -100,10 +99,6 @@ const newYouTubeBookmarkFormState = {
       ]
     },
   ]
-} as IStateForm
-
-export const NEW_YOUTUBE_BOOKMARK_UNSUFFIXED_NAME = remove_form_suffix(
-  newYouTubeBookmarkFormState._key
-)
+} as TStateForm
 
 export default newYouTubeBookmarkFormState

@@ -1,10 +1,10 @@
+import { TStateForm } from '../../common.types'
 import Config from '../../config'
-import IStateForm from '../../../../tuber-client/src/controllers/interfaces/IStateForm'
 import { $41_KEY } from '../../constants'
 
 Config.register('state', '41', $41_KEY)
 /** @id 41 */
-const loginFormState: IStateForm = {
+const loginFormState: TStateForm = {
   '_type': 'box',
   '_id': '41',
   '_key': $41_KEY,

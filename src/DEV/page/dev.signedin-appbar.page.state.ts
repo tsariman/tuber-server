@@ -1,10 +1,10 @@
+import { TStatePage } from '../../common.types'
 import Config from '../../config'
-import IStatePage from '../../../../tuber-client/src/controllers/interfaces/IStatePage'
 import { $43_KEY } from '../../constants'
 
 /** @id 43 */
 Config.register('state', '43', $43_KEY)
-const devSignedInPageState: IStatePage = {
+const devSignedInPageState: TStatePage = {
   '_id': '43',
   '_key': $43_KEY,
   'appBar': {

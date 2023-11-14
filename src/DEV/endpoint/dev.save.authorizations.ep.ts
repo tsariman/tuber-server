@@ -7,6 +7,7 @@ import {
 } from 'src/model/authorization'
 import Config from '../../config'
 import JsonapiResponseBuilder from 'src/business.logic/jsonapi.response.builder'
+import { get_expiration_date } from 'src/business.logic'
 
 interface IKey {
   Body: {
@@ -42,7 +43,10 @@ export async function dev_post_authorizations_save_key_endpoint (
       )
       return
     }
-    await authorization_key_save(platform, { name, value, expires_in })
+    const expires_at = expires_in
+      ? get_expiration_date(expires_in * 1000)
+      : undefined
+    await authorization_key_save(platform, { name, value, expires_at })
     Config.log('done.')
     reply.code(200).send(new JsonapiResponseBuilder(
         req.body,

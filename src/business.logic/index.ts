@@ -100,3 +100,16 @@ export async function find_index_by_name(indexName: string, collectionName: stri
   )
   return (allIndexesResponse.data as any[]).find(i => i.name === indexName)
 }
+
+/**
+ * Get the date of the given time.
+ *
+ * @param time in milliseconds
+ * @returns new `Date` object.
+ */
+export function get_expiration_date(time: number) {
+  const newTimeInMs = Date.now() + time
+  const newDate = new Date()
+  newDate.setTime(newTimeInMs)
+  return newDate
+}

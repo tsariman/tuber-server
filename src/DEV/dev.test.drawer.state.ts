@@ -1,6 +1,6 @@
-import { IStatePageDrawer } from "../../../tuber-client/src/controllers/interfaces/IStateDrawer"
+import { TStatePageDrawer } from '../common.types'
 
-const devTestDrawer: IStatePageDrawer = {
+const devTestDrawer: TStatePageDrawer = {
   '_type': 'mini',
   'items': [
     {

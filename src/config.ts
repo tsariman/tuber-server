@@ -15,6 +15,8 @@ const USER_CONFIG = {
   DEBUG: process.env.NODE_ENV === 'development'
     || process.env.DEBUG === 'true', // boolean
 
+  DEMO: process.env.DEMO === 'true',
+
   /** Application port */
   FASTIFY_PORT: Number(process.env.FASTIFY_PORT) || 8080,
 
@@ -94,27 +96,13 @@ const USER_CONFIG = {
   /** Database mongoose-paginate-v2 options */
   DB_PAGINATION_OPTIONS: {
     // sort: { created_at: -1 } // Comment this out when debugging pagination
+    select: {
+      __v: 0,
+      is_active: 0,
+      restrictions: 0,
+      rules: 0
+    }
   },
-
-  /** Platforms */
-
-  /** Twitch api url */
-  TWITCH_API_URL: process.env.TWITCH_API_URL,
-  /** Twitch client ID */
-  TWITCH_API_CLIENT_ID: process.env.TWITCH_API_CLIENT_ID ?? '',
-  /** Twitch client secret */
-  TWITCH_API_CLIENT_SECRET: process.env.TWITCH_API_CLIENT_SECRET ?? '',
-  /**
-   * Twitch api access token
-   * @see https://dev.twitch.tv/docs/authentication/getting-tokens-oauth/#client-credentials-grant-flow
-   */
-  TWITCH_API_ACCESS_TOKEN: process.env.TWITCH_API_ACCESS_TOKEN ?? 'token-not-set',
-  /**
-   * Twitch api access token expiration date.
-   * @see TWITCH_API_ACCESS_TOKEN
-   */
-  TWITCH_API_ACCESS_TOKEN_EXPIRES_IN: process.env.TWITCH_API_ACCESS_TOKEN_EXPIRES_IN,
-  TWITCH_API_TOKEN_REQUEST_URL: process.env.TWITCH_API_TOKEN_REQUEST_URL ?? '',
 }
 
 interface IGenericObject { [key: string]: any }

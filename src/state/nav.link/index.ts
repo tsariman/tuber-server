@@ -1,6 +1,6 @@
-import IStateLink from '../../../../tuber-client/src/controllers/interfaces/IStateLink'
+import { TStateLink } from '../../common.types'
 
-export const homeLinkState: IStateLink = {
+export const homeLinkState: TStateLink = {
   'has': {
     'text': 'Home',
     'route': '/'
@@ -8,14 +8,14 @@ export const homeLinkState: IStateLink = {
 }
 
 /** Backup for the original "Login" link. */
-export const defaultLoginLinkState: IStateLink = {
+export const defaultLoginLinkState: TStateLink = {
   'has': {
     'text': 'Login',
     'route': 'login'
   }
 }
 
-export const loginLInkState: IStateLink = {
+export const loginLInkState: TStateLink = {
   'type': 'icon',
   'has': {
     'icon': 'power_settings_new_outline',
@@ -23,7 +23,7 @@ export const loginLInkState: IStateLink = {
   }
 }
 
-export const powerLinkState: IStateLink = {
+export const powerLinkState: TStateLink = {
   'type': 'icon',
   'has': {
     'icon': 'power_settings_new_outline',
@@ -32,7 +32,7 @@ export const powerLinkState: IStateLink = {
   }
 }
 
-export const getAuthPowerLinkState = (username: string): IStateLink => ({
+export const getAuthPowerLinkState = (username: string): TStateLink => ({
   'type': 'hybrid',
   'has': {
     'icon': 'power_settings_new_outline',
@@ -41,7 +41,7 @@ export const getAuthPowerLinkState = (username: string): IStateLink => ({
   }
 })
 
-export const authenticatedLinkState: IStateLink = {
+export const authenticatedLinkState: TStateLink = {
   'type': 'hybrid',
   'has': {
     'icon': 'power_settings_new_outline',
@@ -50,7 +50,7 @@ export const authenticatedLinkState: IStateLink = {
 }
 
 // Config.register('state', '3', $3_KEY)
-export const bookmarkAddFromUrlLinkState: IStateLink = {
+export const bookmarkAddFromUrlLinkState: TStateLink = {
   'type': 'icon',
   '_id': '3',
   'has': {
@@ -61,7 +61,7 @@ export const bookmarkAddFromUrlLinkState: IStateLink = {
   }
 }
 
-export const defaultErrorsViewLinkState: IStateLink = {
+export const defaultErrorsViewLinkState: TStateLink = {
   'has': {
     'text': 'Client errors',
     'route': 'default-errors-view'

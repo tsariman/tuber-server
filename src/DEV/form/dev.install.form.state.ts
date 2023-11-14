@@ -1,5 +1,5 @@
+import { TStateForm } from '../../common.types'
 import Config from '../../config'
-import IStateForm from '../../../../tuber-client/src/controllers/interfaces/IStateForm'
 import { $46_KEY, $47_KEY, $48_KEY, $51_KEY } from '../../constants'
 
 Config.register('state', '47', $47_KEY)
@@ -336,6 +336,6 @@ const devInstallFormState = {
       ]
     },
   ]
-} as IStateForm
+} as TStateForm
 
 export default devInstallFormState

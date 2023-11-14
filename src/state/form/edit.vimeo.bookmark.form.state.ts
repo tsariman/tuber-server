@@ -1,6 +1,5 @@
+import { TStateForm } from '../../common.types'
 import Config from '../../config'
-import IStateForm from '../../../../tuber-client/src/controllers/interfaces/IStateForm'
-import { remove_form_suffix } from './_forms.business.logic'
 import * as C from '../../constants'
 
 Config.register('state', '13', C.$13_KEY)
@@ -86,10 +85,6 @@ const editVimeoBookmarkFormState = {
       ]
     },
   ]
-} as IStateForm
-
-export const EDIT_VIMEO_BOOKMARK_UNSUFFIXED_NAME = remove_form_suffix(
-  editVimeoBookmarkFormState._key
-)
+} as TStateForm
 
 export default editVimeoBookmarkFormState

@@ -38,7 +38,9 @@ export const AuthorizationModel = model<IAuthorizationDocument>(
   authorizationSchema
 )
 
-export async function authorization_get_by_host(platform: string) {
+export async function authorization_get_by_platform(
+  platform: string
+): Promise<IAuthorizationDocument|null> {
   return await AuthorizationPaginationModel.findOne({ platform })
 }
 
@@ -58,14 +60,14 @@ export async function authorization_key_save(
   platform: TPlatform,
   key: TAuthorizationKeyNew
 ): Promise<void> {
-  const authorizationDoc = await authorization_get_by_host(platform)
+  const authorizationDoc = await authorization_get_by_platform(platform)
   if (authorizationDoc) {
     const keyIndex = authorizationDoc.keys.findIndex(
       k => k.name === key.name
     )
     if (keyIndex > -1) {
       authorizationDoc.keys[keyIndex].value = key.value
-      authorizationDoc.keys[keyIndex].expires_in = key.expires_in
+      authorizationDoc.keys[keyIndex].expires_at = key.expires_at
       authorizationDoc.keys[keyIndex].modified_at = new Date()
     } else {
       authorizationDoc.keys.push(key)
@@ -80,36 +82,45 @@ export async function authorization_key_save(
   }
 }
 
-/** Retrieve authorization credentials from the database. */
-export async function authorization_keys_retrieve(platform: string) {
-  const authorizationDoc = await authorization_get_by_host(platform)
+/**
+ * Get authorization credentials from the database as an object where the
+ * propery is the `key.name` and the value is the key object.
+ *
+ * @param platform Video platform e.g. `youtube`, `twitch`... etc.
+ * @return the object as a `Promise`
+ */
+export async function authorization_keys_get_obj(
+  platform: TPlatform
+): Promise<Record<string, IAuthorizationKey> | null> {
+  const authorizationDoc = await authorization_get_by_platform(platform)
   if (!authorizationDoc) {
     return null
   }
-  return authorizationDoc.keys
+  const keys: Record<string, IAuthorizationKey> = {}
+  authorizationDoc.keys.map(key => keys[key.name] = key)
+  return keys
 }
 
 /**
  * Given an authorization document, it will return the key with the associated
  * name.
  */
-export function authorization_key_get(name: string, keys: IAuthorizationKey[]) {
-  let key: IAuthorizationKey | null = null
-  keys.every(k => {
-    if (k.name === name) {
-      key = k
-      return false
-    }
-    return true
-  })
-  return key
+export async function authorization_key_get(
+  platform: TPlatform,
+  name: string
+): Promise<IAuthorizationKey|null> {
+  const keys = await authorization_keys_get_obj(platform)
+  if (keys) {
+    return keys[name]
+  }
+  return null
 }
 
 export async function authorization_url_save(
   platform: TPlatform,
   url: IAuthorizationUrl
 ): Promise<void> {
-  const authorizationDoc = await authorization_get_by_host(platform)
+  const authorizationDoc = await authorization_get_by_platform(platform)
   if (authorizationDoc && authorizationDoc.urls) {
     const urlIndex = authorizationDoc.urls.findIndex(
       (u: IAuthorizationUrl) => u.purpose === url.purpose
@@ -138,7 +149,7 @@ export async function authorization_url_get(
   platform: TPlatform,
   purpose: string
 ): Promise<IAuthorizationUrl | null> {
-  const authorizationDoc = await authorization_get_by_host(platform)
+  const authorizationDoc = await authorization_get_by_platform(platform)
   if (!authorizationDoc || !authorizationDoc.urls) {
     return null
   }
@@ -154,7 +165,7 @@ export async function authorization_url_get(
 export async function authorization_url_get_all(
   platform: TPlatform
 ): Promise<IAuthorizationUrl[]> {
-  const authorizationDoc = await authorization_get_by_host(platform)
+  const authorizationDoc = await authorization_get_by_platform(platform)
   if (!authorizationDoc || !authorizationDoc.urls) {
     return []
   }
@@ -165,7 +176,7 @@ export async function authorization_url_delete(
   platform: TPlatform,
   purpose: string
 ) {
-  const authorizationDoc = await authorization_get_by_host(platform)
+  const authorizationDoc = await authorization_get_by_platform(platform)
   if (!authorizationDoc || !authorizationDoc.urls) {
     return
   }
@@ -179,7 +190,7 @@ export async function authorization_url_delete(
 }
 
 export async function authorization_url_delete_all(platform: TPlatform) {
-  const authorizationDoc = await authorization_get_by_host(platform)
+  const authorizationDoc = await authorization_get_by_platform(platform)
   if (!authorizationDoc || !authorizationDoc.urls) {
     return
   }

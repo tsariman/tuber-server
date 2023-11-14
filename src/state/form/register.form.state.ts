@@ -1,6 +1,6 @@
-import IStateForm from '../../../../tuber-client/src/controllers/interfaces/IStateForm'
+import { TStateForm } from "../../common.types"
 
-const registerFormState: IStateForm = {
+const registerFormState: TStateForm = {
   '_type': 'box',
   'props': {
     'sx': {

@@ -1,7 +1,6 @@
-import IStateFormItem from '../../../../tuber-client/src/controllers/interfaces/IStateFormItem'
+import { TStateFormItem } from '../../common.types'
 
-
-export const dialogDefaultCloseButtonJson: IStateFormItem = {
+export const dialogDefaultCloseButtonJson: TStateFormItem = {
   'type': 'state_button',
   'props': { 'color': 'secondary' },
   'has': {

@@ -1,20 +1,20 @@
 import { TStatePage } from '../../common.types'
 import Config from '../../config'
-import { $40_KEY } from '../../constants'
+import { $55_KEY } from '../../constants'
 
-Config.register('state', '40', $40_KEY)
-/** @id 40 */
-const researchPageState: TStatePage = {
-  '_id': '40',
-  '_key': $40_KEY,
-  'content': '$webapp : tubeResearcher',
+Config.register('state', '55', $55_KEY)
+/** @id 55 */
+const adminConfigPageState: TStatePage = {
+  '_id': '55',
+  '_key': $55_KEY,
+  'content': '$webapp : config',
   'appBar': {
     'appBarStyle': 'middle_search',
     'items': [ ],
     'inputBaseProps': {
       'id': 'video-url',
-      'placeholder': 'Paste Video URL Here ...',
-      'inputProps': { 'aria-label': 'Video URL' },
+      'placeholder': 'Filter ...',
+      'inputProps': { 'aria-label': 'Configuration filter' },
     },
     'searchFieldIcon': {
       'icon': 'alternate_email_outline',
@@ -25,17 +25,17 @@ const researchPageState: TStatePage = {
     'searchFieldIconButton': {
       'has': {
         'icon': 'search_outline',
-        'onclickHandle': 'tuberCallbacks.appBarSearchBookmarks'
+        'onclickHandle': 'tuberCallbacks.$55_C_1'
       }
     },
     'searchFieldIconButtonProps': {
-      'aria-label': 'load video url'
+      'aria-label': 'Filter configurations'
     }
   },
-  'layout': 'layout_none_no_appbar',
+  'layout': 'layout_md',
   'meta': {
     'endpoint': 'bookmarks'
   }
 }
 
-export default researchPageState
+export default adminConfigPageState

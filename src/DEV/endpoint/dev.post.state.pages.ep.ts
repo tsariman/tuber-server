@@ -1,8 +1,8 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import JsonapiErrorBuilder from '../../business.logic/jsonapi.error.builder'
 import Config from '../../config'
-import { INetState } from '../../../../tuber-client/src/controllers/interfaces/IState'
 import DEV_STATE_PAGES from '../page'
+import { TNetState } from '../../common.types'
 
 export default async function dev_post_state_pages_endpoint(
   req: FastifyRequest<{ Body: { key?: string }}>,
@@ -26,7 +26,7 @@ export default async function dev_post_state_pages_endpoint(
       reply.code(200).send({
         state: {
           'pages': { [key]: pageState }
-        } as INetState
+        } as TNetState
       })
     } else {
       Config.log('failed.')
@@ -40,7 +40,7 @@ export default async function dev_post_state_pages_endpoint(
               'data': { 'message': `Page not found!` },
             }
           }
-        } as INetState
+        } as TNetState
       })
     }
   } catch (e: any) {

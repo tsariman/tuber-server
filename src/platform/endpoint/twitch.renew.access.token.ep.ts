@@ -31,7 +31,7 @@ export default async function get_twitch_renew_access_token_endpoint(
     {
       name: 'access_token',
       value: json.access_token,
-      expires_in: json.expires_in,
+      expires_at: json.expires_in,
     }
   )
 }

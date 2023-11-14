@@ -1,6 +1,5 @@
+import { TStateForm } from '../../common.types'
 import Config from '../../config'
-import IStateForm from '../../../../tuber-client/src/controllers/interfaces/IStateForm'
-import { remove_form_suffix } from './_forms.business.logic'
 import * as C from '../../constants'
 
 Config.register('state', '19', C.$19_KEY)
@@ -99,10 +98,6 @@ const newDailyBookmarkFormState = {
       ]
     },
   ]
-} as IStateForm
-
-export const NEW_DAILY_ANNNOTATION_UNSUFFIXED_NAME = remove_form_suffix(
-  newDailyBookmarkFormState._key
-)
+} as TStateForm
 
 export default newDailyBookmarkFormState

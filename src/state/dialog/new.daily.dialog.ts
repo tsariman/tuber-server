@@ -1,12 +1,12 @@
 import Config from '../../config'
-import IStateDialog from '../../../../tuber-client/src/controllers/interfaces/IStateDialog'
 import { backgroundState } from '..'
-import { NEW_DAILY_ANNNOTATION_UNSUFFIXED_NAME } from '../form/new.daily.bookmark.form.state'
-import { $21_KEY } from '../../constants'
+import { $19_KEY, $21_KEY } from '../../constants'
+import { remove_form_suffix } from '../form/_forms.business.logic'
+import { TStateDialog } from '../../common.types'
 
 Config.register('state', '21', $21_KEY)
 /** Dialog to create a new Dailymotion video bookmark @id 21 */
-const newDailyBookmarkDialogState: IStateDialog = {
+const newDailyBookmarkDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '21',
   '_key': $21_KEY,
@@ -21,7 +21,7 @@ const newDailyBookmarkDialogState: IStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': `$form : ${NEW_DAILY_ANNNOTATION_UNSUFFIXED_NAME} : bookmarks`,
+  'content': `$form : ${remove_form_suffix($19_KEY)} : bookmarks`,
   'actions': [
     {
       'type': 'state_button',

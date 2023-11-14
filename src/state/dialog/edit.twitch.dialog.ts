@@ -1,12 +1,12 @@
-import { $37_KEY } from '../../constants'
+import { $37_KEY, $39_KEY } from '../../constants'
 import { backgroundState } from '..'
-import IStateDialog from '../../../../tuber-client/src/controllers/interfaces/IStateDialog'
 import Config from '../../config'
-import { EDIT_TWITCH_BOOKMARK_UNSUFFIXED_NAME } from '../form/edit.twitch.bookmark.form.state'
+import { remove_form_suffix } from '../form/_forms.business.logic'
+import { TStateDialog } from '../../common.types'
 
 Config.register('state', '37', $37_KEY)
 /** Dialog to edit an existing Twitch video bookmark @id 37 */
-const editTwitchBookmarkDialogState: IStateDialog = {
+const editTwitchBookmarkDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '37',
   '_key': $37_KEY,
@@ -21,7 +21,7 @@ const editTwitchBookmarkDialogState: IStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': `'$form : ${EDIT_TWITCH_BOOKMARK_UNSUFFIXED_NAME} : bookmarks'`,
+  'content': `'$form : ${remove_form_suffix($39_KEY)} : bookmarks'`,
   'actions': [
     {
       'type': 'state_button',

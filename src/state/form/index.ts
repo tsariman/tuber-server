@@ -1,4 +1,3 @@
-import IStateAllForms from '../../../../tuber-client/src/controllers/interfaces/IStateAllForms'
 import * as C from '../../constants'
 import newVideoUrlFormState from './new.video.url.form.state'
 import newYouTubeBookmarkFormState from './new.youtube.bookmark.form.state'
@@ -20,10 +19,14 @@ import editTwitchBookmarkFormState from './edit.twitch.bookmark.form.state'
 import loginFormState from './login.form.state'
 import Config from '../../config'
 import devTestThumbnailFormState from '../../DEV/form/dev.test.thumbnail.form.state'
-import devSetAuthorizationKeyFormState from 'src/DEV/form/dev.set.authorization.key.form.state'
+import devSetAuthorizationKeyFormState
+  from 'src/DEV/form/dev.set.authorization.key.form.state'
 import devInstallFormState from 'src/DEV/form/dev.install.form.state'
+import devSetAuthorizationUrlFormState
+  from 'src/DEV/form/dev.set.authorization.url.form.state'
+import { TStateAllForms } from '../../common.types'
 
-const STATE_FORMS: IStateAllForms = {
+const STATE_FORMS: TStateAllForms = {
   [C.$1_KEY]: newVideoUrlFormState,
   [C.$4_KEY]: newYouTubeBookmarkFormState,
   [C.$5_KEY]: editYouTubeBookmarkFormState,
@@ -48,6 +51,7 @@ if (Config.DEV) {
   STATE_FORMS[C.$45_KEY] = devTestThumbnailFormState
   STATE_FORMS[C.$47_KEY] = devInstallFormState
   STATE_FORMS[C.$49_KEY] = devSetAuthorizationKeyFormState
+  STATE_FORMS[C.$50_KEY] = devSetAuthorizationUrlFormState
 }
 
 export default STATE_FORMS

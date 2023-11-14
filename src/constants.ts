@@ -14,10 +14,17 @@ export const NOTE_FIELD_ROWS = 6
 export const NOTE_MAX_LENGTH = 500
 export const NOTE_MAX_LENGTH_MESSAGE = `Note is too long. (${NOTE_MAX_LENGTH} characters max)`
 export const EMBED_URL_MESSAGE = 'Paste-in the embed URL or iframe HTML code'
-export const RUMBLE_URL = 'https://rumble.com/'
-export const ODYSEE_URL = 'https://odysee.com/'
-export const VIMEO_URL = 'https://vimeo.com/'
-export const DAILYMOTION_URL = 'https://www.dailymotion.com/'
+/** Configuration property at which the Twitch client ID can be acquired. */
+export const CONF_TWITCH_ID = `twitch_client_id`
+/** Configuration property as which the Twitch client secret can be acquired. */
+export const CONF_TWITCH_SECRET = `twitch_client_secret`
+/** Configuration property at which the Twitch access token can be acquired. */
+export const CONF_TWITCH_TOKEN = `twitch_access_token`
+/**
+ * Configuration property at which the Twitch access token expiration can be
+ * acquired.
+ */
+export const CONF_TWITCH_EXPIRATION = `twitch_expiration_date`
 
 export const $1_KEY = 'newVideoUrlForm'
 export const $2_KEY = 'newVideoUrlDialog'
@@ -71,11 +78,6 @@ export const $49_KEY = 'devSetAuthorizationKeyForm'
 export const $50_KEY = 'devSetAuthorizationUrlForm'
 export const $51_KEY = 'set-authorization-url'
 export const $52_KEY = '<taken>'
-
-export const PATHS: Record<string, string> = {
-  '1': 'dev/',
-  '2': 'bookmarks',
-  '6': 'bookmarks',
-  '7': 'bookmarks',
-  '52': '/setup-collection-index-search/bookmarks',
-}
+export const $53_KEY = 'admin-readable'
+export const $54_KEY = 'devTestRumbleRegexpForm'
+export const $55_KEY = 'admin-config-app'

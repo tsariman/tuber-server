@@ -1,12 +1,12 @@
 import Config from '../../config'
-import IStateDialog from '../../../../tuber-client/src/controllers/interfaces/IStateDialog'
 import { backgroundState } from '..'
-import { EDIT_DAILY_BOOKMARK_UNSUFFIXED_NAME } from '../form/edit.daily.bookmark.form.state'
-import { $22_KEY } from '../../constants'
+import { $20_KEY, $22_KEY } from '../../constants'
+import { remove_form_suffix } from '../form/_forms.business.logic'
+import { TStateDialog } from '../../common.types'
 
 Config.register('state', '22', $22_KEY)
 /** Dialog to edit an existing Dailymotion video bookmark @id 22 */
-const editDailyBookmarkDialogState: IStateDialog = {
+const editDailyBookmarkDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '22',
   '_key': $22_KEY,
@@ -21,7 +21,7 @@ const editDailyBookmarkDialogState: IStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': `$form : ${EDIT_DAILY_BOOKMARK_UNSUFFIXED_NAME} : bookmarks`,
+  'content': `$form : ${remove_form_suffix($20_KEY)} : bookmarks`,
   'actions': [
     {
       'type': 'state_button',

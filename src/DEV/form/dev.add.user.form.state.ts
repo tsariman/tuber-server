@@ -1,6 +1,6 @@
-import IStateForm from '../../../../tuber-client/src/controllers/interfaces/IStateForm'
+import { TStateForm } from '../../common.types'
 
-export const devUserAddFormJson: IStateForm = {
+export const devUserAddFormJson: TStateForm = {
   '_type': 'box',
   'items': [
     {

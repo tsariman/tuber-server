@@ -1,18 +1,12 @@
 import Config from '../../config'
 import { backgroundState } from '..'
-import IStateDialog from '../../../../tuber-client/src/controllers/interfaces/IStateDialog'
-import { NEW_VIDEO_URL_FORM_UNSUFFIXED_NAME } from '../form/new.video.url.form.state'
-import {
-  NEW_YOUTUBE_BOOKMARK_UNSUFFIXED_NAME
-} from '../form/new.youtube.bookmark.form.state'
-import {
-  EDIT_YOUTUBE_BOOKMARK_UNSUFFIXED_NAME
-} from '../form/edit.youtube.bookmark.form.state'
 import * as C from '../../constants'
+import { remove_form_suffix } from '../form/_forms.business.logic'
+import { TStateDialog } from '../../common.types'
 
 Config.register('state', '6', C.$6_KEY)
 /** Dialog to create a new YouTube video bookmark @id 6 */
-export const newYoutubeBookmarkDialogState: IStateDialog = {
+export const newYoutubeBookmarkDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '6',
   '_key': C.$6_KEY,
@@ -27,7 +21,7 @@ export const newYoutubeBookmarkDialogState: IStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': `$form : ${NEW_YOUTUBE_BOOKMARK_UNSUFFIXED_NAME} : bookmarks`,
+  'content': `$form : ${remove_form_suffix(C.$4_KEY)} : bookmarks`,
   'actions': [
     {
       'type': 'state_button',
@@ -51,7 +45,7 @@ export const newYoutubeBookmarkDialogState: IStateDialog = {
 
 Config.register('state', '2', C.$2_KEY)
 /** Dialog that contains the form to insert the new video url. @id 2 */
-export const newVideoUrlDialogState: IStateDialog = {
+export const newVideoUrlDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '2',
   '_key': C.$2_KEY,
@@ -66,14 +60,14 @@ export const newVideoUrlDialogState: IStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': `$form : ${NEW_VIDEO_URL_FORM_UNSUFFIXED_NAME} : bookmarks`,
+  'content': `$form : ${remove_form_suffix(C.$1_KEY)} : bookmarks`,
   'actions': [],
   'open': true
 }
 
 Config.register('state', '7', C.$7_KEY)
 /** Dialog to edit an existing YouTube video bookmark @id 7 */
-export const editYoutubeBookmarkDialogState: IStateDialog = {
+export const editYoutubeBookmarkDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '7',
   '_key': C.$7_KEY,
@@ -88,7 +82,7 @@ export const editYoutubeBookmarkDialogState: IStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': `'$form : ${EDIT_YOUTUBE_BOOKMARK_UNSUFFIXED_NAME} : bookmarks'`,
+  'content': `'$form : ${remove_form_suffix(C.$5_KEY)} : bookmarks'`,
   'actions': [
     {
       'type': 'state_button',
@@ -112,7 +106,7 @@ export const editYoutubeBookmarkDialogState: IStateDialog = {
 
 Config.register('state', '32', C.$32_KEY)
 /** @id 32 */
-export const loginDialogState: IStateDialog = {
+export const loginDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '32',
   '_key': C.$32_KEY,
@@ -130,7 +124,7 @@ export const loginDialogState: IStateDialog = {
 
 Config.register('state', '33', C.$33_KEY)
 /** @id 33 */
-export const registerDialogState: IStateDialog = {
+export const registerDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '33',
   '_key': C.$33_KEY,
@@ -148,7 +142,7 @@ export const registerDialogState: IStateDialog = {
 
 Config.register('state', '34', C.$34_KEY)
 /** @id 34 */
-export const deleteBookmarkDialogState: IStateDialog = {
+export const deleteBookmarkDialogState: TStateDialog = {
   '_type': 'alert',
   '_id': '34',
   '_key': C.$34_KEY,
@@ -181,7 +175,7 @@ export const deleteBookmarkDialogState: IStateDialog = {
 
 Config.register('state', '35', C.$35_KEY)
 /** @id 35 */
-export const clientAlertDialogState: IStateDialog = {
+export const clientAlertDialogState: TStateDialog = {
   '_type': 'alert',
   '_id': '35',
   '_key': C.$35_KEY,
@@ -227,14 +221,14 @@ export function defaultDialogAlertState<T=any>(content: T) {
           }
         ],
         'open': true
-      } as IStateDialog
+      } as TStateDialog
     }
   }
 }
 
 export const alert = defaultDialogAlertState
 
-export function dialogAlertState<T=any>(content: T): IStateDialog {
+export function dialogAlertState<T=any>(content: T): TStateDialog {
   return {
     '_type': 'alert',
     '_id': 'dev-drop-testing-database',
@@ -255,5 +249,5 @@ export function dialogAlertState<T=any>(content: T): IStateDialog {
       }
     ],
     'open': true
-  } as IStateDialog
+  } as TStateDialog
 }

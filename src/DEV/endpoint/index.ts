@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import devTestDrawer from '../dev.test.drawer.state'
-import { INetState } from '../../../../tuber-client/src/controllers/interfaces/IState'
 import { NET_STATE_PATCH_DELETE } from '../../state'
+import { TNetState } from '../../common.types'
 
 export async function dev_post_load_test_drawer_endpoint (
   _request: FastifyRequest,
@@ -18,7 +18,7 @@ export async function dev_post_load_test_drawer_endpoint (
       'drawer': {
         'open': true // Drawer will open immediately upon being loaded.
       }
-    } as INetState
+    } as TNetState
   })
 }
 

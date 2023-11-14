@@ -3,6 +3,13 @@ import app from './app'
 import Config from './config'
 import { DEV_DEFAULT_USER, DEV_USER } from './DEV/dev.install.common'
 import { find_index_by_name } from './business.logic'
+import { authorization_keys_get_obj } from './model/authorization'
+import {
+  CONF_TWITCH_ID,
+  CONF_TWITCH_SECRET,
+  CONF_TWITCH_EXPIRATION,
+  CONF_TWITCH_TOKEN
+} from './constants'
 
 mongoose.set('strictQuery', false)
 
@@ -55,7 +62,14 @@ app.listen({ port: Config.FASTIFY_PORT }, (err, address) => {
       }
     }
 
-    // await mongoose.disconnect()
+    // Setup twitch authorization keys
+    const keys = await authorization_keys_get_obj('twitch')
+    if (keys) {
+      Config.write(CONF_TWITCH_ID, keys.client_id.value)
+      Config.write(CONF_TWITCH_SECRET, keys.client_secret.value)
+      Config.write(CONF_TWITCH_TOKEN, keys.access_token.value)
+      Config.write(CONF_TWITCH_EXPIRATION, keys.access_token.expires_at)
+    }
   }, err => {
     Config.log('Failed!\n')
     Config.log('Database URI:', Config.DB_URI)

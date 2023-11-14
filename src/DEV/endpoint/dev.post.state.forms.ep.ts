@@ -2,7 +2,7 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import Config from '../../config'
 import JsonapiErrorBuilder from '../../business.logic/jsonapi.error.builder'
 import DEV_STATE_FORM from '../form'
-import { INetState } from '../../../../tuber-client/src/controllers/interfaces/IState'
+import { TNetState } from '../../common.types'
 
 export default async function dev_post_state_forms_endpoint(
   req: FastifyRequest<{ Body: { key?: string }}>,
@@ -26,7 +26,7 @@ export default async function dev_post_state_forms_endpoint(
       reply.code(200).send({
         state: {
           'forms': { [key]: formState }
-        } as INetState
+        } as TNetState
       })
     } else {
       Config.log('failed.')
@@ -35,7 +35,7 @@ export default async function dev_post_state_forms_endpoint(
           'forms': {
             [key]: { 'items': [] }
           }
-        } as INetState
+        } as TNetState
       })
     }
   } catch (e: any) {

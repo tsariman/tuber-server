@@ -1,12 +1,12 @@
 import Config from '../../config'
 import { backgroundState } from '..'
-import IStateDialog from '../../../../tuber-client/src/controllers/interfaces/IStateDialog'
-import { EDIT_FACEBOOK_BOOKMARK_UNSUFFIXED_NAME } from '../form/edit.facebook.bookmark.form.state'
-import { $27_KEY } from '../../constants'
+import { $25_KEY, $27_KEY } from '../../constants'
+import { remove_form_suffix } from '../form/_forms.business.logic'
+import { TStateDialog } from '../../common.types'
 
 Config.register('state', '27', $27_KEY)
 /** Dialog to edit a Facebook video bookmark @id 27 */
-const editFacebookBookmarkDialogState: IStateDialog = {
+const editFacebookBookmarkDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '27',
   '_key': $27_KEY,
@@ -21,7 +21,7 @@ const editFacebookBookmarkDialogState: IStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': `$form : ${EDIT_FACEBOOK_BOOKMARK_UNSUFFIXED_NAME} : bookmarks`,
+  'content': `$form : ${remove_form_suffix($25_KEY)} : bookmarks`,
   'actions': [
     {
       'type': 'state_button',

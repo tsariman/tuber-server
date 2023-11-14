@@ -1,10 +1,10 @@
 import { $49_KEY } from '../../constants'
 import Config from '../../config'
-import IStateForm from '../../../../tuber-client/src/controllers/interfaces/IStateForm'
+import { TStateForm } from '../../common.types'
 
 Config.register('state', '49', $49_KEY)
 /** @id 49 */
-const devSetAuthorizationKeyFormState: IStateForm = {
+const devSetAuthorizationKeyFormState: TStateForm = {
   '_id': '49',
   '_key': $49_KEY,
   '_type': 'stack',

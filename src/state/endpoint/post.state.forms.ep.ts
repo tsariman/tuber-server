@@ -1,8 +1,10 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
-import JsonapiErrorBuilder from 'src/business.logic/jsonapi.error.builder'
-import Config from 'src/config'
-import { INetState } from '../../../../tuber-client/src/controllers/interfaces/IState'
+import JsonapiErrorBuilder, {
+  generic_500_error_response
+} from '../../business.logic/jsonapi.error.builder'
+import Config from '../../config'
 import STATE_FORMS from '../form'
+import { TNetState } from '../../common.types'
 
 export default async function post_state_forms_endpoint (
   req: FastifyRequest<{ Body: { key?: string }}>,
@@ -26,7 +28,7 @@ export default async function post_state_forms_endpoint (
       reply.code(200).send({
         state: {
           'forms': { [key]: formState }
-        } as INetState
+        } as TNetState
       })
     } else {
       Config.log('failed.')
@@ -40,12 +42,6 @@ export default async function post_state_forms_endpoint (
     }
   } catch (e: any) {
     Config.log('failed.\nInternal Server Error.', e)
-    reply.code(500).send(new JsonapiErrorBuilder()
-      .status(500)
-      .code('internal_server_error')
-      .title(e.message)
-      .detail(e.stack)
-      .build()
-    )
+    reply.code(500).send(generic_500_error_response(e))
   }
 }

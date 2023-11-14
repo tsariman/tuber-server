@@ -1,10 +1,13 @@
 import { FastifyReply } from 'fastify'
-import JsonapiErrorBuilder from '../../business.logic/jsonapi.error.builder'
+import {
+  generic_500_error_response
+} from '../../business.logic/jsonapi.error.builder'
 import JsonapiResponseBuilder from '../../business.logic/jsonapi.response.builder'
 import Config from '../../config'
 import { create_bookmark } from '../../model/bookmark'
 import { TBookmarkPostFastifyRequest } from '../../schema/bookmarks'
 import { gen_random_bookmark_votes } from '..'
+import fix_missing_bookmark_data from 'src/business.logic/platform.drivers'
 
 export default async function dev_bookmarks_post_endpoint (
   req: TBookmarkPostFastifyRequest,
@@ -12,11 +15,18 @@ export default async function dev_bookmarks_post_endpoint (
 ) {
   try {
     Config.print('Creating bookmark... ')
-    const reqAttr = req.body.data.attributes
+    const attr = req.body.data.attributes
 
     // Generate random votes for development purposes
-    const bookmark = gen_random_bookmark_votes(reqAttr)
-
+    const attrWithVotes = gen_random_bookmark_votes(attr)
+    const bookmark = await fix_missing_bookmark_data(attrWithVotes)
+    if (!bookmark) {
+      reply.code(500).send(generic_500_error_response({
+        message: 'Failed to create bookmark.',
+        stack: 'Bookmark is undefined.'
+      }))
+      return
+    }
     const dbBookmark = await create_bookmark(bookmark)
     Config.log('done.')
     reply.code(201).send(
@@ -25,12 +35,6 @@ export default async function dev_bookmarks_post_endpoint (
     )
   } catch (e: any) {
     Config.log('failed.\nInternal Server Error.', e)
-    reply.code(500).send(new JsonapiErrorBuilder()
-      .status(500)
-      .code('internal_server_error')
-      .title(e.message)
-      .detail(e.stack)
-      .build()
-    )
+    reply.code(500).send(generic_500_error_response(e))
   }
 }

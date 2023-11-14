@@ -1,6 +1,5 @@
+import { TStateForm } from '../../common.types'
 import Config from '../../config'
-import IStateForm from '../../../../tuber-client/src/controllers/interfaces/IStateForm'
-import { remove_form_suffix } from './_forms.business.logic'
 import * as C from '../../constants'
 
 Config.register('state', '10', C.$10_KEY)
@@ -96,10 +95,6 @@ const editRumbleBookmarkFormState = {
       ]
     },
   ]
-} as IStateForm
-
-export const EDIT_RUMBLE_BOOKMARK_UNSUFFIXED_NAME = remove_form_suffix(
-  editRumbleBookmarkFormState._key
-)
+} as TStateForm
 
 export default editRumbleBookmarkFormState

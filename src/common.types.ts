@@ -1,4 +1,51 @@
+import {
+  IJsonapiError,
+  IJsonapiErrorLinks,
+  IJsonapiErrorResponse,
+  IJsonapiErrorSource,
+  IJsonapiLink,
+  IJsonapiPaginationLinks,
+  IJsonapiResource,
+  IJsonapiResourceLinkage,
+  IJsonapiResponse
+} from '../../tuber-client/src/controllers/interfaces/IJsonapi'
 import { INetState } from '../../tuber-client/src/controllers/interfaces/IState'
+import IStateAllDialogs from '../../tuber-client/src/controllers/interfaces/IStateAllDialogs'
+import IStateAllForms from '../../tuber-client/src/controllers/interfaces/IStateAllForms'
+import IStateAllPages from '../../tuber-client/src/controllers/interfaces/IStateAllPages'
+import IStateApp from '../../tuber-client/src/controllers/interfaces/IStateApp'
+import IStateAppBar from '../../tuber-client/src/controllers/interfaces/IStateAppBar'
+import IStateBackground from '../../tuber-client/src/controllers/interfaces/IStateBackground'
+import IStateDialog from '../../tuber-client/src/controllers/interfaces/IStateDialog'
+import { IStatePageDrawer } from '../../tuber-client/src/controllers/interfaces/IStateDrawer'
+import IStateForm from '../../tuber-client/src/controllers/interfaces/IStateForm'
+import IStateFormItem from '../../tuber-client/src/controllers/interfaces/IStateFormItem'
+import IStateLink from '../../tuber-client/src/controllers/interfaces/IStateLink'
+import IStatePage from '../../tuber-client/src/controllers/interfaces/IStatePage'
+
+/** `INetState` interface imported form client. */
+export type TNetState = INetState
+export type TStateApp = IStateApp
+export type TStateAllPages = IStateAllPages
+export type TStateAllForms = IStateAllForms
+export type TStateAllDialogs = IStateAllDialogs
+export type TStatePage = IStatePage
+export type TStateAppBar = IStateAppBar
+export type TStatePageDrawer = IStatePageDrawer
+export type TStateDialog<T=any> = IStateDialog<T>
+export type TStateForm = IStateForm
+export type TStateFormItem = IStateFormItem
+export type TStateLink<T=any> = IStateLink<T>
+export type TStateBackground = IStateBackground
+export type TIJsonapiError = IJsonapiError
+export type TJsonapiErrorLinks = IJsonapiErrorLinks
+export type TJsonapiErrorResponse = IJsonapiErrorResponse
+export type TJsonapiErrorSource = IJsonapiErrorSource
+export type TJsonapiLink = IJsonapiLink
+export type TJsonapiPaginationLinks = IJsonapiPaginationLinks
+export type TJsonapiResource<T=any> = IJsonapiResource<T>
+export type TJsonapiResourceLinkage = IJsonapiResourceLinkage
+export type TJsonapiResponse = IJsonapiResponse
 
 /** @see https://stackoverflow.com/a/69328045/1875859 */
 export type WithRequired<T, K extends keyof T> = T & { [P in K]-?: T[P] }
@@ -41,7 +88,7 @@ export interface IJsonapiQuerystring {
 }
 
 export interface IBootstrapResponse {
-  state: INetState
+  state: TNetState
   meta: IGenericObject
 }
 

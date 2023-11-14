@@ -1,13 +1,12 @@
+import { TStateForm } from '../../common.types'
 import Config from '../../config'
-import IStateForm from '../../../../tuber-client/src/controllers/interfaces/IStateForm'
-import { remove_form_suffix } from './_forms.business.logic'
 import * as C from '../../constants'
 
 Config.register('state', '20', C.$20_KEY)
 /** Form for editing an existing Dailymotion bookmark. @id 20 */
 const editDailyBookmarkFormState = {
   '_id': '20',
-  '_key': C.$20_KEY, // 'editBookmarkForm',
+  '_key': C.$20_KEY,
   'items': [
     {
       'type': 'stack',
@@ -89,10 +88,6 @@ const editDailyBookmarkFormState = {
       ]
     },
   ]
-} as IStateForm
-
-export const EDIT_DAILY_BOOKMARK_UNSUFFIXED_NAME = remove_form_suffix(
-  editDailyBookmarkFormState._key
-)
+} as TStateForm
 
 export default editDailyBookmarkFormState

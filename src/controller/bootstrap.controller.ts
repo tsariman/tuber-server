@@ -1,9 +1,8 @@
 import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify'
 import Config from '../config'
-import IStateApp from '../../../tuber-client/src/controllers/interfaces/IStateApp'
 import { backgroundState } from '../state'
 import {
-  loginDialogState,
+  // loginDialogState,
   newYoutubeBookmarkDialogState,
   newVideoUrlDialogState,
   editYoutubeBookmarkDialogState,
@@ -13,10 +12,6 @@ import {
 import { loginPageState } from '../state/page'
 import { defaultAppBarState } from '../state/default.content'
 import themeState from '../state/theme.state'
-import IStateAllPages from '../../../tuber-client/src/controllers/interfaces/IStateAllPages'
-import IStateAllForms from '../../../tuber-client/src/controllers/interfaces/IStateAllForms'
-import IStateAllDialogs from '../../../tuber-client/src/controllers/interfaces/IStateAllDialogs'
-import IStateAppBar from '../../../tuber-client/src/controllers/interfaces/IStateAppBar'
 import devInstallPageState from '../DEV/page/dev.install.page.state'
 import devSignedInPageState from '../DEV/page/dev.signedin-appbar.page.state'
 import devInstallFormState from '../DEV/form/dev.install.form.state'
@@ -34,7 +29,14 @@ import newVideoUrlFormState from '../state/form/new.video.url.form.state'
 import { get_state_key, set_state_by_key } from '../business.logic'
 import { get_documents_count } from '../DEV'
 import editYouTubeBookmarkFormState from '../state/form/edit.youtube.bookmark.form.state'
-import { IBootstrapResponse } from '../common.types'
+import {
+  IBootstrapResponse,
+  TStateAllDialogs,
+  TStateAllForms,
+  TStateAllPages,
+  TStateApp,
+  TStateAppBar
+} from '../common.types'
 import newRumbleBookmarkFormState from '../state/form/new.rumble.bookmark.form.state'
 import newRumbleBookmarkDialogState from '../state/dialog/new.rumble.dialog'
 import editRumbleBookmarkFormState from '../state/form/edit.rumble.bookmark.form.state'
@@ -70,7 +72,7 @@ import { $46_KEY } from '../constants'
 export default async function bootstrap_controller(fastify: FastifyInstance) {
 
   /** Application configuration */
-  const appState: IStateApp = {
+  const appState: TStateApp = {
     'fetchingStateAllowed': true,
     'inDebugMode': false,
     'inDevelMode': false,
@@ -82,15 +84,15 @@ export default async function bootstrap_controller(fastify: FastifyInstance) {
     'isBootstrapped': true
   }
 
-  const appBarState: IStateAppBar = {
+  const appBarState: TStateAppBar = {
     ...defaultAppBarState
   }
 
-  const pagesState: IStateAllPages = {}
+  const pagesState: TStateAllPages = {}
   set_state_by_key(pagesState, loginPageState)
   // TODO: Insert more pages here
 
-  const formsState: IStateAllForms = {}
+  const formsState: TStateAllForms = {}
   set_state_by_key(formsState, loginFormState)
   set_state_by_key(formsState, newYouTubeBookmarkFormState)
   set_state_by_key(formsState, newRumbleBookmarkFormState)
@@ -111,7 +113,7 @@ export default async function bootstrap_controller(fastify: FastifyInstance) {
   set_state_by_key(formsState, newVideoUrlFormState)
   // TODO: Insert more forms here
 
-  const dialogsState: IStateAllDialogs = {}
+  const dialogsState: TStateAllDialogs = {}
   set_state_by_key(dialogsState, newYoutubeBookmarkDialogState)
   set_state_by_key(dialogsState, newRumbleBookmarkDialogState)
   set_state_by_key(dialogsState, editYoutubeBookmarkDialogState)
@@ -128,7 +130,7 @@ export default async function bootstrap_controller(fastify: FastifyInstance) {
   set_state_by_key(dialogsState, editTwitchBookmarkDialogState)
   set_state_by_key(dialogsState, newUnknownBookmarkDialogState)
   set_state_by_key(dialogsState, editUnknownBookmarkDialogState)
-  set_state_by_key(dialogsState, loginDialogState)
+  // set_state_by_key(dialogsState, loginDialogState)
   set_state_by_key(dialogsState, newVideoUrlDialogState)
   set_state_by_key(dialogsState, deleteBookmarkDialogState)
   set_state_by_key(dialogsState, clientAlertDialogState)
@@ -160,7 +162,7 @@ export default async function bootstrap_controller(fastify: FastifyInstance) {
           ]
         },
       }
-      pagesState[get_state_key(devSignedInPageState)] = devSignedInPageState
+      set_state_by_key(pagesState, devSignedInPageState)
       pagesState[get_state_key(researchPageState)] = {
         ...researchPageState,
         appBar: {
@@ -193,10 +195,8 @@ export default async function bootstrap_controller(fastify: FastifyInstance) {
         'pagesData': pagesData,
         'background': backgroundState,
         'forms': formsState,
-        'dialogs': dialogsState
-      },
-      meta: {
-        'state_registry': Config.getRegistry('state'),
+        'dialogs': dialogsState,
+        'stateRegistry': Config.getRegistry('state'),
       }
     } as IBootstrapResponse)
   })

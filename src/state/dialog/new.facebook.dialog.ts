@@ -1,12 +1,12 @@
 import Config from '../../config'
 import { backgroundState } from '..'
-import IStateDialog from '../../../../tuber-client/src/controllers/interfaces/IStateDialog'
-import { NEW_FACEBOOK_BOOKMARK_UNSUFFIXED_NAME } from '../form/new.facebook.bookmark.form.state'
-import { $26_KEY } from '../../constants'
+import { $24_KEY, $26_KEY } from '../../constants'
+import { remove_form_suffix } from '../form/_forms.business.logic'
+import { TStateDialog } from '../../common.types'
 
 Config.register('state', '26', $26_KEY)
 /** Dialog to create a new Facebook video bookmark @id 26 */
-const newFacebookBookmarkDialogState: IStateDialog = {
+const newFacebookBookmarkDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '26',
   '_key': $26_KEY,
@@ -21,7 +21,7 @@ const newFacebookBookmarkDialogState: IStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': `$form : ${NEW_FACEBOOK_BOOKMARK_UNSUFFIXED_NAME} : bookmarks`,
+  'content': `$form : ${remove_form_suffix($24_KEY)} : bookmarks`,
   'actions': [
     {
       'type': 'state_button',

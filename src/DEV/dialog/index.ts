@@ -1,6 +1,6 @@
-import IStateDialog from '../../../../tuber-client/src/controllers/interfaces/IStateDialog'
+import { TStateDialog } from '../../common.types'
 
-export const devUserAddDialogJson: IStateDialog = {
+export const devUserAddDialogJson: TStateDialog = {
   '_type': 'form',
   '_key': 'devUserAddDialog',
   'title': 'Create New User',

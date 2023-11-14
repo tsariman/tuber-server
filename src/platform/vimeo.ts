@@ -1,7 +1,7 @@
-import { VIMEO_URL } from 'src/constants'
+import { PLATFORM_URL } from '.'
 
 export async function vimeo_fetch_thumbnail(videoid: string): Promise<string> {
-  const response = await fetch(`${VIMEO_URL}api/oembed.json?url=https://vimeo.com/${videoid}`)
+  const response = await fetch(`${PLATFORM_URL['vimeo']}api/oembed.json?url=https://vimeo.com/${videoid}`)
   const json = await response.json()
   const thumbnailUrl = json.thumbnail_url
   return thumbnailUrl

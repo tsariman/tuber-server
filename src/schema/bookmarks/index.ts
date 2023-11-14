@@ -1,8 +1,12 @@
 import { FastifyRequest } from 'fastify'
 import mongoose, { Schema } from 'mongoose'
 import paginate from 'mongoose-paginate-v2'
-import { IGenericObject, IJsonapiQuerystring, WithRequired } from '../../common.types'
-import { IJsonapiResource } from '../../../../tuber-client/src/controllers/interfaces/IJsonapi'
+import {
+  IGenericObject,
+  IJsonapiQuerystring,
+  TJsonapiResource,
+  WithRequired
+} from '../../common.types'
 
 export interface IBookmark {
   is_active?: boolean
@@ -46,7 +50,7 @@ export interface IBookmarkGet {
 /** Available fields for a post request. */
 export interface IBookmarkPost {
   Body: {
-    data: IJsonapiResource<IBookmark>,
+    data: TJsonapiResource<IBookmark>,
     meta: IGenericObject
   }
 }
@@ -54,7 +58,7 @@ export interface IBookmarkPost {
 /** Available fields for a put request. */
 export interface IBookmarkPut {
   Body: {
-    data: IJsonapiResource<IBookmark>
+    data: TJsonapiResource<IBookmark>
   }
   Params: {
     id: string

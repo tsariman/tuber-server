@@ -1,12 +1,10 @@
+import { TStateForm, TStateFormItem } from '../../common.types'
 import Config from '../../config'
-import IStateForm from '../../../../tuber-client/src/controllers/interfaces/IStateForm'
-import IStateFormItem from '../../../../tuber-client/src/controllers/interfaces/IStateFormItem'
-import { remove_form_suffix } from './_forms.business.logic'
 import { $1_KEY } from '../../constants'
 
 Config.register('state', '1', $1_KEY)
 /** Form to insert a new video URL. @id 1 */
-const newVideoUrlFormState: IStateForm = {
+const newVideoUrlFormState: TStateForm = {
   '_id': '1',
   '_key': $1_KEY,
   'items': [
@@ -56,13 +54,9 @@ const newVideoUrlFormState: IStateForm = {
             'requiredMessage': 'You forgot the URL of the video'
           }
         },
-      ] as IStateFormItem[]
+      ] as TStateFormItem[]
     }
   ]
 }
-
-export const NEW_VIDEO_URL_FORM_UNSUFFIXED_NAME = remove_form_suffix(
-  newVideoUrlFormState._key
-)
 
 export default newVideoUrlFormState

@@ -12,7 +12,7 @@ export interface IAuthorizationUrl {
 export interface IAuthorizationKey {
   name: string
   value: string
-  expires_in?: number
+  expires_at?: Date
   created_at?: Date
   modified_at?: Date,
   restrictions?: string[]
@@ -59,7 +59,7 @@ const authorizationSchema = new mongoose.Schema<IAuthorizations>({
     type: [{
       name: { type: String, required: true, unique: true },
       value: String,
-      expires_in: Number,
+      expires_at: Date,
       created_at: { type: Date, default: Date.now },
       modified_at: Date,
       restrictions: { type: [ String ], default: undefined },

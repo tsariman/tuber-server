@@ -1,13 +1,11 @@
-import { 
-  IJsonapiLink,
-  IJsonapiResource,
-  IJsonapiResourceLinkage,
-  IJsonapiResponse
-} from '../../../tuber-client/src/controllers/interfaces/IJsonapi'
 import {
   IAggregateDoc,
   IMPV2Doc,
-  TEndpoint
+  TEndpoint,
+  TJsonapiLink,
+  TJsonapiResource,
+  TJsonapiResourceLinkage,
+  TJsonapiResponse
 } from '../common.types'
 import JsonapiResponsePaginationBuilder, { 
   IMinimalPaginationOptions,
@@ -20,13 +18,13 @@ type JSONAPI_RESOURCE_TYPE = 'collection' | 'object' | 'null' | 'linkage'
 
 export default class JsonapiResponseBuilder<T> {
   readonly JSONAPI_VERSION = '1.1'
-  private skeletonResource: IJsonapiResource
-  private response: IJsonapiResponse
-  private readonly RESOURCE_OF_TYPE: {[key in JSONAPI_RESOURCE_TYPE]: IJsonapiResponse['data']} = {
-    'collection': [] as IJsonapiResource[],
-    'object': {} as IJsonapiResource,
+  private skeletonResource: TJsonapiResource
+  private response: TJsonapiResponse
+  private readonly RESOURCE_OF_TYPE: {[key in JSONAPI_RESOURCE_TYPE]: TJsonapiResponse['data']} = {
+    'collection': [] as TJsonapiResource[],
+    'object': {} as TJsonapiResource,
     'null': null,
-    'linkage': {} as IJsonapiResourceLinkage
+    'linkage': {} as TJsonapiResourceLinkage
   }
   private resourceType: JSONAPI_RESOURCE_TYPE
   /** Filter to remove unwanted properties @deprecated */
@@ -82,7 +80,7 @@ export default class JsonapiResponseBuilder<T> {
 
   hrefLink = (key: string, href: string, meta: any) => {
     this.response.links = this.response.links || { self: '' }
-    const link: IJsonapiLink = { href }
+    const link: TJsonapiLink = { href }
     if (meta) {
       link.meta = meta
     }
@@ -135,14 +133,14 @@ export default class JsonapiResponseBuilder<T> {
   }
 
   /** Get the resource for mongoose-pagination-v2 @deprecated */
-  private getMPV2Resource = (data: T & IMPV2Doc): IJsonapiResource => {
+  private getMPV2Resource = (data: T & IMPV2Doc): TJsonapiResource => {
     // const attributes = this.resourceFilter(data)
     const { _doc: { _id, ...attributes } } = data
     return {
       ...this.skeletonResource,
       id: data._doc._id,
       attributes: this.applyStringSpecification(attributes)
-    } as IJsonapiResource
+    } as TJsonapiResource
   }
 
   /** Build the response for mongoose-paginate-v2 @deprecated */
@@ -172,13 +170,13 @@ export default class JsonapiResponseBuilder<T> {
   }
 
   /** Get the resource */
-  private getResource = (data: T & IAggregateDoc): IJsonapiResource => {
+  private getResource = (data: T & IAggregateDoc): TJsonapiResource => {
     const { _id, __v, ...attributes } = data
     return {
       ...this.skeletonResource,
       id: data._id,
       attributes: this.applyStringSpecification(attributes)
-    } as IJsonapiResource
+    } as TJsonapiResource
   }
 
   build() {

@@ -1,10 +1,10 @@
 import Config from 'src/config'
 import { $50_KEY } from '../../constants'
-import IStateForm from '../../../../tuber-client/src/controllers/interfaces/IStateForm'
+import { TStateForm } from '../../common.types'
 
 Config.register('state', '50', $50_KEY)
-/** @id 50 */
-const devSetAuthorizationUrlFormState: IStateForm = {
+/** Form to set the authorization URL for a platform. @id 50 */
+const devSetAuthorizationUrlFormState: TStateForm = {
   '_id': '50',
   '_key': $50_KEY,
   '_type': 'stack',

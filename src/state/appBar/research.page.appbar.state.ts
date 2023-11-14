@@ -1,6 +1,6 @@
-import IStateAppBar from '../../../../tuber-client/src/controllers/interfaces/IStateAppBar'
+import { TStateAppBar } from '../../common.types'
 
-const researchPageAppBarState: IStateAppBar = {
+const researchPageAppBarState: TStateAppBar = {
   'appBarStyle': 'middle_search',
   'items': [
     {

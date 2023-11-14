@@ -6,8 +6,8 @@ import { UserPaginationModel } from '../model/user'
 import { defaultDialogAlertState as alert } from '../state/dialog'
 import jwt from 'jsonwebtoken'
 import { TCipheredUser } from '../schema/users'
-import { INetState } from '../../../tuber-client/src/controllers/interfaces/IState'
 import { ILoginCredentials } from '../business.logic/security/permissions'
+import { TNetState } from '../common.types'
 
 export default async function authentification_controller (fastify: FastifyInstance) {
 
@@ -39,7 +39,7 @@ export default async function authentification_controller (fastify: FastifyInsta
                       'accessToken': accessToken
                     }
                   }
-                } as INetState
+                } as TNetState
               })
             }
           }

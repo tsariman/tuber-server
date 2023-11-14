@@ -1,12 +1,12 @@
 import Config from '../../config'
 import { backgroundState } from '..'
-import IStateDialog from '../../../../tuber-client/src/controllers/interfaces/IStateDialog'
-import { EDIT_UNKNOWN_BOOKMARK_UNSUFFIXED_NAME } from '../form/edit.unknown.bookmark.form.state'
-import { $31_KEY } from '../../constants'
+import { $29_KEY, $31_KEY } from '../../constants'
+import { remove_form_suffix } from '../form/_forms.business.logic'
+import { TStateDialog } from '../../common.types'
 
 Config.register('state', '31', $31_KEY)
 /** Dialog to edit an unknown video platform bookmark @id 31 */
-const editUnknownBookmarkDialogState: IStateDialog = {
+const editUnknownBookmarkDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '31',
   '_key': $31_KEY,
@@ -21,7 +21,7 @@ const editUnknownBookmarkDialogState: IStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': `$form : ${EDIT_UNKNOWN_BOOKMARK_UNSUFFIXED_NAME} : bookmarks`,
+  'content': `$form : ${remove_form_suffix($29_KEY)} : bookmarks`,
   'actions': [
     {
       'type': 'state_button',

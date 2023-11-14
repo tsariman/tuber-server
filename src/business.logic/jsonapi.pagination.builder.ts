@@ -1,5 +1,5 @@
+import { TJsonapiPaginationLinks } from '../common.types'
 import { bracketize_object_querystring } from '.'
-import { IJsonapiPaginationLinks } from '../../../tuber-client/src/controllers/interfaces/IJsonapi'
 
 export interface IPaginatedResult {
   totalDocs: number
@@ -40,7 +40,7 @@ example:
  */
 export default class JsonapiResponsePaginationBuilder {
 
-  private links: IJsonapiPaginationLinks
+  private links: TJsonapiPaginationLinks
   private options: IPaginatedResult
 
   constructor(opts: IPaginatedResult) {
@@ -74,7 +74,7 @@ export default class JsonapiResponsePaginationBuilder {
     }
   }
 
-  build(): IJsonapiPaginationLinks {
+  build(): TJsonapiPaginationLinks {
     this.links.self = this.selfLink()
     this.links.first = this.firstLink()
     this.links.last = this.lastLink()

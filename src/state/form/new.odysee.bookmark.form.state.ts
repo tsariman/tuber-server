@@ -1,6 +1,5 @@
+import { TStateForm } from '../../common.types'
 import Config from '../../config'
-import IStateForm from '../../../../tuber-client/src/controllers/interfaces/IStateForm'
-import { remove_form_suffix } from './_forms.business.logic'
 import * as C from '../../constants'
 
 Config.register('state', '17', C.$17_KEY)
@@ -86,10 +85,6 @@ const newOdyseeBookmarkFormState = {
       ]
     },
   ]
-} as IStateForm
-
-export const NEW_ODYSEE_BOOKMARK_UNSUFFIXED_NAME = remove_form_suffix(
-  newOdyseeBookmarkFormState._key
-)
+} as TStateForm
 
 export default newOdyseeBookmarkFormState

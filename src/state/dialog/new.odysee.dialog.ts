@@ -1,12 +1,12 @@
 import Config from '../../config'
 import { backgroundState } from '..'
-import IStateDialog from '../../../../tuber-client/src/controllers/interfaces/IStateDialog'
-import { NEW_ODYSEE_BOOKMARK_UNSUFFIXED_NAME } from '../form/new.odysee.bookmark.form.state'
-import { $16_KEY } from '../../constants'
+import { $16_KEY, $17_KEY } from '../../constants'
+import { remove_form_suffix } from '../form/_forms.business.logic'
+import { TStateDialog } from '../../common.types'
 
 Config.register('state', '16', $16_KEY)
 /** Dialog to create a new Odysee video bookmark @id 16 */
-const newOdyseeBookmarkDialogState: IStateDialog = {
+const newOdyseeBookmarkDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '16',
   '_key': $16_KEY,
@@ -21,7 +21,7 @@ const newOdyseeBookmarkDialogState: IStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': `$form : ${NEW_ODYSEE_BOOKMARK_UNSUFFIXED_NAME} : bookmarks`,
+  'content': `$form : ${remove_form_suffix($17_KEY)} : bookmarks`,
   'actions': [
     {
       'type': 'state_button',

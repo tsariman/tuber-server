@@ -1,7 +1,7 @@
-import { RUMBLE_URL } from '../constants'
+import { PLATFORM_URL } from '.'
 
 export async function rumble_fetch_thumbnail(slug: string): Promise<string> {
-  const urlObj = new URL(`${RUMBLE_URL}${slug}.html`)
+  const urlObj = new URL(`${PLATFORM_URL['rumble']}${slug}.html`)
 
   // Had to get rid of query string because it was causing errors.
   const compliantUrl = `${urlObj.origin}${urlObj.pathname}`

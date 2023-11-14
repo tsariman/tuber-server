@@ -1,6 +1,5 @@
+import { TStateForm } from '../../common.types'
 import Config from '../../config'
-import IStateForm from '../../../../tuber-client/src/controllers/interfaces/IStateForm'
-import { remove_form_suffix } from './_forms.business.logic'
 import * as C from '../../constants'
 
 Config.register('state', '24', C.$24_KEY)
@@ -57,10 +56,6 @@ const newFacebookBookmarkFormState = {
       ]
     },
   ]
-} as IStateForm
-
-export const NEW_FACEBOOK_BOOKMARK_UNSUFFIXED_NAME = remove_form_suffix(
-  newFacebookBookmarkFormState._key
-)
+} as TStateForm
 
 export default newFacebookBookmarkFormState

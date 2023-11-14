@@ -1,12 +1,12 @@
-import { $15_KEY } from '../../constants'
+import { $13_KEY, $15_KEY } from '../../constants'
 import { backgroundState } from '..'
-import IStateDialog from '../../../../tuber-client/src/controllers/interfaces/IStateDialog'
 import Config from '../../config'
-import { EDIT_VIMEO_BOOKMARK_UNSUFFIXED_NAME } from '../form/edit.vimeo.bookmark.form.state'
+import { remove_form_suffix } from '../form/_forms.business.logic'
+import { TStateDialog } from '../../common.types'
 
 Config.register('state', '15', $15_KEY)
 /** Dialog to edit an existing Vimeo video bookmark @id 15 */
-const editVimeoBookmarkDialogState: IStateDialog = {
+const editVimeoBookmarkDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '15',
   '_key': $15_KEY,
@@ -21,7 +21,7 @@ const editVimeoBookmarkDialogState: IStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': `'$form : ${EDIT_VIMEO_BOOKMARK_UNSUFFIXED_NAME} : bookmarks'`,
+  'content': `'$form : ${remove_form_suffix($13_KEY)} : bookmarks'`,
   'actions': [
     {
       'type': 'state_button',

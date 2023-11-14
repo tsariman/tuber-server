@@ -1,12 +1,12 @@
 import Config from '../../config'
-import IStateDialog from '../../../../tuber-client/src/controllers/interfaces/IStateDialog'
 import { backgroundState } from '..'
-import { NEW_TWITCH_ANNNOTATION_UNSUFFIXED_NAME } from '../form/new.twitch.bookmark.form.state'
-import { $36_KEY } from '../../constants'
+import { $36_KEY, $38_KEY } from '../../constants'
+import { remove_form_suffix } from '../form/_forms.business.logic'
+import { TStateDialog } from '../../common.types'
 
 Config.register('state', '36', $36_KEY)
 /** Dialog to create a new Twitch video bookmark @id 36 */
-const newTwitchBookmarkDialogState: IStateDialog = {
+const newTwitchBookmarkDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '36',
   '_key': $36_KEY,
@@ -21,7 +21,7 @@ const newTwitchBookmarkDialogState: IStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': `$form : ${NEW_TWITCH_ANNNOTATION_UNSUFFIXED_NAME} : bookmarks`,
+  'content': `$form : ${remove_form_suffix($38_KEY)} : bookmarks`,
   'actions': [
     {
       'type': 'state_button',

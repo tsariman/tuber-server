@@ -20,17 +20,18 @@ const PAGINATION_QUERY = {
   // TODO Add custom pagination query here
 }
 
+type TSelect = { [key in keyof IBookmarkDocument]: 0|1 }
+
 /** mongoose-paginate-v2 options */
-const PAGINATION_OPTONS = {
+const PAGINATION_OPTIONS = {
   ...Config.DB_PAGINATION_OPTIONS,
   select: {
-    __v: 0,
-    is_active: 0,
+    ...Config.DB_PAGINATION_OPTIONS.select,
     is_private: 0,
-    restrictions: 0,
-    rules: 0
-  }
-
+    is_published: 0,
+    // TODO Insert fields to exclude here e.g.
+    // 'password': 0,
+  } as TSelect
   // TODO Add custom pagination options here
 }
 
@@ -85,7 +86,7 @@ export const get_bookmark_collection = async function (
 ): Promise<PaginateResult<IBookmarkDocument>> {
   // await connect(Config.DB_URI)
   const result = await BookmarkPaginationModel.paginate(PAGINATION_QUERY, {
-    ...PAGINATION_OPTONS,
+    ...PAGINATION_OPTIONS,
     page,
     limit
   })
