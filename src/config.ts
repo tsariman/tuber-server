@@ -86,23 +86,6 @@ const USER_CONFIG = {
   MAX_LOADED_BOOKMARK_PAGES: process.env.MAX_LOADED_BOOKMARK_PAGES || '4',
   /** Max number of users pages to load in memory client-side */
   MAX_LOADED_USER_PAGES: process.env.MAX_LOADED_USER_PAGES || '4',
-
-  /** Database mongoose-paginate-v2 query */
-  DB_PAGINATION_QUERY: {
-    is_active: true // Only return active documents
-                    // When a document is deleted, is_active is set to false
-  },
-
-  /** Database mongoose-paginate-v2 options */
-  DB_PAGINATION_OPTIONS: {
-    // sort: { created_at: -1 } // Comment this out when debugging pagination
-    select: {
-      __v: 0,
-      is_active: 0,
-      restrictions: 0,
-      rules: 0
-    }
-  },
 }
 
 interface IGenericObject { [key: string]: any }

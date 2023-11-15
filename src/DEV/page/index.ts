@@ -4,6 +4,7 @@ import * as C from '../../constants'
 import { defaultAppBarState } from '../../state/default.content'
 import devInstallPageState from './dev.install.page.state'
 import { TStateAllPages, TStatePage } from '../../common.types'
+import devSignedInPageState from './dev.signedin-appbar.page.state'
 
 Config.register('state', '46', C.$46_KEY)
 /** @id 46 */
@@ -87,11 +88,40 @@ export const devSetAuthorizationUrlPageState: TStatePage = {
   },
 }
 
+Config.register('state', '56', C.$56_KEY)
+/** @id 56 */
+export const devTestRumbleRegexpPageState: TStatePage = {
+  '_id': '56',
+  '_key': C.$56_KEY,
+  'content': `$form : ${remove_form_suffix(C.$54_KEY)} : test-rumble-regexp`,
+  'layout': 'layout_centered_no_scroll',
+  'appBar': {
+    'appBarStyle': 'mini',
+    'props': defaultAppBarState.props,
+    'items': [
+      {
+        'has': {
+          'text': 'Errors',
+          'route': 'default-errors-view'
+        }
+      },
+      {
+        'has': {
+          'text': 'Home',
+          'route': '/'
+        }
+      }
+    ]
+  },
+}
+
 const DEV_STATE_PAGES: TStateAllPages = {
+  [C.$43_KEY]: devSignedInPageState,
   [C.$44_KEY]: devInstallPageState,
   [C.$46_KEY]: devTestThumbnailPageState,
   [C.$48_KEY]: devSetAuthorizationKeyPageState,
   [C.$51_KEY]: devSetAuthorizationUrlPageState,
+  [C.$56_KEY]: devTestRumbleRegexpPageState,
 }
 
 export default DEV_STATE_PAGES

@@ -2,7 +2,7 @@ import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify'
 import Config from '../config'
 import { backgroundState } from '../state'
 import {
-  // loginDialogState,
+  loginDialogState,
   newYoutubeBookmarkDialogState,
   newVideoUrlDialogState,
   editYoutubeBookmarkDialogState,
@@ -130,7 +130,7 @@ export default async function bootstrap_controller(fastify: FastifyInstance) {
   set_state_by_key(dialogsState, editTwitchBookmarkDialogState)
   set_state_by_key(dialogsState, newUnknownBookmarkDialogState)
   set_state_by_key(dialogsState, editUnknownBookmarkDialogState)
-  // set_state_by_key(dialogsState, loginDialogState)
+  set_state_by_key(dialogsState, loginDialogState)
   set_state_by_key(dialogsState, newVideoUrlDialogState)
   set_state_by_key(dialogsState, deleteBookmarkDialogState)
   set_state_by_key(dialogsState, clientAlertDialogState)

@@ -51,7 +51,40 @@ const devTestRumbleRegexpFormState = {
         'label': 'Test',
         'onclickHandle': 'tuberCallbacks.$54_C_1',
       }
-    }
+    },
+    {
+      'type': 'html',
+      'props': {
+        'sx': { 'textAlign': 'center' },
+      },
+      'has': {
+        'content': '<h3>Result of Regular Expression</h3>'
+      }
+    },
+    {
+      'type': 'text',
+      'name': 'videoid',
+      'label': 'Video ID',
+      'props': {
+        'fullWidth': true,
+        'variant': 'filled'
+      },
+      'inputProps': {
+        'readOnly': true
+      }
+    },
+    {
+      'type': 'text',
+      'name': 'thumbnail_url',
+      'label': 'Thumbnail URL',
+      'props': {
+        'fullWidth': true,
+        'variant': 'filled'
+      },
+      'inputProps': {
+        'readOnly': true
+      }
+    },
   ]
 } as TStateForm
 

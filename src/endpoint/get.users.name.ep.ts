@@ -4,7 +4,7 @@ import JsonapiResponseBuilder from '../business.logic/jsonapi.response.builder'
 import { get_user_by_name } from '../model/user'
 import { TUsersFastifyRequest } from '../schema/users'
 
-export default async function users_get_by_name_endpoint (
+export default async function get_users_by_name_endpoint (
   request: TUsersFastifyRequest,
   reply: FastifyReply
 ) {

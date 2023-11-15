@@ -1,11 +1,14 @@
 import { FastifyReply } from 'fastify'
 // import { connect, disconnect } from 'mongoose'
-import JsonapiErrorBuilder from '../business.logic/jsonapi.error.builder'
+import JsonapiErrorBuilder, {
+  default_500_error_response
+} from '../business.logic/jsonapi.error.builder'
 import Config from '../config'
 import { BookmarkModel } from '../model/bookmark'
 import { TBookmarkDeleteFastifyRequest } from '../schema/bookmarks'
+import { DEFAULT_500_ERROR_MESSAGE } from '../constants'
 
-export default async function bookmarks_delete_by_id_endpoint (
+export default async function delete_bookmarks_by_id_endpoint (
   request: TBookmarkDeleteFastifyRequest,
   reply: FastifyReply
 ) {
@@ -32,14 +35,7 @@ export default async function bookmarks_delete_by_id_endpoint (
       )
     }
   } catch (e: any) {
-    Config.log('failed.')
-    Config.log(e)
-    reply.code(500).send(new JsonapiErrorBuilder()
-      .status(500)
-      .code('internal_server_error')
-      .title(e.message)
-      .detail(e.stack)
-      .build()
-    )
+    Config.log(DEFAULT_500_ERROR_MESSAGE, e)
+    reply.code(500).send(default_500_error_response(e))
   }
 }

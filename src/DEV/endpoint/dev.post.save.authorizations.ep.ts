@@ -1,13 +1,16 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { TPlatform } from 'src/common.types'
-import JsonapiErrorBuilder from 'src/business.logic/jsonapi.error.builder'
+import { TPlatform } from '../../common.types'
+import JsonapiErrorBuilder, {
+  default_500_error_response
+} from '../../business.logic/jsonapi.error.builder'
 import {
   authorization_key_save,
   authorization_url_save
-} from 'src/model/authorization'
+} from '../../model/authorization'
 import Config from '../../config'
-import JsonapiResponseBuilder from 'src/business.logic/jsonapi.response.builder'
-import { get_expiration_date } from 'src/business.logic'
+import JsonapiResponseBuilder from '../../business.logic/jsonapi.response.builder'
+import { get_expiration_date } from '../../business.logic'
+import { DEFAULT_500_ERROR_MESSAGE } from '../../constants'
 
 interface IKey {
   Body: {
@@ -55,14 +58,8 @@ export async function dev_post_authorizations_save_key_endpoint (
       ).build()
     )
   } catch (e: any) {
-    Config.log('failed.\nInternal Server Error.', e)
-    reply.code(500).send(new JsonapiErrorBuilder()
-      .status(500)
-      .code('internal_server_error')
-      .title(e.message)
-      .detail(e.stack)
-      .build()
-    )
+    Config.log(DEFAULT_500_ERROR_MESSAGE, e)
+    reply.code(500).send(default_500_error_response(e))
   }
 }
 
@@ -92,13 +89,7 @@ export async function dev_post_authorizations_save_url_endpoint (
       ).build()
     )
   } catch (e: any) {
-    Config.log('failed.\nInternal Server Error.', e)
-    reply.code(500).send(new JsonapiErrorBuilder()
-      .status(500)
-      .code('internal_server_error')
-      .title(e.message)
-      .detail(e.stack)
-      .build()
-    )
+    Config.log(DEFAULT_500_ERROR_MESSAGE, e)
+    reply.code(500).send(default_500_error_response(e))
   }
 }

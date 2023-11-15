@@ -1,6 +1,6 @@
 import { TStateForm } from '../../common.types'
 import Config from '../../config'
-import { $46_KEY, $47_KEY, $48_KEY, $51_KEY } from '../../constants'
+import { $46_KEY, $47_KEY, $48_KEY, $51_KEY, $56_KEY } from '../../constants'
 
 Config.register('state', '47', $47_KEY)
 /** Development shortcuts form. @id 47 */
@@ -197,6 +197,17 @@ const devInstallFormState = {
       'has': {
         'label': ' Set authorization url ',
         'route': $51_KEY
+      }
+    },
+    {
+      'type': 'html_tag',
+      'has': { 'content': '|' }
+    },
+    {
+      'type': 'a',
+      'has': {
+        'label': ' Test rumble regexp ',
+        'route': $56_KEY
       }
     },
     {

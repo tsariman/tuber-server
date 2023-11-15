@@ -2,7 +2,7 @@ import Config from '../../config'
 import { backgroundState } from '..'
 import * as C from '../../constants'
 import { remove_form_suffix } from '../form/_forms.business.logic'
-import { TStateDialog } from '../../common.types'
+import { TNetState, TStateDialog } from '../../common.types'
 
 Config.register('state', '6', C.$6_KEY)
 /** Dialog to create a new YouTube video bookmark @id 6 */
@@ -221,8 +221,8 @@ export function defaultDialogAlertState<T=any>(content: T) {
           }
         ],
         'open': true
-      } as TStateDialog
-    }
+      }
+    } as TNetState
   }
 }
 

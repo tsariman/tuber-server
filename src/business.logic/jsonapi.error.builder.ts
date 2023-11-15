@@ -78,7 +78,8 @@ export default class JsonapiErrorBuilder {
     this.response.errors[this.index].title = val
     return this
   }
-  detail(val: string) {
+  detail(val?: string) {
+    if (!val) return this
     this.response.errors[this.index].detail = val
     return this
   }
@@ -91,12 +92,51 @@ export default class JsonapiErrorBuilder {
   }
 }
 
-/** Generic 500 error response to help prevent repetitive code. */
-export const generic_500_error_response = (e: any) => {
+/**
+ * Default 500 error response to help prevent repetitive code.
+ *
+ * @param e error object from try/catch
+ * @returns `TJsonapiErrorResponse`
+ */
+export const default_500_error_response = (e: any) => {
   return new JsonapiErrorBuilder()
     .status(500)
     .code('internal_server_error')
     .title(e.message)
     .detail(e.stack)
+    .build()
+}
+
+/**
+ * Default 404 error response to help prevent repetitive code.
+ *
+ * @param error custom error object
+ * @returns `TJsonapiErrorResponse`
+ */
+export const default_404_error_response = (
+  error: { title: string, detail?: string }
+) => {
+  return new JsonapiErrorBuilder()
+    .status(404)
+    .code('not_found')
+    .title(error.title)
+    .detail(error.detail)
+    .build()
+}
+
+/**
+ * Default 400 error response to help prevent repetitive code.
+ *
+ * @param error custom error object
+ * @returns `TJsonapiErrorResponse`
+ */
+export const default_400_error_response = (
+  error: { title: string, detail?: string }
+) => {
+  return new JsonapiErrorBuilder()
+    .status(400)
+    .code('bad_request')
+    .title(error.title)
+    .detail(error.detail)
     .build()
 }

@@ -1,11 +1,12 @@
 import { FastifyReply } from 'fastify'
-import JsonapiErrorBuilder from '../business.logic/jsonapi.error.builder'
+import JsonapiErrorBuilder, { default_500_error_response } from '../business.logic/jsonapi.error.builder'
 import JsonapiResponseBuilder from '../business.logic/jsonapi.response.builder'
 import Config from '../config'
 import { get_bookmark_by_id } from '../model/bookmark'
 import { TBookmarkGetFastifyRequest } from '../schema/bookmarks'
+import { DEFAULT_500_ERROR_MESSAGE } from '../constants'
 
-export default async function bookmarks_get_by_id_endpoint (
+export default async function get_bookmarks_by_id_endpoint (
   request: TBookmarkGetFastifyRequest,
   reply: FastifyReply
 ) {
@@ -27,12 +28,7 @@ export default async function bookmarks_get_by_id_endpoint (
       )
     }
   } catch (e: any) {
-    Config.log('failed.\nInternal Server Error.', e)
-    reply.code(500).send(new JsonapiErrorBuilder()
-      .status(500)
-      .title('Internal Server Error')
-      .detail(e.message)
-      .build()
-    )
+    Config.log(DEFAULT_500_ERROR_MESSAGE, e)
+    reply.code(500).send(default_500_error_response(e))
   }
 }

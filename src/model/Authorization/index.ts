@@ -4,20 +4,20 @@ import authorizationSchema, {
   IAuthorizationUrl,
   TAuthorizationKeyNew
 } from 'src/schema/authorizations'
-import Config from '../../config'
 import { PaginateModel, PaginateResult, model } from 'mongoose'
 import { TPlatform } from 'src/common.types'
+import { DB_PAGINATION_OPTIONS, DB_PAGINATION_QUERY } from '../../constants'
 
 /** mongoose-paginate-v2 query */
 const PAGINATION_QUERY = {
-  ...Config.DB_PAGINATION_QUERY,
+  ...DB_PAGINATION_QUERY,
 
   // TODO Add custom pagination query here
 }
 
 /** mongoose-paginate-v2 options */
 const PAGINATION_OPTONS = {
-  ...Config.DB_PAGINATION_OPTIONS,
+  ...DB_PAGINATION_OPTIONS,
   select: {
     __v: 0,
     is_active: 0,

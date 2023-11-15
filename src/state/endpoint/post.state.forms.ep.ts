@@ -1,10 +1,11 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import JsonapiErrorBuilder, {
-  generic_500_error_response
+  default_500_error_response
 } from '../../business.logic/jsonapi.error.builder'
 import Config from '../../config'
 import STATE_FORMS from '../form'
 import { TNetState } from '../../common.types'
+import { DEFAULT_500_ERROR_MESSAGE } from '../../constants'
 
 export default async function post_state_forms_endpoint (
   req: FastifyRequest<{ Body: { key?: string }}>,
@@ -37,11 +38,16 @@ export default async function post_state_forms_endpoint (
           'forms': {
             [key]: { 'items': [] }
           }
-        }
+        },
+        ...new JsonapiErrorBuilder()
+          .status(404)
+          .code('not_found')
+          .title(`Form ${key} Not found`)
+          .build(),
       })
     }
   } catch (e: any) {
-    Config.log('failed.\nInternal Server Error.', e)
-    reply.code(500).send(generic_500_error_response(e))
+    Config.log(DEFAULT_500_ERROR_MESSAGE, e)
+    reply.code(500).send(default_500_error_response(e))
   }
 }

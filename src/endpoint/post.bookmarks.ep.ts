@@ -1,14 +1,16 @@
 import { FastifyReply } from 'fastify'
-import JsonapiErrorBuilder, {
-  generic_500_error_response
+import {
+  default_500_error_response,
+  default_400_error_response
 } from '../business.logic/jsonapi.error.builder'
 import JsonapiResponseBuilder from '../business.logic/jsonapi.response.builder'
 import Config from '../config'
 import { create_bookmark } from '../model/bookmark'
 import { TBookmarkPostFastifyRequest } from '../schema/bookmarks'
 import fix_missing_bookmark_data from 'src/business.logic/platform.drivers'
+import { DEFAULT_500_ERROR_MESSAGE } from 'src/constants'
 
-export default async function bookmarks_post_endpoint (
+export default async function post_bookmarks_endpoint (
   req: TBookmarkPostFastifyRequest,
   reply: FastifyReply
 ) {
@@ -17,9 +19,9 @@ export default async function bookmarks_post_endpoint (
     const attributes = req.body.data.attributes
     const bookmark = await fix_missing_bookmark_data(attributes)
     if (!bookmark) {
-      reply.code(400).send(generic_500_error_response({
-        message: 'Failed to create bookmark.',
-        stack: 'Bookmark is undefined.'
+      reply.code(400).send(default_400_error_response({
+        title: 'Failed to create bookmark.',
+        detail: 'Bookmark is undefined.'
       }))
       return
     }
@@ -30,13 +32,7 @@ export default async function bookmarks_post_endpoint (
       .mPaginationV2build()
     )
   } catch (e: any) {
-    Config.log('failed.\nInternal Server Error.', e)
-    reply.code(500).send(new JsonapiErrorBuilder()
-      .status(500)
-      .code('internal_server_error')
-      .title(e.message)
-      .detail(e.stack)
-      .build()
-    )
+    Config.log(DEFAULT_500_ERROR_MESSAGE, e)
+    reply.code(500).send(default_500_error_response(e))
   }
 }

@@ -7,7 +7,7 @@ import mongoose from 'mongoose'
 // import { connect, disconnect } from 'mongoose'
 import { DEV_USER_FILENAME } from '../dev.install.common'
 
-export default async function dev_database_reset (
+export default async function dev_post_database_reset_endpoint (
   _request: FastifyRequest,
   reply: FastifyReply
 ) {

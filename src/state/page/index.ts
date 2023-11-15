@@ -2,14 +2,8 @@ import { defaultAppBarState } from '../default.content'
 import Config from '../../config'
 import * as C from '../../constants'
 import researchPageState from './research.page.state'
-import {
-  devSetAuthorizationKeyPageState,
-  devSetAuthorizationUrlPageState,
-  devTestThumbnailPageState
-} from 'src/DEV/page'
-import devInstallPageState from 'src/DEV/page/dev.install.page.state'
-import devSignedInPageState from 'src/DEV/page/dev.signedin-appbar.page.state'
-import adminReadablePageState from 'src/ADMIN/page/admin.readable.page.state'
+import DEV_STATE_PAGES from '../../DEV/page'
+import adminReadablePageState from '../../ADMIN/page/admin.readable.page.state'
 import { TStateAllPages, TStatePage } from '../../common.types'
 
 Config.register('state', '42', C.$42_KEY)
@@ -42,12 +36,9 @@ const STATE_PAGES: TStateAllPages = {
 // [TODO] Wrap in a conditional to check if the user is an admin
 STATE_PAGES[C.$53_KEY] = adminReadablePageState
 
-if (Config.DEV) {
-  STATE_PAGES[C.$43_KEY] = devSignedInPageState
-  STATE_PAGES[C.$44_KEY] = devInstallPageState
-  STATE_PAGES[C.$46_KEY] = devTestThumbnailPageState
-  STATE_PAGES[C.$48_KEY] = devSetAuthorizationKeyPageState
-  STATE_PAGES[C.$51_KEY] = devSetAuthorizationUrlPageState
+const STATE_ALL_PAGES: TStateAllPages = {
+  ...STATE_PAGES,
+  ...(Config.DEV ? DEV_STATE_PAGES : {})
 }
 
-export default STATE_PAGES
+export default STATE_ALL_PAGES

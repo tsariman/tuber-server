@@ -8,7 +8,7 @@ const adminReadablePageState: TStatePage = {
   '_id': '53',
   '_key': $53_KEY,
   'content': '$webapp : adminReadable',
-  'layout': 'layout_centered_no_scroll',
+  'layout': 'layout_md',
   'appBar': {
     'appBarStyle': 'middle_search',
     'items': [

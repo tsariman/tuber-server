@@ -1,16 +1,15 @@
 import { PaginateModel, PaginateResult, model } from 'mongoose'
-import Config from '../../config'
 import pathnameSchema, { IPathnameDocument } from 'src/schema/pathnames'
+import { DB_PAGINATION_OPTIONS, DB_PAGINATION_QUERY } from '../../constants'
 
 const PAGINATION_QUERY = {
-  ...Config.DB_PAGINATION_QUERY,
+  ...DB_PAGINATION_QUERY,
 
   // TODO Add custom pagination query here
 }
 
 const PAGINATION_OPTONS = {
-  ...Config.DB_PAGINATION_OPTIONS,
-  select: { __v: 0 }
+  ...DB_PAGINATION_OPTIONS,
 
   // TODO Add custom pagination options here
 }

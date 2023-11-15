@@ -1,7 +1,9 @@
 import { FastifyReply } from 'fastify'
 import { PipelineStage } from 'mongoose'
 import { get_query } from '../business.logic'
-import JsonapiErrorBuilder from '../business.logic/jsonapi.error.builder'
+import JsonapiErrorBuilder, {
+  default_500_error_response
+} from '../business.logic/jsonapi.error.builder'
 import JsonapiResponseBuilder from '../business.logic/jsonapi.response.builder'
 import Config from '../config'
 import {
@@ -9,8 +11,9 @@ import {
   get_bookmark_collection
 } from '../model/bookmark'
 import { TBookmarkGetFastifyRequest } from '../schema/bookmarks'
+import { DB_PAGINATION_QUERY, DEFAULT_500_ERROR_MESSAGE } from '../constants'
 
-export default async function bookmarks_get_collection_endpoint (
+export default async function get_bookmarks_collection_endpoint (
   req: TBookmarkGetFastifyRequest,
   reply: FastifyReply
 ) {
@@ -37,7 +40,7 @@ export default async function bookmarks_get_collection_endpoint (
       pipeline.push({
         $match: {
           // is_active: true // Filter documents where the is_active field is true
-          ...Config.DB_PAGINATION_QUERY
+          ...DB_PAGINATION_QUERY
         }
       })
       pipeline.push({
@@ -121,13 +124,7 @@ export default async function bookmarks_get_collection_endpoint (
       )
     }
   } catch (e: any) {
-    Config.log('failed.\nInternal Server Error.', e)
-    reply.code(500).send(new JsonapiErrorBuilder()
-      .status(500)
-      .code('internal_server_error')
-      .title(e.message)
-      .detail(e.stack)
-      .build()
-    )
+    Config.log(DEFAULT_500_ERROR_MESSAGE, e)
+    reply.code(500).send(default_500_error_response(e))
   }
 }

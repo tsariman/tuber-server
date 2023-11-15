@@ -6,16 +6,16 @@ import {
   PaginateResult
 } from 'mongoose'
 import { IMPV2Doc } from '../../common.types'
-import Config from '../../config'
 import bookmarkSchema, {
   IBookmark,
   IBookmarkDocument,
   TBookmark,
 } from '../../schema/bookmarks'
+import { DB_PAGINATION_OPTIONS, DB_PAGINATION_QUERY } from '../../constants'
 
 /** mongoose-paginate-v2 query */
 const PAGINATION_QUERY = {
-  ...Config.DB_PAGINATION_QUERY,
+  ...DB_PAGINATION_QUERY,
 
   // TODO Add custom pagination query here
 }
@@ -24,9 +24,9 @@ type TSelect = { [key in keyof IBookmarkDocument]: 0|1 }
 
 /** mongoose-paginate-v2 options */
 const PAGINATION_OPTIONS = {
-  ...Config.DB_PAGINATION_OPTIONS,
+  ...DB_PAGINATION_OPTIONS,
   select: {
-    ...Config.DB_PAGINATION_OPTIONS.select,
+    ...DB_PAGINATION_OPTIONS.select,
     is_private: 0,
     is_published: 0,
     // TODO Insert fields to exclude here e.g.

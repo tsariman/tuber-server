@@ -1,12 +1,15 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
-import JsonapiErrorBuilder from '../../business.logic/jsonapi.error.builder'
-import { $46_KEY } from '../../constants'
+import JsonapiErrorBuilder, {
+  default_500_error_response
+} from '../../business.logic/jsonapi.error.builder'
+import { $46_KEY, DEFAULT_500_ERROR_MESSAGE } from '../../constants'
 import { odysee_fetch_thumbnail } from '../../platform/odysee'
+import Config from '../../config'
 
 /** 
  * Example URL: http://localhost:8080/dev/odysee/thumbnails?slug=<paste-slug-here>
  */
-export default async function dev_odysee_get_thumbnail(
+export default async function dev_get_odysee_thumbnail_endpoint(
   req: FastifyRequest<{ Querystring: { slug?: string }}>,
   reply: FastifyReply
 ) {
@@ -40,12 +43,7 @@ export default async function dev_odysee_get_thumbnail(
       )
     }
   } catch (e: any) {
-    reply.code(500).send(new JsonapiErrorBuilder()
-      .status(500)
-      .code('internal_server_error')
-      .title(e.message)
-      .detail(e.stack)
-      .build()
-    )
+    Config.log(DEFAULT_500_ERROR_MESSAGE, e)
+    reply.code(500).send(default_500_error_response(e))
   }
 }

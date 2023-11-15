@@ -1,8 +1,11 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
-import JsonapiErrorBuilder from '../../business.logic/jsonapi.error.builder'
+import JsonapiErrorBuilder, {
+  default_500_error_response
+} from '../../business.logic/jsonapi.error.builder'
 import Config from '../../config'
 import DEV_STATE_PAGES from '../page'
 import { TNetState } from '../../common.types'
+import { DEFAULT_500_ERROR_MESSAGE } from '../../constants'
 
 export default async function dev_post_state_pages_endpoint(
   req: FastifyRequest<{ Body: { key?: string }}>,
@@ -44,12 +47,7 @@ export default async function dev_post_state_pages_endpoint(
       })
     }
   } catch (e: any) {
-    reply.code(500).send(new JsonapiErrorBuilder()
-      .status(500)
-      .code('internal_server_error')
-      .title(e.message)
-      .detail(e.stack)
-      .build()
-    )
+    Config.log(DEFAULT_500_ERROR_MESSAGE, e)
+    reply.code(500).send(default_500_error_response(e))
   }
 }

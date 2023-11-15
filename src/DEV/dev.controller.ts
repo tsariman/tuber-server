@@ -4,8 +4,8 @@
    Create the admin user */
 
 import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
-import dev_post_create_update_dev_user_endpoint from './endpoint/dev.user'
-import dev_post_database_reset_endpoint from './endpoint/dev.database.reset'
+import dev_post_create_update_dev_user_endpoint from './endpoint/dev.post.dev.user.ep'
+import dev_post_database_reset_endpoint from './endpoint/dev.post.database.reset.ep'
 import {
   dev_post_load_test_drawer_endpoint,
   dev_post_unload_test_drawer_endpoint
@@ -14,22 +14,22 @@ import { DEFAULT_OPTIONS } from '../middleware/router.option'
 import {
   dev_post_bookmarks_populate_endpoint,
   dev_post_users_populate_endpoint
-} from './endpoint/dev.populate.collections'
-import bookmarks_api_setup_search_index_endpoint
-  from '../endpoint/bookmarks.api.search.index.ep'
+} from './endpoint/dev.post.populate.collections.ep'
+import post_bookmarks_api_setup_search_index_endpoint
+  from '../endpoint/post.bookmarks.api.search.index.ep'
 import dev_post_populate_collection_endpoint
-  from './endpoint/dev.populate.collection.ep'
+  from './endpoint/dev.post.populate.collection.ep'
 import dev_delete_drop_collection_endpoint
-  from './endpoint/dev.drop.collection.ep'
+  from './endpoint/dev.delete.drop.collection.ep'
 import dev_get_no_response_hangtime_endpoint
-  from './endpoint/dev.no.response.hangtime.ep'
+  from './endpoint/dev.get.no.response.hangtime.ep'
 import dev_get_html_page_endpoint from './endpoint/dev.get.html.page.ep'
 import dev_get_rumble_thumbnail_endpoint
-  from './endpoint/dev.rumble.thumbnail.ep'
-import dev_odysee_get_thumbnail from './endpoint/dev.odysee.thumbnail.ep'
-import dev_get_vimeo_thumbnail_endpoint from './endpoint/dev.vimeo.thumbnail.ep'
+  from './endpoint/dev.get.rumble.thumbnail.ep'
+import dev_get_odysee_thumbnail_endpoint from './endpoint/dev.get.odysee.thumbnail.ep'
+import dev_get_vimeo_thumbnail_endpoint from './endpoint/dev.get.vimeo.thumbnail.ep'
 import dev_get_twitch_thumbnail_endpoint
-  from './endpoint/dev.twitch.thumbnail.ep'
+  from './endpoint/dev.get.twitch.thumbnail.ep'
 import get_twitch_renew_access_token_endpoint
   from '../platform/endpoint/twitch.renew.access.token.ep'
 import dev_post_state_pages_endpoint from './endpoint/dev.post.state.pages.ep'
@@ -37,7 +37,7 @@ import dev_post_state_forms_endpoint from './endpoint/dev.post.state.forms.ep'
 import  {
   dev_post_authorizations_save_key_endpoint,
   dev_post_authorizations_save_url_endpoint
-}  from './endpoint/dev.save.authorizations.ep'
+}  from './endpoint/dev.post.save.authorizations.ep'
 
 interface IDevPopulateEndpoint {
   Params: {
@@ -98,7 +98,7 @@ export default async function dev_controller(fastify: FastifyInstance) {
   // [TODO] Move these endpoints to the bookmarks controller.
   fastify.post('/setup-collection-index-search/bookmarks',
     {},
-    bookmarks_api_setup_search_index_endpoint
+    post_bookmarks_api_setup_search_index_endpoint
   )
   // [TODO] Maybe useless. Remove it.
   fastify.post('/state/pages', {}, dev_post_state_pages_endpoint)
@@ -115,7 +115,7 @@ export default async function dev_controller(fastify: FastifyInstance) {
   )
   // Get a rumble video thumbnail
   fastify.get('/rumble/thumbnails', {}, dev_get_rumble_thumbnail_endpoint)
-  fastify.get('/odysee/thumbnails', {}, dev_odysee_get_thumbnail)
+  fastify.get('/odysee/thumbnails', {}, dev_get_odysee_thumbnail_endpoint)
   fastify.get('/vimeo/thumbnails', {}, dev_get_vimeo_thumbnail_endpoint)
   fastify.get('/twitch/thumbnails', {}, dev_get_twitch_thumbnail_endpoint)
   // [TODO] Does not belong here. Move it to apporiate controller.

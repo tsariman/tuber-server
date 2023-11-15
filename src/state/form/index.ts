@@ -18,13 +18,8 @@ import newTwitchBookmarkFormState from './new.twitch.bookmark.form.state'
 import editTwitchBookmarkFormState from './edit.twitch.bookmark.form.state'
 import loginFormState from './login.form.state'
 import Config from '../../config'
-import devTestThumbnailFormState from '../../DEV/form/dev.test.thumbnail.form.state'
-import devSetAuthorizationKeyFormState
-  from 'src/DEV/form/dev.set.authorization.key.form.state'
-import devInstallFormState from 'src/DEV/form/dev.install.form.state'
-import devSetAuthorizationUrlFormState
-  from 'src/DEV/form/dev.set.authorization.url.form.state'
 import { TStateAllForms } from '../../common.types'
+import DEV_STATE_FORM from 'src/DEV/form'
 
 const STATE_FORMS: TStateAllForms = {
   [C.$1_KEY]: newVideoUrlFormState,
@@ -45,13 +40,7 @@ const STATE_FORMS: TStateAllForms = {
   [C.$38_KEY]: newTwitchBookmarkFormState,
   [C.$39_KEY]: editTwitchBookmarkFormState,
   [C.$41_KEY]: loginFormState,
-}
-
-if (Config.DEV) {
-  STATE_FORMS[C.$45_KEY] = devTestThumbnailFormState
-  STATE_FORMS[C.$47_KEY] = devInstallFormState
-  STATE_FORMS[C.$49_KEY] = devSetAuthorizationKeyFormState
-  STATE_FORMS[C.$50_KEY] = devSetAuthorizationUrlFormState
+  ...(Config.DEV ? DEV_STATE_FORM : {})
 }
 
 export default STATE_FORMS

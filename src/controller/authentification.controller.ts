@@ -8,6 +8,8 @@ import jwt from 'jsonwebtoken'
 import { TCipheredUser } from '../schema/users'
 import { ILoginCredentials } from '../business.logic/security/permissions'
 import { TNetState } from '../common.types'
+import { default_500_error_response } from '../business.logic/jsonapi.error.builder'
+import { DEFAULT_500_ERROR_MESSAGE } from '../constants'
 
 export default async function authentification_controller (fastify: FastifyInstance) {
 
@@ -45,12 +47,16 @@ export default async function authentification_controller (fastify: FastifyInsta
           }
         }
       } catch (e: any) {
-        console.error(e.message)
-        // await disconnect()
-        reply.send(alert(e.message))
+        Config.log(DEFAULT_500_ERROR_MESSAGE, e)
+        const alertDialog = alert(e.message).state.dialog
+        reply.send({
+          state: {
+            dialog: alertDialog
+          },
+          ...default_500_error_response(e)
+        })
       }
     }
-    // await disconnect()
     reply.send(alert('Wrong username or password!'))
     reply.send({
       state: {

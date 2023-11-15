@@ -1,9 +1,12 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
-import JsonapiErrorBuilder from '../../business.logic/jsonapi.error.builder'
-import { twitch_fetch_thumbnail } from '../../platform/twitch'
-import { $46_KEY } from '../../constants'
+import { $46_KEY, DEFAULT_500_ERROR_MESSAGE } from '../../constants'
+import JsonapiErrorBuilder, {
+  default_500_error_response
+} from '../../business.logic/jsonapi.error.builder'
+import { vimeo_fetch_thumbnail } from '../../platform/vimeo'
+import Config from '../../config'
 
-export default async function dev_get_twitch_thumbnail_endpoint(
+export default async function dev_get_vimeo_thumbnail_endpoint(
   req: FastifyRequest<{ Querystring: { videoid?: string }}>,
   reply: FastifyReply
 ) {
@@ -18,7 +21,7 @@ export default async function dev_get_twitch_thumbnail_endpoint(
     return
   }
   try {
-    const thumbnailUrl = await twitch_fetch_thumbnail(videoid)
+    const thumbnailUrl = await vimeo_fetch_thumbnail(videoid)
     if (thumbnailUrl) {
       reply.code(200).send({
         'state': {
@@ -37,12 +40,7 @@ export default async function dev_get_twitch_thumbnail_endpoint(
       )
     }
   } catch (e: any) {
-    reply.code(500).send(new JsonapiErrorBuilder()
-      .status(500)
-      .code('internal_server_error')
-      .title(e.message)
-      .detail(e.stack)
-      .build()
-    )
+    Config.log(DEFAULT_500_ERROR_MESSAGE, e)
+    reply.code(500).send(default_500_error_response(e))
   }
 }

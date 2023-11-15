@@ -1,11 +1,15 @@
 import { FastifyReply } from 'fastify'
 import { MONGODB_DUPLICATE_KEY_ERROR, get_mongodb_error } from '../business.logic/errors'
-import JsonapiErrorBuilder, { generic_500_error_response } from '../business.logic/jsonapi.error.builder'
+import JsonapiErrorBuilder, {
+  default_500_error_response
+} from '../business.logic/jsonapi.error.builder'
 import JsonapiResponseBuilder from '../business.logic/jsonapi.response.builder'
 import { create_user } from '../model/user'
 import { TUsersFastifyRequest } from '../schema/users'
+import Config from '../config'
+import { DEFAULT_500_ERROR_MESSAGE } from '../constants'
 
-export default async function users_post_endpoint (
+export default async function post_users_endpoint (
   request: TUsersFastifyRequest,
   reply: FastifyReply
 ) {
@@ -25,7 +29,8 @@ export default async function users_post_endpoint (
         .build()
       )
     } else {
-      reply.code(500).send(generic_500_error_response(e))
+      Config.log(DEFAULT_500_ERROR_MESSAGE, e)
+      reply.code(500).send(default_500_error_response(e))
     }
   }
 }

@@ -1,3 +1,4 @@
+export const DEFAULT_500_ERROR_MESSAGE = 'failed.\nInternal Server Error.'
 export const INVALID_ACCESS_TOKEN = 'INVALID_ACCESS_TOKEN'
 export const MISSING_ACCESS_TOKEN = 'MISSING_ACCESS_TOKEN'
 export const DEFAULT_AUTH_HEADER = `Bearer ${MISSING_ACCESS_TOKEN}`
@@ -14,6 +15,21 @@ export const NOTE_FIELD_ROWS = 6
 export const NOTE_MAX_LENGTH = 500
 export const NOTE_MAX_LENGTH_MESSAGE = `Note is too long. (${NOTE_MAX_LENGTH} characters max)`
 export const EMBED_URL_MESSAGE = 'Paste-in the embed URL or iframe HTML code'
+/** Database mongoose-paginate-v2 query */
+export const DB_PAGINATION_QUERY = {
+  is_active: true // Only return active documents
+                  // When a document is deleted, is_active is set to false
+}
+/** Database mongoose-paginate-v2 options */
+export const DB_PAGINATION_OPTIONS = {
+  // sort: { created_at: -1 } // Comment this out when debugging pagination
+  select: {
+    __v: 0,
+    is_active: 0,
+    restrictions: 0,
+    rules: 0
+  }
+}
 /** Configuration property at which the Twitch client ID can be acquired. */
 export const CONF_TWITCH_ID = `twitch_client_id`
 /** Configuration property as which the Twitch client secret can be acquired. */
@@ -81,3 +97,4 @@ export const $52_KEY = '<taken>'
 export const $53_KEY = 'admin-readable'
 export const $54_KEY = 'devTestRumbleRegexpForm'
 export const $55_KEY = 'admin-config-app'
+export const $56_KEY = 'dev-test-rumble-regexp'

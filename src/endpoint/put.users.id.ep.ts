@@ -1,9 +1,11 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { BookmarkModel } from '../model/bookmark'
 import { UserModel } from '../model/user'
-import JsonapiErrorBuilder from '../business.logic/jsonapi.error.builder'
+import JsonapiErrorBuilder, { default_500_error_response } from '../business.logic/jsonapi.error.builder'
+import Config from '../config'
+import { DEFAULT_500_ERROR_MESSAGE } from '../constants'
 
-export async function users_vote_put_by_id_endpoint(
+export async function put_users_vote_by_id_endpoint(
   req: FastifyRequest,
   reply: FastifyReply
 ) {
@@ -40,13 +42,8 @@ export async function users_vote_put_by_id_endpoint(
       )
     }
   } catch (e: any) {
-    reply.code(500).send(new JsonapiErrorBuilder()
-      .code('internal_server_error')
-      .status(500)
-      .title(e.message)
-      .detail(e.stack)
-      .build()
-    )
+    Config.log(DEFAULT_500_ERROR_MESSAGE, e)
+    reply.code(500).send(default_500_error_response(e))
   }
 
 }
