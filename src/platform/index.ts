@@ -1,6 +1,7 @@
 import { IBookmark } from '../schema/bookmarks'
 import C from '../config'
 import { TPlatform } from '../common.types'
+import axios from 'axios'
 
 /**
  * For the sake of organization, all platform URLs are located in one place.
@@ -26,8 +27,8 @@ export async function rumble_fix_missing_data(bookmark: IBookmark): Promise<IBoo
     // Had to get rid of query string because it was causing errors.
     const compliantUrl = url.origin + url.pathname
 
-    const response = await fetch(compliantUrl)
-    const htmlText = await response.text()
+    const response = await axios.get(compliantUrl)
+    const htmlText = await response.data
     const videoIdMatches = htmlText.match(/"video":"(.*?)"/) ?? []
     const thumbnailUrlMatches = htmlText.match(
       /<meta property=og:image content=(.+?)>/

@@ -22,10 +22,10 @@ export default async function delete_bookmarks_by_id_endpoint (
     )
     // await disconnect()
     if (bookmark) {
-      Config.log('done.')
+      Config.log('Done.')
       reply.code(204).send()
     } else {
-      Config.log('failed.')
+      Config.log('Failed.')
       reply.code(404).send(new JsonapiErrorBuilder()
         .status(404)
         .code('not_found')

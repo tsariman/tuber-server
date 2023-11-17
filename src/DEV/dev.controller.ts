@@ -31,13 +31,14 @@ import dev_get_vimeo_thumbnail_endpoint from './endpoint/dev.get.vimeo.thumbnail
 import dev_get_twitch_thumbnail_endpoint
   from './endpoint/dev.get.twitch.thumbnail.ep'
 import get_twitch_renew_access_token_endpoint
-  from '../platform/endpoint/twitch.renew.access.token.ep'
+  from '../platform/endpoint/get.twitch.renew.access.token.ep'
 import dev_post_state_pages_endpoint from './endpoint/dev.post.state.pages.ep'
 import dev_post_state_forms_endpoint from './endpoint/dev.post.state.forms.ep'
 import  {
   dev_post_authorizations_save_key_endpoint,
   dev_post_authorizations_save_url_endpoint
 }  from './endpoint/dev.post.save.authorizations.ep'
+import dev_post_rumble_regexp_endpoint from './endpoint/dev.post.rumble.regexp.ep'
 
 interface IDevPopulateEndpoint {
   Params: {
@@ -113,6 +114,9 @@ export default async function dev_controller(fastify: FastifyInstance) {
     {},
     dev_post_authorizations_save_url_endpoint
   )
+  // Use the regexp to extract the data from the HTML page which is fetched from
+  // the URL.
+  fastify.post('/rumble/regexp', {}, dev_post_rumble_regexp_endpoint)
   // Get a rumble video thumbnail
   fastify.get('/rumble/thumbnails', {}, dev_get_rumble_thumbnail_endpoint)
   fastify.get('/odysee/thumbnails', {}, dev_get_odysee_thumbnail_endpoint)

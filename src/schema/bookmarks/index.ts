@@ -38,6 +38,9 @@ export interface IBookmark {
   rules?: string[]
 }
 
+/** Partial bookmark. Used when working with some properties but not all. */
+export type TBookmarkFrag = Partial<IBookmark>
+
 /** Available fields for a get request. */
 export interface IBookmarkGet {
   Body: IBookmark
@@ -104,6 +107,7 @@ const bookmarkSchema = new Schema<TBookmark>({
   rating: Number,
   upvotes: Number,
   downvotes: Number,
+  thumbnail_url: String,
   restrictions: { type: [ String ], default: undefined },
   rules: { type: [ String ], default: undefined }
 })

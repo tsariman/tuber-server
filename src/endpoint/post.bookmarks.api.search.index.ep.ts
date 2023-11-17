@@ -32,7 +32,7 @@ export default async function post_bookmarks_api_setup_search_index_endpoint (
       method: 'POST',
       digestAuth: Config.DB_ATLAS_DIGEST_AUTH,
     })
-    Config.log('done.')
+    Config.log('Done.')
     Config.log('http response:', httpResponse)
   } else {
     const message = 'bookmark_search index already exist.'

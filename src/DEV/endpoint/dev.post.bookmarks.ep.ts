@@ -7,7 +7,7 @@ import Config from '../../config'
 import { create_bookmark } from '../../model/bookmark'
 import { TBookmarkPostFastifyRequest } from '../../schema/bookmarks'
 import { gen_random_bookmark_votes } from '..'
-import fix_missing_bookmark_data from 'src/business.logic/platform.drivers'
+import fix_missing_bookmark_data from 'src/platform/platform.drivers'
 import { DEFAULT_500_ERROR_MESSAGE } from '../../constants'
 
 export default async function dev_post_bookmarks_endpoint (
@@ -21,15 +21,17 @@ export default async function dev_post_bookmarks_endpoint (
     // Generate random votes for development purposes
     const attrWithVotes = gen_random_bookmark_votes(attr)
     const bookmark = await fix_missing_bookmark_data(attrWithVotes)
+    
     if (!bookmark) {
+      Config.log('Failed.')
       reply.code(500).send(default_500_error_response({
-        message: 'Failed to create bookmark.',
-        stack: 'Bookmark is undefined.'
+        title: 'Failed to create bookmark.',
+        detail: 'Bookmark is null.'
       }))
       return
     }
     const dbBookmark = await create_bookmark(bookmark)
-    Config.log('done.')
+    Config.log('Done.')
     reply.code(201).send(
       new JsonapiResponseBuilder(dbBookmark, 'bookmarks', 'object')
       .mPaginationV2build()

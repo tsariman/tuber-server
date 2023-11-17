@@ -58,7 +58,7 @@ const devTestRumbleRegexpFormState = {
         'sx': { 'textAlign': 'center' },
       },
       'has': {
-        'content': '<h3>Result of Regular Expression</h3>'
+        'content': '<h3>Results</h3>'
       }
     },
     {

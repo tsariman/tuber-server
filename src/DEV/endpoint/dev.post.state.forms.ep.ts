@@ -25,14 +25,14 @@ export default async function dev_post_state_forms_endpoint(
     Config.print(`Loading '${key}' state... `)
     const formState = DEV_STATE_FORM[key]
     if (formState) {
-      Config.log('done.')
+      Config.log('Done.')
       reply.code(200).send({
         state: {
           'forms': { [key]: formState }
         } as TNetState
       })
     } else {
-      Config.log('failed.')
+      Config.log('Failed.')
       reply.code(404).send({
         ...new JsonapiErrorBuilder()
           .status(404)

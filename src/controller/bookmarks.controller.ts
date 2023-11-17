@@ -13,6 +13,9 @@ import {
 } from '../schema/bookmarks'
 import Config from '../config'
 import dev_post_bookmarks_endpoint from '../DEV/endpoint/dev.post.bookmarks.ep'
+import get_video_thumbnail_url_endpoint, {
+  IBookmarkThumbnailUrlGet
+}  from 'src/platform/endpoint/get.video.thumbnail.url.ep'
 
 const opts = {
   ...DEFAULT_OPTIONS,
@@ -23,18 +26,24 @@ export default async function bookmarks_controller(fastify: FastifyInstance) {
     ? dev_post_bookmarks_endpoint
     : post_bookmarks_endpoint
 
-  // GET /notes
+  // GET /bookmarks
   fastify.get<IBookmarkGet>('/', opts, get_bookmarks_collection_endpoint)
 
-  // GET /notes/:id
+  // GET /bookmarks/:id
   fastify.get<IBookmarkGet>('/:id', opts, get_bookmarks_by_id_endpoint)
+  // GET /bookmarks/:id/thumbnail-url
+  fastify.get<IBookmarkThumbnailUrlGet>(
+    '/:id/thumbnail-url',
+    opts,
+    get_video_thumbnail_url_endpoint
+  )
 
-  // POST /notes
+  // POST /bookmarks (create)
   fastify.post<IBookmarkPost>('/', opts, postBookmark)
 
-  // PUT /notes/:id (update)
+  // PUT /bookmarks/:id (update)
   fastify.put<IBookmarkPut>('/:id', opts, put_bookmarks_by_id_endpoint)
 
-  // DELETE /notes/:id (delete)
+  // DELETE /bookmarks/:id (delete)
   fastify.delete<IBookmarkDelete>('/:id', opts, delete_bookmarks_by_id_endpoint)
 }

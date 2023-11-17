@@ -35,7 +35,7 @@ export default async function put_bookmarks_by_id_endpoint (
     )
     // await disconnect()
     if (bookmark) {
-      Config.log('done.')
+      Config.log('Done.')
       reply.code(204).send()
     } else {
       Config.log('failed.\nBookmark not found.')

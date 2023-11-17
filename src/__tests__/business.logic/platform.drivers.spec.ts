@@ -1,4 +1,4 @@
-import fix_missing_bookmark_data from '../../business.logic/platform.drivers'
+import fix_missing_bookmark_data from '../../platform/platform.drivers'
 
 describe('fix_missing_bookmark_data', () => {
   it('should return undefined if no bookmark is provided', async () => {

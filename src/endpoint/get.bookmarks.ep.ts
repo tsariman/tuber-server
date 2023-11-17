@@ -114,7 +114,7 @@ export default async function get_bookmarks_collection_endpoint (
     } else {
       Config.print(`Getting bookmarks collection (page ${page}, limit ${limit})... `)
       const result = await get_bookmark_collection(page, limit)
-      Config.log('done.')
+      Config.log('Done.')
       const bookmarkDocs = result.docs
       reply.code(200).send(
         new JsonapiResponseBuilder(bookmarkDocs, 'bookmarks', 'collection')

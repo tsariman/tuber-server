@@ -3,7 +3,7 @@ import JsonapiErrorBuilder, {
   default_500_error_response
 } from '../../business.logic/jsonapi.error.builder'
 import { $46_KEY, DEFAULT_500_ERROR_MESSAGE } from '../../constants'
-import { rumble_fetch_thumbnail } from '../../platform/rumble'
+import { rumble_fetch_thumbnail_url } from '../../platform/rumble'
 import Config from '../../config'
 
 /** 
@@ -24,7 +24,7 @@ export default async function dev_get_rumble_thumbnail_endpoint(
     return
   }
   try {
-    const thumbnailUrl = await rumble_fetch_thumbnail(slug)
+    const thumbnailUrl = await rumble_fetch_thumbnail_url(slug)
     if (thumbnailUrl) {
       reply.code(200).send({
         'state': {

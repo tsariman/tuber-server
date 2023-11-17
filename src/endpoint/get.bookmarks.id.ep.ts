@@ -14,12 +14,12 @@ export default async function get_bookmarks_by_id_endpoint (
     Config.print(`Getting bookmark with id '${request.params.id}'... `)
     const bookmark = await get_bookmark_by_id(request.params.id)
     if (bookmark) {
-      Config.log('done.')
+      Config.log('Done.')
       reply.code(200).send(
         new JsonapiResponseBuilder(bookmark, 'bookmarks', 'object').mPaginationV2build()
       )
     } else {
-      Config.log('failed.\nBookmark not found.')
+      Config.log('Failed.\nBookmark not found.')
       reply.code(404).send(new JsonapiErrorBuilder()
         .status(404)
         .title('Not Found')

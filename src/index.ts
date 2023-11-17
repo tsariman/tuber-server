@@ -40,7 +40,7 @@ app.listen({ port: Config.FASTIFY_PORT }, (err, address) => {
       Config.print('\nCheck bookmarks search index... ')
       const searchIndex = await find_index_by_name('bookmark_search', 'bookmarks')
       if (searchIndex) {
-        Config.log('done.')
+        Config.log('Done.')
       } else {
         Config.log(`failed.\nbookmarks index needs to be defined.`)
         Config.log(`Visit endpoint: /dev/setup-collection-index-search/bookmarks`)

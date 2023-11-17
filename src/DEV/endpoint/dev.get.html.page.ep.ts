@@ -1,10 +1,10 @@
 import { FastifyRequest, FastifyReply } from 'fastify'
-import fetch from 'cross-fetch'
 import JsonapiErrorBuilder, {
   default_500_error_response
 } from '../../business.logic/jsonapi.error.builder'
 import Config from '../../config'
 import { DEFAULT_500_ERROR_MESSAGE } from '../../constants'
+import axios from 'axios'
 
 export default async function dev_get_html_page_endpoint(
   req: FastifyRequest<{ Querystring: { url?: string } }>,
@@ -23,8 +23,8 @@ export default async function dev_get_html_page_endpoint(
   }
   Config.log('dev_get_html_page:', url)
   try {
-    const response = await fetch(url)
-    const html = await response.text()
+    const response = await axios.get(url)
+    const html = await response.data
     reply.send(html)
   } catch (e: any) {
     Config.log(DEFAULT_500_ERROR_MESSAGE, e)

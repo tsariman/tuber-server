@@ -25,14 +25,14 @@ export default async function post_state_pages_endpoint (
     Config.print(`Loading '${key}' state... `)
     const pageState = STATE_PAGES[key]
     if (pageState) {
-      Config.log('done.')
+      Config.log('Done.')
       reply.code(200).send({
         state: {
           'pages': { [key]: pageState }
         } as TNetState
       })
     } else {
-      Config.log('failed.')
+      Config.log('Failed.')
       reply.code(404).send({
         state: {
           'pages': {

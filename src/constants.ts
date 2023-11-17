@@ -1,4 +1,4 @@
-export const DEFAULT_500_ERROR_MESSAGE = 'failed.\nInternal Server Error.'
+export const DEFAULT_500_ERROR_MESSAGE = 'Failed.\nInternal Server Error.'
 export const INVALID_ACCESS_TOKEN = 'INVALID_ACCESS_TOKEN'
 export const MISSING_ACCESS_TOKEN = 'MISSING_ACCESS_TOKEN'
 export const DEFAULT_AUTH_HEADER = `Bearer ${MISSING_ACCESS_TOKEN}`

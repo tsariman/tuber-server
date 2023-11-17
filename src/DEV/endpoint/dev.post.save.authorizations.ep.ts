@@ -37,7 +37,7 @@ export async function dev_post_authorizations_save_key_endpoint (
   try {
     const { platform, name, value, expires_in } = req.body
     if (!platform || !name || !value) {
-      Config.log('failed.')
+      Config.log('Failed.')
       reply.code(400).send(new JsonapiErrorBuilder()
         .status(400)
         .code('bad_request')
@@ -50,7 +50,7 @@ export async function dev_post_authorizations_save_key_endpoint (
       ? get_expiration_date(expires_in * 1000)
       : undefined
     await authorization_key_save(platform, { name, value, expires_at })
-    Config.log('done.')
+    Config.log('Done.')
     reply.code(200).send(new JsonapiResponseBuilder(
         req.body,
         'authorizations',
@@ -71,7 +71,7 @@ export async function dev_post_authorizations_save_url_endpoint (
   try {
     const { platform, purpose, url } = req.body
     if (!platform || !purpose || !url) {
-      Config.log('failed.')
+      Config.log('Failed.')
       reply.code(400).send(new JsonapiErrorBuilder()
         .status(400)
         .code('bad_request')
@@ -81,7 +81,7 @@ export async function dev_post_authorizations_save_url_endpoint (
       return
     }
     await authorization_url_save(platform, { purpose, url })
-    Config.log('done.')
+    Config.log('Done.')
     reply.code(200).send(new JsonapiResponseBuilder(
         req.body,
         'authorizations',
