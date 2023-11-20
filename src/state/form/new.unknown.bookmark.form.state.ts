@@ -52,6 +52,16 @@ const newUnknownBookmarkFormState = {
         },
         {
           'type': 'textfield',
+          'name': 'thumbnail_url',
+          'label': 'Thumbnail URL',
+          'props': {
+            'fullWidth': true,
+            // 'variant': 'filled'
+          },
+          // 'inputProps': { 'readOnly': true },
+        },
+        {
+          'type': 'textfield',
           'name': 'title',
           'label': 'Title',
           'props': {

@@ -7,7 +7,7 @@ import JsonapiResponseBuilder from '../business.logic/jsonapi.response.builder'
 import Config from '../config'
 import { create_bookmark } from '../model/bookmark'
 import { TBookmarkPostFastifyRequest } from '../schema/bookmarks'
-import fix_missing_bookmark_data from '../platform/platform.drivers'
+import fix_missing_bookmark_data from '../platform/all.drivers'
 import { DEFAULT_500_ERROR_MESSAGE } from '../constants'
 
 export default async function post_bookmarks_endpoint (

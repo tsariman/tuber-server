@@ -3,7 +3,7 @@ import JsonapiErrorBuilder, {
   default_500_error_response
 } from '../../business.logic/jsonapi.error.builder'
 import { $46_KEY, DEFAULT_500_ERROR_MESSAGE } from '../../constants'
-import { odysee_fetch_thumbnail } from '../../platform/odysee'
+import { odysee_fetch_thumbnail_url } from '../../platform/odysee'
 import Config from '../../config'
 
 /** 
@@ -24,7 +24,7 @@ export default async function dev_get_odysee_thumbnail_endpoint(
     return
   }
   try {
-    const thumbnailUrl = await odysee_fetch_thumbnail(slug)
+    const thumbnailUrl = await odysee_fetch_thumbnail_url(slug)
     if (thumbnailUrl) {
       reply.code(200).send({
         'state': {

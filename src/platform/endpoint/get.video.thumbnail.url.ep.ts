@@ -3,7 +3,7 @@ import JsonapiErrorBuilder, {
   default_500_error_response
 } from 'src/business.logic/jsonapi.error.builder'
 import Config from '../../config'
-import { get_video_thumbnail_url } from '../platform.drivers'
+import { get_video_thumbnail_url } from '../all.drivers'
 import { BookmarkModel, get_bookmark_by_id } from 'src/model/bookmark'
 import { IBookmark } from 'src/schema/bookmarks'
 import { TPlatform } from 'src/common.types'
@@ -55,7 +55,7 @@ export default async function get_video_thumbnail_url_endpoint (
       return
     }
     const platform: TPlatform = bookmark.platform as TPlatform
-    const { videoid, slug } = bookmark as IBookmark
+    const { videoid, slug, url } = bookmark as IBookmark
     if (!platform) {
       Config.log('[ERROR][400] get platform video thumbnail url')
       Config.log('             Platform is missing. (bookmark.platform)'
@@ -85,7 +85,8 @@ export default async function get_video_thumbnail_url_endpoint (
     const thumbnail_url = await get_video_thumbnail_url({
       platform,
       videoid,
-      slug
+      slug,
+      url
     })
     if (!thumbnail_url) {
       Config.log(`Failed.`)

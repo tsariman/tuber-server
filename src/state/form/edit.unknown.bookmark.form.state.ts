@@ -34,6 +34,20 @@ const editUnknownBookmarkFormState = {
         },
         {
           'type': 'textfield',
+          'name': 'thumbnail_url',
+          'label': 'Thumbnail URL',
+          'props': {
+            'fullWidth': true,
+            // 'variant': 'filled'
+          },
+          // 'inputProps': { 'readOnly': true },
+          'has': {
+            'required': true,
+            'requiredMessage': 'Where did that thumbnail URL go?',
+          }
+        },
+        {
+          'type': 'textfield',
           'name': 'title',
           'label': 'TItle',
           'props': {

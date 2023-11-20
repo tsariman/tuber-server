@@ -34,7 +34,7 @@ export const TWITCH_API_TOKEN_REQUEST_URL = process.env.TWITCH_API_TOKEN_REQUEST
  * @param videoid Twitch video ID.
  * @returns `Promise<string>`
  */
-export async function twitch_fetch_thumbnail(videoid?: string): Promise<string> {
+export async function twitch_fetch_thumbnail_url(videoid?: string): Promise<string> {
   if (!videoid) { return '' }
   const url = `${TWITCH_API_URL}?id=${videoid}`
   // [TODO] replace fetch with axios

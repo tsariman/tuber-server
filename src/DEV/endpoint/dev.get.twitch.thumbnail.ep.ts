@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import JsonapiErrorBuilder, { default_500_error_response } from '../../business.logic/jsonapi.error.builder'
-import { twitch_fetch_thumbnail } from '../../platform/twitch'
+import { twitch_fetch_thumbnail_url } from '../../platform/twitch'
 import { $46_KEY, DEFAULT_500_ERROR_MESSAGE } from '../../constants'
 import Config from '../../config'
 
@@ -19,7 +19,7 @@ export default async function dev_get_twitch_thumbnail_endpoint(
     return
   }
   try {
-    const thumbnailUrl = await twitch_fetch_thumbnail(videoid)
+    const thumbnailUrl = await twitch_fetch_thumbnail_url(videoid)
     if (thumbnailUrl) {
       reply.code(200).send({
         'state': {

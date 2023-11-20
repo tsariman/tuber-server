@@ -2,6 +2,7 @@ import { FastifyRequest } from 'fastify'
 import { request } from 'urllib'
 import Config from '../config'
 import { IGenericObject, IJsonapiQuerystring } from '../common.types'
+import axios from 'axios'
 
 /** Returns `true` if the argument is an object. */
 export const is_object = (obj: any) => {
@@ -112,4 +113,27 @@ export function get_expiration_date(time: number) {
   const newDate = new Date()
   newDate.setTime(newTimeInMs)
   return newDate
+}
+
+export async function fetch_html_page(url?: string): Promise<string> {
+  if (!url) { return '' }
+  const response = await axios.get(url)
+  const htmlText = response.data
+  return htmlText
+}
+
+/**
+ * Given an array of regular expression, iterate and execute each regular
+ * expression in sequential order on the given string.
+ * Once there's a match, return the match.
+ */
+export function match_regex_array(
+  str: string,
+  regexArray: RegExp[]
+): RegExpMatchArray | null {
+  for (const regex of regexArray) {
+    const match = str.match(regex)
+    if (match) return match
+  }
+  return null
 }

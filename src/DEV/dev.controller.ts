@@ -39,6 +39,7 @@ import  {
   dev_post_authorizations_save_url_endpoint
 }  from './endpoint/dev.post.save.authorizations.ep'
 import dev_post_rumble_regexp_endpoint from './endpoint/dev.post.rumble.regexp.ep'
+import dev_post_unknown_regexp_endpoint from './endpoint/dev.post.unknown.regexp.ep'
 
 interface IDevPopulateEndpoint {
   Params: {
@@ -117,6 +118,9 @@ export default async function dev_controller(fastify: FastifyInstance) {
   // Use the regexp to extract the data from the HTML page which is fetched from
   // the URL.
   fastify.post('/rumble/regexp', {}, dev_post_rumble_regexp_endpoint)
+  // Use the regexp to extract the data from the HTML page which is fetched from
+  // the URL.
+  fastify.post('/unknown/regexp', {}, dev_post_unknown_regexp_endpoint)
   // Get a rumble video thumbnail
   fastify.get('/rumble/thumbnails', {}, dev_get_rumble_thumbnail_endpoint)
   fastify.get('/odysee/thumbnails', {}, dev_get_odysee_thumbnail_endpoint)

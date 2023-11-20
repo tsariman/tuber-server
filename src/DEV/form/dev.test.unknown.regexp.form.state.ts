@@ -1,17 +1,17 @@
 import Config from '../../config'
 import { TStateForm } from '../../common.types'
-import { $54_KEY } from '../../constants'
+import { $57_KEY, $58_KEY } from '../../constants'
 
-Config.register('state', '54', $54_KEY)
+Config.register('state', '57', $57_KEY)
 /**
- * Form to test the regexp to grab both the video id and the thumbnail url from
- * the rumble video index.html page.
+ * Form to test the regexp to grab the thumbnail url from
+ * the html page source of an unknown platform.
  *
- * @id 54
+ * @id 57
  */
-const devTestRumbleRegexpFormState = {
-  '_id': '54',
-  '_key': $54_KEY,
+const devTestUnknownRegexpFormState = {
+  '_id': '57',
+  '_key': $57_KEY,
   '_type': 'stack',
   'props': {
     'sx': { 'p': 2, 'width': 476 },
@@ -41,7 +41,7 @@ const devTestRumbleRegexpFormState = {
         'variant': 'standard'
       },
       'has': {
-        'defaultValue': '"video":"(.*?)"|<meta property=og:image content=(.+?)>'
+        'defaultValue': '"thumbnailUrl".+?"(.+?)"'
       }
     },
     {
@@ -52,7 +52,7 @@ const devTestRumbleRegexpFormState = {
       },
       'has': {
         'label': 'Test',
-        'onclickHandle': 'tuberCallbacks.$54_C_1',
+        'onclickHandle': 'tuberCallbacks.$57_C_1',
       }
     },
     {
@@ -61,19 +61,7 @@ const devTestRumbleRegexpFormState = {
         'sx': { 'textAlign': 'center' },
       },
       'has': {
-        'content': '<h3>Results</h3>'
-      }
-    },
-    {
-      'type': 'text',
-      'name': 'videoid',
-      'label': 'Video ID',
-      'props': {
-        'fullWidth': true,
-        'variant': 'filled'
-      },
-      'inputProps': {
-        'readOnly': true
+        'content': 'Result: <span id="result"></span>'
       }
     },
     {
@@ -88,7 +76,23 @@ const devTestRumbleRegexpFormState = {
         'readOnly': true
       }
     },
+    {
+      'type': 'html',
+      'props': {
+        'sx': { 'textAlign': 'center' }
+      },
+      'has': {
+        'content': `
+          <img
+            src="{{ thumbnailUrl }}"
+            style="width: 100%"
+            alt="Supposed to load thumbnail of video URL."
+          />
+        `,
+        'key': $58_KEY
+      }
+    }
   ]
 } as TStateForm
 
-export default devTestRumbleRegexpFormState
+export default devTestUnknownRegexpFormState

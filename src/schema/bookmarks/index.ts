@@ -8,6 +8,14 @@ import {
   WithRequired
 } from '../../common.types'
 
+/**
+ * 'G' - General
+ * 'PG' - Parental Guidance
+ * 'R' - Restricted
+ * 'X' - Adult
+ */
+export type TAudience ='G' | 'PG' | 'R' | 'X'
+
 export interface IBookmark {
   is_active?: boolean
   is_published?: boolean
@@ -33,6 +41,7 @@ export interface IBookmark {
   group_id?: string
   html_tag?: string // Within the context of a group, this is the HTML tag that
                     // the bookmark is associated with
+  targeted_audience?: TAudience
   sort_order?: number
   restrictions?: string[]
   rules?: string[]
@@ -108,6 +117,7 @@ const bookmarkSchema = new Schema<TBookmark>({
   upvotes: Number,
   downvotes: Number,
   thumbnail_url: String,
+  targeted_audience: String,
   restrictions: { type: [ String ], default: undefined },
   rules: { type: [ String ], default: undefined }
 })

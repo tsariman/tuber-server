@@ -5,6 +5,7 @@ import devSetAuthorizationKeyFormState from './dev.set.authorization.key.form.st
 import { TStateAllForms } from '../../common.types'
 import devTestRumbleRegexpFormState from './dev.test.rumble.regexp.form.state'
 import devSetAuthorizationUrlFormState from './dev.set.authorization.url.form.state'
+import devTestUnknownRegexpFormState from './dev.test.unknown.regexp.form.state'
 
 const DEV_STATE_FORM: TStateAllForms = {
   [C.$45_KEY]: devTestThumbnailFormState,
@@ -12,6 +13,7 @@ const DEV_STATE_FORM: TStateAllForms = {
   [C.$49_KEY]: devSetAuthorizationKeyFormState,
   [C.$50_KEY]: devSetAuthorizationUrlFormState,
   [C.$54_KEY]: devTestRumbleRegexpFormState,
+  [C.$57_KEY]: devTestUnknownRegexpFormState,
 }
 
 export default DEV_STATE_FORM

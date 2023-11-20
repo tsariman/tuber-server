@@ -7,9 +7,10 @@ import {
   rumble_parse_thumbnail_url,
   rumble_fetch_thumbnail_url
 } from './rumble'
-import { twitch_fetch_thumbnail } from './twitch'
-import { vimeo_fetch_thumbnail } from './vimeo'
-import { odysee_fetch_thumbnail } from './odysee'
+import { twitch_fetch_thumbnail_url } from './twitch'
+import { vimeo_fetch_thumbnail_url } from './vimeo'
+import { odysee_fetch_thumbnail_url } from './odysee'
+import { unknown_fetch_thumbnail_url } from './unknown'
 import { PLATFORM_URL } from '.'
 
 /**
@@ -27,11 +28,11 @@ export default async function fix_missing_bookmark_data (
     rumble: async () => _rumble_data(attributes),
     odysee: async () => _odysee_data(attributes),
     vimeo: async () => _vimeo_data(attributes),
-    dailymotion: async () => null,
+    dailymotion: async () => attributes,
     facebook: async () => null,
     bitchute: async () => null,
     twitch: async () => _twitch_data(attributes),
-    unknown: async () => attributes
+    unknown: async () => _unknown_data(attributes)
   }
   return map[attributes.platform as TPlatform]()
 }
@@ -47,14 +48,14 @@ export function get_video_thumbnail_url (body: TBookmarkFrag) {
     youtube: async () => body.thumbnail_url
       ?? `https://img.youtube.com/vi/${body.videoid}/0.jpg`,
     rumble: async () => await rumble_fetch_thumbnail_url(body.slug),
-    odysee: async () => await odysee_fetch_thumbnail(body.slug),
-    vimeo: async () => await vimeo_fetch_thumbnail(body.videoid),
+    odysee: async () => await odysee_fetch_thumbnail_url(body.slug),
+    vimeo: async () => await vimeo_fetch_thumbnail_url(body.videoid),
     dailymotion: async () => body.thumbnail_url
       ?? `https://www.dailymotion.com/thumbnail/video/${body.videoid}`,
     facebook: async () => body.thumbnail_url ?? '',
     bitchute: async () => body.thumbnail_url ?? '',
-    twitch: async () => await twitch_fetch_thumbnail(body.videoid),
-    unknown: async () => body.thumbnail_url ?? ''
+    twitch: async () => await twitch_fetch_thumbnail_url(body.videoid),
+    unknown: async () => await unknown_fetch_thumbnail_url(body.url)
   }
   return map[body.platform as TPlatform]()
 }
@@ -72,7 +73,9 @@ async function _rumble_data(attr: IBookmark): Promise<IBookmark|null> {
 async function _twitch_data(attr: IBookmark): Promise<IBookmark|null> {
   const { videoid } = attr
   if (!videoid) { return null }
-  const thumbnail_url = await _twitch_case_fetch_thumbnail_url(videoid)
+  const wrappedThumbnail = await _twitch_case_fetch_thumbnail_url(videoid)
+  if (!wrappedThumbnail) { return null }
+  const { thumbnail_url } = wrappedThumbnail
   return {
     ...attr,
     thumbnail_url
@@ -82,7 +85,9 @@ async function _twitch_data(attr: IBookmark): Promise<IBookmark|null> {
 async function _vimeo_data(attr: IBookmark): Promise<IBookmark|null> {
   const { videoid } = attr
   if (!videoid) { return null }
-  const thumbnail_url = await _vimeo_case_fetch_thumbnail_url(videoid)
+  const wrappedThumbnail = await _vimeo_case_fetch_thumbnail_url(videoid)
+  if (!wrappedThumbnail) { return null }
+  const { thumbnail_url } = wrappedThumbnail
   return {
     ...attr,
     thumbnail_url
@@ -92,11 +97,23 @@ async function _vimeo_data(attr: IBookmark): Promise<IBookmark|null> {
 async function _odysee_data(attr: IBookmark): Promise<IBookmark|null> {
   const { slug } = attr
   if (!slug) { return null }
-  const thumbnail_url = await _odysee_case_fetch_thumbnail_url(slug)
+  const wrappedThumbnail = await _odysee_case_fetch_thumbnail_url(slug)
+  if (!wrappedThumbnail) { return null }
+  const { thumbnail_url } = wrappedThumbnail
   return {
     ...attr,
     thumbnail_url
   } as IBookmark
+}
+
+async function _unknown_data(attr: IBookmark): Promise<IBookmark|null> {
+  const { url } = attr
+  if (!url) { return null }
+  const fixedBookmark = { ...attr } as IBookmark
+  if (!fixedBookmark.thumbnail_url) {
+    fixedBookmark.thumbnail_url = await unknown_fetch_thumbnail_url(url)
+  }
+  return fixedBookmark
 }
 
 async function _rumble_fetch_data (
@@ -122,7 +139,7 @@ async function _twitch_case_fetch_thumbnail_url (
   videoid: string
 ): Promise<TBookmarkFrag|null> {
   if (!videoid) { return null }
-  const thumbnail_url = await twitch_fetch_thumbnail(videoid)
+  const thumbnail_url = await twitch_fetch_thumbnail_url(videoid)
   if (thumbnail_url) {
     return { thumbnail_url }
   } else {
@@ -135,7 +152,7 @@ async function _vimeo_case_fetch_thumbnail_url (
   videoid: string
 ): Promise<TBookmarkFrag|null> {
   if (!videoid) { return null }
-  const thumbnail_url = await vimeo_fetch_thumbnail(videoid)
+  const thumbnail_url = await vimeo_fetch_thumbnail_url(videoid)
   if (thumbnail_url) {
     return { thumbnail_url }
   } else {
@@ -148,7 +165,7 @@ async function _odysee_case_fetch_thumbnail_url (
   slug: string
 ): Promise<TBookmarkFrag|null> {
   if (!slug) { return null }
-  const thumbnail_url = await odysee_fetch_thumbnail(slug)
+  const thumbnail_url = await odysee_fetch_thumbnail_url(slug)
   if (thumbnail_url) {
     return { thumbnail_url }
   } else {

@@ -42,6 +42,17 @@ export const CONF_TWITCH_TOKEN = `twitch_access_token`
  */
 export const CONF_TWITCH_EXPIRATION = `twitch_expiration_date`
 
+/**
+ * Array of regular expressions to extract the thumbnail HTML from a web page
+ * html source.
+ */
+export const CONF_THUMB_URL_REGEXP = [
+  /"thumbnailUrl".+?"(.+?)"/,
+  /poster.+?"(.+?)"/,
+  /og:image.+?"(.+?)"/,
+  // TODO - Add more
+]
+
 export const $1_KEY = 'newVideoUrlForm'
 export const $2_KEY = 'newVideoUrlDialog'
 export const $3_KEY = 'newBookmarkFromUrlLinkState'
@@ -75,7 +86,7 @@ export const $30_KEY = 'newUnknownBookmarkDialog'
 export const $31_KEY = 'editUnknownBookmarkDialog'
 export const $32_KEY = 'loginDialog'
 export const $33_KEY = 'registerDialog'
-export const $34_KEY = 'bookmarkDeleteDialog'
+export const $34_KEY = 'deleteBookmarkDialog'
 export const $35_KEY = 'clientAlertDialog'
 export const $36_KEY = 'newTwitchBookmarkDialog'
 export const $37_KEY = 'editTwitchBookmarkDialog'
@@ -98,3 +109,5 @@ export const $53_KEY = 'admin-readable'
 export const $54_KEY = 'devTestRumbleRegexpForm'
 export const $55_KEY = 'admin-config-app'
 export const $56_KEY = 'dev-test-rumble-regexp'
+export const $57_KEY = 'devTestUnknownRegexpForm'
+export const $58_KEY = 'dev-test-unknown-regexp'

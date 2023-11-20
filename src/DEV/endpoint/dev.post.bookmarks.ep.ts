@@ -7,7 +7,7 @@ import Config from '../../config'
 import { create_bookmark } from '../../model/bookmark'
 import { TBookmarkPostFastifyRequest } from '../../schema/bookmarks'
 import { gen_random_bookmark_votes } from '..'
-import fix_missing_bookmark_data from 'src/platform/platform.drivers'
+import fix_missing_bookmark_data from 'src/platform/all.drivers'
 import { DEFAULT_500_ERROR_MESSAGE } from '../../constants'
 
 export default async function dev_post_bookmarks_endpoint (

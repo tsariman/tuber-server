@@ -1,13 +1,13 @@
 import { TStateForm } from '../../common.types'
 import Config from '../../config'
-import { $46_KEY, $47_KEY, $48_KEY, $51_KEY, $56_KEY } from '../../constants'
+import * as C from '../../constants'
 
-Config.register('state', '47', $47_KEY)
+Config.register('state', '47', C.$47_KEY)
 /** Development shortcuts form. @id 47 */
 const devInstallFormState = {
   '_type': 'box',
   '_id': '47',
-  '_key': $47_KEY,
+  '_key': C.$47_KEY,
   'props': { 'p': 2, 'mt': 10 },
   'paperBackground': true,
   'paperProps': {
@@ -37,7 +37,7 @@ const devInstallFormState = {
             &#128526;<span style="color:#0074d8"><b>Users</b></span> <em>({{ userCount }})</em>
           </p>
         `,
-        'key': $47_KEY
+        'key': C.$47_KEY
       }
     },
     {
@@ -174,7 +174,7 @@ const devInstallFormState = {
       'type': 'a',
       'has': {
         'label': ' Test getting platform thumbnails ',
-        'route': $46_KEY
+        'route': C.$46_KEY
       }
     },
     {
@@ -185,7 +185,7 @@ const devInstallFormState = {
       'type': 'a',
       'has': {
         'label': ' Set authorization key ',
-        'route': $48_KEY
+        'route': C.$48_KEY
       }
     },
     {
@@ -196,7 +196,7 @@ const devInstallFormState = {
       'type': 'a',
       'has': {
         'label': ' Set authorization url ',
-        'route': $51_KEY
+        'route': C.$51_KEY
       }
     },
     {
@@ -207,7 +207,18 @@ const devInstallFormState = {
       'type': 'a',
       'has': {
         'label': ' Test rumble regexp ',
-        'route': $56_KEY
+        'route': C.$56_KEY
+      }
+    },
+    {
+      'type': 'html_tag',
+      'has': { 'content': '|' }
+    },
+    {
+      'type': 'a',
+      'has': {
+        'label': ' Test unknown regexp ',
+        'route': C.$58_KEY
       }
     },
     {

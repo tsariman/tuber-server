@@ -3,6 +3,20 @@ import { backgroundState } from '..'
 import * as C from '../../constants'
 import { remove_form_suffix } from '../form/_forms.business.logic'
 import { TNetState, TStateDialog } from '../../common.types'
+import newRumbleBookmarkDialogState from './new.rumble.dialog'
+import editRumbleBookmarkDialogState from './edit.rumble.dialog'
+import newVimeoBookmarkDialogState from './new.vimeo.dialog'
+import newOdyseeBookmarkDialogState from './new.odysee.dialog'
+import newDailyBookmarkDialogState from './new.daily.dialog'
+import editDailyBookmarkDialogState from './edit.daily.dialog'
+import editVimeoBookmarkDialogState from './edit.vimeo.dialog'
+import editOdyseeBookmarkDialogState from './edit.odysee.dialog'
+import newFacebookBookmarkDialogState from './new.facebook.dialog'
+import editFacebookBookmarkDialogState from './edit.facebook.dialog'
+import newUnknownBookmarkDialogState from './new.unknown.dialog'
+import editUnknownBookmarkDialogState from './edit.unknown.dialog'
+import newTwitchBookmarkDialogState from './new.twitch.dialog'
+import editTwitchBookmarkDialogState from './edit.twitch.dialog'
 
 Config.register('state', '6', C.$6_KEY)
 /** Dialog to create a new YouTube video bookmark @id 6 */
@@ -251,3 +265,29 @@ export function dialogAlertState<T=any>(content: T): TStateDialog {
     'open': true
   } as TStateDialog
 }
+
+const STATE_DIALOGS: { [key: string]: TStateDialog } = {
+  [C.$2_KEY]: newVideoUrlDialogState,
+  [C.$6_KEY]: newYoutubeBookmarkDialogState,
+  [C.$7_KEY]: editYoutubeBookmarkDialogState,
+  [C.$8_KEY]: newRumbleBookmarkDialogState,
+  [C.$11_KEY]: editRumbleBookmarkDialogState,
+  [C.$14_KEY]: newVimeoBookmarkDialogState,
+  [C.$15_KEY]: editVimeoBookmarkDialogState,
+  [C.$16_KEY]: newOdyseeBookmarkDialogState,
+  [C.$21_KEY]: newDailyBookmarkDialogState,
+  [C.$22_KEY]: editDailyBookmarkDialogState,
+  [C.$23_KEY]: editOdyseeBookmarkDialogState,
+  [C.$26_KEY]: newFacebookBookmarkDialogState,
+  [C.$27_KEY]: editFacebookBookmarkDialogState,
+  [C.$30_KEY]: newUnknownBookmarkDialogState,
+  [C.$31_KEY]: editUnknownBookmarkDialogState,
+  [C.$32_KEY]: loginDialogState,
+  [C.$33_KEY]: registerDialogState,
+  [C.$34_KEY]: deleteBookmarkDialogState,
+  [C.$35_KEY]: clientAlertDialogState,
+  [C.$36_KEY]: newTwitchBookmarkDialogState,
+  [C.$37_KEY]: editTwitchBookmarkDialogState,
+}
+
+export default STATE_DIALOGS

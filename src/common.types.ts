@@ -8,20 +8,20 @@ import {
   IJsonapiResource,
   IJsonapiResourceLinkage,
   IJsonapiResponse
-} from '../../tuber-client/src/controllers/interfaces/IJsonapi'
-import { INetState } from '../../tuber-client/src/controllers/interfaces/IState'
-import IStateAllDialogs from '../../tuber-client/src/controllers/interfaces/IStateAllDialogs'
-import IStateAllForms from '../../tuber-client/src/controllers/interfaces/IStateAllForms'
-import IStateAllPages from '../../tuber-client/src/controllers/interfaces/IStateAllPages'
-import IStateApp from '../../tuber-client/src/controllers/interfaces/IStateApp'
-import IStateAppBar from '../../tuber-client/src/controllers/interfaces/IStateAppBar'
-import IStateBackground from '../../tuber-client/src/controllers/interfaces/IStateBackground'
-import IStateDialog from '../../tuber-client/src/controllers/interfaces/IStateDialog'
-import { IStatePageDrawer } from '../../tuber-client/src/controllers/interfaces/IStateDrawer'
-import IStateForm from '../../tuber-client/src/controllers/interfaces/IStateForm'
-import IStateFormItem from '../../tuber-client/src/controllers/interfaces/IStateFormItem'
-import IStateLink from '../../tuber-client/src/controllers/interfaces/IStateLink'
-import IStatePage from '../../tuber-client/src/controllers/interfaces/IStatePage'
+} from '../../tuber-client/src/interfaces/IJsonapi'
+import { INetState } from '../../tuber-client/src/interfaces/IState'
+import IStateAllDialogs from '../../tuber-client/src/interfaces/IStateAllDialogs'
+import IStateAllForms from '../../tuber-client/src/interfaces/IStateAllForms'
+import IStateAllPages from '../../tuber-client/src/interfaces/IStateAllPages'
+import IStateApp from '../../tuber-client/src/interfaces/IStateApp'
+import IStateAppBar from '../../tuber-client/src/interfaces/IStateAppBar'
+import IStateBackground from '../../tuber-client/src/interfaces/IStateBackground'
+import IStateDialog from '../../tuber-client/src/interfaces/IStateDialog'
+import { IStatePageDrawer } from '../../tuber-client/src/interfaces/IStateDrawer'
+import IStateForm from '../../tuber-client/src/interfaces/IStateForm'
+import IStateFormItem from '../../tuber-client/src/interfaces/IStateFormItem'
+import IStateLink from '../../tuber-client/src/interfaces/IStateLink'
+import IStatePage from '../../tuber-client/src/interfaces/IStatePage'
 
 /** `INetState` interface imported form client. */
 export type TNetState = INetState
