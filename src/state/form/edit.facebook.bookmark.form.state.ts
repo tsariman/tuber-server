@@ -24,7 +24,7 @@ const editFacebookBookmarkFormState = {
               'name': 'start_seconds',
               'label': 'Start',
               'props': {
-                'sx': { 'width': 240 },
+                'sx': { 'width': 160 },
                 'variant': 'filled'
               },
               'inputProps': { 'readOnly': true },
@@ -38,8 +38,8 @@ const editFacebookBookmarkFormState = {
               'name': 'author',
               'label': 'Author',
               'props': {
-                'sx': { 'width': 240 },
-                'variant': 'filled'
+                'fullWidth': true,
+                'variant': 'filled',
               },
               'inputProps': { 'readOnly': true }
             },
@@ -48,7 +48,7 @@ const editFacebookBookmarkFormState = {
               'name': 'videoid',
               'label': 'Video ID',
               'props': {
-                'fullWidth': true,
+                'sx': { 'width': 320 },
                 'variant': 'filled'
               },
               'inputProps': { 'readOnly': true }
