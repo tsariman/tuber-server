@@ -5,7 +5,7 @@ export const NET_STATE_PATCH_DELETE = '<#DEL>'
 
 // Gray background for page
 export const backgroundState: TStateBackground = {
-  'color': '#f0f0f0', // '#F0F8FF'
+  'color': 'transparent'// '#f0f0f0',
 }
 
 // Grey app bar with text-transform disabled

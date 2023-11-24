@@ -32,15 +32,13 @@ const newDailyBookmarkFormState = {
           },
           'items': [
             {
-              'type': 'number',
-              'name': 'start_seconds',
+              'type': 'textfield',
+              'name': 'start_time',
               'label': 'Start',
               'props': {
                 'sx': { 'width': 240 },
-                'helperText': 'time is second(s)',
-                'variant': 'filled'
+                'helperText': 'Start time e.g. 1m8s',
               },
-              'inputProps': { 'readOnly': true },
               'has': {
                 'required': true,
                 'requiredMessage': C.START_SECONDS_REQUIRED_MESSAGE,

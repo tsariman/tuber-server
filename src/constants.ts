@@ -1,8 +1,10 @@
+export const CONF_THEME_MODE = 'theme_mode'
 export const DEFAULT_500_ERROR_MESSAGE = 'Failed.\nInternal Server Error.'
 export const INVALID_ACCESS_TOKEN = 'INVALID_ACCESS_TOKEN'
 export const MISSING_ACCESS_TOKEN = 'MISSING_ACCESS_TOKEN'
 export const DEFAULT_AUTH_HEADER = `Bearer ${MISSING_ACCESS_TOKEN}`
 export const START_SECONDS_REQUIRED_MESSAGE = 'Starting time is required'
+export const URL_REQUIRED_MESSAGE = 'Link is required'
 /** Bookmark required title message */
 export const TITLE_REQUIRED_MESSAGE = `Don't forget your title`
 /** Bookmark title field maximum length. */
@@ -22,8 +24,8 @@ export const DB_PAGINATION_QUERY = {
 }
 /** Database mongoose-paginate-v2 options */
 export const DB_PAGINATION_OPTIONS = {
-  // sort: { created_at: -1 } // Comment this out when debugging pagination
-  select: {
+  // sort: { created_at: -1 } // TODO Comment this out when debugging pagination
+  select: { // Exclude these fields from the query
     __v: 0,
     is_active: 0,
     restrictions: 0,
@@ -31,17 +33,30 @@ export const DB_PAGINATION_OPTIONS = {
   }
 }
 /** Configuration property at which the Twitch client ID can be acquired. */
-export const CONF_TWITCH_ID = `twitch_client_id`
+export const CONF_TWITCH_CLIENT_ID = `twitch_client_id`
 /** Configuration property as which the Twitch client secret can be acquired. */
-export const CONF_TWITCH_SECRET = `twitch_client_secret`
+export const CONF_TWITCH_CLIENT_SECRET = `twitch_client_secret`
 /** Configuration property at which the Twitch access token can be acquired. */
-export const CONF_TWITCH_TOKEN = `twitch_access_token`
+export const CONF_TWITCH_ACCESS_TOKEN = `twitch_access_token`
+/** Configuration property at which the Twitch refresh token can be acquired. */
+export const CONF_TWITCH_REFRESH_TOKEN = `twitch_refresh_token`
 /**
  * Configuration property at which the Twitch access token expiration can be
  * acquired.
  */
-export const CONF_TWITCH_EXPIRATION = `twitch_expiration_date`
-
+export const CONF_TWITCH_TOKEN_EXPIRATION = `twitch_expiration_date`
+/**
+ * In case the twitch token renewal process failed. This key will be set to
+ * `true` in the Config object to prevent the token renewal process from
+ * running again.
+ */
+export const CONF_TWITCH_DISABLE_TOKEN_RENEWAL = `twitch_disable_token_renewal`
+/**
+ * In case the twitch token renewal process failed. This key will be set
+ * to `true` in the Config object to prevent the thumbnail retrieval process
+ * from running.
+ */
+export const CONF_TWITCH_DISABLE_THUMBNAIL_RETRIEVAL = `twitch_disable_thumbnail_retrieval`
 /**
  * Array of regular expressions to extract the thumbnail HTML from a web page
  * html source.
@@ -111,3 +126,7 @@ export const $55_KEY = 'admin-config-app'
 export const $56_KEY = 'dev-test-rumble-regexp'
 export const $57_KEY = 'devTestUnknownRegexpForm'
 export const $58_KEY = 'dev-test-unknown-regexp'
+export const $59_KEY = 'dev-twitch-input-client-id'
+export const $60_KEY = 'devTwitchInputClientIdForm'
+export const $61_KEY = 'dev-save-config-value'
+export const $62_KEY = 'devSaveConfigValueForm'

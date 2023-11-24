@@ -55,7 +55,11 @@ export async function authorization_get_collection(
   })
 }
 
-/** Save authorization credentials in the database. */
+/**
+ * Save authorization credentials in the database.
+ * @param platform Video platform e.g. `youtube`, `twitch`... etc.
+ * @param key Authorization key object.
+ */
 export async function authorization_key_save(
   platform: TPlatform,
   key: TAuthorizationKeyNew
@@ -87,7 +91,7 @@ export async function authorization_key_save(
  * propery is the `key.name` and the value is the key object.
  *
  * @param platform Video platform e.g. `youtube`, `twitch`... etc.
- * @return the object as a `Promise`
+ * @return the object as a `Promise` or `null` if no keys are found.
  */
 export async function authorization_keys_get_obj(
   platform: TPlatform
@@ -98,12 +102,17 @@ export async function authorization_keys_get_obj(
   }
   const keys: Record<string, IAuthorizationKey> = {}
   authorizationDoc.keys.map(key => keys[key.name] = key)
-  return keys
+  if (Object.keys(keys).length > 0) {
+    return keys
+  }
+  return null
 }
 
 /**
- * Given an authorization document, it will return the key with the associated
+ * Given the platform, it will return the key with the associated
  * name.
+ * @param platform Video platform e.g. `youtube`, `twitch`... etc.
+ * @param name Key name.
  */
 export async function authorization_key_get(
   platform: TPlatform,
@@ -114,6 +123,22 @@ export async function authorization_key_get(
     return keys[name]
   }
   return null
+}
+
+/**
+ * Remove all authorization keys from the database.
+ * @param platform Video platform e.g. `youtube`, `twitch`... etc.
+ * @return the object as a `Promise`
+ */
+export async function authorization_key_clear_all(
+  platform: TPlatform
+): Promise<void> {
+  const authorizationDoc = await authorization_get_by_platform(platform)
+  if (!authorizationDoc) {
+    return
+  }
+  authorizationDoc.keys = []
+  await authorizationDoc.save()
 }
 
 export async function authorization_url_save(

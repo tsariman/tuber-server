@@ -184,6 +184,28 @@ const devInstallFormState = {
     {
       'type': 'a',
       'has': {
+        'label': ' Save config value ',
+        'route': C.$61_KEY
+      }
+    },
+    {
+      'type': 'html_tag',
+      'has': { 'content': '|' }
+    },
+    {
+      'type': 'a',
+      'has': {
+        'label': ' Enter Twitch Client ID ',
+        'route': C.$59_KEY
+      }
+    },
+    {
+      'type': 'html_tag',
+      'has': { 'content': '|' }
+    },
+    {
+      'type': 'a',
+      'has': {
         'label': ' Set authorization key ',
         'route': C.$48_KEY
       }

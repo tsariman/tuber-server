@@ -1,10 +1,4 @@
-import {
-  model,
-  // connect,
-  // disconnect,
-  PaginateModel,
-  PaginateResult
-} from 'mongoose'
+import { model, PaginateModel, PaginateResult } from 'mongoose'
 import { IMPV2Doc } from '../../common.types'
 import bookmarkSchema, {
   IBookmark,
@@ -61,9 +55,7 @@ export const exclude_bookmark_fields = (bookmark: IMPV2Doc) => {
 export const get_bookmark_by_id = async function (
   id: string
 ): Promise<IBookmarkDocument | null> {
-  // await connect(Config.DB_URI)
   const bookmarkDoc = await BookmarkPaginationModel.findById(id)
-  // await disconnect()
   return bookmarkDoc
 }
 
@@ -73,10 +65,8 @@ export const create_bookmark = async function (
   if (!bookmarkInfo) {
     throw new Error('Bookmark info is required')
   }
-  // await connect(Config.DB_URI)
   const bookmarkModel = await BookmarkPaginationModel.create(bookmarkInfo)
   const bookmark = await bookmarkModel.save()
-  // await disconnect()
   return bookmark
 }
 
@@ -84,19 +74,15 @@ export const get_bookmark_collection = async function (
   page: number,
   limit: number
 ): Promise<PaginateResult<IBookmarkDocument>> {
-  // await connect(Config.DB_URI)
   const result = await BookmarkPaginationModel.paginate(PAGINATION_QUERY, {
     ...PAGINATION_OPTIONS,
     page,
     limit
   })
-  // await disconnect()
   return result
 }
 
 export const get_bookmark_document_count = async function (): Promise<number> {
-  // await connect(Config.DB_URI)
   const count = await BookmarkModel.countDocuments()
-  // await disconnect()
   return count
 }

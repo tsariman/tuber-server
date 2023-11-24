@@ -133,7 +133,10 @@ export function match_regex_array(
 ): RegExpMatchArray | null {
   for (const regex of regexArray) {
     const match = str.match(regex)
-    if (match) return match
+    if (match) {
+      Config.log(`Matched: ${regex}`)
+      return match
+    }
   }
   return null
 }

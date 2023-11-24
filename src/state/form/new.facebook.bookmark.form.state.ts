@@ -13,13 +13,25 @@ const newFacebookBookmarkFormState = {
       'props': { 'spacing': 2 },
       'items': [
         {
-          'type': 'textarea',
+          'type': 'textfield',
+          'name': 'url',
+          'label': 'Link',
+          'props': {
+            'fullWidth': true,
+            'variant': 'filled'
+          },
+          'inputProps': { 'readOnly': true },
+          'has': {
+            'required': true,
+            'requiredMessage': C.URL_REQUIRED_MESSAGE,
+          }
+        },
+        {
+          'type': 'textfield',
           'name': 'embed_url',
           'label': 'Embed HTML Code',
           'props': {
             'fullWidth': true,
-            'multiline': true,
-            'rows': 5
           },
           'has': {
             'required': true,

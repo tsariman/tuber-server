@@ -6,7 +6,7 @@ import Config from '../../config'
 import { $57_KEY, $58_KEY, DEFAULT_500_ERROR_MESSAGE } from '../../constants'
 import axios from 'axios'
 
-interface IRequestBody {
+interface IPostRequest {
   Body: {
     regexp?: string
     url?: string
@@ -22,7 +22,7 @@ interface IRequestBody {
  * @returns `Promise<void>`
  */
 export default async function dev_post_unknown_regexp_endpoint(
-  req: FastifyRequest<IRequestBody>,
+  req: FastifyRequest<IPostRequest>,
   reply: FastifyReply
 ): Promise<void> {
   const regexp = req.body.regexp
@@ -37,7 +37,7 @@ export default async function dev_post_unknown_regexp_endpoint(
     )
     return
   }
-  Config.log(`Parsing ${url} with ${regexp}... `)
+  Config.print(`Parsing ${url} with ${regexp}... `)
   try {
     const response = await axios.get(url)
     const html = await response.data

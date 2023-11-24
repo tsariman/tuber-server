@@ -1,10 +1,9 @@
 import hogan from 'hogan.js'
 import mongoose from 'mongoose'
-import Config from '../../config'
 
 /** Kept as an example use of hogan.js @deprecated */
 export async function dev_install_form_summary() {
-  await mongoose.connect(Config.DB_URI)
+  // await mongoose.connect(Config.DB_URI)
   const bookmarkCount = await mongoose.connection.db.collection('bookmarks')
     .countDocuments() || 'empty'
   const userCount = await mongoose.connection.db.collection('users')

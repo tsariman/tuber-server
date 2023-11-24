@@ -84,6 +84,10 @@ export interface IJsonapiQuerystring {
   'page[number]'?: string
   'page[size]'?: string
   'query'?: string
+  'filter[is_published]'?: string
+  'filter[is_active]'?: string
+  'filter[search]'?: string
+
   // TODO Add more expected query strings
 }
 

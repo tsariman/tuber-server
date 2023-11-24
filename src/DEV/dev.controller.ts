@@ -30,8 +30,9 @@ import dev_get_odysee_thumbnail_endpoint from './endpoint/dev.get.odysee.thumbna
 import dev_get_vimeo_thumbnail_endpoint from './endpoint/dev.get.vimeo.thumbnail.ep'
 import dev_get_twitch_thumbnail_endpoint
   from './endpoint/dev.get.twitch.thumbnail.ep'
-import get_twitch_renew_access_token_endpoint
-  from '../platform/endpoint/get.twitch.renew.access.token.ep'
+import {
+  get_twitch_renew_access_token_endpoint
+} from '../platform/endpoint/get.twitch.renew.access.token.ep'
 import dev_post_state_pages_endpoint from './endpoint/dev.post.state.pages.ep'
 import dev_post_state_forms_endpoint from './endpoint/dev.post.state.forms.ep'
 import  {
@@ -40,6 +41,10 @@ import  {
 }  from './endpoint/dev.post.save.authorizations.ep'
 import dev_post_rumble_regexp_endpoint from './endpoint/dev.post.rumble.regexp.ep'
 import dev_post_unknown_regexp_endpoint from './endpoint/dev.post.unknown.regexp.ep'
+import dev_post_twitch_client_id_endpoint
+  from './endpoint/dev.post.twitch.client.id.ep'
+import dev_post_save_config_value_endpoint
+  from './endpoint/dev.post.save.config.value.ep'
 
 interface IDevPopulateEndpoint {
   Params: {
@@ -131,4 +136,6 @@ export default async function dev_controller(fastify: FastifyInstance) {
     {},
     get_twitch_renew_access_token_endpoint
   )
+  fastify.post('/twitch/client-id', {}, dev_post_twitch_client_id_endpoint)
+  fastify.post('/save-config-value', {}, dev_post_save_config_value_endpoint)
 }

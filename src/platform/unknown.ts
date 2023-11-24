@@ -4,11 +4,7 @@ import { CONF_THUMB_URL_REGEXP } from 'src/constants'
 
 export async function unknown_fetch_thumbnail_url(url?: string): Promise<string> {
   if (!url) { return '' }
-  const response = await axios.get(url, {
-    headers: {
-      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101 Firefox/78.0'
-    }
-  })
+  const response = await axios.get(url)
   const htmlText = await response.data
   const match = match_regex_array(
     htmlText,

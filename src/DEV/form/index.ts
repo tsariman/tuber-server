@@ -6,6 +6,8 @@ import { TStateAllForms } from '../../common.types'
 import devTestRumbleRegexpFormState from './dev.test.rumble.regexp.form.state'
 import devSetAuthorizationUrlFormState from './dev.set.authorization.url.form.state'
 import devTestUnknownRegexpFormState from './dev.test.unknown.regexp.form.state'
+import devTwitchInputClientIdFormState from './dev.twitch.input.client.id.form.state'
+import devSaveConfigValueFormState from './dev.save.config.value.form.state'
 
 const DEV_STATE_FORM: TStateAllForms = {
   [C.$45_KEY]: devTestThumbnailFormState,
@@ -14,6 +16,8 @@ const DEV_STATE_FORM: TStateAllForms = {
   [C.$50_KEY]: devSetAuthorizationUrlFormState,
   [C.$54_KEY]: devTestRumbleRegexpFormState,
   [C.$57_KEY]: devTestUnknownRegexpFormState,
+  [C.$60_KEY]: devTwitchInputClientIdFormState,
+  [C.$62_KEY]: devSaveConfigValueFormState,
 }
 
 export default DEV_STATE_FORM

@@ -7,7 +7,7 @@ import Config from './config'
 import users_controller from './controller/users.controller'
 import authentification_controller from './controller/authentification.controller'
 import bookmarks_controller from './controller/bookmarks.controller'
-import platform_controller from './platform/controller'
+import platform_controller from './platform/platform.controller'
 import state_controller from './state/state.controller'
 
 export default async function router(fastify: FastifyInstance) {

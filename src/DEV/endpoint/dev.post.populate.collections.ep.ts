@@ -1,12 +1,15 @@
-import { FastifyReply, FastifyRequest } from "fastify"
-import { UserPaginationModel, exclude_user_fields } from "src/model/user"
-import gen_random_users from "../population/users"
-import JsonapiResponseBuilder from "src/business.logic/jsonapi.response.builder"
-import Config from "src/config"
+import { FastifyReply, FastifyRequest } from 'fastify'
+import { UserPaginationModel, exclude_user_fields } from '../../model/user'
+import gen_random_users from '../population/users'
+import JsonapiResponseBuilder from 'src/business.logic/jsonapi.response.builder'
+import Config from 'src/config'
 // import { connect, disconnect } from "mongoose"
-import gen_random_bookmarks from "../population/bookmarks"
-import { BookmarkPaginationModel, exclude_bookmark_fields } from "src/model/bookmark"
-import { limit_array } from "src/business.logic"
+import gen_random_bookmarks from '../population/bookmarks'
+import {
+  BookmarkPaginationModel,
+  exclude_bookmark_fields
+} from '../../model/bookmark'
+import { limit_array } from 'src/business.logic'
 
 /** 
  * Populates the users collection with random users. Used when populating

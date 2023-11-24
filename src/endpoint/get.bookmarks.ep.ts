@@ -66,6 +66,8 @@ export default async function get_bookmarks_collection_endpoint (
           note: 1,
           upvotes: 1,
           downvotes: 1,
+          url: 1,
+          thumbnail_url: 1,
           restrictions: 1,
           rules: 1,
           results: {
@@ -112,6 +114,7 @@ export default async function get_bookmarks_collection_endpoint (
         })
       }
     } else {
+      Config.log('Running search query:', searchQuery)
       Config.print(`Getting bookmarks collection (page ${page}, limit ${limit})... `)
       const result = await get_bookmark_collection(page, limit)
       Config.log('Done.')

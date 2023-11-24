@@ -6,7 +6,7 @@ import Config from '../../config'
 import { $54_KEY, $56_KEY, DEFAULT_500_ERROR_MESSAGE } from '../../constants'
 import axios from 'axios'
 
-interface IRequestBody {
+interface IPostRequest {
   Body: {
     regexp?: string
     url?: string
@@ -22,7 +22,7 @@ interface IRequestBody {
  * @returns `Promise<void>`
  */
 export default async function dev_post_rumble_regexp_endpoint(
-  req: FastifyRequest<IRequestBody>,
+  req: FastifyRequest<IPostRequest>,
   reply: FastifyReply
 ): Promise<void> {
   const regexp = req.body.regexp

@@ -24,7 +24,7 @@ export interface IBookmark {
   is_private?: boolean
   user_id?: string
   author?: string // used by facebook
-  videoid: string
+  videoid?: string
   /** When the videoid is not enough e.g. Rumble */
   url?: string
   embed_url?: string

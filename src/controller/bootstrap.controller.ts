@@ -28,7 +28,7 @@ import { $46_KEY, $58_KEY } from '../constants'
 
 export default async function bootstrap_controller(fastify: FastifyInstance) {
 
-  /** Application configuration */
+  /** Application information state */
   const appState: TStateApp = {
     'fetchingStateAllowed': true,
     'inDebugMode': false,

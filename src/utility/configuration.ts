@@ -1,11 +1,47 @@
+import { IDbConfigurationDocument } from '../schema/configurations'
+import { configuration_save } from '../model/configuration'
 
 /** Reserved methods/keys of the configuration object. */
 export interface IConfigMethods {
   readonly init: (data?: any) => void
+  /**
+   * Load a configuration value from the database.
+   * @param docs array of configuration documents
+   */
+  readonly load: (docs: IDbConfigurationDocument[]) => Promise<void>
+  /**
+   * Set a configuration value in memory only. However, the value is read only.
+   * @param path period-separated list of properties
+   * @param val value to be saved.
+   */
   readonly set: (path: string, val: any) => void
-  readonly read: <T=any>(path: string) => T
+  /**
+   * Save a configuration value to the database. The value can be changed at 
+   * any time.
+   * @param path period-separated list of properties
+   * @param val value to be saved.
+   */
+  readonly save: (path: string, val: any) => Promise<IDbConfigurationDocument>
+  /** 
+   * Read a configuration value which was previously set with `write()`,
+   * `set()`, or `save()`.
+   * @param path period-separated list of properties
+   * @param $default default value to be returned if the value is not found.
+   */
+  readonly read: <T=any>(path: string, $default?: T) => T
+  /**
+   * Set a configuration value in memory only. The value can be changed at any
+   * time.
+   * @param path period-separated list of properties
+   * @param val value to be saved.
+   */
   readonly write: <T=any>(path: string, val: T) => void
+  /**
+   * Delete a configuration value.
+   * @param path period-separated list of properties
+   */
   readonly delete: (path: string) => void
+  /** Clear all configuration values. */
   readonly clear: () => void
 }
 
@@ -51,7 +87,9 @@ const create_property = (obj: any, prop: string, val: any): void => {
  */
 const invalid_keys: {[key in TReservedKeys]: number} = {
   'init': 1,
+  'load': 1,
   'set': 1,
+  'save': 1,
   'read': 1,
   'write': 1,
   'clear': 1,
@@ -114,8 +152,30 @@ const config: IConfiguration = {
     }
   },
 
+  /**
+   * Load configuration from the database.
+   * @param docs array of configuration documents
+   */
+  load: async (docs: IDbConfigurationDocument[]): Promise<void> => {
+    writable = false
+    docs.forEach(doc => {
+      if (!(doc.key in invalid_keys)) { // if key is invalid
+        config[doc.key] = doc.value
+      } else {
+        console.error(`[ERROR] '${doc.key}' cannot be specified as a key.`)
+      }
+    })
+  },
+
   set: (path: string, val: any): void => {
     resolve(config, path, val)
+  },
+
+  save: async (path: string, val: any): Promise<IDbConfigurationDocument> => {
+    writable = true
+    resolve(config, path, val)
+    writable = false
+    return await configuration_save(path, val)
   },
 
   /**
@@ -123,8 +183,8 @@ const config: IConfiguration = {
    *
    * @param prop period-seperated list of properties
    */
-  read: <T=any>(path: string): T => {
-    return resolve(config, path)
+  read: <T=any>(path: string, $default?: T): T => {
+    return resolve(config, path) ?? $default
   },
 
   /**

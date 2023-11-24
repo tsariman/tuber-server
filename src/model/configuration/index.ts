@@ -60,15 +60,6 @@ export async function configuration_get_collection(
 }
 
 /**
- * Get entire configuration collection.
- *
- * @returns entire collection as an array
- */
-export async function configuration_get_entire_collection(): Promise<IDbConfigurationDocument[]> {
-  return await ConfigurationModel.find(PAGINATION_QUERY, PAGINATION_OPTONS)
-}
-
-/**
  * Get a configuration by key. 
  * 
  * @param key Configuration key
@@ -78,6 +69,28 @@ export async function configuration_get(
   key: string
 ): Promise<IDbConfigurationDocument|null> {
   return await ConfigurationModel.findOne({ key })
+}
+
+/**
+ * Get entire configuration collection.
+ *
+ * @returns entire collection as an array
+ */
+export async function configuration_get_all(): Promise<IDbConfigurationDocument[]> {
+  return await ConfigurationModel.find(PAGINATION_QUERY, PAGINATION_OPTONS)
+}
+
+/**
+ * Get a configuration by key.
+ * @param docs configuration documents
+ * @param key configuration key
+ * @returns configuration document or null
+ */
+export function configuration_get_by_key(
+  docs: IDbConfigurationDocument[],
+  key: string
+): IDbConfigurationDocument|null {
+  return docs.find(doc => doc.key === key) || null
 }
 
 /**

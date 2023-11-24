@@ -5,11 +5,13 @@ import { DEV_DEFAULT_USER, DEV_USER } from './DEV/dev.install.common'
 import { find_index_by_name } from './business.logic'
 import { authorization_keys_get_obj } from './model/authorization'
 import {
-  CONF_TWITCH_ID,
-  CONF_TWITCH_SECRET,
-  CONF_TWITCH_EXPIRATION,
-  CONF_TWITCH_TOKEN
+  CONF_TWITCH_CLIENT_ID,
+  CONF_TWITCH_CLIENT_SECRET,
+  CONF_TWITCH_TOKEN_EXPIRATION,
+  CONF_TWITCH_ACCESS_TOKEN,
 } from './constants'
+import start_cron_jobs from './cron.jobs'
+import {  configuration_get_all } from './model/configuration'
 
 mongoose.set('strictQuery', false)
 
@@ -22,18 +24,17 @@ app.listen({ port: Config.FASTIFY_PORT }, (err, address) => {
   process.stdout.write(`🚀 tuber server running at ${address}\n\n`)
   process.stdout.write(`process.env.NODE_ENV = ${Config.NODE_ENV}\n`)
   process.stdout.write(`Config.DEV = ${Config.DEV}\n`)
+  const DB_URI = Config.DB_REMOTE ? Config.DB_URI_REMOTE : Config.DB_URI_LOCAL
+  Config.log('\nDatabase URI:', DB_URI)
 
-  // TODO That comparison might not be the best way to test if we're connecting
-  //      to MongoDB Atlas
-  const database = Config.DB_PROTOCOL.slice(-6) === 'srv://'
+  const database = Config.DB_REMOTE // Config.DB_PROTOCOL.slice(-6) === 'srv://'
     ? 'Atlas'
     : 'Mongodb'
   Config.print(`\nConnecting to ${database}... `)
 
   // Note: Use '127.0.0.1' instead of 'localhost' if connecting locally.
-  mongoose.connect(Config.DB_URI).then(async () => {
+  mongoose.connect(DB_URI).then(async () => {
     Config.log('Success!')
-    Config.log('\nDatabase URI:', Config.DB_URI)
 
     // If using Mongodb Atlas,
     if (database === 'Atlas') {
@@ -62,17 +63,40 @@ app.listen({ port: Config.FASTIFY_PORT }, (err, address) => {
       }
     }
 
-    // Setup twitch authorization keys
+    // Load configuration values from database in Config object.
+    Config.print('Loading configuration from database... ')
+    const dbConfigs = await configuration_get_all()
+    if (dbConfigs.length > 0) {
+      await Config.load(dbConfigs)
+      Config.log('Done.')
+    } else {
+      Config.log('Failed! No configuration found in database.')
+    }
+
+    // Load twitch authorization keys into Config object.
+    Config.print('Loading Twitch authorization keys... ')
     const keys = await authorization_keys_get_obj('twitch')
     if (keys) {
-      Config.write(CONF_TWITCH_ID, keys.client_id.value)
-      Config.write(CONF_TWITCH_SECRET, keys.client_secret.value)
-      Config.write(CONF_TWITCH_TOKEN, keys.access_token.value)
-      Config.write(CONF_TWITCH_EXPIRATION, keys.access_token.expires_at)
+      Config.write(CONF_TWITCH_CLIENT_ID, keys.client_id.value)
+      Config.write(CONF_TWITCH_CLIENT_SECRET, keys.client_secret.value)
+      Config.write(CONF_TWITCH_ACCESS_TOKEN, keys.access_token.value)
+      Config.write(CONF_TWITCH_TOKEN_EXPIRATION, keys.access_token.expires_at)
+      Config.log('Done.')
+    } else {
+      Config.log('Failed! This should be resolved automatically. If not,')
+      Config.log('You can visit endpoint: /dev/twitch/renew-access-token to '
+        + 'get a token.'
+      )
+      Config.log('And/Or Manually input the Twitch authorization keys in the '
+        + '`.env.twitch` file.'
+      )
     }
+
+    Config.print('Setting up cron jobs... ')
+    start_cron_jobs()
+    Config.log('Done.')
   }, err => {
     Config.log('Failed!\n')
-    Config.log('Database URI:', Config.DB_URI)
     console.error(err)
     process.exit(1)
   })
