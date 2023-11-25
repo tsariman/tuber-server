@@ -3,9 +3,10 @@ import Config from '../../config'
 import JsonapiErrorBuilder, {
   default_500_error_response
 } from '../../business.logic/jsonapi.error.builder'
-import STATE_DIALOGS from '../dialog'
+import STATE_DIALOGS, { STATE_DIALOGS_THEME_DARK } from '../dialog'
 import { TNetState, TStateAllDialogs } from '../../common.types'
-import { DEFAULT_500_ERROR_MESSAGE } from 'src/constants'
+import { MSG_500_ERROR_MESSAGE } from 'src/constants'
+import { tt } from '../../business.logic'
 
 export default async function post_state_dialogs_endpoint (
   req: FastifyRequest<{ Body: { key?: string }}>,
@@ -23,7 +24,7 @@ export default async function post_state_dialogs_endpoint (
       return
     }
     Config.print(`Loading '${key}' state... `)
-    const dialogState = STATE_DIALOGS[key]
+    const dialogState = tt(key, STATE_DIALOGS, STATE_DIALOGS_THEME_DARK)
     if (dialogState) {
       Config.log('Done.')
       reply.code(200).send({
@@ -51,7 +52,7 @@ export default async function post_state_dialogs_endpoint (
       })
     }
   } catch (e: any) {
-    Config.log(DEFAULT_500_ERROR_MESSAGE, e)
+    Config.log(MSG_500_ERROR_MESSAGE, e)
     reply.code(500).send(default_500_error_response(e))
   }
 }

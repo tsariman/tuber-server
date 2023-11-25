@@ -3,18 +3,22 @@ import Config from '../config'
 import { backgroundState } from '../state'
 import { newVideoUrlDialogState } from '../state/dialog'
 import { defaultAppBarState } from '../state/default.content'
-import themeState from '../state/theme.state'
+import get_theme_state from '../state/theme.state'
 import devInstallPageState from '../DEV/page/dev.install.page.state'
-import devInstallFormState from '../DEV/form/dev.install.form.state'
+import devInstallFormState, {
+  $47DarkThemeMode
+} from '../DEV/form/dev.install.form.state'
 import researchPageState from '../state/page/research.page.state'
-import researchPageAppBarState from '../state/appBar/research.page.appbar.state'
+import researchPageAppBarState, {
+  $63DarkThemeMode
+} from '../state/appBar/research.page.appbar.state'
 import {
   homeLinkState,
   bookmarkAddFromUrlLinkState,
   powerLinkState,
   defaultErrorsViewLinkState
 } from '../state/nav.link'
-import { get_state_key } from '../business.logic'
+import { get_state_key, ts } from '../business.logic'
 import { get_documents_count } from '../DEV'
 import {
   IBootstrapResponse,
@@ -22,7 +26,7 @@ import {
   TStateAllForms,
   TStateAllPages,
   TStateApp,
-  TStateAppBar
+  TStateAppBar,
 } from '../common.types'
 import { $46_KEY, $58_KEY } from '../constants'
 
@@ -86,7 +90,7 @@ export default async function bootstrap_controller(fastify: FastifyInstance) {
       pagesState[get_state_key(researchPageState)] = {
         ...researchPageState,
         appBar: {
-          ...researchPageAppBarState,
+          ...ts(researchPageAppBarState, $63DarkThemeMode),
           items: [ 
             defaultErrorsViewLinkState,
             homeLinkState,
@@ -95,8 +99,9 @@ export default async function bootstrap_controller(fastify: FastifyInstance) {
           ]
         }
       }
-      const key = get_state_key(devInstallFormState)
-      formsState[key] = devInstallFormState
+      const formState = ts(devInstallFormState, $47DarkThemeMode)
+      const key = get_state_key(formState)
+      formsState[key] = formState
       const counts = await get_documents_count()
       pagesData[key] = counts
       pagesData[$46_KEY] = {
@@ -110,7 +115,7 @@ export default async function bootstrap_controller(fastify: FastifyInstance) {
     reply.send({
       state: {
         'app': appState,
-        'theme': themeState,
+        'theme': get_theme_state(),
         'appBar': appBarState,
         'pages': pagesState,
         'pagesData': pagesData,

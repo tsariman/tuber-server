@@ -88,3 +88,8 @@ const editVimeoBookmarkFormState = {
 } as TStateForm
 
 export default editVimeoBookmarkFormState
+
+export const $13DarkThemeMode = {
+  ...editVimeoBookmarkFormState,
+  // TODO - add dark theme mode overrides here
+} as TStateForm

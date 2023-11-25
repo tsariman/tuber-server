@@ -10,7 +10,7 @@ import {
 import Config from '../../config'
 import JsonapiResponseBuilder from '../../business.logic/jsonapi.response.builder'
 import { get_expiration_date } from '../../business.logic'
-import { DEFAULT_500_ERROR_MESSAGE } from '../../constants'
+import { MSG_500_ERROR_MESSAGE } from '../../constants'
 
 interface IKey {
   Body: {
@@ -58,7 +58,7 @@ export async function dev_post_authorizations_save_key_endpoint (
       ).build()
     )
   } catch (e: any) {
-    Config.log(DEFAULT_500_ERROR_MESSAGE, e)
+    Config.log(MSG_500_ERROR_MESSAGE, e)
     reply.code(500).send(default_500_error_response(e))
   }
 }
@@ -89,7 +89,7 @@ export async function dev_post_authorizations_save_url_endpoint (
       ).build()
     )
   } catch (e: any) {
-    Config.log(DEFAULT_500_ERROR_MESSAGE, e)
+    Config.log(MSG_500_ERROR_MESSAGE, e)
     reply.code(500).send(default_500_error_response(e))
   }
 }

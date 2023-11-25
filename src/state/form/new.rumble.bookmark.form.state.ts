@@ -98,3 +98,8 @@ const newRumbleBookmarkFormState = {
 } as TStateForm
 
 export default newRumbleBookmarkFormState
+
+export const $9DarkThemeMode = {
+  ...newRumbleBookmarkFormState,
+  // TODO - add dark theme mode overrides here
+} as TStateForm

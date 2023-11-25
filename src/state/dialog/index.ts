@@ -1,22 +1,49 @@
 import Config from '../../config'
-import { backgroundState } from '..'
 import * as C from '../../constants'
 import { remove_form_suffix } from '../form/_forms.business.logic'
-import { TNetState, TStateDialog } from '../../common.types'
-import newRumbleBookmarkDialogState from './new.rumble.dialog'
-import editRumbleBookmarkDialogState from './edit.rumble.dialog'
-import newVimeoBookmarkDialogState from './new.vimeo.dialog'
-import newOdyseeBookmarkDialogState from './new.odysee.dialog'
-import newDailyBookmarkDialogState from './new.daily.dialog'
-import editDailyBookmarkDialogState from './edit.daily.dialog'
-import editVimeoBookmarkDialogState from './edit.vimeo.dialog'
-import editOdyseeBookmarkDialogState from './edit.odysee.dialog'
-import newFacebookBookmarkDialogState from './new.facebook.dialog'
-import editFacebookBookmarkDialogState from './edit.facebook.dialog'
-import newUnknownBookmarkDialogState from './new.unknown.dialog'
-import editUnknownBookmarkDialogState from './edit.unknown.dialog'
-import newTwitchBookmarkDialogState from './new.twitch.dialog'
-import editTwitchBookmarkDialogState from './edit.twitch.dialog'
+import { TNetState, TStateAllDialogs, TStateDialog } from '../../common.types'
+import newRumbleBookmarkDialogState, {
+  $8DarkThemeMode
+} from './new.rumble.dialog'
+import editRumbleBookmarkDialogState, {
+  $11DarkThemeMode
+} from './edit.rumble.dialog'
+import newVimeoBookmarkDialogState, {
+  $14DarkThemeMode
+} from './new.vimeo.dialog'
+import newOdyseeBookmarkDialogState, {
+  $16DarkThemeMode
+} from './new.odysee.dialog'
+import newDailyBookmarkDialogState, {
+  $21DarkThemeMode
+} from './new.daily.dialog'
+import editDailyBookmarkDialogState, {
+  $22DarkThemeMode
+} from './edit.daily.dialog'
+import editVimeoBookmarkDialogState, {
+  $15DarkThemeMode
+} from './edit.vimeo.dialog'
+import editOdyseeBookmarkDialogState, {
+  $23DarkThemeMode
+} from './edit.odysee.dialog'
+import newFacebookBookmarkDialogState, {
+  $26DarkThemeMode
+} from './new.facebook.dialog'
+import editFacebookBookmarkDialogState, {
+  $27DarkThemeMode
+} from './edit.facebook.dialog'
+import newUnknownBookmarkDialogState, {
+  $30DarkThemeMode
+} from './new.unknown.dialog'
+import editUnknownBookmarkDialogState, {
+  $31DarkThemeMode
+} from './edit.unknown.dialog'
+import newTwitchBookmarkDialogState, {
+  $36DarkThemeMode
+} from './new.twitch.dialog'
+import editTwitchBookmarkDialogState, {
+  $37DarkThemeMode
+} from './edit.twitch.dialog'
 
 Config.register('state', '6', C.$6_KEY)
 /** Dialog to create a new YouTube video bookmark @id 6 */
@@ -29,7 +56,7 @@ export const newYoutubeBookmarkDialogState: TStateDialog = {
     'fullWidth': true,
     'maxWidth': 'md',
     'PaperProps': {
-      'sx': { 'backgroundColor': backgroundState.color }
+      'sx': { 'backgroundColor': C.THEME_LIGHT_BACKGROUND_COLOR }
     }
   },
   'titleProps': {
@@ -57,6 +84,22 @@ export const newYoutubeBookmarkDialogState: TStateDialog = {
   'open': true
 }
 
+/**
+ * Dark theme mode for form state to create a new YouTube video
+ * bookmark.
+ * @id 6
+ */
+export const $6DarkThemeMode: TStateDialog = {
+  ...newYoutubeBookmarkDialogState,
+  'props': {
+    ...newYoutubeBookmarkDialogState.props,
+    'PaperProps': {
+      ...newYoutubeBookmarkDialogState.props?.PaperProps,
+      'sx': { 'backgroundColor': C.THEME_DARK_DIALOG_BACKGROUND_COLOR }
+    }
+  }
+}
+
 Config.register('state', '2', C.$2_KEY)
 /** Dialog that contains the form to insert the new video url. @id 2 */
 export const newVideoUrlDialogState: TStateDialog = {
@@ -68,7 +111,7 @@ export const newVideoUrlDialogState: TStateDialog = {
     'fullWidth': true,
     'maxWidth': 'md',
     'PaperProps': {
-      'sx': { 'backgroundColor': backgroundState.color }
+      'sx': { 'backgroundColor': C.THEME_LIGHT_BACKGROUND_COLOR }
     }
   },
   'titleProps': {
@@ -77,6 +120,21 @@ export const newVideoUrlDialogState: TStateDialog = {
   'content': `$form : ${remove_form_suffix(C.$1_KEY)} : bookmarks`,
   'actions': [],
   'open': true
+}
+
+/**
+ * Dark theme mode for form state to create a new video url.
+ * @id 2
+ */
+export const $2DarkThemeMode: TStateDialog = {
+  ...newVideoUrlDialogState,
+  'props': {
+    ...newVideoUrlDialogState.props,
+    'PaperProps': {
+      ...newVideoUrlDialogState.props?.PaperProps,
+      'sx': { 'backgroundColor': C.THEME_DARK_DIALOG_BACKGROUND_COLOR }
+    }
+  }
 }
 
 Config.register('state', '7', C.$7_KEY)
@@ -90,7 +148,7 @@ export const editYoutubeBookmarkDialogState: TStateDialog = {
     'fullWidth': true,
     'maxWidth': 'md',
     'PaperProps': {
-      'sx': { 'backgroundColor': backgroundState.color }
+      'sx': { 'backgroundColor': C.THEME_LIGHT_BACKGROUND_COLOR }
     }
   },
   'titleProps': {
@@ -118,6 +176,22 @@ export const editYoutubeBookmarkDialogState: TStateDialog = {
   'open': true
 }
 
+/**
+ * Dark theme mode for form state to edit an existing YouTube video
+ * bookmark.
+ * @id 7
+ */
+export const $7DarkThemeMode: TStateDialog = {
+  ...editYoutubeBookmarkDialogState,
+  'props': {
+    ...editYoutubeBookmarkDialogState.props,
+    'PaperProps': {
+      ...editYoutubeBookmarkDialogState.props?.PaperProps,
+      'sx': { 'backgroundColor': C.THEME_DARK_DIALOG_BACKGROUND_COLOR }
+    }
+  }
+}
+
 Config.register('state', '32', C.$32_KEY)
 /** @id 32 */
 export const loginDialogState: TStateDialog = {
@@ -136,6 +210,10 @@ export const loginDialogState: TStateDialog = {
   'open': true
 }
 
+export const $32DarkThemeMode: TStateDialog = {
+  ...loginDialogState,
+}
+
 Config.register('state', '33', C.$33_KEY)
 /** @id 33 */
 export const registerDialogState: TStateDialog = {
@@ -152,6 +230,10 @@ export const registerDialogState: TStateDialog = {
   },
   'content': '$form : register : users',
   'open': true
+}
+
+export const $33DarkThemeMode: TStateDialog = {
+  ...registerDialogState,
 }
 
 Config.register('state', '34', C.$34_KEY)
@@ -187,6 +269,10 @@ export const deleteBookmarkDialogState: TStateDialog = {
   'open': true // Careful! Must be set to true
 }
 
+export const $34DarkThemeMode: TStateDialog = {
+  ...deleteBookmarkDialogState,
+}
+
 Config.register('state', '35', C.$35_KEY)
 /** @id 35 */
 export const clientAlertDialogState: TStateDialog = {
@@ -209,6 +295,10 @@ export const clientAlertDialogState: TStateDialog = {
       }
     }
   ]
+}
+
+export const $35DarkThemeMode: TStateDialog = {
+  ...clientAlertDialogState,
 }
 
 /** Default alert dialog */
@@ -264,6 +354,30 @@ export function dialogAlertState<T=any>(content: T): TStateDialog {
     ],
     'open': true
   } as TStateDialog
+}
+
+export const STATE_DIALOGS_THEME_DARK: TStateAllDialogs = {
+  [C.$2_KEY]: $2DarkThemeMode,
+  [C.$6_KEY]: $6DarkThemeMode,
+  [C.$7_KEY]: $7DarkThemeMode,
+  [C.$8_KEY]: $8DarkThemeMode,
+  [C.$11_KEY]: $11DarkThemeMode,
+  [C.$14_KEY]: $14DarkThemeMode,
+  [C.$15_KEY]: $15DarkThemeMode,
+  [C.$16_KEY]: $16DarkThemeMode,
+  [C.$21_KEY]: $21DarkThemeMode,
+  [C.$22_KEY]: $22DarkThemeMode,
+  [C.$23_KEY]: $23DarkThemeMode,
+  [C.$26_KEY]: $26DarkThemeMode,
+  [C.$27_KEY]: $27DarkThemeMode,
+  [C.$30_KEY]: $30DarkThemeMode,
+  [C.$31_KEY]: $31DarkThemeMode,
+  [C.$32_KEY]: $32DarkThemeMode,
+  [C.$33_KEY]: $33DarkThemeMode,
+  [C.$34_KEY]: $34DarkThemeMode,
+  [C.$35_KEY]: $35DarkThemeMode,
+  [C.$36_KEY]: $36DarkThemeMode,
+  [C.$37_KEY]: $37DarkThemeMode
 }
 
 const STATE_DIALOGS: { [key: string]: TStateDialog } = {

@@ -2,7 +2,6 @@ import mongoose from 'mongoose'
 import app from './app'
 import Config from './config'
 import { DEV_DEFAULT_USER, DEV_USER } from './DEV/dev.install.common'
-import { find_index_by_name } from './business.logic'
 import { authorization_keys_get_obj } from './model/authorization'
 import {
   CONF_TWITCH_CLIENT_ID,
@@ -12,6 +11,7 @@ import {
 } from './constants'
 import start_cron_jobs from './cron.jobs'
 import {  configuration_get_all } from './model/configuration'
+import { find_index_by_name } from './business.logic/network'
 
 mongoose.set('strictQuery', false)
 

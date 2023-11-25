@@ -1,5 +1,9 @@
-import Config from 'src/config'
-import { $50_KEY } from '../../constants'
+import Config from '../../config'
+import {
+  $50_KEY,
+  THEME_DARK_PAPER_COLOR,
+  THEME_LIGHT_PAPER_COLOR
+} from '../../constants'
 import { TStateForm } from '../../common.types'
 
 Config.register('state', '50', $50_KEY)
@@ -15,7 +19,7 @@ const devSetAuthorizationUrlFormState: TStateForm = {
   'paperBackground': true,
   'paperProps': {
     'elevation': 0,
-    'sx': { 'backgroundColor': '#dddddd' }
+    'sx': { 'backgroundColor': THEME_LIGHT_PAPER_COLOR }
   },
   'items': [
     {
@@ -69,3 +73,11 @@ const devSetAuthorizationUrlFormState: TStateForm = {
 }
 
 export default devSetAuthorizationUrlFormState
+
+export const $50DarkThemeMode = {
+  ...devSetAuthorizationUrlFormState,
+  'paperProps': {
+    ...devSetAuthorizationUrlFormState.paperProps,
+    'sx': { 'backgroundColor': THEME_DARK_PAPER_COLOR }
+  }
+} as TStateForm

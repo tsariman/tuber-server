@@ -1,6 +1,11 @@
 import Config from '../../config'
 import { TStateForm } from '../../common.types'
-import { $57_KEY, $58_KEY } from '../../constants'
+import {
+  $57_KEY,
+  $58_KEY,
+  THEME_DARK_PAPER_COLOR,
+  THEME_LIGHT_PAPER_COLOR
+} from '../../constants'
 
 Config.register('state', '57', $57_KEY)
 /**
@@ -20,7 +25,7 @@ const devTestUnknownRegexpFormState = {
   'paperBackground': true,
   'paperProps': {
     'elevation': 0,
-    'sx': { 'backgroundColor': '#dddddd' }
+    'sx': { 'backgroundColor': THEME_LIGHT_PAPER_COLOR }
   },
   'items': [
     {
@@ -96,3 +101,15 @@ const devTestUnknownRegexpFormState = {
 } as TStateForm
 
 export default devTestUnknownRegexpFormState
+
+/**
+ * Dark theme mode for state form to test acquiring thumbnail url from html
+ * source.
+ */
+export const $57DarkThemeMode = {
+  ...devTestUnknownRegexpFormState,
+  'paperProps': {
+    ...devTestUnknownRegexpFormState.paperProps,
+    'sx': { 'backgroundColor': THEME_DARK_PAPER_COLOR }
+  },
+} as TStateForm

@@ -93,3 +93,8 @@ export const EDIT_ODYSEE_BOOKMARK_UNSUFFIXED_NAME = remove_form_suffix(
 )
 
 export default editOdyseeBookmarkFormState
+
+export const $18DarkThemeMode = {
+  ...editOdyseeBookmarkFormState,
+  // TODO - add dark theme overrides
+} as TStateForm

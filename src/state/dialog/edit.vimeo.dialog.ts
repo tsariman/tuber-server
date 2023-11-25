@@ -1,5 +1,9 @@
-import { $13_KEY, $15_KEY } from '../../constants'
-import { backgroundState } from '..'
+import {
+  $13_KEY,
+  $15_KEY,
+  THEME_LIGHT_BACKGROUND_COLOR,
+  THEME_DARK_DIALOG_BACKGROUND_COLOR
+} from '../../constants'
 import Config from '../../config'
 import { remove_form_suffix } from '../form/_forms.business.logic'
 import { TStateDialog } from '../../common.types'
@@ -15,7 +19,7 @@ const editVimeoBookmarkDialogState: TStateDialog = {
     'fullWidth': true,
     'maxWidth': 'md',
     'PaperProps': {
-      'sx': { 'backgroundColor': backgroundState.color }
+      'sx': { 'backgroundColor': THEME_LIGHT_BACKGROUND_COLOR }
     }
   },
   'titleProps': {
@@ -44,3 +48,19 @@ const editVimeoBookmarkDialogState: TStateDialog = {
 }
 
 export default editVimeoBookmarkDialogState
+
+/**
+ * Dark theme mode for form state to edit an existing Vimeo video
+ * bookmark.
+ * @id 15
+ */
+export const $15DarkThemeMode: TStateDialog = {
+  ...editVimeoBookmarkDialogState,
+  'props': {
+    ...editVimeoBookmarkDialogState.props,
+    'PaperProps': {
+      ...editVimeoBookmarkDialogState.props?.PaperProps,
+      'sx': { 'backgroundColor': THEME_DARK_DIALOG_BACKGROUND_COLOR }
+    }
+  }
+}

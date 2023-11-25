@@ -1,8 +1,7 @@
 import { FastifyRequest } from 'fastify'
-import { request } from 'urllib'
 import Config from '../config'
-import { IGenericObject, IJsonapiQuerystring } from '../common.types'
-import axios from 'axios'
+import { IGenericObject, IJsonapiQuerystring, TThemeMode } from '../common.types'
+import { THEME_MODE } from '../constants'
 
 /** Returns `true` if the argument is an object. */
 export const is_object = (obj: any) => {
@@ -53,11 +52,45 @@ export const set_state_by_key = (
   state[_key] = fragment
 }
 
-/** Retrieve the value of `_key` from state. */
+/**
+ * Retrieve the value of `_key` from state.
+ * @param state State object
+ * @returns `_key` value
+ */
 export const get_state_key = (state: IGenericObject): string => {
   const _key: string = state['_key']
   if (!_key) Config.die('Fragment must have a `_key`.')
   return _key
+}
+
+/**
+ * Choose the version of the state to return based on the current theme
+ * mode.
+ * @param state State object
+ * @param LIGHT Light theme value
+ * @param DARK Dark theme value
+ * @returns the version of the state based on theme mode.
+ */
+export function tt<T=any>(key: string, LIGHT: any, DARK: any): T {
+  const mode = Config.read<TThemeMode>(
+    THEME_MODE,
+    Config.DEFAULT_THEME_MODE
+  )
+  return mode === 'dark' ? DARK[key as any] : LIGHT[key as any]
+}
+
+/**
+ * Choose the version of the state to return based on the current theme mode.
+ * @param light state for light theme
+ * @param dark state for dark theme
+ * @returns state based on theme mode.
+ */
+export function ts<T=any>(light: T, dark: T): T {
+  const mode = Config.read<TThemeMode>(
+    THEME_MODE,
+    Config.DEFAULT_THEME_MODE
+  )
+  return mode === 'dark' ? dark : light
 }
 
 /** Get query string value */
@@ -88,20 +121,6 @@ export const limit_array = <T=any>(arr: T[], limit: number): T[] => {
   return arr.length > limit ? arr.slice(0, limit) : arr
 }
 
-/** Check if collection search index exist for Mongodb Atlas. */
-export async function find_index_by_name(indexName: string, collectionName: string) {
-  const allIndexesResponse = await request(
-    `${Config.DB_ATLAS_SEARCH_INDEX_API_URL}/${Config.DB_NAME}/${collectionName}`,
-    {
-      dataType: 'json',
-      contentType: 'application/json',
-      method: 'GET',
-      digestAuth: Config.DB_ATLAS_DIGEST_AUTH
-    }
-  )
-  return (allIndexesResponse.data as any[]).find(i => i.name === indexName)
-}
-
 /**
  * Get the date of the given time.
  *
@@ -113,13 +132,6 @@ export function get_expiration_date(time: number) {
   const newDate = new Date()
   newDate.setTime(newTimeInMs)
   return newDate
-}
-
-export async function fetch_html_page(url?: string): Promise<string> {
-  if (!url) { return '' }
-  const response = await axios.get(url)
-  const htmlText = response.data
-  return htmlText
 }
 
 /**

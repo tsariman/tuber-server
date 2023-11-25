@@ -1,4 +1,8 @@
-import { $49_KEY } from '../../constants'
+import {
+  $49_KEY,
+  THEME_DARK_PAPER_COLOR,
+  THEME_LIGHT_PAPER_COLOR
+} from '../../constants'
 import Config from '../../config'
 import { TStateForm } from '../../common.types'
 
@@ -15,7 +19,7 @@ const devSetAuthorizationKeyFormState: TStateForm = {
   'paperBackground': true,
   'paperProps': {
     'elevation': 0,
-    'sx': { 'backgroundColor': '#dddddd' }
+    'sx': { 'backgroundColor': THEME_LIGHT_PAPER_COLOR }
   },
   'items': [
     {
@@ -78,3 +82,11 @@ const devSetAuthorizationKeyFormState: TStateForm = {
 }
 
 export default devSetAuthorizationKeyFormState
+
+export const $49DarkThemeMode = {
+  ...devSetAuthorizationKeyFormState,
+  'paperProps': {
+    ...devSetAuthorizationKeyFormState.paperProps,
+    'sx': { 'backgroundColor': THEME_DARK_PAPER_COLOR }
+  },
+} as TStateForm

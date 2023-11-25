@@ -66,3 +66,8 @@ const loginFormState: TStateForm = {
 }
 
 export default loginFormState
+
+export const $41DarkThemeMode = {
+  ...loginFormState,
+  // TODO - add dark theme mode overrides here
+} as TStateForm

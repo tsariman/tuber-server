@@ -60,3 +60,8 @@ const newVideoUrlFormState: TStateForm = {
 }
 
 export default newVideoUrlFormState
+
+export const $1DarkThemeMode = {
+  ...newVideoUrlFormState,
+  // TODO - add dark theme mode overrides here
+} as TStateForm

@@ -9,7 +9,7 @@ import { TCipheredUser } from '../schema/users'
 import { ILoginCredentials } from '../business.logic/security/permissions'
 import { TNetState } from '../common.types'
 import { default_500_error_response } from '../business.logic/jsonapi.error.builder'
-import { DEFAULT_500_ERROR_MESSAGE } from '../constants'
+import { MSG_500_ERROR_MESSAGE } from '../constants'
 
 export default async function authentification_controller (fastify: FastifyInstance) {
 
@@ -47,7 +47,7 @@ export default async function authentification_controller (fastify: FastifyInsta
           }
         }
       } catch (e: any) {
-        Config.log(DEFAULT_500_ERROR_MESSAGE, e)
+        Config.log(MSG_500_ERROR_MESSAGE, e)
         const alertDialog = alert(e.message).state.dialog
         reply.send({
           state: {

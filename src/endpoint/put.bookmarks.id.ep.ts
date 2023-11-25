@@ -6,7 +6,7 @@ import JsonapiErrorBuilder, {
 import Config from '../config'
 import { BookmarkModel } from '../model/bookmark'
 import { TBookmarkPutFastifyRequest } from '../schema/bookmarks'
-import { DEFAULT_500_ERROR_MESSAGE } from '../constants'
+import { MSG_500_ERROR_MESSAGE } from '../constants'
 
 export default async function put_bookmarks_by_id_endpoint (
   request: TBookmarkPutFastifyRequest,
@@ -47,7 +47,7 @@ export default async function put_bookmarks_by_id_endpoint (
       )
     }
   } catch (e: any) {
-    Config.log(DEFAULT_500_ERROR_MESSAGE, e)
+    Config.log(MSG_500_ERROR_MESSAGE, e)
     reply.code(500).send(default_500_error_response(e))
   }
 }

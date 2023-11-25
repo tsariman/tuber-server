@@ -5,7 +5,7 @@ import JsonapiErrorBuilder, {
 import Config from '../../config'
 import {
   $62_KEY,
-  DEFAULT_500_ERROR_MESSAGE
+  MSG_500_ERROR_MESSAGE
 } from '../../constants'
 
 interface IPostRequest {
@@ -50,7 +50,7 @@ export default async function dev_post_save_config_value_endpoint(
       }
     })
   } catch (e) {
-    Config.log(`${DEFAULT_500_ERROR_MESSAGE} while saving configuration value.`, e)
+    Config.log(`${MSG_500_ERROR_MESSAGE} while saving configuration value.`, e)
     reply.code(500).send(default_500_error_response)
   }
 }

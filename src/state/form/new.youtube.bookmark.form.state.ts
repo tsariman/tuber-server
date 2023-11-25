@@ -102,3 +102,8 @@ const newYouTubeBookmarkFormState = {
 } as TStateForm
 
 export default newYouTubeBookmarkFormState
+
+export const $4DarkThemeMode = {
+  ...newYouTubeBookmarkFormState,
+  // TODO - add dark theme mode overrides here
+} as TStateForm

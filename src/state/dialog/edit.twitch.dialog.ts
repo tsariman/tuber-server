@@ -1,5 +1,9 @@
-import { $37_KEY, $39_KEY } from '../../constants'
-import { backgroundState } from '..'
+import {
+  $37_KEY,
+  $39_KEY,
+  THEME_LIGHT_BACKGROUND_COLOR,
+  THEME_DARK_DIALOG_BACKGROUND_COLOR
+} from '../../constants'
 import Config from '../../config'
 import { remove_form_suffix } from '../form/_forms.business.logic'
 import { TStateDialog } from '../../common.types'
@@ -15,7 +19,7 @@ const editTwitchBookmarkDialogState: TStateDialog = {
     'fullWidth': true,
     'maxWidth': 'md',
     'PaperProps': {
-      'sx': { 'backgroundColor': backgroundState.color }
+      'sx': { 'backgroundColor': THEME_LIGHT_BACKGROUND_COLOR }
     }
   },
   'titleProps': {
@@ -44,3 +48,19 @@ const editTwitchBookmarkDialogState: TStateDialog = {
 }
 
 export default editTwitchBookmarkDialogState
+
+/**
+ * Dark theme mode for form state to edit an existing Twitch video
+ * bookmark.
+ * @id 37
+ */
+export const $37DarkThemeMode: TStateDialog = {
+  ...editTwitchBookmarkDialogState,
+  'props': {
+    ...editTwitchBookmarkDialogState.props,
+    'PaperProps': {
+      ...editTwitchBookmarkDialogState.props?.PaperProps,
+      'sx': { 'backgroundColor': THEME_DARK_DIALOG_BACKGROUND_COLOR }
+    }
+  }
+}

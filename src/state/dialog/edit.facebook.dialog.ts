@@ -1,6 +1,10 @@
 import Config from '../../config'
-import { backgroundState } from '..'
-import { $25_KEY, $27_KEY } from '../../constants'
+import {
+  $25_KEY,
+  $27_KEY,
+  THEME_DARK_DIALOG_BACKGROUND_COLOR,
+  THEME_LIGHT_BACKGROUND_COLOR
+} from '../../constants'
 import { remove_form_suffix } from '../form/_forms.business.logic'
 import { TStateDialog } from '../../common.types'
 
@@ -15,7 +19,7 @@ const editFacebookBookmarkDialogState: TStateDialog = {
     'fullWidth': true,
     'maxWidth': 'md',
     'PaperProps': {
-      'sx': { 'backgroundColor': backgroundState.color }
+      'sx': { 'backgroundColor': THEME_LIGHT_BACKGROUND_COLOR }
     }
   },
   'titleProps': {
@@ -45,3 +49,19 @@ const editFacebookBookmarkDialogState: TStateDialog = {
 }
 
 export default editFacebookBookmarkDialogState
+
+/**
+ * Dark theme mode for form state to edit an existing Facebook video
+ * bookmark.
+ * @id 27
+ */
+export const $27DarkThemeMode: TStateDialog = {
+  ...editFacebookBookmarkDialogState,
+  'props': {
+    ...editFacebookBookmarkDialogState.props,
+    'PaperProps': {
+      ...editFacebookBookmarkDialogState.props?.PaperProps,
+      'sx': { 'backgroundColor': THEME_DARK_DIALOG_BACKGROUND_COLOR }
+    }
+  }
+}

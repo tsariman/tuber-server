@@ -91,3 +91,7 @@ const editDailyBookmarkFormState = {
 } as TStateForm
 
 export default editDailyBookmarkFormState
+
+export const $20DarkThemeMode = {
+  ...editDailyBookmarkFormState,
+} as TStateForm

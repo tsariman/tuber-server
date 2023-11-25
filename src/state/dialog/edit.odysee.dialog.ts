@@ -1,6 +1,10 @@
 import Config from '../../config'
-import { backgroundState } from '..'
-import { $18_KEY, $23_KEY } from '../../constants'
+import {
+  $18_KEY,
+  $23_KEY,
+  THEME_LIGHT_BACKGROUND_COLOR,
+  THEME_DARK_DIALOG_BACKGROUND_COLOR
+} from '../../constants'
 import { remove_form_suffix } from '../form/_forms.business.logic'
 import { TStateDialog } from '../../common.types'
 
@@ -15,7 +19,7 @@ const editOdyseeBookmarkDialogState: TStateDialog = {
     'fullWidth': true,
     'maxWidth': 'md',
     'PaperProps': {
-      'sx': { 'backgroundColor': backgroundState.color }
+      'sx': { 'backgroundColor': THEME_LIGHT_BACKGROUND_COLOR }
     }
   },
   'titleProps': {
@@ -45,3 +49,18 @@ const editOdyseeBookmarkDialogState: TStateDialog = {
 }
 
 export default editOdyseeBookmarkDialogState
+
+/**
+ * Dark theme mode for form state to edit an existing odysee video bookmark.
+ * @id 23
+ */
+export const $23DarkThemeMode: TStateDialog = {
+  ...editOdyseeBookmarkDialogState,
+  'props': {
+    ...editOdyseeBookmarkDialogState.props,
+    'PaperProps': {
+      ...editOdyseeBookmarkDialogState.props?.PaperProps,
+      'sx': { 'backgroundColor': THEME_DARK_DIALOG_BACKGROUND_COLOR }
+    }
+  }
+}

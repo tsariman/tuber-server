@@ -3,7 +3,7 @@ import JsonapiErrorBuilder, {
   default_500_error_response
 } from '../../business.logic/jsonapi.error.builder'
 import Config from '../../config'
-import { DEFAULT_500_ERROR_MESSAGE } from '../../constants'
+import { MSG_500_ERROR_MESSAGE } from '../../constants'
 import axios from 'axios'
 
 export default async function dev_get_html_page_endpoint(
@@ -27,7 +27,7 @@ export default async function dev_get_html_page_endpoint(
     const html = await response.data
     reply.send(html)
   } catch (e: any) {
-    Config.log(DEFAULT_500_ERROR_MESSAGE, e)
+    Config.log(MSG_500_ERROR_MESSAGE, e)
     reply.code(500).send(default_500_error_response(e))
   }
 }

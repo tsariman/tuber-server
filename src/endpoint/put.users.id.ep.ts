@@ -3,7 +3,7 @@ import { BookmarkModel } from '../model/bookmark'
 import { UserModel } from '../model/user'
 import JsonapiErrorBuilder, { default_500_error_response } from '../business.logic/jsonapi.error.builder'
 import Config from '../config'
-import { DEFAULT_500_ERROR_MESSAGE } from '../constants'
+import { MSG_500_ERROR_MESSAGE } from '../constants'
 
 export async function put_users_vote_by_id_endpoint(
   req: FastifyRequest,
@@ -42,7 +42,7 @@ export async function put_users_vote_by_id_endpoint(
       )
     }
   } catch (e: any) {
-    Config.log(DEFAULT_500_ERROR_MESSAGE, e)
+    Config.log(MSG_500_ERROR_MESSAGE, e)
     reply.code(500).send(default_500_error_response(e))
   }
 

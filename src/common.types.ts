@@ -115,3 +115,5 @@ export interface IStateMapEntry<T=any> {
 export interface IStateMap {
   [entry: string]: IStateMapEntry
 }
+
+export type TThemeMode = 'light' | 'dark'

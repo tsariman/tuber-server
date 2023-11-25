@@ -1,6 +1,10 @@
 import { TStateForm } from '../../common.types'
 import Config from '../../config'
-import { $62_KEY, CONF_THEME_MODE } from '../../constants'
+import {
+  $62_KEY,
+  THEME_LIGHT_PAPER_COLOR,
+  THEME_DARK_PAPER_COLOR
+} from '../../constants'
 
 Config.register('state', '62', $62_KEY)
 /** @id 62 */
@@ -16,9 +20,7 @@ const devSaveConfigValueFormState: TStateForm = {
   'paperProps': {
     'elevation': 0,
     'sx': {
-      'backgroundColor': Config.read(CONF_THEME_MODE, 'light') 
-        ? '#dddddd'
-        : 'inherit'
+      'backgroundColor': THEME_LIGHT_PAPER_COLOR
     }
   },
   'items': [
@@ -63,3 +65,11 @@ const devSaveConfigValueFormState: TStateForm = {
 }
 
 export default devSaveConfigValueFormState
+
+export const $62DarkThemeMode = {
+  ...devSaveConfigValueFormState,
+  'paperProps': {
+    ...devSaveConfigValueFormState.paperProps,
+    'sx': { 'backgroundColor': THEME_DARK_PAPER_COLOR }
+  },
+} as TStateForm

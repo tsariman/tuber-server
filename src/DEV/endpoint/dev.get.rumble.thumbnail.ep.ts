@@ -2,7 +2,7 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import JsonapiErrorBuilder, {
   default_500_error_response
 } from '../../business.logic/jsonapi.error.builder'
-import { $46_KEY, DEFAULT_500_ERROR_MESSAGE } from '../../constants'
+import { $46_KEY, MSG_500_ERROR_MESSAGE } from '../../constants'
 import { rumble_fetch_thumbnail_url } from '../../platform/rumble'
 import Config from '../../config'
 
@@ -43,7 +43,7 @@ export default async function dev_get_rumble_thumbnail_endpoint(
       )
     }
   } catch (e: any) {
-    Config.log(DEFAULT_500_ERROR_MESSAGE, e)
+    Config.log(MSG_500_ERROR_MESSAGE, e)
     reply.code(500).send(default_500_error_response(e))
   }
 }

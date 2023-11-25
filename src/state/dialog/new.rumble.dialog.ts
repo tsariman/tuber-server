@@ -1,6 +1,10 @@
 import Config from '../../config'
-import { backgroundState } from '..'
-import { $8_KEY, $9_KEY } from '../../constants'
+import {
+  $8_KEY,
+  $9_KEY,
+  THEME_LIGHT_BACKGROUND_COLOR,
+  THEME_DARK_DIALOG_BACKGROUND_COLOR
+} from '../../constants'
 import { remove_form_suffix } from '../form/_forms.business.logic'
 import { TStateDialog } from '../../common.types'
 
@@ -15,7 +19,7 @@ const newRumbleBookmarkDialogState: TStateDialog = {
     'fullWidth': true,
     'maxWidth': 'md',
     'PaperProps': {
-      'sx': { 'backgroundColor': backgroundState.color }
+      'sx': { 'backgroundColor': THEME_LIGHT_BACKGROUND_COLOR }
     }
   },
   'titleProps': {
@@ -45,3 +49,18 @@ const newRumbleBookmarkDialogState: TStateDialog = {
 }
 
 export default newRumbleBookmarkDialogState
+
+/**
+ * Dark theme mode for form state to create a new Rumble video bookmark.
+ * @id 8
+ */
+export const $8DarkThemeMode: TStateDialog = {
+  ...newRumbleBookmarkDialogState,
+  'props': {
+    ...newRumbleBookmarkDialogState.props,
+    'PaperProps': {
+      ...newRumbleBookmarkDialogState.props?.PaperProps,
+      'sx': { 'backgroundColor': THEME_DARK_DIALOG_BACKGROUND_COLOR }
+    }
+  }
+}

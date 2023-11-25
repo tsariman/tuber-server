@@ -7,7 +7,7 @@ import {
   $60_KEY,
   CONF_TWITCH_CLIENT_ID,
   CONF_TWITCH_CLIENT_SECRET,
-  DEFAULT_500_ERROR_MESSAGE
+  MSG_500_ERROR_MESSAGE
 } from '../../constants'
 
 interface IPostRequest {
@@ -53,7 +53,7 @@ export default async function dev_post_twitch_client_id_endpoint(
       }
     })
   } catch (e) {
-    Config.log(`${DEFAULT_500_ERROR_MESSAGE} while saving Twitch Client ID`
+    Config.log(`${MSG_500_ERROR_MESSAGE} while saving Twitch Client ID`
       + ` and Secret.`, e)
     reply.code(500).send(default_500_error_response)
   }

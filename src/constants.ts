@@ -1,8 +1,23 @@
-export const CONF_THEME_MODE = 'theme_mode'
-export const DEFAULT_500_ERROR_MESSAGE = 'Failed.\nInternal Server Error.'
-export const INVALID_ACCESS_TOKEN = 'INVALID_ACCESS_TOKEN'
-export const MISSING_ACCESS_TOKEN = 'MISSING_ACCESS_TOKEN'
-export const DEFAULT_AUTH_HEADER = `Bearer ${MISSING_ACCESS_TOKEN}`
+
+// THEMING (theme prefix) -----------------------------------------------------
+
+export const THEME_MODE = 'theme_mode'
+export const THEME_LIGHT_PAPER_COLOR = '#dddddd'
+export const THEME_DARK_PAPER_COLOR = '#424242'
+export const THEME_LIGHT_BACKGROUND_COLOR = '#f0f0f0'
+export const THEME_DARK_DIALOG_BACKGROUND_COLOR = '#141a1f'
+export const THEME_LIGHT_APP_BAR_ICON_COLOR = 'grey.500'
+export const THEME_DARK_APP_BAR_ICON_COLOR = 'grey.200'
+export const THEME_LIGHT_APP_BAR_COLOR = '#000000de'
+export const THEME_DARK_APP_BAR_COLOR = '#000000de' // [TODO]: Change this
+
+// MESSAGES (msg prefix) ------------------------------------------------------
+
+export const MSG_500_ERROR_MESSAGE = 'Failed.\nInternal Server Error.'
+export const MSG_INVALID_ACCESS_TOKEN = 'INVALID_ACCESS_TOKEN'
+
+// FORMS (form fields prefix) -------------------------------------------------
+
 export const START_SECONDS_REQUIRED_MESSAGE = 'Starting time is required'
 export const URL_REQUIRED_MESSAGE = 'Link is required'
 /** Bookmark required title message */
@@ -17,6 +32,9 @@ export const NOTE_FIELD_ROWS = 6
 export const NOTE_MAX_LENGTH = 500
 export const NOTE_MAX_LENGTH_MESSAGE = `Note is too long. (${NOTE_MAX_LENGTH} characters max)`
 export const EMBED_URL_MESSAGE = 'Paste-in the embed URL or iframe HTML code'
+
+// DEFAULT VALUES -------------------------------------------------------------
+
 /** Database mongoose-paginate-v2 query */
 export const DB_PAGINATION_QUERY = {
   is_active: true // Only return active documents
@@ -32,6 +50,19 @@ export const DB_PAGINATION_OPTIONS = {
     rules: 0
   }
 }
+/**
+ * Array of regular expressions to extract the thumbnail HTML from a web page
+ * html source.
+ */
+export const THUMBNAIL_URLS_REGEXP = [
+  /"thumbnailUrl".+?"(.+?)"/,
+  /poster.+?"(.+?)"/,
+  /og:image.+?"(.+?)"/,
+  // TODO - Add more
+]
+
+// CONFIGURATION KEYS (conf prefix) -------------------------------------------
+
 /** Configuration property at which the Twitch client ID can be acquired. */
 export const CONF_TWITCH_CLIENT_ID = `twitch_client_id`
 /** Configuration property as which the Twitch client secret can be acquired. */
@@ -57,16 +88,13 @@ export const CONF_TWITCH_DISABLE_TOKEN_RENEWAL = `twitch_disable_token_renewal`
  * from running.
  */
 export const CONF_TWITCH_DISABLE_THUMBNAIL_RETRIEVAL = `twitch_disable_thumbnail_retrieval`
-/**
- * Array of regular expressions to extract the thumbnail HTML from a web page
- * html source.
- */
-export const CONF_THUMB_URL_REGEXP = [
-  /"thumbnailUrl".+?"(.+?)"/,
-  /poster.+?"(.+?)"/,
-  /og:image.+?"(.+?)"/,
-  // TODO - Add more
-]
+
+// MISCELLANEOUS --------------------------------------------------------------
+
+export const MISSING_ACCESS_TOKEN = 'MISSING_ACCESS_TOKEN'
+export const DEFAULT_AUTH_HEADER = `Bearer ${MISSING_ACCESS_TOKEN}`
+
+// STATE KEYS -----------------------------------------------------------------
 
 export const $1_KEY = 'newVideoUrlForm'
 export const $2_KEY = 'newVideoUrlDialog'
@@ -130,3 +158,4 @@ export const $59_KEY = 'dev-twitch-input-client-id'
 export const $60_KEY = 'devTwitchInputClientIdForm'
 export const $61_KEY = 'dev-save-config-value'
 export const $62_KEY = 'devSaveConfigValueForm'
+export const $63_KEY = 'researchPageAppBar'

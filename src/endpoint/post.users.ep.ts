@@ -7,7 +7,7 @@ import JsonapiResponseBuilder from '../business.logic/jsonapi.response.builder'
 import { create_user } from '../model/user'
 import { TUsersFastifyRequest } from '../schema/users'
 import Config from '../config'
-import { DEFAULT_500_ERROR_MESSAGE } from '../constants'
+import { MSG_500_ERROR_MESSAGE } from '../constants'
 
 export default async function post_users_endpoint (
   request: TUsersFastifyRequest,
@@ -29,7 +29,7 @@ export default async function post_users_endpoint (
         .build()
       )
     } else {
-      Config.log(DEFAULT_500_ERROR_MESSAGE, e)
+      Config.log(MSG_500_ERROR_MESSAGE, e)
       reply.code(500).send(default_500_error_response(e))
     }
   }

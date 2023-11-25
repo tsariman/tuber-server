@@ -1,13 +1,38 @@
 import * as C from '../../constants'
-import devTestThumbnailFormState from './dev.test.thumbnail.form.state'
-import devInstallFormState from './dev.install.form.state'
-import devSetAuthorizationKeyFormState from './dev.set.authorization.key.form.state'
+import devTestThumbnailFormState, {
+  $45DarkThemeMode
+} from './dev.test.thumbnail.form.state'
+import devInstallFormState, { $47DarkThemeMode } from './dev.install.form.state'
+import devSetAuthorizationKeyFormState, {
+  $49DarkThemeMode
+} from './dev.set.authorization.key.form.state'
 import { TStateAllForms } from '../../common.types'
-import devTestRumbleRegexpFormState from './dev.test.rumble.regexp.form.state'
-import devSetAuthorizationUrlFormState from './dev.set.authorization.url.form.state'
-import devTestUnknownRegexpFormState from './dev.test.unknown.regexp.form.state'
-import devTwitchInputClientIdFormState from './dev.twitch.input.client.id.form.state'
-import devSaveConfigValueFormState from './dev.save.config.value.form.state'
+import devTestRumbleRegexpFormState, {
+  $54DarkThemeMode
+} from './dev.test.rumble.regexp.form.state'
+import devSetAuthorizationUrlFormState, {
+  $50DarkThemeMode
+} from './dev.set.authorization.url.form.state'
+import devTestUnknownRegexpFormState, {
+  $57DarkThemeMode
+} from './dev.test.unknown.regexp.form.state'
+import devTwitchInputClientIdFormState, {
+  $60DarkThemeMode
+} from './dev.twitch.input.client.id.form.state'
+import devSaveConfigValueFormState, {
+  $62DarkThemeMode
+} from './dev.save.config.value.form.state'
+
+export const DEV_STATE_FORM_THEME_DARK: TStateAllForms = {
+  [C.$45_KEY]: $45DarkThemeMode,
+  [C.$47_KEY]: $47DarkThemeMode,
+  [C.$49_KEY]: $49DarkThemeMode,
+  [C.$50_KEY]: $50DarkThemeMode,
+  [C.$54_KEY]: $54DarkThemeMode,
+  [C.$57_KEY]: $57DarkThemeMode,
+  [C.$60_KEY]: $60DarkThemeMode,
+  [C.$62_KEY]: $62DarkThemeMode,
+}
 
 const DEV_STATE_FORM: TStateAllForms = {
   [C.$45_KEY]: devTestThumbnailFormState,
@@ -21,3 +46,4 @@ const DEV_STATE_FORM: TStateAllForms = {
 }
 
 export default DEV_STATE_FORM
+

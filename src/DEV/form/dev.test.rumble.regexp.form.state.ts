@@ -1,6 +1,10 @@
 import Config from '../../config'
 import { TStateForm } from '../../common.types'
-import { $54_KEY } from '../../constants'
+import {
+  $54_KEY,
+  THEME_DARK_PAPER_COLOR,
+  THEME_LIGHT_PAPER_COLOR
+} from '../../constants'
 
 Config.register('state', '54', $54_KEY)
 /**
@@ -20,7 +24,7 @@ const devTestRumbleRegexpFormState = {
   'paperBackground': true,
   'paperProps': {
     'elevation': 0,
-    'sx': { 'backgroundColor': '#dddddd' }
+    'sx': { 'backgroundColor': THEME_LIGHT_PAPER_COLOR }
   },
   'items': [
     {
@@ -92,3 +96,12 @@ const devTestRumbleRegexpFormState = {
 } as TStateForm
 
 export default devTestRumbleRegexpFormState
+
+/** Dark theme version for the rumble regexp test form. */
+export const $54DarkThemeMode = {
+  ...devTestRumbleRegexpFormState,
+  'paperProps': {
+    ...devTestRumbleRegexpFormState.paperProps,
+    'sx': { 'backgroundColor': THEME_DARK_PAPER_COLOR }
+  },
+} as TStateForm

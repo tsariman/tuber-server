@@ -1,6 +1,10 @@
 import Config from '../../config'
-import { backgroundState } from '..'
-import { $19_KEY, $21_KEY } from '../../constants'
+import {
+  $19_KEY,
+  $21_KEY,
+  THEME_LIGHT_BACKGROUND_COLOR,
+  THEME_DARK_DIALOG_BACKGROUND_COLOR
+} from '../../constants'
 import { remove_form_suffix } from '../form/_forms.business.logic'
 import { TStateDialog } from '../../common.types'
 
@@ -15,7 +19,7 @@ const newDailyBookmarkDialogState: TStateDialog = {
     'fullWidth': true,
     'maxWidth': 'md',
     'PaperProps': {
-      'sx': { 'backgroundColor': backgroundState.color }
+      'sx': { 'backgroundColor': THEME_LIGHT_BACKGROUND_COLOR }
     }
   },
   'titleProps': {
@@ -44,3 +48,18 @@ const newDailyBookmarkDialogState: TStateDialog = {
 }
 
 export default newDailyBookmarkDialogState
+
+/**
+ * Dark theme mode for form state to create a new dailymotion video bookmark.
+ * @id 21
+ */
+export const $21DarkThemeMode: TStateDialog = {
+  ...newDailyBookmarkDialogState,
+  'props': {
+    ...newDailyBookmarkDialogState.props,
+    'PaperProps': {
+      ...newDailyBookmarkDialogState.props?.PaperProps,
+      'sx': { 'backgroundColor': THEME_DARK_DIALOG_BACKGROUND_COLOR }
+    }
+  }
+}

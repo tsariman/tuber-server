@@ -1,6 +1,11 @@
 import { TStateForm } from '../../common.types'
 import Config from '../../config'
-import { $45_KEY, $46_KEY } from '../../constants'
+import {
+  $45_KEY,
+  $46_KEY,
+  THEME_DARK_PAPER_COLOR,
+  THEME_LIGHT_PAPER_COLOR
+} from '../../constants'
 
 Config.register('state', '45', $45_KEY)
 /** @id 45 */
@@ -14,7 +19,7 @@ const devTestThumbnailFormState: TStateForm = {
   'paperBackground': true,
   'paperProps': {
     'elevation': 0,
-    'sx': { 'backgroundColor': '#dddddd' }
+    'sx': { 'backgroundColor': THEME_LIGHT_PAPER_COLOR }
   },
   'items': [
     {
@@ -56,3 +61,11 @@ const devTestThumbnailFormState: TStateForm = {
 }
 
 export default devTestThumbnailFormState
+
+export const $45DarkThemeMode = {
+  ...devTestThumbnailFormState,
+  'paperProps': {
+    ...devTestThumbnailFormState.paperProps,
+    'sx': { 'backgroundColor': THEME_DARK_PAPER_COLOR }
+  },
+} as TStateForm

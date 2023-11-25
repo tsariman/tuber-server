@@ -79,3 +79,8 @@ const editUnknownBookmarkFormState = {
 } as TStateForm
 
 export default editUnknownBookmarkFormState
+
+export const $29DarkThemeMode = {
+  ...editUnknownBookmarkFormState,
+  // TODO - add dark theme overrides here
+} as TStateForm

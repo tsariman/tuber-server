@@ -11,7 +11,7 @@ import {
   get_bookmark_collection
 } from '../model/bookmark'
 import { TBookmarkGetFastifyRequest } from '../schema/bookmarks'
-import { DB_PAGINATION_QUERY, DEFAULT_500_ERROR_MESSAGE } from '../constants'
+import { DB_PAGINATION_QUERY, MSG_500_ERROR_MESSAGE } from '../constants'
 
 export default async function get_bookmarks_collection_endpoint (
   req: TBookmarkGetFastifyRequest,
@@ -127,7 +127,7 @@ export default async function get_bookmarks_collection_endpoint (
       )
     }
   } catch (e: any) {
-    Config.log(DEFAULT_500_ERROR_MESSAGE, e)
+    Config.log(MSG_500_ERROR_MESSAGE, e)
     reply.code(500).send(default_500_error_response(e))
   }
 }

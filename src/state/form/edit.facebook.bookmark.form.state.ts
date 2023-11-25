@@ -98,3 +98,8 @@ const editFacebookBookmarkFormState = {
 } as TStateForm
 
 export default editFacebookBookmarkFormState
+
+export const $25DarkThemeMode = {
+  ...editFacebookBookmarkFormState,
+  // TODO: Add dark theme overrides here
+} as TStateForm

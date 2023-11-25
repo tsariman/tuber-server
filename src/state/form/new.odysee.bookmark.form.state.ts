@@ -88,3 +88,8 @@ const newOdyseeBookmarkFormState = {
 } as TStateForm
 
 export default newOdyseeBookmarkFormState
+
+export const $17DarkThemeMode = {
+  ...newOdyseeBookmarkFormState,
+  // TODO - add dark theme mode overrides here
+} as TStateForm

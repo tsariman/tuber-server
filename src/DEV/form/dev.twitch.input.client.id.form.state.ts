@@ -1,6 +1,10 @@
 import { TStateForm } from '../../common.types'
 import Config from '../../config'
-import { $60_KEY, CONF_THEME_MODE } from '../../constants'
+import {
+  $60_KEY,
+  THEME_LIGHT_PAPER_COLOR,
+  THEME_DARK_PAPER_COLOR
+} from '../../constants'
 
 Config.register('state', '60', $60_KEY)
 /** @id 60 */
@@ -15,11 +19,7 @@ const devTwitchInputClientIdFormState: TStateForm = {
   'paperBackground': true,
   'paperProps': {
     'elevation': 0,
-    'sx': {
-      'backgroundColor': Config.read(CONF_THEME_MODE, 'light') 
-        ? '#dddddd'
-        : 'inherit'
-    }
+    'sx': { 'backgroundColor': THEME_LIGHT_PAPER_COLOR }
   },
   'items': [
     {
@@ -72,3 +72,11 @@ const devTwitchInputClientIdFormState: TStateForm = {
 }
 
 export default devTwitchInputClientIdFormState
+
+export const $60DarkThemeMode = {
+  ...devTwitchInputClientIdFormState,
+  'paperProps': {
+    ...devTwitchInputClientIdFormState.paperProps,
+    'sx': { 'backgroundColor': THEME_DARK_PAPER_COLOR }
+  },
+} as TStateForm

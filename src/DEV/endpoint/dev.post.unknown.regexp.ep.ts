@@ -3,7 +3,7 @@ import JsonapiErrorBuilder, {
   default_500_error_response
 } from 'src/business.logic/jsonapi.error.builder'
 import Config from '../../config'
-import { $57_KEY, $58_KEY, DEFAULT_500_ERROR_MESSAGE } from '../../constants'
+import { $57_KEY, $58_KEY, MSG_500_ERROR_MESSAGE } from '../../constants'
 import axios from 'axios'
 
 interface IPostRequest {
@@ -67,7 +67,7 @@ export default async function dev_post_unknown_regexp_endpoint(
       )
     }
   } catch (e: any) {
-    Config.log(DEFAULT_500_ERROR_MESSAGE, e)
+    Config.log(MSG_500_ERROR_MESSAGE, e)
     reply.code(500).send(default_500_error_response(e))
   }
 }

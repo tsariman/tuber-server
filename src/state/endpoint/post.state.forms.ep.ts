@@ -3,9 +3,10 @@ import JsonapiErrorBuilder, {
   default_500_error_response
 } from '../../business.logic/jsonapi.error.builder'
 import Config from '../../config'
-import STATE_FORMS from '../form'
+import STATE_FORMS, { STATE_FORMS_THEME_DARK } from '../form'
 import { TNetState } from '../../common.types'
-import { DEFAULT_500_ERROR_MESSAGE } from '../../constants'
+import { MSG_500_ERROR_MESSAGE } from '../../constants'
+import { tt } from '../../business.logic'
 
 export default async function post_state_forms_endpoint (
   req: FastifyRequest<{ Body: { key?: string }}>,
@@ -23,7 +24,7 @@ export default async function post_state_forms_endpoint (
       return
     }
     Config.print(`Loading '${key}' state... `)
-    const formState = STATE_FORMS[key]
+    const formState = tt(key, STATE_FORMS, STATE_FORMS_THEME_DARK)
     if (formState) {
       Config.log('Done.')
       reply.code(200).send({
@@ -47,7 +48,7 @@ export default async function post_state_forms_endpoint (
       })
     }
   } catch (e: any) {
-    Config.log(DEFAULT_500_ERROR_MESSAGE, e)
+    Config.log(MSG_500_ERROR_MESSAGE, e)
     reply.code(500).send(default_500_error_response(e))
   }
 }

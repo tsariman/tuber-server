@@ -12,7 +12,7 @@ const devInstallFormState = {
   'paperBackground': true,
   'paperProps': {
     'elevation': 0,
-    'sx': { 'backgroundColor': '#dddddd' }
+    'sx': { 'backgroundColor': C.THEME_LIGHT_PAPER_COLOR }
   },
   'items': [
     {
@@ -383,3 +383,12 @@ const devInstallFormState = {
 } as TStateForm
 
 export default devInstallFormState
+
+/** Dark theme version for the development shortcuts form. */
+export const $47DarkThemeMode = {
+  ...devInstallFormState,
+  'paperProps': {
+    'elevation': 0,
+    'sx': { 'backgroundColor': C.THEME_DARK_PAPER_COLOR }
+  },
+} as TStateForm

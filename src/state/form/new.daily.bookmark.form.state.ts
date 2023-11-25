@@ -99,3 +99,8 @@ const newDailyBookmarkFormState = {
 } as TStateForm
 
 export default newDailyBookmarkFormState
+
+export const $19DarkThemeMode = {
+  ...newDailyBookmarkFormState,
+  // TODO - add dark theme mode overrides here
+} as TStateForm

@@ -1,6 +1,10 @@
 import Config from '../../config'
-import { backgroundState } from '..'
-import { $28_KEY, $30_KEY } from '../../constants'
+import {
+  $28_KEY,
+  $30_KEY,
+  THEME_LIGHT_BACKGROUND_COLOR,
+  THEME_DARK_DIALOG_BACKGROUND_COLOR
+} from '../../constants'
 import { remove_form_suffix } from '../form/_forms.business.logic'
 import { TStateDialog } from '../../common.types'
 
@@ -15,7 +19,7 @@ const newUnknownBookmarkDialogState: TStateDialog = {
     'fullWidth': true,
     'maxWidth': 'md',
     'PaperProps': {
-      'sx': { 'backgroundColor': backgroundState.color }
+      'sx': { 'backgroundColor': THEME_LIGHT_BACKGROUND_COLOR }
     }
   },
   'titleProps': {
@@ -45,3 +49,18 @@ const newUnknownBookmarkDialogState: TStateDialog = {
 }
 
 export default newUnknownBookmarkDialogState
+
+/**
+ * Dark theme mode for form state to create a new Unknown video bookmark.
+ * @id 30
+ */
+export const $30DarkThemeMode: TStateDialog = {
+  ...newUnknownBookmarkDialogState,
+  'props': {
+    ...newUnknownBookmarkDialogState.props,
+    'PaperProps': {
+      ...newUnknownBookmarkDialogState.props?.PaperProps,
+      'sx': { 'backgroundColor': THEME_DARK_DIALOG_BACKGROUND_COLOR }
+    }
+  }
+}

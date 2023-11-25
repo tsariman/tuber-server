@@ -1,18 +1,26 @@
-import { backgroundState } from '.'
-
-// Currently, I am transitioning the themeState to dark mode. And when that is
-// over, I will rename the 'themeState' to 'darkThemeState' and 
-// 'lightThemeState', the backup of original themeState, I will rename it back
-// to 'themeState'.
+import {
+  THEME_LIGHT_BACKGROUND_COLOR,
+  THEME_DARK_DIALOG_BACKGROUND_COLOR,
+  THEME_MODE,
+  THEME_LIGHT_APP_BAR_COLOR
+} from '../constants'
+import Config from '../config'
+import { TThemeMode } from '../common.types'
 
 // TODO Modify to change the overall appearance of the page
-/** Material-UI Theme */
-const themeState = {
+
+/** Get material-ui theme object */
+export default function get_theme_state () {
+  const mode = Config.read<TThemeMode>(THEME_MODE, 'light')
+  return mode === 'dark' ? darkThemeState : lightThemeState
+}
+
+export const darkThemeState = {
   'components': {
     'MuiDrawer': {
       'styleOverrides': {
         'paper': {
-          'backgroundColor': '#141a1f',
+          'backgroundColor': THEME_DARK_DIALOG_BACKGROUND_COLOR,
           'borderLeft': 'none',
           'borderRight': 'none'
         },
@@ -22,7 +30,7 @@ const themeState = {
       'styleOverrides': {
         'colorPrimary': {
           // 'color': '#000000de',
-          'backgroundColor': '#141a1f'
+          'backgroundColor': THEME_DARK_DIALOG_BACKGROUND_COLOR
         },
       },
     },
@@ -45,55 +53,23 @@ const themeState = {
   'palette': {
     'mode': 'dark',
     'background': {
-      'default': '#141a1f'
-    }
-  },
-  'typography': {
-    'fontFamily': '\'Quicksand\', sans-serif'
-  }
-}
-
-export default themeState
-
-export const darkThemeState = {
-  'components': {
-    'MuiDrawer': {
-      'styleOverrides': {
-        'paper': {
-          'backgroundColor': backgroundState.color,
-          'borderLeft': 'none',
-          'borderRight': 'none'
-        },
-      },
+      'default': THEME_DARK_DIALOG_BACKGROUND_COLOR
     },
-    'MuiAppBar': {
-      'styleOverrides': {
-        'colorPrimary': {
-          'color': '#000000de',
-          'backgroundColor': backgroundState.color
-        },
-      },
-    },
-    'MuiDialogContentText': {
-      'styleOverrides': {
-        'root': {
-          'paddingTop': 8
-        }
-      }
-    },
-    'MuiButton': {
-      'styleOverrides': {
-        'root': {
-          'textTransform': 'none',
-          'fontSize': '1rem'
-        }
-      }
-    }
-  },
-  'palette': {
-    'mode': 'dark',
-    'background': {
-      'default': '#141a1f'
+    'grey': {
+      '50': '#212121', // #fafafa // 900
+      '100': '#424242', // #f5f5f5 // 800
+      '200': '#616161', // #eeeeee // 700
+      '300': '#757575', // #e0e0e0 // 600
+      '400': '#9e9e9e', // #bdbdbd // 500
+      '500': '#bdbdbd', // #9e9e9e // 400
+      '600': '#e0e0e0', // #757575 // 300
+      '700': '#eeeeee', // #616161 // 200
+      '800': '#f5f5f5', // #424242 // 100
+      '900': '#fafafa', // #212121 // 50
+      'A100': '#d5d5d5', // #d5d5d5
+      'A200': '#aaaaaa', // #aaaaaa
+      'A400': '#303030', // #303030
+      'A700': '#616161' // #616161
     }
   },
   'typography': {
@@ -110,7 +86,7 @@ export const lightThemeState = {
     'MuiDrawer': {
       'styleOverrides': {
         'paper': {
-          'backgroundColor': backgroundState.color,
+          'backgroundColor': THEME_LIGHT_BACKGROUND_COLOR,
           'borderLeft': 'none',
           'borderRight': 'none'
         },
@@ -119,8 +95,8 @@ export const lightThemeState = {
     'MuiAppBar': {
       'styleOverrides': {
         'colorPrimary': {
-          'color': '#000000de',
-          'backgroundColor': backgroundState.color
+          'color': THEME_LIGHT_APP_BAR_COLOR,
+          'backgroundColor': THEME_LIGHT_BACKGROUND_COLOR
         },
       },
     },
@@ -142,7 +118,7 @@ export const lightThemeState = {
   },
   'palette': {
     'background': {
-      'default': backgroundState.color
+      'default': THEME_LIGHT_BACKGROUND_COLOR
     }
   },
   'typography': {

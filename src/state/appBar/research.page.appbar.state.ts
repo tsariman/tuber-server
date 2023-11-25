@@ -1,6 +1,15 @@
+import {
+  $63_KEY,
+  THEME_LIGHT_APP_BAR_ICON_COLOR as ICON_COLOR,
+} from '../../constants'
 import { TStateAppBar } from '../../common.types'
+import Config from '../../config'
 
+Config.register('state', '63', $63_KEY)
+/** State for research page app bar. @id 63 */
 const researchPageAppBarState: TStateAppBar = {
+  '_id': '63',
+  '_key': $63_KEY,
   'appBarStyle': 'middle_search',
   'items': [
     {
@@ -19,7 +28,7 @@ const researchPageAppBarState: TStateAppBar = {
   'searchFieldIcon': {
     'icon': 'alternate_email_outline',
     'iconProps': {
-      'sx': { 'color': 'grey.500' }
+      'sx': { 'color': ICON_COLOR }
     }
   },
   'searchFieldIconButton': {
@@ -34,3 +43,8 @@ const researchPageAppBarState: TStateAppBar = {
 }
 
 export default researchPageAppBarState
+
+/** Dark theme mode for research page app bar state. @id 63 */
+export const $63DarkThemeMode: TStateAppBar = {
+  ...researchPageAppBarState,
+}

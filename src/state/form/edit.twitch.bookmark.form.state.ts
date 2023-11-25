@@ -88,3 +88,9 @@ const editTwitchBookmarkFormState = {
 } as TStateForm
 
 export default editTwitchBookmarkFormState
+
+export const $39DarkThemeMode = {
+  ...editTwitchBookmarkFormState,
+  // TODO - add dark theme overrides here
+} as TStateForm
+

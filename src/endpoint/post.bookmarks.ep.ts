@@ -8,7 +8,7 @@ import Config from '../config'
 import { create_bookmark } from '../model/bookmark'
 import { TBookmarkPostFastifyRequest } from '../schema/bookmarks'
 import fix_missing_bookmark_data from '../platform/all.drivers'
-import { DEFAULT_500_ERROR_MESSAGE } from '../constants'
+import { MSG_500_ERROR_MESSAGE } from '../constants'
 
 export default async function post_bookmarks_endpoint (
   req: TBookmarkPostFastifyRequest,
@@ -33,7 +33,7 @@ export default async function post_bookmarks_endpoint (
       .mPaginationV2build()
     )
   } catch (e: any) {
-    Config.log(DEFAULT_500_ERROR_MESSAGE, e)
+    Config.log(MSG_500_ERROR_MESSAGE, e)
     reply.code(500).send(default_500_error_response(e))
   }
 }
