@@ -1,16 +1,16 @@
 import { TStateForm } from '../../common.types'
 import Config from '../../config'
 import {
-  $62_KEY,
+  $62_STATE_KEY,
   THEME_LIGHT_PAPER_COLOR,
   THEME_DARK_PAPER_COLOR
 } from '../../constants'
 
-Config.register('state', '62', $62_KEY)
+Config.register('state', '62', $62_STATE_KEY)
 /** @id 62 */
 const devSaveConfigValueFormState: TStateForm = {
   '_id': '62',
-  '_key': $62_KEY,
+  '_key': $62_STATE_KEY,
   '_type': 'stack',
   'props': {
     'sx': { 'p': 2, 'width': 476 },

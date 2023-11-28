@@ -18,7 +18,7 @@ export default async function get_bookmarks_collection_endpoint (
   reply: FastifyReply
 ) {
   try {
-    const searchQuery = get_query(req, 'query')
+    const searchQuery = get_query(req, 'filter[search]')
     const page = parseInt(get_query(req, 'page[number]', '1'))
     const limit = parseInt(get_query(
       req,
@@ -96,13 +96,14 @@ export default async function get_bookmarks_collection_endpoint (
       }
       const { totalItems, results } = aggregationResult[0]
       if (aggregationResult.length > 0) {
+        const filter = `?filter[search]=${searchQuery}&`
         reply.code(200).send(new JsonapiResponseBuilder(
             results,
             'bookmarks',
             'collection'
           )
           .meta('max_loaded_pages', Config.MAX_LOADED_BOOKMARK_PAGES)
-          .buildLinks({ docs: results, page, limit, totalDocs: totalItems })
+          .buildLinks({ docs: results, filter, page, limit, totalDocs: totalItems })
           .build()
         )
       } else {

@@ -1,19 +1,19 @@
 import Config from '../../config'
 import {
-  $12_KEY,
-  $14_KEY,
+  $12_STATE_KEY,
+  $14_STATE_KEY,
   THEME_LIGHT_BACKGROUND_COLOR,
   THEME_DARK_DIALOG_BACKGROUND_COLOR
 } from '../../constants'
-import { remove_form_suffix } from '../form/_forms.business.logic'
+import { remove_form_suffix } from '../../business.logic'
 import { TStateDialog } from '../../common.types'
 
-Config.register('state', '14', $14_KEY)
+Config.register('state', '14', $14_STATE_KEY)
 /** Dialog to create a new Vimeo video bookmark @id 14 */
 const newVimeoBookmarkDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '14',
-  '_key': $14_KEY,
+  '_key': $14_STATE_KEY,
   'title': 'Insert New Vimeo Bookmark',
   'props': {
     'fullWidth': true,
@@ -25,7 +25,7 @@ const newVimeoBookmarkDialogState: TStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': `$form : ${remove_form_suffix($12_KEY)} : bookmarks`,
+  'content': `$form : ${remove_form_suffix($12_STATE_KEY)} : bookmarks`,
   'actions': [
     {
       'type': 'state_button',

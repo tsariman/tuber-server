@@ -3,7 +3,11 @@ import JsonapiErrorBuilder, {
   default_500_error_response
 } from 'src/business.logic/jsonapi.error.builder'
 import Config from '../../config'
-import { $57_KEY, $58_KEY, MSG_500_ERROR_MESSAGE } from '../../constants'
+import {
+  $57_STATE_KEY,
+  $58_STATE_KEY,
+  MSG_500_ERROR_MESSAGE
+} from '../../constants'
 import axios from 'axios'
 
 interface IPostRequest {
@@ -50,10 +54,10 @@ export default async function dev_post_unknown_regexp_endpoint(
       reply.code(200).send({
         'state': {
           'formsData': {
-            [$57_KEY]: { thumbnail_url: thumbnailUrl }
+            [$57_STATE_KEY]: { thumbnail_url: thumbnailUrl }
           },
           'pagesData': {
-            [$58_KEY]: { matches, thumbnailUrl }
+            [$58_STATE_KEY]: { matches, thumbnailUrl }
           }
         }
       })

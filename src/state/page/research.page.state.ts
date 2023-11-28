@@ -1,25 +1,28 @@
 import { TStatePage } from '../../common.types'
 import Config from '../../config'
-import { $40_KEY } from '../../constants'
+import {
+  $40_STATE_KEY,
+  THEME_LIGHT_APP_BAR_ICON_COLOR as ICON_COLOR,
+} from '../../constants'
 
-Config.register('state', '40', $40_KEY)
-/** @id 40 */
+Config.register('state', '40', $40_STATE_KEY)
+/** Page state for research page app. @id 40 */
 const researchPageState: TStatePage = {
   '_id': '40',
-  '_key': $40_KEY,
+  '_key': $40_STATE_KEY,
   'content': '$webapp : tubeResearcher',
   'appBar': {
     'appBarStyle': 'middle_search',
     'items': [ ],
     'inputBaseProps': {
       'id': 'video-url',
-      'placeholder': 'Paste Video URL Here ...',
-      'inputProps': { 'aria-label': 'Video URL' },
+      'placeholder': 'Search ...',
+      'inputProps': { 'aria-label': 'Search Bookmarks' },
     },
     'searchFieldIcon': {
       'icon': 'alternate_email_outline',
       'iconProps': {
-        'sx': { 'color': 'grey.500' }
+        'sx': { 'color': ICON_COLOR }
       }
     },
     'searchFieldIconButton': {
@@ -29,7 +32,7 @@ const researchPageState: TStatePage = {
       }
     },
     'searchFieldIconButtonProps': {
-      'aria-label': 'load video url'
+      'aria-label': 'submit search query'
     }
   },
   'layout': 'layout_none_no_appbar',
@@ -39,3 +42,8 @@ const researchPageState: TStatePage = {
 }
 
 export default researchPageState
+
+/** Dark theme mode for research page state. @id 40 */
+export const $40DarkThemeMode: TStatePage = {
+  ...researchPageState,
+}

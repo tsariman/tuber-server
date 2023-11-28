@@ -2,11 +2,11 @@ import { TStateForm } from '../../common.types'
 import Config from '../../config'
 import * as C from '../../constants'
 
-Config.register('state', '13', C.$13_KEY)
+Config.register('state', '13', C.$13_STATE_KEY)
 /** Form for editing an existing Vimeo bookmark. @id 13 */
 const editVimeoBookmarkFormState = {
   '_id': '13',
-  '_key': C.$13_KEY,
+  '_key': C.$13_STATE_KEY,
   'items': [
     {
       'type': 'stack',

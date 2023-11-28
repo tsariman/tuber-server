@@ -1,19 +1,19 @@
 import Config from '../../config'
 import {
-  $19_KEY,
-  $21_KEY,
+  $19_STATE_KEY,
+  $21_STATE_KEY,
   THEME_LIGHT_BACKGROUND_COLOR,
   THEME_DARK_DIALOG_BACKGROUND_COLOR
 } from '../../constants'
-import { remove_form_suffix } from '../form/_forms.business.logic'
+import { remove_form_suffix } from '../../business.logic'
 import { TStateDialog } from '../../common.types'
 
-Config.register('state', '21', $21_KEY)
+Config.register('state', '21', $21_STATE_KEY)
 /** Dialog to create a new Dailymotion video bookmark @id 21 */
 const newDailyBookmarkDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '21',
-  '_key': $21_KEY,
+  '_key': $21_STATE_KEY,
   'title': 'Insert New Dailymotion Bookmark',
   'props': {
     'fullWidth': true,
@@ -25,7 +25,7 @@ const newDailyBookmarkDialogState: TStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': `$form : ${remove_form_suffix($19_KEY)} : bookmarks`,
+  'content': `$form : ${remove_form_suffix($19_STATE_KEY)} : bookmarks`,
   'actions': [
     {
       'type': 'state_button',

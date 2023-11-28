@@ -1,13 +1,13 @@
 import { TStateForm } from '../../common.types'
 import Config from '../../config'
-import { $41_KEY } from '../../constants'
+import { $41_STATE_KEY } from '../../constants'
 
-Config.register('state', '41', $41_KEY)
+Config.register('state', '41', $41_STATE_KEY)
 /** @id 41 */
 const loginFormState: TStateForm = {
   '_type': 'box',
   '_id': '41',
-  '_key': $41_KEY,
+  '_key': $41_STATE_KEY,
   'props': {
     'sx': {
       'p': 3,

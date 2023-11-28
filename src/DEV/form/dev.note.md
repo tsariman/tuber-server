@@ -7,7 +7,7 @@ There are two version of each form state. The first version is used when the app
 const devInstallFormState: TStateForm = {
   '_type': 'box',
   '_id': '47',
-  '_key': C.$47_KEY,
+  '_key': C.$47_STATE_KEY,
   'props': { 'p': 2, 'mt': 10 },
   'paperBackground': true,
   'paperProps': {

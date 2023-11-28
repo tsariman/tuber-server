@@ -2,11 +2,11 @@ import { TStateForm } from '../../common.types'
 import Config from '../../config'
 import * as C from '../../constants'
 
-Config.register('state', '29', C.$29_KEY)
+Config.register('state', '29', C.$29_STATE_KEY)
 /** Form for editing an existing unknown platform video bookmark @id 29 */
 const editUnknownBookmarkFormState = {
   '_id': '29',
-  '_key': C.$29_KEY,
+  '_key': C.$29_STATE_KEY,
   'items': [
     {
       'type': 'stack',

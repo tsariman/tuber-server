@@ -1,15 +1,15 @@
 import {
-  $63_KEY,
+  $63_STATE_KEY,
   THEME_LIGHT_APP_BAR_ICON_COLOR as ICON_COLOR,
 } from '../../constants'
 import { TStateAppBar } from '../../common.types'
 import Config from '../../config'
 
-Config.register('state', '63', $63_KEY)
+Config.register('state', '63', $63_STATE_KEY)
 /** State for research page app bar. @id 63 */
 const researchPageAppBarState: TStateAppBar = {
   '_id': '63',
-  '_key': $63_KEY,
+  '_key': $63_STATE_KEY,
   'appBarStyle': 'middle_search',
   'items': [
     {
@@ -21,7 +21,7 @@ const researchPageAppBarState: TStateAppBar = {
     }
   ],
   'inputBaseProps': {
-    'id': 'video-url',
+    'id': 'search-query',
     'placeholder': 'Search ...',
     'inputProps': { 'aria-label': 'Search Bookmarks' },
   },
@@ -38,7 +38,7 @@ const researchPageAppBarState: TStateAppBar = {
     }
   },
   'searchFieldIconButtonProps': {
-    'aria-label': 'load video url'
+    'aria-label': 'submit search query'
   }
 }
 

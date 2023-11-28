@@ -2,11 +2,11 @@ import { TStateForm } from '../../common.types'
 import Config from '../../config'
 import * as C from '../../constants'
 
-Config.register('state', '10', C.$10_KEY)
+Config.register('state', '10', C.$10_STATE_KEY)
 /** Form for creating a edit rumble video bookmark @id 10 */
 const editRumbleBookmarkFormState = {
   '_id': '10',
-  '_key': C.$10_KEY,
+  '_key': C.$10_STATE_KEY,
   'items': [
     {
       'type': 'stack',

@@ -1,19 +1,19 @@
 import {
-  $13_KEY,
-  $15_KEY,
+  $13_STATE_KEY,
+  $15_STATE_KEY,
   THEME_LIGHT_BACKGROUND_COLOR,
   THEME_DARK_DIALOG_BACKGROUND_COLOR
 } from '../../constants'
 import Config from '../../config'
-import { remove_form_suffix } from '../form/_forms.business.logic'
+import { remove_form_suffix } from '../../business.logic'
 import { TStateDialog } from '../../common.types'
 
-Config.register('state', '15', $15_KEY)
+Config.register('state', '15', $15_STATE_KEY)
 /** Dialog to edit an existing Vimeo video bookmark @id 15 */
 const editVimeoBookmarkDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '15',
-  '_key': $15_KEY,
+  '_key': $15_STATE_KEY,
   'title': 'Edit Vimeo Bookmark',
   'props': {
     'fullWidth': true,
@@ -25,7 +25,7 @@ const editVimeoBookmarkDialogState: TStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': `'$form : ${remove_form_suffix($13_KEY)} : bookmarks'`,
+  'content': `'$form : ${remove_form_suffix($13_STATE_KEY)} : bookmarks'`,
   'actions': [
     {
       'type': 'state_button',

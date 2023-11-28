@@ -1,12 +1,12 @@
 import Config from '../../config'
 import { TStateForm } from '../../common.types'
 import {
-  $54_KEY,
+  $54_STATE_KEY,
   THEME_DARK_PAPER_COLOR,
   THEME_LIGHT_PAPER_COLOR
 } from '../../constants'
 
-Config.register('state', '54', $54_KEY)
+Config.register('state', '54', $54_STATE_KEY)
 /**
  * Form to test the regexp to grab both the video id and the thumbnail url from
  * the rumble video index.html page.
@@ -15,7 +15,7 @@ Config.register('state', '54', $54_KEY)
  */
 const devTestRumbleRegexpFormState = {
   '_id': '54',
-  '_key': $54_KEY,
+  '_key': $54_STATE_KEY,
   '_type': 'stack',
   'props': {
     'sx': { 'p': 2, 'width': 476 },

@@ -2,11 +2,11 @@ import { TStateForm } from '../../common.types'
 import Config from '../../config'
 import * as C from '../../constants'
 
-Config.register('state', '20', C.$20_KEY)
+Config.register('state', '20', C.$20_STATE_KEY)
 /** Form for editing an existing Dailymotion bookmark. @id 20 */
 const editDailyBookmarkFormState = {
   '_id': '20',
-  '_key': C.$20_KEY,
+  '_key': C.$20_STATE_KEY,
   'items': [
     {
       'type': 'stack',

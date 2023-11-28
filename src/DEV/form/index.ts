@@ -24,25 +24,25 @@ import devSaveConfigValueFormState, {
 } from './dev.save.config.value.form.state'
 
 export const DEV_STATE_FORM_THEME_DARK: TStateAllForms = {
-  [C.$45_KEY]: $45DarkThemeMode,
-  [C.$47_KEY]: $47DarkThemeMode,
-  [C.$49_KEY]: $49DarkThemeMode,
-  [C.$50_KEY]: $50DarkThemeMode,
-  [C.$54_KEY]: $54DarkThemeMode,
-  [C.$57_KEY]: $57DarkThemeMode,
-  [C.$60_KEY]: $60DarkThemeMode,
-  [C.$62_KEY]: $62DarkThemeMode,
+  [C.$45_STATE_KEY]: $45DarkThemeMode,
+  [C.$47_STATE_KEY]: $47DarkThemeMode,
+  [C.$49_STATE_KEY]: $49DarkThemeMode,
+  [C.$50_STATE_KEY]: $50DarkThemeMode,
+  [C.$54_STATE_KEY]: $54DarkThemeMode,
+  [C.$57_STATE_KEY]: $57DarkThemeMode,
+  [C.$60_STATE_KEY]: $60DarkThemeMode,
+  [C.$62_STATE_KEY]: $62DarkThemeMode,
 }
 
 const DEV_STATE_FORM: TStateAllForms = {
-  [C.$45_KEY]: devTestThumbnailFormState,
-  [C.$47_KEY]: devInstallFormState,
-  [C.$49_KEY]: devSetAuthorizationKeyFormState,
-  [C.$50_KEY]: devSetAuthorizationUrlFormState,
-  [C.$54_KEY]: devTestRumbleRegexpFormState,
-  [C.$57_KEY]: devTestUnknownRegexpFormState,
-  [C.$60_KEY]: devTwitchInputClientIdFormState,
-  [C.$62_KEY]: devSaveConfigValueFormState,
+  [C.$45_STATE_KEY]: devTestThumbnailFormState,
+  [C.$47_STATE_KEY]: devInstallFormState,
+  [C.$49_STATE_KEY]: devSetAuthorizationKeyFormState,
+  [C.$50_STATE_KEY]: devSetAuthorizationUrlFormState,
+  [C.$54_STATE_KEY]: devTestRumbleRegexpFormState,
+  [C.$57_STATE_KEY]: devTestUnknownRegexpFormState,
+  [C.$60_STATE_KEY]: devTwitchInputClientIdFormState,
+  [C.$62_STATE_KEY]: devSaveConfigValueFormState,
 }
 
 export default DEV_STATE_FORM

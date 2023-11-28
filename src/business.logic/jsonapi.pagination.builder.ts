@@ -11,6 +11,7 @@ export interface IPaginatedResult {
   prevPage?: number | null
   hasPrevPage: boolean
   pagingCounter: number
+  filter?: string
 }
 
 export type TpaginatedResultOptional = Partial<IPaginatedResult>
@@ -20,6 +21,7 @@ export interface IMinimalPaginationOptions<T=any> {
   page?: number
   limit?: number
   totalDocs?: number
+  filter?: string
 }
 
 /*
@@ -31,7 +33,7 @@ example:
     "prev": "?page[number]=2&page[size]=1",
     "next": "?page[number]=4&page[size]=1",
     "last": "?page[number]=13&page[size]=1"
-    },
+  },
 }
 */
 
@@ -40,12 +42,12 @@ example:
  */
 export default class JsonapiResponsePaginationBuilder {
 
-  private links: TJsonapiPaginationLinks
-  private options: IPaginatedResult
+  private _links: TJsonapiPaginationLinks
+  private _opts: IPaginatedResult
 
   constructor(opts: IPaginatedResult) {
-    this.options = opts
-    this.links = { self: '' }
+    this._opts = opts
+    this._links = { self: '' }
   }
 
   setOptions = ({
@@ -75,28 +77,28 @@ export default class JsonapiResponsePaginationBuilder {
   }
 
   build(): TJsonapiPaginationLinks {
-    this.links.self = this.selfLink()
-    this.links.first = this.firstLink()
-    this.links.last = this.lastLink()
-    this.links.prev = this.prevLink()
-    this.links.next = this.nextLink()
-    return this.links
+    this._links.self = this.selfLink()
+    this._links.first = this.firstLink()
+    this._links.last = this.lastLink()
+    this._links.prev = this.prevLink()
+    this._links.next = this.nextLink()
+    return this._links
   }
 
   private getSize(): number {
-    return this.options.limit > this.options.totalDocs
-      ? this.options.totalDocs
-      : this.options.limit
+    return this._opts.limit > this._opts.totalDocs
+      ? this._opts.totalDocs
+      : this._opts.limit
   }
 
   private selfLink(): string {
     const selfObj = {
       page: {
-        number: this.options.page,
+        number: this._opts.page,
         size: this.getSize()
       }
     }
-    const str = bracketize_object_querystring(selfObj)
+    const str = bracketize_object_querystring(selfObj, this._opts.filter)
     return str.substring(0, str.length - 1)
   }
 
@@ -107,40 +109,40 @@ export default class JsonapiResponsePaginationBuilder {
         size: this.getSize()
       }
     }
-    const str = bracketize_object_querystring(firstObj)
+    const str = bracketize_object_querystring(firstObj, this._opts.filter)
     return str.substring(0, str.length - 1)
   }
 
   private lastLink(): string {
     const lastObj = {
       page: {
-        number: this.options.totalPages,
+        number: this._opts.totalPages,
         size: this.getSize()
       }
     }
-    const str = bracketize_object_querystring(lastObj)
+    const str = bracketize_object_querystring(lastObj, this._opts.filter)
     return str.substring(0, str.length - 1)
   }
 
   private prevLink(): string {
     const prevObj = {
       page: {
-        number: this.options.prevPage,
+        number: this._opts.prevPage,
         size: this.getSize()
       }
     }
-    const str = bracketize_object_querystring(prevObj)
+    const str = bracketize_object_querystring(prevObj, this._opts.filter)
     return str.substring(0, str.length - 1)
   }
 
   private nextLink(): string {
     const nextObj = {
       page: {
-        number: this.options.nextPage,
+        number: this._opts.nextPage,
         size: this.getSize()
       }
     }
-    const str = bracketize_object_querystring(nextObj)
+    const str = bracketize_object_querystring(nextObj, this._opts.filter)
     return str.substring(0, str.length - 1)
   }
 
@@ -150,7 +152,8 @@ export default class JsonapiResponsePaginationBuilder {
 export function get_pagination_options({
   page = 1,
   limit = 10,
-  totalDocs = 0
+  totalDocs = 0,
+  filter = ''
 }: IMinimalPaginationOptions): IPaginatedResult {
   const totalPages = Math.ceil(totalDocs / limit) || 1
   const nextPage = page < totalPages ? page + 1 : null
@@ -167,7 +170,8 @@ export function get_pagination_options({
     hasNextPage,
     prevPage,
     hasPrevPage,
-    pagingCounter
+    pagingCounter,
+    filter
   }
 }
 

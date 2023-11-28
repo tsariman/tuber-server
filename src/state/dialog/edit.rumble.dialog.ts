@@ -1,19 +1,19 @@
 import Config from '../../config'
 import {
-  $10_KEY,
-  $11_KEY,
+  $10_STATE_KEY,
+  $11_STATE_KEY,
   THEME_LIGHT_BACKGROUND_COLOR,
   THEME_DARK_DIALOG_BACKGROUND_COLOR
 } from '../../constants'
-import { remove_form_suffix } from '../form/_forms.business.logic'
+import { remove_form_suffix } from '../../business.logic'
 import { TStateDialog } from '../../common.types'
 
-Config.register('state', '11', $11_KEY)
+Config.register('state', '11', $11_STATE_KEY)
 /** Dialog to edit a Rumble video bookmark @id 11 */
 const editRumbleBookmarkDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '11',
-  '_key': $11_KEY,
+  '_key': $11_STATE_KEY,
   'title': 'Edit Rumble Bookmark',
   'props': {
     'fullWidth': true,
@@ -25,7 +25,7 @@ const editRumbleBookmarkDialogState: TStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': `$form : ${remove_form_suffix($10_KEY)} : bookmarks`,
+  'content': `$form : ${remove_form_suffix($10_STATE_KEY)} : bookmarks`,
   'actions': [
     {
       'type': 'state_button',

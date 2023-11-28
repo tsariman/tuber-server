@@ -2,11 +2,11 @@ import { TStateForm } from '../../common.types'
 import Config from '../../config'
 import * as C from '../../constants'
 
-Config.register('state', '17', C.$17_KEY)
+Config.register('state', '17', C.$17_STATE_KEY)
 /** Form for creating a new odysee video bookmark @id 17 */
 const newOdyseeBookmarkFormState = {
   '_id': '17',
-  '_key': C.$17_KEY,
+  '_key': C.$17_STATE_KEY,
   'items': [
     {
       'type': 'stack',

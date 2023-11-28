@@ -11,7 +11,7 @@ import { TThemeMode } from '../common.types'
 
 /** Get material-ui theme object */
 export default function get_theme_state () {
-  const mode = Config.read<TThemeMode>(THEME_MODE, 'light')
+  const mode = Config.read<TThemeMode>(THEME_MODE, Config.DEFAULT_THEME_MODE)
   return mode === 'dark' ? darkThemeState : lightThemeState
 }
 
@@ -29,7 +29,6 @@ export const darkThemeState = {
     'MuiAppBar': {
       'styleOverrides': {
         'colorPrimary': {
-          // 'color': '#000000de',
           'backgroundColor': THEME_DARK_DIALOG_BACKGROUND_COLOR
         },
       },
@@ -119,7 +118,10 @@ export const lightThemeState = {
   'palette': {
     'background': {
       'default': THEME_LIGHT_BACKGROUND_COLOR
-    }
+    },
+    'secondary': {
+      'main': '#ef6c00'
+    },
   },
   'typography': {
     'fontFamily': '\'Quicksand\', sans-serif'

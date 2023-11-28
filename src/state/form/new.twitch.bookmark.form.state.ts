@@ -2,11 +2,11 @@ import { TStateForm } from '../../common.types'
 import Config from '../../config'
 import * as C from '../../constants'
 
-Config.register('state', '38', C.$38_KEY)
+Config.register('state', '38', C.$38_STATE_KEY)
 /** Form for creating a new Twitch video bookmark @id 38 */
 const newTwitchBookmarkFormState = {
   '_id': '38',
-  '_key': C.$38_KEY,
+  '_key': C.$38_STATE_KEY,
   'items': [
     {
       'type': 'stack',

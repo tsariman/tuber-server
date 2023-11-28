@@ -56,49 +56,52 @@ import loginFormState, {
 import Config from '../../config'
 import { TStateAllForms } from '../../common.types'
 import DEV_STATE_FORM, { DEV_STATE_FORM_THEME_DARK } from '../../DEV/form'
+import { themed_by_key } from '../../business.logic'
 
 export const STATE_FORMS_THEME_DARK: TStateAllForms = {
-  [C.$1_KEY]: $1DarkThemeMode,
-  [C.$4_KEY]: $4DarkThemeMode,
-  [C.$5_KEY]: $5DarkThemeMode,
-  [C.$9_KEY]: $9DarkThemeMode,
-  [C.$10_KEY]: $10DarkThemeMode,
-  [C.$12_KEY]: $12DarkThemeMode,
-  [C.$13_KEY]: $13DarkThemeMode,
-  [C.$17_KEY]: $17DarkThemeMode,
-  [C.$18_KEY]: $18DarkThemeMode,
-  [C.$19_KEY]: $19DarkThemeMode,
-  [C.$20_KEY]: $20DarkThemeMode,
-  [C.$24_KEY]: $24DarkThemeMode,
-  [C.$25_KEY]: $25DarkThemeMode,
-  [C.$28_KEY]: $28DarkThemeMode,
-  [C.$29_KEY]: $29DarkThemeMode,
-  [C.$38_KEY]: $38DarkThemeMode,
-  [C.$39_KEY]: $39DarkThemeMode,
-  [C.$41_KEY]: $41DarkThemeMode,
+  [C.$1_STATE_KEY]: $1DarkThemeMode,
+  [C.$4_STATE_KEY]: $4DarkThemeMode,
+  [C.$5_STATE_KEY]: $5DarkThemeMode,
+  [C.$9_STATE_KEY]: $9DarkThemeMode,
+  [C.$10_STATE_KEY]: $10DarkThemeMode,
+  [C.$12_STATE_KEY]: $12DarkThemeMode,
+  [C.$13_STATE_KEY]: $13DarkThemeMode,
+  [C.$17_STATE_KEY]: $17DarkThemeMode,
+  [C.$18_STATE_KEY]: $18DarkThemeMode,
+  [C.$19_STATE_KEY]: $19DarkThemeMode,
+  [C.$20_STATE_KEY]: $20DarkThemeMode,
+  [C.$24_STATE_KEY]: $24DarkThemeMode,
+  [C.$25_STATE_KEY]: $25DarkThemeMode,
+  [C.$28_STATE_KEY]: $28DarkThemeMode,
+  [C.$29_STATE_KEY]: $29DarkThemeMode,
+  [C.$38_STATE_KEY]: $38DarkThemeMode,
+  [C.$39_STATE_KEY]: $39DarkThemeMode,
+  [C.$41_STATE_KEY]: $41DarkThemeMode,
   ...(Config.DEV ? DEV_STATE_FORM_THEME_DARK : {})
 }
 
-const STATE_FORMS: TStateAllForms = {
-  [C.$1_KEY]: newVideoUrlFormState,
-  [C.$4_KEY]: newYouTubeBookmarkFormState,
-  [C.$5_KEY]: editYouTubeBookmarkFormState,
-  [C.$9_KEY]: newRumbleBookmarkFormState,
-  [C.$10_KEY]: editRumbleBookmarkFormState,
-  [C.$12_KEY]: newVimeoBookmarkFormState,
-  [C.$13_KEY]: editVimeoBookmarkFormState,
-  [C.$17_KEY]: newOdyseeBookmarkFormState,
-  [C.$18_KEY]: editOdyseeBookmarkFormState,
-  [C.$19_KEY]: newDailyBookmarkFormState,
-  [C.$20_KEY]: editDailyBookmarkFormState,
-  [C.$24_KEY]: newFacebookBookmarkFormState,
-  [C.$25_KEY]: editFacebookBookmarkFormState,
-  [C.$28_KEY]: newUnknownBookmarkFormState,
-  [C.$29_KEY]: editUnknownBookmarkFormState,
-  [C.$38_KEY]: newTwitchBookmarkFormState,
-  [C.$39_KEY]: editTwitchBookmarkFormState,
-  [C.$41_KEY]: loginFormState,
+export const STATE_FORMS: TStateAllForms = {
+  [C.$1_STATE_KEY]: newVideoUrlFormState,
+  [C.$4_STATE_KEY]: newYouTubeBookmarkFormState,
+  [C.$5_STATE_KEY]: editYouTubeBookmarkFormState,
+  [C.$9_STATE_KEY]: newRumbleBookmarkFormState,
+  [C.$10_STATE_KEY]: editRumbleBookmarkFormState,
+  [C.$12_STATE_KEY]: newVimeoBookmarkFormState,
+  [C.$13_STATE_KEY]: editVimeoBookmarkFormState,
+  [C.$17_STATE_KEY]: newOdyseeBookmarkFormState,
+  [C.$18_STATE_KEY]: editOdyseeBookmarkFormState,
+  [C.$19_STATE_KEY]: newDailyBookmarkFormState,
+  [C.$20_STATE_KEY]: editDailyBookmarkFormState,
+  [C.$24_STATE_KEY]: newFacebookBookmarkFormState,
+  [C.$25_STATE_KEY]: editFacebookBookmarkFormState,
+  [C.$28_STATE_KEY]: newUnknownBookmarkFormState,
+  [C.$29_STATE_KEY]: editUnknownBookmarkFormState,
+  [C.$38_STATE_KEY]: newTwitchBookmarkFormState,
+  [C.$39_STATE_KEY]: editTwitchBookmarkFormState,
+  [C.$41_STATE_KEY]: loginFormState,
   ...(Config.DEV ? DEV_STATE_FORM : {})
 }
 
-export default STATE_FORMS
+export default function get_form_state(key: string) {
+  return themed_by_key(key, STATE_FORMS, STATE_FORMS_THEME_DARK)
+}

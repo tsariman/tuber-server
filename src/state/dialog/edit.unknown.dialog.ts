@@ -1,19 +1,19 @@
 import Config from '../../config'
 import {
-  $29_KEY,
-  $31_KEY,
+  $29_STATE_KEY,
+  $31_STATE_KEY,
   THEME_LIGHT_BACKGROUND_COLOR,
   THEME_DARK_DIALOG_BACKGROUND_COLOR
 } from '../../constants'
-import { remove_form_suffix } from '../form/_forms.business.logic'
+import { remove_form_suffix } from '../../business.logic'
 import { TStateDialog } from '../../common.types'
 
-Config.register('state', '31', $31_KEY)
+Config.register('state', '31', $31_STATE_KEY)
 /** Dialog to edit an unknown video platform bookmark @id 31 */
 const editUnknownBookmarkDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '31',
-  '_key': $31_KEY,
+  '_key': $31_STATE_KEY,
   'title': 'Edit Unknown Bookmark',
   'props': {
     'fullWidth': true,
@@ -25,7 +25,7 @@ const editUnknownBookmarkDialogState: TStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': `$form : ${remove_form_suffix($29_KEY)} : bookmarks`,
+  'content': `$form : ${remove_form_suffix($29_STATE_KEY)} : bookmarks`,
   'actions': [
     {
       'type': 'state_button',

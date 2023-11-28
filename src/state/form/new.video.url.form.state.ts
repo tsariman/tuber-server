@@ -1,12 +1,12 @@
 import { TStateForm, TStateFormItem } from '../../common.types'
 import Config from '../../config'
-import { $1_KEY } from '../../constants'
+import { $1_STATE_KEY } from '../../constants'
 
-Config.register('state', '1', $1_KEY)
+Config.register('state', '1', $1_STATE_KEY)
 /** Form to insert a new video URL. @id 1 */
 const newVideoUrlFormState: TStateForm = {
   '_id': '1',
-  '_key': $1_KEY,
+  '_key': $1_STATE_KEY,
   'items': [
     {
       'type': 'stack',

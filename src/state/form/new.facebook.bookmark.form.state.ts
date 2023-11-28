@@ -2,11 +2,11 @@ import { TStateForm } from '../../common.types'
 import Config from '../../config'
 import * as C from '../../constants'
 
-Config.register('state', '24', C.$24_KEY)
+Config.register('state', '24', C.$24_STATE_KEY)
 /** Form for creating a new facebook video bookmark @id 24 */
 const newFacebookBookmarkFormState = {
   '_id': '24',
-  '_key': C.$24_KEY,
+  '_key': C.$24_STATE_KEY,
   'items': [
     {
       'type': 'stack',

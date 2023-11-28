@@ -1,12 +1,12 @@
 import { TStatePage } from '../../common.types'
 import Config from '../../config'
-import { $55_KEY } from '../../constants'
+import { $55_STATE_KEY } from '../../constants'
 
-Config.register('state', '55', $55_KEY)
+Config.register('state', '55', $55_STATE_KEY)
 /** @id 55 */
 const adminConfigPageState: TStatePage = {
   '_id': '55',
-  '_key': $55_KEY,
+  '_key': $55_STATE_KEY,
   'content': '$webapp : config',
   'appBar': {
     'appBarStyle': 'middle_search',
@@ -39,3 +39,7 @@ const adminConfigPageState: TStatePage = {
 }
 
 export default adminConfigPageState
+
+export const $55DarkThemeMode: TStatePage = {
+  ...adminConfigPageState,
+}

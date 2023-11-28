@@ -1,6 +1,6 @@
 import Config from '../../config'
 import * as C from '../../constants'
-import { remove_form_suffix } from '../form/_forms.business.logic'
+import { remove_form_suffix, themed_by_key } from '../../business.logic'
 import { TNetState, TStateAllDialogs, TStateDialog } from '../../common.types'
 import newRumbleBookmarkDialogState, {
   $8DarkThemeMode
@@ -45,12 +45,12 @@ import editTwitchBookmarkDialogState, {
   $37DarkThemeMode
 } from './edit.twitch.dialog'
 
-Config.register('state', '6', C.$6_KEY)
+Config.register('state', '6', C.$6_STATE_KEY)
 /** Dialog to create a new YouTube video bookmark @id 6 */
 export const newYoutubeBookmarkDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '6',
-  '_key': C.$6_KEY,
+  '_key': C.$6_STATE_KEY,
   'title': 'Insert New YouTube Bookmark',
   'props': {
     'fullWidth': true,
@@ -62,7 +62,7 @@ export const newYoutubeBookmarkDialogState: TStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': `$form : ${remove_form_suffix(C.$4_KEY)} : bookmarks`,
+  'content': `$form : ${remove_form_suffix(C.$4_STATE_KEY)} : bookmarks`,
   'actions': [
     {
       'type': 'state_button',
@@ -100,12 +100,12 @@ export const $6DarkThemeMode: TStateDialog = {
   }
 }
 
-Config.register('state', '2', C.$2_KEY)
+Config.register('state', '2', C.$2_STATE_KEY)
 /** Dialog that contains the form to insert the new video url. @id 2 */
 export const newVideoUrlDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '2',
-  '_key': C.$2_KEY,
+  '_key': C.$2_STATE_KEY,
   'title': 'Insert the URL of Video to be Bookmarked',
   'props': {
     'fullWidth': true,
@@ -117,7 +117,7 @@ export const newVideoUrlDialogState: TStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': `$form : ${remove_form_suffix(C.$1_KEY)} : bookmarks`,
+  'content': `$form : ${remove_form_suffix(C.$1_STATE_KEY)} : bookmarks`,
   'actions': [],
   'open': true
 }
@@ -137,12 +137,12 @@ export const $2DarkThemeMode: TStateDialog = {
   }
 }
 
-Config.register('state', '7', C.$7_KEY)
+Config.register('state', '7', C.$7_STATE_KEY)
 /** Dialog to edit an existing YouTube video bookmark @id 7 */
 export const editYoutubeBookmarkDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '7',
-  '_key': C.$7_KEY,
+  '_key': C.$7_STATE_KEY,
   'title': 'Edit YouTube Bookmark',
   'props': {
     'fullWidth': true,
@@ -154,7 +154,7 @@ export const editYoutubeBookmarkDialogState: TStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': `'$form : ${remove_form_suffix(C.$5_KEY)} : bookmarks'`,
+  'content': `'$form : ${remove_form_suffix(C.$5_STATE_KEY)} : bookmarks'`,
   'actions': [
     {
       'type': 'state_button',
@@ -192,12 +192,12 @@ export const $7DarkThemeMode: TStateDialog = {
   }
 }
 
-Config.register('state', '32', C.$32_KEY)
+Config.register('state', '32', C.$32_STATE_KEY)
 /** @id 32 */
 export const loginDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '32',
-  '_key': C.$32_KEY,
+  '_key': C.$32_STATE_KEY,
   'title': 'Enter Your Credentials',
   'props': {
     'fullWidth': true,
@@ -214,12 +214,12 @@ export const $32DarkThemeMode: TStateDialog = {
   ...loginDialogState,
 }
 
-Config.register('state', '33', C.$33_KEY)
+Config.register('state', '33', C.$33_STATE_KEY)
 /** @id 33 */
 export const registerDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '33',
-  '_key': C.$33_KEY,
+  '_key': C.$33_STATE_KEY,
   'title': 'Register New User',
   'props': {
     'fullWidth': true,
@@ -236,12 +236,12 @@ export const $33DarkThemeMode: TStateDialog = {
   ...registerDialogState,
 }
 
-Config.register('state', '34', C.$34_KEY)
+Config.register('state', '34', C.$34_STATE_KEY)
 /** @id 34 */
 export const deleteBookmarkDialogState: TStateDialog = {
   '_type': 'alert',
   '_id': '34',
-  '_key': C.$34_KEY,
+  '_key': C.$34_STATE_KEY,
   'title': 'Delete Bookmark',
   'props': { 'fullWidth': true },
   'titleProps': {
@@ -273,12 +273,12 @@ export const $34DarkThemeMode: TStateDialog = {
   ...deleteBookmarkDialogState,
 }
 
-Config.register('state', '35', C.$35_KEY)
+Config.register('state', '35', C.$35_STATE_KEY)
 /** @id 35 */
 export const clientAlertDialogState: TStateDialog = {
   '_type': 'alert',
   '_id': '35',
-  '_key': C.$35_KEY,
+  '_key': C.$35_STATE_KEY,
   'title': 'Feedback',
   'props': { 'fullWidth': true },
   'titleProps': {
@@ -357,51 +357,53 @@ export function dialogAlertState<T=any>(content: T): TStateDialog {
 }
 
 export const STATE_DIALOGS_THEME_DARK: TStateAllDialogs = {
-  [C.$2_KEY]: $2DarkThemeMode,
-  [C.$6_KEY]: $6DarkThemeMode,
-  [C.$7_KEY]: $7DarkThemeMode,
-  [C.$8_KEY]: $8DarkThemeMode,
-  [C.$11_KEY]: $11DarkThemeMode,
-  [C.$14_KEY]: $14DarkThemeMode,
-  [C.$15_KEY]: $15DarkThemeMode,
-  [C.$16_KEY]: $16DarkThemeMode,
-  [C.$21_KEY]: $21DarkThemeMode,
-  [C.$22_KEY]: $22DarkThemeMode,
-  [C.$23_KEY]: $23DarkThemeMode,
-  [C.$26_KEY]: $26DarkThemeMode,
-  [C.$27_KEY]: $27DarkThemeMode,
-  [C.$30_KEY]: $30DarkThemeMode,
-  [C.$31_KEY]: $31DarkThemeMode,
-  [C.$32_KEY]: $32DarkThemeMode,
-  [C.$33_KEY]: $33DarkThemeMode,
-  [C.$34_KEY]: $34DarkThemeMode,
-  [C.$35_KEY]: $35DarkThemeMode,
-  [C.$36_KEY]: $36DarkThemeMode,
-  [C.$37_KEY]: $37DarkThemeMode
+  [C.$2_STATE_KEY]: $2DarkThemeMode,
+  [C.$6_STATE_KEY]: $6DarkThemeMode,
+  [C.$7_STATE_KEY]: $7DarkThemeMode,
+  [C.$8_STATE_KEY]: $8DarkThemeMode,
+  [C.$11_STATE_KEY]: $11DarkThemeMode,
+  [C.$14_STATE_KEY]: $14DarkThemeMode,
+  [C.$15_STATE_KEY]: $15DarkThemeMode,
+  [C.$16_STATE_KEY]: $16DarkThemeMode,
+  [C.$21_STATE_KEY]: $21DarkThemeMode,
+  [C.$22_STATE_KEY]: $22DarkThemeMode,
+  [C.$23_STATE_KEY]: $23DarkThemeMode,
+  [C.$26_STATE_KEY]: $26DarkThemeMode,
+  [C.$27_STATE_KEY]: $27DarkThemeMode,
+  [C.$30_STATE_KEY]: $30DarkThemeMode,
+  [C.$31_STATE_KEY]: $31DarkThemeMode,
+  [C.$32_STATE_KEY]: $32DarkThemeMode,
+  [C.$33_STATE_KEY]: $33DarkThemeMode,
+  [C.$34_STATE_KEY]: $34DarkThemeMode,
+  [C.$35_STATE_KEY]: $35DarkThemeMode,
+  [C.$36_STATE_KEY]: $36DarkThemeMode,
+  [C.$37_STATE_KEY]: $37DarkThemeMode
 }
 
-const STATE_DIALOGS: { [key: string]: TStateDialog } = {
-  [C.$2_KEY]: newVideoUrlDialogState,
-  [C.$6_KEY]: newYoutubeBookmarkDialogState,
-  [C.$7_KEY]: editYoutubeBookmarkDialogState,
-  [C.$8_KEY]: newRumbleBookmarkDialogState,
-  [C.$11_KEY]: editRumbleBookmarkDialogState,
-  [C.$14_KEY]: newVimeoBookmarkDialogState,
-  [C.$15_KEY]: editVimeoBookmarkDialogState,
-  [C.$16_KEY]: newOdyseeBookmarkDialogState,
-  [C.$21_KEY]: newDailyBookmarkDialogState,
-  [C.$22_KEY]: editDailyBookmarkDialogState,
-  [C.$23_KEY]: editOdyseeBookmarkDialogState,
-  [C.$26_KEY]: newFacebookBookmarkDialogState,
-  [C.$27_KEY]: editFacebookBookmarkDialogState,
-  [C.$30_KEY]: newUnknownBookmarkDialogState,
-  [C.$31_KEY]: editUnknownBookmarkDialogState,
-  [C.$32_KEY]: loginDialogState,
-  [C.$33_KEY]: registerDialogState,
-  [C.$34_KEY]: deleteBookmarkDialogState,
-  [C.$35_KEY]: clientAlertDialogState,
-  [C.$36_KEY]: newTwitchBookmarkDialogState,
-  [C.$37_KEY]: editTwitchBookmarkDialogState,
+export const STATE_DIALOGS: { [key: string]: TStateDialog } = {
+  [C.$2_STATE_KEY]: newVideoUrlDialogState,
+  [C.$6_STATE_KEY]: newYoutubeBookmarkDialogState,
+  [C.$7_STATE_KEY]: editYoutubeBookmarkDialogState,
+  [C.$8_STATE_KEY]: newRumbleBookmarkDialogState,
+  [C.$11_STATE_KEY]: editRumbleBookmarkDialogState,
+  [C.$14_STATE_KEY]: newVimeoBookmarkDialogState,
+  [C.$15_STATE_KEY]: editVimeoBookmarkDialogState,
+  [C.$16_STATE_KEY]: newOdyseeBookmarkDialogState,
+  [C.$21_STATE_KEY]: newDailyBookmarkDialogState,
+  [C.$22_STATE_KEY]: editDailyBookmarkDialogState,
+  [C.$23_STATE_KEY]: editOdyseeBookmarkDialogState,
+  [C.$26_STATE_KEY]: newFacebookBookmarkDialogState,
+  [C.$27_STATE_KEY]: editFacebookBookmarkDialogState,
+  [C.$30_STATE_KEY]: newUnknownBookmarkDialogState,
+  [C.$31_STATE_KEY]: editUnknownBookmarkDialogState,
+  [C.$32_STATE_KEY]: loginDialogState,
+  [C.$33_STATE_KEY]: registerDialogState,
+  [C.$34_STATE_KEY]: deleteBookmarkDialogState,
+  [C.$35_STATE_KEY]: clientAlertDialogState,
+  [C.$36_STATE_KEY]: newTwitchBookmarkDialogState,
+  [C.$37_STATE_KEY]: editTwitchBookmarkDialogState,
 }
 
-export default STATE_DIALOGS
+export default function get_dialog_state(key: string): TStateDialog | undefined {
+  return themed_by_key(key, STATE_DIALOGS, STATE_DIALOGS_THEME_DARK)
+}

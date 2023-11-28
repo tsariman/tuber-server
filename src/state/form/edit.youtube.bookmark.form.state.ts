@@ -2,11 +2,11 @@ import { TStateForm } from '../../common.types'
 import Config from '../../config'
 import * as C from '../../constants'
 
-Config.register('state', '5', C.$5_KEY)
+Config.register('state', '5', C.$5_STATE_KEY)
 /** Form for editing an existing YouTube bookmark. @id 5 */
 const editYouTubeBookmarkFormState = {
   '_id': '5',
-  '_key': C.$5_KEY,
+  '_key': C.$5_STATE_KEY,
   'items': [
     {
       'type': 'stack',

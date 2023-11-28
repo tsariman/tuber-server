@@ -3,7 +3,11 @@ import JsonapiErrorBuilder, {
   default_500_error_response
 } from 'src/business.logic/jsonapi.error.builder'
 import Config from '../../config'
-import { $54_KEY, $56_KEY, MSG_500_ERROR_MESSAGE } from '../../constants'
+import {
+  $54_STATE_KEY,
+  $56_STATE_KEY,
+  MSG_500_ERROR_MESSAGE
+} from '../../constants'
 import axios from 'axios'
 
 interface IPostRequest {
@@ -49,13 +53,13 @@ export default async function dev_post_rumble_regexp_endpoint(
       reply.code(200).send({
         'state': {
           'formsData': {
-            [$54_KEY]: {
+            [$54_STATE_KEY]: {
               'videoid': matches[1][1],
               'thumbnail_url': matches[0][2],
             }
           },
           'pagesData': {
-            [$56_KEY]: { matches }
+            [$56_STATE_KEY]: { matches }
           }
         }
       })

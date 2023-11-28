@@ -4,7 +4,7 @@ import JsonapiErrorBuilder, {
 } from 'src/business.logic/jsonapi.error.builder'
 import Config from '../../config'
 import {
-  $62_KEY,
+  $62_STATE_KEY,
   MSG_500_ERROR_MESSAGE
 } from '../../constants'
 
@@ -45,7 +45,7 @@ export default async function dev_post_save_config_value_endpoint(
     reply.code(200).send({
       'state': {
         'formsData': {
-          [$62_KEY]: { key: '', value: '' }
+          [$62_STATE_KEY]: { key: '', value: '' }
         }
       }
     })

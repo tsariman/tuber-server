@@ -1,6 +1,9 @@
-import { FastifyRequest } from 'fastify'
 import Config from '../config'
-import { IGenericObject, IJsonapiQuerystring, TThemeMode } from '../common.types'
+import {
+  IGenericObject,
+  IJsonapiQuerystring,
+  TThemeMode
+} from '../common.types'
 import { THEME_MODE } from '../constants'
 
 /** Returns `true` if the argument is an object. */
@@ -64,14 +67,14 @@ export const get_state_key = (state: IGenericObject): string => {
 }
 
 /**
- * Choose the version of the state to return based on the current theme
- * mode.
+ * **`[system theme]`** Given a _key_, returns the state based on the current
+ * theme mode.
  * @param state State object
  * @param LIGHT Light theme value
  * @param DARK Dark theme value
  * @returns the version of the state based on theme mode.
  */
-export function tt<T=any>(key: string, LIGHT: any, DARK: any): T {
+export function themed_by_key<T=any>(key: string, LIGHT: any, DARK: any): T {
   const mode = Config.read<TThemeMode>(
     THEME_MODE,
     Config.DEFAULT_THEME_MODE
@@ -80,13 +83,30 @@ export function tt<T=any>(key: string, LIGHT: any, DARK: any): T {
 }
 
 /**
- * Choose the version of the state to return based on the current theme mode.
+ * __`[system theme]`__ Choose the version of the state to return based on the
+ * current theme mode.
  * @param light state for light theme
  * @param dark state for dark theme
  * @returns state based on theme mode.
  */
-export function ts<T=any>(light: T, dark: T): T {
+export function sys_themed<T=any>(light: T, dark: T): T {
   const mode = Config.read<TThemeMode>(
+    THEME_MODE,
+    Config.DEFAULT_THEME_MODE
+  )
+  return mode === 'dark' ? dark : light
+}
+
+/**
+ * __`[user theme]`__ Choose the version of the state to return based on the
+ * current theme mode.
+ * @param mode theme mode
+ * @param light state for light theme
+ * @param dark state for dark theme
+ * @returns state based on theme mode.
+ */
+export function themed<T=any>(light: T, dark: T, mode?: TThemeMode): T {
+  mode = mode ?? Config.read<TThemeMode>(
     THEME_MODE,
     Config.DEFAULT_THEME_MODE
   )
@@ -95,7 +115,7 @@ export function ts<T=any>(light: T, dark: T): T {
 
 /** Get query string value */
 export const get_query = (
-  req: FastifyRequest,
+  req: any,
   key: keyof IJsonapiQuerystring,
   $default = ''
 ): string => {
@@ -151,4 +171,14 @@ export function match_regex_array(
     }
   }
   return null
+}
+
+export function remove_form_suffix(_key?: string) {
+  if (!_key) {
+    Config.die('formState._key not defined.')
+    return ''
+  }
+  return _key.slice(-4) === 'Form'
+    ? _key.replace('Form', '')
+    : _key
 }

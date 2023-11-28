@@ -1,5 +1,5 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { $46_KEY, MSG_500_ERROR_MESSAGE } from '../../constants'
+import { $46_STATE_KEY, MSG_500_ERROR_MESSAGE } from '../../constants'
 import JsonapiErrorBuilder, {
   default_500_error_response
 } from '../../business.logic/jsonapi.error.builder'
@@ -26,7 +26,7 @@ export default async function dev_get_vimeo_thumbnail_endpoint(
       reply.code(200).send({
         'state': {
           'pagesData': {
-            [$46_KEY]: { thumbnailUrl }
+            [$46_STATE_KEY]: { thumbnailUrl }
           }
         }
       })

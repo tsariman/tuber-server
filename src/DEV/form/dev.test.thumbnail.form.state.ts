@@ -1,18 +1,18 @@
 import { TStateForm } from '../../common.types'
 import Config from '../../config'
 import {
-  $45_KEY,
-  $46_KEY,
+  $45_STATE_KEY,
+  $46_STATE_KEY,
   THEME_DARK_PAPER_COLOR,
   THEME_LIGHT_PAPER_COLOR
 } from '../../constants'
 
-Config.register('state', '45', $45_KEY)
+Config.register('state', '45', $45_STATE_KEY)
 /** @id 45 */
 const devTestThumbnailFormState: TStateForm = {
   '_type': 'box',
   '_id': '45',
-  '_key': $45_KEY,
+  '_key': $45_STATE_KEY,
   'props': {
     'sx': { 'p': 2, 'width': 476 },
   },
@@ -54,7 +54,7 @@ const devTestThumbnailFormState: TStateForm = {
             alt="Supposed to load thumbnail of video URL."
           />
         `,
-        'key': $46_KEY
+        'key': $46_STATE_KEY
       }
     }
   ]

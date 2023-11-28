@@ -77,7 +77,7 @@ export type TEndpoint = 'users' | 'entries' | 'bookmarks' | 'tags' | 'authorizat
  * obj['key'] = 'value'
  * ```
  */
-export interface IGenericObject { [key: string]: any }
+export interface IGenericObject<T=any> { [key: string]: T }
 
 /** Generic jsonapi query string */
 export interface IJsonapiQuerystring {

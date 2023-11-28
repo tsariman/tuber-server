@@ -49,7 +49,7 @@ export const authenticatedLinkState: TStateLink = {
   }
 }
 
-// Config.register('state', '3', $3_KEY)
+// Config.register('state', '3', $3_STATE_KEY)
 export const bookmarkAddFromUrlLinkState: TStateLink = {
   'type': 'icon',
   '_id': '3',
@@ -65,5 +65,21 @@ export const defaultErrorsViewLinkState: TStateLink = {
   'has': {
     'text': 'Client errors',
     'route': 'default-errors-view'
+  }
+}
+
+export const darkModeLinkState: TStateLink = {
+  'type': 'icon',
+  'has': {
+    'icon': 'wb_sunny_outline',
+    'onclickHandle': `tuberCallbacks.$44_C_1`,
+  }
+}
+
+export const lightModeLinkState: TStateLink = {
+  'type': 'icon',
+  'has': {
+    'icon': 'dark_mode_outline',
+    'onclickHandle': `tuberCallbacks.$44_C_1`,
   }
 }

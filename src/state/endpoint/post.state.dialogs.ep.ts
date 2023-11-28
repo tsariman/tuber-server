@@ -3,17 +3,18 @@ import Config from '../../config'
 import JsonapiErrorBuilder, {
   default_500_error_response
 } from '../../business.logic/jsonapi.error.builder'
-import STATE_DIALOGS, { STATE_DIALOGS_THEME_DARK } from '../dialog'
-import { TNetState, TStateAllDialogs } from '../../common.types'
+import  { STATE_DIALOGS, STATE_DIALOGS_THEME_DARK } from '../dialog'
+import { TNetState, TStateAllDialogs, TThemeMode } from '../../common.types'
 import { MSG_500_ERROR_MESSAGE } from 'src/constants'
-import { tt } from '../../business.logic'
+import { themed } from '../../business.logic'
 
 export default async function post_state_dialogs_endpoint (
-  req: FastifyRequest<{ Body: { key?: string }}>,
+  req: FastifyRequest<{ Body: { key?: string, mode?: TThemeMode }}>,
   reply: FastifyReply
 ) {
   try {
     const key = req.body.key
+    const mode = req.body.mode
     if (!key) {
       Config.log(`'key' was not received.`)
       reply.code(400).send(new JsonapiErrorBuilder()
@@ -23,13 +24,26 @@ export default async function post_state_dialogs_endpoint (
       )
       return
     }
+    if (!mode) {
+      Config.log(`'mode' was not received.`)
+      reply.code(400).send(new JsonapiErrorBuilder()
+        .status(400)
+        .code('bad_request')
+        .title('Missing information')
+      )
+      return
+    }
     Config.print(`Loading '${key}' state... `)
-    const dialogState = tt(key, STATE_DIALOGS, STATE_DIALOGS_THEME_DARK)
+    const light = STATE_DIALOGS[key]
+    const dark = STATE_DIALOGS_THEME_DARK[key]
+    const dialogState = themed(light, dark, mode)
     if (dialogState) {
       Config.log('Done.')
       reply.code(200).send({
         state: {
-          'dialogs': { [key]: dialogState }
+          'dialogs': { [key]: dialogState },
+          'dialogsLight': { [key]: light },
+          'dialogsDark': { [key]: dark },
         } as TNetState
       })
     } else {

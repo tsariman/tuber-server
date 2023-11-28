@@ -2,12 +2,12 @@ import { TStateForm } from '../../common.types'
 import Config from '../../config'
 import * as C from '../../constants'
 
-Config.register('state', '47', C.$47_KEY)
+Config.register('state', '47', C.$47_STATE_KEY)
 /** Development shortcuts form. @id 47 */
 const devInstallFormState = {
   '_type': 'box',
   '_id': '47',
-  '_key': C.$47_KEY,
+  '_key': C.$47_STATE_KEY,
   'props': { 'p': 2, 'mt': 10 },
   'paperBackground': true,
   'paperProps': {
@@ -37,7 +37,7 @@ const devInstallFormState = {
             &#128526;<span style="color:#0074d8"><b>Users</b></span> <em>({{ userCount }})</em>
           </p>
         `,
-        'key': C.$47_KEY
+        'key': C.$47_STATE_KEY
       }
     },
     {
@@ -174,7 +174,7 @@ const devInstallFormState = {
       'type': 'a',
       'has': {
         'label': ' Test getting platform thumbnails ',
-        'route': C.$46_KEY
+        'route': C.$46_STATE_KEY
       }
     },
     {
@@ -185,7 +185,7 @@ const devInstallFormState = {
       'type': 'a',
       'has': {
         'label': ' Save config value ',
-        'route': C.$61_KEY
+        'route': C.$61_STATE_KEY
       }
     },
     {
@@ -196,7 +196,7 @@ const devInstallFormState = {
       'type': 'a',
       'has': {
         'label': ' Enter Twitch Client ID ',
-        'route': C.$59_KEY
+        'route': C.$59_STATE_KEY
       }
     },
     {
@@ -207,7 +207,7 @@ const devInstallFormState = {
       'type': 'a',
       'has': {
         'label': ' Set authorization key ',
-        'route': C.$48_KEY
+        'route': C.$48_STATE_KEY
       }
     },
     {
@@ -218,7 +218,7 @@ const devInstallFormState = {
       'type': 'a',
       'has': {
         'label': ' Set authorization url ',
-        'route': C.$51_KEY
+        'route': C.$51_STATE_KEY
       }
     },
     {
@@ -229,7 +229,7 @@ const devInstallFormState = {
       'type': 'a',
       'has': {
         'label': ' Test rumble regexp ',
-        'route': C.$56_KEY
+        'route': C.$56_STATE_KEY
       }
     },
     {
@@ -240,7 +240,7 @@ const devInstallFormState = {
       'type': 'a',
       'has': {
         'label': ' Test unknown regexp ',
-        'route': C.$58_KEY
+        'route': C.$58_STATE_KEY
       }
     },
     {

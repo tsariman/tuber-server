@@ -1,16 +1,16 @@
 import Config from '../../config'
 import {
-  $50_KEY,
+  $50_STATE_KEY,
   THEME_DARK_PAPER_COLOR,
   THEME_LIGHT_PAPER_COLOR
 } from '../../constants'
 import { TStateForm } from '../../common.types'
 
-Config.register('state', '50', $50_KEY)
+Config.register('state', '50', $50_STATE_KEY)
 /** Form to set the authorization URL for a platform. @id 50 */
 const devSetAuthorizationUrlFormState: TStateForm = {
   '_id': '50',
-  '_key': $50_KEY,
+  '_key': $50_STATE_KEY,
   '_type': 'stack',
   'props': {
     'sx': { 'p': 2, 'width': 476 },

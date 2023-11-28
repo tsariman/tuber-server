@@ -1,19 +1,19 @@
 import Config from '../../config'
 import {
-  $28_KEY,
-  $30_KEY,
+  $28_STATE_KEY,
+  $30_STATE_KEY,
   THEME_LIGHT_BACKGROUND_COLOR,
   THEME_DARK_DIALOG_BACKGROUND_COLOR
 } from '../../constants'
-import { remove_form_suffix } from '../form/_forms.business.logic'
+import { remove_form_suffix } from '../../business.logic'
 import { TStateDialog } from '../../common.types'
 
-Config.register('state', '30', $30_KEY)
+Config.register('state', '30', $30_STATE_KEY)
 /** Dialog to create a new Unknown video bookmark @id 30 */
 const newUnknownBookmarkDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '30',
-  '_key': $30_KEY,
+  '_key': $30_STATE_KEY,
   'title': 'Insert new Unknown Bookmark',
   'props': {
     'fullWidth': true,
@@ -25,7 +25,7 @@ const newUnknownBookmarkDialogState: TStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': `$form : ${remove_form_suffix($28_KEY)} : bookmarks`,
+  'content': `$form : ${remove_form_suffix($28_STATE_KEY)} : bookmarks`,
   'actions': [
     {
       'type': 'state_button',

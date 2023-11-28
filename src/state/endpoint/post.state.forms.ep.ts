@@ -3,17 +3,18 @@ import JsonapiErrorBuilder, {
   default_500_error_response
 } from '../../business.logic/jsonapi.error.builder'
 import Config from '../../config'
-import STATE_FORMS, { STATE_FORMS_THEME_DARK } from '../form'
-import { TNetState } from '../../common.types'
+import { STATE_FORMS, STATE_FORMS_THEME_DARK } from '../form'
+import { TNetState, TThemeMode } from '../../common.types'
 import { MSG_500_ERROR_MESSAGE } from '../../constants'
-import { tt } from '../../business.logic'
+import { themed } from '../../business.logic'
 
 export default async function post_state_forms_endpoint (
-  req: FastifyRequest<{ Body: { key?: string }}>,
+  req: FastifyRequest<{ Body: { key?: string, mode?: TThemeMode }}>,
   reply: FastifyReply
 ) {
   try {
     const key = req.body.key
+    const mode = req.body.mode
     if (!key) {
       Config.log(`'key' was not received.`)
       reply.code(400).send(new JsonapiErrorBuilder()
@@ -23,13 +24,26 @@ export default async function post_state_forms_endpoint (
       )
       return
     }
+    if (!mode) {
+      Config.log(`'mode' was not received.`)
+      reply.code(400).send(new JsonapiErrorBuilder()
+        .status(400)
+        .code('bad_request')
+        .title('Missing information')
+      )
+      return
+    }
     Config.print(`Loading '${key}' state... `)
-    const formState = tt(key, STATE_FORMS, STATE_FORMS_THEME_DARK)
+    const light = STATE_FORMS[key]
+    const dark = STATE_FORMS_THEME_DARK[key]
+    const formState = themed(light, dark, mode)
     if (formState) {
       Config.log('Done.')
       reply.code(200).send({
         state: {
-          'forms': { [key]: formState }
+          'forms': { [key]: formState },
+          'formsLight': { [key]: STATE_FORMS[key] },
+          'formsDark': { [key]: STATE_FORMS_THEME_DARK[key] },
         } as TNetState
       })
     } else {

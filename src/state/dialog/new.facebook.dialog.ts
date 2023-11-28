@@ -1,19 +1,19 @@
 import Config from '../../config'
 import {
-  $24_KEY,
-  $26_KEY,
+  $24_STATE_KEY,
+  $26_STATE_KEY,
   THEME_LIGHT_BACKGROUND_COLOR,
   THEME_DARK_DIALOG_BACKGROUND_COLOR
 } from '../../constants'
-import { remove_form_suffix } from '../form/_forms.business.logic'
+import { remove_form_suffix } from '../../business.logic'
 import { TStateDialog } from '../../common.types'
 
-Config.register('state', '26', $26_KEY)
+Config.register('state', '26', $26_STATE_KEY)
 /** Dialog to create a new Facebook video bookmark @id 26 */
 const newFacebookBookmarkDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '26',
-  '_key': $26_KEY,
+  '_key': $26_STATE_KEY,
   'title': 'Insert new Facebook Bookmark',
   'props': {
     'fullWidth': true,
@@ -25,7 +25,7 @@ const newFacebookBookmarkDialogState: TStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': `$form : ${remove_form_suffix($24_KEY)} : bookmarks`,
+  'content': `$form : ${remove_form_suffix($24_STATE_KEY)} : bookmarks`,
   'actions': [
     {
       'type': 'state_button',

@@ -4,7 +4,7 @@ import JsonapiErrorBuilder, {
 } from 'src/business.logic/jsonapi.error.builder'
 import Config from '../../config'
 import {
-  $60_KEY,
+  $60_STATE_KEY,
   CONF_TWITCH_CLIENT_ID,
   CONF_TWITCH_CLIENT_SECRET,
   MSG_500_ERROR_MESSAGE
@@ -48,7 +48,7 @@ export default async function dev_post_twitch_client_id_endpoint(
     reply.code(200).send({
       'state': {
         'formsData': {
-          [$60_KEY]: { client_id: '', client_secret: '' }
+          [$60_STATE_KEY]: { client_id: '', client_secret: '' }
         }
       }
     })

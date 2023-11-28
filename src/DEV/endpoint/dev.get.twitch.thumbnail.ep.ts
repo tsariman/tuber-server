@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import JsonapiErrorBuilder, { default_500_error_response } from '../../business.logic/jsonapi.error.builder'
 import { twitch_fetch_thumbnail_url } from '../../platform/twitch'
-import { $46_KEY, MSG_500_ERROR_MESSAGE } from '../../constants'
+import { $46_STATE_KEY, MSG_500_ERROR_MESSAGE } from '../../constants'
 import Config from '../../config'
 
 export default async function dev_get_twitch_thumbnail_endpoint(
@@ -24,7 +24,7 @@ export default async function dev_get_twitch_thumbnail_endpoint(
       reply.code(200).send({
         'state': {
           'pagesData': {
-            [$46_KEY]: { thumbnailUrl }
+            [$46_STATE_KEY]: { thumbnailUrl }
           }
         }
       })

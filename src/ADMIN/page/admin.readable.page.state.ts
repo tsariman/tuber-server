@@ -1,12 +1,12 @@
 import { TStatePage } from '../../common.types'
 import Config from '../../config'
-import { $53_KEY } from '../../constants'
+import { $53_STATE_KEY } from '../../constants'
 
-Config.register('state', '53', $53_KEY)
+Config.register('state', '53', $53_STATE_KEY)
 /** @id 53 */
 const adminReadablePageState: TStatePage = {
   '_id': '53',
-  '_key': $53_KEY,
+  '_key': $53_STATE_KEY,
   'content': '$webapp : adminReadable',
   'layout': 'layout_md',
   'appBar': {
@@ -45,3 +45,7 @@ const adminReadablePageState: TStatePage = {
 }
 
 export default adminReadablePageState
+
+export const $53DarkThemeMode: TStatePage = {
+  ...adminReadablePageState,
+}

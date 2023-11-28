@@ -3,9 +3,10 @@ import JsonapiErrorBuilder, {
   default_500_error_response
 } from '../../business.logic/jsonapi.error.builder'
 import Config from '../../config'
-import DEV_STATE_PAGES from '../page'
+import DEV_STATE_PAGES, { DEV_STATE_PAGES_THEME_DARK } from '../page'
 import { TNetState } from '../../common.types'
 import { MSG_500_ERROR_MESSAGE } from '../../constants'
+import { themed_by_key } from '../../business.logic'
 
 export default async function dev_post_state_pages_endpoint(
   req: FastifyRequest<{ Body: { key?: string }}>,
@@ -23,12 +24,14 @@ export default async function dev_post_state_pages_endpoint(
       return
     }
     Config.print(`Loading '${key}' state... `)
-    const pageState = DEV_STATE_PAGES[key]
+    const pageState = themed_by_key(key, DEV_STATE_PAGES, DEV_STATE_PAGES_THEME_DARK)
     if (pageState) {
       Config.log('Done.')
       reply.code(200).send({
         state: {
-          'pages': { [key]: pageState }
+          'pages': { [key]: pageState },
+          'pagesLight': { [key]: DEV_STATE_PAGES[key] },
+          'pagesDark': { [key]: DEV_STATE_PAGES_THEME_DARK[key] },
         } as TNetState
       })
     } else {

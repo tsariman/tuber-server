@@ -2,11 +2,11 @@ import { TStateForm } from '../../common.types'
 import Config from '../../config'
 import * as C from '../../constants'
 
-Config.register('state', '19', C.$19_KEY)
+Config.register('state', '19', C.$19_STATE_KEY)
 /** Form for creating a new Dailymotion video bookmark @id 19 */
 const newDailyBookmarkFormState = {
   '_id': '19',
-  '_key': C.$19_KEY,
+  '_key': C.$19_STATE_KEY,
   'items': [
     {
       'type': 'stack',

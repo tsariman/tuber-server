@@ -1,19 +1,19 @@
 import Config from '../../config'
 import {
-  $18_KEY,
-  $23_KEY,
+  $18_STATE_KEY,
+  $23_STATE_KEY,
   THEME_LIGHT_BACKGROUND_COLOR,
   THEME_DARK_DIALOG_BACKGROUND_COLOR
 } from '../../constants'
-import { remove_form_suffix } from '../form/_forms.business.logic'
+import { remove_form_suffix } from '../../business.logic'
 import { TStateDialog } from '../../common.types'
 
-Config.register('state', '23', $23_KEY)
+Config.register('state', '23', $23_STATE_KEY)
 /** Dialog to create a edit Odysee video bookmark @id 23 */
 const editOdyseeBookmarkDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '23',
-  '_key': $23_KEY,
+  '_key': $23_STATE_KEY,
   'title': 'Edit Odysee Bookmark',
   'props': {
     'fullWidth': true,
@@ -25,7 +25,7 @@ const editOdyseeBookmarkDialogState: TStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': `$form : ${remove_form_suffix($18_KEY)} : bookmarks`,
+  'content': `$form : ${remove_form_suffix($18_STATE_KEY)} : bookmarks`,
   'actions': [
     {
       'type': 'state_button',

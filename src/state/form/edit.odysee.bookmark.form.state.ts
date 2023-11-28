@@ -1,13 +1,12 @@
 import Config from '../../config'
-import { remove_form_suffix } from './_forms.business.logic'
 import * as C from '../../constants'
 import { TStateForm } from '../../common.types'
 
-Config.register('state', '18', C.$18_KEY)
+Config.register('state', '18', C.$18_STATE_KEY)
 /** Form for creating a edit odysee video bookmark @id 18 */
 const editOdyseeBookmarkFormState = {
   '_id': '18',
-  '_key': C.$18_KEY,
+  '_key': C.$18_STATE_KEY,
   'items': [
     {
       'type': 'stack',
@@ -87,10 +86,6 @@ const editOdyseeBookmarkFormState = {
     },
   ]
 } as TStateForm
-
-export const EDIT_ODYSEE_BOOKMARK_UNSUFFIXED_NAME = remove_form_suffix(
-  editOdyseeBookmarkFormState._key
-)
 
 export default editOdyseeBookmarkFormState
 
