@@ -57,7 +57,8 @@ const loginFormState: TStateForm = {
           'has': {
             'icon': 'vpn_key',
             'iconPosition': 'right',
-            'title': 'Login'
+            'title': 'Login',
+            'onclickHandle': 'tuberCallbacks.$41_C_1'
           }
         }
       ]

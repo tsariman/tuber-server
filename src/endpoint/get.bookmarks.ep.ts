@@ -12,6 +12,7 @@ import {
 } from '../model/bookmark'
 import { TBookmarkGetFastifyRequest } from '../schema/bookmarks'
 import { DB_PAGINATION_QUERY, MSG_500_ERROR_MESSAGE } from '../constants'
+import { get_raw_query } from './_endpoint.common.logic'
 
 export default async function get_bookmarks_collection_endpoint (
   req: TBookmarkGetFastifyRequest,
@@ -103,6 +104,7 @@ export default async function get_bookmarks_collection_endpoint (
             'collection'
           )
           .meta('max_loaded_pages', Config.MAX_LOADED_BOOKMARK_PAGES)
+          .meta('search', get_raw_query(req))
           .buildLinks({ docs: results, filter, page, limit, totalDocs: totalItems })
           .build()
         )

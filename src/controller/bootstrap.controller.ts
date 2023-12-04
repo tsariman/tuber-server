@@ -125,12 +125,17 @@ export default async function bootstrap_controller(fastify: FastifyInstance) {
           ]
         },
       }
+
+      // Dev install page state
       pagesState[devInstallPageKey] = themed(
         pagesLightState[devInstallPageKey],
         pagesDarkState[devInstallPageKey],
         mode
       )
+
       const researchPageKey = get_state_key(researchPageState)
+
+      // Research page light mode state
       pagesLightState[researchPageKey] = {
         ...researchPageState,
         appBar: {
@@ -144,6 +149,8 @@ export default async function bootstrap_controller(fastify: FastifyInstance) {
           ]
         }
       }
+
+      // Research page dark mode state
       pagesDarkState[researchPageKey] = {
         ...$40DarkThemeMode,
         appBar: {
@@ -157,6 +164,8 @@ export default async function bootstrap_controller(fastify: FastifyInstance) {
           ]
         }
       }
+
+      // Research page state
       pagesState[researchPageKey] = themed(
         pagesLightState[researchPageKey],
         pagesDarkState[researchPageKey],

@@ -25,7 +25,7 @@ const editVimeoBookmarkDialogState: TStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': `'$form : ${remove_form_suffix($13_STATE_KEY)} : bookmarks'`,
+  'content': `'$form : ${remove_form_suffix($13_STATE_KEY)} : bookmarks`,
   'actions': [
     {
       'type': 'state_button',

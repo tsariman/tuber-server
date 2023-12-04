@@ -154,7 +154,7 @@ export const editYoutubeBookmarkDialogState: TStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': `'$form : ${remove_form_suffix(C.$5_STATE_KEY)} : bookmarks'`,
+  'content': `$form : ${remove_form_suffix(C.$5_STATE_KEY)} : bookmarks`,
   'actions': [
     {
       'type': 'state_button',
@@ -262,7 +262,7 @@ export const deleteBookmarkDialogState: TStateDialog = {
       'props': { 'color': 'primary' },
       'has': {
         'text': 'Delete',
-        'onclickHandle': 'tuberCallbacks.bookmarkDeleteCallback'
+        'onclickHandle': 'tuberCallbacks.$34_C_1'
       }
     }
   ],

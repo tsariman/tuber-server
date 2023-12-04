@@ -1,5 +1,4 @@
 import { FastifyRequest, FastifyReply, FastifyInstance } from 'fastify'
-// import { connect, disconnect } from 'mongoose'
 import { check_password } from '../business.logic/security'
 import Config from '../config'
 import { UserPaginationModel } from '../model/user'
@@ -17,8 +16,7 @@ export default async function authentification_controller (fastify: FastifyInsta
     request: FastifyRequest,
     reply: FastifyReply,
   ) {
-    process.stdout.write('Authenticating user... ')
-    // await connect(Config.DB_URI)
+    Config.print('Authenticating user... ')
     const { username, password } = request.body as ILoginCredentials
     if (username) {
       Config.log(`username: '${username}', password: '${password}'`)

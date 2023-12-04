@@ -1,9 +1,14 @@
 import axios from 'axios'
 import { PLATFORM_URL } from '.'
+import Config from '../config'
 
 export async function rumble_fetch_html_page(url?: string): Promise<string> {
   if (!url) { return '' }
   const response = await axios.get(url)
+  if (response.status !== 200) {
+    Config.log(response)
+    return ''
+  }
   const htmlText = response.data
   return htmlText
 }

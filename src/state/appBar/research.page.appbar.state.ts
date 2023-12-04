@@ -20,6 +20,9 @@ const researchPageAppBarState: TStateAppBar = {
       }
     }
   ],
+  'searchFieldProps': {
+    'sx': { 'backgroundColor': 'transparent' }
+  },
   'inputBaseProps': {
     'id': 'search-query',
     'placeholder': 'Search ...',

@@ -28,6 +28,7 @@ export default async function post_bookmarks_endpoint (
     }
     const dbBookmark = await create_bookmark(bookmark)
     Config.log('Done.')
+    Config.log('Sending response...', dbBookmark)
     reply.code(201).send(
       new JsonapiResponseBuilder(dbBookmark, 'bookmarks', 'object')
       .mPaginationV2build()

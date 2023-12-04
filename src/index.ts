@@ -2,14 +2,7 @@ import mongoose from 'mongoose'
 import app from './app'
 import Config from './config'
 import { DEV_DEFAULT_USER, DEV_USER } from './DEV/dev.install.common'
-import { authorization_keys_get_obj } from './model/authorization'
-import {
-  CONF_TWITCH_CLIENT_ID,
-  CONF_TWITCH_CLIENT_SECRET,
-  CONF_TWITCH_TOKEN_EXPIRATION,
-  CONF_TWITCH_ACCESS_TOKEN,
-} from './constants'
-import start_cron_jobs from './cron.jobs'
+// import start_cron_jobs from './cron.jobs'
 import {  configuration_get_all } from './model/configuration'
 import { find_index_by_name } from './business.logic/network'
 
@@ -73,28 +66,10 @@ app.listen({ port: Config.FASTIFY_PORT }, (err, address) => {
       Config.log('Failed! No configuration found in database.')
     }
 
-    // Load twitch authorization keys into Config object.
-    Config.print('Loading Twitch authorization keys... ')
-    const keys = await authorization_keys_get_obj('twitch')
-    if (keys) {
-      Config.write(CONF_TWITCH_CLIENT_ID, keys.client_id.value)
-      Config.write(CONF_TWITCH_CLIENT_SECRET, keys.client_secret.value)
-      Config.write(CONF_TWITCH_ACCESS_TOKEN, keys.access_token.value)
-      Config.write(CONF_TWITCH_TOKEN_EXPIRATION, keys.access_token.expires_at)
-      Config.log('Done.')
-    } else {
-      Config.log('Failed! This should be resolved automatically. If not,')
-      Config.log('You can visit endpoint: /dev/twitch/renew-access-token to '
-        + 'get a token.'
-      )
-      Config.log('And/Or Manually input the Twitch authorization keys in the '
-        + '`.env.twitch` file.'
-      )
-    }
-
-    Config.print('Setting up cron jobs... ')
-    start_cron_jobs()
-    Config.log('Done.')
+    // Uncomment this to start cron jobs.
+    // Config.print('Setting up cron jobs... ')
+    // start_cron_jobs()
+    // Config.log('Done.')
   }, err => {
     Config.log('Failed!\n')
     console.error(err)

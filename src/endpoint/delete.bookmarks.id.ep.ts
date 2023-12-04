@@ -1,5 +1,4 @@
 import { FastifyReply } from 'fastify'
-// import { connect, disconnect } from 'mongoose'
 import JsonapiErrorBuilder, {
   default_500_error_response
 } from '../business.logic/jsonapi.error.builder'
@@ -14,13 +13,11 @@ export default async function delete_bookmarks_by_id_endpoint (
 ) {
   try {
     Config.print('Disabling bookmark... ')
-    // await connect(Config.DB_URI)
     const bookmark = await BookmarkModel.findByIdAndUpdate(
       request.params.id,
       { is_active: false },
       { new: true }
     )
-    // await disconnect()
     if (bookmark) {
       Config.log('Done.')
       reply.code(204).send()

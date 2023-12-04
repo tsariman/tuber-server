@@ -206,28 +206,6 @@ const devInstallFormState = {
     {
       'type': 'a',
       'has': {
-        'label': ' Set authorization key ',
-        'route': C.$48_STATE_KEY
-      }
-    },
-    {
-      'type': 'html_tag',
-      'has': { 'content': '|' }
-    },
-    {
-      'type': 'a',
-      'has': {
-        'label': ' Set authorization url ',
-        'route': C.$51_STATE_KEY
-      }
-    },
-    {
-      'type': 'html_tag',
-      'has': { 'content': '|' }
-    },
-    {
-      'type': 'a',
-      'has': {
         'label': ' Test rumble regexp ',
         'route': C.$56_STATE_KEY
       }

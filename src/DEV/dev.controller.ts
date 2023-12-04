@@ -35,10 +35,6 @@ import {
 } from '../platform/endpoint/get.twitch.renew.access.token.ep'
 import dev_post_state_pages_endpoint from './endpoint/dev.post.state.pages.ep'
 import dev_post_state_forms_endpoint from './endpoint/dev.post.state.forms.ep'
-import  {
-  dev_post_authorizations_save_key_endpoint,
-  dev_post_authorizations_save_url_endpoint
-}  from './endpoint/dev.post.save.authorizations.ep'
 import dev_post_rumble_regexp_endpoint from './endpoint/dev.post.rumble.regexp.ep'
 import dev_post_unknown_regexp_endpoint from './endpoint/dev.post.unknown.regexp.ep'
 import dev_post_twitch_client_id_endpoint
@@ -111,15 +107,6 @@ export default async function dev_controller(fastify: FastifyInstance) {
   fastify.post('/state/pages', {}, dev_post_state_pages_endpoint)
   // [TODO] Maybe useless. Remove it.
   fastify.post('/state/forms', {}, dev_post_state_forms_endpoint)
-  // Save authorizations to the database.
-  fastify.post('/save-authorization-key',
-    {},
-    dev_post_authorizations_save_key_endpoint
-  )
-  fastify.post('/save-authorization-url',
-    {},
-    dev_post_authorizations_save_url_endpoint
-  )
   // Use the regexp to extract the data from the HTML page which is fetched from
   // the URL.
   fastify.post('/rumble/regexp', {}, dev_post_rumble_regexp_endpoint)

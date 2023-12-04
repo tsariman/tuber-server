@@ -27,7 +27,7 @@ export const powerLinkState: TStateLink = {
   'type': 'icon',
   'has': {
     'icon': 'power_settings_new_outline',
-    'onclickHandle': 'tuberCallbacks.loginDialog',
+    'onclickHandle': 'tuberCallbacks.$32_C_1',
     'iconProps': { 'sx': { 'color': 'grey.500' }}
   }
 }
@@ -71,7 +71,10 @@ export const defaultErrorsViewLinkState: TStateLink = {
 export const darkModeLinkState: TStateLink = {
   'type': 'icon',
   'has': {
-    'icon': 'wb_sunny_outline',
+    'icon': 'light_mode_outline',
+    'iconProps': {
+      'sx': { 'color': '#fada5e' }
+    },
     'onclickHandle': `tuberCallbacks.$44_C_1`,
   }
 }
@@ -80,6 +83,9 @@ export const lightModeLinkState: TStateLink = {
   'type': 'icon',
   'has': {
     'icon': 'dark_mode_outline',
+    'iconProps': {
+      'sx': { 'color': '#5d89ba' }
+    },
     'onclickHandle': `tuberCallbacks.$44_C_1`,
   }
 }
