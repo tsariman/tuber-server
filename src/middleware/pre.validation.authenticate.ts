@@ -1,12 +1,11 @@
 import { RouteShorthandOptions } from 'fastify'
-// import { connect, disconnect } from 'mongoose'
 import Config from '../config'
 import { UserPaginationModel } from '../model/user'
 import { check_password } from '../business.logic/security'
 import { defaultDialogAlertState as alert } from '../state/dialog'
-import { ILoginCredentials } from '../business.logic/security/permissions'
-
-
+import { ISignInCredentials } from '../business.logic/security/permissions'
+import { default_500_error_response }
+  from 'src/business.logic/jsonapi.error.builder'
 
 /**
  * [TODO] #1 In authentication, when the user successfully logs in using their
@@ -30,22 +29,15 @@ import { ILoginCredentials } from '../business.logic/security/permissions'
  *
  * @see https://jwt.io/introduction
  * @see https://compile7.org/decompile/authorization-request-headers-explained/
+ * @deprecated
  */
 const authenticate: RouteShorthandOptions['preValidation'] = async function (
-  request, reply, done
+  request,
+  reply,
+  done
 ) {
   process.stdout.write('Working on pre validation authentication... ')
-  // await connect(Config.DB_URI)
-  const { username, password } = request.body as ILoginCredentials
-
-
-
-
-
-
-
-
-
+  const { username, password } = request.body as ISignInCredentials
   if (username) {
     Config.log(`username: '${username}', password: '${password}'`)
     try {
@@ -61,11 +53,9 @@ const authenticate: RouteShorthandOptions['preValidation'] = async function (
       }
     } catch (e: any) {
       Config.err(e.message)
-      // await disconnect()
-      reply.send(alert(e.message))
+      reply.code(500).send(default_500_error_response(e))
     }
   }
-  // await disconnect()
   reply.send(alert('Wrong username or password!'))
 }
 

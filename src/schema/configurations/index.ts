@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import paginate from 'mongoose-paginate-v2'
 
 /** Configuration saved to the database */
 export interface IDbConfiguration {
@@ -11,9 +12,10 @@ export interface IDbConfiguration {
   rules?: string[]
 }
 
-export interface IDbConfigurationDocument extends mongoose.Document, IDbConfiguration {}
+export interface IDbConfigurationDocument
+  extends mongoose.Document, IDbConfiguration {}
 
-const configurationSchema = new mongoose.Schema<IDbConfiguration>({
+const configurationSchema = new mongoose.Schema<IDbConfigurationDocument>({
   is_active: { type: Boolean, default: true },
   created_at: { type: Date, default: Date.now },
   modified_at: Date,
@@ -22,5 +24,7 @@ const configurationSchema = new mongoose.Schema<IDbConfiguration>({
   restrictions: { type: [ String ], default: undefined },
   rules: { type: [ String ], default: undefined }
 })
+
+configurationSchema.plugin(paginate)
 
 export default configurationSchema

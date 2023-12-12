@@ -8,13 +8,13 @@ import { TBookmarkDeleteFastifyRequest } from '../schema/bookmarks'
 import { MSG_500_ERROR_MESSAGE } from '../constants'
 
 export default async function delete_bookmarks_by_id_endpoint (
-  request: TBookmarkDeleteFastifyRequest,
+  req: TBookmarkDeleteFastifyRequest,
   reply: FastifyReply
 ) {
   try {
     Config.print('Disabling bookmark... ')
     const bookmark = await BookmarkModel.findByIdAndUpdate(
-      request.params.id,
+      req.params.id,
       { is_active: false },
       { new: true }
     )
@@ -27,7 +27,7 @@ export default async function delete_bookmarks_by_id_endpoint (
         .status(404)
         .code('not_found')
         .title('Not Found')
-        .detail(`Bookmark with id ${request.params.id} not found`)
+        .detail(`Bookmark with id ${req.params.id} not found`)
         .build()
       )
     }

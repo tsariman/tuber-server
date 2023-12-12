@@ -6,7 +6,6 @@ import {
   $401_UNAUTHORIZED_ACCESS,
   $403_ACCESS_TOKEN_FORBIDDEN
 } from '../business.logic/errors'
-import jwt from 'jsonwebtoken'
 import Config from '../config'
 import { TCipheredUser } from '../schema/users'
 import { UserPaginationModel } from '../model/user'
@@ -23,7 +22,7 @@ const pre_handler_authenticate: RouteShorthandOptions['preHandler'] = async func
     return reply.code(401).send($401_MISSING_ACCESS_TOKEN)
   }
 
-  jwt.verify(token, Config.ACCESS_TOKEN_SECRET, async (err, cUsr) => {
+  request.jwtVerify(async (err, cUsr) => {
     if (err) {
       Config.log(err)
       reply.code(403).send($403_ACCESS_TOKEN_FORBIDDEN)
@@ -47,7 +46,6 @@ const pre_handler_authenticate: RouteShorthandOptions['preHandler'] = async func
         reply.code(401).send($401_UNAUTHORIZED_ACCESS)
       } else {
         const newUsr: TCipheredUser = {
-          _id: dbUser._id,
           name: dbUser.name,
           role: dbUser.role,
           jwt_version: dbUser.jwt_version

@@ -1,3 +1,4 @@
+import { TThemeMode } from '../../common.types'
 
 export type TRole = 'owner' | 'developer' | 'administrator' | 'moderator' | 'user'
 
@@ -65,12 +66,18 @@ export const PERMISSIONS_LEVEL: {[key in TPermission]: number} = {
   DELETE_USERS_SELF: 1,
 }
 
-export interface ILoginCredentials {
-  username: string
-  password: string
+export interface ISignInCredentials {
+  Body: {
+    credentials?: {
+      username?: string
+      password?: string
+    }
+    route?: string
+    mode?: TThemeMode
+  }
 }
 
-export function is_login_credentials (obj: any): obj is ILoginCredentials {
+export function is_sign_in_credentials (obj: any): obj is ISignInCredentials {
   return obj.username && obj.password
 }
 

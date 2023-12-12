@@ -1,4 +1,4 @@
-import { authenticatedLinkState, powerLinkState } from '../../state/nav.link'
+import { authenticatedLinkState, powerSignInLinkState } from '../../state/nav.link'
 import Config from '../../config'
 import { $40_STATE_KEY, $44_STATE_KEY } from '../../constants'
 import { TStateAppBar, TStatePage } from '../../common.types'
@@ -22,7 +22,7 @@ export const appBarLinksState: TStateAppBar['items'] = [
       'route': 'help-dev-install'
     },
   },
-  powerLinkState
+  powerSignInLinkState
 ]
 
 export const authAppBarLinksState: TStateAppBar['items'] = [
@@ -87,7 +87,7 @@ const devInstallPageState: TStatePage = {
 
 export default devInstallPageState
 
-/** Dark theme mode page state for development installation form. @id 44 */
+/** Dark theme mode state page for development installation. @id 44 */
 export const $44DarkThemeMode: TStatePage = {
   ...devInstallPageState,
   'appBar': {

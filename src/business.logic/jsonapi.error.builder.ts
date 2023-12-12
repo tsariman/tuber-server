@@ -25,18 +25,19 @@ export default class JsonapiErrorBuilder {
       ...errorSkeleton
     })
   }
-
-  meta(key: string, val: any) {
+  withMeta(key: string, val: any) {
     this.response.meta = this.response.meta || {}
     this.response.meta[key] = val
     return this
   }
-  errorMeta(key: string, val: any) {
+  meta = this.withMeta
+  withErrorMeta(key: string, val: any) {
     const meta = this.response.errors[this.index].meta || {}
     meta[key] = val
     this.response.errors[this.index].meta = meta
     return this
   }
+  errorMeta = this.withErrorMeta
   setLink(key: string, val: string) {
     this.response.links = this.response.links || { self: '' }
     this.response.links[key] = val
@@ -58,35 +59,42 @@ export default class JsonapiErrorBuilder {
     })
     return this
   }
-  id(val: string) {
+  withId(val: string) {
     this.response.errors[this.index].id = val
     return this
   }
-  link(val: TJsonapiErrorLinks) {
+  id = this.withId
+  withLink(val: TJsonapiErrorLinks) {
     this.response.errors[this.index].links = val
     return this
   }
-  status(val: number) {
-    this.response.errors[this.index].status = ''+val
+  link = this.withLink
+  withStatus(val: number) {
+    this.response.errors[this.index].status = val.toString()
     return this
   }
-  code(val: string) {
+  status = this.withStatus
+  withCode(val: string) {
     this.response.errors[this.index].code = val
     return this
   }
-  title(val: string) {
+  code = this.withCode
+  withTitle(val: string) {
     this.response.errors[this.index].title = val
     return this
   }
-  detail(val?: string) {
+  title = this.withTitle
+  withDetail(val?: string) {
     if (!val) return this
     this.response.errors[this.index].detail = val
     return this
   }
-  source(val: TJsonapiErrorSource) {
+  detail = this.withDetail
+  withSource(val?: TJsonapiErrorSource) {
     this.response.errors[this.index].source = val
     return this
   }
+  source = this.withSource
   build() {
     return this.response
   }
@@ -114,13 +122,33 @@ export const default_500_error_response = (e: any) => {
  * @returns `TJsonapiErrorResponse`
  */
 export const default_404_error_response = (
-  error: { title: string, detail?: string }
+  error: { title: string, detail?: string, source?: TJsonapiErrorSource }
 ) => {
   return new JsonapiErrorBuilder()
     .status(404)
     .code('not_found')
     .title(error.title)
     .detail(error.detail)
+    .source(error.source)
+    .build()
+}
+
+/**
+ * Default 401 error response to help prevent repetitive and overinflated code.
+ *
+ * @param title of the error message
+ * @param detail of the error message
+ * @returns `TJsonapiErrorResponse`
+ */
+export const default_401_error_response = (
+  error: {title: string, detail?: string}
+) => {
+  const { title, detail } = error
+  return new JsonapiErrorBuilder()
+    .withStatus(401)
+    .withCode('unauthorized')
+    .withTitle(title)
+    .withDetail(detail)
     .build()
 }
 
@@ -140,3 +168,4 @@ export const default_400_error_response = (
     .detail(error.detail)
     .build()
 }
+

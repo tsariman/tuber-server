@@ -16,7 +16,7 @@ const devSignedInPageState: TStatePage = {
         }
       },
 
-      // Login chip
+      // sign in chip
       {
         'has': {}
       }

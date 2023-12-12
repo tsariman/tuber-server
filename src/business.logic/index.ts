@@ -56,7 +56,7 @@ export const set_state_by_key = (
 }
 
 /**
- * Retrieve the value of `_key` from state.
+ * Retrieves the value of `_key` from the given state.
  * @param state State object
  * @returns `_key` value
  */
@@ -98,7 +98,7 @@ export function sys_themed<T=any>(light: T, dark: T): T {
 }
 
 /**
- * __`[user theme]`__ Choose the version of the state to return based on the
+ * __`[user theme]`__ Chooses the version of the state to return based on the
  * current theme mode.
  * @param mode theme mode
  * @param light state for light theme
@@ -181,4 +181,22 @@ export function remove_form_suffix(_key?: string) {
   return _key.slice(-4) === 'Form'
     ? _key.replace('Form', '')
     : _key
+}
+
+/**
+ * Parse cookie string into an object.
+ * @param cookieString Cookie string
+ * @returns object
+ */
+export function parse_cookies(cookieString?: string) {
+  if (!cookieString) return {}
+  const cookies = {} as Record<string, string>
+  const pairs = cookieString.split(';')
+
+  pairs.forEach(pair => {
+    const [key, value] = pair.split('=').map(s => s.trim())
+    cookies[key] = value
+  })
+
+  return cookies
 }

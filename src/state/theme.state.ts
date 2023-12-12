@@ -29,6 +29,7 @@ export const darkThemeState = {
     'MuiAppBar': {
       'styleOverrides': {
         'colorPrimary': {
+          'color': 'inherit',
           'backgroundColor': THEME_DARK_DIALOG_BACKGROUND_COLOR
         },
       },

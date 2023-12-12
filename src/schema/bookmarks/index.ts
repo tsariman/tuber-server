@@ -94,7 +94,7 @@ export type TBookmark = WithRequired<IBookmark,
 
 export interface IBookmarkDocument extends mongoose.Document, TBookmark {}
 
-const bookmarkSchema = new Schema<TBookmark>({
+const bookmarkSchema = new Schema<IBookmarkDocument>({
   is_active: { type: Boolean, default: true },
   html_tag: String,
   created_at: { type: Date, default: Date.now },

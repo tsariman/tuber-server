@@ -12,6 +12,8 @@
   "dependencies": {
     "@fastify/cookie": "^9.0.4",
     "@fastify/cors": "^8.3.0",
+    "@fastify/csrf": "^6.3.0",
+    "@fastify/jwt": "^7.2.4",
     "@fastify/secure-session": "^6.2.0",
     "@fastify/session": "^10.4.0",
     "@types/dotenv": "^8.2.0",
@@ -20,9 +22,8 @@
     "dotenv": "^16.3.1",
     "fastify": "^4.19.0",
     "hogan.js": "^3.0.2",
-    "jsonwebtoken": "^9.0.1",
-    "mongoose": "^7.3.1",
-    "mongoose-paginate-v2": "^1.7.31",
+    "mongoose": "^8.0.2",
+    "mongoose-paginate-v2": "^1.7.4",
     "node-cache": "^5.1.2",
     "node-cron": "^3.0.3",
     "urllib": "^3.19.3"
@@ -31,7 +32,6 @@
     "@types/bcrypt": "^5.0.0",
     "@types/hogan.js": "^3.0.1",
     "@types/jest": "^29.5.4",
-    "@types/jsonwebtoken": "^9.0.2",
     "@types/node": "^20.3.3",
     "@types/node-cron": "^3.0.11",
     "cross-env": "^7.0.3",

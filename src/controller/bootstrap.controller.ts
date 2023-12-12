@@ -1,7 +1,13 @@
 import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify'
 import Config from '../config'
 import { backgroundState } from '../state'
-import { newVideoUrlDialogState } from '../state/dialog'
+import {
+  $32DarkThemeMode,
+  $68DarkThemeMode,
+  confirmSignOutDialogState,
+  signInDialogState,
+  newVideoUrlDialogState
+} from '../state/dialog'
 import { defaultAppBarState } from '../state/default.content'
 import get_theme_state, {
   darkThemeState,
@@ -22,12 +28,22 @@ import researchPageAppBarState, {
 import {
   homeLinkState,
   bookmarkAddFromUrlLinkState,
-  powerLinkState,
+  powerSignInLinkState,
   defaultErrorsViewLinkState,
   lightModeLinkState,
-  darkModeLinkState
+  darkModeLinkState,
+  researchAppErrorsViewLinkState,
+  $67DarkThemeMode,
+  powerLogoutLinkState,
+  $66DarkThemeMode
 } from '../state/nav.link'
-import { get_state_key, themed } from '../business.logic'
+import { 
+  get_state_key,
+  parse_cookies,
+  // parse_cookies,
+  set_state_by_key,
+  themed
+} from '../business.logic'
 import { get_documents_count } from '../DEV'
 import {
   IBootstrapResponse,
@@ -38,132 +54,210 @@ import {
   TStateAppBar,
 } from '../common.types'
 import {
+  $40_STATE_KEY,
+  $44_STATE_KEY,
   $46_STATE_KEY,
   $58_STATE_KEY,
   THEME_MODE
 } from '../constants'
+import signInFormState, {
+  $41DarkThemeMode
+} from 'src/state/form/sign.in.form.state'
+import {
+  default_500_error_response
+} from 'src/business.logic/jsonapi.error.builder'
+import { TCipheredUser } from '../schema/users'
 
 export default async function bootstrap_controller(fastify: FastifyInstance) {
 
-  /** Application information state */
-  const appState: TStateApp = {
+  const DEFAULT_APP_INFO = {
     'fetchingStateAllowed': true,
     'inDebugMode': false,
     'inDevelMode': false,
     'logoUri': '../tuber.png',
     // 'logoWidth': 212,
     // 'logoHeight': 35,
-    'title': '[DEV] Tuberesearcher',
-    'homePage': 'login',
-    'isBootstrapped': true,
-  }
+    'title': Config.DEV ? `[DEV] Tuberesearcher` : `Tuberesearcher`,
+    'homePage': $40_STATE_KEY,
+  } as TStateApp
 
   const appBarState: TStateAppBar = {
     ...defaultAppBarState
   }
 
   const pagesState: TStateAllPages = {}
-  // set_state_by_key(pagesState, loginPageState)
+  // set_state_by_key(pagesState, signInPageState)
   // TODO: Insert more pages here
 
   const pagesLightState: TStateAllPages = {}
+  set_state_by_key(pagesLightState, researchPageState)
+  // TODO: Don't forget to insert light mode state for each page
+
   const pagesDarkState: TStateAllPages = {}
+  set_state_by_key(pagesDarkState, $40DarkThemeMode)
+  // TODO: Don't forget to insert dark mode state for each page
 
   const formsState: TStateAllForms = {}
-  // set_state_by_key(formsState, loginFormState)
+  // set_state_by_key(formsState, signInFormState)
   // TODO: Insert more forms here
 
   const formsLightState: TStateAllForms = {}
+  set_state_by_key(formsLightState, signInFormState)
+  // TODO: Don't forget to insert light mode state for each form
+
   const formsDarkState: TStateAllForms = {}
+  set_state_by_key(formsDarkState, $41DarkThemeMode)
+  // TODO: Don't forget to insert dark mode state for each form
 
   const dialogsState: TStateAllDialogs = {}
-  // set_state_by_key(dialogsState, loginDialogState)
   // TODO: Insert more dialogs here
 
   const dialogsLightState: TStateAllDialogs = {}
+  set_state_by_key(dialogsLightState, signInDialogState)
+  set_state_by_key(dialogsLightState, confirmSignOutDialogState)
+  // TODO: Don't forget to insert light mode state for each dialog
+
   const dialogsDarkState: TStateAllDialogs = {}
+  set_state_by_key(dialogsDarkState, $32DarkThemeMode)
+  set_state_by_key(dialogsDarkState, $68DarkThemeMode)
+  // TODO: Don't forget to insert dark mode state for each dialog
 
   const pagesData = {} as { [key: string]: any }
+  const devInstallPageKey = get_state_key(devInstallPageState)
+  const researchPageKey = get_state_key(researchPageState)
 
   fastify.post('/', async function (
-    _request: FastifyRequest,
+    req: FastifyRequest<{ Body: { cookie?: string }}>,
     reply: FastifyReply
   ) {
-    // [TODO] Read theme mode from user settings if user is logged in
-    const mode = appState['themeMode'] = Config.read(THEME_MODE, 'light')
-    if (Config.DEV) {
-      appState['inDebugMode'] = true
-      appState['inDevelMode'] = true
-      appState['homePage'] = 'dev-install'
-      if (devInstallPageState.appBar) {
-        // [TODO] Write logic for power button
+    try {
+      /** Application information state */
+      const appState: TStateApp = { ...DEFAULT_APP_INFO }
+      // [TODO] Read theme mode from user settings if user is logged in
+      const mode = appState['themeMode'] = Config.read(THEME_MODE, 'light')
+      Config.log('req.body.cookie:', req.body.cookie)
+      const token = parse_cookies(req.body.cookie).token
+      let usr: TCipheredUser | undefined
+      if (token) {
+        usr = fastify.jwt.decode(token) as TCipheredUser
       }
-      const devInstallPageKey = get_state_key(devInstallPageState)
-      pagesLightState[devInstallPageKey] = {
-        ...devInstallPageState,
-        'appBar': {
-          ...devInstallPageState,
-          'items': [
-            ...(devInstallPageState.appBar 
-              && devInstallPageState.appBar.items
-              || []
-            ),
-            powerLinkState
-          ]
-        },
-      }
-      pagesDarkState[devInstallPageKey] = {
-        ...$44DarkThemeMode,
-        'appBar': {
-          ...$44DarkThemeMode,
-          'items': [
-            ...($44DarkThemeMode.appBar 
-              && $44DarkThemeMode.appBar.items
-              || []
-            ),
-            powerLinkState
-          ]
-        },
-      }
-
-      // Dev install page state
-      pagesState[devInstallPageKey] = themed(
-        pagesLightState[devInstallPageKey],
-        pagesDarkState[devInstallPageKey],
-        mode
-      )
-
-      const researchPageKey = get_state_key(researchPageState)
-
+      Config.log('usr:', usr)
       // Research page light mode state
-      pagesLightState[researchPageKey] = {
+      set_state_by_key(pagesLightState, {
         ...researchPageState,
         appBar: {
           ...themed(researchPageAppBarState, $63DarkThemeMode, mode),
           items: [
-            defaultErrorsViewLinkState,
-            homeLinkState,
-            bookmarkAddFromUrlLinkState,
+            // [TODO] Must be logged in to see this
+            // bookmarkAddFromUrlLinkState,
             lightModeLinkState,
-            powerLinkState
+            usr ? powerLogoutLinkState : powerSignInLinkState,
           ]
         }
-      }
+      })
 
       // Research page dark mode state
-      pagesDarkState[researchPageKey] = {
+      set_state_by_key(pagesDarkState, {
         ...$40DarkThemeMode,
         appBar: {
           ...themed(researchPageAppBarState, $63DarkThemeMode, mode),
           items: [
-            defaultErrorsViewLinkState,
-            homeLinkState,
-            bookmarkAddFromUrlLinkState,
+            // [TODO] Must be logged in to see this
+            // bookmarkAddFromUrlLinkState,
             darkModeLinkState,
-            powerLinkState
+            usr ? $66DarkThemeMode : $67DarkThemeMode,
           ]
         }
-      }
+      })
+
+      if (Config.DEV
+        && usr
+        && (usr.role === 'developer')
+      ) {
+        appState['inDebugMode'] = true
+        appState['inDevelMode'] = true
+        appState['homePage'] = $44_STATE_KEY
+        if (devInstallPageState.appBar) {
+          // [TODO] Write logic for power button
+        }
+        pagesLightState[devInstallPageKey] = {
+          ...devInstallPageState,
+          'appBar': {
+            ...devInstallPageState,
+            'items': [
+              ...(devInstallPageState.appBar 
+                && devInstallPageState.appBar.items
+                || []
+              ),
+              usr ? powerLogoutLinkState : powerSignInLinkState,
+            ]
+          },
+        }
+        pagesDarkState[devInstallPageKey] = {
+          ...$44DarkThemeMode,
+          'appBar': {
+            ...$44DarkThemeMode,
+            'items': [
+              ...($44DarkThemeMode.appBar 
+                && $44DarkThemeMode.appBar.items
+                || []
+              ),
+              usr ? $66DarkThemeMode : $67DarkThemeMode,
+            ]
+          },
+        }
+  
+        // Dev install page state
+        pagesState[devInstallPageKey] = themed(
+          pagesLightState[devInstallPageKey],
+          pagesDarkState[devInstallPageKey],
+          mode
+        )
+  
+        // Research page light mode state
+        pagesLightState[researchPageKey] = {
+          ...researchPageState,
+          appBar: {
+            ...themed(researchPageAppBarState, $63DarkThemeMode, mode),
+            items: [
+              defaultErrorsViewLinkState,
+              homeLinkState,
+              bookmarkAddFromUrlLinkState,
+              lightModeLinkState,
+              usr ? powerLogoutLinkState : powerSignInLinkState,
+            ]
+          }
+        }
+
+        // Research page dark mode state
+        pagesDarkState[researchPageKey] = {
+          ...$40DarkThemeMode,
+          appBar: {
+            ...themed(researchPageAppBarState, $63DarkThemeMode, mode),
+            items: [
+              researchAppErrorsViewLinkState,
+              homeLinkState,
+              bookmarkAddFromUrlLinkState,
+              darkModeLinkState,
+              usr ? $66DarkThemeMode : $67DarkThemeMode,
+            ]
+          }
+        }
+
+        const formState = themed(devInstallFormState, $47DarkThemeMode, mode)
+        const devInstallFormKey = get_state_key(formState)
+        formsState[devInstallFormKey] = formState
+        formsLightState[devInstallFormKey] = devInstallFormState
+        formsDarkState[devInstallFormKey] = $47DarkThemeMode
+        const counts = await get_documents_count()
+        pagesData[devInstallFormKey] = counts
+        pagesData[$46_STATE_KEY] = {
+          thumbnailUrl: `${Config.IMAGE_FOLDER}dev-thumbnail-test-placeholder.jpg`
+        }
+        pagesData[$58_STATE_KEY] = {
+          thumbnailUrl: `${Config.IMAGE_FOLDER}dev-thumbnail-test-placeholder.jpg`
+        }
+      } // END if (Config.DEV)
 
       // Research page state
       pagesState[researchPageKey] = themed(
@@ -171,42 +265,63 @@ export default async function bootstrap_controller(fastify: FastifyInstance) {
         pagesDarkState[researchPageKey],
         mode
       )
-      const formState = themed(devInstallFormState, $47DarkThemeMode, mode)
-      const devInstallFormKey = get_state_key(formState)
-      formsState[devInstallFormKey] = formState
-      formsLightState[devInstallFormKey] = devInstallFormState
-      formsDarkState[devInstallFormKey] = $47DarkThemeMode
-      const counts = await get_documents_count()
-      pagesData[devInstallFormKey] = counts
-      pagesData[$46_STATE_KEY] = {
-        thumbnailUrl: `${Config.IMAGE_FOLDER}dev-thumbnail-test-placeholder.jpg`
-      }
-      pagesData[$58_STATE_KEY] = {
-        thumbnailUrl: `${Config.IMAGE_FOLDER}dev-thumbnail-test-placeholder.jpg`
-      }
-    }
 
-    reply.send({
-      state: {
-        'app': appState,
-        'theme': get_theme_state(),
-        'themeLight': lightThemeState,
-        'themeDark': darkThemeState,
-        'appBar': appBarState,
-        'pages': pagesState,
-        'pagesLight': pagesLightState,
-        'pagesDark': pagesDarkState,
-        'pagesData': pagesData,
-        'background': backgroundState,
-        'forms': formsState,
-        'formsLight': formsLightState,
-        'formsDark': formsDarkState,
-        'dialogs': dialogsState,
-        'dialogsLight': dialogsLightState,
-        'dialogsDark': dialogsDarkState,
-        'stateRegistry': Config.getRegistry('state'),
-      }
-    } as IBootstrapResponse)
+      // Sign in form state
+      formsState[get_state_key(signInFormState)] = themed(
+        signInFormState,
+        $41DarkThemeMode,
+        mode
+      )
+
+      // Sign in dialog state
+      dialogsState[get_state_key(signInDialogState)] = themed(
+        signInDialogState,
+        $32DarkThemeMode,
+        mode
+      )
+
+      // Sign out dialog state
+      dialogsState[get_state_key(confirmSignOutDialogState)] = themed(
+        confirmSignOutDialogState,
+        $32DarkThemeMode,
+        mode
+      )
+
+      appState.isBootstrapped = true
+
+      reply
+      .send({
+        state: {
+          'app': appState,
+          'theme': get_theme_state(),
+          'themeLight': lightThemeState,
+          'themeDark': darkThemeState,
+          'appBar': appBarState,
+          'pages': pagesState,
+          'pagesLight': pagesLightState,
+          'pagesDark': pagesDarkState,
+          'pagesData': pagesData,
+          'background': backgroundState,
+          'forms': formsState,
+          'formsLight': formsLightState,
+          'formsDark': formsDarkState,
+          'dialogs': dialogsState,
+          'dialogsLight': dialogsLightState,
+          'dialogsDark': dialogsDarkState,
+          'stateRegistry': Config.getRegistry('state'),
+          ...(usr && { 'session': {
+            'name': usr.name,
+            'role': usr.role,
+            'token': token,
+            'jwt_version': usr.jwt_version,
+          }}),
+        }
+      } as IBootstrapResponse)
+
+    } catch (err) {
+      console.error(err)
+      reply.code(500).send(default_500_error_response(err))
+    }
   })
 
   fastify.post('/2', async function (

@@ -11,7 +11,7 @@ import {
 } from '../../state/dialog'
 
 export default async function dev_post_populate_collection_endpoint (
-  req: FastifyRequest<{ Body: { collection: string, quantity: string } }>,
+  req: FastifyRequest<{ Body: { collection: string, quantity: string }}>,
   reply: FastifyReply
 ) {
   const { collection, quantity } = req.body

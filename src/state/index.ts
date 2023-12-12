@@ -8,6 +8,13 @@ export const backgroundState: TStateBackground = {
   'color': 'inherit'// '#f0f0f0',
 }
 
+/** Get the default background state. */
+export function get_background_state(): TStateBackground {
+  return {
+    'color': 'inherit' // '#f0f0f0'
+  }
+}
+
 // Grey app bar with text-transform disabled
 export const appBarState: TStateAppBar = {
   'props': {

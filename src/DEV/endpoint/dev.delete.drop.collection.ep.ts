@@ -9,7 +9,7 @@ import {
 } from '../../state/dialog'
 
 export default async function dev_delete_drop_collection_endpoint (
-  req: FastifyRequest<{ Params: { collection: string } }>,
+  req: FastifyRequest<{ Params: { collection: string }}>,
   reply: FastifyReply
 ) {
   const { collection } = req.params

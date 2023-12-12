@@ -164,11 +164,35 @@ export const $61DarkThemeMode: TStatePage = {
   ...devSaveConfigValuePageState,
 }
 
+Config.register('state', '48', C.$48_STATE_KEY)
+/** @id 48 */
+export const devResearchErrorsViewPageState: TStatePage = {
+  '_id': '48',
+  '_key': C.$48_STATE_KEY,
+  'content': '$view : default_errors_page_view',
+  // 'background': { 'color': '#fcfcfc' },
+  'layout': 'layout_none_no_appbar',
+  'appBar': {
+    'items': [
+      {
+        'has': {
+          'text': 'Back',
+          'route': C.$40_STATE_KEY
+        }
+      }
+    ]
+  }
+}
+
+export const $48DarkThemeMode: TStatePage = {
+  ...devResearchErrorsViewPageState,
+}
+
 const DEV_STATE_PAGES: TStateAllPages = {
   [C.$43_STATE_KEY]: devSignedInPageState,
   [C.$44_STATE_KEY]: devInstallPageState,
   [C.$46_STATE_KEY]: devTestThumbnailPageState,
-  [C.$48_STATE_KEY]: {}, // TODO Assign page state
+  [C.$48_STATE_KEY]: devResearchErrorsViewPageState, // TODO Assign page state
   [C.$51_STATE_KEY]: {}, // TODO Assign page state
   [C.$56_STATE_KEY]: devTestRumbleRegexpPageState,
   [C.$58_STATE_KEY]: devTestUnknownRegexpPageState,
@@ -182,7 +206,7 @@ export const DEV_STATE_PAGES_THEME_DARK: TStateAllPages = {
   [C.$43_STATE_KEY]: $43DarkThemeMode,
   [C.$44_STATE_KEY]: $44DarkThemeMode,
   [C.$46_STATE_KEY]: $46DarkThemeMode,
-  [C.$48_STATE_KEY]: {}, // TODO Assign page state
+  [C.$48_STATE_KEY]: $48DarkThemeMode,
   [C.$51_STATE_KEY]: {}, // TODO Assign page state
   [C.$56_STATE_KEY]: $56DarkThemeMode,
   [C.$58_STATE_KEY]: $58DarkThemeMode,

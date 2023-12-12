@@ -17,9 +17,8 @@ import get_video_thumbnail_url_endpoint, {
   IBookmarkThumbnailUrlGet
 }  from 'src/platform/endpoint/get.video.thumbnail.url.ep'
 
-const opts = {
-  ...DEFAULT_OPTIONS,
-}
+/** Default options */
+const opts = { ...DEFAULT_OPTIONS }
 
 export default async function bookmarks_controller(fastify: FastifyInstance) {
   const postBookmark = Config.DEV
@@ -27,7 +26,11 @@ export default async function bookmarks_controller(fastify: FastifyInstance) {
     : post_bookmarks_endpoint
 
   // GET /bookmarks
-  fastify.get<IBookmarkGet>('/', opts, get_bookmarks_collection_endpoint)
+  fastify.get<IBookmarkGet>(
+    '/',
+    { ...DEFAULT_OPTIONS, onRequest: undefined },
+    get_bookmarks_collection_endpoint
+  )
 
   // GET /bookmarks/:id
   fastify.get<IBookmarkGet>('/:id', opts, get_bookmarks_by_id_endpoint)

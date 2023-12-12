@@ -46,11 +46,11 @@ export type TUser = WithRequired<IUser,              // { _id: string } & WithRe
   'is_active' | 'jwt_version' | 'created_at' | 'role'
 > & { _id: string }
 
-export type TCipheredUser = Pick<TUser, '_id' | 'name' | 'jwt_version' | 'role'>
+export type TCipheredUser = Pick<TUser, 'name' | 'jwt_version' | 'role'>
 
 export interface IUserDocument extends Omit<TUser, '_id'>, mongoose.Document {}
 
-const userSchema = new Schema<TUser>({
+const userSchema = new Schema<IUserDocument>({
   is_active: {type: Boolean, default: true },
   name: {type: String, unique: true},
   email: {type: String, unique: true},

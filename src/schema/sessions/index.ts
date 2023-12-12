@@ -7,6 +7,7 @@ export interface ISession {
   modified_at?: Date
   // When the session expires, it needs to be deleted.
   expiration_date: number
+  /** The session token. */
   token: string
   // User that created the session. If the user updates his information
   // with a session active, this field needs to be updated also.

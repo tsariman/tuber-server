@@ -3,8 +3,8 @@ import Config from '../../config'
 import { $41_STATE_KEY } from '../../constants'
 
 Config.register('state', '41', $41_STATE_KEY)
-/** @id 41 */
-const loginFormState: TStateForm = {
+/** Form state to sign in. @id 41 */
+const signInFormState: TStateForm = {
   '_type': 'box',
   '_id': '41',
   '_key': $41_STATE_KEY,
@@ -46,8 +46,8 @@ const loginFormState: TStateForm = {
           'has': {
             'items': [
               {
-                'name': 'keep-logged-in',
-                'label': 'Keep me logged in'
+                'name': 'keep-signed-in',
+                'label': 'Keep me signed in'
               }
             ],
           }
@@ -57,7 +57,7 @@ const loginFormState: TStateForm = {
           'has': {
             'icon': 'vpn_key',
             'iconPosition': 'right',
-            'title': 'Login',
+            'title': 'Sign in',
             'onclickHandle': 'tuberCallbacks.$41_C_1'
           }
         }
@@ -66,9 +66,10 @@ const loginFormState: TStateForm = {
   ]
 }
 
-export default loginFormState
+export default signInFormState
 
+/** Dark theme mode form state to sign in. @id 41 */
 export const $41DarkThemeMode = {
-  ...loginFormState,
+  ...signInFormState,
   // TODO - add dark theme mode overrides here
 } as TStateForm

@@ -31,7 +31,7 @@ const PAGINATION_OPTONS = {
 export const ConfigurationPaginationModel = model<
   IDbConfigurationDocument,
   PaginateModel<IDbConfigurationDocument>
->('configurations', configurationSchema)
+>('Configurations', configurationSchema, 'configurations')
 
 /**
  * Get the configuration collection. This is a mongoose model used for

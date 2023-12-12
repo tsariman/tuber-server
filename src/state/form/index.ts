@@ -50,13 +50,14 @@ import newTwitchBookmarkFormState, {
 import editTwitchBookmarkFormState, {
   $39DarkThemeMode
 } from './edit.twitch.bookmark.form.state'
-import loginFormState, {
+import signInFormState, {
   $41DarkThemeMode
-} from './login.form.state'
+} from './sign.in.form.state'
 import Config from '../../config'
 import { TStateAllForms } from '../../common.types'
 import DEV_STATE_FORM, { DEV_STATE_FORM_THEME_DARK } from '../../DEV/form'
 import { themed_by_key } from '../../business.logic'
+import registerFormState, { $69DarkThemeMode } from './register.form.state'
 
 export const STATE_FORMS_THEME_DARK: TStateAllForms = {
   [C.$1_STATE_KEY]: $1DarkThemeMode,
@@ -77,6 +78,7 @@ export const STATE_FORMS_THEME_DARK: TStateAllForms = {
   [C.$38_STATE_KEY]: $38DarkThemeMode,
   [C.$39_STATE_KEY]: $39DarkThemeMode,
   [C.$41_STATE_KEY]: $41DarkThemeMode,
+  [C.$69_STATE_KEY]: $69DarkThemeMode,
   ...(Config.DEV ? DEV_STATE_FORM_THEME_DARK : {})
 }
 
@@ -98,7 +100,8 @@ export const STATE_FORMS: TStateAllForms = {
   [C.$29_STATE_KEY]: editUnknownBookmarkFormState,
   [C.$38_STATE_KEY]: newTwitchBookmarkFormState,
   [C.$39_STATE_KEY]: editTwitchBookmarkFormState,
-  [C.$41_STATE_KEY]: loginFormState,
+  [C.$41_STATE_KEY]: signInFormState,
+  [C.$69_STATE_KEY]: registerFormState,
   ...(Config.DEV ? DEV_STATE_FORM : {})
 }
 

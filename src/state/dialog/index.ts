@@ -193,8 +193,8 @@ export const $7DarkThemeMode: TStateDialog = {
 }
 
 Config.register('state', '32', C.$32_STATE_KEY)
-/** @id 32 */
-export const loginDialogState: TStateDialog = {
+/** Sign in dialog state. @id 32 */
+export const signInDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '32',
   '_key': C.$32_STATE_KEY,
@@ -206,16 +206,17 @@ export const loginDialogState: TStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': '$form : login : authentification',
+  'content': `$form : ${remove_form_suffix(C.$41_STATE_KEY)} : ${C.EP_AUTHENTICATE}`,
   'open': true
 }
 
+/** Dark theme mode for sign in dialog state. @id 32 */
 export const $32DarkThemeMode: TStateDialog = {
-  ...loginDialogState,
+  ...signInDialogState,
 }
 
 Config.register('state', '33', C.$33_STATE_KEY)
-/** @id 33 */
+/** Dialog state for registering a new user @id 33 */
 export const registerDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '33',
@@ -228,16 +229,18 @@ export const registerDialogState: TStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': '$form : register : users',
+  'content': `$form : ${remove_form_suffix(C.$69_STATE_KEY)} : ${C.EP_USERS}`,
   'open': true
 }
 
+/** Dark theme mode dialog state for registering a new user @id 33 */
 export const $33DarkThemeMode: TStateDialog = {
   ...registerDialogState,
+  // TODO Implement the dark theme color values here.
 }
 
 Config.register('state', '34', C.$34_STATE_KEY)
-/** @id 34 */
+/** Dialog state to delete a bookmark. @id 34 */
 export const deleteBookmarkDialogState: TStateDialog = {
   '_type': 'alert',
   '_id': '34',
@@ -269,12 +272,13 @@ export const deleteBookmarkDialogState: TStateDialog = {
   'open': true // Careful! Must be set to true
 }
 
+/** Dark theme mode dialog state to delete a bookmark. @id 34  */
 export const $34DarkThemeMode: TStateDialog = {
   ...deleteBookmarkDialogState,
 }
 
 Config.register('state', '35', C.$35_STATE_KEY)
-/** @id 35 */
+/** Client alert dialog. @id 35 */
 export const clientAlertDialogState: TStateDialog = {
   '_type': 'alert',
   '_id': '35',
@@ -297,17 +301,62 @@ export const clientAlertDialogState: TStateDialog = {
   ]
 }
 
+/** Dark theme mode for client alert dialog. @id 35 */
 export const $35DarkThemeMode: TStateDialog = {
   ...clientAlertDialogState,
 }
 
-/** Default alert dialog */
+Config.register('state', '68', C.$68_STATE_KEY)
+/** Dialog state to confirm logging out. @id 68 */
+export const confirmSignOutDialogState: TStateDialog = {
+  '_type': 'alert',
+  '_id': '68',
+  '_key': C.$68_STATE_KEY,
+  'title': 'Logout',
+  'props': { 'fullWidth': true },
+  'titleProps': {
+    'sx': { 'textAlign': 'center' }
+  },
+  'content': 'Are you sure you want to logout?',
+  'actions': [
+    {
+      'type': 'state_button',
+      'props': { 'color': 'secondary' },
+      'has': {
+        'text': 'Cancel',
+        'onclickHandle': 'tuberCallbacks.defaultClose'
+      }
+    },
+    {
+      'type': 'state_button',
+      'props': { 'color': 'primary' },
+      'has': {
+        'text': 'Logout',
+        'onclickHandle': 'tuberCallbacks.$68_C_1'
+      }
+    }
+  ],
+  'open': true
+}
+
+/** Dark theme mode for dialog state to confirm logging out. @id 68 */
+export const $68DarkThemeMode: TStateDialog = {
+  ...confirmSignOutDialogState,
+}
+
+/**
+ * Default alert dialog.  
+ * Use it as the response to show a dialog containing a message or
+ * anything else client side.
+ * @id 64
+ */
 export function defaultDialogAlertState<T=any>(content: T) {
   return {
     'state': {
       'dialog': {
         '_type': 'alert',
-        '_id': 'dev-drop-testing-database',
+        '_id': '64',
+        '_key': C.$64_STATE_KEY,
         'title': 'Server Response',
         'props': { 'fullWidth': true },
         'titleProps': {
@@ -332,10 +381,22 @@ export function defaultDialogAlertState<T=any>(content: T) {
 
 export const alert = defaultDialogAlertState
 
+/**
+ * Simple dialog alert. It must be inserted at `state.dialog` e.g.
+ * ```ts
+ * reply.send({
+ *  'state': {
+ *   'dialog': dialogAlertState('Hello World')
+ *  }
+ * })
+ * ```
+ * @id 65
+ */
 export function dialogAlertState<T=any>(content: T): TStateDialog {
   return {
     '_type': 'alert',
-    '_id': 'dev-drop-testing-database',
+    '_id': '65',
+    '_key': C.$65_STATE_KEY,
     'title': 'Server Response',
     'props': { 'fullWidth': true },
     'titleProps': {
@@ -377,7 +438,8 @@ export const STATE_DIALOGS_THEME_DARK: TStateAllDialogs = {
   [C.$34_STATE_KEY]: $34DarkThemeMode,
   [C.$35_STATE_KEY]: $35DarkThemeMode,
   [C.$36_STATE_KEY]: $36DarkThemeMode,
-  [C.$37_STATE_KEY]: $37DarkThemeMode
+  [C.$37_STATE_KEY]: $37DarkThemeMode,
+  [C.$68_STATE_KEY]: $68DarkThemeMode,
 }
 
 export const STATE_DIALOGS: { [key: string]: TStateDialog } = {
@@ -396,12 +458,13 @@ export const STATE_DIALOGS: { [key: string]: TStateDialog } = {
   [C.$27_STATE_KEY]: editFacebookBookmarkDialogState,
   [C.$30_STATE_KEY]: newUnknownBookmarkDialogState,
   [C.$31_STATE_KEY]: editUnknownBookmarkDialogState,
-  [C.$32_STATE_KEY]: loginDialogState,
+  [C.$32_STATE_KEY]: signInDialogState,
   [C.$33_STATE_KEY]: registerDialogState,
   [C.$34_STATE_KEY]: deleteBookmarkDialogState,
   [C.$35_STATE_KEY]: clientAlertDialogState,
   [C.$36_STATE_KEY]: newTwitchBookmarkDialogState,
   [C.$37_STATE_KEY]: editTwitchBookmarkDialogState,
+  [C.$68_STATE_KEY]: confirmSignOutDialogState,
 }
 
 export default function get_dialog_state(key: string): TStateDialog | undefined {

@@ -12,7 +12,7 @@ export interface IStatePost {
 
 const opts = {
   ...DEFAULT_OPTIONS,
-}
+} as typeof DEFAULT_OPTIONS
 
 export default async function state_controller(fastify: FastifyInstance) {
   /**

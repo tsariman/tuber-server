@@ -1,4 +1,10 @@
+import {
+  $48_STATE_KEY,
+  $66_STATE_KEY,
+  $67_STATE_KEY
+} from '../../constants'
 import { TStateLink } from '../../common.types'
+import Config from '../../config'
 
 export const homeLinkState: TStateLink = {
   'has': {
@@ -7,23 +13,27 @@ export const homeLinkState: TStateLink = {
   }
 }
 
-/** Backup for the original "Login" link. */
-export const defaultLoginLinkState: TStateLink = {
+/** Backup for the original "signin" link. */
+export const defaultSignInLinkState: TStateLink = {
   'has': {
-    'text': 'Login',
-    'route': 'login'
+    'text': 'Sign in',
+    'route': 'sign-in'
   }
 }
 
-export const loginLInkState: TStateLink = {
+export const signInLInkState: TStateLink = {
   'type': 'icon',
   'has': {
     'icon': 'power_settings_new_outline',
-    'route': 'login'
+    'route': 'sign-in'
   }
 }
 
-export const powerLinkState: TStateLink = {
+Config.register('state', '67', $67_STATE_KEY)
+/** Link state for logging in. @id 67 */
+export const powerSignInLinkState: TStateLink = {
+  '_id': '67',
+  '_key': $67_STATE_KEY,
   'type': 'icon',
   'has': {
     'icon': 'power_settings_new_outline',
@@ -32,12 +42,59 @@ export const powerLinkState: TStateLink = {
   }
 }
 
-export const getAuthPowerLinkState = (username: string): TStateLink => ({
-  'type': 'hybrid',
+/** Dark theme mode for link state to sign in. @id 67 */
+export const $67DarkThemeMode = {
+  ...powerSignInLinkState,
+  'has': {
+    ...powerSignInLinkState.has,
+    'iconProps': { 'sx': { 'color': 'grey.300' }}
+  }
+} as TStateLink
+
+Config.register('state', '66', $66_STATE_KEY)
+/** Link state for signing out. @id 66 */
+export const powerLogoutLinkState: TStateLink = {
+  '_id': '66',
+  '_key': $66_STATE_KEY,
+  'type': 'icon',
   'has': {
     'icon': 'power_settings_new_outline',
+    'onclickHandle': 'tuberCallbacks.$66_C_1',
+    'iconProps': { 'sx': { 'color': 'info.light' }}
+  }
+}
+
+/** Dark theme mode for link state to sign out. @id 66 */
+export const $66DarkThemeMode = {
+  ...powerLogoutLinkState,
+  'has': {
+    ...powerLogoutLinkState.has,
+    'iconProps': { 'sx': { 'color': 'info.dark' }}
+  }
+} as TStateLink
+
+/** Get link state for signing out. @id 67 */
+export const getAuthPowerLinkState = (username: string): TStateLink => ({
+  ...powerLogoutLinkState,
+  'type': 'hybrid',
+  'has': {
+    ...powerLogoutLinkState.has,
+    'iconProps': { 'sx': { 'color': 'info.dark' }},
     'text': username,
-    'iconProps': { 'sx': { 'color': 'green' }}
+    // [TODO] This will be a dropdown menu so users can see their profile.
+  }
+})
+
+/** Get dark mode link state for signing out. @id 66 */
+export const getAuthDarkModePowerLinkState = (
+  username: string
+): TStateLink => ({
+  ...$66DarkThemeMode,
+  'type': 'hybrid',
+  'has': {
+    ...$66DarkThemeMode.has,
+    'text': username,
+    // [TODO] This will be a dropdown menu so users can see their profile.
   }
 })
 
@@ -65,6 +122,13 @@ export const defaultErrorsViewLinkState: TStateLink = {
   'has': {
     'text': 'Client errors',
     'route': 'default-errors-view'
+  }
+}
+
+export const researchAppErrorsViewLinkState: TStateLink = {
+  'has': {
+    'text': 'Client errors',
+    'route': $48_STATE_KEY
   }
 }
 

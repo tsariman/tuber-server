@@ -9,6 +9,7 @@ interface IConfig {
   NODE_ENV: string
   DEV: boolean
   DEBUG: boolean
+  DOMAIN: string
   DEMO: boolean
   FASTIFY_PORT: number
   IMAGE_FOLDER: string
@@ -28,8 +29,6 @@ interface IConfig {
   DB_ATLAS_API_BASE_URL: string
   DB_ATLAS_BOOKMARK_SEARCH_INDEX_NAME: string
   PWD_SALT_ROUNDS: number
-  ACCESS_TOKEN_SECRET: string
-  RERESH_TOKEN_SECRET: string
   PAGINATION_BOOKMARKS_LIMIT: string
   PAGINATION_USERS_LIMIT: string
   MAX_LOADED_BOOKMARK_PAGES: string
@@ -46,7 +45,8 @@ const USER_CONFIG: IConfig = {
   /** Whether the app is in debugging mode or not. */
   DEBUG: process.env.NODE_ENV === 'development'
     || process.env.DEBUG === 'true', // boolean
-
+  
+  DOMAIN: process.env.DOMAIN ?? '',
   DEMO: process.env.DEMO === 'true',
 
   /** Application port */
@@ -107,11 +107,6 @@ const USER_CONFIG: IConfig = {
    * @see https://stackoverflow.com/a/46713082/1875859
    */
   PWD_SALT_ROUNDS: Number(process.env.PWD_SALT_ROUNDS) || 10,
-
-  /** Jwt access token secret */
-  ACCESS_TOKEN_SECRET: process.env.ACCESS_TOKEN_SECRET || 'NO_access_token_secret_defined',
-  /** Jwt refresh token secret */
-  RERESH_TOKEN_SECRET: process.env.REFRESH_TOKEN_SECRET || 'NO_refresh_token_secret_defined',
 
   /** The number of bookmarks to return per page. */
   PAGINATION_BOOKMARKS_LIMIT: process.env.PAGINATION_BOOKMARKS_LIMIT || '10',

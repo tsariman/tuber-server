@@ -4,6 +4,7 @@ import {
 } from '../../constants'
 import { TStateAppBar } from '../../common.types'
 import Config from '../../config'
+import { powerSignInLinkState } from '../nav.link'
 
 Config.register('state', '63', $63_STATE_KEY)
 /** State for research page app bar. @id 63 */
@@ -11,15 +12,7 @@ const researchPageAppBarState: TStateAppBar = {
   '_id': '63',
   '_key': $63_STATE_KEY,
   'appBarStyle': 'middle_search',
-  'items': [
-    {
-      'type': 'icon',
-      'has': {
-        'icon': 'power_settings_new_outline',
-        'route': 'login'
-      }
-    }
-  ],
+  'items': [ powerSignInLinkState ],
   'searchFieldProps': {
     'sx': { 'backgroundColor': 'transparent' }
   },
