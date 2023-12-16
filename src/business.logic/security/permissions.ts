@@ -74,6 +74,7 @@ export interface ISignInCredentials {
     }
     route?: string
     mode?: TThemeMode
+    cookie?: string
   }
 }
 

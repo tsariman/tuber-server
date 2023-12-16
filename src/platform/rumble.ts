@@ -6,7 +6,7 @@ export async function rumble_fetch_html_page(url?: string): Promise<string> {
   if (!url) { return '' }
   const response = await axios.get(url)
   if (response.status !== 200) {
-    Config.log(response)
+    Config.log('[DEBUG]', response)
     return ''
   }
   const htmlText = response.data

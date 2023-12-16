@@ -15,7 +15,7 @@ export default async function dev_post_populate_collection_endpoint (
   reply: FastifyReply
 ) {
   const { collection, quantity } = req.body
-  Config.print(`Populating '${collection}' collection with ${quantity} documents... `)
+  Config.print(`[DEBUG] Populating '${collection}' collection with ${quantity} documents... `)
   const number = parseInt(quantity, 10)
   // await connect(Config.DB_URI)
   switch (collection) {
@@ -27,7 +27,7 @@ export default async function dev_post_populate_collection_endpoint (
         )
         const userCount = await UserPaginationModel.countDocuments()
         // await disconnect()
-        Config.log('done!')
+        Config.log('Done.')
         reply.send({
           'state': {
             'dialog': dialogAlert(`Populated '${collection}' collection with ${quantity} documents!`),
@@ -39,8 +39,7 @@ export default async function dev_post_populate_collection_endpoint (
           }
         })
       } catch (err) {
-        Config.log('failed!')
-        Config.log(err)
+        Config.log('Failed.', err)
         reply.send(alert(`Failed to populate '${collection}' collection with ${quantity} documents!`))
       }
       return
@@ -52,7 +51,7 @@ export default async function dev_post_populate_collection_endpoint (
         )
         const bookmarkCount = await BookmarkPaginationModel.countDocuments()
         // await disconnect()
-        Config.log('done!')
+        Config.log('Done.')
         reply.send({
           'state': {
             'dialog': dialogAlert(`Populated <span style="color:#3399ff">${collection}</span> collection with ${quantity} documents!`),
@@ -64,13 +63,12 @@ export default async function dev_post_populate_collection_endpoint (
           }
         })
       } catch (err) {
-        Config.log('failed!')
-        Config.log(err)
+        Config.log('Failed.', err)
         reply.send(alert(`Failed to populate '${collection}' collection with ${quantity} documents!`))
       }
       return
     default:
-      Config.log('failed!')
+      Config.log('Failed.')
       reply.send(alert(`Collection '${collection}' not found!`))
       return
   }

@@ -21,7 +21,7 @@ export default async function dev_get_html_page_endpoint(
     )
     return
   }
-  Config.log('dev_get_html_page:', url)
+  Config.log('[DEBUG] dev_get_html_page:', url)
   try {
     const response = await axios.get(url)
     const html = await response.data

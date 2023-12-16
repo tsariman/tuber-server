@@ -9,7 +9,7 @@ export async function get_documents_count () {
   const bookmarkCount = (await BookmarkModel.countDocuments()).toString()
   const userCount = (await UserModel.countDocuments()).toString()
   // await disconnect()
-  Config.log('counts:', { bookmarkCount, userCount })
+  Config.log('[DEBUG] counts:', { bookmarkCount, userCount })
   return { bookmarkCount, userCount }
 }
 

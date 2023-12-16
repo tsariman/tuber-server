@@ -37,8 +37,6 @@ const gen_random_bookmarks = (number = 100) => {
       start_seconds: Math.floor(Math.random() * 300),
       title: `[${i}] ${videoid}`,
       note: videoid,
-      restrictions: [],
-      rules: []
     })
   }
   return bookmarks

@@ -1,9 +1,16 @@
 import { RouteShorthandOptions } from 'fastify'
-import { default_500_error_response }
+import { default_401_error_response }
   from 'src/business.logic/jsonapi.error.builder'
 import Config from '../config'
 import { TCipheredUser } from '../schema/users'
 
+/**
+ * Supply authentication check for all routes.
+ *
+ * @param req 
+ * @param reply
+ * @param done
+ */
 const on_request: RouteShorthandOptions['onRequest'] = async (
   req,
   reply,
@@ -12,10 +19,21 @@ const on_request: RouteShorthandOptions['onRequest'] = async (
   try {
     const payload = await req.jwtVerify()
     req.usr = payload as TCipheredUser
+
     // TODO Write more session related logic here
-  } catch (err) {
+
+  } catch (err: any) {
     Config.log('[ERROR] JWT verification failed.', err)
-    reply.send(default_500_error_response(err))
+    reply.code(401).send(default_401_error_response({
+      code: 'unauthorized',
+      status: '401',
+      title: 'JWT verification failed.',
+      detail: err.stack,
+      source: { 
+        pointer: '/src/middleware/on.request.ts',
+        parameter: req.url
+      }
+    }))
   }
 }
 

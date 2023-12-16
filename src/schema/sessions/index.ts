@@ -1,26 +1,36 @@
-import { Schema } from 'mongoose'
-import userSchema, { IUser } from '../users'
+import mongoose, { Schema } from 'mongoose'
+import userSchema, { IUserDocument } from '../users'
 
 export interface ISession {
-  active?: boolean
-  created_at: Date
+  is_active?: boolean
+  created_at?: Date
   modified_at?: Date
   // When the session expires, it needs to be deleted.
-  expiration_date: number
+  expiration_date: Date
   /** The session token. */
   token: string
   // User that created the session. If the user updates his information
   // with a session active, this field needs to be updated also.
-  user: IUser
+  user: IUserDocument
+  ip?: string
+  restrict?: Record<string, string>
+  rules?: Record<string, string>
 }
 
-const sessionSchema = new Schema<ISession>({
-  active: { type: Boolean, default: true },
+export interface ISessionDocument extends mongoose.Document, ISession {}
+
+const sessionSchema = new Schema<ISessionDocument>({
+  is_active: { type: Boolean, default: true },
   created_at: { type: Date, default: Date.now },
   modified_at: Date,
-  expiration_date: Number,
+  expiration_date: Date,
   token: String,
-  user: userSchema
+  user: userSchema,
+  ip: String,
+  restrict: { type: Map, of: String, default: undefined },
+  rules: { type: Map, of: String, default: undefined }
 })
+
+sessionSchema.index({ token: 1 })
 
 export default sessionSchema

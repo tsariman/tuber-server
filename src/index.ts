@@ -18,60 +18,60 @@ app.listen({ port: Config.FASTIFY_PORT }, (err, address) => {
   process.stdout.write(`process.env.NODE_ENV = ${Config.NODE_ENV}\n`)
   process.stdout.write(`Config.DEV = ${Config.DEV}\n`)
   const DB_URI = Config.DB_REMOTE ? Config.DB_URI_REMOTE : Config.DB_URI_LOCAL
-  Config.log('\nDatabase URI:', DB_URI)
+  console.log('\nDatabase URI:', DB_URI)
 
   const database = Config.DB_REMOTE // Config.DB_PROTOCOL.slice(-6) === 'srv://'
     ? 'Atlas'
     : 'Mongodb'
-  Config.print(`\nConnecting to ${database}... `)
+  process.stdout.write(`\nConnecting to ${database}... `)
 
   // Note: Use '127.0.0.1' instead of 'localhost' if connecting locally.
   mongoose.connect(DB_URI).then(async () => {
-    Config.log('Success!')
+    console.log('Success!')
 
     // If using Mongodb Atlas,
     if (database === 'Atlas') {
-      Config.print('\nCheck bookmarks search index... ')
+      process.stdout.write('\nCheck bookmarks search index... ')
       const searchIndex = await find_index_by_name('bookmark_search', 'bookmarks')
       if (searchIndex) {
-        Config.log('Done.')
+        console.log('Done.')
       } else {
-        Config.log(`failed.\nbookmarks index needs to be defined.`)
-        Config.log(`Visit endpoint: /dev/setup-collection-index-search/bookmarks`)
-        Config.log('OR')
-        Config.log(`Visit endpoint: /install/setup-collection-index-search/bookmarks`)
+        console.log(`failed.\nbookmarks index needs to be defined.`)
+        Config.log(`[DEBUG] Visit endpoint: /dev/setup-collection-index-search/bookmarks`)
+        Config.log('[DEBUG] OR')
+        Config.log(`[DEBUG] Visit endpoint: /install/setup-collection-index-search/bookmarks`)
       }
     }
 
     // Check if dev user exists
     if (Config.DEV) {
       const devUser = await DEV_USER.findOne({ name: DEV_DEFAULT_USER.name })
-      Config.log('')
+      console.log('')
       if (devUser) {
-        Config.log('"Dev user" is available.\n')
+        Config.log('[DEBUG] "Dev user" is available.\n')
         Config.write('dev_user_available', true)
       } else {
         Config.write('dev_user_available', false)
-        Config.log('Dev user is not available.\n')
+        Config.log('[DEBUG] Dev user is not available.\n')
       }
     }
 
     // Load configuration values from database in Config object.
-    Config.print('Loading configuration from database... ')
+    process.stdout.write('Loading configuration from database... ')
     const dbConfigs = await configuration_get_all()
     if (dbConfigs.length > 0) {
       await Config.load(dbConfigs)
-      Config.log('Done.')
+      console.log('Done.')
     } else {
-      Config.log('Failed! No configuration found in database.')
+      console.log('Failed! No configuration found in database.')
     }
 
     // Uncomment this to start cron jobs.
-    // Config.print('Setting up cron jobs... ')
+    // process.stdout.write('Setting up cron jobs... ')
     // start_cron_jobs()
-    // Config.log('Done.')
+    // console.log('Done.')
   }, err => {
-    Config.log('Failed!\n')
+    console.log('Failed!\n')
     console.error(err)
     process.exit(1)
   })

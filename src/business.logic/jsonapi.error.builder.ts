@@ -15,88 +15,167 @@ const errorSkeleton: TIJsonapiError = {
 }
 
 export default class JsonapiErrorBuilder {
-  private response: TJsonapiErrorResponse
-  private index: number
+  private _response: TJsonapiErrorResponse
+  private _index: number
 
   constructor() {
-    this.response = { errors: [] }
-    this.index = 0
-    this.response.errors.push({
+    this._response = { errors: [] }
+    this._index = 0
+    this._response.errors.push({
       ...errorSkeleton
     })
   }
+  /**
+   * Insert arbitrary value into the meta member of the response object.
+   * @param key name of the property
+   * @param val value of the property
+   * @returns `this`
+   */
   withMeta(key: string, val: any) {
-    this.response.meta = this.response.meta || {}
-    this.response.meta[key] = val
+    if (!val) return this
+    this._response.meta = this._response.meta || {}
+    this._response.meta[key] = val
     return this
   }
+  /** @deprecated */
   meta = this.withMeta
+  /**
+   * Include arbitrary values in the meta property of the current error object.
+   * @param key name of the property 
+   * @param val value of the property
+   * @returns `this`
+   */
   withErrorMeta(key: string, val: any) {
-    const meta = this.response.errors[this.index].meta || {}
+    if (!val) return this
+    const meta = this._response.errors[this._index].meta || {}
     meta[key] = val
-    this.response.errors[this.index].meta = meta
+    this._response.errors[this._index].meta = meta
     return this
   }
+  /** @deprecated */
   errorMeta = this.withErrorMeta
-  setLink(key: string, val: string) {
-    this.response.links = this.response.links || { self: '' }
-    this.response.links[key] = val
+  /**
+   * Set the top level `links` property of the response object.
+   * @param key name of the property
+   * @param val value of the property
+   * @returns `this`
+   */
+  setLink(key: string, val?: string) {
+    if (!val) return this
+    this._response.links = this._response.links || { self: '' }
+    this._response.links[key] = val
     return this
   }
+  /**
+   * Add or edit a link in the top level `links` property of the response
+   * object.
+   * @param key link property name
+   * @param href url of the link
+   * @param meta optional meta data
+   * @returns `this`
+   */
   hrefLink(key: string, href: string, meta?: any) {
-    this.response.links = this.response.links || { self: '' }
+    this._response.links = this._response.links || { self: '' }
     const link: TJsonapiLink = { href, meta }
-    this.response.links[key] = link
+    this._response.links[key] = link
     return this
   }
   toString() {
-    return this.response
+    return JSON.stringify(this._response, null, 2)
   }
+  /** Advance the cursor to the next error object. */
   next() {
-    this.index++
-    this.response.errors.push({
+    this._index++
+    this._response.errors.push({
       ...errorSkeleton
     })
     return this
   }
-  withId(val: string) {
-    this.response.errors[this.index].id = val
+  /**
+   * Set the `id` property of the current error object.
+   * @param val value of the `id` property
+   * @returns `this`
+   */
+  withId(val?: string) {
+    if (!val) return this
+    this._response.errors[this._index].id = val
     return this
   }
+  /** @deprecated */
   id = this.withId
-  withLink(val: TJsonapiErrorLinks) {
-    this.response.errors[this.index].links = val
+  /**
+   * Set the `links` property of the current error object.
+   * @param val value of the `links` property
+   * @returns `this`
+   */
+  withLink(val?: TJsonapiErrorLinks) {
+    if (!val) return this
+    this._response.errors[this._index].links = val
     return this
   }
+  /** @deprecated */
   link = this.withLink
-  withStatus(val: number) {
-    this.response.errors[this.index].status = val.toString()
+  /**
+   * Set the `status` property of the current error object.
+   * @param val value of the `status` property
+   * @returns `this`
+   */
+  withStatus(val?: number) {
+    if (!val) return this
+    this._response.errors[this._index].status = val.toString()
     return this
   }
+  /** @deprecated */
   status = this.withStatus
-  withCode(val: string) {
-    this.response.errors[this.index].code = val
+  /**
+   * Set the `code` property of the current error object.
+   * @param val value of the `code` property
+   * @returns `this`
+   */
+  withCode(val?: string) {
+    if (!val) return this
+    this._response.errors[this._index].code = val
     return this
   }
+  /** @deprecated */
   code = this.withCode
-  withTitle(val: string) {
-    this.response.errors[this.index].title = val
+  /**
+   * Set the `title` property of the current error object.
+   * @param val value of the `title` property
+   * @returns `this`
+   */
+  withTitle(val?: string) {
+    if (!val) return this
+    this._response.errors[this._index].title = val
     return this
   }
+  /** @deprecated */
   title = this.withTitle
+  /**
+   * Set the `detail` property of the current error object.
+   * @param val value of the `detail` property
+   * @returns `this`
+   */
   withDetail(val?: string) {
     if (!val) return this
-    this.response.errors[this.index].detail = val
+    this._response.errors[this._index].detail = val
     return this
   }
+  /** @deprecated */
   detail = this.withDetail
+  /**
+   * Set the `source` property of the current error object.
+   * @param val value of the `source` property
+   * @returns `this`
+   */
   withSource(val?: TJsonapiErrorSource) {
-    this.response.errors[this.index].source = val
+    this._response.errors[this._index].source = val
     return this
   }
+  /** @deprecated */
   source = this.withSource
   build() {
-    return this.response
+    return this._response
   }
 }
 
@@ -141,7 +220,7 @@ export const default_404_error_response = (
  * @returns `TJsonapiErrorResponse`
  */
 export const default_401_error_response = (
-  error: {title: string, detail?: string}
+  error: TJsonapiError
 ) => {
   const { title, detail } = error
   return new JsonapiErrorBuilder()

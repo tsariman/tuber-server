@@ -1,4 +1,4 @@
-import { FastifyReply } from 'fastify'
+import { FastifyReply, FastifyRequest } from 'fastify'
 import {
   default_500_error_response,
   default_400_error_response
@@ -6,16 +6,16 @@ import {
 import JsonapiResponseBuilder from '../business.logic/jsonapi.response.builder'
 import Config from '../config'
 import { create_bookmark } from '../model/bookmark'
-import { TBookmarkPostFastifyRequest } from '../schema/bookmarks'
+import { IBookmarkPost } from '../schema/bookmarks'
 import fix_missing_bookmark_data from '../platform/all.drivers'
 import { MSG_500_ERROR_MESSAGE } from '../constants'
 
 export default async function post_bookmarks_endpoint (
-  req: TBookmarkPostFastifyRequest,
+  req: FastifyRequest<IBookmarkPost>,
   reply: FastifyReply
 ) {
   try {
-    Config.print('Creating bookmark... ')
+    Config.print('[DEBUG] Creating bookmark... ')
     const attributes = req.body.data.attributes
     const bookmark = await fix_missing_bookmark_data(attributes)
     if (!bookmark) {
@@ -28,7 +28,7 @@ export default async function post_bookmarks_endpoint (
     }
     const dbBookmark = await create_bookmark(bookmark)
     Config.log('Done.')
-    Config.log('Sending response...', dbBookmark)
+    Config.log('[DEBUG] Sending response...', dbBookmark)
     reply.code(201).send(
       new JsonapiResponseBuilder(dbBookmark, 'bookmarks', 'object')
       .mPaginationV2build()

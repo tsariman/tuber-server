@@ -16,7 +16,7 @@ export default async function post_state_forms_endpoint (
     const key = req.body.key
     const mode = req.body.mode
     if (!key) {
-      Config.log(`'key' was not received.`)
+      Config.log(`[ERROR] 'key' was not received.`)
       reply.code(400).send(new JsonapiErrorBuilder()
         .status(400)
         .code('bad_request')
@@ -25,7 +25,7 @@ export default async function post_state_forms_endpoint (
       return
     }
     if (!mode) {
-      Config.log(`'mode' was not received.`)
+      Config.log(`[ERROR] 'mode' was not received.`)
       reply.code(400).send(new JsonapiErrorBuilder()
         .status(400)
         .code('bad_request')
@@ -33,7 +33,7 @@ export default async function post_state_forms_endpoint (
       )
       return
     }
-    Config.print(`Loading '${key}' state... `)
+    Config.print(`[DEBUG] Loading '${key}' state... `)
     const light = STATE_FORMS[key]
     const dark = STATE_FORMS_THEME_DARK[key]
     const formState = themed(light, dark, mode)

@@ -33,7 +33,7 @@ export default async function get_video_thumbnail_url_endpoint (
       reply.code(400).send(jsonapi_400_reply())
       return
     }
-    Config.print('Retrieving bookmark... ')
+    Config.print('[DEBUG] Retrieving bookmark... ')
     const bookmark = await get_bookmark_by_id(id)
     if (!bookmark) {
       Config.log('Failed.\nBookmark not found.')
@@ -46,8 +46,8 @@ export default async function get_video_thumbnail_url_endpoint (
     }
     Config.log('Done.')
     if (bookmark.thumbnail_url) {
-      Config.log('Bookmark already has a thumbnail url.')
-      Config.log('thumbnail_url:', bookmark.thumbnail_url)
+      Config.log('[DEBUG] Bookmark already has a thumbnail url.')
+      Config.log('[DEBUG] thumbnail_url:', bookmark.thumbnail_url)
       reply.code(200).send(
         new JsonapiResponseBuilder(bookmark, 'bookmarks', 'object')
           .mPaginationV2build()
@@ -81,7 +81,7 @@ export default async function get_video_thumbnail_url_endpoint (
       }))
       return
     }
-    Config.print(`Retrieving ${platform}'s video thumbnail url... `)
+    Config.print(`[DEBUG] Retrieving ${platform}'s video thumbnail url... `)
     const thumbnail_url = await get_video_thumbnail_url({
       platform,
       videoid,
@@ -97,8 +97,8 @@ export default async function get_video_thumbnail_url_endpoint (
       return
     }
     Config.log('Done.')
-    Config.log('thumbnail_url:', thumbnail_url)
-    Config.print('Updating bookmark... ')
+    Config.log('[DEBUG] thumbnail_url:', thumbnail_url)
+    Config.print('[DEBUG] Updating bookmark... ')
     const updatedBookmark = await BookmarkModel.findByIdAndUpdate( // Update bookmark with thumbnail url
       id,
       { thumbnail_url },
@@ -113,7 +113,7 @@ export default async function get_video_thumbnail_url_endpoint (
     } else {
       // [TODO] [HACK] Not finding the bookmark is not just an error but a hack
       //               attempt. Log this.
-      Config.log('failed.\nBookmark not found.')
+      Config.log('Failed.\nBookmark not found.')
       reply.code(404).send(new JsonapiErrorBuilder()
         .status(404)
         .title('Not Found')

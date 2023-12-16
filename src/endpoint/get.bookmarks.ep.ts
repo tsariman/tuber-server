@@ -1,4 +1,4 @@
-import { FastifyReply } from 'fastify'
+import { FastifyReply, FastifyRequest } from 'fastify'
 import { PipelineStage } from 'mongoose'
 import { get_query } from '../business.logic'
 import JsonapiErrorBuilder, {
@@ -10,12 +10,12 @@ import {
   BookmarkModel,
   get_bookmark_collection
 } from '../model/bookmark'
-import { TBookmarkGetFastifyRequest } from '../schema/bookmarks'
+import { IBookmarkGet } from '../schema/bookmarks'
 import { DB_PAGINATION_QUERY, MSG_500_ERROR_MESSAGE } from '../constants'
 import { get_raw_query } from './_endpoint.common.logic'
 
 export default async function get_bookmarks_collection_endpoint (
-  req: TBookmarkGetFastifyRequest,
+  req: FastifyRequest<IBookmarkGet>,
   reply: FastifyReply
 ) {
   try {
@@ -82,7 +82,8 @@ export default async function get_bookmarks_collection_endpoint (
       if (!aggregationResult[0]) {
         // [TODO] Remove this error reporting. An undefined aggregate result
         //        most likely means there are no document matching the query.
-        Config.log('aggregationResult[0] is undefined')
+        Config.log('[DEBUG] Query did not return any result. '
+          + '(aggregationResult[0] is undefined)')
         reply.code(404).send(new JsonapiErrorBuilder()
           .code('not_found')
           .status(404)
@@ -117,8 +118,8 @@ export default async function get_bookmarks_collection_endpoint (
         })
       }
     } else {
-      Config.log('Running search query:', searchQuery)
-      Config.print(`Getting bookmarks collection (page ${page}, limit ${limit})... `)
+      Config.log('[DEBUG] Running search query:', searchQuery)
+      Config.print(`[DEBUG] Getting bookmarks collection (page ${page}, limit ${limit})... `)
       const result = await get_bookmark_collection(page, limit)
       Config.log('Done.')
       const bookmarkDocs = result.docs

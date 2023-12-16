@@ -1,4 +1,3 @@
-import { FastifyRequest } from 'fastify'
 import mongoose, { Schema } from 'mongoose'
 import paginate from 'mongoose-paginate-v2'
 import {
@@ -15,6 +14,14 @@ import {
  * 'X' - Adult
  */
 export type TAudience ='G' | 'PG' | 'R' | 'X'
+
+export type TReportReason = 'hide' 
+  | 'broken link'
+  | 'broken embed'
+  | 'rude'
+  | 'inappropriate'
+  | 'spam'
+  | 'other'
 
 export interface IBookmark {
   is_active?: boolean
@@ -38,13 +45,31 @@ export interface IBookmark {
   upvotes?: number
   downvotes?: number
   thumbnail_url?: string
-  group_id?: string
-  html_tag?: string // Within the context of a group, this is the HTML tag that
-                    // the bookmark is associated with
   targeted_audience?: TAudience
-  sort_order?: number
-  restrictions?: string[]
-  rules?: string[]
+  /** Number of times this bookmark has been played. */
+  play_count?: number
+  /**
+   * Number of times this bookmark has been reported.
+   * [TODO] If the report count is greater than 10, the bookmark will be
+   *        unpublished.
+   */
+  report_count?: number
+  /**
+   * [TODO] Users can hide bookmarks they do not like. Hiding will be
+   * a report with the reason 'hide'. 
+   * [TODO] If a user reports a bookmark, it will be hidden from them.
+   */
+  reports?: {
+    is_active?: boolean
+    created_at?: Date
+    modified_at?: Date
+    /** The user who reported this bookmark. */
+    user_id?: string
+    /** The reason why this bookmark was reported. */
+    reason?: string
+  }[]
+  restrict?: Record<string, string>
+  rules?: Record<string, string>
 }
 
 /** Partial bookmark. Used when working with some properties but not all. */
@@ -83,11 +108,6 @@ export interface IBookmarkDelete {
   }
 }
 
-export type TBookmarkGetFastifyRequest = FastifyRequest<IBookmarkGet>
-export type TBookmarkPostFastifyRequest = FastifyRequest<IBookmarkPost>
-export type TBookmarkPutFastifyRequest = FastifyRequest<IBookmarkPut>
-export type TBookmarkDeleteFastifyRequest = FastifyRequest<IBookmarkDelete>
-
 export type TBookmark = WithRequired<IBookmark,
   'is_active' | 'created_at' | 'modified_at' | 'is_private' | 'user_id'
 >
@@ -96,14 +116,12 @@ export interface IBookmarkDocument extends mongoose.Document, TBookmark {}
 
 const bookmarkSchema = new Schema<IBookmarkDocument>({
   is_active: { type: Boolean, default: true },
-  html_tag: String,
   created_at: { type: Date, default: Date.now },
   modified_at: Date,
   is_private: { type: Boolean, default: false },
   is_published: Boolean,
   user_id: String,
   author: String,
-  group_id: String,
   videoid: String,
   url: String,
   embed_url: String,
@@ -118,8 +136,20 @@ const bookmarkSchema = new Schema<IBookmarkDocument>({
   downvotes: Number,
   thumbnail_url: String,
   targeted_audience: String,
-  restrictions: { type: [ String ], default: undefined },
-  rules: { type: [ String ], default: undefined }
+  play_count: Number,
+  report_count: Number,
+  reports: {
+    type: [{
+      is_active: { type: Boolean, default: true },
+      created_at: { type: Date, default: Date.now },
+      modified_at: Date,
+      user_id: String,
+      reason: String
+    }],
+    default: undefined
+  },
+  restrict: { type: Map, of: String, default: undefined },
+  rules: { type: Map, of: String, default: undefined }
 })
 
 bookmarkSchema.index({ title: 1, note: 1 })

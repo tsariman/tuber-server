@@ -7,7 +7,11 @@ import { get_query } from '../../business.logic'
 import { IMPV2Doc } from '../../common.types'
 import { get_hashed_password } from '../../business.logic/security'
 import Config from '../../config'
-import userSchema, { IUser, IUserDocument, TCipheredUser, TUsersFastifyRequest } from '../../schema/users'
+import userSchema, {
+  IUser,
+  IUserDocument,
+  TUsersFastifyRequest
+} from '../../schema/users'
 import { DB_PAGINATION_OPTIONS, DB_PAGINATION_QUERY } from '../../constants'
 
 /** mongoose-paginate-v2 query */
@@ -60,25 +64,8 @@ export const get_user_by_name = async (
   return userDoc
 }
 
-/**
- * Get a _user_ by name.  
- * Use this function to retrieve a logged in user document information.
- * @param username Username
- * @returns User document
- */
-export const get_user = async (
-  username: string
-): Promise<TCipheredUser | null> => {
-  const cUsr = Config.USER_CACHE.get(username)
-  if (cUsr) return cUsr as TCipheredUser
-  const dbUser = await get_user_by_name(username)
-  if (!dbUser) return null
-  const { name, role, jwt_version } = dbUser
-  return { name, role, jwt_version }
-}
-
 /** Create a new user */
-export const create_user = async (userInfo: IUser): Promise<IUser> => {
+export const create_user = async (userInfo: IUser): Promise<IUserDocument> => {
   const um = await UserPaginationModel.create({
     ...userInfo,
     password: await get_hashed_password(userInfo.password)
@@ -102,7 +89,9 @@ export const get_user_collection = async (
 }
 
 /** Find a user by email using mongoose */
-export const get_user_by_email = async (email: string): Promise<IUser | null> => {
+export const get_user_by_email = async (
+  email: string
+): Promise<IUserDocument | null> => {
   const userDoc = await UserModel.findOne({ email })
   return userDoc
 }

@@ -117,7 +117,7 @@ export async function twitch_fetch_thumbnail_url(videoid?: string): Promise<stri
       thumbnailUrlTemplate = json.data[0].thumbnail_url
       break
     } else {
-      Config.log(`[Error] twitch_fetch_thumbnail_url()`, json)
+      Config.log(`[ERROR] twitch_fetch_thumbnail_url()`, json)
     }
   } while (!json.data?.[0]?.thumbnail_url)
   if (!thumbnailUrlTemplate) { return '' }

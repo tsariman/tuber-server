@@ -41,7 +41,7 @@ export default async function dev_post_unknown_regexp_endpoint(
     )
     return
   }
-  Config.print(`Parsing ${url} with ${regexp}... `)
+  Config.print(`[DEBUG] Parsing ${url} with ${regexp}... `)
   try {
     const response = await axios.get(url)
     const html = await response.data

@@ -10,7 +10,7 @@ Config.register('state', '40', $40_STATE_KEY)
 const researchPageState: TStatePage = {
   '_id': '40',
   '_key': $40_STATE_KEY,
-  'content': '$webapp : tubeResearcher',
+  'content': '$webapp : tubeResearcher : bookmarks',
   'appBar': {
     'appBarStyle': 'middle_search',
     'items': [ ],

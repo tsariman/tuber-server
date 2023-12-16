@@ -9,7 +9,6 @@ import fastifyCookie from '@fastify/cookie'
 import fastifyJwt from '@fastify/jwt'
 // import Tokens from '@fastify/csrf'
 import { TCipheredUser } from './schema/users'
-import Config from './config'
 
 dotenv.config({ path: `${__dirname}/../.env.app-config` })
 
@@ -41,7 +40,7 @@ server.register(fastifyJwt, {
 server.register(fastifyCookie)
 
 const cookieDomain = process.env.DOMAIN ?? '127.0.0.1:8080'
-Config.log(`\u{1F36A} Cookie domain: ${cookieDomain}`)
+console.log(`\u{1F36A} Cookie domain: ${cookieDomain}`)
 
 // Route to set cookie
 server.get('/cookie', async (request, reply) => {

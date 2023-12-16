@@ -13,10 +13,10 @@ export default async function dev_delete_drop_collection_endpoint (
   reply: FastifyReply
 ) {
   const { collection } = req.params
-  Config.print(`Dropping '${collection}' collection... `)
+  Config.print(`[DEBUG] Dropping '${collection}' collection... `)
   // await connect(Config.DB_URI)
   await mongoose.connection.db.dropCollection(collection)
-  Config.log('done!')
+  Config.log('Done.')
   const devInstallForm = {
     'bookmarkCount': await BookmarkPaginationModel.countDocuments(),
     'userCount': await UserPaginationModel.countDocuments()

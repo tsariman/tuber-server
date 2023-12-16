@@ -52,14 +52,14 @@ export const DB_PAGINATION_QUERY = {
                   // When a document is deleted, is_active is set to false
 }
 /** Database mongoose-paginate-v2 options */
-export const DB_PAGINATION_OPTIONS = {
+export const DB_PAGINATION_OPTIONS: Record<string, any> = {
   // sort: { created_at: -1 } // TODO Comment this out when debugging pagination
   select: { // Exclude these fields from the query
     __v: 0,
     is_active: 0,
     restrictions: 0,
-    rules: 0
-  }
+    rules: 0,
+  } as Record<string, 1|0> // 1 = include, 0 = exclude
 }
 /**
  * Array of regular expressions to extract the thumbnail HTML from a web page

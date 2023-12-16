@@ -16,7 +16,7 @@ export default async function post_bookmarks_api_setup_search_index_endpoint (
 ) {
   const bookmarkSearchIndex = await find_index_by_name('bookmark_search')
   if (!bookmarkSearchIndex) {
-    Config.print('Creating atlas bookmark search index... ')
+    Config.print('[DEBUG] Creating atlas bookmark search index... ')
     const httpResponse = await request(Config.DB_ATLAS_SEARCH_INDEX_API_URL, {
       data: {
         database: Config.DB_NAME,
@@ -33,10 +33,10 @@ export default async function post_bookmarks_api_setup_search_index_endpoint (
       digestAuth: Config.DB_ATLAS_DIGEST_AUTH,
     })
     Config.log('Done.')
-    Config.log('http response:', httpResponse)
+    Config.log('[DEBUG] http response:', httpResponse)
   } else {
     const message = 'bookmark_search index already exist.'
-    Config.log(message)
+    Config.log(`[DEBUG] ${message}`)
     reply.code(409).send({
       ...alert('bookmark_search index already exist!'),
       ...new JsonapiErrorBuilder()

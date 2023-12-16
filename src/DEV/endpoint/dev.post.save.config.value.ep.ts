@@ -39,7 +39,7 @@ export default async function dev_post_save_config_value_endpoint(
       )
       return
     }
-    Config.print(`Saving configuration value... `)
+    Config.print(`[DEBUG] Saving configuration value... `)
     await Config.save(key, value)
     Config.log('Success!')
     reply.code(200).send({

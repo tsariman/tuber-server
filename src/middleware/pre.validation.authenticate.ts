@@ -32,23 +32,29 @@ import { default_500_error_response }
  * @deprecated
  */
 const authenticate: RouteShorthandOptions['preValidation'] = async function (
-  request,
+  req,
   reply,
   done
 ) {
-  process.stdout.write('Working on pre validation authentication... ')
-  const { username, password } = request.body as ISignInCredentials
+  process.stdout.write('[DEBUG] Working on pre validation authentication... ')
+  // const { username, password } = request.body as ISignInCredentials
+  const body = req.body as ISignInCredentials['Body']
+  const credentials = body?.credentials ?? {}
+  const { username, password } = credentials
   if (username) {
-    Config.log(`username: '${username}', password: '${password}'`)
+    Config.log(`[DEBUG] username: '${username}', password: '${password}'`)
     try {
       const user = await UserPaginationModel.findOne({ name: username })
       if (user) {
-        if (user.password) {
+        if (password && user.password) {
           const passwordCorrect = await check_password(password, user.password)
           if (passwordCorrect) {
             // [TODO] Write session related logic here
             done()
           }
+        } else if (!password && !user.password) {
+          // [TODO] Write session related logic here
+          done()
         }
       }
     } catch (e: any) {

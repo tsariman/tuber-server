@@ -30,7 +30,7 @@ const pre_handler_authenticate: RouteShorthandOptions['preHandler'] = async func
 
     // This should never happen but just in case
     if (!cUsr) {
-      Config.log('Authentication: User not found')
+      Config.log('[DEBUG] Authentication: User not found')
       reply.code(400).send($400_MISSING_PAYLOAD)
     }
 
@@ -39,10 +39,12 @@ const pre_handler_authenticate: RouteShorthandOptions['preHandler'] = async func
 
     // User not found in cache
     if (!cachedUsr) {
-      Config.log('Authentication: User not found in cache. Retrieving from database.')
+      Config.log('[DEBUG] Authentication: User not found in cache. Retrieving '
+        + 'from database.'
+      )
       const dbUser = await UserPaginationModel.findOne({ name: cUsr1.name })
       if (!dbUser) {
-        Config.log('Authentication: User not found in database.')
+        Config.log('[DEBUG] Authentication: User not found in database.')
         reply.code(401).send($401_UNAUTHORIZED_ACCESS)
       } else {
         const newUsr: TCipheredUser = {

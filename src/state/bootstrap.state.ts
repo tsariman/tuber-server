@@ -6,6 +6,7 @@ import {
   TStateAllPages,
   TStateApp,
   TStateAppBar,
+  TStateLink,
   TStatePage,
   TThemeMode
 } from '../common.types'
@@ -39,7 +40,6 @@ import {
   $67DarkThemeMode,
   bookmarkAddFromUrlLinkState,
   darkModeLinkState,
-  defaultErrorsViewLinkState,
   homeLinkState,
   lightModeLinkState,
   powerLogoutLinkState,
@@ -161,6 +161,19 @@ function _get_research_page_state(
 }
 
 /**
+ * Get the dev links state.
+ *
+ * @param usr user object decoded from user token
+ * @returns links state
+ */
+function _get_dev_links_state(usr?: TCipheredUser): TStateLink[] {
+  if (Config.DEV && usr && usr.role === 'developer') {
+    return [ researchAppErrorsViewLinkState, homeLinkState ]
+  }
+  return []
+}
+
+/**
  * Research page state.
  *
  * @param usr User data from the decoded token.
@@ -175,8 +188,7 @@ function _get_auth_research_page_state(
     appBar: {
       ...researchPageAppBarState,
       items: [
-        defaultErrorsViewLinkState,
-        homeLinkState,
+        ..._get_dev_links_state(usr),
         bookmarkAddFromUrlLinkState,
         lightModeLinkState,
         usr ? powerLogoutLinkState : powerSignInLinkState,
@@ -198,8 +210,7 @@ function _get_auth_40_dark_theme_mode(usr?: TCipheredUser): TStatePage {
     appBar: {
       ...$63DarkThemeMode,
       items: [
-        researchAppErrorsViewLinkState,
-        homeLinkState,
+        ..._get_dev_links_state(usr),
         bookmarkAddFromUrlLinkState,
         darkModeLinkState,
         usr ? $66DarkThemeMode : $67DarkThemeMode,

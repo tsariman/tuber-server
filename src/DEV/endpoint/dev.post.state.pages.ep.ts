@@ -15,7 +15,7 @@ export default async function dev_post_state_pages_endpoint(
   try {
     const key = req.body.key
     if (!key) {
-      Config.log(`'key' was not received.`)
+      Config.log(`[ERROR] 'key' was not received.`)
       reply.code(400).send(new JsonapiErrorBuilder()
         .status(400)
         .code('bad_request')
@@ -23,8 +23,12 @@ export default async function dev_post_state_pages_endpoint(
       )
       return
     }
-    Config.print(`Loading '${key}' state... `)
-    const pageState = themed_by_key(key, DEV_STATE_PAGES, DEV_STATE_PAGES_THEME_DARK)
+    Config.print(`[DEBUG] Loading '${key}' state... `)
+    const pageState = themed_by_key(
+      key,
+      DEV_STATE_PAGES,
+      DEV_STATE_PAGES_THEME_DARK
+    )
     if (pageState) {
       Config.log('Done.')
       reply.code(200).send({

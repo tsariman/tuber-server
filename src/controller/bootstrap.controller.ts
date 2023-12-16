@@ -39,8 +39,8 @@ import {
 } from '../state/nav.link'
 import { 
   get_state_key,
-  parse_cookies,
-  // parse_cookies,
+  get_theme_mode,
+  parse_cookie,
   set_state_by_key,
   themed
 } from '../business.logic'
@@ -58,7 +58,6 @@ import {
   $44_STATE_KEY,
   $46_STATE_KEY,
   $58_STATE_KEY,
-  THEME_MODE
 } from '../constants'
 import signInFormState, {
   $41DarkThemeMode
@@ -130,18 +129,27 @@ export default async function bootstrap_controller(fastify: FastifyInstance) {
     req: FastifyRequest<{ Body: { cookie?: string }}>,
     reply: FastifyReply
   ) {
+    let token = ''
+    if (req.body.cookie) {
+      Config.log('[DEBUG] req.body.cookie:', req.body.cookie)
+      token = parse_cookie(req.body.cookie).token
+      Config.log('[DEBUG] token:', token)
+    } else {
+      Config.log('[DEBUG] No cookie received.')
+    }
+
+    let usr: TCipheredUser | null = null
+    try {
+      usr = await req.jwtVerify<TCipheredUser>()
+      Config.log('[DEBUG] Decoded values from token:', usr)
+    } catch (err: any) {
+      Config.log('[DEBUG] Token verification failed.', err.message)
+    }
     try {
       /** Application information state */
       const appState: TStateApp = { ...DEFAULT_APP_INFO }
-      // [TODO] Read theme mode from user settings if user is logged in
-      const mode = appState['themeMode'] = Config.read(THEME_MODE, 'light')
-      Config.log('req.body.cookie:', req.body.cookie)
-      const token = parse_cookies(req.body.cookie).token
-      let usr: TCipheredUser | undefined
-      if (token) {
-        usr = fastify.jwt.decode(token) as TCipheredUser
-      }
-      Config.log('usr:', usr)
+      const mode = appState['themeMode'] = get_theme_mode(req.body.cookie)
+
       // Research page light mode state
       set_state_by_key(pagesLightState, {
         ...researchPageState,
@@ -291,7 +299,7 @@ export default async function bootstrap_controller(fastify: FastifyInstance) {
 
       reply
       .send({
-        state: {
+        'state': {
           'app': appState,
           'theme': get_theme_state(),
           'themeLight': lightThemeState,
@@ -309,12 +317,15 @@ export default async function bootstrap_controller(fastify: FastifyInstance) {
           'dialogsLight': dialogsLightState,
           'dialogsDark': dialogsDarkState,
           'stateRegistry': Config.getRegistry('state'),
-          ...(usr && { 'session': {
+          ...(usr ? { 'session': {
             'name': usr.name,
             'role': usr.role,
             'token': token,
             'jwt_version': usr.jwt_version,
-          }}),
+          }} : {
+            // Originally, session was null but it crashed the app
+            'session': undefined,
+          }),
         }
       } as IBootstrapResponse)
 

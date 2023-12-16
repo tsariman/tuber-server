@@ -1,17 +1,17 @@
-import { FastifyReply } from 'fastify'
+import { FastifyReply, FastifyRequest } from 'fastify'
 import JsonapiErrorBuilder, { default_500_error_response } from '../business.logic/jsonapi.error.builder'
 import JsonapiResponseBuilder from '../business.logic/jsonapi.response.builder'
 import Config from '../config'
 import { get_bookmark_by_id } from '../model/bookmark'
-import { TBookmarkGetFastifyRequest } from '../schema/bookmarks'
+import { IBookmarkGet } from '../schema/bookmarks'
 import { MSG_500_ERROR_MESSAGE } from '../constants'
 
 export default async function get_bookmarks_by_id_endpoint (
-  request: TBookmarkGetFastifyRequest,
+  request: FastifyRequest<IBookmarkGet>,
   reply: FastifyReply
 ) {
   try {
-    Config.print(`Getting bookmark with id '${request.params.id}'... `)
+    Config.print(`[DEBUG] Getting bookmark with id '${request.params.id}'... `)
     const bookmark = await get_bookmark_by_id(request.params.id)
     if (bookmark) {
       Config.log('Done.')

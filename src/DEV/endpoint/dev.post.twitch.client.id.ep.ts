@@ -41,7 +41,7 @@ export default async function dev_post_twitch_client_id_endpoint(
       )
       return
     }
-    Config.print(`Saving Twitch Client ID and Secret... `)
+    Config.print(`[DEBUG] Saving Twitch Client ID and Secret... `)
     await Config.save(CONF_TWITCH_CLIENT_ID, clientId)
     await Config.save(CONF_TWITCH_CLIENT_SECRET, clientSecret)
     Config.log('Success!')

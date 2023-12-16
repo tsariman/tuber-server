@@ -1,18 +1,18 @@
-import { FastifyReply } from 'fastify'
+import { FastifyReply, FastifyRequest } from 'fastify'
 import JsonapiErrorBuilder, {
   default_500_error_response
 } from '../business.logic/jsonapi.error.builder'
 import Config from '../config'
 import { BookmarkModel } from '../model/bookmark'
-import { TBookmarkDeleteFastifyRequest } from '../schema/bookmarks'
+import { IBookmarkDelete } from '../schema/bookmarks'
 import { MSG_500_ERROR_MESSAGE } from '../constants'
 
 export default async function delete_bookmarks_by_id_endpoint (
-  req: TBookmarkDeleteFastifyRequest,
+  req: FastifyRequest<IBookmarkDelete>,
   reply: FastifyReply
 ) {
   try {
-    Config.print('Disabling bookmark... ')
+    Config.print('[DEBUG] Disabling bookmark... ')
     const bookmark = await BookmarkModel.findByIdAndUpdate(
       req.params.id,
       { is_active: false },

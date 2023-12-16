@@ -1,24 +1,24 @@
-import { FastifyReply } from 'fastify'
+import { FastifyReply, FastifyRequest } from 'fastify'
 // import { connect, disconnect } from 'mongoose'
 import JsonapiErrorBuilder, {
   default_500_error_response
 } from '../business.logic/jsonapi.error.builder'
 import Config from '../config'
 import { BookmarkModel } from '../model/bookmark'
-import { TBookmarkPutFastifyRequest } from '../schema/bookmarks'
+import { IBookmarkPut } from '../schema/bookmarks'
 import { MSG_500_ERROR_MESSAGE } from '../constants'
 
 export default async function put_bookmarks_by_id_endpoint (
-  request: TBookmarkPutFastifyRequest,
+  request: FastifyRequest<IBookmarkPut>,
   reply: FastifyReply
 ) {
   try {
-    Config.print('Updating bookmark... ')
+    Config.print('[DEBUG] Updating bookmark... ')
     // [TODO] Validate request body (request.body.data.attributes)
     //        video_id, platform, start_seconds, title are required
     const attributes = request.body?.data?.attributes
     if (!attributes) {
-      Config.log('failed.\nMissing attributes.', request.body)
+      Config.log('Failed.\nMissing attributes.', request.body)
       reply.code(400).send(new JsonapiErrorBuilder()
         .status(400)
         .title('Bad Request')
@@ -38,7 +38,7 @@ export default async function put_bookmarks_by_id_endpoint (
       Config.log('Done.')
       reply.code(204).send()
     } else {
-      Config.log('failed.\nBookmark not found.')
+      Config.log('Failed.\nBookmark not found.')
       reply.code(404).send(new JsonapiErrorBuilder()
         .status(404)
         .title('Not Found')

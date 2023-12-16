@@ -1,17 +1,17 @@
 import { FastifyRequest, FastifyReply, FastifyInstance } from 'fastify'
 import { check_password } from '../business.logic/security'
 import Config from '../config'
-import { UserPaginationModel } from '../model/user'
 import { defaultDialogAlertState as alert } from '../state/dialog'
-import { TCipheredUser } from '../schema/users'
 import { ISignInCredentials } from '../business.logic/security/permissions'
 import {
   default_401_error_response,
   default_500_error_response
 } from '../business.logic/jsonapi.error.builder'
-import { MSG_500_ERROR_MESSAGE, THEME_MODE } from '../constants'
+import { MSG_500_ERROR_MESSAGE } from '../constants'
 import get_bootstrap_state from 'src/state/bootstrap.state'
 import { TNetState } from '../common.types'
+import { get_ciphered_user, get_user } from 'src/model/session'
+import { get_theme_mode } from '../business.logic'
 
 export default async function authentication_controller (fastify: FastifyInstance) {
 
@@ -21,21 +21,20 @@ export default async function authentication_controller (fastify: FastifyInstanc
   ) {
     const credentials = req.body.credentials ?? {}
     const { username, password } = credentials
-    Config.log(`username: '${username}', password: '${password}'`)
-    Config.print('Authenticating user... ')
+    Config.log(`[DEBUG] username: '${username}', password: '${password}'`)
+    Config.print('[DEBUG] Authenticating user... ')
     if (username) {
       try {
-        const user = await UserPaginationModel.findOne({ name: username })
+        const user = await get_user({ name: username }) // uses cache internally
         if (user) {
           if (password && user.password) {
             const passwordCorrect = await check_password(password, user.password)
             if (passwordCorrect) {
-              const { name, role, jwt_version } = user
-              const usr: TCipheredUser = { name, role, jwt_version }
-              const token = await reply.jwtSign(usr)
-              Config.USER_CACHE.set(name, usr)
+              Config.USER_CACHE.set(user.name, user)
+              const usr = get_ciphered_user(user)
+              const token = await reply.jwtSign(usr, { expiresIn: '1d' })
               Config.log('Successs!')
-              const mode = Config.read(THEME_MODE, 'light')
+              const mode = get_theme_mode(req.body.cookie)
               reply
                 .code(200)
                 .send({
@@ -59,16 +58,11 @@ export default async function authentication_controller (fastify: FastifyInstanc
       }
     }
     const title = 'Wrong username or password!'
+    Config.log(`Failed. '${title}'`)
     reply.code(401).send({
       ...alert(title),
       ...default_401_error_response({ title })
     })
-    // reply.send({
-    //   state: {
-    //     // app: { route: '/' },
-    //     dialog: { open: false }
-    //   }
-    // })
   })
 
 }

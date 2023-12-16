@@ -83,7 +83,7 @@ async function _rumble_data(attr: IBookmark): Promise<IBookmark|null> {
   else {
     // Had to get rid of query string because it was causing errors.
     const compliantUrl = `${urlObj.origin}${urlObj.pathname}`
-    Config.print(`Fetching HTML page from ${compliantUrl}... `)
+    Config.print(`[DEBUG] Fetching HTML page from ${compliantUrl}... `)
     const html = await rumble_fetch_html_page(compliantUrl)
     if (!html) { return null }
     fixedBookmark.videoid = rumble_parse_videoid(html)
@@ -104,7 +104,7 @@ async function _twitch_data(attr: IBookmark): Promise<IBookmark|null> {
   if (existingBookmark && existingBookmark.thumbnail_url) {
     fixedBookmark.thumbnail_url = existingBookmark.thumbnail_url
   } else {
-    Config.print(`Fetching Twitch thumbnail URL for video with ID '${videoid}'... `)
+    Config.print(`[DEBUG] Fetching Twitch thumbnail URL for video with ID '${videoid}'... `)
     fixedBookmark.thumbnail_url = await twitch_fetch_thumbnail_url(videoid)
   }
   if (fixedBookmark.thumbnail_url) { return fixedBookmark }
@@ -120,7 +120,7 @@ async function _vimeo_data(attr: IBookmark): Promise<IBookmark|null> {
   if (existingBookmark && existingBookmark.thumbnail_url) {
     fixedBookmark.thumbnail_url = existingBookmark.thumbnail_url
   } else {
-    Config.print(`Fetching vimeo thumbnail url for '${videoid}' video ID... `)
+    Config.print(`[DEBUG] Fetching vimeo thumbnail url for '${videoid}' video ID... `)
     fixedBookmark.thumbnail_url = await vimeo_fetch_thumbnail_url(videoid)
   }
   if (fixedBookmark.thumbnail_url) { return fixedBookmark }
@@ -136,7 +136,7 @@ async function _odysee_data(attr: IBookmark): Promise<IBookmark|null> {
   if (existingBookmark && existingBookmark.thumbnail_url) {
     fixedBookmark.thumbnail_url = existingBookmark.thumbnail_url
   } else {
-    Config.print(`Fetching Odysee thumbnail url for '${slug}' slug... `)
+    Config.print(`[DEBUG] Fetching Odysee thumbnail url for '${slug}' slug... `)
     fixedBookmark.thumbnail_url = await odysee_fetch_thumbnail_url(slug)
   }
   if (fixedBookmark.thumbnail_url) { return fixedBookmark }
@@ -149,7 +149,7 @@ async function _unknown_data(attr: IBookmark): Promise<IBookmark|null> {
   if (!url) { return null }
   const fixedBookmark = { ...attr } as IBookmark
   if (!fixedBookmark.thumbnail_url) {
-    Config.print(`Fetching thumbnail url for '${url}' URL... `)
+    Config.print(`[DEBUG] Fetching thumbnail url for '${url}' URL... `)
     fixedBookmark.thumbnail_url = await unknown_fetch_thumbnail_url(url)
   }
   return fixedBookmark
@@ -160,7 +160,7 @@ async function _facebook_data(attr: IBookmark) {
   if (!url) { return null }
   const fixedBookmark = { ...attr } as IBookmark
   if (!fixedBookmark.thumbnail_url) {
-    Config.print(`Fetching thumbnail url for '${url}' URL... `)
+    Config.print(`[DEBUG] Fetching thumbnail url for '${url}' URL... `)
     fixedBookmark.thumbnail_url = await unknown_fetch_thumbnail_url(url)
   }
   return attr

@@ -166,7 +166,7 @@ export function match_regex_array(
   for (const regex of regexArray) {
     const match = str.match(regex)
     if (match) {
-      Config.log(`Matched: ${regex}`)
+      Config.log(`[DEBUG] Matched: ${regex}`)
       return match
     }
   }
@@ -188,7 +188,7 @@ export function remove_form_suffix(_key?: string) {
  * @param cookieString Cookie string
  * @returns object
  */
-export function parse_cookies(cookieString?: string) {
+export function parse_cookie(cookieString?: string) {
   if (!cookieString) return {}
   const cookies = {} as Record<string, string>
   const pairs = cookieString.split(';')
@@ -199,4 +199,19 @@ export function parse_cookies(cookieString?: string) {
   })
 
   return cookies
+}
+
+/**
+ * Get the theme mode from the cookie string.
+ *
+ * @param cookieString 
+ * @returns theme mode
+ */
+export function get_theme_mode(cookieString?: string): TThemeMode {
+  const userMode = parse_cookie(cookieString).mode as TThemeMode
+  const systemMode = Config.read<TThemeMode>(
+    THEME_MODE,
+    Config.DEFAULT_THEME_MODE
+  )
+  return userMode ?? systemMode
 }

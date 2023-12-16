@@ -1,21 +1,21 @@
-import { FastifyReply } from 'fastify'
+import { FastifyReply, FastifyRequest } from 'fastify'
 import {
   default_500_error_response
 } from '../../business.logic/jsonapi.error.builder'
 import JsonapiResponseBuilder from '../../business.logic/jsonapi.response.builder'
 import Config from '../../config'
 import { create_bookmark } from '../../model/bookmark'
-import { TBookmarkPostFastifyRequest } from '../../schema/bookmarks'
+import { IBookmarkPost } from '../../schema/bookmarks'
 import { gen_random_bookmark_votes } from '..'
 import fix_missing_bookmark_data from 'src/platform/all.drivers'
 import { MSG_500_ERROR_MESSAGE } from '../../constants'
 
 export default async function dev_post_bookmarks_endpoint (
-  req: TBookmarkPostFastifyRequest,
+  req: FastifyRequest<IBookmarkPost>,
   reply: FastifyReply
 ) {
   try {
-    Config.print('Creating bookmark... ')
+    Config.print('[DEBUG] Creating bookmark... ')
     const attr = req.body.data.attributes
 
     // Generate random votes for development purposes

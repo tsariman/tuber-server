@@ -41,7 +41,7 @@ export default async function dev_post_rumble_regexp_endpoint(
     )
     return
   }
-  Config.log(`Parsing ${url} with ${regexp}... `)
+  Config.log(`[DEBUG] Parsing ${url} with ${regexp}... `)
   try {
     const response = await axios.get(url)
     const html = await response.data
