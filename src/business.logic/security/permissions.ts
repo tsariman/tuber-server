@@ -71,15 +71,12 @@ export interface ISignInCredentials {
     credentials?: {
       username?: string
       password?: string
+      options?: string[]
     }
     route?: string
     mode?: TThemeMode
     cookie?: string
   }
-}
-
-export function is_sign_in_credentials (obj: any): obj is ISignInCredentials {
-  return obj.username && obj.password
 }
 
 export const has_permission = (permission: TPermission, role: TRole) => {

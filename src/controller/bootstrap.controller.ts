@@ -24,7 +24,7 @@ import researchPageState, {
 } from '../state/page/research.page.state'
 import researchPageAppBarState, {
   $63DarkThemeMode
-} from '../state/appBar/research.page.appbar.state'
+} from '../state/appbar/research.page.appbar.state'
 import {
   homeLinkState,
   bookmarkAddFromUrlLinkState,
@@ -80,7 +80,7 @@ export default async function bootstrap_controller(fastify: FastifyInstance) {
     'homePage': $40_STATE_KEY,
   } as TStateApp
 
-  const appBarState: TStateAppBar = {
+  const appbarState: TStateAppBar = {
     ...defaultAppBarState
   }
 
@@ -153,7 +153,7 @@ export default async function bootstrap_controller(fastify: FastifyInstance) {
       // Research page light mode state
       set_state_by_key(pagesLightState, {
         ...researchPageState,
-        appBar: {
+        appbar: {
           ...themed(researchPageAppBarState, $63DarkThemeMode, mode),
           items: [
             // [TODO] Must be logged in to see this
@@ -167,7 +167,7 @@ export default async function bootstrap_controller(fastify: FastifyInstance) {
       // Research page dark mode state
       set_state_by_key(pagesDarkState, {
         ...$40DarkThemeMode,
-        appBar: {
+        appbar: {
           ...themed(researchPageAppBarState, $63DarkThemeMode, mode),
           items: [
             // [TODO] Must be logged in to see this
@@ -185,16 +185,16 @@ export default async function bootstrap_controller(fastify: FastifyInstance) {
         appState['inDebugMode'] = true
         appState['inDevelMode'] = true
         appState['homePage'] = $44_STATE_KEY
-        if (devInstallPageState.appBar) {
+        if (devInstallPageState.appbar) {
           // [TODO] Write logic for power button
         }
         pagesLightState[devInstallPageKey] = {
           ...devInstallPageState,
-          'appBar': {
+          'appbar': {
             ...devInstallPageState,
             'items': [
-              ...(devInstallPageState.appBar 
-                && devInstallPageState.appBar.items
+              ...(devInstallPageState.appbar 
+                && devInstallPageState.appbar.items
                 || []
               ),
               usr ? powerLogoutLinkState : powerSignInLinkState,
@@ -203,11 +203,11 @@ export default async function bootstrap_controller(fastify: FastifyInstance) {
         }
         pagesDarkState[devInstallPageKey] = {
           ...$44DarkThemeMode,
-          'appBar': {
+          'appbar': {
             ...$44DarkThemeMode,
             'items': [
-              ...($44DarkThemeMode.appBar 
-                && $44DarkThemeMode.appBar.items
+              ...($44DarkThemeMode.appbar 
+                && $44DarkThemeMode.appbar.items
                 || []
               ),
               usr ? $66DarkThemeMode : $67DarkThemeMode,
@@ -225,7 +225,7 @@ export default async function bootstrap_controller(fastify: FastifyInstance) {
         // Research page light mode state
         pagesLightState[researchPageKey] = {
           ...researchPageState,
-          appBar: {
+          appbar: {
             ...themed(researchPageAppBarState, $63DarkThemeMode, mode),
             items: [
               defaultErrorsViewLinkState,
@@ -240,7 +240,7 @@ export default async function bootstrap_controller(fastify: FastifyInstance) {
         // Research page dark mode state
         pagesDarkState[researchPageKey] = {
           ...$40DarkThemeMode,
-          appBar: {
+          appbar: {
             ...themed(researchPageAppBarState, $63DarkThemeMode, mode),
             items: [
               researchAppErrorsViewLinkState,
@@ -301,10 +301,10 @@ export default async function bootstrap_controller(fastify: FastifyInstance) {
       .send({
         'state': {
           'app': appState,
-          'theme': get_theme_state(),
+          'theme': get_theme_state(mode),
           'themeLight': lightThemeState,
           'themeDark': darkThemeState,
-          'appBar': appBarState,
+          'appbar': appbarState,
           'pages': pagesState,
           'pagesLight': pagesLightState,
           'pagesDark': pagesDarkState,

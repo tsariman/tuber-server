@@ -11,8 +11,8 @@ const researchPageState: TStatePage = {
   '_id': '40',
   '_key': $40_STATE_KEY,
   'content': '$webapp : tubeResearcher : bookmarks',
-  'appBar': {
-    'appBarStyle': 'middle_search',
+  'appbar': {
+    'appbarStyle': 'middle_search',
     'items': [ ],
     'inputBaseProps': {
       'id': 'video-url',
@@ -20,7 +20,7 @@ const researchPageState: TStatePage = {
       'inputProps': { 'aria-label': 'Search Bookmarks' },
     },
     'searchFieldIcon': {
-      'icon': 'alternate_email_outline',
+      'icon': 'public_outline',
       'iconProps': {
         'sx': { 'color': ICON_COLOR }
       }
@@ -28,7 +28,7 @@ const researchPageState: TStatePage = {
     'searchFieldIconButton': {
       'has': {
         'icon': 'search_outline',
-        'onclickHandle': 'tuberCallbacks.appBarSearchBookmarks'
+        'onclickHandle': 'tuberCallbacks.appbarSearchBookmarks'
       }
     },
     'searchFieldIconButtonProps': {
@@ -36,9 +36,6 @@ const researchPageState: TStatePage = {
     }
   },
   'layout': 'layout_none_no_appbar',
-  'meta': {
-    'endpoint': 'bookmarks'
-  }
 }
 
 export default researchPageState

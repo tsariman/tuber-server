@@ -107,72 +107,140 @@ export const DEFAULT_AUTH_HEADER = `Bearer ${MISSING_ACCESS_TOKEN}`
 
 // STATE KEYS -----------------------------------------------------------------
 
+/** Page state for listing page app. @id 1 */
 export const $1_STATE_KEY = 'newVideoUrlForm'
+/** New video URL dialog state. @id 2 */
 export const $2_STATE_KEY = 'newVideoUrlDialog'
+/** New bookmark from URL link state. @id 3 */
 export const $3_STATE_KEY = 'newBookmarkFromUrlLinkState'
+/** New YouTube bookmark form state. @id 4 */
 export const $4_STATE_KEY = 'newYouTubeBookmarkForm'
+/** Edit YouTube bookmark form state. @id 5 */
 export const $5_STATE_KEY = 'editYouTubeBookmarkForm'
+/** New YouTube bookmark dialog state. @id 6 */
 export const $6_STATE_KEY = 'newYouTubeBookmarkDialog'
+/** Edit YouTube bookmark dialog state. @id 7 */
 export const $7_STATE_KEY = 'editYouTubeBookmarkDialog'
+/** New Rumble bookmark dialog state. @id 8 */
 export const $8_STATE_KEY = 'newRumbleBookmarkDialog'
+/** New Rumble bookmark form state. @id 9 */
 export const $9_STATE_KEY = 'newRumbleBookmarkForm'
+/** Edit Rumble bookmark form state. @id 10 */
 export const $10_STATE_KEY = 'editRumbleBookmarkForm'
+/** Edit Rumble bookmark dialog state. @id 11 */
 export const $11_STATE_KEY = 'editRumbleBookmarkDialog'
+/** New Vimeo bookmark form state. @id 12 */
 export const $12_STATE_KEY = 'newVimeoBookmarkForm'
+/** Edit Vimeo bookmark form state. @id 13 */
 export const $13_STATE_KEY = 'editVimeoBookmarkForm'
+/** New Vimeo bookmark dialog state. @id 14 */
 export const $14_STATE_KEY = 'newVimeoBookmarkDialog'
+/** Edit Vimeo bookmark dialog state. @id 15 */
 export const $15_STATE_KEY = 'editVimeoBookmarkDialog'
+/** New Odysee bookmark dialog state. @id 16 */
 export const $16_STATE_KEY = 'newOdyseeBookmarkDialog'
+/** New Odysee bookmark form state. @id 17 */
 export const $17_STATE_KEY = 'newOdyseeBookmarkForm'
+/** Edit Odysee bookmark form state. @id 18 */
 export const $18_STATE_KEY = 'editOdyseeBookmarkForm'
+/** New DailyMotion bookmark form state. @id 19 */
 export const $19_STATE_KEY = 'newDailyBookmarkForm'
+/** Edit DailyMotion bookmark form state. @id 20 */
 export const $20_STATE_KEY = 'editDailyBookmarkForm'
+/** New DailyMotion bookmark dialog state. @id 21 */
 export const $21_STATE_KEY = 'newDailyBookmarkDialog'
+/** Edit DailyMotion bookmark dialog state. @id 22 */
 export const $22_STATE_KEY = 'editDailyBookmarkDialog'
+/** Edit Odysee bookmark dialog state. @id 23 */
 export const $23_STATE_KEY = 'editOdyseeBookmarkDialog'
+/** New Facebook bookmark form state. @id 24 */
 export const $24_STATE_KEY = 'newFacebookBookmarkForm'
+/** Edit Facebook bookmark form state. @id 25 */
 export const $25_STATE_KEY = 'editFacebookBookmarkForm'
+/** New Facebook bookmark dialog state. @id 26 */
 export const $26_STATE_KEY = 'newFacebookBookmarkDialog'
+/** Edit Facebook bookmark dialog state. @id 27 */
 export const $27_STATE_KEY = 'editFacebookBookmarkDialog'
+/** New unknown bookmark form state. @id 28 */
 export const $28_STATE_KEY = 'newUnknownBookmarkForm'
+/** Edit unknown bookmark form state. @id 29 */
 export const $29_STATE_KEY = 'editUnknownBookmarkForm'
+/** New unknown bookmark dialog state. @id 30 */
 export const $30_STATE_KEY = 'newUnknownBookmarkDialog'
+/** Edit unknown bookmark dialog state. @id 31 */
 export const $31_STATE_KEY = 'editUnknownBookmarkDialog'
+/** Sign-in dialog state. @id 32 */
 export const $32_STATE_KEY = 'signInDialog'
+/** Register dialog state. @id 33 */
 export const $33_STATE_KEY = 'registerDialog'
+/** Delete bookmark dialog state. @id 34 */
 export const $34_STATE_KEY = 'deleteBookmarkDialog'
+/** Client alert dialog state. @id 35 */
 export const $35_STATE_KEY = 'clientAlertDialog'
+/** New Twitch bookmark dialog state. @id 36 */
 export const $36_STATE_KEY = 'newTwitchBookmarkDialog'
+/** Edit Twitch bookmark dialog state. @id 37 */
 export const $37_STATE_KEY = 'editTwitchBookmarkDialog'
+/** New Twitch bookmark form state. @id 38 */
 export const $38_STATE_KEY = 'newTwitchBookmarkForm'
+/** Edit Twitch bookmark form state. @id 39 */
 export const $39_STATE_KEY = 'editTwitchBookmarkForm'
+/** Research app page state. @id 40 */
 export const $40_STATE_KEY = 'research-app'
+/** Sign-in form state. @id 41 */
 export const $41_STATE_KEY = 'signInForm'
+/** Sign-in page state. @id 42 */
 export const $42_STATE_KEY = 'sign-in'
+/** Dev signed in page state. @id 43 */
 export const $43_STATE_KEY = 'dev-signed-In'
+/** Dev install page state. @id 44 */
 export const $44_STATE_KEY = 'dev-install'
+/** Dev test thumbnail form state. @id 45 */
 export const $45_STATE_KEY = 'devTestThumbnailForm'
+/** Dev test thumbnail page state. @id 46 */
 export const $46_STATE_KEY = 'dev-test-thumbnail'
+/** Dev install form state. @id 47 */
 export const $47_STATE_KEY = 'devInstallForm'
+/** Research app errors view page state. @id 48 */
 export const $48_STATE_KEY = 'research-app-errors-view'
+/** Dev set authorization key form state. @id 49 */
 export const $49_STATE_KEY = 'devSetAuthorizationKeyForm'
+/** Dev set authorization URL form state. @id 50 */
 export const $50_STATE_KEY = 'devSetAuthorizationUrlForm'
-export const $51_STATE_KEY = '<available>' // TODO: Not used
+/** Listing page state. @id 51 */
+export const $51_STATE_KEY = 'listing/:id'
 export const $52_STATE_KEY = '<taken>'
+/** Admin readable page state. @id 53 */
 export const $53_STATE_KEY = 'admin-readable'
+/** Dev test rumble regexp form state. @id 54 */
 export const $54_STATE_KEY = 'devTestRumbleRegexpForm'
+/** Admin config app page state. @id 55 */
 export const $55_STATE_KEY = 'admin-config-app'
+/**Dev test rumble regexp page state. @id 56 */
 export const $56_STATE_KEY = 'dev-test-rumble-regexp'
+/** Dev test unknown regexp form state. @id 57 */
 export const $57_STATE_KEY = 'devTestUnknownRegexpForm'
+/** Dev test unknown regexp page state. @id 58 */
 export const $58_STATE_KEY = 'dev-test-unknown-regexp'
+/** Dev Twitch input client ID page state. @id 59 */
 export const $59_STATE_KEY = 'dev-twitch-input-client-id'
+/** Dev Twitch input client ID form state. @id 60 */
 export const $60_STATE_KEY = 'devTwitchInputClientIdForm'
+/** Dev save config value page state. @id 61 */
 export const $61_STATE_KEY = 'dev-save-config-value'
+/** Dev save config value form state. @id 62 */
 export const $62_STATE_KEY = 'devSaveConfigValueForm'
+/** Research page app bar state. @id 63 */
 export const $63_STATE_KEY = 'researchPageAppBar'
+/** Response alert dialog state. @id 64 */
 export const $64_STATE_KEY = 'responseAlertDialog'
+/** Alert dialog state. @id 65 */
 export const $65_STATE_KEY = 'alertDialog'
+/** Logout link state. @id 66 */
 export const $66_STATE_KEY = 'powerLogoutLink'
+/** Sign-in link state. @id 67 */
 export const $67_STATE_KEY = 'powerSignInLink'
+/** Confirm logout dialog state. @id 68 */
 export const $68_STATE_KEY = 'confirmLogoutDialog'
+/** Register form state. @id 69 */
 export const $69_STATE_KEY = 'registerForm'

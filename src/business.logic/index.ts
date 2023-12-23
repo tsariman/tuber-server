@@ -209,9 +209,31 @@ export function parse_cookie(cookieString?: string) {
  */
 export function get_theme_mode(cookieString?: string): TThemeMode {
   const userMode = parse_cookie(cookieString).mode as TThemeMode
-  const systemMode = Config.read<TThemeMode>(
+  if (userMode) {
+    Config.write(THEME_MODE, userMode)
+    return userMode
+  }
+  const mode = Config.read<TThemeMode>(
     THEME_MODE,
     Config.DEFAULT_THEME_MODE
   )
-  return userMode ?? systemMode
+  return mode
+}
+
+/**
+ * Option selector.
+ *
+ * @param element
+ * @param options 
+ * @returns `a` if `element` is in `options`, otherwise `b`.
+ */
+export function option<T=any> (
+  options?: string[]
+): (element: string, a: T, b: T) => T {
+  return (element: string, a: T, b: T): T => {
+    if (!options) return b
+    return options.includes(element)
+      ? a
+      : b
+  }
 }

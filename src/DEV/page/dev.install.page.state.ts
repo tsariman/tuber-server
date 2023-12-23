@@ -3,7 +3,7 @@ import Config from '../../config'
 import { $40_STATE_KEY, $44_STATE_KEY } from '../../constants'
 import { TStateAppBar, TStatePage } from '../../common.types'
 
-export const appBarLinksState: TStateAppBar['items'] = [
+export const appbarLinksState: TStateAppBar['items'] = [
   {
     'has': {
       'text': 'Research',
@@ -54,7 +54,7 @@ const devInstallPageState: TStatePage = {
   '_key': $44_STATE_KEY,
   'content': '$form:devInstall:dev-install',
   'layout': 'layout_default',
-  'appBar': {
+  'appbar': {
     'items': [
       {
         'has': {
@@ -90,7 +90,7 @@ export default devInstallPageState
 /** Dark theme mode state page for development installation. @id 44 */
 export const $44DarkThemeMode: TStatePage = {
   ...devInstallPageState,
-  'appBar': {
+  'appbar': {
     'items': [
       {
         'has': {

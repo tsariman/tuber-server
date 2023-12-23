@@ -7,7 +7,7 @@ Config.register('state', '43', $43_STATE_KEY)
 const devSignedInPageState: TStatePage = {
   '_id': '43',
   '_key': $43_STATE_KEY,
-  'appBar': {
+  'appbar': {
     'items': [
       {
         'has': {

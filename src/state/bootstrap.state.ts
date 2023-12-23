@@ -34,7 +34,7 @@ import devInstallPageState, {
 } from '../DEV/page/dev.install.page.state'
 import researchPageAppBarState, {
   $63DarkThemeMode
-} from './appBar/research.page.appbar.state'
+} from './appbar/research.page.appbar.state'
 import {
   $66DarkThemeMode,
   $67DarkThemeMode,
@@ -109,11 +109,11 @@ function _get_dev_install_page_state(
 function _get_auth_dev_install_page_state(usr?: TCipheredUser): TStatePage {
   return {
     ...devInstallPageState,
-    'appBar': {
-      ...devInstallPageState.appBar,
+    'appbar': {
+      ...devInstallPageState.appbar,
       'items': [
-        ...(devInstallPageState.appBar 
-          && devInstallPageState.appBar.items
+        ...(devInstallPageState.appbar 
+          && devInstallPageState.appbar.items
           || []
         ),
         usr ? powerLogoutLinkState : powerSignInLinkState,
@@ -131,11 +131,11 @@ function _get_auth_dev_install_page_state(usr?: TCipheredUser): TStatePage {
 function _get_auth_44_dark_theme_mode (usr?: TCipheredUser): TStatePage {
   return {
     ...$44DarkThemeMode,
-    'appBar': {
-      ...$44DarkThemeMode.appBar,
+    'appbar': {
+      ...$44DarkThemeMode.appbar,
       'items': [
-        ...($44DarkThemeMode.appBar 
-          && $44DarkThemeMode.appBar.items
+        ...($44DarkThemeMode.appbar 
+          && $44DarkThemeMode.appbar.items
           || []
         ),
         usr ? $66DarkThemeMode : $67DarkThemeMode,
@@ -185,7 +185,7 @@ function _get_auth_research_page_state(
 ): TStatePage {
   return {
     ...researchPageState,
-    appBar: {
+    appbar: {
       ...researchPageAppBarState,
       items: [
         ..._get_dev_links_state(usr),
@@ -207,7 +207,7 @@ function _get_auth_research_page_state(
 function _get_auth_40_dark_theme_mode(usr?: TCipheredUser): TStatePage {
   return {
     ...$40DarkThemeMode,
-    appBar: {
+    appbar: {
       ...$63DarkThemeMode,
       items: [
         ..._get_dev_links_state(usr),
@@ -401,10 +401,10 @@ export default async function get_bootstrap_state(
   const { usr, mode, token } = bootstrap
   return {
     'app': _get_default_app_info(usr, mode),
-    'theme': get_theme_state(),
+    'theme': get_theme_state(mode),
     'themeLight': lightThemeState,
     'themeDark': darkThemeState,
-    'appBar': _get_default_appbar_state(),
+    'appbar': _get_default_appbar_state(),
     'pages': _get_pages_state(usr, mode),
     'pagesLight': _get_pages_light_state(usr),
     'pagesDark': _get_pages_dark_state(usr),

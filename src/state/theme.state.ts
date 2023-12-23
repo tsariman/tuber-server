@@ -1,17 +1,17 @@
+import Config from 'src/config'
 import {
   THEME_LIGHT_BACKGROUND_COLOR,
   THEME_DARK_DIALOG_BACKGROUND_COLOR,
-  THEME_MODE,
-  THEME_LIGHT_APP_BAR_COLOR
+  THEME_LIGHT_APP_BAR_COLOR,
+  THEME_MODE
 } from '../constants'
-import Config from '../config'
-import { TThemeMode } from '../common.types'
+import { TThemeMode } from 'src/common.types'
 
 // TODO Modify to change the overall appearance of the page
 
 /** Get material-ui theme object */
-export default function get_theme_state () {
-  const mode = Config.read<TThemeMode>(THEME_MODE, Config.DEFAULT_THEME_MODE)
+export default function get_theme_state (userMode?: string) {
+  const mode = userMode ?? Config.read<TThemeMode>(THEME_MODE, Config.DEFAULT_THEME_MODE)
   return mode === 'dark' ? darkThemeState : lightThemeState
 }
 

@@ -11,7 +11,7 @@ Config.register('state', '63', $63_STATE_KEY)
 const researchPageAppBarState: TStateAppBar = {
   '_id': '63',
   '_key': $63_STATE_KEY,
-  'appBarStyle': 'middle_search',
+  'appbarStyle': 'middle_search',
   'items': [ powerSignInLinkState ],
   'searchFieldProps': {
     'sx': { 'backgroundColor': 'transparent' }
@@ -22,7 +22,7 @@ const researchPageAppBarState: TStateAppBar = {
     'inputProps': { 'aria-label': 'Search Bookmarks' },
   },
   'searchFieldIcon': {
-    'icon': 'alternate_email_outline',
+    'icon': 'public_outline',
     'iconProps': {
       'sx': { 'color': ICON_COLOR }
     }
@@ -30,7 +30,7 @@ const researchPageAppBarState: TStateAppBar = {
   'searchFieldIconButton': {
     'has': {
       'icon': 'search_outline',
-      'onclickHandle': 'tuberCallbacks.appBarSearchBookmarks'
+      'onclickHandle': 'tuberCallbacks.appbarSearchBookmarks'
     }
   },
   'searchFieldIconButtonProps': {

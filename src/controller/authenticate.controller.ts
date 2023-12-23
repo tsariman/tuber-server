@@ -11,7 +11,7 @@ import { MSG_500_ERROR_MESSAGE } from '../constants'
 import get_bootstrap_state from 'src/state/bootstrap.state'
 import { TNetState } from '../common.types'
 import { get_ciphered_user, get_user } from 'src/model/session'
-import { get_theme_mode } from '../business.logic'
+import {  get_theme_mode, option } from '../business.logic'
 
 export default async function authentication_controller (fastify: FastifyInstance) {
 
@@ -20,8 +20,8 @@ export default async function authentication_controller (fastify: FastifyInstanc
     reply: FastifyReply,
   ) {
     const credentials = req.body.credentials ?? {}
-    const { username, password } = credentials
-    Config.log(`[DEBUG] username: '${username}', password: '${password}'`)
+    const { username, password, options: o } = credentials
+    Config.log(`[DEBUG] req.body:`, req.body)
     Config.print('[DEBUG] Authenticating user... ')
     if (username) {
       try {
@@ -32,8 +32,15 @@ export default async function authentication_controller (fastify: FastifyInstanc
             if (passwordCorrect) {
               Config.USER_CACHE.set(user.name, user)
               const usr = get_ciphered_user(user)
-              const token = await reply.jwtSign(usr, { expiresIn: '1d' })
-              Config.log('Successs!')
+              const expiresIn = option<string>(o)('keep-signed-in', '2M', '1d')
+              const token = await reply.jwtSign(usr, {
+                expiresIn
+              })
+              Config.log('Successs! User authenticated.')
+              Config.log('[DEBUG] Session expires in', expiresIn === '2M'
+                ? '2 months.'
+                : '24 hours.'
+              )
               const mode = get_theme_mode(req.body.cookie)
               reply
                 .code(200)

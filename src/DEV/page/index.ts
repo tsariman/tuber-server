@@ -15,7 +15,7 @@ Config.register('state', '46', C.$46_STATE_KEY)
 export const devTestThumbnailPageState: TStatePage = {
   '_id': '46',
   '_key': C.$46_STATE_KEY,
-  'appBar': {
+  'appbar': {
     'items': [
       {
         'has': {
@@ -47,8 +47,8 @@ export const devTestRumbleRegexpPageState: TStatePage = {
   '_key': C.$56_STATE_KEY,
   'content': `$form : ${remove_form_suffix(C.$54_STATE_KEY)} : test-rumble-regexp`,
   'layout': 'layout_centered_no_scroll',
-  'appBar': {
-    'appBarStyle': 'mini',
+  'appbar': {
+    'appbarStyle': 'mini',
     'props': defaultAppBarState.props,
     'items': [
       {
@@ -78,8 +78,8 @@ export const devTestUnknownRegexpPageState: TStatePage = {
   '_key': C.$58_STATE_KEY,
   'content': `$form : ${remove_form_suffix(C.$57_STATE_KEY)} : test-unknown-regexp`,
   'layout': 'layout_centered_no_scroll',
-  'appBar': {
-    'appBarStyle': 'mini',
+  'appbar': {
+    'appbarStyle': 'mini',
     'props': defaultAppBarState.props,
     'items': [
       {
@@ -109,8 +109,8 @@ export const devTwitchInputClientIdPageState: TStatePage = {
   '_key': C.$59_STATE_KEY,
   'content': `$form : ${remove_form_suffix(C.$60_STATE_KEY)} : save-twitch-client-id`,
   'layout': 'layout_centered_no_scroll',
-  'appBar': {
-    'appBarStyle': 'mini',
+  'appbar': {
+    'appbarStyle': 'mini',
     'props': defaultAppBarState.props,
     'items': [
       {
@@ -140,8 +140,8 @@ export const devSaveConfigValuePageState: TStatePage = {
   '_key': C.$61_STATE_KEY,
   'content': `$form : ${remove_form_suffix(C.$62_STATE_KEY)} : save-config-value`,
   'layout': 'layout_centered_no_scroll',
-  'appBar': {
-    'appBarStyle': 'mini',
+  'appbar': {
+    'appbarStyle': 'mini',
     'props': defaultAppBarState.props,
     'items': [
       {
@@ -172,7 +172,7 @@ export const devResearchErrorsViewPageState: TStatePage = {
   'content': '$view : default_errors_page_view',
   // 'background': { 'color': '#fcfcfc' },
   'layout': 'layout_none_no_appbar',
-  'appBar': {
+  'appbar': {
     'items': [
       {
         'has': {
@@ -192,8 +192,7 @@ const DEV_STATE_PAGES: TStateAllPages = {
   [C.$43_STATE_KEY]: devSignedInPageState,
   [C.$44_STATE_KEY]: devInstallPageState,
   [C.$46_STATE_KEY]: devTestThumbnailPageState,
-  [C.$48_STATE_KEY]: devResearchErrorsViewPageState, // TODO Assign page state
-  [C.$51_STATE_KEY]: {}, // TODO Assign page state
+  [C.$48_STATE_KEY]: devResearchErrorsViewPageState,
   [C.$56_STATE_KEY]: devTestRumbleRegexpPageState,
   [C.$58_STATE_KEY]: devTestUnknownRegexpPageState,
   [C.$59_STATE_KEY]: devTwitchInputClientIdPageState,
@@ -207,7 +206,6 @@ export const DEV_STATE_PAGES_THEME_DARK: TStateAllPages = {
   [C.$44_STATE_KEY]: $44DarkThemeMode,
   [C.$46_STATE_KEY]: $46DarkThemeMode,
   [C.$48_STATE_KEY]: $48DarkThemeMode,
-  [C.$51_STATE_KEY]: {}, // TODO Assign page state
   [C.$56_STATE_KEY]: $56DarkThemeMode,
   [C.$58_STATE_KEY]: $58DarkThemeMode,
   [C.$59_STATE_KEY]: $59DarkThemeMode,

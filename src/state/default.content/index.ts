@@ -2,7 +2,7 @@ import { TStateAppBar } from '../../common.types'
 
 /** Default app bar json. */
 export const defaultAppBarState: TStateAppBar = {
-  'appBarStyle': 'mini',
+  'appbarStyle': 'mini',
   'props': {
     'elevation': 0,
     'color': 'primary',

@@ -8,8 +8,8 @@ const adminConfigPageState: TStatePage = {
   '_id': '55',
   '_key': $55_STATE_KEY,
   'content': '$webapp : config',
-  'appBar': {
-    'appBarStyle': 'middle_search',
+  'appbar': {
+    'appbarStyle': 'middle_search',
     'items': [ ],
     'inputBaseProps': {
       'id': 'video-url',

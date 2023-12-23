@@ -16,7 +16,7 @@ export function get_background_state(): TStateBackground {
 }
 
 // Grey app bar with text-transform disabled
-export const appBarState: TStateAppBar = {
+export const appbarState: TStateAppBar = {
   'props': {
     'elevation': 0,
     // 'color': 'transparent',

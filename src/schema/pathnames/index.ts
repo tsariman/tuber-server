@@ -1,4 +1,4 @@
-import { Schema } from 'mongoose'
+import { Document, Schema } from 'mongoose'
 
 export interface IPathname {
   name: string

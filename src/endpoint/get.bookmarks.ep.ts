@@ -41,7 +41,8 @@ export default async function get_bookmarks_collection_endpoint (
       pipeline.push({
         $match: {
           // is_active: true // Filter documents where the is_active field is true
-          ...DB_PAGINATION_QUERY
+          ...DB_PAGINATION_QUERY,
+          is_published: { $ne: false }
         }
       })
       pipeline.push({

@@ -52,7 +52,7 @@ export default async function post_state_pages_endpoint (
         state: {
           'pages': {
             [key]: {
-              'appBarInherited': 'default-notfound',
+              'appbarInherited': 'default-notfound',
               'contentInherited': 'default-notfound',
               'layout': 'layout_centered',
               'data': { 'message': `Page not found!` },
