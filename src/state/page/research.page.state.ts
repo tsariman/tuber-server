@@ -1,15 +1,31 @@
-import { TStatePage } from '../../common.types'
-import Config from '../../config'
+import { TCipheredUser } from '../../schema/users';
+import { TStatePage } from '../../common.types';
+import Config from '../../config';
 import {
   $40_STATE_KEY,
+  $70_STATE_KEY,
   THEME_LIGHT_APP_BAR_ICON_COLOR as ICON_COLOR,
-} from '../../constants'
+} from '../../constants';
+import researchPageAppBarState, {
+  $63DarkThemeMode
+} from '../appbar/research.page.appbar.state';
+import {
+  $66DarkThemeMode,
+  $67DarkThemeMode,
+  bookmarkAddFromUrlLinkState,
+  darkModeLinkState,
+  lightModeLinkState,
+  powerLogoutLinkState,
+  powerSignInLinkState,
+} from '../nav.link';
+import { dev_get_links_state } from 'src/DEV/link.state';
 
-Config.register('state', '40', $40_STATE_KEY)
+Config.register('state', '40', $40_STATE_KEY);
 /** Page state for research page app. @id 40 */
 const researchPageState: TStatePage = {
   '_id': '40',
   '_key': $40_STATE_KEY,
+  'title': 'Research',
   'content': '$webapp : tubeResearcher : bookmarks',
   'appbar': {
     'appbarStyle': 'middle_search',
@@ -36,11 +52,109 @@ const researchPageState: TStatePage = {
     }
   },
   'layout': 'layout_none_no_appbar',
-}
+};
 
-export default researchPageState
+export default researchPageState;
 
 /** Dark theme mode for research page state. @id 40 */
 export const $40DarkThemeMode: TStatePage = {
   ...researchPageState,
+};
+
+Config.register('state', '70', $70_STATE_KEY);
+/** Listing page state (research state alias) @id 70 */
+export const listingPageState: TStatePage = {
+  ...researchPageState,
+  '_id': '70',
+  '_key': $70_STATE_KEY,
+  'title': 'Listing',
+};
+/** Dark theme mode for listing page state. @id 70 */
+export const $70DarkThemeMode: TStatePage = { ...listingPageState };
+
+/**
+ * Get the research page state.
+ *
+ * @param usr User data from the decoded token.
+ * @param mode theme mode
+ * @returns state page
+ */
+export function get_research_page_state(usr?: TCipheredUser): TStatePage {
+  return {
+    ...researchPageState,
+    appbar: {
+      ...researchPageAppBarState,
+      items: [
+        ...dev_get_links_state(usr),
+        bookmarkAddFromUrlLinkState,
+        lightModeLinkState,
+        usr ? powerLogoutLinkState : powerSignInLinkState,
+      ]
+    }
+  };
+}
+
+/**
+ * Dark theme mode variant for research page state.
+ *
+ * @param usr user object retrieve from the decoded token.
+ * @param mode theme mode
+ * @returns page state
+ */
+export function get_40_dark_theme_mode(usr?: TCipheredUser ): TStatePage {
+  return {
+    ...$40DarkThemeMode,
+    appbar: {
+      ...$63DarkThemeMode,
+      items: [
+        ...dev_get_links_state(usr),
+        bookmarkAddFromUrlLinkState,
+        darkModeLinkState,
+        usr ? $66DarkThemeMode : $67DarkThemeMode,
+      ]
+    }
+  };
+}
+
+/**
+ * 
+ * @param usr 
+ * @returns 
+ * @id 70
+ */
+export function get_listing_page_state (usr?: TCipheredUser): TStatePage {
+  return {
+    ...listingPageState,
+    appbar: {
+      ...researchPageAppBarState,
+      items: [
+        ...dev_get_links_state(usr),
+        bookmarkAddFromUrlLinkState,
+        lightModeLinkState,
+        usr ? powerLogoutLinkState : powerSignInLinkState,
+      ]
+    }
+  };
+}
+
+/**
+ * Get dark theme mode for listing page state.
+ *
+ * @param usr 
+ * @returns 
+ * @id 70
+ */
+export function get_70_dark_theme_mode(usr?: TCipheredUser): TStatePage {
+  return {
+    ...$70DarkThemeMode,
+    appbar: {
+      ...$63DarkThemeMode,
+      items: [
+        ...dev_get_links_state(usr),
+        bookmarkAddFromUrlLinkState,
+        darkModeLinkState,
+        usr ? powerLogoutLinkState : powerSignInLinkState,
+      ]
+    }
+  };
 }

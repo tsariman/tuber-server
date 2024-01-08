@@ -1,54 +1,54 @@
-import mongoose, { Schema } from 'mongoose'
-import { IJsonapiQuerystring, WithRequired } from '../../common.types'
-import { TRole } from '../../business.logic/security/permissions'
-import { FastifyRequest } from 'fastify'
-import paginate from 'mongoose-paginate-v2'
+import mongoose, { Schema } from 'mongoose';
+import { IJsonapiQuerystring, WithRequired } from '../../common.types';
+import { TRole } from '../../business.logic/security/permissions';
+import { FastifyRequest } from 'fastify';
+import paginate from 'mongoose-paginate-v2';
 
 export interface IUser {
-  is_active?: boolean
+  is_active?: boolean;
   /** Username */
-  name: string
-  email: string
-  email_verified?: boolean
-  email_verification_code?: string
-  email_verification_code_expires?: Date
-  email_verified_at?: Date
-  email_2?: string
-  email_3?: string
-  phone?: string
-  password?: string
-  role?: TRole
-  username?: string
-  firstname?: string
-  lastname?: string
-  gender?: 'male' | 'female'
+  name: string;
+  email: string;
+  email_verified?: boolean;
+  email_verification_code?: string;
+  email_verification_code_expires?: Date;
+  email_verified_at?: Date;
+  email_2?: string;
+  email_3?: string;
+  phone?: string;
+  password?: string;
+  role?: TRole;
+  username?: string;
+  firstname?: string;
+  lastname?: string;
+  gender?: 'male' | 'female';
   /** Date of birth */
-  dob?: Date
-  jwt_version?: number
-  avatar?: string
+  dob?: Date;
+  jwt_version?: number;
+  avatar?: string;
   votes?: {
-    is_active?: boolean
-    bookmark_id: string
-    rating: 1 | -1 // 1 = upvote, -1 = downvote
-    created_at?: Date
-    modified_at?: Date
-  }[]
-  last_accessed?: Date
-  modified_at?: Date
-  created_at?: Date
-  restrict?: Record<string, string>
-  rules?: Record<string, string>
+    is_active?: boolean;
+    bookmark_id: string;
+    rating: 1 | -1; // 1 = upvote, -1 = downvote
+    created_at?: Date;
+    modified_at?: Date;
+  }[];
+  last_accessed?: Date;
+  modified_at?: Date;
+  created_at?: Date;
+  restrict?: Record<string, string>;
+  rules?: Record<string, string>;
 }
 
 export interface IUsersEndpoint {
-  Body: IUser
+  Body: IUser;
   Params: {
-    name: string
+    name: string;
   }
-  Querystring: IJsonapiQuerystring
+  Querystring: IJsonapiQuerystring;
 }
 
-export type TUsersFastifyRequest = FastifyRequest<IUsersEndpoint>
+export type TUsersFastifyRequest = FastifyRequest<IUsersEndpoint>;
 
 /**
  * Similar to the user interface except some keys which were optional are now
@@ -56,11 +56,11 @@ export type TUsersFastifyRequest = FastifyRequest<IUsersEndpoint>
  */
 export type TUser = WithRequired<IUser,
   'is_active' | 'jwt_version' | 'created_at' | 'role'
->
+>;
 
 export interface IUserDocument extends TUser, mongoose.Document<string> {}
 
-export type TCipheredUser = Pick<IUserDocument, '_id' | 'name' | 'jwt_version' | 'role'>
+export type TCipheredUser = Pick<IUserDocument, '_id' | 'name' | 'jwt_version' | 'role'>;
 
 const userSchema = new Schema<IUserDocument>({
   is_active: {type: Boolean, default: true },
@@ -106,8 +106,8 @@ const userSchema = new Schema<IUserDocument>({
    * [PRIORITY - LOW]
    */
   rules: { type: Map, of: String, default: undefined }
-})
+});
 
-userSchema.plugin(paginate)
+userSchema.plugin(paginate);
 
-export default userSchema
+export default userSchema;

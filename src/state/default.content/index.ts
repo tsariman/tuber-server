@@ -1,7 +1,7 @@
-import { TStateAppBar } from '../../common.types'
+import { TStateAppbar } from '../../common.types'
 
 /** Default app bar json. */
-export const defaultAppBarState: TStateAppBar = {
+export const defaultAppBarState: TStateAppbar = {
   'appbarStyle': 'mini',
   'props': {
     'elevation': 0,
@@ -10,5 +10,10 @@ export const defaultAppBarState: TStateAppBar = {
   'menuItemsSx': {
     'textTransform': 'none'
   }
-}
+};
 
+export function bootstrap_default_appbar_state(): TStateAppbar {
+  return {
+    ...defaultAppBarState
+  };
+}

@@ -120,7 +120,7 @@ const bookmarkSchema = new Schema<IBookmarkDocument>({
   modified_at: Date,
   is_private: { type: Boolean, default: false },
   is_published: Boolean,
-  user_id: String,
+  user_id: { type: String, required: true },
   author: String,
   videoid: String,
   url: String,

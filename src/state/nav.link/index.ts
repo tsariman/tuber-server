@@ -11,7 +11,7 @@ export const homeLinkState: TStateLink = {
     'text': 'Home',
     'route': '/'
   }
-}
+};
 
 /** Backup for the original "signin" link. */
 export const defaultSignInLinkState: TStateLink = {
@@ -19,7 +19,7 @@ export const defaultSignInLinkState: TStateLink = {
     'text': 'Sign in',
     'route': 'sign-in'
   }
-}
+};
 
 export const signInLInkState: TStateLink = {
   'type': 'icon',
@@ -27,7 +27,7 @@ export const signInLInkState: TStateLink = {
     'icon': 'power_settings_new_outline',
     'route': 'sign-in'
   }
-}
+};
 
 Config.register('state', '67', $67_STATE_KEY)
 /** Link state for logging in. @id 67 */
@@ -40,7 +40,7 @@ export const powerSignInLinkState: TStateLink = {
     'onclickHandle': 'tuberCallbacks.$32_C_1',
     'iconProps': { 'sx': { 'color': 'grey.500' }}
   }
-}
+};
 
 /** Dark theme mode for link state to sign in. @id 67 */
 export const $67DarkThemeMode = {
@@ -49,7 +49,7 @@ export const $67DarkThemeMode = {
     ...powerSignInLinkState.has,
     'iconProps': { 'sx': { 'color': 'grey.300' }}
   }
-} as TStateLink
+} as TStateLink;
 
 Config.register('state', '66', $66_STATE_KEY)
 /** Link state for signing out. @id 66 */
@@ -62,7 +62,7 @@ export const powerLogoutLinkState: TStateLink = {
     'onclickHandle': 'tuberCallbacks.$66_C_1',
     'iconProps': { 'sx': { 'color': 'info.light' }}
   }
-}
+};
 
 /** Dark theme mode for link state to sign out. @id 66 */
 export const $66DarkThemeMode = {
@@ -71,7 +71,7 @@ export const $66DarkThemeMode = {
     ...powerLogoutLinkState.has,
     'iconProps': { 'sx': { 'color': 'info.dark' }}
   }
-} as TStateLink
+} as TStateLink;
 
 /** Get link state for signing out. @id 67 */
 export const getAuthPowerLinkState = (username: string): TStateLink => ({
@@ -83,7 +83,7 @@ export const getAuthPowerLinkState = (username: string): TStateLink => ({
     'text': username,
     // [TODO] This will be a dropdown menu so users can see their profile.
   }
-})
+});
 
 /** Get dark mode link state for signing out. @id 66 */
 export const getAuthDarkModePowerLinkState = (
@@ -96,7 +96,7 @@ export const getAuthDarkModePowerLinkState = (
     'text': username,
     // [TODO] This will be a dropdown menu so users can see their profile.
   }
-})
+});
 
 export const authenticatedLinkState: TStateLink = {
   'type': 'hybrid',
@@ -104,7 +104,7 @@ export const authenticatedLinkState: TStateLink = {
     'icon': 'power_settings_new_outline',
     'text': '',
   }
-}
+};
 
 // Config.register('state', '3', $3_STATE_KEY)
 export const bookmarkAddFromUrlLinkState: TStateLink = {
@@ -116,21 +116,21 @@ export const bookmarkAddFromUrlLinkState: TStateLink = {
     'onclickHandle': `tuberCallbacks.$3_C_1`,
     'iconProps': { 'sx': { 'color': 'grey.600' }},
   }
-}
+};
 
 export const defaultErrorsViewLinkState: TStateLink = {
   'has': {
     'text': 'Client errors',
     'route': 'default-errors-view'
   }
-}
+};
 
 export const researchAppErrorsViewLinkState: TStateLink = {
   'has': {
     'text': 'Client errors',
     'route': $48_STATE_KEY
   }
-}
+};
 
 export const darkModeLinkState: TStateLink = {
   'type': 'icon',
@@ -141,7 +141,7 @@ export const darkModeLinkState: TStateLink = {
     },
     'onclickHandle': `tuberCallbacks.$44_C_1`,
   }
-}
+};
 
 export const lightModeLinkState: TStateLink = {
   'type': 'icon',
@@ -152,4 +152,4 @@ export const lightModeLinkState: TStateLink = {
     },
     'onclickHandle': `tuberCallbacks.$44_C_1`,
   }
-}
+};

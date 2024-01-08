@@ -1,7 +1,18 @@
 import Config from '../../config'
 import * as C from '../../constants'
-import { remove_form_suffix, themed_by_key } from '../../business.logic'
-import { TNetState, TStateAllDialogs, TStateDialog } from '../../common.types'
+import {
+  get_state_key as key,
+  remove_form_suffix,
+  set_state_by_key,
+  themed,
+  themed_by_key
+} from '../../business.logic'
+import {
+  TNetState,
+  TStateAllDialogs,
+  TStateDialog,
+  TThemeMode
+} from '../../common.types'
 import newRumbleBookmarkDialogState, {
   $8DarkThemeMode
 } from './new.rumble.dialog'
@@ -415,6 +426,79 @@ export function dialogAlertState<T=any>(content: T): TStateDialog {
     ],
     'open': true
   } as TStateDialog
+}
+
+/**
+ * Bootstrap state for dialogs light theme mode.
+ * @returns object of all dialogs in light theme mode.
+ */
+export function bootstrap_dialogs_light_state() {
+  const dialogs: TStateAllDialogs = {};
+  set_state_by_key(dialogs, signInDialogState);
+  set_state_by_key(dialogs, confirmSignOutDialogState);
+  // TODO: Don't forget to insert light mode state for each dialog
+
+  return dialogs;
+}
+
+/**
+ * Bootstrap state for dialogs dark theme mode.
+ * @returns object of all dialogs in dark theme mode.
+ */
+export function bootstrap_dialogs_dark_state() {
+  const dialogs: TStateAllDialogs = {};
+  set_state_by_key(dialogs, $32DarkThemeMode);
+  set_state_by_key(dialogs, $68DarkThemeMode);
+  // TODO: Don't forget to insert dark mode state for each dialog
+
+  return dialogs;
+}
+
+/**
+ * Get the dialog state to sign in.
+ *
+ * @param list of all dialogs
+ * @param mode theme mode
+ * @returns void
+ */
+function _get_signin_dialog_state(mode?: TThemeMode) {
+  return themed(
+    signInDialogState,
+    $32DarkThemeMode,
+    mode
+  );
+}
+
+/**
+ * Sign out dialog state.
+ *
+ * @param list of all dialogs
+ * @param mode theme mode
+ * @returns void
+ */
+function _get_signout_dialog_state (mode?: TThemeMode) {
+  return themed(
+    confirmSignOutDialogState,
+    $68DarkThemeMode,
+    mode
+  );
+}
+
+/**
+ * Bootstrap state for dialogs.
+ *
+ * @param mode 
+ * @returns object of all dialogs.
+ */
+export function bootstrap_dialogs_state(mode?: TThemeMode) {
+  const dialogs: TStateAllDialogs = {};
+  dialogs[key(signInDialogState)] = _get_signin_dialog_state(mode);
+  dialogs[key(confirmSignOutDialogState)] = _get_signout_dialog_state(mode);
+
+  // TODO Insert your new dialog here if you want it to be load in the
+  //      bootstrapping process.
+
+  return dialogs;
 }
 
 export const STATE_DIALOGS_THEME_DARK: TStateAllDialogs = {

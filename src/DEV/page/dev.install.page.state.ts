@@ -1,9 +1,16 @@
-import { authenticatedLinkState, powerSignInLinkState } from '../../state/nav.link'
-import Config from '../../config'
-import { $40_STATE_KEY, $44_STATE_KEY } from '../../constants'
-import { TStateAppBar, TStatePage } from '../../common.types'
+import {
+  $66DarkThemeMode,
+  $67DarkThemeMode,
+  authenticatedLinkState,
+  powerLogoutLinkState,
+  powerSignInLinkState
+} from '../../state/nav.link';
+import Config from '../../config';
+import { $40_STATE_KEY, $44_STATE_KEY } from '../../constants';
+import { TStateAppbar, TStatePage } from '../../common.types';
+import { TCipheredUser } from 'src/schema/users';
 
-export const appbarLinksState: TStateAppBar['items'] = [
+export const appbarLinksState: TStateAppbar['items'] = [
   {
     'has': {
       'text': 'Research',
@@ -23,9 +30,9 @@ export const appbarLinksState: TStateAppBar['items'] = [
     },
   },
   powerSignInLinkState
-]
+];
 
-export const authAppBarLinksState: TStateAppBar['items'] = [
+export const authAppBarLinksState: TStateAppbar['items'] = [
   {
     'has': {
       'text': 'Research',
@@ -45,9 +52,9 @@ export const authAppBarLinksState: TStateAppBar['items'] = [
     },
   },
   authenticatedLinkState
-]
+];
 
-Config.register('state', '44', $44_STATE_KEY)
+Config.register('state', '44', $44_STATE_KEY);
 /** Page state for development installation form. @id 44 */
 const devInstallPageState: TStatePage = {
   '_id': '44',
@@ -83,9 +90,9 @@ const devInstallPageState: TStatePage = {
       }
     ],
   },
-}
+};
 
-export default devInstallPageState
+export default devInstallPageState;
 
 /** Dark theme mode state page for development installation. @id 44 */
 export const $44DarkThemeMode: TStatePage = {
@@ -119,4 +126,51 @@ export const $44DarkThemeMode: TStatePage = {
       }
     ],
   },
+};
+
+/**
+ * Get the page state development, testing, and installation.
+ *
+ * @param usr user retrieved from the decode JWT token.
+ * @param mode theme mode
+ * @returns page state
+ * @id 44
+ */
+export function get_dev_install_page_state(usr?: TCipheredUser): TStatePage {
+  return {
+    ...devInstallPageState,
+    'appbar': {
+      ...devInstallPageState.appbar,
+      'items': [
+        ...(devInstallPageState.appbar 
+          && devInstallPageState.appbar.items
+          || []
+        ),
+        usr ? powerLogoutLinkState : powerSignInLinkState,
+      ]
+    },
+  };
+}
+
+/**
+ * [ __Dark themed__ ] page state for development and installation.
+ *
+ * @param usr user object decode from user token
+ * @returns page state
+ * @id 44
+ */
+export function get_44_dark_theme_mode (usr?: TCipheredUser): TStatePage {
+  return {
+    ...$44DarkThemeMode,
+    'appbar': {
+      ...$44DarkThemeMode.appbar,
+      'items': [
+        ...($44DarkThemeMode.appbar 
+          && $44DarkThemeMode.appbar.items
+          || []
+        ),
+        usr ? $66DarkThemeMode : $67DarkThemeMode,
+      ]
+    },
+  };
 }

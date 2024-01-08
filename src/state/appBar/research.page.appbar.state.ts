@@ -2,13 +2,13 @@ import {
   $63_STATE_KEY,
   THEME_LIGHT_APP_BAR_ICON_COLOR as ICON_COLOR,
 } from '../../constants'
-import { TStateAppBar } from '../../common.types'
+import { TStateAppbar } from '../../common.types'
 import Config from '../../config'
 import { powerSignInLinkState } from '../nav.link'
 
 Config.register('state', '63', $63_STATE_KEY)
 /** State for research page app bar. @id 63 */
-const researchPageAppBarState: TStateAppBar = {
+const researchPageAppBarState: TStateAppbar = {
   '_id': '63',
   '_key': $63_STATE_KEY,
   'appbarStyle': 'middle_search',
@@ -41,6 +41,6 @@ const researchPageAppBarState: TStateAppBar = {
 export default researchPageAppBarState
 
 /** Dark theme mode for research page app bar state. @id 63 */
-export const $63DarkThemeMode: TStateAppBar = {
+export const $63DarkThemeMode: TStateAppbar = {
   ...researchPageAppBarState,
 }

@@ -1,3 +1,4 @@
+import IFormChoices from '../../tuber-client/src/interfaces/IFormChoices';
 import {
   IJsonapiError,
   IJsonapiErrorLinks,
@@ -8,66 +9,88 @@ import {
   IJsonapiResource,
   IJsonapiResourceLinkage,
   IJsonapiResponse
-} from '../../tuber-client/src/interfaces/IJsonapi'
-import { INetState } from '../../tuber-client/src/interfaces/IState'
-import IStateAllDialogs from '../../tuber-client/src/interfaces/IStateAllDialogs'
-import IStateAllForms from '../../tuber-client/src/interfaces/IStateAllForms'
-import IStateAllPages from '../../tuber-client/src/interfaces/IStateAllPages'
-import IStateApp from '../../tuber-client/src/interfaces/IStateApp'
-import IStateAppBar from '../../tuber-client/src/interfaces/IStateAppBar'
-import IStateBackground from '../../tuber-client/src/interfaces/IStateBackground'
-import IStateDialog from '../../tuber-client/src/interfaces/IStateDialog'
-import { IStatePageDrawer } from '../../tuber-client/src/interfaces/IStateDrawer'
-import IStateForm from '../../tuber-client/src/interfaces/IStateForm'
-import IStateFormItem from '../../tuber-client/src/interfaces/IStateFormItem'
-import IStateLink from '../../tuber-client/src/interfaces/IStateLink'
-import IStatePage from '../../tuber-client/src/interfaces/IStatePage'
+} from '../../tuber-client/src/interfaces/IJsonapi';
+import { INetState } from '../../tuber-client/src/interfaces/IState';
+import IStateAllDialogs from '../../tuber-client/src/interfaces/IStateAllDialogs';
+import IStateAllForms from '../../tuber-client/src/interfaces/IStateAllForms';
+import IStateAllPages from '../../tuber-client/src/interfaces/IStateAllPages';
+import IStateApp from '../../tuber-client/src/interfaces/IStateApp';
+import IStateAppbar from '../../tuber-client/src/interfaces/IStateAppbar';
+import IStateBackground from '../../tuber-client/src/interfaces/IStateBackground';
+import IStateComponent from '../../tuber-client/src/interfaces/IStateComponent';
+import IStateDialog from '../../tuber-client/src/interfaces/IStateDialog';
+import { IStatePageDrawer } from '../../tuber-client/src/interfaces/IStateDrawer';
+import IStateForm from '../../tuber-client/src/interfaces/IStateForm';
+import IStateFormItem from '../../tuber-client/src/interfaces/IStateFormItem';
+import { IStateFormItemAdornment } from '../../tuber-client/src/interfaces/IStateFormItem';
+import IStateFormItemCustom from '../../tuber-client/src/interfaces/IStateFormItemCustom';
+import { IStateFormItemCheckboxBox } from '../../tuber-client/src/controllers/StateFormItemCheckboxBox';
+import { IStateFormItemInputProps } from '../../tuber-client/src/interfaces/IStateFormItem';
+import { IStateFormItemRadioButton } from '../../tuber-client/src/interfaces/IFormChoices';
+import IStateFormItemSelectOption from '../../tuber-client/src/interfaces/IStateFormItemSelectOption';
+import IStateFormItemSwitchToggle from '../../tuber-client/src/interfaces/IStateFormItemSwitchToggle';
+import { TStateFormItemType } from '../../tuber-client/src/interfaces/IStateFormItem';
+import IStateLink from '../../tuber-client/src/interfaces/IStateLink';
+import IStatePage from '../../tuber-client/src/interfaces/IStatePage';
+import IStateTypography from '../../tuber-client/src/interfaces/IStateTypography';
+
+export type TFormChoices = IFormChoices;
 
 /** `INetState` interface imported form client. */
-export type TNetState = INetState
-export type TStateApp = IStateApp
-export type TStateAllPages = IStateAllPages
-export type TStateAllForms = IStateAllForms
-export type TStateAllDialogs = IStateAllDialogs
-export type TStatePage = IStatePage
-export type TStateAppBar = IStateAppBar
-export type TStatePageDrawer = IStatePageDrawer
-export type TStateDialog<T=any> = IStateDialog<T>
-export type TStateForm = IStateForm
-export type TStateFormItem = IStateFormItem
-export type TStateLink<T=any> = IStateLink<T>
-export type TStateBackground = IStateBackground
-export type TIJsonapiError = IJsonapiError
-export type TJsonapiErrorLinks = IJsonapiErrorLinks
-export type TJsonapiErrorResponse = IJsonapiErrorResponse
-export type TJsonapiErrorSource = IJsonapiErrorSource
-export type TJsonapiLink = IJsonapiLink
-export type TJsonapiPaginationLinks = IJsonapiPaginationLinks
-export type TJsonapiResource<T=any> = IJsonapiResource<T>
-export type TJsonapiResourceLinkage = IJsonapiResourceLinkage
-export type TJsonapiResponse = IJsonapiResponse
+export type TNetState = INetState;
+export type TStateApp = IStateApp;
+export type TStateAllPages = IStateAllPages;
+export type TStateAllForms = IStateAllForms;
+export type TStateAllDialogs = IStateAllDialogs;
+export type TStatePage = IStatePage;
+export type TStateAppbar = IStateAppbar;
+export type TStatePageDrawer = IStatePageDrawer;
+export type TStateDialog<T=any> = IStateDialog<T>;
+export type TStateForm = IStateForm;
+export type TStateFormItem = IStateFormItem;
+export type TStateFormItemAdornment = IStateFormItemAdornment;
+export type TStateFormItemCustom<T=any> = IStateFormItemCustom<T>;
+export type TStateFormItemCheckboxBox = IStateFormItemCheckboxBox;
+export type TStateFormItemInputProps = IStateFormItemInputProps;
+export type TStateFormItemRadioButton = IStateFormItemRadioButton;
+export type TStateFormItemSelectOption = IStateFormItemSelectOption;
+export type TStateFormItemSwitchToggle = IStateFormItemSwitchToggle;
+export type TTStateFormItemType = TStateFormItemType;
+export type TStateLink<T=any> = IStateLink<T>;
+export type TStateBackground = IStateBackground;
+export type TStateComponent = IStateComponent;
+export type TIJsonapiError = IJsonapiError;
+export type TJsonapiErrorLinks = IJsonapiErrorLinks;
+export type TJsonapiErrorResponse = IJsonapiErrorResponse;
+export type TJsonapiErrorSource = IJsonapiErrorSource;
+export type TJsonapiLink = IJsonapiLink;
+export type TJsonapiPaginationLinks = IJsonapiPaginationLinks;
+export type TJsonapiResource<T=any> = IJsonapiResource<T>;
+export type TJsonapiResourceLinkage = IJsonapiResourceLinkage;
+export type TJsonapiResponse = IJsonapiResponse;
+export type TStateTypography = IStateTypography;
 
 /** @see https://stackoverflow.com/a/69328045/1875859 */
-export type WithRequired<T, K extends keyof T> = T & { [P in K]-?: T[P] }
+export type WithRequired<T, K extends keyof T> = T & { [P in K]-?: T[P] };
 
 /** Make properties optional */
-export type TOptional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
+export type TOptional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>;
 
 /**
  * Shallow mongoose document type that contains only the _doc property.
  * @see https://mongoosejs.com/docs/api/document.html#document_Document-_doc
  * @deprecated
  */
-export interface IMPV2Doc<T=any> { _doc: T }
+export interface IMPV2Doc<T=any> { _doc: T; }
 
 /** Shallow aggregate mongoose document that contains _id */
 export interface IAggregateDoc {
-  _id: string
-  __v: number
+  _id: string;
+  __v: number;
 }
 
 /** Names of collection endpoint */
-export type TEndpoint = 'users' | 'entries' | 'bookmarks' | 'tags' | 'authorizations'
+export type TEndpoint = 'users' | 'entries' | 'bookmarks' | 'tags' | 'authorizations';
 
 /**
  * Use when assigning values to object properties using a string as the key.  
@@ -77,23 +100,23 @@ export type TEndpoint = 'users' | 'entries' | 'bookmarks' | 'tags' | 'authorizat
  * obj['key'] = 'value'
  * ```
  */
-export interface IGenericObject<T=any> { [key: string]: T }
+export interface IGenericObject<T=any> { [key: string]: T; }
 
 /** Generic jsonapi query string */
 export interface IJsonapiQuerystring {
-  'page[number]'?: string
-  'page[size]'?: string
-  'query'?: string
-  'filter[is_published]'?: string
-  'filter[is_active]'?: string
-  'filter[search]'?: string
+  'page[number]'?: string;
+  'page[size]'?: string;
+  'query'?: string;
+  'filter[is_published]'?: string;
+  'filter[is_active]'?: string;
+  'filter[search]'?: string;
 
   // TODO Add more expected query strings
 }
 
 export interface IBootstrapResponse {
-  state: TNetState
-  meta: IGenericObject
+  state: TNetState;
+  meta: IGenericObject;
 }
 
 export type TPlatform = '_blank'
@@ -105,15 +128,15 @@ export type TPlatform = '_blank'
   | 'twitch'
   | 'facebook'
   | 'bitchute'
-  | 'unknown'
+  | 'unknown';
 
 export interface IStateMapEntry<T=any> {
-  state: T
-  clearance?: string
+  state: T;
+  clearance?: string;
 }
 
 export interface IStateMap {
-  [entry: string]: IStateMapEntry
+  [entry: string]: IStateMapEntry;
 }
 
-export type TThemeMode = 'light' | 'dark'
+export type TThemeMode = 'light' | 'dark';

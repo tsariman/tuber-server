@@ -1,0 +1,18 @@
+import { get_state_key as key } from '../business.logic';
+import { get_documents_count } from '.';
+import devInstallFormState from './form/dev.install.form.state';
+import { $46_STATE_KEY, $58_STATE_KEY } from '../constants';
+import Config from '../config';
+
+export default async function dev_get_pages_data_state () {
+  const pagesData: Record<string, any> = {};
+  const counts = await get_documents_count();
+  pagesData[key(devInstallFormState)] = counts;
+  pagesData[$46_STATE_KEY] = {
+    thumbnailUrl: `${Config.IMAGE_FOLDER}dev-thumbnail-test-placeholder.jpg`
+  };
+  pagesData[$58_STATE_KEY] = {
+    thumbnailUrl: `${Config.IMAGE_FOLDER}dev-thumbnail-test-placeholder.jpg`
+  };
+  return pagesData;
+}

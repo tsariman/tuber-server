@@ -207,7 +207,7 @@ export const $48_STATE_KEY = 'research-app-errors-view'
 export const $49_STATE_KEY = 'devSetAuthorizationKeyForm'
 /** Dev set authorization URL form state. @id 50 */
 export const $50_STATE_KEY = 'devSetAuthorizationUrlForm'
-/** Listing page state. @id 51 */
+/** Chipped listing page state. @id 51 */
 export const $51_STATE_KEY = 'listing/:id'
 export const $52_STATE_KEY = '<taken>'
 /** Admin readable page state. @id 53 */
@@ -244,3 +244,5 @@ export const $67_STATE_KEY = 'powerSignInLink'
 export const $68_STATE_KEY = 'confirmLogoutDialog'
 /** Register form state. @id 69 */
 export const $69_STATE_KEY = 'registerForm'
+/** Listing (research alias) */
+export const $70_STATE_KEY = 'listing'

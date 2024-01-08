@@ -3,37 +3,37 @@ import * as dotenv from 'dotenv'
 import { dbGetUrlCredentials, get_ip } from './utility'
 import Config, { IConfiguration } from './utility/configuration'
 
-dotenv.config({ path: `${__dirname}/../.env.app-config` })
+dotenv.config({ path: `${__dirname}/../.env.app-config` });
 
 interface IConfig {
-  NODE_ENV: string
-  DEV: boolean
-  DEBUG: boolean
-  DOMAIN: string
-  DEMO: boolean
-  FASTIFY_PORT: number
-  IMAGE_FOLDER: string
-  DB_REMOTE: boolean
-  DB_PROTOCOL: string
-  DB_PROD_NAME: string
-  DB_DEV_NAME: string
-  DB_USERNAME: string
-  DB_PASSWORD: string
-  DB_HOST: string
-  DB_PORT: string
-  DB_URI_QUERYSTRING: string
-  DB_ATLAS_API_PUBLIC_KEY: string
-  DB_ATLAS_API_PRIVATE_KEY: string
-  DB_ATLAS_PROJECT_ID: string
-  DB_ATLAS_CLUSTER_NAME: string
-  DB_ATLAS_API_BASE_URL: string
-  DB_ATLAS_BOOKMARK_SEARCH_INDEX_NAME: string
-  PWD_SALT_ROUNDS: number
-  PAGINATION_BOOKMARKS_LIMIT: string
-  PAGINATION_USERS_LIMIT: string
-  MAX_LOADED_BOOKMARK_PAGES: string
-  MAX_LOADED_USER_PAGES: string
-  DEFAULT_THEME_MODE: 'light' |  'dark'
+  NODE_ENV: string;
+  DEV: boolean;
+  DEBUG: boolean;
+  DOMAIN: string;
+  DEMO: boolean;
+  FASTIFY_PORT: number;
+  IMAGE_FOLDER: string;
+  DB_REMOTE: boolean;
+  DB_PROTOCOL: string;
+  DB_PROD_NAME: string;
+  DB_DEV_NAME: string;
+  DB_USERNAME: string;
+  DB_PASSWORD: string;
+  DB_HOST: string;
+  DB_PORT: string;
+  DB_URI_QUERYSTRING: string;
+  DB_ATLAS_API_PUBLIC_KEY: string;
+  DB_ATLAS_API_PRIVATE_KEY: string;
+  DB_ATLAS_PROJECT_ID: string;
+  DB_ATLAS_CLUSTER_NAME: string;
+  DB_ATLAS_API_BASE_URL: string;
+  DB_ATLAS_BOOKMARK_SEARCH_INDEX_NAME: string;
+  PWD_SALT_ROUNDS: number;
+  PAGINATION_BOOKMARKS_LIMIT: string;
+  PAGINATION_USERS_LIMIT: string;
+  MAX_LOADED_BOOKMARK_PAGES: string;
+  MAX_LOADED_USER_PAGES: string;
+  DEFAULT_THEME_MODE: 'light' |  'dark';
 }
 
 /** TODO Configure the app here. */
@@ -97,9 +97,7 @@ const USER_CONFIG: IConfig = {
    */
   DB_ATLAS_BOOKMARK_SEARCH_INDEX_NAME:
     process.env.DB_ATLAS_BOOKMARK_SEARCH_INDEX_NAME
-    ?? ''
-  ,
-
+    ?? '',
   /**
    * The cost factor. It controls how much time is needed to calculate a single
    * BCrypt hash.
@@ -119,12 +117,10 @@ const USER_CONFIG: IConfig = {
   MAX_LOADED_USER_PAGES: process.env.MAX_LOADED_USER_PAGES || '4',
   /** Current theme mode */
   DEFAULT_THEME_MODE: 'dark',
-}
-
-interface IGenericObject { [key: string]: any }
+};
 
 const USER_CACHE = new NodeCache({ stdTTL: Number(process.env.STDTTL) || 900 })
-const STATE_REGISTRY: IGenericObject = {}
+const STATE_REGISTRY: Record<string, any> = {}
 
 const initObj = {
   ...USER_CONFIG,
@@ -238,11 +234,11 @@ const initObj = {
       return STATE_REGISTRY
     }
   },
-}
+};
 
-Config.init(initObj)
+Config.init(initObj);
 
 // Makes config object key available in suggestions
-export type TAppConfig = IConfiguration & typeof initObj
+export type TAppConfig = IConfiguration & typeof initObj;
 
-export default Config as TAppConfig
+export default Config as TAppConfig;

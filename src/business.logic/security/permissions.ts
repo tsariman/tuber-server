@@ -1,6 +1,6 @@
-import { TThemeMode } from '../../common.types'
+import { TThemeMode } from '../../common.types';
 
-export type TRole = 'owner' | 'developer' | 'administrator' | 'moderator' | 'user'
+export type TRole = 'owner' | 'developer' | 'administrator' | 'moderator' | 'user';
 
 export const ROLE_CLEARANCE_LEVEL: Record<TRole, number> = {
   owner: 7,
@@ -8,7 +8,7 @@ export const ROLE_CLEARANCE_LEVEL: Record<TRole, number> = {
   administrator: 5,
   moderator: 4,
   user: 1
-}
+};
 
 export const PERMISSIONS = {
   GET_USERS_ALL: 'get_users_all',
@@ -35,9 +35,9 @@ export const PERMISSIONS = {
   DELETE_USERS_MODERATOR: 'delete_users_moderator',
   DELETE_USERS_USER: 'delete_users_user',
   DELETE_USERS_SELF: 'delete_users_self',
-}
+};
 
-export type TPermission = keyof typeof PERMISSIONS
+export type TPermission = keyof typeof PERMISSIONS;
 
 export const PERMISSIONS_LEVEL: {[key in TPermission]: number} = {
   GET_USERS_ALL: 4,
@@ -64,7 +64,7 @@ export const PERMISSIONS_LEVEL: {[key in TPermission]: number} = {
   DELETE_USERS_MODERATOR: 5,
   DELETE_USERS_USER: 4,
   DELETE_USERS_SELF: 1,
-}
+};
 
 export interface ISignInCredentials {
   Body: {
@@ -77,8 +77,8 @@ export interface ISignInCredentials {
     mode?: TThemeMode
     cookie?: string
   }
-}
+};
 
 export const has_permission = (permission: TPermission, role: TRole) => {
   return PERMISSIONS_LEVEL[permission] <= ROLE_CLEARANCE_LEVEL[role]
-}
+};
