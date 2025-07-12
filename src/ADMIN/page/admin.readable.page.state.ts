@@ -1,8 +1,8 @@
-import { TStatePage } from '../../common.types'
-import Config from '../../config'
-import { $53_STATE_KEY } from '../../constants'
+import { TStatePage } from '../../common.types';
+import Config from '../../config';
+import { $53_STATE_KEY } from '../../constants';
 
-Config.register('state', '53', $53_STATE_KEY)
+Config.register('state', '53', $53_STATE_KEY);
 /** @id 53 */
 const adminReadablePageState: TStatePage = {
   '_id': '53',
@@ -42,10 +42,10 @@ const adminReadablePageState: TStatePage = {
     }
   },
   'hideDrawer': true
-}
+};
 
-export default adminReadablePageState
+export default adminReadablePageState;
 
 export const $53DarkThemeMode: TStatePage = {
   ...adminReadablePageState,
-}
+};

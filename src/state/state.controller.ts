@@ -1,5 +1,5 @@
 import { FastifyInstance } from 'fastify'
-import { DEFAULT_OPTIONS } from '../middleware/router.option'
+import { DEFAULT_ROUTE_OPTIONS } from '../middleware/router.option'
 import post_state_pages_endpoint from './endpoint/post.state.pages.ep'
 import post_state_forms_endpoint from './endpoint/post.state.forms.ep'
 import post_state_dialogs_endpoint from './endpoint/post.state.dialogs.ep'
@@ -11,8 +11,8 @@ export interface IStatePost {
 }
 
 const opts = {
-  ...DEFAULT_OPTIONS,
-} as typeof DEFAULT_OPTIONS
+  ...DEFAULT_ROUTE_OPTIONS,
+} as typeof DEFAULT_ROUTE_OPTIONS
 
 export default async function state_controller(fastify: FastifyInstance) {
   /**

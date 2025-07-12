@@ -1,14 +1,15 @@
-import { TStateForm } from '../../common.types'
-import Config from '../../config'
+import { TBootstrapState } from 'src/state/_state.common.types';
+import { TStateForm } from '../../common.types';
+import Config from '../../config';
 import {
   $45_STATE_KEY,
   $46_STATE_KEY,
   THEME_DARK_PAPER_COLOR,
   THEME_LIGHT_PAPER_COLOR
-} from '../../constants'
+} from '../../constants';
 
-Config.register('state', '45', $45_STATE_KEY)
-/** @id 45 */
+Config.register('state', '45', $45_STATE_KEY);
+/** @id 45 @deprecated */
 const devTestThumbnailFormState: TStateForm = {
   '_type': 'box',
   '_id': '45',
@@ -58,14 +59,31 @@ const devTestThumbnailFormState: TStateForm = {
       }
     }
   ]
-}
+};
 
-export default devTestThumbnailFormState
+export default devTestThumbnailFormState;
 
+/** @deprecated */
 export const $45DarkThemeMode = {
   ...devTestThumbnailFormState,
   'paperProps': {
     ...devTestThumbnailFormState.paperProps,
     'sx': { 'backgroundColor': THEME_DARK_PAPER_COLOR }
   },
-} as TStateForm
+} as TStateForm;
+
+export const dev_test_thumbnail_form_state = {
+
+  [$45_STATE_KEY]: devTestThumbnailFormState,
+
+  // TODO - Insert more form states here.
+
+} as TBootstrapState<TStateForm>;
+
+export const dev_test_thumbnail_form_state_dark = {
+
+  [$45_STATE_KEY]: $45DarkThemeMode,
+
+  // TODO - Insert more form states (dark themed) here.
+
+} as TBootstrapState<TStateForm>;

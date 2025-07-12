@@ -1,8 +1,9 @@
-import { TStateForm } from '../../common.types'
-import Config from '../../config'
-import * as C from '../../constants'
+import { r } from 'src/business.logic';
+import { TStateForm } from '../../common.types';
+import Config from '../../config';
+import * as C from '../../constants';
 
-Config.register('state', '29', C.$29_STATE_KEY)
+Config.register('state', '29', C.$29_STATE_KEY);
 /** Form for editing an existing unknown platform video bookmark @id 29 */
 const editUnknownBookmarkFormState = {
   '_id': '29',
@@ -15,7 +16,7 @@ const editUnknownBookmarkFormState = {
         {
           'type': 'textfield',
           'name': 'url',
-          'label': 'Video URL',
+          'label': r('146', 'Video URL'),
           'props': {
             'fullWidth': true,
             'variant': 'filled'
@@ -25,7 +26,7 @@ const editUnknownBookmarkFormState = {
         {
           'type': 'textfield',
           'name': 'embed_url',
-          'label': 'Embed IFRAME URL',
+          'label': r('147', 'Embed IFRAME URL'),
           'props': {
             'fullWidth': true,
             'variant': 'filled'
@@ -35,7 +36,7 @@ const editUnknownBookmarkFormState = {
         {
           'type': 'textfield',
           'name': 'thumbnail_url',
-          'label': 'Thumbnail URL',
+          'label': r('148', 'Thumbnail URL'),
           'props': {
             'fullWidth': true,
             // 'variant': 'filled'
@@ -43,34 +44,34 @@ const editUnknownBookmarkFormState = {
           // 'inputProps': { 'readOnly': true },
           'has': {
             'required': true,
-            'requiredMessage': 'Where did that thumbnail URL go?',
+            'requiredMessage': r('149', 'Where did that thumbnail URL go?'),
           }
         },
         {
           'type': 'textfield',
           'name': 'title',
-          'label': 'TItle',
+          'label': r('150', 'Title'),
           'props': {
             'fullWidth': true
           },
           'has': {
             'required': true,
-            'requiredMessage': C.TITLE_REQUIRED_MESSAGE,
-            'maxLength': C.TITLE_MAX_LENGTH,
-            'maxLengthMessage': C.TITLE_MAX_LENGTH_MESSAGE
+            'requiredMessage': r('151', C.TITLE_REQUIRED_MESSAGE),
+            'maxLength': r('152', C.TITLE_MAX_LENGTH),
+            'maxLengthMessage': r('153', C.TITLE_MAX_LENGTH_MESSAGE)
           }
         },
         {
           'type': 'textarea',
           'name': 'note',
-          'label': 'Note',
+          'label': r('154', 'Note'),
           'props': {
             'multiline': true,
-            'rows': C.NOTE_FIELD_ROWS
+            'rows': r('155', C.NOTE_FIELD_ROWS)
           },
           'has': {
-            'maxLength': C.NOTE_MAX_LENGTH,
-            'maxLengthMessage': C.NOTE_MAX_LENGTH_MESSAGE
+            'maxLength': r('156', C.NOTE_MAX_LENGTH),
+            'maxLengthMessage': r('157', C.NOTE_MAX_LENGTH_MESSAGE)
           }
         }
       ]

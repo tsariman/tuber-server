@@ -1,12 +1,12 @@
-import Config from '../../config'
+import Config from '../../config';
 import {
   $36_STATE_KEY,
   $38_STATE_KEY,
   THEME_LIGHT_BACKGROUND_COLOR,
   THEME_DARK_DIALOG_BACKGROUND_COLOR
-} from '../../constants'
-import { remove_form_suffix } from '../../business.logic'
-import { TStateDialog } from '../../common.types'
+} from '../../constants';
+import { r, remove_form_suffix } from '../../business.logic';
+import { TStateDialog } from '../../common.types';
 
 Config.register('state', '36', $36_STATE_KEY)
 /** Dialog to create a new Twitch video bookmark @id 36 */
@@ -14,7 +14,7 @@ const newTwitchBookmarkDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '36',
   '_key': $36_STATE_KEY,
-  'title': 'Insert New Twitch Bookmark',
+  'title': r('64', 'Insert New Twitch Bookmark'),
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
@@ -31,7 +31,7 @@ const newTwitchBookmarkDialogState: TStateDialog = {
       'type': 'state_button',
       'props': { 'color': 'secondary' },
       'has': {
-        'text': 'Cancel',
+        'text': r('65', 'Cancel'),
         'onclickHandle': 'tuberCallbacks.defaultClose'
       }
     },
@@ -39,15 +39,15 @@ const newTwitchBookmarkDialogState: TStateDialog = {
       'type': 'state_button',
       'props': { 'color': 'primary' },
       'has': {
-        'text': 'Save',
+        'text': r('66', 'Save'),
         'onclickHandle': 'tuberCallbacks.$36_C_1'
       }
     }
   ],
   'open': true
-}
+};
 
-export default newTwitchBookmarkDialogState
+export default newTwitchBookmarkDialogState;
 
 /**
  * Dark theme mode for form state to create a new Twitch video bookmark.
@@ -62,4 +62,4 @@ export const $36DarkThemeMode: TStateDialog = {
       'sx': { 'backgroundColor': THEME_DARK_DIALOG_BACKGROUND_COLOR }
     }
   }
-}
+};

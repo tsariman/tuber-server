@@ -17,7 +17,7 @@ export default class FormItemTextfieldStateBuilder
     super(state);
     this.$state.type = 'textfield';
   }
-  /** Not needed for an input instance. @returns this. */
+  /** **DO NOT USE.** Not needed for a textfield instance. @returns this. */
   withType(): this { return this.die('Method not implemented.', this); }
   /**
    * Set the input label.
@@ -190,6 +190,16 @@ export default class FormItemTextfieldStateBuilder
    */
   withInputProps(props: TStateFormItemInputProps): this {
     this.$state.inputProps = props;
+    return this;
+  }
+  /**
+   * Set the input field to read only.
+   * @param props 
+   * @returns this.
+   */
+  isReadOnly(): this {
+    this.$state.inputProps = this.$state.inputProps || {};
+    (this.$state.inputProps as any).readOnly = true; // Silly hack!
     return this;
   }
 }

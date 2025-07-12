@@ -2,9 +2,9 @@ import {
   $48_STATE_KEY,
   $66_STATE_KEY,
   $67_STATE_KEY
-} from '../../constants'
-import { TStateLink } from '../../common.types'
-import Config from '../../config'
+} from '../../constants';
+import { TStateLink } from '../../common.types';
+import Config from '../../config';
 
 export const homeLinkState: TStateLink = {
   'has': {

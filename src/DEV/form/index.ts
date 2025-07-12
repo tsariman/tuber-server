@@ -61,6 +61,7 @@ export function dev_bootstrap_forms_dark_state() {
   return forms;
 }
 
+/** @deprecated */
 export const DEV_STATE_FORM_THEME_DARK: TStateAllForms = {
   [C.$45_STATE_KEY]: $45DarkThemeMode,
   [C.$47_STATE_KEY]: $47DarkThemeMode,
@@ -72,6 +73,7 @@ export const DEV_STATE_FORM_THEME_DARK: TStateAllForms = {
   [C.$62_STATE_KEY]: $62DarkThemeMode,
 };
 
+/** @deprecated */
 const DEV_STATE_FORM: TStateAllForms = {
   [C.$45_STATE_KEY]: devTestThumbnailFormState,
   [C.$47_STATE_KEY]: devInstallFormState,

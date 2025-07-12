@@ -1,0 +1,800 @@
+# Sources:
+# https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes
+# https://www.fincher.org/Utilities/CountryLanguageList.shtml
+
+countries:
+  - name: Afghanistan
+    language_code:
+    - fa
+    - fa
+    - uz
+  - name: Albania
+    language_code:
+    - sq
+    - en
+  - name: Algeria
+    language_code:
+    - ar
+    - fr
+  - name: Andorra
+    language_code:
+    - ca
+    - en
+  - name: Angola
+    language_code:
+    - pt
+  - name: Argentina
+    language_code:
+    - es
+    - en
+  - name: Armenia
+    language_code:
+    - hy
+  - name: Australia
+    language_code:
+    - en
+  - name: Austria
+    language_code:
+    - de
+    - en
+  - name: Azerbaijan
+    language_code:
+    - az
+  - name: Bahamas
+    language_code:
+    - en
+    - es
+  - name: Bahrain
+    language_code:
+    - ar
+  - name: Bangladesh
+    language_code:
+    - bn
+    - en
+  - name: Barbados
+    language_code:
+    - en
+  - name: Belarus
+    language_code:
+    - be
+    - ru
+  - name: Belgium
+    language_code:
+    - nl
+    - en
+    - fr
+    - de
+    - wa
+  - name: Belize
+    language_code:
+    - en
+    - es
+  - name: Benin
+    language_code:
+    - fr
+    - yo
+  - name: Bhutan
+    language_code:
+    - dz
+  - name: Bolivia
+    language_code:
+    - es
+    - qu
+  - name: Bosnia and Herzegovina
+    language_code:
+    - bs
+    - hr
+    - en
+    - sr
+  - name: Botswana
+    language_code:
+    - en
+    - tn
+  - name: Brazil
+    language_code:
+    - pt
+    - en
+    - es
+  - name: Brunei
+    language_code:
+    - ms
+  - name: Bulgaria
+    language_code:
+    - bg
+    - en
+  - name: Burkina Faso
+    language_code:
+    - fr
+    - ff
+  - name: Burundi
+    language_code:
+    - fr
+    - en
+    - rn
+  - name: Cambodia
+    language_code:
+    - km
+  - name: Cameroon
+    language_code:
+    - fr
+    - km
+    - en
+    - ff
+  - name: Canada
+    language_code:
+    - en
+    - fr
+    - iu
+  - name: Cape Verde
+    language_code:
+    - pt
+  - name: Central African Republic
+    language_code:
+    - fr
+    - ln
+    - sg
+  - name: Chad
+    language_code:
+    - fr
+    - ar
+  - name: Chile
+    language_code:
+    - es
+    - en
+  - name: China
+    language_code:
+    - zh
+    - en
+    - ii
+    - bo
+    - ug
+  - name: Colombia
+    language_code:
+    - es
+    - en
+  - name: Comoros
+    language_code:
+    - ar
+    - fr
+  - name: Congo
+    language_code:
+    - fr
+    - ln
+    - lu
+    - sw
+  - name: Costa Rica
+    language_code:
+    - es
+  - name: Croatia
+    language_code:
+    - hr
+    - en
+  - name: Cuba
+    language_code:
+    - es
+  - name: Cyprus
+    language_code:
+    - el
+    - tr
+  - name: Czech Republic
+    language_code:
+    - cs
+    - en
+  - name: Denmark
+    language_code:
+    - da
+    - en
+    - fo
+  - name: Djibouti
+    language_code:
+    - fr
+    - ar
+    - so
+  - name: Dominica
+    language_code:
+    - en
+    - es
+  - name: Dominican Republic
+    language_code:
+    - es
+  - name: East Timor
+    language_code:
+    - pt
+  - name: Ecuador
+    language_code:
+    - es
+    - qu
+  - name: Egypt
+    language_code:
+    - ar
+  - name: El Salvador
+    language_code:
+    - es
+  - name: Equatorial Guinea
+    language_code:
+    - es
+    - fr
+    - pt
+  - name: Eritrea
+    language_code:
+    - ti
+    - ar
+    - en
+  - name: Estonia
+    language_code:
+    - et
+    - en
+  - name: Eswatini
+    language_code:
+    - en
+    - ss
+  - name: Ethiopia
+    language_code:
+    - am
+    - om
+    - so
+    - ti
+  - name: Fiji
+    language_code:
+    - en
+  - name: Finland
+    language_code:
+    - fi
+    - se
+    - sv
+  - name: France
+    language_code:
+    - fr
+    - br
+    - ca
+    - en
+    - oc
+    - pt
+  - name: Gabon
+    language_code:
+    - fr
+  - name: Gambia
+    language_code:
+    - en
+    - ff
+  - name: Georgia
+    language_code:
+    - ka
+    - os
+  - name: Germany
+    language_code:
+    - de
+    - en
+  - name: Ghana
+    language_code:
+    - en
+    - ak
+    - ee
+    - ff
+    - ha
+  - name: Greece
+    language_code:
+    - el
+    - en
+  - name: Grenada
+    language_code:
+    - en
+    - es
+  - name: Guatemala
+    language_code:
+    - es
+  - name: Guinea
+    language_code:
+    - fr
+    - ff
+  - name: Guinea-Bissau
+    language_code:
+    - pt
+    - ff
+  - name: Guyana
+    language_code:
+    - en
+    - es
+  - name: Haiti
+    language_code:
+    - ht
+    - fr
+    - es
+  - name: Honduras
+    language_code:
+    - es
+  - name: Hungary
+    language_code:
+    - hu
+    - en
+  - name: Iceland
+    language_code:
+    - is
+    - en
+  - name: India
+    language_code:
+    - hi
+    - as
+    - en
+    - gu
+    - hi
+    - kn
+    - ks
+    - ml
+    - mr
+    - ne
+    - or
+    - pa
+    - sa
+    - ta
+    - te
+    - bo
+    - ur
+  - name: Indonesia
+    language_code:
+    - id
+    - en
+    - jv
+  - name: Iran
+    language_code:
+    - fa
+  - name: Iraq
+    language_code:
+    - ar
+  - name: Ireland
+    language_code:
+    - en
+    - ga
+  - name: Israel
+    language_code:
+    - he
+    - en
+    - ar
+    - he
+  - name: Italy
+    language_code:
+    - it
+    - ca
+    - en
+    - de
+    - sc
+  - name: Jamaica
+    language_code:
+    - en
+  - name: Japan
+    language_code:
+    - ja
+    - en
+  - name: Jordan
+    language_code:
+    - ar
+  - name: Kazakhstan
+    language_code:
+    - kk
+    - ru
+  - name: Kenya
+    language_code:
+    - sw
+    - en
+    - ki
+    - om
+  - name: Kiribati
+    language_code:
+    - en
+  - name: Korea, North
+    language_code:
+    - ko
+  - name: Korea, South
+    language_code:
+    - ko
+  - name: Kuwait
+    language_code:
+    - ar
+  - name: Kyrgyzstan
+    language_code:
+    - ky
+  - name: Laos
+    language_code:
+    - lo
+  - name: Latvia
+    language_code:
+    - lv
+  - name: Lebanon
+    language_code:
+    - ar
+  - name: Lesotho
+    language_code:
+    - en
+  - name: Liberia
+    language_code:
+    - en
+  - name: Libya
+    language_code:
+    - ar
+  - name: Liechtenstein
+    language_code:
+    - de
+  - name: Lithuania
+    language_code:
+    - lt
+  - name: Luxembourg
+    language_code:
+    - lb
+  - name: Madagascar
+    language_code:
+    - fr
+  - name: Malawi
+    language_code:
+    - en
+    - ny
+  - name: Malaysia
+    language_code:
+    - ms
+    - en
+    - ta
+  - name: Maldives
+    language_code:
+    - dv
+    - en
+  - name: Mali
+    language_code:
+    - fr
+    - bm
+  - name: Malta
+    language_code:
+    - mt
+    - en
+  - name: Marshall Islands
+    language_code:
+    - en
+  - name: Mauritania
+    language_code:
+    - ar
+    - ff
+  - name: Mauritius
+    language_code:
+    - en
+    - fr
+  - name: Mexico
+    language_code:
+    - es
+  - name: Micronesia
+    language_code:
+    - en
+  - name: Moldova
+    language_code:
+    - ro
+    - ru
+  - name: Monaco
+    language_code:
+    - fr
+  - name: Mongolia
+    language_code:
+    - mn
+  - name: Montenegro
+    language_code:
+    - sr
+    - en
+  - name: Morocco
+    language_code:
+    - ar
+    - fr
+  - name: Mozambique
+    language_code:
+    - pt
+  - name: Myanmar
+    language_code:
+    - my
+    - en
+  - name: Namibia
+    language_code:
+    - en
+    - af
+  - name: Nauru
+    language_code:
+    - en
+  - name: Nepal
+    language_code:
+    - ne
+  - name: Netherlands
+    language_code:
+    - nl
+    - en
+    - fy
+  - name: New Zealand
+    language_code:
+    - en
+    - mi
+  - name: Nicaragua
+    language_code:
+    - es
+  - name: Niger
+    language_code:
+    - fr
+    - ha
+  - name: Nigeria
+    language_code:
+    - en
+    - ff
+    - ha
+    - ig
+    - yo
+  - name: North Macedonia
+    language_code:
+    - mk
+    - sq
+  - name: Norway
+    language_code:
+    - no
+    - en
+    - se
+    - nb
+    - nn
+  - name: Oman
+    language_code:
+    - ar
+  - name: Pakistan
+    language_code:
+    - ur
+    - en
+    - ps
+    - pa
+    - sd
+  - name: Palau
+    language_code:
+    - en
+  - name: Panama
+    language_code:
+    - es
+  - name: Papua New Guinea
+    language_code:
+    - en
+  - name: Paraguay
+    language_code:
+    - es
+    - gn
+  - name: Peru
+    language_code:
+    - es
+    - qu
+  - name: Philippines
+    language_code:
+    - tl
+    - en
+    - es
+  - name: Poland
+    language_code:
+    - pl
+    - en
+  - name: Portugal
+    language_code:
+    - pt
+    - en
+  - name: Qatar
+    language_code:
+    - ar
+  - name: Romania
+    language_code:
+    - ro
+    - en
+  - name: Russia
+    language_code:
+    - ru
+    - ba
+    - ce
+    - cv
+    - en
+    - os
+    - tt
+  - name: Rwanda
+    language_code:
+    - rw
+    - en
+    - fr
+  - name: Saint Kitts and Nevis
+    language_code:
+    - en
+  - name: Saint Lucia
+    language_code:
+    - en
+  - name: Saint Vincent and the Grenadines
+    language_code:
+    - en
+  - name: Samoa
+    language_code:
+    - sm
+    - en
+  - name: San Marino
+    language_code:
+    - it
+  - name: Sao Tome and Principe
+    language_code:
+    - pt
+  - name: Saudi Arabia
+    language_code:
+    - ar
+    - en
+  - name: Senegal
+    language_code:
+    - fr
+    - ff
+    - wo
+  - name: Serbia
+    language_code:
+    - sr
+    - en
+  - name: Seychelles
+    language_code:
+    - fr
+    - en
+  - name: Sierra Leone
+    language_code:
+    - en
+    - ff
+  - name: Singapore
+    language_code:
+    - en
+    - zh
+    - ms
+    - ta
+  - name: Slovakia
+    language_code:
+    - sk
+    - en
+  - name: Slovenia
+    language_code:
+    - sl
+    - en
+  - name: Solomon Islands
+    language_code:
+    - en
+  - name: Somalia
+    language_code:
+    - so
+    - ar
+  - name: South Africa
+    language_code:
+    - af
+    - en
+    - nr
+    - st
+    - ss
+    - ts
+    - tn
+    - ve
+    - xh
+    - zu
+  - name: South Sudan
+    language_code:
+    - en
+  - name: Spain
+    language_code:
+    - es
+    - eu
+    - ca
+    - en
+  - name: Sri Lanka
+    language_code:
+    - si
+    - ta
+  - name: Sudan
+    language_code:
+    - ar
+    - en
+  - name: Suriname
+    language_code:
+    - nl
+    - es
+  - name: Sweden
+    language_code:
+    - sv
+    - en
+    - se
+  - name: Switzerland
+    language_code:
+    - de
+    - en
+    - fr
+    - it
+    - pt
+    - rm
+  - name: Syria
+    language_code:
+    - ar
+    - fr
+  - name: Taiwan
+    language_code:
+    - zh
+    - en
+  - name: Tajikistan
+    language_code:
+    - tg
+  - name: Tanzania
+    language_code:
+    - sw
+    - en
+  - name: Thailand
+    language_code:
+    - th
+    - en
+  - name: Togo
+    language_code:
+    - fr
+  - name: Tonga
+    language_code:
+    - to
+    - en
+  - name: Trinidad and Tobago
+    language_code:
+    - en
+    - es
+  - name: Tunisia
+    language_code:
+    - ar
+    - fr
+  - name: Turkey
+    language_code:
+    - tr
+    - en
+    - ku
+  - name: Turkmenistan
+    language_code:
+    - tk
+  - name: Tuvalu
+    language_code:
+    - en
+  - name: Uganda
+    language_code:
+    - en
+    - lg
+    - sw
+  - name: Ukraine
+    language_code:
+    - uk
+    - ru
+    - en
+  - name: United Arab Emirates
+    language_code:
+    - ar
+    - en
+  - name: United Kingdom
+    language_code:
+    - en
+    - kw
+    - gd
+    - cy
+  - name: United States
+    language_code:
+    - en
+    - es
+  - name: Uruguay
+    language_code:
+    - es
+  - name: Uzbekistan
+    language_code:
+    - uz
+  - name: Vanuatu
+    language_code:
+    - bi
+    - en
+    - fr
+  - name: Vatican City
+    language_code:
+    - it
+  - name: Venezuela
+    language_code:
+    - es
+  - name: Vietnam
+    language_code:
+    - vi
+  - name: Yemen
+    language_code:
+    - ar
+  - name: Zambia
+    language_code:
+    - en
+  - name: Zimbabwe
+    language_code:
+    - en
+    - nd
+    - sn

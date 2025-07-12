@@ -1,8 +1,9 @@
-import { TStateForm } from '../../common.types'
-import Config from '../../config'
-import * as C from '../../constants'
+import { r } from 'src/business.logic';
+import { TStateForm } from '../../common.types';
+import Config from '../../config';
+import * as C from '../../constants';
 
-Config.register('state', '12', C.$12_STATE_KEY)
+Config.register('state', '12', C.$12_STATE_KEY);
 /** Form for creating a new Vimeo video bookmark @id 12 */
 const newVimeoBookmarkFormState = {
   '_id': '12',
@@ -22,7 +23,7 @@ const newVimeoBookmarkFormState = {
             {
               'type': 'number',
               'name': 'start_seconds',
-              'label': 'Start',
+              'label': r('252', 'Start'),
               'props': {
                 'sx': { 'width': 240 },
                 'variant': 'filled'
@@ -30,13 +31,13 @@ const newVimeoBookmarkFormState = {
               'inputProps': { 'readOnly': true },
               'has': {
                 'required': true,
-                'requiredMessage': C.START_SECONDS_REQUIRED_MESSAGE,
+                'requiredMessage': r('253', C.START_SECONDS_REQUIRED_MESSAGE),
               }
             },
             {
               'type': 'textfield',
               'name': 'videoid',
-              'label': 'Video ID',
+              'label': r('254', 'Video ID'),
               'props': {
                 'fullWidth': true,
                 'variant': 'filled'
@@ -46,7 +47,7 @@ const newVimeoBookmarkFormState = {
             {
               'type': 'textfield',
               'name': 'platform',
-              'label': 'Platform',
+              'label': r('255', 'Platform'),
               'props': {
                 'sx': { 'width': 240 },
                 'variant': 'filled'
@@ -58,38 +59,38 @@ const newVimeoBookmarkFormState = {
         {
           'type': 'textfield',
           'name': 'title',
-          'label': 'Title',
+          'label': r('256', 'Title'),
           'props': {
             'fullWidth': true
           },
           'has': {
             'required': true,
-            'requiredMessage': C.TITLE_REQUIRED_MESSAGE,
+            'requiredMessage': r('257', C.TITLE_REQUIRED_MESSAGE),
             'maxLength': C.TITLE_MAX_LENGTH,
-            'maxLengthMessage': C.TITLE_MAX_LENGTH_MESSAGE,
+            'maxLengthMessage': r('258', C.TITLE_MAX_LENGTH_MESSAGE),
           }
         },
         {
           'type': 'textarea',
           'name': 'note',
-          'label': 'Note',
+          'label': r('259', 'Note'),
           'props': {
             'multiline': true,
             'rows': C.NOTE_FIELD_ROWS
           },
           'has': {
             'maxLength': C.NOTE_MAX_LENGTH,
-            'maxLengthMessage': C.NOTE_MAX_LENGTH_MESSAGE,
+            'maxLengthMessage': r('260', C.NOTE_MAX_LENGTH_MESSAGE),
           }
         }
       ]
     },
   ]
-} as TStateForm
+} as TStateForm;
 
-export default newVimeoBookmarkFormState
+export default newVimeoBookmarkFormState;
 
 export const $12DarkThemeMode = {
   ...newVimeoBookmarkFormState,
   // TODO - add dark theme mode overrides here
-} as TStateForm
+} as TStateForm;

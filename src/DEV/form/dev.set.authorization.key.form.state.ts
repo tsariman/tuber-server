@@ -2,12 +2,13 @@ import {
   $49_STATE_KEY,
   THEME_DARK_PAPER_COLOR,
   THEME_LIGHT_PAPER_COLOR
-} from '../../constants'
-import Config from '../../config'
-import { TStateForm } from '../../common.types'
+} from '../../constants';
+import Config from '../../config';
+import { TStateForm } from '../../common.types';
+import { TBootstrapState } from 'src/state/_state.common.types';
 
-Config.register('state', '49', $49_STATE_KEY)
-/** @id 49 */
+Config.register('state', '49', $49_STATE_KEY);
+/** @id 49 @deprecated */
 const devSetAuthorizationKeyFormState: TStateForm = {
   '_id': '49',
   '_key': $49_STATE_KEY,
@@ -79,14 +80,31 @@ const devSetAuthorizationKeyFormState: TStateForm = {
       }
     },
   ]
-}
+};
 
-export default devSetAuthorizationKeyFormState
+export default devSetAuthorizationKeyFormState;
 
+/** @deprecated */
 export const $49DarkThemeMode = {
   ...devSetAuthorizationKeyFormState,
   'paperProps': {
     ...devSetAuthorizationKeyFormState.paperProps,
     'sx': { 'backgroundColor': THEME_DARK_PAPER_COLOR }
   },
-} as TStateForm
+} as TStateForm;
+
+export const dev_set_authorization_key_form_state = {
+
+  [$49_STATE_KEY]: devSetAuthorizationKeyFormState,
+
+  // TODO - Insert more form states here.
+
+} as TBootstrapState<TStateForm>;
+
+export const dev_set_authorization_key_form_state_dark = {
+
+  [$49_STATE_KEY]: $49DarkThemeMode,
+
+  // TODO - Insert more form states (dark themed) here.
+
+} as TBootstrapState<TStateForm>;

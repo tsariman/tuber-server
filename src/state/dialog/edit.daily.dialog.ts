@@ -1,20 +1,20 @@
-import Config from '../../config'
+import Config from '../../config';
 import {
   $20_STATE_KEY,
   $22_STATE_KEY,
   THEME_DARK_DIALOG_BACKGROUND_COLOR,
   THEME_LIGHT_BACKGROUND_COLOR
-} from '../../constants'
-import { remove_form_suffix } from '../../business.logic'
-import { TStateDialog } from '../../common.types'
+} from '../../constants';
+import { r, remove_form_suffix } from '../../business.logic';
+import { TStateDialog } from '../../common.types';
 
-Config.register('state', '22', $22_STATE_KEY)
+Config.register('state', '22', $22_STATE_KEY);
 /** Dialog to edit an existing Dailymotion video bookmark @id 22 */
 const editDailyBookmarkDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '22',
   '_key': $22_STATE_KEY,
-  'title': 'Edit Dailymotion Bookmark',
+  'title': r('9', 'Edit Dailymotion Bookmark'),
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
@@ -31,7 +31,7 @@ const editDailyBookmarkDialogState: TStateDialog = {
       'type': 'state_button',
       'props': { 'color': 'secondary' },
       'has': {
-        'text': 'Cancel',
+        'text': r('10', 'Cancel'),
         'onclickHandle': 'tuberCallbacks.defaultClose'
       }
     },
@@ -39,15 +39,15 @@ const editDailyBookmarkDialogState: TStateDialog = {
       'type': 'state_button',
       'props': { 'color': 'primary' },
       'has': {
-        'text': 'Save',
+        'text': r('11', 'Save'),
         'onclickHandle': 'tuberCallbacks.$22_C_1'
       }
     }
   ],
   'open': true
-}
+};
 
-export default editDailyBookmarkDialogState
+export default editDailyBookmarkDialogState;
 
 /**
  * Dark theme mode for form state to edit an existing dailymotion video
@@ -63,4 +63,4 @@ export const $22DarkThemeMode: TStateDialog = {
       'sx': { 'backgroundColor': THEME_DARK_DIALOG_BACKGROUND_COLOR }
     }
   }
-}
+};

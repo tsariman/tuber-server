@@ -1,17 +1,17 @@
-import { PaginateModel, PaginateResult, model } from 'mongoose'
+import { PaginateModel, PaginateResult, model } from 'mongoose';
 import configurationSchema, {
   IDbConfigurationDocument
-} from '../../schema/configurations'
-import { DB_PAGINATION_OPTIONS, DB_PAGINATION_QUERY } from '../../constants'
+} from '../../schema/configurations';
+import { DB_PAGINATION_OPTIONS, DB_PAGINATION_QUERY } from '../../constants';
 
 /** mongoose-paginate-v2 query */
 const PAGINATION_QUERY = {
   ...DB_PAGINATION_QUERY,
 
   // TODO Add custom pagination query here
-}
+};
 
-type TSelect = { [key in keyof IDbConfigurationDocument]: 0|1 }
+type TSelect = { [key in keyof IDbConfigurationDocument]: 0|1 };
 
 /** mongoose-paginate-v2 options */
 const PAGINATION_OPTONS = {
@@ -22,7 +22,7 @@ const PAGINATION_OPTONS = {
     // 'password': 0,
   } as TSelect
   // TODO Add custom pagination options here
-}
+};
 
 /**
  * Get the configuration collection. This is a mongoose-paginate-v2 model used
@@ -31,7 +31,7 @@ const PAGINATION_OPTONS = {
 export const ConfigurationPaginationModel = model<
   IDbConfigurationDocument,
   PaginateModel<IDbConfigurationDocument>
->('Configurations', configurationSchema, 'configurations')
+>('Configurations', configurationSchema, 'configurations');
 
 /**
  * Get the configuration collection. This is a mongoose model used for
@@ -40,7 +40,7 @@ export const ConfigurationPaginationModel = model<
 export const ConfigurationModel = model<IDbConfigurationDocument>(
   'configurations',
   configurationSchema
-)
+);
 
 /**
  * Get configuration collection.
@@ -56,7 +56,7 @@ export async function configuration_get_collection(
     ...PAGINATION_OPTONS,
     page,
     limit
-  })
+  });
 }
 
 /**
@@ -68,7 +68,7 @@ export async function configuration_get_collection(
 export async function configuration_get(
   key: string
 ): Promise<IDbConfigurationDocument|null> {
-  return await ConfigurationModel.findOne({ key })
+  return await ConfigurationModel.findOne({ key });
 }
 
 /**
@@ -77,7 +77,7 @@ export async function configuration_get(
  * @returns entire collection as an array
  */
 export async function configuration_get_all(): Promise<IDbConfigurationDocument[]> {
-  return await ConfigurationModel.find(PAGINATION_QUERY, PAGINATION_OPTONS)
+  return await ConfigurationModel.find(PAGINATION_QUERY, PAGINATION_OPTONS);
 }
 
 /**
@@ -90,7 +90,7 @@ export function configuration_get_by_key(
   docs: IDbConfigurationDocument[],
   key: string
 ): IDbConfigurationDocument|null {
-  return docs.find(doc => doc.key === key) || null
+  return docs.find(doc => doc.key === key) || null;
 }
 
 /**
@@ -105,10 +105,13 @@ export async function configuration_save (
   key: string,
   value: string
 ): Promise<IDbConfigurationDocument> {
-  const doc = await ConfigurationModel.findOneAndUpdate(
-    { key },
-    { value },
-    { new: true, upsert: true }
-  )
-  return doc
+  const existingDoc = await configuration_get(key);
+  if (existingDoc) {
+    existingDoc.value = value;
+    existingDoc.modified_at = new Date();
+    await existingDoc.save();
+    return existingDoc;
+  }
+  const doc = await ConfigurationModel.create({ key, value });
+  return doc;
 }

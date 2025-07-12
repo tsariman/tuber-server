@@ -1,8 +1,9 @@
-import { TStateForm } from '../../common.types'
-import Config from '../../config'
-import * as C from '../../constants'
+import { r } from 'src/business.logic';
+import { TStateForm } from '../../common.types';
+import Config from '../../config';
+import * as C from '../../constants';
 
-Config.register('state', '19', C.$19_STATE_KEY)
+Config.register('state', '19', C.$19_STATE_KEY);
 /** Form for creating a new Dailymotion video bookmark @id 19 */
 const newDailyBookmarkFormState = {
   '_id': '19',
@@ -34,20 +35,20 @@ const newDailyBookmarkFormState = {
             {
               'type': 'textfield',
               'name': 'start_time',
-              'label': 'Start',
+              'label': r('179', 'Start'),
               'props': {
                 'sx': { 'width': 240 },
-                'helperText': 'Start time e.g. 1m8s',
+                'helperText': r('180', 'Start time e.g. 1m8s'),
               },
               'has': {
                 'required': true,
-                'requiredMessage': C.START_SECONDS_REQUIRED_MESSAGE,
+                'requiredMessage': r('181', C.START_SECONDS_REQUIRED_MESSAGE),
               }
             },
             {
               'type': 'textfield',
               'name': 'videoid',
-              'label': 'Video ID',
+              'label': r('182', 'Video ID'),
               'props': {
                 'fullWidth': true,
                 'variant': 'filled'
@@ -57,7 +58,7 @@ const newDailyBookmarkFormState = {
             {
               'type': 'textfield',
               'name': 'platform',
-              'label': 'Platform',
+              'label': r('183', 'Platform'),
               'props': {
                 'sx': { 'width': 240, },
                 'variant': 'filled'
@@ -69,38 +70,38 @@ const newDailyBookmarkFormState = {
         {
           'type': 'textfield',
           'name': 'title',
-          'label': 'Title',
+          'label': r('184', 'Title'),
           'props': {
             'fullWidth': true
           },
           'has': {
             'required': true,
-            'requiredMessage': C.TITLE_REQUIRED_MESSAGE,
-            'maxLength': C.TITLE_MAX_LENGTH,
-            'maxLengthMessage': C.TITLE_MAX_LENGTH_MESSAGE
+            'requiredMessage': r('185', C.TITLE_REQUIRED_MESSAGE),
+            'maxLength': r('186', C.TITLE_MAX_LENGTH),
+            'maxLengthMessage': r('187', C.TITLE_MAX_LENGTH_MESSAGE)
           }
         },
         {
           'type': 'textarea',
           'name': 'note',
-          'label': 'Note',
+          'label': r('188', 'Note'),
           'props': {
             'multiline': true,
-            'rows': C.NOTE_FIELD_ROWS
+            'rows': r('190', C.NOTE_FIELD_ROWS)
           },
           'has': {
-            'maxLength': C.NOTE_MAX_LENGTH,
-            'maxLengthMessage': C.NOTE_MAX_LENGTH_MESSAGE
+            'maxLength': r('191', C.NOTE_MAX_LENGTH),
+            'maxLengthMessage': r('189', C.NOTE_MAX_LENGTH_MESSAGE)
           }
         }
       ]
     },
   ]
-} as TStateForm
+} as TStateForm;
 
-export default newDailyBookmarkFormState
+export default newDailyBookmarkFormState;
 
 export const $19DarkThemeMode = {
   ...newDailyBookmarkFormState,
   // TODO - add dark theme mode overrides here
-} as TStateForm
+} as TStateForm;

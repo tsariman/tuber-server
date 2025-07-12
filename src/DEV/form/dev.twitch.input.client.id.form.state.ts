@@ -1,12 +1,13 @@
-import { TStateForm } from '../../common.types'
-import Config from '../../config'
+import { TBootstrapState } from 'src/state/_state.common.types';
+import { TStateForm } from '../../common.types';
+import Config from '../../config';
 import {
   $60_STATE_KEY,
   THEME_LIGHT_PAPER_COLOR,
   THEME_DARK_PAPER_COLOR
-} from '../../constants'
+} from '../../constants';
 
-Config.register('state', '60', $60_STATE_KEY)
+Config.register('state', '60', $60_STATE_KEY);
 /** @id 60 */
 const devTwitchInputClientIdFormState: TStateForm = {
   '_id': '60',
@@ -69,9 +70,9 @@ const devTwitchInputClientIdFormState: TStateForm = {
       }
     },
   ]
-}
+};
 
-export default devTwitchInputClientIdFormState
+export default devTwitchInputClientIdFormState;
 
 export const $60DarkThemeMode = {
   ...devTwitchInputClientIdFormState,
@@ -79,4 +80,20 @@ export const $60DarkThemeMode = {
     ...devTwitchInputClientIdFormState.paperProps,
     'sx': { 'backgroundColor': THEME_DARK_PAPER_COLOR }
   },
-} as TStateForm
+} as TStateForm;
+
+export const dev_twitch_input_client_id_form_state = {
+
+  [$60_STATE_KEY]: devTwitchInputClientIdFormState,
+
+  // TODO - Insert more form states here.
+
+} as TBootstrapState<TStateForm>;
+
+export const dev_twitch_input_client_id_form_state_dark = {
+
+  [$60_STATE_KEY]: $60DarkThemeMode,
+
+  // TODO - Insert more (dark themed) form states here.
+
+} as TBootstrapState<TStateForm>;

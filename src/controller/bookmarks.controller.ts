@@ -4,7 +4,7 @@ import get_bookmarks_by_id_endpoint from '../endpoint/get.bookmarks.id.ep'
 import post_bookmarks_endpoint from '../endpoint/post.bookmarks.ep'
 import put_bookmarks_by_id_endpoint from '../endpoint/put.bookmarks.id.ep'
 import delete_bookmarks_by_id_endpoint from '../endpoint/delete.bookmarks.id.ep'
-import { DEFAULT_OPTIONS } from '../middleware/router.option'
+import { DEFAULT_ROUTE_OPTIONS } from '../middleware/router.option'
 import {
   IBookmarkGet,
   IBookmarkPost,
@@ -18,7 +18,7 @@ import get_video_thumbnail_url_endpoint, {
 }  from 'src/platform/endpoint/get.video.thumbnail.url.ep'
 
 /** Default options */
-const opts = { ...DEFAULT_OPTIONS }
+const opts = { ...DEFAULT_ROUTE_OPTIONS }
 
 export default async function bookmarks_controller(fastify: FastifyInstance) {
   const postBookmark = Config.DEV
@@ -28,7 +28,7 @@ export default async function bookmarks_controller(fastify: FastifyInstance) {
   // GET /bookmarks
   fastify.get<IBookmarkGet>(
     '/',
-    { ...DEFAULT_OPTIONS, onRequest: undefined },
+    { ...DEFAULT_ROUTE_OPTIONS, onRequest: undefined },
     get_bookmarks_collection_endpoint
   )
 

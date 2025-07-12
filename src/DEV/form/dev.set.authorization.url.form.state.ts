@@ -1,13 +1,14 @@
-import Config from '../../config'
+import Config from '../../config';
 import {
   $50_STATE_KEY,
   THEME_DARK_PAPER_COLOR,
   THEME_LIGHT_PAPER_COLOR
-} from '../../constants'
-import { TStateForm } from '../../common.types'
+} from '../../constants';
+import { TStateForm } from '../../common.types';
+import { TBootstrapState } from 'src/state/_state.common.types';
 
-Config.register('state', '50', $50_STATE_KEY)
-/** Form to set the authorization URL for a platform. @id 50 */
+Config.register('state', '50', $50_STATE_KEY);
+/** Form to set the authorization URL for a platform. @id 50 @deprecated */
 const devSetAuthorizationUrlFormState: TStateForm = {
   '_id': '50',
   '_key': $50_STATE_KEY,
@@ -70,14 +71,31 @@ const devSetAuthorizationUrlFormState: TStateForm = {
       }
     },
   ]
-}
+};
 
-export default devSetAuthorizationUrlFormState
+export default devSetAuthorizationUrlFormState;
 
+/** @deprecated */
 export const $50DarkThemeMode = {
   ...devSetAuthorizationUrlFormState,
   'paperProps': {
     ...devSetAuthorizationUrlFormState.paperProps,
     'sx': { 'backgroundColor': THEME_DARK_PAPER_COLOR }
   }
-} as TStateForm
+} as TStateForm;
+
+export const dev_set_authorization_url_form_state = {
+
+  [$50_STATE_KEY]: devSetAuthorizationUrlFormState,
+
+  // TODO - Insert more form states here.
+
+} as TBootstrapState<TStateForm>;
+
+export const dev_set_authorization_url_form_state_dark = {
+
+  [$50_STATE_KEY]: $50DarkThemeMode,
+
+  // TODO - Insert more form states (dark themed) here.
+
+} as TBootstrapState<TStateForm>;

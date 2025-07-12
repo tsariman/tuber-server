@@ -1,13 +1,14 @@
-import Config from '../../config'
-import { TStateForm } from '../../common.types'
+import Config from '../../config';
+import { TStateForm } from '../../common.types';
 import {
   $57_STATE_KEY,
   $58_STATE_KEY,
   THEME_DARK_PAPER_COLOR,
   THEME_LIGHT_PAPER_COLOR
-} from '../../constants'
+} from '../../constants';
+import { TBootstrapState } from 'src/state/_state.common.types';
 
-Config.register('state', '57', $57_STATE_KEY)
+Config.register('state', '57', $57_STATE_KEY);
 /**
  * Form to test the regexp to grab the thumbnail url from
  * the html page source of an unknown platform.
@@ -98,9 +99,9 @@ const devTestUnknownRegexpFormState = {
       }
     }
   ]
-} as TStateForm
+} as TStateForm;
 
-export default devTestUnknownRegexpFormState
+export default devTestUnknownRegexpFormState;
 
 /**
  * Dark theme mode for state form to test acquiring thumbnail url from html
@@ -112,4 +113,21 @@ export const $57DarkThemeMode = {
     ...devTestUnknownRegexpFormState.paperProps,
     'sx': { 'backgroundColor': THEME_DARK_PAPER_COLOR }
   },
-} as TStateForm
+} as TStateForm;
+
+export const dev_test_unknown_regexp_form_state = {
+
+  [$57_STATE_KEY]: devTestUnknownRegexpFormState,
+
+  // TODO - Insert more form states here.
+
+} as TBootstrapState<TStateForm>;
+
+
+export const dev_test_unknown_regexp_form_state_dark = {
+
+  [$57_STATE_KEY]: $57DarkThemeMode,
+
+  // TODO - Insert more (dark themed) form states here.
+
+} as TBootstrapState<TStateForm>;

@@ -2,9 +2,7 @@ import { TCipheredUser } from 'src/schema/users';
 import { TStatePage } from '../../common.types';
 import Config from '../../config';
 import { $51_STATE_KEY } from '../../constants';
-import researchPageAppBarState, {
-  $63DarkThemeMode
-} from '../appbar/research.page.appbar.state';
+import { $71DarkThemeMode, listingPageAppbarState } from '../appbar';
 import {
   bookmarkAddFromUrlLinkState,
   darkModeLinkState,
@@ -47,7 +45,7 @@ const chippedListingPageState = {
     },
     'searchFieldIconButton': {
       'has': {
-        'icon': 'search_outline',
+        'icon': 'filter_list_outline',
         'onclickHandle': 'tuberCallbacks.appbarFilterBookmarks'
       }
     },
@@ -71,7 +69,7 @@ export function get_chipped_listing_page_state(
   return {
     ...chippedListingPageState,
     appbar: {
-      ...researchPageAppBarState,
+      ...listingPageAppbarState,
       items: [
         ...dev_get_links_state(usr),
         bookmarkAddFromUrlLinkState,
@@ -86,7 +84,7 @@ export function get_51_dark_theme_mode(usr?: TCipheredUser): TStatePage {
   return {
     ...$51DarkThemeMode,
     appbar: {
-      ...$63DarkThemeMode,
+      ...$71DarkThemeMode,
       items: [
         ...dev_get_links_state(usr),
         bookmarkAddFromUrlLinkState,

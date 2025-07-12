@@ -5,17 +5,18 @@ import {
   THEME_LIGHT_APP_BAR_COLOR,
   THEME_MODE
 } from '../constants'
-import { TThemeMode } from 'src/common.types'
+import { TThemeMode, TThemeOptions } from 'src/common.types'
 
 // TODO Modify to change the overall appearance of the page
 
-/** Get material-ui theme object */
-export default function get_theme_state (userMode?: string) {
+/** Get material-ui theme object. @deprecated */
+export default function get_theme_state (userMode?: string): TThemeOptions {
   const mode = userMode ?? Config.read<TThemeMode>(THEME_MODE, Config.DEFAULT_THEME_MODE)
   return mode === 'dark' ? darkThemeState : lightThemeState
 }
 
-export const darkThemeState = {
+/** @deprecated */
+export const darkThemeState: TThemeOptions = {
   'components': {
     'MuiDrawer': {
       'styleOverrides': {
@@ -80,8 +81,10 @@ export const darkThemeState = {
 /**
  * TODO Default light theme backup. To revert to the unmodified light theme,
  * copy the contents of this object into the themeState object.
+ *
+ * @deprecated
  */
-export const lightThemeState = {
+export const lightThemeState: TThemeOptions = {
   'components': {
     'MuiDrawer': {
       'styleOverrides': {

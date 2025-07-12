@@ -1,14 +1,15 @@
-import Config from '../config'
+import Config from '../config';
 import {
-  IGenericObject,
   IJsonapiQuerystring,
+  TObj,
   TThemeMode
-} from '../common.types'
-import { THEME_MODE } from '../constants'
+} from '../common.types';
+import { THEME_MODE } from '../constants';
+import { FastifyRequest } from 'fastify';
 
 /** Returns `true` if the argument is an object. */
 export const is_object = (obj: any) => {
-  return typeof obj === 'object' && obj !== null && !Array.isArray(obj)
+  return typeof obj === 'object' && obj !== null && !Array.isArray(obj);
 }
 
 /**
@@ -31,28 +32,28 @@ export const bracketize_object_querystring = (
   parentKey = '?',
   depth = 0
 ): string => {
-  if (!is_object(obj)) return obj
+  if (!is_object(obj)) return obj;
   return Object.keys(obj).reduce((acc, key) => {
-    const value = obj[key]
+    const value = obj[key];
     if (is_object(value)) {
-      parentKey = depth === 0 ? key : `${parentKey}[${key}]`
+      parentKey = depth === 0 ? key : `${parentKey}[${key}]`;
       return acc + bracketize_object_querystring(
         value, parentKey, depth + 1
-      )
+      );
     }
-    const bracketizedKey = depth === 0 ? key : `${parentKey}[${key}]`
+    const bracketizedKey = depth === 0 ? key : `${parentKey}[${key}]`;
     return acc + `${bracketizedKey}=${value}&`
-  }, depth === 0 ? parentKey : '')
+  }, depth === 0 ? parentKey : '');
 }
 
 /** Insert state fragment using `_key` as key. */
 export const set_state_by_key = (
-  state: IGenericObject,
-  fragment: IGenericObject
+  state: TObj,
+  fragment: TObj
 ) => {
-  const _key = fragment['_key']
-  if (!_key) Config.die('Fragment must have a `_key`.')
-  state[_key] = fragment
+  const _key = fragment['_key'];
+  if (!_key) Config.die('Fragment must have a `_key`.');
+  state[_key] = fragment;
 }
 
 /**
@@ -60,10 +61,10 @@ export const set_state_by_key = (
  * @param state State object
  * @returns `_key` value
  */
-export const get_state_key = (state: IGenericObject): string => {
-  const _key: string = state['_key']
-  if (!_key) Config.die('Fragment must have a `_key`.')
-  return _key
+export const get_state_key = (state: TObj): string => {
+  const _key: string = state['_key'];
+  if (!_key) Config.die('Fragment must have a `_key`.');
+  return _key;
 }
 
 /**
@@ -78,8 +79,8 @@ export function themed_by_key<T=any>(key: string, LIGHT: any, DARK: any): T {
   const mode = Config.read<TThemeMode>(
     THEME_MODE,
     Config.DEFAULT_THEME_MODE
-  )
-  return mode === 'dark' ? DARK[key as any] : LIGHT[key as any]
+  );
+  return mode === 'dark' ? DARK[key as any] : LIGHT[key as any];
 }
 
 /**
@@ -93,8 +94,8 @@ export function sys_themed<T=any>(light: T, dark: T): T {
   const mode = Config.read<TThemeMode>(
     THEME_MODE,
     Config.DEFAULT_THEME_MODE
-  )
-  return mode === 'dark' ? dark : light
+  );
+  return mode === 'dark' ? dark : light;
 }
 
 /**
@@ -109,36 +110,52 @@ export function themed<T=any>(light: T, dark: T, mode?: TThemeMode): T {
   mode = mode ?? Config.read<TThemeMode>(
     THEME_MODE,
     Config.DEFAULT_THEME_MODE
-  )
-  return mode === 'dark' ? dark : light
+  );
+  return mode === 'dark' ? dark : light;
 }
 
 /** Get query string value */
-export const get_query = (
-  req: any,
+export const get_query = <T = string>(
+  req: FastifyRequest<{ Querystring: IJsonapiQuerystring }>,
   key: keyof IJsonapiQuerystring,
-  $default = ''
-): string => {
+  $default: T
+): T => {
   try {
-    const query = req.query as IJsonapiQuerystring
-    return query[key] ?? $default
+    const query = req.query;
+    const value = query[key];
+    return (value ?? $default) as T;
   } catch (e: any) {
-    Config.err(e.message)
+    Config.err(e.message);
   }
-  return $default
+  return $default;
+}
+
+/** Get request body value */
+export const get_body = <T = any>(
+  req: FastifyRequest<{ Body: Record<string, T>}>,
+  key: string,
+  $default: T
+): T => {
+  try {
+    const body = req.body;
+    return body?.[key] ?? $default;
+  } catch (e: any) {
+    Config.err(e.message);
+  }
+  return $default;
 }
 
 /** Convert milliseconds to seconds or minutes */
 export const ms_to_seconds = (ms: number) => {
-  const seconds = ms / 1000
-  if (seconds < 60) return `${seconds.toFixed(2)}s`
-  const minutes = seconds / 60
-  return `${minutes.toFixed(2)}m`
+  const seconds = ms / 1000;
+  if (seconds < 60) return `${seconds.toFixed(2)}s`;
+  const minutes = seconds / 60;
+  return `${minutes.toFixed(2)}m`;
 }
 
 /** Return a limited number of document in an array if its length exceed the provided limit */
 export const limit_array = <T=any>(arr: T[], limit: number): T[] => {
-  return arr.length > limit ? arr.slice(0, limit) : arr
+  return arr.length > limit ? arr.slice(0, limit) : arr;
 }
 
 /**
@@ -148,10 +165,10 @@ export const limit_array = <T=any>(arr: T[], limit: number): T[] => {
  * @returns new `Date` object.
  */
 export function get_expiration_date(time: number) {
-  const newTimeInMs = Date.now() + time
-  const newDate = new Date()
-  newDate.setTime(newTimeInMs)
-  return newDate
+  const newTimeInMs = Date.now() + time;
+  const newDate = new Date();
+  newDate.setTime(newTimeInMs);
+  return newDate;
 }
 
 /**
@@ -164,23 +181,32 @@ export function match_regex_array(
   regexArray: RegExp[]
 ): RegExpMatchArray | null {
   for (const regex of regexArray) {
-    const match = str.match(regex)
+    const match = str.match(regex);
     if (match) {
-      Config.log(`[DEBUG] Matched: ${regex}`)
-      return match
+      Config.log(`[DEBUG] Matched: ${regex}`);
+      return match;
     }
   }
-  return null
+  return null;
 }
 
 export function remove_form_suffix(_key?: string) {
   if (!_key) {
-    Config.die('formState._key not defined.')
-    return ''
+    Config.die('formState._key not defined.');
+    return '';
   }
   return _key.slice(-4) === 'Form'
     ? _key.replace('Form', '')
-    : _key
+    : _key;
+}
+
+/**
+ * Check if the request body has a cookie property set.
+ * @param req FastifyRequest object
+ * @returns true if cookie exists, false otherwise
+ */
+export function has_cookie(req: FastifyRequest<{ Body: { cookie?: string } }>): boolean {
+  return !!(req.body && req.body.cookie);
 }
 
 /**
@@ -189,16 +215,16 @@ export function remove_form_suffix(_key?: string) {
  * @returns object
  */
 export function parse_cookie(cookieString?: string) {
-  if (!cookieString) return {}
-  const cookies = {} as Record<string, string>
-  const pairs = cookieString.split(';')
+  if (!cookieString) return {};
+  const cookies = {} as Record<string, string>;
+  const pairs = cookieString.split(';');
 
   pairs.forEach(pair => {
-    const [key, value] = pair.split('=').map(s => s.trim())
-    cookies[key] = value
+    const [key, value] = pair.split('=').map(s => s.trim());
+    cookies[key] = value;
   })
 
-  return cookies
+  return cookies;
 }
 
 /**
@@ -208,16 +234,16 @@ export function parse_cookie(cookieString?: string) {
  * @returns theme mode
  */
 export function get_theme_mode(cookieString?: string): TThemeMode {
-  const userMode = parse_cookie(cookieString).mode as TThemeMode
+  const userMode = parse_cookie(cookieString).mode as TThemeMode;
   if (userMode) {
-    Config.write(THEME_MODE, userMode)
-    return userMode
+    Config.write(THEME_MODE, userMode);
+    return userMode;
   }
   const mode = Config.read<TThemeMode>(
     THEME_MODE,
     Config.DEFAULT_THEME_MODE
   )
-  return mode
+  return mode;
 }
 
 /**
@@ -231,9 +257,24 @@ export function option<T=any> (
   options?: string[]
 ): (element: string, a: T, b: T) => T {
   return (element: string, a: T, b: T): T => {
-    if (!options) return b
+    if (!options) return b;
     return options.includes(element)
       ? a
-      : b
-  }
+      : b;
+  };
 }
+
+/**
+ * Get readable text from the readable cache, if it exist. Otherwise, the
+ * default provided text will be returned.
+ *
+ * @param key a unique identifier for the readable text in the database.
+ *            It's value should be available for developers when viewing
+ *            the elements HTML, client-side.
+ * @param $default Default value is required... :(
+ * @returns 
+ */
+export function r<T>(key: string, $default: T): T {
+  return Config.READABLE_CACHE.get(key) ?? $default;
+}
+

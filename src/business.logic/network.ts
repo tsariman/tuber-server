@@ -1,6 +1,6 @@
-import axios from 'axios'
-import Config from '../config'
-import { request } from 'urllib'
+import axios from 'axios';
+import Config from '../config';
+import { request } from 'urllib';
 
 // TODO All network related functions go here
 
@@ -19,8 +19,8 @@ export async function find_index_by_name(indexName: string, collectionName: stri
       method: 'GET',
       digestAuth: Config.DB_ATLAS_DIGEST_AUTH
     }
-  )
-  return (allIndexesResponse.data as any[]).find(i => i.name === indexName)
+  );
+  return (allIndexesResponse.data as any[]).find(i => i.name === indexName);
 }
 
 /**
@@ -29,8 +29,8 @@ export async function find_index_by_name(indexName: string, collectionName: stri
  * @returns HTML source as string.
  */
 export async function fetch_html_page(url?: string): Promise<string> {
-  if (!url) { return '' }
-  const response = await axios.get(url)
-  const htmlText = response.data
-  return htmlText
+  if (!url) { return '' };
+  const response = await axios.get(url);
+  const htmlText = response.data;
+  return htmlText;
 }

@@ -1,7 +1,7 @@
-import NodeCache from 'node-cache'
-import * as dotenv from 'dotenv'
-import { dbGetUrlCredentials, get_ip } from './utility'
-import Config, { IConfiguration } from './utility/configuration'
+import NodeCache from 'node-cache';
+import * as dotenv from 'dotenv';
+import { get_ip } from './utility/networking';
+import Config, { IConfiguration } from './utility/configuration';
 
 dotenv.config({ path: `${__dirname}/../.env.app-config` });
 
@@ -34,7 +34,7 @@ interface IConfig {
   MAX_LOADED_BOOKMARK_PAGES: string;
   MAX_LOADED_USER_PAGES: string;
   DEFAULT_THEME_MODE: 'light' |  'dark';
-}
+};
 
 /** TODO Configure the app here. */
 const USER_CONFIG: IConfig = {
@@ -119,8 +119,18 @@ const USER_CONFIG: IConfig = {
   DEFAULT_THEME_MODE: 'dark',
 };
 
-const USER_CACHE = new NodeCache({ stdTTL: Number(process.env.STDTTL) || 900 })
-const STATE_REGISTRY: Record<string, any> = {}
+const USER_CACHE = new NodeCache({ stdTTL: Number(process.env.STDTTL) || 900 });
+const SLUG_CACHE = new NodeCache({ stdTTL: Number(process.env.STDTTL) || 900 });
+const READABLE_CACHE = new NodeCache();
+const STATE_REGISTRY: Record<string, any> = {};
+
+/** Get the mongodb database URL substring that contains credentials. */
+const dbGetUrlCredentials = (user?: string, pass?: string) => {
+  if (user && pass) {
+    return `${user}:${pass}@`
+  }
+  return ''
+};
 
 const initObj = {
   ...USER_CONFIG,
@@ -130,6 +140,18 @@ const initObj = {
    * database access.
    */
   USER_CACHE,
+
+  /** In memory URL slug caching */
+  SLUG_CACHE,
+
+  /**
+   * In memory readable text caching.
+   * 
+   * Readable text caching was implemented to decouple readables from the
+   * programming implementation and make it easier to update or change any
+   * readable text.
+   */
+  READABLE_CACHE,
 
   /** Default mongodb database development URL. */
   DB_DEV_DEFAULT_URL: `mongodb://127.0.0.1:27017/${USER_CONFIG.DB_DEV_NAME}`,

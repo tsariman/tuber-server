@@ -1,3 +1,4 @@
+import { TItemGroup } from '../../tuber-client/src/interfaces/IStateFormItemGroup';
 import IFormChoices from '../../tuber-client/src/interfaces/IFormChoices';
 import {
   IJsonapiError,
@@ -10,7 +11,7 @@ import {
   IJsonapiResourceLinkage,
   IJsonapiResponse
 } from '../../tuber-client/src/interfaces/IJsonapi';
-import { INetState } from '../../tuber-client/src/interfaces/IState';
+import { INetState, IThemeOptions } from '../../tuber-client/src/interfaces/IState';
 import IStateAllDialogs from '../../tuber-client/src/interfaces/IStateAllDialogs';
 import IStateAllForms from '../../tuber-client/src/interfaces/IStateAllForms';
 import IStateAllPages from '../../tuber-client/src/interfaces/IStateAllPages';
@@ -25,6 +26,7 @@ import IStateFormItem from '../../tuber-client/src/interfaces/IStateFormItem';
 import { IStateFormItemAdornment } from '../../tuber-client/src/interfaces/IStateFormItem';
 import IStateFormItemCustom from '../../tuber-client/src/interfaces/IStateFormItemCustom';
 import { IStateFormItemCheckboxBox } from '../../tuber-client/src/controllers/StateFormItemCheckboxBox';
+import IStateFormItemGroup from '../../tuber-client/src/interfaces/IStateFormItemGroup';
 import { IStateFormItemInputProps } from '../../tuber-client/src/interfaces/IStateFormItem';
 import { IStateFormItemRadioButton } from '../../tuber-client/src/interfaces/IFormChoices';
 import IStateFormItemSelectOption from '../../tuber-client/src/interfaces/IStateFormItemSelectOption';
@@ -33,16 +35,20 @@ import { TStateFormItemType } from '../../tuber-client/src/interfaces/IStateForm
 import IStateLink from '../../tuber-client/src/interfaces/IStateLink';
 import IStatePage from '../../tuber-client/src/interfaces/IStatePage';
 import IStateTypography from '../../tuber-client/src/interfaces/IStateTypography';
+import IStateAllIcons, { IStateIcon } from '../../tuber-client/src/interfaces/IStateAllIcons';
 
+export type TTItemGroup = TItemGroup;
 export type TFormChoices = IFormChoices;
 
 /** `INetState` interface imported form client. */
 export type TNetState = INetState;
 export type TStateApp = IStateApp;
+export type TStateAllIcons = IStateAllIcons;
 export type TStateAllPages = IStateAllPages;
 export type TStateAllForms = IStateAllForms;
 export type TStateAllDialogs = IStateAllDialogs;
 export type TStatePage = IStatePage;
+export type TStateIcon = IStateIcon;
 export type TStateAppbar = IStateAppbar;
 export type TStatePageDrawer = IStatePageDrawer;
 export type TStateDialog<T=any> = IStateDialog<T>;
@@ -51,7 +57,8 @@ export type TStateFormItem = IStateFormItem;
 export type TStateFormItemAdornment = IStateFormItemAdornment;
 export type TStateFormItemCustom<T=any> = IStateFormItemCustom<T>;
 export type TStateFormItemCheckboxBox = IStateFormItemCheckboxBox;
-export type TStateFormItemInputProps = IStateFormItemInputProps;
+export type TStateFormItemGroup = IStateFormItemGroup;
+export type TStateFormItemInputProps = IStateFormItemInputProps & Record<string, any>;
 export type TStateFormItemRadioButton = IStateFormItemRadioButton;
 export type TStateFormItemSelectOption = IStateFormItemSelectOption;
 export type TStateFormItemSwitchToggle = IStateFormItemSwitchToggle;
@@ -69,6 +76,8 @@ export type TJsonapiResource<T=any> = IJsonapiResource<T>;
 export type TJsonapiResourceLinkage = IJsonapiResourceLinkage;
 export type TJsonapiResponse = IJsonapiResponse;
 export type TStateTypography = IStateTypography;
+export type TObj<T=any> = Record<string, T>;
+export type TThemeOptions = IThemeOptions;
 
 /** @see https://stackoverflow.com/a/69328045/1875859 */
 export type WithRequired<T, K extends keyof T> = T & { [P in K]-?: T[P] };
@@ -92,16 +101,6 @@ export interface IAggregateDoc {
 /** Names of collection endpoint */
 export type TEndpoint = 'users' | 'entries' | 'bookmarks' | 'tags' | 'authorizations';
 
-/**
- * Use when assigning values to object properties using a string as the key.  
- * e.g.
- * ```ts
- * const obj: IGenericObject = {}
- * obj['key'] = 'value'
- * ```
- */
-export interface IGenericObject<T=any> { [key: string]: T; }
-
 /** Generic jsonapi query string */
 export interface IJsonapiQuerystring {
   'page[number]'?: string;
@@ -116,7 +115,7 @@ export interface IJsonapiQuerystring {
 
 export interface IBootstrapResponse {
   state: TNetState;
-  meta: IGenericObject;
+  meta: TObj;
 }
 
 export type TPlatform = '_blank'

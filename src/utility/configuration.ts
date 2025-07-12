@@ -1,52 +1,52 @@
-import { IDbConfigurationDocument } from '../schema/configurations'
-import { configuration_save } from '../model/configuration'
+import { IDbConfigurationDocument } from '../schema/configurations';
+import { configuration_save } from '../model/configuration';
 
 /** Reserved methods/keys of the configuration object. */
 export interface IConfigMethods {
-  readonly init: (data?: any) => void
+  readonly init: (data?: any) => void;
   /**
    * Load a configuration value from the database.
    * @param docs array of configuration documents
    */
-  readonly load: (docs: IDbConfigurationDocument[]) => Promise<void>
+  readonly load: (docs: IDbConfigurationDocument[]) => Promise<void>;
   /**
    * Set a configuration value in memory only. However, the value is read only.
    * @param path period-separated list of properties
    * @param val value to be saved.
    */
-  readonly set: (path: string, val: any) => void
+  readonly set: (path: string, val: any) => void;
   /**
    * Save a configuration value to the database. The value can be changed at 
    * any time.
    * @param path period-separated list of properties
    * @param val value to be saved.
    */
-  readonly save: (path: string, val: any) => Promise<IDbConfigurationDocument>
+  readonly save: (path: string, val: any) => Promise<IDbConfigurationDocument>;
   /** 
    * Read a configuration value which was previously set with `write()`,
    * `set()`, or `save()`.
    * @param path period-separated list of properties
    * @param $default default value to be returned if the value is not found.
    */
-  readonly read: <T=any>(path: string, $default?: T) => T
+  readonly read: <T=any>(path: string, $default?: T) => T;
   /**
    * Set a configuration value in memory only. The value can be changed at any
    * time.
    * @param path period-separated list of properties
    * @param val value to be saved.
    */
-  readonly write: <T=any>(path: string, val: T) => void
+  readonly write: <T=any>(path: string, val: T) => void;
   /**
    * Delete a configuration value.
    * @param path period-separated list of properties
    */
-  readonly delete: (path: string) => void
+  readonly delete: (path: string) => void;
   /** Clear all configuration values. */
-  readonly clear: () => void
+  readonly clear: () => void;
 }
 
 /** Reserved configuration keys. */
-type TReservedKeys = keyof IConfigMethods
+type TReservedKeys = keyof IConfigMethods;
 
 /**
  * **WARNING**
@@ -56,11 +56,11 @@ type TReservedKeys = keyof IConfigMethods
  * You've been warned.
  */
 export interface IConfiguration extends IConfigMethods {
-  [key: string]: any
+  [key: string]: any;
 }
 
-let writable: boolean = false
-let $delete: boolean = false
+let writable: boolean = false;
+let $delete: boolean = false;
 
 /**
  * Adds a new property and value to an object.
@@ -73,8 +73,8 @@ const create_property = (obj: any, prop: string, val: any): void => {
   Object.defineProperty(obj, prop, {
     value: val,
     writable
-  })
-}
+  });
+};
 
 /**
  * **WARNING**  
@@ -94,7 +94,7 @@ const invalid_keys: {[key in TReservedKeys]: number} = {
   'write': 1,
   'clear': 1,
   'delete': 1
-}
+};
 
 /**
  * Resolves an object value from a period-separated list of object properties.
@@ -108,45 +108,45 @@ const invalid_keys: {[key in TReservedKeys]: number} = {
  *             e.g. "pagination.users.limit"
  */
 const resolve = (obj: any, path: string, val?: any): any => {
-  const propArray = path.split('.')
+  const propArray = path.split('.');
   let o = obj,
     candidate: any,
-    j = 0
+    j = 0;
 
   do {
-    let prop = propArray[j]
-    candidate = o[prop]
+    let prop = propArray[j];
+    candidate = o[prop];
 
     // if this is the last property
     if (j >= (propArray.length - 1)) {
       if (val) {
-        create_property(o, prop, val)
-        return val
+        create_property(o, prop, val);
+        return val;
       } else if ($delete) {
-        o[prop] = undefined
+        o[prop] = undefined;
       }
-      return candidate
+      return candidate;
 
       // if the property does not exist but a value was provided
     } else if (!candidate && val) {
-      create_property(o, prop, {})
+      create_property(o, prop, {});
     }
-    o = o[prop]
-    j++
-  } while (1)
+    o = o[prop];
+    j++;
+  } while (1);
 
-}
+};
 
 const config: IConfiguration = {
 
   init: (data?: any): void => {
-    writable = false
+    writable = false;
     if (data && typeof data === 'object' && !Array.isArray(data)) {
       for (const key in data) {
         if (!(key in invalid_keys)) { // if key is invalid
-          config[key] = data[key]
+          config[key] = data[key];
         } else {
-          console.error(`'${key}' cannot be specified as a key.`)
+          console.error(`'${key}' cannot be specified as a key.`);
         }
       }
     }
@@ -157,25 +157,25 @@ const config: IConfiguration = {
    * @param docs array of configuration documents
    */
   load: async (docs: IDbConfigurationDocument[]): Promise<void> => {
-    writable = false
+    writable = false;
     docs.forEach(doc => {
       if (!(doc.key in invalid_keys)) { // if key is invalid
-        config[doc.key] = doc.value
+        config[doc.key] = doc.value;
       } else {
-        console.error(`[ERROR] '${doc.key}' cannot be specified as a key.`)
+        console.error(`[ERROR] '${doc.key}' cannot be specified as a key.`);
       }
-    })
+    });
   },
 
   set: (path: string, val: any): void => {
-    resolve(config, path, val)
+    resolve(config, path, val);
   },
 
   save: async (path: string, val: any): Promise<IDbConfigurationDocument> => {
-    writable = true
-    resolve(config, path, val)
-    writable = false
-    return await configuration_save(path, val)
+    writable = true;
+    resolve(config, path, val);
+    writable = false;
+    return await configuration_save(path, val);
   },
 
   /**
@@ -184,7 +184,7 @@ const config: IConfiguration = {
    * @param prop period-seperated list of properties
    */
   read: <T=any>(path: string, $default?: T): T => {
-    return resolve(config, path) ?? $default
+    return resolve(config, path) ?? $default;
   },
 
   /**
@@ -196,16 +196,16 @@ const config: IConfiguration = {
    * @param val value to be saved.
    */
   write: <T=any>(path: string, val: T): void => {
-    writable = true
-    resolve(config, path, val)
-    writable = false
+    writable = true;
+    resolve(config, path, val);
+    writable = false;
   },
 
   /** Delete a property. */
   delete: (path: string): void => {
-    $delete = true
-    resolve(config, path)
-    $delete = false
+    $delete = true;
+    resolve(config, path);
+    $delete = false;
   },
 
   /**
@@ -213,9 +213,9 @@ const config: IConfiguration = {
    */
   clear: (): void => {
     for (const configKey in config) {
-      delete config[configKey]
+      delete config[configKey];
     }
   }
 }
 
-export default config
+export default config;

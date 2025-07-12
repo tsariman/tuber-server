@@ -1,12 +1,13 @@
-import Config from '../../config'
-import { TStateForm } from '../../common.types'
+import Config from '../../config';
+import { TStateForm } from '../../common.types';
 import {
   $54_STATE_KEY,
   THEME_DARK_PAPER_COLOR,
   THEME_LIGHT_PAPER_COLOR
-} from '../../constants'
+} from '../../constants';
+import { TBootstrapState } from 'src/state/_state.common.types';
 
-Config.register('state', '54', $54_STATE_KEY)
+Config.register('state', '54', $54_STATE_KEY);
 /**
  * Form to test the regexp to grab both the video id and the thumbnail url from
  * the rumble video index.html page.
@@ -93,9 +94,9 @@ const devTestRumbleRegexpFormState = {
       }
     },
   ]
-} as TStateForm
+} as TStateForm;
 
-export default devTestRumbleRegexpFormState
+export default devTestRumbleRegexpFormState;
 
 /** Dark theme version for the rumble regexp test form. */
 export const $54DarkThemeMode = {
@@ -104,4 +105,20 @@ export const $54DarkThemeMode = {
     ...devTestRumbleRegexpFormState.paperProps,
     'sx': { 'backgroundColor': THEME_DARK_PAPER_COLOR }
   },
-} as TStateForm
+} as TStateForm;
+
+export const dev_test_rumble_regexp_form_state = {
+
+  [$54_STATE_KEY]: devTestRumbleRegexpFormState,
+
+  // TODO - Insert more form states here.
+
+} as TBootstrapState<TStateForm>;
+
+export const dev_test_rumble_regexp_form_state_dark = {
+
+  [$54_STATE_KEY]: $54DarkThemeMode,
+
+  // TODO - Insert more (dark themed) form states here.
+
+} as TBootstrapState<TStateForm>;

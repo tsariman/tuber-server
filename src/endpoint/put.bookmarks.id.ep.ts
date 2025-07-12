@@ -1,53 +1,53 @@
-import { FastifyReply, FastifyRequest } from 'fastify'
+import { FastifyReply, FastifyRequest } from 'fastify';
 // import { connect, disconnect } from 'mongoose'
 import JsonapiErrorBuilder, {
   default_500_error_response
-} from '../business.logic/jsonapi.error.builder'
-import Config from '../config'
-import { BookmarkModel } from '../model/bookmark'
-import { IBookmarkPut } from '../schema/bookmarks'
-import { MSG_500_ERROR_MESSAGE } from '../constants'
+} from '../business.logic/jsonapi.error.builder';
+import Config from '../config';
+import { BookmarkModel } from '../model/bookmark';
+import { IBookmarkPut } from '../schema/bookmarks';
+import { MSG_500_ERROR_MESSAGE } from '../constants';
 
 export default async function put_bookmarks_by_id_endpoint (
   request: FastifyRequest<IBookmarkPut>,
   reply: FastifyReply
 ) {
   try {
-    Config.print('[DEBUG] Updating bookmark... ')
+    Config.print('[DEBUG] Updating bookmark... ');
     // [TODO] Validate request body (request.body.data.attributes)
     //        video_id, platform, start_seconds, title are required
-    const attributes = request.body?.data?.attributes
+    const attributes = request.body?.data?.attributes;
     if (!attributes) {
-      Config.log('Failed.\nMissing attributes.', request.body)
+      Config.log('Failed.\nMissing attributes.', request.body);
       reply.code(400).send(new JsonapiErrorBuilder()
-        .status(400)
-        .title('Bad Request')
-        .detail('Missing attributes')
+        .withStatus(400)
+        .withTitle('Bad Request')
+        .withDetail('Missing attributes')
         .build()
-      )
-      return
+      );
+      return;
     }
     // await connect(Config.DB_URI)
     const bookmark = await BookmarkModel.findByIdAndUpdate(
       request.params.id,
       { ...attributes, modified_at: new Date() },
       { new: true }
-    )
+    );
     // await disconnect()
     if (bookmark) {
-      Config.log('Done.')
-      reply.code(204).send()
+      Config.log('Done.');
+      reply.code(204).send();
     } else {
-      Config.log('Failed.\nBookmark not found.')
+      Config.log('Failed.\nBookmark not found.');
       reply.code(404).send(new JsonapiErrorBuilder()
-        .status(404)
-        .title('Not Found')
-        .detail('Bookmark not found')
+        .withStatus(404)
+        .withTitle('Not Found')
+        .withDetail('Bookmark not found')
         .build()
-      )
+      );
     }
   } catch (e: any) {
-    Config.log(MSG_500_ERROR_MESSAGE, e)
-    reply.code(500).send(default_500_error_response(e))
+    Config.log(MSG_500_ERROR_MESSAGE, e);
+    reply.code(500).send(default_500_error_response(e));
   }
 }

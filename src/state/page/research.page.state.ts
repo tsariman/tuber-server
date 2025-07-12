@@ -6,9 +6,9 @@ import {
   $70_STATE_KEY,
   THEME_LIGHT_APP_BAR_ICON_COLOR as ICON_COLOR,
 } from '../../constants';
-import researchPageAppBarState, {
+import researchPageAppbarState, {
   $63DarkThemeMode
-} from '../appbar/research.page.appbar.state';
+} from '../appbar';
 import {
   $66DarkThemeMode,
   $67DarkThemeMode,
@@ -62,14 +62,14 @@ export const $40DarkThemeMode: TStatePage = {
 };
 
 Config.register('state', '70', $70_STATE_KEY);
-/** Listing page state (research state alias) @id 70 */
+/** Listing (research alias) page state. @id 70 */
 export const listingPageState: TStatePage = {
   ...researchPageState,
   '_id': '70',
   '_key': $70_STATE_KEY,
   'title': 'Listing',
 };
-/** Dark theme mode for listing page state. @id 70 */
+/** Dark theme mode for listing (research alias) page state. @id 70 */
 export const $70DarkThemeMode: TStatePage = { ...listingPageState };
 
 /**
@@ -83,7 +83,7 @@ export function get_research_page_state(usr?: TCipheredUser): TStatePage {
   return {
     ...researchPageState,
     appbar: {
-      ...researchPageAppBarState,
+      ...researchPageAppbarState,
       items: [
         ...dev_get_links_state(usr),
         bookmarkAddFromUrlLinkState,
@@ -126,7 +126,13 @@ export function get_listing_page_state (usr?: TCipheredUser): TStatePage {
   return {
     ...listingPageState,
     appbar: {
-      ...researchPageAppBarState,
+      ...researchPageAppbarState,
+      'searchFieldIconButton': {
+        'has': {
+          'icon': 'search_outline',
+          'onclickHandle': 'tuberCallbacks.appbarFilterBookmarks'
+        }
+      },
       items: [
         ...dev_get_links_state(usr),
         bookmarkAddFromUrlLinkState,

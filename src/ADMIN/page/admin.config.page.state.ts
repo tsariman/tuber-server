@@ -1,8 +1,9 @@
-import { TStatePage } from '../../common.types'
-import Config from '../../config'
-import { $55_STATE_KEY } from '../../constants'
+import { r } from 'src/business.logic';
+import { TStatePage } from '../../common.types';
+import Config from '../../config';
+import { $55_STATE_KEY } from '../../constants';
 
-Config.register('state', '55', $55_STATE_KEY)
+Config.register('state', '55', $55_STATE_KEY);
 /** @id 55 */
 const adminConfigPageState: TStatePage = {
   '_id': '55',
@@ -13,7 +14,7 @@ const adminConfigPageState: TStatePage = {
     'items': [ ],
     'inputBaseProps': {
       'id': 'video-url',
-      'placeholder': 'Filter ...',
+      'placeholder': r('273', 'Filter ...'),
       'inputProps': { 'aria-label': 'Configuration filter' },
     },
     'searchFieldIcon': {
@@ -36,10 +37,10 @@ const adminConfigPageState: TStatePage = {
   'meta': {
     'endpoint': 'bookmarks'
   }
-}
+};
 
-export default adminConfigPageState
+export default adminConfigPageState;
 
 export const $55DarkThemeMode: TStatePage = {
   ...adminConfigPageState,
-}
+};

@@ -27,11 +27,14 @@ export default class FormItemButtonStateBuilder extends FormItemBaseStateBuilder
     return this;
   }
   /**
-   * Not possible to set event callback from server.
+   * Set an onclick callback function for the button.
+   * @param handle name of onclick callback function.
    * @returns this.
    */
-  hasCallback(): this {
-    return this.die('hasCallback() not implemented yet.', this);
+  hasOnclickHandle(handle: string): this {
+    this._state.has = this._state.has ?? {};
+    this._state.has.onclickHandle = handle;
+    return this;
   }
   /**
    * Set an icon for the button.

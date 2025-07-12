@@ -1,8 +1,9 @@
-import { TStateForm } from '../../common.types'
-import Config from '../../config'
-import * as C from '../../constants'
+import { TBootstrapState } from 'src/state/_state.common.types';
+import { TStateForm } from '../../common.types';
+import Config from '../../config';
+import * as C from '../../constants';
 
-Config.register('state', '47', C.$47_STATE_KEY)
+Config.register('state', '47', C.$47_STATE_KEY);
 /** Development shortcuts form. @id 47 */
 const devInstallFormState = {
   '_type': 'box',
@@ -358,9 +359,9 @@ const devInstallFormState = {
       ]
     },
   ]
-} as TStateForm
+} as TStateForm;
 
-export default devInstallFormState
+export default devInstallFormState;
 
 /** Dark theme version for the development shortcuts form. */
 export const $47DarkThemeMode = {
@@ -369,4 +370,20 @@ export const $47DarkThemeMode = {
     'elevation': 0,
     'sx': { 'backgroundColor': C.THEME_DARK_PAPER_COLOR }
   },
-} as TStateForm
+} as TStateForm;
+
+export const dev_install_form_state = {
+
+  [C.$47_STATE_KEY]: devInstallFormState,
+
+  // TODO - Insert installation form states here.
+
+} as TBootstrapState<TStateForm>;
+
+export const dev_install_form_state_dark = {
+
+  [C.$47_STATE_KEY]: $47DarkThemeMode
+
+  // TODO - Insert installation form states (dark themed) here.
+
+} as TBootstrapState<TStateForm>;

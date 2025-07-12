@@ -1,9 +1,9 @@
 import mongoose, { Schema } from 'mongoose'
 import paginate from 'mongoose-paginate-v2'
 import {
-  IGenericObject,
   IJsonapiQuerystring,
   TJsonapiResource,
+  TObj,
   WithRequired
 } from '../../common.types'
 
@@ -88,7 +88,7 @@ export interface IBookmarkGet {
 export interface IBookmarkPost {
   Body: {
     data: TJsonapiResource<IBookmark>,
-    meta: IGenericObject
+    meta: TObj
   }
 }
 

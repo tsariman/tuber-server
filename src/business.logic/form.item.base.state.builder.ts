@@ -45,7 +45,7 @@ export default class FormItemBaseStateBuilder extends AbstractFormItemStateBuild
     return this;
   }
   /**
-   * [ **REQUIRED** ] Set the form item name.
+   * [ **REQUIRED** ] Set the form item machine name.
    * @param name 
    * @returns this.
    */
@@ -59,18 +59,16 @@ export default class FormItemBaseStateBuilder extends AbstractFormItemStateBuild
    * @param field [ *optional* ] state field to set the text to.
    * @returns this.
    */
-  withText(text: string, field: TTextField = 'label'): this {
+  withText(text: string, field?: TTextField): this {
     this.$state.has = this.$state.has || {};
     switch (field) {
     case 'label':
       this.$state.label = text;
       break;
-    case 'has_label':
-      this.$state.has.label = text;
-      break;
     case 'title':
       this.$state.has.title = text;
       break;
+    case 'has_label':
     default:
       this.$state.has.label = text;
       break;
@@ -80,10 +78,10 @@ export default class FormItemBaseStateBuilder extends AbstractFormItemStateBuild
   /** Get the state. @returns state. */
   build(): TStateFormItem { return this.$state; }
   /**
-   * Base class method not implemented.
+   * **DO NOT USE.** Base class method not implemented.
    * @returns this.
    */
-  add(_instance: AbstractStateBuilder): this {
+  add(_i: AbstractStateBuilder): this {
     return this.die('Method not implemented.', this);
   }
 }

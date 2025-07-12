@@ -1,20 +1,20 @@
-import { model, PaginateModel, PaginateResult } from 'mongoose'
-import { IMPV2Doc } from '../../common.types'
+import { model, PaginateModel, PaginateResult } from 'mongoose';
+import { IMPV2Doc } from '../../common.types';
 import bookmarkSchema, {
   IBookmark,
   IBookmarkDocument,
   TBookmark,
-} from '../../schema/bookmarks'
-import { DB_PAGINATION_OPTIONS, DB_PAGINATION_QUERY } from '../../constants'
+} from '../../schema/bookmarks';
+import { DB_PAGINATION_OPTIONS, DB_PAGINATION_QUERY } from '../../constants';
 
 /** mongoose-paginate-v2 query */
 const PAGINATION_QUERY = {
   ...DB_PAGINATION_QUERY,
 
   // TODO Add custom pagination query here
-}
+};
 
-type TSelect = { [key in keyof IBookmarkDocument]: 0|1 }
+type TSelect = { [key in keyof IBookmarkDocument]: 0|1 };
 
 /** mongoose-paginate-v2 options */
 const PAGINATION_OPTIONS = {
@@ -27,14 +27,14 @@ const PAGINATION_OPTIONS = {
     // 'password': 0,
   } as TSelect
   // TODO Add custom pagination options here
-}
+};
 
 export const BookmarkPaginationModel = model<
   IBookmarkDocument,
   PaginateModel<IBookmarkDocument>
->('bookmarks', bookmarkSchema)
+>('bookmarks', bookmarkSchema);
 
-export const BookmarkModel = model<TBookmark>('bookmarks', bookmarkSchema)
+export const BookmarkModel = model<TBookmark>('bookmarks', bookmarkSchema);
 
 /** Exclude fields from the bookmark document. @deprecated */
 export const exclude_bookmark_fields = (bookmark: IMPV2Doc) => {
@@ -48,27 +48,27 @@ export const exclude_bookmark_fields = (bookmark: IMPV2Doc) => {
       __v,
       ...bookmarkDoc
     }
-  } = bookmark
-  return bookmarkDoc
-}
+  } = bookmark;
+  return bookmarkDoc;
+};
 
 export const get_bookmark_by_id = async function (
   id: string
 ): Promise<IBookmarkDocument | null> {
-  const bookmarkDoc = await BookmarkPaginationModel.findById(id)
-  return bookmarkDoc
-}
+  const bookmarkDoc = await BookmarkPaginationModel.findById(id);
+  return bookmarkDoc;
+};
 
 export const create_bookmark = async function (
   bookmarkInfo?: IBookmark
 ): Promise<IBookmarkDocument> {
   if (!bookmarkInfo) {
-    throw new Error('Bookmark info is required')
+    throw new Error('Bookmark info is required');
   }
-  const bookmarkModel = await BookmarkPaginationModel.create(bookmarkInfo)
-  const bookmark = await bookmarkModel.save()
-  return bookmark
-}
+  const bookmarkModel = await BookmarkPaginationModel.create(bookmarkInfo);
+  const bookmark = await bookmarkModel.save();
+  return bookmark;
+};
 
 export const get_bookmark_collection = async function (
   page: number,
@@ -78,11 +78,11 @@ export const get_bookmark_collection = async function (
     ...PAGINATION_OPTIONS,
     page,
     limit
-  })
-  return result
-}
+  });
+  return result;
+};
 
 export const get_bookmark_document_count = async function (): Promise<number> {
   const count = await BookmarkModel.countDocuments()
   return count
-}
+};

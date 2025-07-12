@@ -1,8 +1,9 @@
-import { TStateForm } from '../../common.types'
-import Config from '../../config'
-import * as C from '../../constants'
+import { r } from 'src/business.logic';
+import { TStateForm } from '../../common.types';
+import Config from '../../config';
+import * as C from '../../constants';
 
-Config.register('state', '24', C.$24_STATE_KEY)
+Config.register('state', '24', C.$24_STATE_KEY);
 /** Form for creating a new facebook video bookmark @id 24 */
 const newFacebookBookmarkFormState = {
   '_id': '24',
@@ -15,7 +16,7 @@ const newFacebookBookmarkFormState = {
         {
           'type': 'textfield',
           'name': 'url',
-          'label': 'Link',
+          'label': r('200', 'Link'),
           'props': {
             'fullWidth': true,
             'variant': 'filled'
@@ -23,56 +24,56 @@ const newFacebookBookmarkFormState = {
           'inputProps': { 'readOnly': true },
           'has': {
             'required': true,
-            'requiredMessage': C.URL_REQUIRED_MESSAGE,
+            'requiredMessage': r('201', C.URL_REQUIRED_MESSAGE),
           }
         },
         {
           'type': 'textfield',
           'name': 'embed_url',
-          'label': 'Embed HTML Code',
+          'label': r('202', 'Embed HTML Code'),
           'props': {
             'fullWidth': true,
           },
           'has': {
             'required': true,
-            'requiredMessage': 'We need the embed HTML code',
+            'requiredMessage': r('203', 'We need the embed HTML code'),
           }
         },
         {
           'type': 'textfield',
           'name': 'title',
-          'label': 'Title',
+          'label': r('204', 'Title'),
           'props': {
             'fullWidth': true
           },
           'has': {
             'required': true,
-            'requiredMessage': C.TITLE_REQUIRED_MESSAGE,
-            'maxLength': C.TITLE_MAX_LENGTH,
-            'maxLengthMessage': C.TITLE_MAX_LENGTH_MESSAGE
+            'requiredMessage': r('205', C.TITLE_REQUIRED_MESSAGE),
+            'maxLength': r('206', C.TITLE_MAX_LENGTH),
+            'maxLengthMessage': r('207', C.TITLE_MAX_LENGTH_MESSAGE)
           }
         },
         {
           'type': 'textarea',
           'name': 'note',
-          'label': 'Note',
+          'label': r('208', 'Note'),
           'props': {
             'multiline': true,
-            'rows': C.NOTE_FIELD_ROWS
+            'rows': r('209', C.NOTE_FIELD_ROWS)
           },
           'has': {
-            'maxLength': C.NOTE_MAX_LENGTH,
-            'maxLengthMessage': C.NOTE_MAX_LENGTH_MESSAGE
+            'maxLength': r('210', C.NOTE_MAX_LENGTH),
+            'maxLengthMessage': r('211', C.NOTE_MAX_LENGTH_MESSAGE)
           }
         }
       ]
     },
   ]
-} as TStateForm
+} as TStateForm;
 
-export default newFacebookBookmarkFormState
+export default newFacebookBookmarkFormState;
 
 export const $24DarkThemeMode = {
   ...newFacebookBookmarkFormState,
   // TODO - add dark theme mode overrides here
-} as TStateForm
+} as TStateForm;

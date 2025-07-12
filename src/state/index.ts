@@ -8,7 +8,7 @@ export const backgroundState: TStateBackground = {
   'color': 'inherit'// '#f0f0f0',
 }
 
-/** Get the default background state. */
+/** Get the default background state. @deprecated */
 export function bootstrap_background_state(): TStateBackground {
   return {
     'color': 'inherit' // '#f0f0f0'

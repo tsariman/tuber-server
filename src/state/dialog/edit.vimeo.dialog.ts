@@ -3,18 +3,18 @@ import {
   $15_STATE_KEY,
   THEME_LIGHT_BACKGROUND_COLOR,
   THEME_DARK_DIALOG_BACKGROUND_COLOR
-} from '../../constants'
-import Config from '../../config'
-import { remove_form_suffix } from '../../business.logic'
-import { TStateDialog } from '../../common.types'
+} from '../../constants';
+import Config from '../../config';
+import { r, remove_form_suffix } from '../../business.logic';
+import { TStateDialog } from '../../common.types';
 
-Config.register('state', '15', $15_STATE_KEY)
+Config.register('state', '15', $15_STATE_KEY);
 /** Dialog to edit an existing Vimeo video bookmark @id 15 */
 const editVimeoBookmarkDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '15',
   '_key': $15_STATE_KEY,
-  'title': 'Edit Vimeo Bookmark',
+  'title': r('27', 'Edit Vimeo Bookmark'),
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
@@ -31,7 +31,7 @@ const editVimeoBookmarkDialogState: TStateDialog = {
       'type': 'state_button',
       'props': { 'color': 'secondary' },
       'has': {
-        'text': 'Cancel',
+        'text': r('28', 'Cancel'),
         'onclickHandle': 'tuberCallbacks.defaultClose'
       }
     },
@@ -39,15 +39,15 @@ const editVimeoBookmarkDialogState: TStateDialog = {
       'type': 'state_button',
       'props': { 'color': 'primary' },
       'has': {
-        'text': 'Save',
+        'text': r('29', 'Save'),
         'onclickHandle': 'tuberCallbacks.$15_C_1'
       }
     }
   ],
   'open': true
-}
+};
 
-export default editVimeoBookmarkDialogState
+export default editVimeoBookmarkDialogState;
 
 /**
  * Dark theme mode for form state to edit an existing Vimeo video
@@ -63,4 +63,4 @@ export const $15DarkThemeMode: TStateDialog = {
       'sx': { 'backgroundColor': THEME_DARK_DIALOG_BACKGROUND_COLOR }
     }
   }
-}
+};

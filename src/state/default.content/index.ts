@@ -12,6 +12,7 @@ export const defaultAppBarState: TStateAppbar = {
   }
 };
 
+/** @deprecated */
 export function bootstrap_default_appbar_state(): TStateAppbar {
   return {
     ...defaultAppBarState

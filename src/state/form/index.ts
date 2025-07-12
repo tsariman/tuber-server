@@ -86,6 +86,7 @@ function _get_signin_form_state(mode?: TThemeMode) {
   );
 }
 
+/** @deprecated */
 export function bootstrap_forms_state(
   usr?: TCipheredUser,
   mode?: TThemeMode
@@ -106,6 +107,8 @@ export function bootstrap_forms_state(
  *
  * @param usr user object decoded from user token
  * @returns light theme mode forms state
+ *
+ * @deprecated
  */
 export function bootstrap_forms_light_state(usr?: TCipheredUser) {
   const forms: TStateAllForms = {
@@ -124,6 +127,8 @@ export function bootstrap_forms_light_state(usr?: TCipheredUser) {
  *
  * @param usr user object decoded from user token
  * @returns dark theme mode forms state
+ * 
+ * @deprecated
  */
 export function bootstrap_forms_dark_state(usr?: TCipheredUser) {
   const forms: TStateAllForms = {

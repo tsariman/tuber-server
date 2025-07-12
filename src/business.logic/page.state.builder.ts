@@ -1,5 +1,5 @@
 import AbstractStateBuilder from './abstract.state.builder';
-import { TStateComponent, TStatePage } from '../common.types';
+import { TStateBackground, TStateComponent, TStatePage } from '../common.types';
 import PageAppbarStateBuilder from './appbar.state.builder';
 import TypographyStateBuilder from './typography.state.builder';
 import DrawerStateBuilder from './drawer.state.builder';
@@ -48,7 +48,7 @@ export default class PageStateBuilder extends AbstractStateBuilder {
     this._state.appbarCustom = appbarCustom;
     return this;
   }
-  withBackground(background: string) {
+  withBackground(background: TStateBackground) {
     this._state.background = background;
     return this;
   }

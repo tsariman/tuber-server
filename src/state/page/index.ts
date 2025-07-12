@@ -64,7 +64,8 @@ export const $42DarkThemeMode: TStatePage = {
  *
  * @param list of all pages
  * @param mode theme mode
- * @returns void
+ * 
+ * @deprecated
  */
 export function bootstrap_pages_state(
   usr?: TCipheredUser,
@@ -83,10 +84,16 @@ export function bootstrap_pages_state(
     get_70_dark_theme_mode(usr),
     mode
   );
+  pages[key(chippedListingPageState)] = themed(
+    get_chipped_listing_page_state(usr),
+    get_51_dark_theme_mode(usr),
+    mode
+  );
 
   return pages;
 }
 
+/** @deprecated */
 export function bootstrap_pages_light_state(
   usr?: TCipheredUser
 ): TStateAllPages {
@@ -108,6 +115,8 @@ export function bootstrap_pages_light_state(
  *
  * @param usr user object decoded from user token.
  * @returns dark theme mode pages state.
+ * 
+ * @deprecated
  */
 export function bootstrap_pages_dark_state(
   usr?: TCipheredUser,

@@ -3,9 +3,10 @@ import { get_documents_count } from '.';
 import devInstallFormState from './form/dev.install.form.state';
 import { $46_STATE_KEY, $58_STATE_KEY } from '../constants';
 import Config from '../config';
+import { TObj } from 'src/common.types';
 
-export default async function dev_get_pages_data_state () {
-  const pagesData: Record<string, any> = {};
+export default async function dev_get_pages_data_state(): Promise<TObj> {
+  const pagesData: TObj = {};
   const counts = await get_documents_count();
   pagesData[key(devInstallFormState)] = counts;
   pagesData[$46_STATE_KEY] = {

@@ -1,68 +1,69 @@
-import Config from '../../config'
-import * as C from '../../constants'
+import Config from '../../config';
+import * as C from '../../constants';
 import {
   get_state_key as key,
+  r,
   remove_form_suffix,
   set_state_by_key,
   themed,
   themed_by_key
-} from '../../business.logic'
+} from '../../business.logic';
 import {
   TNetState,
   TStateAllDialogs,
   TStateDialog,
   TThemeMode
-} from '../../common.types'
+} from '../../common.types';
 import newRumbleBookmarkDialogState, {
   $8DarkThemeMode
-} from './new.rumble.dialog'
+} from './new.rumble.dialog';
 import editRumbleBookmarkDialogState, {
   $11DarkThemeMode
-} from './edit.rumble.dialog'
+} from './edit.rumble.dialog';
 import newVimeoBookmarkDialogState, {
   $14DarkThemeMode
-} from './new.vimeo.dialog'
+} from './new.vimeo.dialog';
 import newOdyseeBookmarkDialogState, {
   $16DarkThemeMode
-} from './new.odysee.dialog'
+} from './new.odysee.dialog';
 import newDailyBookmarkDialogState, {
   $21DarkThemeMode
-} from './new.daily.dialog'
+} from './new.daily.dialog';
 import editDailyBookmarkDialogState, {
   $22DarkThemeMode
-} from './edit.daily.dialog'
+} from './edit.daily.dialog';
 import editVimeoBookmarkDialogState, {
   $15DarkThemeMode
-} from './edit.vimeo.dialog'
+} from './edit.vimeo.dialog';
 import editOdyseeBookmarkDialogState, {
   $23DarkThemeMode
-} from './edit.odysee.dialog'
+} from './edit.odysee.dialog';
 import newFacebookBookmarkDialogState, {
   $26DarkThemeMode
-} from './new.facebook.dialog'
+} from './new.facebook.dialog';
 import editFacebookBookmarkDialogState, {
   $27DarkThemeMode
-} from './edit.facebook.dialog'
+} from './edit.facebook.dialog';
 import newUnknownBookmarkDialogState, {
   $30DarkThemeMode
-} from './new.unknown.dialog'
+} from './new.unknown.dialog';
 import editUnknownBookmarkDialogState, {
   $31DarkThemeMode
-} from './edit.unknown.dialog'
+} from './edit.unknown.dialog';
 import newTwitchBookmarkDialogState, {
   $36DarkThemeMode
-} from './new.twitch.dialog'
+} from './new.twitch.dialog';
 import editTwitchBookmarkDialogState, {
   $37DarkThemeMode
-} from './edit.twitch.dialog'
+} from './edit.twitch.dialog';
 
-Config.register('state', '6', C.$6_STATE_KEY)
+Config.register('state', '6', C.$6_STATE_KEY);
 /** Dialog to create a new YouTube video bookmark @id 6 */
 export const newYoutubeBookmarkDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '6',
   '_key': C.$6_STATE_KEY,
-  'title': 'Insert New YouTube Bookmark',
+  'title': r('30', 'Insert New YouTube Bookmark'),
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
@@ -79,7 +80,7 @@ export const newYoutubeBookmarkDialogState: TStateDialog = {
       'type': 'state_button',
       'props': { 'color': 'secondary' },
       'has': {
-        'text': 'Cancel',
+        'text': r('31', 'Cancel'),
         'onclickHandle': 'tuberCallbacks.defaultClose'
       }
     },
@@ -87,13 +88,13 @@ export const newYoutubeBookmarkDialogState: TStateDialog = {
       'type': 'state_button',
       'props': { 'color': 'primary' },
       'has': {
-        'text': 'Save',
+        'text': r('32', 'Save'),
         'onclickHandle': 'tuberCallbacks.$6_C_1'
       }
     }
   ],
   'open': true
-}
+};
 
 /**
  * Dark theme mode for form state to create a new YouTube video
@@ -109,15 +110,15 @@ export const $6DarkThemeMode: TStateDialog = {
       'sx': { 'backgroundColor': C.THEME_DARK_DIALOG_BACKGROUND_COLOR }
     }
   }
-}
+};
 
-Config.register('state', '2', C.$2_STATE_KEY)
+Config.register('state', '2', C.$2_STATE_KEY);
 /** Dialog that contains the form to insert the new video url. @id 2 */
 export const newVideoUrlDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '2',
   '_key': C.$2_STATE_KEY,
-  'title': 'Insert the URL of Video to be Bookmarked',
+  'title': r('33', 'Insert the URL of Video to be Bookmarked'),
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
@@ -131,7 +132,7 @@ export const newVideoUrlDialogState: TStateDialog = {
   'content': `$form : ${remove_form_suffix(C.$1_STATE_KEY)} : bookmarks`,
   'actions': [],
   'open': true
-}
+};
 
 /**
  * Dark theme mode for form state to create a new video url.
@@ -146,15 +147,15 @@ export const $2DarkThemeMode: TStateDialog = {
       'sx': { 'backgroundColor': C.THEME_DARK_DIALOG_BACKGROUND_COLOR }
     }
   }
-}
+};
 
-Config.register('state', '7', C.$7_STATE_KEY)
+Config.register('state', '7', C.$7_STATE_KEY);
 /** Dialog to edit an existing YouTube video bookmark @id 7 */
 export const editYoutubeBookmarkDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '7',
   '_key': C.$7_STATE_KEY,
-  'title': 'Edit YouTube Bookmark',
+  'title': r('34', 'Edit YouTube Bookmark'),
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
@@ -171,7 +172,7 @@ export const editYoutubeBookmarkDialogState: TStateDialog = {
       'type': 'state_button',
       'props': { 'color': 'secondary' },
       'has': {
-        'text': 'Cancel',
+        'text': r('35', 'Cancel'),
         'onclickHandle': 'tuberCallbacks.defaultClose'
       }
     },
@@ -179,13 +180,13 @@ export const editYoutubeBookmarkDialogState: TStateDialog = {
       'type': 'state_button',
       'props': { 'color': 'primary' },
       'has': {
-        'text': 'Save',
+        'text': r('36', 'Save'),
         'onclickHandle': 'tuberCallbacks.$7_C_1'
       }
     }
   ],
   'open': true
-}
+};
 
 /**
  * Dark theme mode for form state to edit an existing YouTube video
@@ -201,15 +202,15 @@ export const $7DarkThemeMode: TStateDialog = {
       'sx': { 'backgroundColor': C.THEME_DARK_DIALOG_BACKGROUND_COLOR }
     }
   }
-}
+};
 
-Config.register('state', '32', C.$32_STATE_KEY)
+Config.register('state', '32', C.$32_STATE_KEY);
 /** Sign in dialog state. @id 32 */
 export const signInDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '32',
   '_key': C.$32_STATE_KEY,
-  'title': 'Enter Your Credentials',
+  'title': r('37', 'Enter Your Credentials'),
   'props': {
     'fullWidth': true,
     'maxWidth': 'xs'
@@ -219,20 +220,20 @@ export const signInDialogState: TStateDialog = {
   },
   'content': `$form : ${remove_form_suffix(C.$41_STATE_KEY)} : ${C.EP_AUTHENTICATE}`,
   'open': true
-}
+};
 
 /** Dark theme mode for sign in dialog state. @id 32 */
 export const $32DarkThemeMode: TStateDialog = {
   ...signInDialogState,
-}
+};
 
-Config.register('state', '33', C.$33_STATE_KEY)
+Config.register('state', '33', C.$33_STATE_KEY);
 /** Dialog state for registering a new user @id 33 */
 export const registerDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '33',
   '_key': C.$33_STATE_KEY,
-  'title': 'Register New User',
+  'title': r('38', 'Register New User'),
   'props': {
     'fullWidth': true,
     'maxWidth': 'xs'
@@ -242,32 +243,32 @@ export const registerDialogState: TStateDialog = {
   },
   'content': `$form : ${remove_form_suffix(C.$69_STATE_KEY)} : ${C.EP_USERS}`,
   'open': true
-}
+};
 
 /** Dark theme mode dialog state for registering a new user @id 33 */
 export const $33DarkThemeMode: TStateDialog = {
   ...registerDialogState,
   // TODO Implement the dark theme color values here.
-}
+};
 
-Config.register('state', '34', C.$34_STATE_KEY)
+Config.register('state', '34', C.$34_STATE_KEY);
 /** Dialog state to delete a bookmark. @id 34 */
 export const deleteBookmarkDialogState: TStateDialog = {
   '_type': 'alert',
   '_id': '34',
   '_key': C.$34_STATE_KEY,
-  'title': 'Delete Bookmark',
+  'title': r('39', 'Delete Bookmark'),
   'props': { 'fullWidth': true },
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': 'Are you sure you want to delete this bookmark?',
+  'content': r('40', 'Are you sure you want to delete this bookmark?'),
   'actions': [
     {
       'type': 'state_button',
       'props': { 'color': 'secondary' },
       'has': {
-        'text': 'Cancel',
+        'text': r('41', 'Cancel'),
         'onclickHandle': 'tuberCallbacks.defaultClose'
       }
     },
@@ -275,26 +276,26 @@ export const deleteBookmarkDialogState: TStateDialog = {
       'type': 'state_button',
       'props': { 'color': 'primary' },
       'has': {
-        'text': 'Delete',
+        'text': r('42', 'Delete'),
         'onclickHandle': 'tuberCallbacks.$34_C_1'
       }
     }
   ],
   'open': true // Careful! Must be set to true
-}
+};
 
 /** Dark theme mode dialog state to delete a bookmark. @id 34  */
 export const $34DarkThemeMode: TStateDialog = {
   ...deleteBookmarkDialogState,
-}
+};
 
-Config.register('state', '35', C.$35_STATE_KEY)
+Config.register('state', '35', C.$35_STATE_KEY);
 /** Client alert dialog. @id 35 */
 export const clientAlertDialogState: TStateDialog = {
   '_type': 'alert',
   '_id': '35',
   '_key': C.$35_STATE_KEY,
-  'title': 'Feedback',
+  'title': r('43', 'Feedback'),
   'props': { 'fullWidth': true },
   'titleProps': {
     'sx': { 'textAlign': 'center' }
@@ -305,19 +306,19 @@ export const clientAlertDialogState: TStateDialog = {
       'type': 'state_button',
       'props': { 'color': 'secondary' },
       'has': {
-        'text': 'Cancel',
+        'text': r('44', 'Cancel'),
         'onclickHandle': 'tuberCallbacks.defaultClose'
       }
     }
   ]
-}
+};
 
 /** Dark theme mode for client alert dialog. @id 35 */
 export const $35DarkThemeMode: TStateDialog = {
   ...clientAlertDialogState,
-}
+};
 
-Config.register('state', '68', C.$68_STATE_KEY)
+Config.register('state', '68', C.$68_STATE_KEY);
 /** Dialog state to confirm logging out. @id 68 */
 export const confirmSignOutDialogState: TStateDialog = {
   '_type': 'alert',
@@ -328,13 +329,13 @@ export const confirmSignOutDialogState: TStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': 'Are you sure you want to logout?',
+  'content': r('45', 'Are you sure you want to logout?'),
   'actions': [
     {
       'type': 'state_button',
       'props': { 'color': 'secondary' },
       'has': {
-        'text': 'Cancel',
+        'text': r('46', 'Cancel'),
         'onclickHandle': 'tuberCallbacks.defaultClose'
       }
     },
@@ -342,18 +343,18 @@ export const confirmSignOutDialogState: TStateDialog = {
       'type': 'state_button',
       'props': { 'color': 'primary' },
       'has': {
-        'text': 'Logout',
+        'text': r('47', 'Logout'),
         'onclickHandle': 'tuberCallbacks.$68_C_1'
       }
     }
   ],
   'open': true
-}
+};
 
 /** Dark theme mode for dialog state to confirm logging out. @id 68 */
 export const $68DarkThemeMode: TStateDialog = {
   ...confirmSignOutDialogState,
-}
+};
 
 /**
  * Default alert dialog.  
@@ -368,7 +369,7 @@ export function defaultDialogAlertState<T=any>(content: T) {
         '_type': 'alert',
         '_id': '64',
         '_key': C.$64_STATE_KEY,
-        'title': 'Server Response',
+        'title': r('48', 'Server Response'),
         'props': { 'fullWidth': true },
         'titleProps': {
           'sx': { 'textAlign': 'center' }
@@ -379,7 +380,7 @@ export function defaultDialogAlertState<T=any>(content: T) {
             'type': 'state_button',
             'props': { 'color': 'secondary' },
             'has': {
-              'text': 'Close',
+              'text': r('49', 'Close'),
               'onclickHandle': 'tuberCallbacks.defaultClose'
             }
           }
@@ -387,10 +388,10 @@ export function defaultDialogAlertState<T=any>(content: T) {
         'open': true
       }
     } as TNetState
-  }
+  };
 }
 
-export const alert = defaultDialogAlertState
+export const alert = defaultDialogAlertState;
 
 /**
  * Simple dialog alert. It must be inserted at `state.dialog` e.g.
@@ -408,7 +409,7 @@ export function dialogAlertState<T=any>(content: T): TStateDialog {
     '_type': 'alert',
     '_id': '65',
     '_key': C.$65_STATE_KEY,
-    'title': 'Server Response',
+    'title': r('50', 'Server Response'),
     'props': { 'fullWidth': true },
     'titleProps': {
       'sx': { 'textAlign': 'center' }
@@ -419,18 +420,20 @@ export function dialogAlertState<T=any>(content: T): TStateDialog {
         'type': 'state_button',
         'props': { 'color': 'secondary' },
         'has': {
-          'text': 'Close',
+          'text': r('51', 'Close'),
           'onclickHandle': 'tuberCallbacks.defaultClose'
         }
       }
     ],
     'open': true
-  } as TStateDialog
+  } as TStateDialog;
 }
 
 /**
  * Bootstrap state for dialogs light theme mode.
  * @returns object of all dialogs in light theme mode.
+ *
+ * @deprecated
  */
 export function bootstrap_dialogs_light_state() {
   const dialogs: TStateAllDialogs = {};
@@ -444,6 +447,8 @@ export function bootstrap_dialogs_light_state() {
 /**
  * Bootstrap state for dialogs dark theme mode.
  * @returns object of all dialogs in dark theme mode.
+ *
+ * @deprecated
  */
 export function bootstrap_dialogs_dark_state() {
   const dialogs: TStateAllDialogs = {};
@@ -489,6 +494,8 @@ function _get_signout_dialog_state (mode?: TThemeMode) {
  *
  * @param mode 
  * @returns object of all dialogs.
+ *
+ * @deprecated
  */
 export function bootstrap_dialogs_state(mode?: TThemeMode) {
   const dialogs: TStateAllDialogs = {};
@@ -524,7 +531,7 @@ export const STATE_DIALOGS_THEME_DARK: TStateAllDialogs = {
   [C.$36_STATE_KEY]: $36DarkThemeMode,
   [C.$37_STATE_KEY]: $37DarkThemeMode,
   [C.$68_STATE_KEY]: $68DarkThemeMode,
-}
+};
 
 export const STATE_DIALOGS: { [key: string]: TStateDialog } = {
   [C.$2_STATE_KEY]: newVideoUrlDialogState,
@@ -549,8 +556,8 @@ export const STATE_DIALOGS: { [key: string]: TStateDialog } = {
   [C.$36_STATE_KEY]: newTwitchBookmarkDialogState,
   [C.$37_STATE_KEY]: editTwitchBookmarkDialogState,
   [C.$68_STATE_KEY]: confirmSignOutDialogState,
-}
+};
 
 export default function get_dialog_state(key: string): TStateDialog | undefined {
-  return themed_by_key(key, STATE_DIALOGS, STATE_DIALOGS_THEME_DARK)
+  return themed_by_key(key, STATE_DIALOGS, STATE_DIALOGS_THEME_DARK);
 }

@@ -1,8 +1,9 @@
-import { TStateForm } from '../../common.types'
-import Config from '../../config'
-import * as C from '../../constants'
+import { r } from 'src/business.logic';
+import { TStateForm } from '../../common.types';
+import Config from '../../config';
+import * as C from '../../constants';
 
-Config.register('state', '4', C.$4_STATE_KEY)
+Config.register('state', '4', C.$4_STATE_KEY);
 /** Form for creating a new YouTube video bookmark @id 4 */
 const newYouTubeBookmarkFormState = {
   '_id': '4',
@@ -22,7 +23,7 @@ const newYouTubeBookmarkFormState = {
             {
               'type': 'number',
               'name': 'start_seconds',
-              'label': 'Start',
+              'label': r('261', 'Start'),
               'props': {
                 'sx': { 'width': 240 },
                 'variant': 'filled'
@@ -33,13 +34,13 @@ const newYouTubeBookmarkFormState = {
               },
               'has': {
                 'required': true,
-                'requiredMessage': C.START_SECONDS_REQUIRED_MESSAGE,
+                'requiredMessage': r('262', C.START_SECONDS_REQUIRED_MESSAGE),
               }
             },
             {
               'type': 'number',
               'name': 'end_seconds',
-              'label': 'Length',
+              'label': r('263', 'Length'),
               'props': {
                 'sx': { 'width': 240 },
                 'variant': 'filled'
@@ -49,7 +50,7 @@ const newYouTubeBookmarkFormState = {
             {
               'type': 'textfield',
               'name': 'videoid',
-              'label': 'Video ID',
+              'label': r('264', 'Video ID'),
               'props': {
                 'fullWidth': true,
                 'variant': 'filled'
@@ -59,7 +60,7 @@ const newYouTubeBookmarkFormState = {
             {
               'type': 'textfield',
               'name': 'platform',
-              'label': 'Platform',
+              'label': r('265', 'Platform'),
               'props': {
                 'sx': { 'width': 240 },
               },
@@ -70,40 +71,40 @@ const newYouTubeBookmarkFormState = {
         {
           'type': 'textfield',
           'name': 'title',
-          'label': 'Title',
+          'label': r('266', 'Title'),
           'props': {
             'fullWidth': true
           },
           'has': {
             'required': true,
-            'requiredMessage': C.TITLE_REQUIRED_MESSAGE,
+            'requiredMessage': r('267', C.TITLE_REQUIRED_MESSAGE),
             'maxLength': C.TITLE_MAX_LENGTH,
-            'maxLengthMessage': C.TITLE_MAX_LENGTH_MESSAGE,
-            'invalidationRegex': '[/#.]',
-            'invalidationMessage': `Characters not allowed: '/', '#', '.'`
+            'maxLengthMessage': r('268', C.TITLE_MAX_LENGTH_MESSAGE),
+            'invalidationRegex': r('269', '[/#.]'),
+            'invalidationMessage': r('270', `Characters not allowed: '/', '#', '.'`)
           }
         },
         {
           'type': 'textarea',
           'name': 'note',
-          'label': 'Note',
+          'label': r('271', 'Note'),
           'props': {
             'multiline': true,
             'rows': C.NOTE_FIELD_ROWS
           },
           'has': {
             'maxLength': C.NOTE_MAX_LENGTH,
-            'maxLengthMessage': C.NOTE_MAX_LENGTH_MESSAGE
+            'maxLengthMessage': r('272', C.NOTE_MAX_LENGTH_MESSAGE)
           }
         }
       ]
     },
   ]
-} as TStateForm
+} as TStateForm;
 
-export default newYouTubeBookmarkFormState
+export default newYouTubeBookmarkFormState;
 
 export const $4DarkThemeMode = {
   ...newYouTubeBookmarkFormState,
   // TODO - add dark theme mode overrides here
-} as TStateForm
+} as TStateForm;

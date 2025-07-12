@@ -1,12 +1,12 @@
-import Config from '../../config'
+import Config from '../../config';
 import {
   $24_STATE_KEY,
   $26_STATE_KEY,
   THEME_LIGHT_BACKGROUND_COLOR,
   THEME_DARK_DIALOG_BACKGROUND_COLOR
-} from '../../constants'
-import { remove_form_suffix } from '../../business.logic'
-import { TStateDialog } from '../../common.types'
+} from '../../constants';
+import { r, remove_form_suffix } from '../../business.logic';
+import { TStateDialog } from '../../common.types';
 
 Config.register('state', '26', $26_STATE_KEY)
 /** Dialog to create a new Facebook video bookmark @id 26 */
@@ -14,7 +14,7 @@ const newFacebookBookmarkDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '26',
   '_key': $26_STATE_KEY,
-  'title': 'Insert new Facebook Bookmark',
+  'title': r('55', 'Insert new Facebook Bookmark'),
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
@@ -31,7 +31,7 @@ const newFacebookBookmarkDialogState: TStateDialog = {
       'type': 'state_button',
       'props': { 'color': 'secondary' },
       'has': {
-        'text': 'Cancel',
+        'text': r('56', 'Cancel'),
         'onclickHandle': 'tuberCallbacks.defaultClose'
       }
     },
@@ -40,15 +40,15 @@ const newFacebookBookmarkDialogState: TStateDialog = {
       'props': { 'color': 'primary' },
       'has': {
         'disableOnError': true,
-        'text': 'Save',
+        'text': r('57', 'Save'),
         'onclickHandle': 'tuberCallbacks.$26_C_1'
       }
     }
   ],
   'open': true
-}
+};
 
-export default newFacebookBookmarkDialogState
+export default newFacebookBookmarkDialogState;
 
 /**
  * Dark theme mode for form state to create a new Facebook video bookmark.
@@ -63,4 +63,4 @@ export const $26DarkThemeMode: TStateDialog = {
       'sx': { 'backgroundColor': THEME_DARK_DIALOG_BACKGROUND_COLOR }
     }
   },
-}
+};

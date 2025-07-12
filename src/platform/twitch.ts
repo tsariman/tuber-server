@@ -1,6 +1,6 @@
-import * as dotenv from 'dotenv'
-import Config from '../config'
-import axios from 'axios'
+import * as dotenv from 'dotenv';
+import Config from '../config';
+import axios from 'axios';
 import {
   CONF_TWITCH_CLIENT_ID,
   CONF_TWITCH_CLIENT_SECRET,
@@ -8,12 +8,13 @@ import {
   CONF_TWITCH_TOKEN_EXPIRATION,
   CONF_TWITCH_REFRESH_TOKEN,
   CONF_TWITCH_DISABLE_THUMBNAIL_RETRIEVAL
-} from 'src/constants'
+} from 'src/constants';
 import {
   get_twitch_renew_access_token_endpoint
-} from './endpoint/get.twitch.renew.access.token.ep'
+} from './endpoint/get.twitch.renew.access.token.ep';
+import { TObj } from 'src/common.types';
 
-dotenv.config({ path: `${__dirname}/../../.env.twitch` })
+dotenv.config({ path: `${__dirname}/../../.env.twitch` });
 
 /**
  * Twitch api url
@@ -22,7 +23,7 @@ dotenv.config({ path: `${__dirname}/../../.env.twitch` })
  * @returns `string`
  */
 export const TWITCH_API_URL = process.env.TWITCH_API_URL
-  ?? 'https://api.twitch.tv/helix/videos'
+  ?? 'https://api.twitch.tv/helix/videos';
 
 /**
  * Twitch client ID
@@ -32,7 +33,7 @@ export const TWITCH_API_URL = process.env.TWITCH_API_URL
 export function twitch_get_api_client_id(): string {
   return Config.read<string|undefined>(CONF_TWITCH_CLIENT_ID)
     ?? process.env.TWITCH_API_CLIENT_ID
-    ?? ''
+    ?? '';
 }
 /**
  * Twitch client secret
@@ -42,7 +43,7 @@ export function twitch_get_api_client_id(): string {
 export function twitch_get_api_client_secret(): string {
   return Config.read<string|undefined>(CONF_TWITCH_CLIENT_SECRET)
     ?? process.env.TWITCH_API_CLIENT_SECRET
-    ?? ''
+    ?? '';
 }
 /**
  * Twitch api access token
@@ -52,7 +53,7 @@ export function twitch_get_api_client_secret(): string {
 export function twitch_get_api_access_token(): string {
   return Config.read<string|undefined>(CONF_TWITCH_ACCESS_TOKEN)
     ?? process.env.TWITCH_API_ACCESS_TOKEN
-    ?? ''
+    ?? '';
 }
 /**
  * Twitch api access token expiration date.
@@ -62,7 +63,7 @@ export function twitch_get_api_access_token(): string {
 export function twitch_get_api_access_token_expires_in(): string {
   return Config.read<string|undefined>(CONF_TWITCH_TOKEN_EXPIRATION)
     ?? process.env.TWITCH_API_ACCESS_TOKEN_EXPIRES_IN
-    ?? ''
+    ?? '';
 }
 
 /**
@@ -72,17 +73,17 @@ export function twitch_get_api_access_token_expires_in(): string {
  */
 export function twitch_get_oauth_url(): string {
   return process.env.TWITCH_OAUTH_URL
-    ?? 'https://id.twitch.tv/oauth2/token'
+    ?? 'https://id.twitch.tv/oauth2/token';
 }
 
 export function twitch_get_api_refresh_token(): string {
   return Config.read<string|undefined>(CONF_TWITCH_REFRESH_TOKEN)
     ?? process.env.TWITCH_API_REFRESH_TOKEN
-    ?? ''
+    ?? '';
 }
 
 /** Twitch api token request url */
-export const TWITCH_API_TOKEN_REQUEST_URL = process.env.TWITCH_API_TOKEN_REQUEST_URL ?? ''
+export const TWITCH_API_TOKEN_REQUEST_URL = process.env.TWITCH_API_TOKEN_REQUEST_URL ?? '';
 
 /**
  * Fetch thumbnail URL from Twitch video ID.
@@ -93,36 +94,40 @@ export async function twitch_fetch_thumbnail_url(videoid?: string): Promise<stri
   if (!videoid
     || Config.read<boolean>(CONF_TWITCH_DISABLE_THUMBNAIL_RETRIEVAL, false)
   ) { return '' }
-  const url = `${TWITCH_API_URL}?id=${videoid}`
-  let thumbnailUrlTemplate = ''
-  let json: any = {}
-  let tries = 0
-  const maxTries = 3
+  const url = `${TWITCH_API_URL}?id=${videoid}`;
+  let response: TObj = {};
+  let thumbnailUrlTemplate = '';
+  let json: any = {};
+  let tries = 0;
+  const maxTries = 2;
   do {
-    if (tries >= maxTries) { return '' }
-    tries++
-    const response = await axios.get(url, {
-      headers: {
-        // 'Accept': 'application/vnd.twitchtv.v5+json',
-        'Client-Id': twitch_get_api_client_id(),
-        'Authorization': `Bearer ${twitch_get_api_access_token()}`
-      }
-    })
-    if (response.status === 401) {
-      await get_twitch_renew_access_token_endpoint()
-      continue
+    if (tries >= maxTries) { return ''; }
+    tries++;
+
+    try {
+      response = await axios.get(url, {
+        headers: {
+          // 'Accept': 'application/vnd.twitchtv.v5+json',
+          'Client-Id': twitch_get_api_client_id(),
+          'Authorization': `Bearer ${twitch_get_api_access_token()}`
+        }
+      });
+    } catch (e: any) {
+      await get_twitch_renew_access_token_endpoint();
+      continue;
     }
-    json = response.data
+
+    json = response.data;
     if (json.data?.[0]?.thumbnail_url) {
-      thumbnailUrlTemplate = json.data[0].thumbnail_url
-      break
+      thumbnailUrlTemplate = json.data[0].thumbnail_url;
+      break;
     } else {
-      Config.log(`[ERROR] twitch_fetch_thumbnail_url()`, json)
+      Config.log(`[ERROR] twitch_fetch_thumbnail_url()`, json);
     }
-  } while (!json.data?.[0]?.thumbnail_url)
-  if (!thumbnailUrlTemplate) { return '' }
+  } while (!json.data?.[0]?.thumbnail_url);
+  if (!thumbnailUrlTemplate) { return ''; }
   const thumbnailUrl = thumbnailUrlTemplate
     .replace('%{width}', '320')
-    .replace('%{height}', '180')
-  return thumbnailUrl
+    .replace('%{height}', '180');
+  return thumbnailUrl;
 }

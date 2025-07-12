@@ -1,20 +1,20 @@
-import Config from '../../config'
+import Config from '../../config';
 import {
   $18_STATE_KEY,
   $23_STATE_KEY,
   THEME_LIGHT_BACKGROUND_COLOR,
   THEME_DARK_DIALOG_BACKGROUND_COLOR
-} from '../../constants'
-import { remove_form_suffix } from '../../business.logic'
-import { TStateDialog } from '../../common.types'
+} from '../../constants';
+import { r, remove_form_suffix } from '../../business.logic';
+import { TStateDialog } from '../../common.types';
 
-Config.register('state', '23', $23_STATE_KEY)
+Config.register('state', '23', $23_STATE_KEY);
 /** Dialog to create a edit Odysee video bookmark @id 23 */
 const editOdyseeBookmarkDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '23',
   '_key': $23_STATE_KEY,
-  'title': 'Edit Odysee Bookmark',
+  'title': r('15', 'Edit Odysee Bookmark'),
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
@@ -31,7 +31,7 @@ const editOdyseeBookmarkDialogState: TStateDialog = {
       'type': 'state_button',
       'props': { 'color': 'secondary' },
       'has': {
-        'text': 'Cancel',
+        'text': r('16', 'Cancel'),
         'onclickHandle': 'tuberCallbacks.defaultClose'
       }
     },
@@ -40,15 +40,15 @@ const editOdyseeBookmarkDialogState: TStateDialog = {
       'props': { 'color': 'primary' },
       'has': {
         'disableOnError': true,
-        'text': 'Save',
+        'text': r('17', 'Save'),
         'onclickHandle': 'tuberCallbacks.$23_C_1'
       }
     }
   ],
   'open': true
-}
+};
 
-export default editOdyseeBookmarkDialogState
+export default editOdyseeBookmarkDialogState;
 
 /**
  * Dark theme mode for form state to edit an existing odysee video bookmark.
@@ -63,4 +63,4 @@ export const $23DarkThemeMode: TStateDialog = {
       'sx': { 'backgroundColor': THEME_DARK_DIALOG_BACKGROUND_COLOR }
     }
   }
-}
+};

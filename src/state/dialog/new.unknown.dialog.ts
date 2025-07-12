@@ -5,7 +5,7 @@ import {
   THEME_LIGHT_BACKGROUND_COLOR,
   THEME_DARK_DIALOG_BACKGROUND_COLOR
 } from '../../constants'
-import { remove_form_suffix } from '../../business.logic'
+import { r, remove_form_suffix } from '../../business.logic'
 import { TStateDialog } from '../../common.types'
 
 Config.register('state', '30', $30_STATE_KEY)
@@ -14,7 +14,7 @@ const newUnknownBookmarkDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '30',
   '_key': $30_STATE_KEY,
-  'title': 'Insert new Unknown Bookmark',
+  'title': r('67', 'Insert new Unknown Bookmark'),
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
@@ -31,7 +31,7 @@ const newUnknownBookmarkDialogState: TStateDialog = {
       'type': 'state_button',
       'props': { 'color': 'secondary' },
       'has': {
-        'text': 'Cancel',
+        'text': r('68', 'Cancel'),
         'onclickHandle': 'tuberCallbacks.defaultClose'
       }
     },
@@ -40,7 +40,7 @@ const newUnknownBookmarkDialogState: TStateDialog = {
       'props': { 'color': 'primary' },
       'has': {
         'disableOnError': true,
-        'text': 'Save',
+        'text': r('69', 'Save'),
         'onclickHandle': 'tuberCallbacks.$30_C_1'
       }
     }

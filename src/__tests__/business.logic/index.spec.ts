@@ -1,4 +1,4 @@
-import { bracketize_object_querystring } from '../../business.logic/index'
+import { bracketize_object_querystring } from '../../business.logic/index';
 
 describe('business.logic', () => {
 
@@ -12,19 +12,19 @@ describe('business.logic', () => {
           f: 4
         }
       }
-    }
-    const expected = '?a=1&b[c]=2&b[d][e]=3&b[d][f]=4&'
-    const actual = bracketize_object_querystring(obj)
-    expect(actual).toBe(expected)
+    };
+    const expected = '?a=1&b[c]=2&b[d][e]=3&b[d][f]=4&';
+    const actual = bracketize_object_querystring(obj);
+    expect(actual).toBe(expected);
 
     const obj2 = {
       page: {
         size: 10,
         number: 1
       }
-    }
-    const expected2 = 'page[size]=10&page[number]=1&'
-    const actual2 = bracketize_object_querystring(obj2, '')
-    expect(actual2).toBe(expected2)
-  })
-})
+    };
+    const expected2 = 'page[size]=10&page[number]=1&';
+    const actual2 = bracketize_object_querystring(obj2, '');
+    expect(actual2).toBe(expected2);
+  });
+});

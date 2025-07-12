@@ -1,19 +1,19 @@
-import mongoose from 'mongoose'
-import paginate from 'mongoose-paginate-v2'
+import mongoose from 'mongoose';
+import paginate from 'mongoose-paginate-v2';
 
 /** Configuration saved to the database */
 export interface IDbConfiguration {
-  is_active?: boolean
-  created_at?: Date
-  modified_at?: Date
-  key: string
-  value: string
-  restrictions?: string[]
-  rules?: string[]
-}
+  is_active?: boolean;
+  created_at?: Date;
+  modified_at?: Date;
+  key: string;
+  value: string;
+  restrictions?: string[];
+  rules?: string[];
+};
 
 export interface IDbConfigurationDocument
-  extends mongoose.Document, IDbConfiguration {}
+  extends mongoose.Document, IDbConfiguration {};
 
 const configurationSchema = new mongoose.Schema<IDbConfigurationDocument>({
   is_active: { type: Boolean, default: true },
@@ -23,8 +23,8 @@ const configurationSchema = new mongoose.Schema<IDbConfigurationDocument>({
   value: { type: String, required: true },
   restrictions: { type: [ String ], default: undefined },
   rules: { type: [ String ], default: undefined }
-})
+});
 
-configurationSchema.plugin(paginate)
+configurationSchema.plugin(paginate);
 
-export default configurationSchema
+export default configurationSchema;

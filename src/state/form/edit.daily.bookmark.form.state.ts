@@ -1,8 +1,9 @@
-import { TStateForm } from '../../common.types'
-import Config from '../../config'
-import * as C from '../../constants'
+import { r } from 'src/business.logic';
+import { TStateForm } from '../../common.types';
+import Config from '../../config';
+import * as C from '../../constants';
 
-Config.register('state', '20', C.$20_STATE_KEY)
+Config.register('state', '20', C.$20_STATE_KEY);
 /** Form for editing an existing Dailymotion bookmark. @id 20 */
 const editDailyBookmarkFormState = {
   '_id': '20',
@@ -22,24 +23,22 @@ const editDailyBookmarkFormState = {
             {
               'type': 'number',
               'name': 'start_seconds',
-              'label': 'Start',
+              'label': r('73', 'Start'),
               'props': {
-                'sx': {
-                  'width': 240,
-                },
-                'helperText': 'time in second(s)',
+                'sx': { 'width': 240, },
+                'helperText': r('74', 'time in second(s)'),
                 'variant': 'filled'
               },
               'inputProps': { 'readOnly': true },
               'has': {
                 'required': true,
-                'requiredMessage': C.START_SECONDS_REQUIRED_MESSAGE,
+                'requiredMessage': r('93', C.START_SECONDS_REQUIRED_MESSAGE),
               }
             },
             {
               'type': 'textfield',
               'name': 'videoid',
-              'label': 'Video ID',
+              'label': r('75', 'Video ID'),
               'props': {
                 'fullWidth': true,
                 'variant': 'filled'
@@ -49,7 +48,7 @@ const editDailyBookmarkFormState = {
             {
               'type': 'textfield',
               'name': 'platform',
-              'label': 'Platform',
+              'label': r('76', 'Platform'),
               'props': {
                 'sx': { 'width': 240 },
                 'variant': 'filled'
@@ -61,28 +60,36 @@ const editDailyBookmarkFormState = {
         {
           'type': 'textfield',
           'name': 'title',
-          'label': 'TItle',
+          'label': r('77', 'Title'),
           'props': {
             'fullWidth': true
           },
           'has': {
             'required': true,
-            'requiredMessage': C.TITLE_REQUIRED_MESSAGE,
-            'maxLength': C.TITLE_MAX_LENGTH,
-            'maxLengthMessage': C.TITLE_MAX_LENGTH_MESSAGE,
+            'requiredMessage': r('94', C.TITLE_REQUIRED_MESSAGE),
+            'maxLength': r('95', C.TITLE_MAX_LENGTH),
+            'maxLengthMessage': r('96', C.TITLE_MAX_LENGTH_MESSAGE),
           }
         },
         {
           'type': 'textarea',
           'name': 'note',
-          'label': 'Note',
+          'label': r('78', 'Note'),
           'props': {
             'multiline': true,
-            'rows': C.NOTE_FIELD_ROWS
+            'rows': r('97', C.NOTE_FIELD_ROWS)
           },
           'has': {
-            'maxLength': C.NOTE_MAX_LENGTH,
-            'maxLengthMessage': C.NOTE_MAX_LENGTH_MESSAGE
+            'maxLength': r('98', C.NOTE_MAX_LENGTH),
+            'maxLengthMessage': r('99', C.NOTE_MAX_LENGTH_MESSAGE)
+          }
+        },
+        {
+          'type': 'single_switch',
+          'name': 'is_published',
+          'label': r('79', 'Published'),
+          'has': {
+            'helperText': r('100', C.PUBLISHED_HELPER_TEXT)
           }
         }
       ]

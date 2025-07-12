@@ -5,7 +5,7 @@ import {
   THEME_LIGHT_BACKGROUND_COLOR,
   THEME_DARK_DIALOG_BACKGROUND_COLOR
 } from '../../constants'
-import { remove_form_suffix } from '../../business.logic'
+import { r, remove_form_suffix } from '../../business.logic'
 import { TStateDialog } from '../../common.types'
 
 Config.register('state', '16', $16_STATE_KEY)
@@ -14,7 +14,7 @@ const newOdyseeBookmarkDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '16',
   '_key': $16_STATE_KEY,
-  'title': 'Insert new Odysee Bookmark',
+  'title': r('58', 'Insert new Odysee Bookmark'),
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
@@ -31,7 +31,7 @@ const newOdyseeBookmarkDialogState: TStateDialog = {
       'type': 'state_button',
       'props': { 'color': 'secondary' },
       'has': {
-        'text': 'Cancel',
+        'text': r('59', 'Cancel'),
         'onclickHandle': 'tuberCallbacks.defaultClose'
       }
     },
@@ -40,7 +40,7 @@ const newOdyseeBookmarkDialogState: TStateDialog = {
       'props': { 'color': 'primary' },
       'has': {
         'disableOnError': true,
-        'text': 'Save',
+        'text': r('60', 'Save'),
         'onclickHandle': 'tuberCallbacks.$16_C_1'
       }
     }

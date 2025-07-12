@@ -1,8 +1,9 @@
-import Config from '../../config'
-import * as C from '../../constants'
-import { TStateForm } from '../../common.types'
+import Config from '../../config';
+import * as C from '../../constants';
+import { TStateForm } from '../../common.types';
+import { r } from 'src/business.logic';
 
-Config.register('state', '18', C.$18_STATE_KEY)
+Config.register('state', '18', C.$18_STATE_KEY);
 /** Form for creating a edit odysee video bookmark @id 18 */
 const editOdyseeBookmarkFormState = {
   '_id': '18',
@@ -22,7 +23,7 @@ const editOdyseeBookmarkFormState = {
             {
               'type': 'number',
               'name': 'start_seconds',
-              'label': 'Start',
+              'label': r('87', 'Start'),
               'props': {
                 'sx': { 'width': 240 },
                 'variant': 'filled'
@@ -30,13 +31,13 @@ const editOdyseeBookmarkFormState = {
               'inputProps': { 'readOnly': true },
               'has': {
                 'required': true,
-                'requiredMessage': C.START_SECONDS_REQUIRED_MESSAGE,
+                'requiredMessage': r('109', C.START_SECONDS_REQUIRED_MESSAGE),
               }
             },
             {
               'type': 'textfield',
               'name': 'slug',
-              'label': 'Video URL Slug',
+              'label': r('88', 'Video URL Slug'),
               'props': {
                 'fullWidth': true,
                 'variant': 'filled'
@@ -46,7 +47,7 @@ const editOdyseeBookmarkFormState = {
             {
               'type': 'textfield',
               'name': 'platform',
-              'label': 'Platform',
+              'label': r('89', 'Platform'),
               'props': {
                 'sx': { 'width': 240 },
                 'variant': 'filled'
@@ -58,38 +59,46 @@ const editOdyseeBookmarkFormState = {
         {
           'type': 'textfield',
           'name': 'title',
-          'label': 'TItle',
+          'label': r('90', 'Title'),
           'props': {
             'fullWidth': true
           },
           'has': {
             'required': true,
-            'requiredMessage': C.TITLE_REQUIRED_MESSAGE,
-            'maxLength': C.TITLE_MAX_LENGTH,
-            'maxLengthMessage': C.TITLE_MAX_LENGTH_MESSAGE
+            'requiredMessage': r('110', C.TITLE_REQUIRED_MESSAGE),
+            'maxLength': r('111', C.TITLE_MAX_LENGTH),
+            'maxLengthMessage': r('112', C.TITLE_MAX_LENGTH_MESSAGE)
           }
         },
         {
           'type': 'textarea',
           'name': 'note',
-          'label': 'Note',
+          'label': r('91', 'Note'),
           'props': {
             'multiline': true,
-            'rows': C.NOTE_FIELD_ROWS
+            'rows': r('113', C.NOTE_FIELD_ROWS)
           },
           'has': {
-            'maxLength': C.NOTE_MAX_LENGTH,
-            'maxLengthMessage': C.NOTE_MAX_LENGTH_MESSAGE
+            'maxLength': r('114', C.NOTE_MAX_LENGTH),
+            'maxLengthMessage': r('115', C.NOTE_MAX_LENGTH_MESSAGE)
+          }
+        },
+        {
+          'type': 'single_switch',
+          'name': 'is_published',
+          'label': r('92', 'Published'),
+          'has': {
+            'helperText': r('116', C.PUBLISHED_HELPER_TEXT)
           }
         }
       ]
     },
   ]
-} as TStateForm
+} as TStateForm;
 
-export default editOdyseeBookmarkFormState
+export default editOdyseeBookmarkFormState;
 
 export const $18DarkThemeMode = {
   ...editOdyseeBookmarkFormState,
   // TODO - add dark theme overrides
-} as TStateForm
+} as TStateForm;
