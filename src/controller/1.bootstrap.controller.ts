@@ -5,7 +5,7 @@ import {
   parse_cookie
 } from 'src/business.logic';
 import { default_500_error_response } from 'src/business.logic/jsonapi.error.builder';
-import { IBootstrapResponse, TNetState, TObj } from 'src/common.types';
+import { IBootstrapResponse, TNetState, TObj, TStateAllIcons } from 'src/common.types';
 import Config from 'src/config';
 import { TCipheredUser } from 'src/schema/users';
 import { IStateContext } from 'src/state/_state.common.types';
@@ -35,6 +35,7 @@ import {
 } from 'src/state/bootstrap/page';
 import { bootstrap_pages_data_state } from 'src/state/bootstrap/page.data';
 import { PrepareState } from 'src/state/PrepareState';
+import { bootstrap_icons_state } from 'src/state/bootstrap/icon';
 
 export default async function $1_bootstrap_controller(fastify: FastifyInstance) {
   
@@ -60,8 +61,8 @@ export default async function $1_bootstrap_controller(fastify: FastifyInstance) 
     try {
       usr = await req.jwtVerify<TCipheredUser>();
       Config.log('[DEBUG] Decoded values from token:', usr);
-    } catch (err: any) {
-      Config.log('[DEBUG] Token verification failed.', err.message);
+    } catch (err: unknown) {
+      Config.log('[DEBUG] Token verification failed.', (err as Error).message);
     }
 
     const context: IStateContext = {
@@ -87,6 +88,9 @@ export default async function $1_bootstrap_controller(fastify: FastifyInstance) 
                             .get(),
           'appbar': new PrepareState(context)
                         .process(bootstrap_appbar_state)
+                        .get(),
+          'icons': new PrepareState<TStateAllIcons>(context)
+                        .process(bootstrap_icons_state)
                         .get(),
           'pages': new PrepareState(context)
                         .process(bootstrap_pages_state)

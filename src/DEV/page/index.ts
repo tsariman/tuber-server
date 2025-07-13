@@ -177,7 +177,6 @@ export const devResearchErrorsViewPageState: TStatePage = {
   '_id': '48',
   '_key': C.$48_STATE_KEY,
   'content': '$view : default_errors_page_view',
-  // 'background': { 'color': '#fcfcfc' },
   'layout': 'layout_none_no_appbar',
   'appbar': {
     'items': [
@@ -195,6 +194,7 @@ export const $48DarkThemeMode: TStatePage = {
   ...devResearchErrorsViewPageState,
 };
 
+/** @deprecated */
 export function dev_bootstrap_pages_light_state(
   usr?: TCipheredUser
 ): TStateAllPages {
@@ -206,6 +206,7 @@ export function dev_bootstrap_pages_light_state(
   return pages;
 }
 
+/** @deprecated */
 export function dev_bootstrap_pages_dark_state(
   usr?: TCipheredUser
 ): TStateAllPages {
@@ -223,6 +224,8 @@ export function dev_bootstrap_pages_dark_state(
  * @param list of all pages
  * @param mode theme mode
  * @returns void
+ *
+ * @deprecated
  */
 export function dev_bootstrap_pages_state(
   usr?: TCipheredUser,

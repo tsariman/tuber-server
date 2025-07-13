@@ -78,6 +78,8 @@ export const $70DarkThemeMode: TStatePage = { ...listingPageState };
  * @param usr User data from the decoded token.
  * @param mode theme mode
  * @returns state page
+ *
+ * @deprecated
  */
 export function get_research_page_state(usr?: TCipheredUser): TStatePage {
   return {
@@ -100,6 +102,8 @@ export function get_research_page_state(usr?: TCipheredUser): TStatePage {
  * @param usr user object retrieve from the decoded token.
  * @param mode theme mode
  * @returns page state
+ *
+ * @deprecated
  */
 export function get_40_dark_theme_mode(usr?: TCipheredUser ): TStatePage {
   return {
@@ -117,10 +121,10 @@ export function get_40_dark_theme_mode(usr?: TCipheredUser ): TStatePage {
 }
 
 /**
- * 
  * @param usr 
- * @returns 
+ * @returns
  * @id 70
+ * @deprecated
  */
 export function get_listing_page_state (usr?: TCipheredUser): TStatePage {
   return {
@@ -149,6 +153,8 @@ export function get_listing_page_state (usr?: TCipheredUser): TStatePage {
  * @param usr 
  * @returns 
  * @id 70
+ *
+ * @deprecated
  */
 export function get_70_dark_theme_mode(usr?: TCipheredUser): TStatePage {
   return {

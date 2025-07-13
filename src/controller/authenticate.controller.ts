@@ -8,7 +8,7 @@ import {
   default_500_error_response
 } from '../business.logic/jsonapi.error.builder';
 import { MSG_500_ERROR_MESSAGE } from '../constants';
-import get_bootstrap_authenticated_state from '../state/bootstrap.state';
+import get_bootstrap_authenticated_state from '../state/bootstrap';
 import { TNetState } from '../common.types';
 import { get_ciphered_user, get_user } from 'src/model/session';
 import {  get_theme_mode, option } from '../business.logic';
@@ -28,16 +28,12 @@ export default async function authentication_controller (fastify: FastifyInstanc
         const user = await get_user({ name: username }); // uses cache internally
         if (user) {
           if (password && user.password) {
-            const passwordCorrect = await check_password(password, user.password);
-            if (passwordCorrect) {
+            const passwordIsCorrect = await check_password(password, user.password);
+            if (passwordIsCorrect) {
               Config.USER_CACHE.set(user.name, user);
               const usr = get_ciphered_user(user);
               const expiresIn = option<string>(o)('keep-signed-in', '2M', '1d');
-              // const expiresIn = option<string>(o)('keep-signed-in', '2M', '15000');
-
-              const token = await reply.jwtSign(usr, {
-                expiresIn
-              });
+              const token = await reply.jwtSign(usr, { expiresIn });
               Config.log('Successs! User authenticated.');
               Config.log('[DEBUG] Session expires in', expiresIn === '2M'
                 ? '2 months.'

@@ -1,4 +1,4 @@
-import Config from '../config';
+import Config from '../../config';
 import {
   TNetState,
   TStateApp,
@@ -11,34 +11,34 @@ import {
   TStateBackground,
   TStateAllForms,
   TStateAllDialogs
-} from '../common.types';
-import { TCipheredUser } from '../schema/users';
+} from '../../common.types';
+import { TCipheredUser } from '../../schema/users';
 import {
   bootstrap_pages_dark_state,
   bootstrap_pages_light_state,
   bootstrap_pages_state
-} from './bootstrap/page';
-import { PrepareState } from './PrepareState';
-import { IStateContext } from './_state.common.types';
-import { bootstrap_app_state } from './bootstrap/app';
+} from './page';
+import { PrepareState } from '../PrepareState';
+import { IStateContext } from '../_state.common.types';
+import { bootstrap_app_state } from './app';
 import bootstrap_theme_state, {
   bootstrap_theme_dark_state,
   bootstrap_theme_light_state
-} from './bootstrap/theme';
-import { bootstrap_appbar_state } from './bootstrap/appbar';
-import { bootstrap_pages_data_state } from './bootstrap/page.data';
-import { bootstrap_background_state } from './bootstrap/background';
+} from './theme';
+import { bootstrap_appbar_state } from './appbar';
+import { bootstrap_pages_data_state } from './page.data';
+import { bootstrap_background_state } from './background';
 import {
   bootstrap_forms_dark_state,
   bootstrap_forms_light_state,
   bootstrap_forms_state
-} from './bootstrap/form';
+} from './form';
 import {
   bootstrap_dialogs_dark_state,
   bootstrap_dialogs_light_state,
   bootstrap_dialogs_state
-} from './bootstrap/dialog';
-import { bootstrap_icons_state } from './bootstrap/icon';
+} from './dialog';
+import { bootstrap_icons_state } from './icon';
 
 export interface IBootstrap {
   token?: string;
@@ -46,7 +46,6 @@ export interface IBootstrap {
   mode?: TThemeMode;
 }
 
-/** @deprecated */
 export default async function get_bootstrap_authenticated_state(
   bootstrap: IBootstrap
 ): Promise<TNetState> {

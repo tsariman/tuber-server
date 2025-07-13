@@ -63,6 +63,7 @@ export const $51DarkThemeMode: TStatePage = {
   ...chippedListingPageState,
 };
 
+/** @deprecated */
 export function get_chipped_listing_page_state(
   usr?: TCipheredUser
 ): TStatePage {
@@ -80,6 +81,7 @@ export function get_chipped_listing_page_state(
   };
 }
 
+/** @deprecated */
 export function get_51_dark_theme_mode(usr?: TCipheredUser): TStatePage {
   return {
     ...$51DarkThemeMode,

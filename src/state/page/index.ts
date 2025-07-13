@@ -167,6 +167,8 @@ STATE_PAGES[C.$53_STATE_KEY] = adminReadablePageState;
  * @param key page key
  * @param mode theme mode
  * @returns page state
+ *
+ * @deprecated
  */
 export function get_page_state(key: string, mode?: TThemeMode): TStatePage {
   const lightState = STATE_PAGES[key];

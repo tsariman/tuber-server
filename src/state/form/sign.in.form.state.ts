@@ -1,8 +1,8 @@
-import { TStateForm } from '../../common.types'
-import Config from '../../config'
-import { $41_STATE_KEY } from '../../constants'
+import { TStateForm } from '../../common.types';
+import Config from '../../config';
+import { $41_STATE_KEY } from '../../constants';
 
-Config.register('state', '41', $41_STATE_KEY)
+Config.register('state', '41', $41_STATE_KEY);
 /** Form state to sign in. @id 41 */
 const signInFormState: TStateForm = {
   '_type': 'box',
@@ -64,12 +64,12 @@ const signInFormState: TStateForm = {
       ]
     }
   ]
-}
+};
 
-export default signInFormState
+export default signInFormState;
 
 /** Dark theme mode form state to sign in. @id 41 */
 export const $41DarkThemeMode = {
   ...signInFormState,
   // TODO - add dark theme mode overrides here
-} as TStateForm
+} as TStateForm;

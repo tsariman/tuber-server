@@ -251,5 +251,3 @@ export const $69_STATE_KEY = 'registerForm';
 export const $70_STATE_KEY = 'listing';
 /** Listing page app bar state. @id 71 */
 export const $71_STATE_KEY = 'listingPageAppbar';
-/** Dev install form state [dark]. @id 72 */
-export const $72_STATE_KEY = 'devInstallFormDark';
