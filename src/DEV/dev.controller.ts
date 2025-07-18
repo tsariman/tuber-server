@@ -41,6 +41,7 @@ import dev_post_twitch_client_id_endpoint
   from './endpoint/dev.post.twitch.client.id.ep';
 import dev_post_save_config_value_endpoint
   from './endpoint/dev.post.save.config.value.ep';
+import { TJsonapiRequest } from 'src/common.types';
 
 interface IPostPopulate {
   Params: {
@@ -63,10 +64,10 @@ interface IPostClient {
 }
 
 interface IPostKeyVal {
-  Body: {
+  Body: TJsonapiRequest<{
     key?: string;
     value?: string;
-  };
+  }>;
 }
 
 const opts = {

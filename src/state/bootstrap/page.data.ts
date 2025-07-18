@@ -3,12 +3,12 @@ import { IStateContext, TBootstrapState } from '../_state.common.types';
 import Config from 'src/config';
 import dev_get_pages_data_state from 'src/DEV/dev.pages.data.state';
 
-const bootstrap_pages_data_state: TBootstrapState<TObj> = {
+const bootstrap_pages_data_state: TBootstrapState<Promise<TObj<TObj>>> = {
 
-  DEFAULT: async (context: IStateContext): Promise<TObj> => {
+  DEFAULT: async (context: IStateContext): Promise<TObj<TObj>> => {
     const { usr } = context;
     const inDev = Config.DEV && !!usr && usr.role === 'developer';
-    const pagesData: TObj = {
+    const pagesData: TObj<TObj> = {
 
       'bookmarks': {
         'playerOpen': false,

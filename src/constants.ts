@@ -230,7 +230,7 @@ export const $59_STATE_KEY = 'dev-twitch-input-client-id';
 /** Dev Twitch input client ID form state. @id 60 */
 export const $60_STATE_KEY = 'devTwitchInputClientIdForm';
 /** Dev save config value page state. @id 61 */
-export const $61_STATE_KEY = 'dev-save-config-value';
+export const $61_STATE_KEY = 'save-config-value';
 /** Dev save config value form state. @id 62 */
 export const $62_STATE_KEY = 'devSaveConfigValueForm';
 /** Research page app bar state. @id 63 */

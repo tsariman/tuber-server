@@ -5,7 +5,7 @@ import {
   parse_cookie
 } from 'src/business.logic';
 import { default_500_error_response } from 'src/business.logic/builder/jsonapi.error.builder';
-import { IBootstrapResponse, TNetState, TObj, TStateAllIcons } from 'src/common.types';
+import { IBootstrapResponse, TNetState, TStateAllIcons } from 'src/common.types';
 import Config from 'src/config';
 import { TCipheredUser } from 'src/schema/users';
 import { IStateContext } from 'src/state/_state.common.types';
@@ -101,7 +101,7 @@ export default async function $1_bootstrap_controller(fastify: FastifyInstance) 
           'pagesDark': new PrepareState(context)
                             .process(bootstrap_pages_dark_state)
                             .get(),
-          'pagesData': (await new PrepareState<TObj>(context)
+          'pagesData': (await new PrepareState(context)
                                     .processAsync(bootstrap_pages_data_state))
                                     .get(),
           'background': new PrepareState(context)

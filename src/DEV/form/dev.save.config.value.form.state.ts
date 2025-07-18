@@ -9,7 +9,7 @@ import {
 import { $26DarkThemeMode } from 'src/state/dialog/new.facebook.dialog';
 
 Config.register('state', '62', $62_STATE_KEY);
-/** @id 62 @deprecated */
+/** @id 62 */
 const devSaveConfigValueFormState: TStateForm = {
   '_id': '62',
   '_key': $62_STATE_KEY,

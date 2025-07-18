@@ -47,13 +47,13 @@ export const bracketize_object_querystring = (
 }
 
 /** Insert state fragment using `_key` as key. */
-export const set_state_by_key = (
-  state: TObj,
-  fragment: TObj
+export const set_state_by_key = <T, K>(
+  state: T,
+  fragment: K
 ) => {
-  const _key = fragment['_key'];
+  const _key = (fragment as TObj)['_key'];
   if (!_key) Config.die('Fragment must have a `_key`.');
-  state[_key] = fragment;
+  (state as TObj)[_key as string] = fragment;
 }
 
 /**
@@ -61,8 +61,8 @@ export const set_state_by_key = (
  * @param state State object
  * @returns `_key` value
  */
-export const get_state_key = (state: TObj): string => {
-  const _key: string = state['_key'];
+export const get_state_key = <T=TObj>(state: T): string => {
+  const _key = (state as TObj)['_key'] as string;
   if (!_key) Config.die('Fragment must have a `_key`.');
   return _key;
 }

@@ -145,7 +145,7 @@ Config.register('state', '61', C.$61_STATE_KEY);
 export const devSaveConfigValuePageState: TStatePage = {
   '_id': '61',
   '_key': C.$61_STATE_KEY,
-  'content': `$form : ${remove_form_suffix(C.$62_STATE_KEY)} : save-config-value`,
+  'content': `$form : ${remove_form_suffix(C.$62_STATE_KEY)} : ${C.$61_STATE_KEY}`,
   'layout': 'layout_centered_no_scroll',
   'appbar': {
     'appbarStyle': 'mini',

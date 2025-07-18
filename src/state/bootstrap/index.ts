@@ -88,9 +88,9 @@ export default async function get_bootstrap_authenticated_state(
                       .process(bootstrap_pages_dark_state)
                       .get(),
     // 'pagesData': await bootstrap_pages_data_state(usr),
-    'pagesData': (await new PrepareState<TObj>(context)
+    'pagesData': (await new PrepareState(context)
                               .processAsync(bootstrap_pages_data_state))
-                              .get(),
+                              .get() as TObj,
     //'background': bootstrap_background_state(),
     'background': new PrepareState<TStateBackground>(context)
                         .process(bootstrap_background_state)
