@@ -1,18 +1,20 @@
-import { FastifyRequest, FastifyReply } from 'fastify'
+import { FastifyRequest, FastifyReply } from 'fastify';
 import JsonapiErrorBuilder, {
   default_500_error_response
-} from 'src/business.logic/jsonapi.error.builder'
-import Config from '../../config'
+} from 'src/business.logic/builder/jsonapi.error.builder';
+import Config from '../../config';
 import {
   $62_STATE_KEY,
   MSG_500_ERROR_MESSAGE
-} from '../../constants'
+} from '../../constants';
+import { TJsonapiRequest } from 'src/common.types';
+import JsonapiRequestDriver from 'src/business.logic/jsonapi.request.driver';
 
 interface IPostRequest {
-  Body: {
-    key?: string
-    value?: string
-  }
+  Body: TJsonapiRequest<{
+    key?: string;
+    value?: string;
+  }>;
 }
 
 /**
@@ -27,30 +29,32 @@ export default async function dev_post_save_config_value_endpoint(
   reply: FastifyReply
 ): Promise<void> {
   try {
-    const key = req.body.key
-    const value = req.body.value
+    const driver = new JsonapiRequestDriver(req.body);
+    const key = driver.getAttribute('key');
+    const value = driver.getAttribute('value');
+
     if (!key || !value) {
-      Config.log('[ERROR]: Key and value are required.')
+      Config.log('[ERROR]: Key and value are required.');
       reply.code(400).send(new JsonapiErrorBuilder()
-        .code('bad_request')
-        .status(400)
-        .title('Query parameter is required')
+        .withCode('bad_request')
+        .withStatus(400)
+        .withTitle('Query parameter is required')
         .build()
-      )
-      return
+      );
+      return;
     }
-    Config.print(`[DEBUG] Saving configuration value... `)
-    await Config.save(key, value)
-    Config.log('Success!')
+    Config.print(`[DEBUG] Saving configuration value... `);
+    await Config.save(key, value);
+    Config.log('Success!');
     reply.code(200).send({
       'state': {
         'formsData': {
           [$62_STATE_KEY]: { key: '', value: '' }
         }
       }
-    })
+    });
   } catch (e) {
-    Config.log(`${MSG_500_ERROR_MESSAGE} while saving configuration value.`, e)
-    reply.code(500).send(default_500_error_response)
+    Config.log(`${MSG_500_ERROR_MESSAGE} while saving configuration value.`, e);
+    reply.code(500).send(default_500_error_response);
   }
 }

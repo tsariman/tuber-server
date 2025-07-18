@@ -1,5 +1,5 @@
 import FormItemBaseStateBuilder from './form.item.base.state.builder';
-import { TStateFormItem, TStateFormItemSwitchToggle } from '../common.types';
+import { TStateFormItem, TStateFormItemSwitchToggle } from '../../common.types';
 import FormItemSwitchToggleStateBuilder from './form.item.switch.toggle.state.builder';
 
 export default class FormItemSwitchStateBuilder

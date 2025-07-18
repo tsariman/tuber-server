@@ -1,8 +1,8 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import {
   default_500_error_response
-} from '../../business.logic/jsonapi.error.builder';
-import JsonapiResponseBuilder from '../../business.logic/jsonapi.response.builder';
+} from '../../business.logic/builder/jsonapi.error.builder';
+import JsonapiResponseBuilder from '../../business.logic/builder/jsonapi.response.builder';
 import Config from '../../config';
 import { create_bookmark } from '../../model/bookmark';
 import { IBookmarkPost } from '../../schema/bookmarks';
@@ -21,7 +21,7 @@ export default async function dev_post_bookmarks_endpoint (
     // Generate random votes for development purposes
     const attrWithVotes = gen_random_bookmark_votes(attr);
     const bookmark = await fix_missing_bookmark_data(attrWithVotes, req.usr);
-    
+
     if (!bookmark) {
       Config.log('Failed.');
       reply.code(500).send(default_500_error_response({

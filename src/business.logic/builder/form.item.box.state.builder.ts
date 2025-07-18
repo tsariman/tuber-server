@@ -1,5 +1,5 @@
 import { AbstractFormItemStateBuilder } from './abstract.state.builder';
-import { TStateFormItemCheckboxBox } from '../common.types';
+import { TStateFormItemCheckboxBox } from '../../common.types';
 
 export default class FormItemBoxStateBuilder extends AbstractFormItemStateBuilder {
   constructor(private readonly _state: TStateFormItemCheckboxBox = {}) {
@@ -57,7 +57,7 @@ export default class FormItemBoxStateBuilder extends AbstractFormItemStateBuilde
    * @param props 
    * @returns this.
    */
-  withProps(props: Record<string, any>): this {
+  withProps(props: Record<string, unknown>): this {
     this._state.props = props;
     return this;
   }
@@ -66,7 +66,7 @@ export default class FormItemBoxStateBuilder extends AbstractFormItemStateBuilde
    * @param props 
    * @returns this.
    */
-  hasItems(items: any[]): this {
+  hasItems(items: unknown[]): this {
     this._state.has = this._state.has || {};
     this._state.has.items = items;
     return this;

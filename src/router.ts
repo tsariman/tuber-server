@@ -13,7 +13,7 @@ import platform_controller from './platform/platform.controller';
 import state_controller from './state/state.controller';
 import JsonapiErrorBuilder, {
   default_404_error_response
-} from './business.logic/jsonapi.error.builder';
+} from './business.logic/builder/jsonapi.error.builder';
 import * as C from './constants';
 import dev_builder_controller from './DEV/dev.builder.controller';
 import $1_bootstrap_controller from './controller/1.bootstrap.controller';

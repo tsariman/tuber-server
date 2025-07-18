@@ -1,5 +1,5 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
-import JsonapiErrorBuilder, { default_500_error_response } from '../../business.logic/jsonapi.error.builder'
+import JsonapiErrorBuilder, { default_500_error_response } from '../../business.logic/builder/jsonapi.error.builder'
 import { twitch_fetch_thumbnail_url } from '../../platform/twitch'
 import { $46_STATE_KEY, MSG_500_ERROR_MESSAGE } from '../../constants'
 import Config from '../../config'

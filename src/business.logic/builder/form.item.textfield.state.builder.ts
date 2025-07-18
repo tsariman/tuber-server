@@ -4,7 +4,7 @@ import {
   TStateFormItemAdornment,
   TStateFormItemCustom,
   TStateFormItemInputProps
-} from '../common.types';
+} from '../../common.types';
 import AbstractStateBuilder from './abstract.state.builder';
 import LinkStateBuilder from './link.state.builder';
 

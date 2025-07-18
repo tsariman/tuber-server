@@ -1,4 +1,4 @@
-import { TJsonapiError } from "./jsonapi.error.builder";
+import { TJsonapiError } from "./builder/jsonapi.error.builder";
 
 export const MONGODB_DUPLICATE_KEY_ERROR = 'E11000';
 

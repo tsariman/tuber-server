@@ -2,7 +2,7 @@ import { FastifyReply, FastifyRequest } from 'fastify';
 import Config from '../../config';
 import JsonapiErrorBuilder, {
   default_500_error_response
-} from '../../business.logic/jsonapi.error.builder';
+} from '../../business.logic/builder/jsonapi.error.builder';
 import  { STATE_PAGES, STATE_PAGES_THEME_DARK } from '../page';
 import { TNetState, TThemeMode } from '../../common.types';
 import { MSG_500_ERROR_MESSAGE } from '../../constants';

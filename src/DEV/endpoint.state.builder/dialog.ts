@@ -1,9 +1,9 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import Config from '../../config';
 import { MSG_500_ERROR_MESSAGE } from '../../constants';
-import { default_500_error_response } from '../../business.logic/jsonapi.error.builder';
-import DialogStateBuilder from '../../business.logic/dialog.state.builder';
-import FormItemButtonBuilder from '../../business.logic/form.item.button.state.builder';
+import { default_500_error_response } from '../../business.logic/builder/jsonapi.error.builder';
+import DialogStateBuilder from '../../business.logic/builder/dialog.state.builder';
+import FormItemButtonBuilder from '../../business.logic/builder/form.item.button.state.builder';
 
 export default async function dev_get_dialog_builder_state(
   _req: FastifyRequest,

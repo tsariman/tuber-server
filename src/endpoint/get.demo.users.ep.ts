@@ -1,5 +1,5 @@
 import { FastifyReply } from 'fastify'
-import { default_500_error_response } from '../business.logic/jsonapi.error.builder'
+import { default_500_error_response } from '../business.logic/builder/jsonapi.error.builder'
 import { TUsersFastifyRequest } from '../schema/users'
 import Config from '../config'
 import { MSG_500_ERROR_MESSAGE } from '../constants'

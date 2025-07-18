@@ -9,6 +9,13 @@ const bootstrap_pages_data_state: TBootstrapState<TObj> = {
     const { usr } = context;
     const inDev = Config.DEV && !!usr && usr.role === 'developer';
     const pagesData: TObj = {
+
+      'bookmarks': {
+        'playerOpen': false,
+        'showThumbnail': true,
+        'bookmarkToPlay': undefined
+      },
+
       ...(inDev ? await dev_get_pages_data_state() : {})
     };
 

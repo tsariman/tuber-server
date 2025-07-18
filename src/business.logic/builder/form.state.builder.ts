@@ -1,4 +1,4 @@
-import { TStateForm, TStateFormItem } from '../common.types';
+import { TStateForm, TStateFormItem } from '../../common.types';
 import AbstractStateBuilder from './abstract.state.builder';
 
 type TType = TStateForm['_type'];

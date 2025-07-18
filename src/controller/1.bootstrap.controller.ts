@@ -4,7 +4,7 @@ import {
   get_theme_mode,
   parse_cookie
 } from 'src/business.logic';
-import { default_500_error_response } from 'src/business.logic/jsonapi.error.builder';
+import { default_500_error_response } from 'src/business.logic/builder/jsonapi.error.builder';
 import { IBootstrapResponse, TNetState, TObj, TStateAllIcons } from 'src/common.types';
 import Config from 'src/config';
 import { TCipheredUser } from 'src/schema/users';

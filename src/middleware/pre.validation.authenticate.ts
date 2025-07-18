@@ -5,7 +5,7 @@ import { check_password } from '../business.logic/security'
 import { defaultDialogAlertState as alert } from '../state/dialog'
 import { ISignInCredentials } from '../business.logic/security/permissions'
 import { default_500_error_response }
-  from 'src/business.logic/jsonapi.error.builder'
+  from 'src/business.logic/builder/jsonapi.error.builder'
 
 /**
  * [TODO] #1 In authentication, when the user successfully logs in using their

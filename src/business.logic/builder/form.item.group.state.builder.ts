@@ -2,7 +2,7 @@ import {
   TStateFormItem,
   TStateFormItemGroup,
   TTItemGroup
-} from '../common.types';
+} from '../../common.types';
 import AbstractStateBuilder from './abstract.state.builder';
 
 export default class FormItemGroupStateBuilder

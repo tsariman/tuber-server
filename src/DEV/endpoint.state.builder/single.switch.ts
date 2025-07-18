@@ -1,7 +1,7 @@
 import { FastifyRequest, FastifyReply } from 'fastify';
 import Config from '../../config';
-import { default_500_error_response } from '../../business.logic/jsonapi.error.builder';
-import Switch from '../../business.logic/form.item.switch.single.state.builder';
+import { default_500_error_response } from '../../business.logic/builder/jsonapi.error.builder';
+import Switch from '../../business.logic/builder/form.item.switch.single.state.builder';
 
 export default async function dev_get_single_switch_builder_state(
   _req: FastifyRequest,

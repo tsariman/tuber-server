@@ -1,4 +1,4 @@
-import Config from '../config';
+import Config from '../../config';
 
 export type TTextField = 'label'|'has_label'|'title'|'text';
 

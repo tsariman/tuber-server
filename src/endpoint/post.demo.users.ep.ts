@@ -5,8 +5,8 @@ import {
 } from '../business.logic/errors'
 import JsonapiErrorBuilder, {
   default_500_error_response
-} from '../business.logic/jsonapi.error.builder'
-import JsonapiResponseBuilder from '../business.logic/jsonapi.response.builder'
+} from '../business.logic/builder/jsonapi.error.builder'
+import JsonapiResponseBuilder from '../business.logic/builder/jsonapi.response.builder'
 // import { create_user } from '../model/user'
 import { TUsersFastifyRequest } from '../schema/users'
 import Config from '../config'

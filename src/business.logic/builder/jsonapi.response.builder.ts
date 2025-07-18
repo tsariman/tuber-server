@@ -6,13 +6,13 @@ import {
   TJsonapiResource,
   TJsonapiResourceLinkage,
   TJsonapiResponse
-} from '../common.types'
+} from '../../common.types'
 import JsonapiResponsePaginationBuilder, { 
   IMinimalPaginationOptions,
   IPaginatedResult,
   get_pagination_options
 } from './jsonapi.pagination.builder'
-import Config from '../config'
+import Config from '../../config'
 
 type JSONAPI_RESOURCE_TYPE = 'collection' | 'object' | 'null' | 'linkage'
 

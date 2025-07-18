@@ -5,7 +5,7 @@ import {
   TJsonapiErrorSource,
   TJsonapiLink,
   TOptional
-} from '../common.types';
+} from '../../common.types';
 
 export type TJsonapiError = TOptional<TIJsonapiError, 'code' | 'title'>;
 

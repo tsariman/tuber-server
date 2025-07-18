@@ -1,7 +1,7 @@
 import {
   TFormChoices,
   TStateFormItemCustom,
-} from '../common.types';
+} from '../../common.types';
 import FormItemBaseStateBuilder from './form.item.base.state.builder';
 
 type TFormControlProps = TStateFormItemCustom['formControlProps'];

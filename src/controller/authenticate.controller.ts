@@ -6,7 +6,7 @@ import { ISignInCredentials } from '../business.logic/security/permissions';
 import {
   default_401_error_response,
   default_500_error_response
-} from '../business.logic/jsonapi.error.builder';
+} from '../business.logic/builder/jsonapi.error.builder';
 import { MSG_500_ERROR_MESSAGE } from '../constants';
 import get_bootstrap_authenticated_state from '../state/bootstrap';
 import { TNetState } from '../common.types';

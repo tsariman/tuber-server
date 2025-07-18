@@ -1,5 +1,5 @@
 import AbstractStateBuilder from './abstract.state.builder';
-import { TStateDialog } from '../common.types';
+import { TStateDialog } from '../../common.types';
 import FormItemButtonStateBuilder from './form.item.button.state.builder';
 
 type TType = TStateDialog['_type'];

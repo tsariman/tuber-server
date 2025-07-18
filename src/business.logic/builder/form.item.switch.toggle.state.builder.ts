@@ -1,5 +1,5 @@
 import AbstractStateBuilder from './abstract.state.builder';
-import { TStateFormItemSwitchToggle } from '../common.types';
+import { TStateFormItemSwitchToggle } from '../../common.types';
 
 export default class FormItemSwitchToggleStateBuilder
   extends AbstractStateBuilder

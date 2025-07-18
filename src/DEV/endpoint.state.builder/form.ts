@@ -1,11 +1,11 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import Config from '../../config';
 import * as C from '../../constants';
-import { default_500_error_response } from '../../business.logic/jsonapi.error.builder';
-import Form from '../../business.logic/form.state.builder';
-import Group from '../../business.logic/form.item.group.state.builder';
-import Numberfield from '../../business.logic/form.item.numberfield.state.builder';
-import Textfield from '../../business.logic/form.item.textfield.state.builder';
+import { default_500_error_response } from '../../business.logic/builder/jsonapi.error.builder';
+import Form from '../../business.logic/builder/form.state.builder';
+import Group from '../../business.logic/builder/form.item.group.state.builder';
+import Numberfield from '../../business.logic/builder/form.item.numberfield.state.builder';
+import Textfield from '../../business.logic/builder/form.item.textfield.state.builder';
 
 export default async function dev_get_form_builder_state(
   _req: FastifyRequest,

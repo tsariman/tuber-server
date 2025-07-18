@@ -1,7 +1,7 @@
 import { FastifyRequest, FastifyReply } from 'fastify'
 import JsonapiErrorBuilder, {
   default_500_error_response
-} from '../../business.logic/jsonapi.error.builder'
+} from '../../business.logic/builder/jsonapi.error.builder'
 import Config from '../../config'
 import { MSG_500_ERROR_MESSAGE } from '../../constants'
 import axios from 'axios'

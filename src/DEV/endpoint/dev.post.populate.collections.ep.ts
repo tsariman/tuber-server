@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { UserPaginationModel, exclude_user_fields } from '../../model/user'
 import gen_random_users from '../population/users'
-import JsonapiResponseBuilder from 'src/business.logic/jsonapi.response.builder'
+import JsonapiResponseBuilder from 'src/business.logic/builder/jsonapi.response.builder'
 import Config from 'src/config'
 // import { connect, disconnect } from "mongoose"
 import gen_random_bookmarks from '../population/bookmarks'

@@ -1,6 +1,6 @@
 import { FastifyReply } from 'fastify'
-import { default_500_error_response } from '../business.logic/jsonapi.error.builder'
-import JsonapiResponseBuilder from '../business.logic/jsonapi.response.builder'
+import { default_500_error_response } from '../business.logic/builder/jsonapi.error.builder'
+import JsonapiResponseBuilder from '../business.logic/builder/jsonapi.response.builder'
 import { exclude_user_fields, get_user_collection } from '../model/user'
 import { TUsersFastifyRequest } from '../schema/users'
 import Config from '../config'

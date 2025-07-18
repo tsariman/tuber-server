@@ -3,8 +3,8 @@ import { PipelineStage } from 'mongoose';
 import { get_query } from '../business.logic';
 import JsonapiErrorBuilder, {
   default_500_error_response
-} from '../business.logic/jsonapi.error.builder';
-import JsonapiResponseBuilder from '../business.logic/jsonapi.response.builder';
+} from '../business.logic/builder/jsonapi.error.builder';
+import JsonapiResponseBuilder from '../business.logic/builder/jsonapi.response.builder';
 import Config from '../config';
 import {
   BookmarkModel,

@@ -1,7 +1,7 @@
 import { FastifyRequest, FastifyReply } from 'fastify'
 import JsonapiErrorBuilder, {
   default_500_error_response
-} from 'src/business.logic/jsonapi.error.builder'
+} from 'src/business.logic/builder/jsonapi.error.builder'
 import Config from '../../config'
 import {
   $60_STATE_KEY,

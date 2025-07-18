@@ -1,5 +1,5 @@
-import AbstractStateBuilder from 'src/business.logic/abstract.state.builder';
-import { TStateAppbar, TStateLink } from '../common.types';
+import AbstractStateBuilder from 'src/business.logic/builder/abstract.state.builder';
+import { TStateAppbar, TStateLink } from '../../common.types';
 import LinkStateBuilder from './link.state.builder';
 import FormItemCustomStateBuilder from './form.item.custom.state.builder';
 

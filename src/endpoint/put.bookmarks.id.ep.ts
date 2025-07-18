@@ -2,7 +2,7 @@ import { FastifyReply, FastifyRequest } from 'fastify';
 // import { connect, disconnect } from 'mongoose'
 import JsonapiErrorBuilder, {
   default_500_error_response
-} from '../business.logic/jsonapi.error.builder';
+} from '../business.logic/builder/jsonapi.error.builder';
 import Config from '../config';
 import { BookmarkModel } from '../model/bookmark';
 import { IBookmarkPut } from '../schema/bookmarks';

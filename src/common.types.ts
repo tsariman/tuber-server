@@ -1,6 +1,7 @@
 import { TItemGroup } from '../../tuber-client/src/interfaces/IStateFormItemGroup';
 import IFormChoices from '../../tuber-client/src/interfaces/IFormChoices';
 import {
+  IJsonapiDataAttributes,
   IJsonapiError,
   IJsonapiErrorLinks,
   IJsonapiErrorResponse,
@@ -9,7 +10,8 @@ import {
   IJsonapiPaginationLinks,
   IJsonapiResource,
   IJsonapiResourceLinkage,
-  IJsonapiResponse
+  IJsonapiResponse,
+  IJsonapiRequest
 } from '../../tuber-client/src/interfaces/IJsonapi';
 import { INetState, IThemeOptions } from '../../tuber-client/src/interfaces/IState';
 import IStateAllDialogs from '../../tuber-client/src/interfaces/IStateAllDialogs';
@@ -35,7 +37,8 @@ import { TStateFormItemType } from '../../tuber-client/src/interfaces/IStateForm
 import IStateLink from '../../tuber-client/src/interfaces/IStateLink';
 import IStatePage from '../../tuber-client/src/interfaces/IStatePage';
 import IStateTypography from '../../tuber-client/src/interfaces/IStateTypography';
-import IStateAllIcons, { IStateIcon } from '../../tuber-client/src/interfaces/IStateAllIcons';
+import IStateAllIcons from '../../tuber-client/src/interfaces/IStateAllIcons';
+import IStateIcon from '../../tuber-client/src/interfaces/IStateIcon';
 
 export type TTItemGroup = TItemGroup;
 export type TFormChoices = IFormChoices;
@@ -66,17 +69,19 @@ export type TTStateFormItemType = TStateFormItemType;
 export type TStateLink<T=any> = IStateLink<T>;
 export type TStateBackground = IStateBackground;
 export type TStateComponent = IStateComponent;
+export type TJsonapiDataAttributes = IJsonapiDataAttributes;
 export type TIJsonapiError = IJsonapiError;
 export type TJsonapiErrorLinks = IJsonapiErrorLinks;
 export type TJsonapiErrorResponse = IJsonapiErrorResponse;
 export type TJsonapiErrorSource = IJsonapiErrorSource;
+export type TJsonapiRequest<T=TJsonapiDataAttributes> = IJsonapiRequest<T>;
 export type TJsonapiLink = IJsonapiLink;
 export type TJsonapiPaginationLinks = IJsonapiPaginationLinks;
-export type TJsonapiResource<T=any> = IJsonapiResource<T>;
+export type TJsonapiResource<T=TJsonapiDataAttributes> = IJsonapiResource<T>;
 export type TJsonapiResourceLinkage = IJsonapiResourceLinkage;
 export type TJsonapiResponse = IJsonapiResponse;
 export type TStateTypography = IStateTypography;
-export type TObj<T=any> = Record<string, T>;
+export type TObj<T=unknown> = Record<string, T>;
 export type TThemeOptions = IThemeOptions;
 
 /** @see https://stackoverflow.com/a/69328045/1875859 */

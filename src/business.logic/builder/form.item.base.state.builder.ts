@@ -2,7 +2,7 @@ import AbstractStateBuilder, {
   AbstractFormItemStateBuilder,
   TTextField
 } from './abstract.state.builder';
-import { TStateFormItem, TTStateFormItemType } from '../common.types';
+import { TStateFormItem, TTStateFormItemType } from '../../common.types';
 
 type TType = TStateFormItem['_type'];
 

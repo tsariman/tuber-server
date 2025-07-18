@@ -1,5 +1,5 @@
 import AbstractStateBuilder from './abstract.state.builder';
-import { TStateBackground, TStateComponent, TStatePage } from '../common.types';
+import { TStateBackground, TStateComponent, TStatePage } from '../../common.types';
 import PageAppbarStateBuilder from './appbar.state.builder';
 import TypographyStateBuilder from './typography.state.builder';
 import DrawerStateBuilder from './drawer.state.builder';
