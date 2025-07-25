@@ -185,12 +185,12 @@ export default class JsonapiErrorBuilder {
  * @param e error object from try/catch
  * @returns `TJsonapiErrorResponse`
  */
-export const default_500_error_response = (e: any) => {
+export const default_500_error_response = (e: unknown) => {
   return new JsonapiErrorBuilder()
-    .status(500)
-    .code('internal_server_error')
-    .title(e.message)
-    .detail(e.stack)
+    .withStatus(500)
+    .withCode('internal_server_error')
+    .withTitle((e as Error).message)
+    .withDetail((e as Error).stack)
     .build();
 }
 
@@ -204,11 +204,11 @@ export const default_404_error_response = (
   error: { title: string, detail?: string, source?: TJsonapiErrorSource }
 ) => {
   return new JsonapiErrorBuilder()
-    .status(404)
-    .code('not_found')
-    .title(error.title)
-    .detail(error.detail)
-    .source(error.source)
+    .withStatus(404)
+    .withCode('not_found')
+    .withTitle(error.title)
+    .withDetail(error.detail)
+    .withSource(error.source)
     .build();
 }
 
@@ -241,10 +241,10 @@ export const default_400_error_response = (
   error: { title: string, detail?: string }
 ) => {
   return new JsonapiErrorBuilder()
-    .status(400)
-    .code('bad_request')
-    .title(error.title)
-    .detail(error.detail)
+    .withStatus(400)
+    .withCode('bad_request')
+    .withTitle(error.title)
+    .withDetail(error.detail)
     .build();
 }
 

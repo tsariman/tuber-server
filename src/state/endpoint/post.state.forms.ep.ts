@@ -55,13 +55,13 @@ export default async function post_state_forms_endpoint (
           }
         },
         ...new JsonapiErrorBuilder()
-          .status(404)
-          .code('not_found')
-          .title(`Form ${key} Not found`)
+          .withStatus(404)
+          .withCode('not_found')
+          .withTitle(`Form ${key} Not found`)
           .build(),
       });
     }
-  } catch (e: any) {
+  } catch (e) {
     Config.log(MSG_500_ERROR_MESSAGE, e);
     reply.code(500).send(default_500_error_response(e));
   }

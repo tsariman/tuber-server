@@ -1,17 +1,17 @@
-import { Document, Schema } from 'mongoose'
+import { Document, Schema } from 'mongoose';
 
 export interface IPathname {
-  name: string
-  path: string
-  modified_at: Date
+  name: string;
+  path: string;
+  modified_at: Date;
 }
 
-export interface IPathnameDocument extends IPathname, Document {}
+export interface IPathnameDocument extends IPathname, Document {};
 
-const pathnameSchema = new Schema<IPathname>({
+const pathnameSchema = new Schema<IPathnameDocument>({
   name: { type: String, required: true, unique: true },
   path: String,
   modified_at: { type: Date, default: undefined }
-})
+});
 
-export default pathnameSchema
+export default pathnameSchema;

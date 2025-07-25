@@ -12,6 +12,7 @@ import get_bootstrap_authenticated_state from '../state/bootstrap';
 import { TNetState } from '../common.types';
 import { get_ciphered_user, get_user } from 'src/model/session';
 import {  get_theme_mode, option } from '../business.logic';
+import { ensureDefaultUserExists } from '../business.logic/ensure-default-user';
 
 export default async function authentication_controller (fastify: FastifyInstance) {
 
@@ -53,10 +54,10 @@ export default async function authentication_controller (fastify: FastifyInstanc
             }
           }
         }
-      } catch (e: any) {
+      } catch (e) {
         Config.log(MSG_500_ERROR_MESSAGE, e);
         reply.code(500).send({
-          ...alert(e.message),
+          ...alert((e as Error).message),
           ...default_500_error_response(e)
         } as TNetState);
         return;
@@ -64,6 +65,22 @@ export default async function authentication_controller (fastify: FastifyInstanc
     }
     const title = 'Wrong username or password!';
     Config.log(`Failed. '${title}'`);
+
+    // Optional: Try to create default user if none exist (useful for empty database scenario)
+    try {
+      const defaultUserCreated = await ensureDefaultUserExists();
+      if (defaultUserCreated) {
+        const additionalMessage = ' A default admin user has been created (admin/admin123).';
+        reply.code(401).send({
+          ...alert(title + additionalMessage),
+          ...default_401_error_response({ title: title + additionalMessage })
+        });
+        return;
+      }
+    } catch (e) {
+      Config.log('[DEBUG] Failed to create default user:', e);
+    }
+
     reply.code(401).send({
       ...alert(title),
       ...default_401_error_response({ title })

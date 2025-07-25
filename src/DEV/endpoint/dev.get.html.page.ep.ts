@@ -26,7 +26,7 @@ export default async function dev_get_html_page_endpoint(
     const response = await axios.get(url)
     const html = await response.data
     reply.send(html)
-  } catch (e: any) {
+  } catch (e) {
     Config.log(MSG_500_ERROR_MESSAGE, e)
     reply.code(500).send(default_500_error_response(e))
   }

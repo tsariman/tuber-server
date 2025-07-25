@@ -53,7 +53,7 @@ export default async function dev_post_state_pages_endpoint(
         } as TNetState
       })
     }
-  } catch (e: any) {
+  } catch (e) {
     Config.log(MSG_500_ERROR_MESSAGE, e)
     reply.code(500).send(default_500_error_response(e))
   }

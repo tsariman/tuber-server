@@ -1,5 +1,4 @@
-import { TItemGroup } from '../../tuber-client/src/interfaces/IStateFormItemGroup';
-import IFormChoices from '../../tuber-client/src/interfaces/IFormChoices';
+// Import shared types from our server-compatible shared module
 import {
   IJsonapiDataAttributes,
   IJsonapiError,
@@ -11,64 +10,57 @@ import {
   IJsonapiResource,
   IJsonapiResourceLinkage,
   IJsonapiResponse,
-  IJsonapiRequest
-} from '../../tuber-client/src/interfaces/IJsonapi';
-import { INetState, IThemeOptions } from '../../tuber-client/src/interfaces/IState';
-import IStateAllDialogs from '../../tuber-client/src/interfaces/IStateAllDialogs';
-import IStateAllForms from '../../tuber-client/src/interfaces/IStateAllForms';
-import IStateAllPages from '../../tuber-client/src/interfaces/IStateAllPages';
-import IStateApp from '../../tuber-client/src/interfaces/IStateApp';
-import IStateAppbar from '../../tuber-client/src/interfaces/IStateAppbar';
-import IStateBackground from '../../tuber-client/src/interfaces/IStateBackground';
-import IStateComponent from '../../tuber-client/src/interfaces/IStateComponent';
-import IStateDialog from '../../tuber-client/src/interfaces/IStateDialog';
-import { IStatePageDrawer } from '../../tuber-client/src/interfaces/IStateDrawer';
-import IStateForm from '../../tuber-client/src/interfaces/IStateForm';
-import IStateFormItem from '../../tuber-client/src/interfaces/IStateFormItem';
-import { IStateFormItemAdornment } from '../../tuber-client/src/interfaces/IStateFormItem';
-import IStateFormItemCustom from '../../tuber-client/src/interfaces/IStateFormItemCustom';
-import { IStateFormItemCheckboxBox } from '../../tuber-client/src/controllers/StateFormItemCheckboxBox';
-import IStateFormItemGroup from '../../tuber-client/src/interfaces/IStateFormItemGroup';
-import { IStateFormItemInputProps } from '../../tuber-client/src/interfaces/IStateFormItem';
-import { IStateFormItemRadioButton } from '../../tuber-client/src/interfaces/IFormChoices';
-import IStateFormItemSelectOption from '../../tuber-client/src/interfaces/IStateFormItemSelectOption';
-import IStateFormItemSwitchToggle from '../../tuber-client/src/interfaces/IStateFormItemSwitchToggle';
-import { TStateFormItemType } from '../../tuber-client/src/interfaces/IStateFormItem';
-import IStateLink from '../../tuber-client/src/interfaces/IStateLink';
-import IStatePage from '../../tuber-client/src/interfaces/IStatePage';
-import IStateTypography from '../../tuber-client/src/interfaces/IStateTypography';
-import IStateAllIcons from '../../tuber-client/src/interfaces/IStateAllIcons';
-import IStateIcon from '../../tuber-client/src/interfaces/IStateIcon';
+  IJsonapiRequest,
+  INetState,
+  IThemeOptions,
+  IFormChoices,
+  WithRequired,
+  TOptional,
+  IMPV2Doc,
+  IAggregateDoc,
+  TPlatform,
+  IStateMapEntry,
+  IStateMap,
+  TThemeMode,
+  TEndpoint,
+  IJsonapiQuerystring,
+  IBootstrapResponse,
+  // UI Types
+  IStateComponent,
+  IStateBackground,
+  IStateLink,
+  IStateTypography,
+  IStateFormItem,
+  IStateFormItemAdornment,
+  IStateFormItemInputProps,
+  IStateFormItemCustom,
+  IStateFormItemGroup,
+  IStateFormItemSelectOption,
+  IStateFormItemCheckboxBox,
+  IStateFormItemRadioButton,
+  IStateFormItemSwitchToggle,
+  TStateFormItemType,
+  IStateForm,
+  IStateDialog,
+  IStateAppbar,
+  IStatePageDrawer,
+  IStatePage,
+  IStateApp,
+  IStateIcon,
+  IStateAllPages,
+  IStateAllForms,
+  IStateAllDialogs,
+  IStateAllIcons,
+  TItemGroup
+} from './shared';
 
-export type TTItemGroup = TItemGroup;
+// Export types that are needed by the server
 export type TFormChoices = IFormChoices;
 
-/** `INetState` interface imported form client. */
-export type TNetState = INetState;
-export type TStateApp = IStateApp;
-export type TStateAllIcons = IStateAllIcons;
-export type TStateAllPages = IStateAllPages;
-export type TStateAllForms = IStateAllForms;
-export type TStateAllDialogs = IStateAllDialogs;
-export type TStatePage = IStatePage;
-export type TStateIcon = IStateIcon;
-export type TStateAppbar = IStateAppbar;
-export type TStatePageDrawer = IStatePageDrawer;
-export type TStateDialog<T=any> = IStateDialog<T>;
-export type TStateForm = IStateForm;
-export type TStateFormItem = IStateFormItem;
-export type TStateFormItemAdornment = IStateFormItemAdornment;
-export type TStateFormItemCustom<T=any> = IStateFormItemCustom<T>;
-export type TStateFormItemCheckboxBox = IStateFormItemCheckboxBox;
-export type TStateFormItemGroup = IStateFormItemGroup;
-export type TStateFormItemInputProps = IStateFormItemInputProps & Record<string, any>;
-export type TStateFormItemRadioButton = IStateFormItemRadioButton;
-export type TStateFormItemSelectOption = IStateFormItemSelectOption;
-export type TStateFormItemSwitchToggle = IStateFormItemSwitchToggle;
-export type TTStateFormItemType = TStateFormItemType;
-export type TStateLink<T=any> = IStateLink<T>;
-export type TStateBackground = IStateBackground;
-export type TStateComponent = IStateComponent;
+/** `INetState` interface imported from shared. */
+export type TNetState = INetState; // The flexible version that allows all properties
+
+// JSON API types
 export type TJsonapiDataAttributes = IJsonapiDataAttributes;
 export type TIJsonapiError = IJsonapiError;
 export type TJsonapiErrorLinks = IJsonapiErrorLinks;
@@ -80,67 +72,62 @@ export type TJsonapiPaginationLinks = IJsonapiPaginationLinks;
 export type TJsonapiResource<T=TJsonapiDataAttributes> = IJsonapiResource<T>;
 export type TJsonapiResourceLinkage = IJsonapiResourceLinkage;
 export type TJsonapiResponse = IJsonapiResponse;
-export type TStateTypography = IStateTypography;
+
+// Utility types
 export type TObj<T=unknown> = Record<string, T>;
 export type TThemeOptions = IThemeOptions;
 
 /** @see https://stackoverflow.com/a/69328045/1875859 */
-export type WithRequired<T, K extends keyof T> = T & { [P in K]-?: T[P] };
+export type { WithRequired };
 
 /** Make properties optional */
-export type TOptional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>;
+export type { TOptional };
 
-/**
- * Shallow mongoose document type that contains only the _doc property.
- * @see https://mongoosejs.com/docs/api/document.html#document_Document-_doc
- * @deprecated
- */
-export interface IMPV2Doc<T=any> { _doc: T; }
+// Mongoose types
+export type { IMPV2Doc };
+export type { IAggregateDoc };
 
-/** Shallow aggregate mongoose document that contains _id */
-export interface IAggregateDoc {
-  _id: string;
-  __v: number;
-}
+// Platform and endpoint types
+export type { TPlatform };
+export type { TEndpoint };
 
-/** Names of collection endpoint */
-export type TEndpoint = 'users' | 'entries' | 'bookmarks' | 'tags' | 'authorizations';
+// State map types
+export type { IStateMapEntry };
+export type { IStateMap };
 
-/** Generic jsonapi query string */
-export interface IJsonapiQuerystring {
-  'page[number]'?: string;
-  'page[size]'?: string;
-  'query'?: string;
-  'filter[is_published]'?: string;
-  'filter[is_active]'?: string;
-  'filter[search]'?: string;
+// Theme types
+export type { TThemeMode };
 
-  // TODO Add more expected query strings
-}
+// Query types
+export type { IJsonapiQuerystring };
 
-export interface IBootstrapResponse {
-  state: TNetState;
-  meta: TObj;
-}
+// Bootstrap types
+export type { IBootstrapResponse };
 
-export type TPlatform = '_blank'
-  | 'youtube'
-  | 'vimeo'
-  | 'dailymotion'
-  | 'rumble'
-  | 'odysee'
-  | 'twitch'
-  | 'facebook'
-  | 'bitchute'
-  | 'unknown';
-
-export interface IStateMapEntry<T=any> {
-  state: T;
-  clearance?: string;
-}
-
-export interface IStateMap {
-  [entry: string]: IStateMapEntry;
-}
-
-export type TThemeMode = 'light' | 'dark';
+// UI State types (server-compatible versions)
+export type TStateComponent = IStateComponent;
+export type TStateBackground = IStateBackground;
+export type TStateLink<T=any> = IStateLink<T>;
+export type TStateTypography = IStateTypography;
+export type TStateFormItem = IStateFormItem;
+export type TStateFormItemAdornment = IStateFormItemAdornment;
+export type TStateFormItemInputProps = IStateFormItemInputProps;
+export type TStateFormItemCustom<T=any> = IStateFormItemCustom<T>;
+export type TStateFormItemGroup = IStateFormItemGroup;
+export type TStateFormItemSelectOption = IStateFormItemSelectOption;
+export type TStateFormItemCheckboxBox = IStateFormItemCheckboxBox;
+export type TStateFormItemRadioButton = IStateFormItemRadioButton;
+export type TStateFormItemSwitchToggle = IStateFormItemSwitchToggle;
+export type TTStateFormItemType = TStateFormItemType;
+export type TStateForm = IStateForm;
+export type TStateDialog<T=any> = IStateDialog<T>;
+export type TStateAppbar = IStateAppbar;
+export type TStatePageDrawer = IStatePageDrawer;
+export type TStatePage = IStatePage;
+export type TStateApp = IStateApp;
+export type TStateIcon = IStateIcon;
+export type TStateAllPages = IStateAllPages;
+export type TStateAllForms = IStateAllForms;
+export type TStateAllDialogs = IStateAllDialogs;
+export type TStateAllIcons = IStateAllIcons;
+export type TTItemGroup = TItemGroup;

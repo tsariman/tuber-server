@@ -1,3 +1,7 @@
+// DATABASE -------------------------------------------------------------------
+
+export const COLLECTION_NAME = 'bookmarks';
+
 // ENDPOINTS ------------------------------------------------------------------
 
 export const EP_AUTHENTICATE = 'authenticate';
@@ -26,6 +30,8 @@ export const THEME_DARK_APP_BAR_COLOR = '#000000de'; // [TODO]: Change this
 
 // MESSAGES (msg prefix) ------------------------------------------------------
 
+export const LOG_INFO = '[INFO]';
+export const LOG_DEBUG = '[DEBUG]';
 export const MSG_500_ERROR_MESSAGE = 'Failed.\nInternal Server Error.';
 export const MSG_INVALID_ACCESS_TOKEN = 'INVALID_ACCESS_TOKEN';
 

@@ -1,14 +1,12 @@
-import hogan from 'hogan.js'
-import mongoose from 'mongoose'
+import hogan from 'hogan.js';
+import mongoose from 'mongoose';
 
 /** Kept as an example use of hogan.js @deprecated */
 export async function dev_install_form_summary() {
-  // await mongoose.connect(Config.DB_URI)
-  const bookmarkCount = await mongoose.connection.db.collection('bookmarks')
-    .countDocuments() || 'empty'
-  const userCount = await mongoose.connection.db.collection('users')
-    .countDocuments() || 'empty'
-  // await mongoose.disconnect()
+  const bookmarkCount = await mongoose.connection.db?.collection('bookmarks')
+    .countDocuments() || 'empty';
+  const userCount = await mongoose.connection.db?.collection('users')
+    .countDocuments() || 'empty';
 
   return hogan.compile(`
     <p>
@@ -21,5 +19,5 @@ export async function dev_install_form_summary() {
       <br />
       &#128526;<span style="color:#0074d8"><b>Users</b></span> <em>({{ userCount }})</em>
     </p>
-  `).render({ bookmarkCount, userCount })
+  `).render({ bookmarkCount, userCount });
 }

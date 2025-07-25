@@ -33,7 +33,7 @@ export default async function post_bookmarks_endpoint (
       new JsonapiResponseBuilder(dbBookmark, 'bookmarks', 'object')
       .mPaginationV2build()
     );
-  } catch (e: any) {
+  } catch (e) {
     Config.log(MSG_500_ERROR_MESSAGE, e);
     reply.code(500).send(default_500_error_response(e));
   }

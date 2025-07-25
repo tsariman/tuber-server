@@ -1,5 +1,5 @@
-import { IBookmarkDocument } from '../schema/bookmarks'
-import { IUserDocument } from '../schema/users'
+import { IBookmarkDocument } from '../schema/bookmarks';
+import { IUserDocument } from '../schema/users';
 
 /**
  * Increment the vote count of a bookmark. Use this function when a user decides
@@ -12,9 +12,9 @@ export const increment_bookmark_vote_count = async function (
   bookmark: IBookmarkDocument,
   vote: 'upvotes' | 'downvotes'
 ): Promise<IBookmarkDocument> {
-  bookmark[vote] = (bookmark[vote] || 0) + 1
-  const dbBookmark = await bookmark.save()
-  return dbBookmark
+  bookmark[vote] = (bookmark[vote] || 0) + 1;
+  const dbBookmark = await bookmark.save();
+  return dbBookmark;
 }
 
 /**
@@ -28,9 +28,9 @@ export const decrement_bookmark_vote_count = async function (
   bookmark: IBookmarkDocument,
   vote: 'upvotes' | 'downvotes'
 ): Promise<IBookmarkDocument> {
-  bookmark[vote] = (bookmark[vote] || 0) - 1
-  const dbBookmark = await bookmark.save()
-  return dbBookmark
+  bookmark[vote] = (bookmark[vote] || 0) - 1;
+  const dbBookmark = await bookmark.save();
+  return dbBookmark;
 }
 
 /**
@@ -46,20 +46,20 @@ export const save_user_vote = async function (
   bookmark: IBookmarkDocument,
   vote: 'upvotes' | 'downvotes'
 ): Promise<IUserDocument> {
-  user.votes = user.votes ?? []
+  user.votes = user.votes ?? [];
   // Check if user has already voted on this bookmark
-  const existingVote = user.votes.find(v => v.bookmark_id === bookmark._id)
+  const existingVote = user.votes.find(v => v.bookmark_id === String(bookmark._id));
   if (existingVote) {
     // If the user has already voted on this bookmark, then update the vote
     // rating
-    existingVote.rating = vote === 'upvotes' ? 1 : -1
-    const dbUser = await user.save()
-    return dbUser
+    existingVote.rating = vote === 'upvotes' ? 1 : -1;
+    const dbUser = await user.save();
+    return dbUser;
   }
   user.votes.push({
-    bookmark_id: bookmark._id,
+    bookmark_id: String(bookmark._id),
     rating: vote === 'upvotes' ? 1 : -1
-  })
-  const dbUser = await user.save()
-  return dbUser
+  });
+  const dbUser = await user.save();
+  return dbUser;
 }

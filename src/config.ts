@@ -1,15 +1,22 @@
 import NodeCache from 'node-cache';
 import * as dotenv from 'dotenv';
-import { get_ip } from './utility/networking';
+import { get_ip, invalid_db_name } from './utility/networking';
 import Config, { IConfiguration } from './utility/configuration';
+import { COLLECTION_NAME } from './constants';
 
-dotenv.config({ path: `${__dirname}/../.env.app-config` });
+// Load environment-specific config file
+const envFile = process.env.NODE_ENV === 'production' 
+  ? `${__dirname}/../.env.production`
+  : `${__dirname}/../.env.app-config`;
+
+dotenv.config({ path: envFile });
 
 interface IConfig {
   NODE_ENV: string;
   DEV: boolean;
   DEBUG: boolean;
   DOMAIN: string;
+  CLIENT_DOMAIN: string;
   DEMO: boolean;
   FASTIFY_PORT: number;
   IMAGE_FOLDER: string;
@@ -47,6 +54,7 @@ const USER_CONFIG: IConfig = {
     || process.env.DEBUG === 'true', // boolean
   
   DOMAIN: process.env.DOMAIN ?? '',
+  CLIENT_DOMAIN: process.env.CLIENT_DOMAIN ?? 'http://localhost:3000',
   DEMO: process.env.DEMO === 'true',
 
   /** Application port */
@@ -61,10 +69,10 @@ const USER_CONFIG: IConfig = {
   DB_PROTOCOL: process.env.DB_PROTOCOL || 'mongodb://',
 
   /** Mongodb production database name. */
-  DB_PROD_NAME: process.env.DB_NAME || 'db-name-not-set',
+  DB_PROD_NAME: process.env.DB_NAME || invalid_db_name(),
 
   /** Mongodb development database name */
-  DB_DEV_NAME: process.env.DB_TEST_NAME || `${process.env.DB_PROD_NAME}-test`,
+  DB_DEV_NAME: process.env.DB_TEST_NAME || `${process.env.DB_NAME}-test`,
 
   // [PROD] Enter Mongodb's production username here
   /** Mongodb database username. */
@@ -122,7 +130,7 @@ const USER_CONFIG: IConfig = {
 const USER_CACHE = new NodeCache({ stdTTL: Number(process.env.STDTTL) || 900 });
 const SLUG_CACHE = new NodeCache({ stdTTL: Number(process.env.STDTTL) || 900 });
 const READABLE_CACHE = new NodeCache();
-const STATE_REGISTRY: Record<string, any> = {};
+const STATE_REGISTRY: Record<string, unknown> = {};
 
 /** Get the mongodb database URL substring that contains credentials. */
 const dbGetUrlCredentials = (user?: string, pass?: string) => {
@@ -209,36 +217,37 @@ const initObj = {
     USER_CONFIG.DB_ATLAS_API_PRIVATE_KEY
   ].join(''),
 
+  l: (...args: unknown[]) => console.log(args),
+
   /** This is the `console.log()` but will only print if app is in debug mode. */
-  log: function(...args: any) {
+  log: function(...args: unknown[]) {
     if (USER_CONFIG.DEBUG) {
       console.log(...args)
-      // console.log.apply(null, arguments as any)
     }
   },
 
   /** This is the `console.error()` but will only print if app is in debug mode. */
-  err: function(...args: any) {
+  err: function(...args: unknown[]) {
     if (USER_CONFIG.DEBUG) {
       console.error(...args)
     }
   },
 
   /** Output to console on the same line. */
-  print: function(message: any) {
+  print: function(message: string) {
     if (USER_CONFIG.DEBUG) {
-      process.stdout.write(message)
+      process.stdout.write(message);
     }
   },
 
   /** Throw exception and prints message. */
-  die: function(message: any) {
+  die: function(message: string) {
     if (USER_CONFIG.DEBUG) {
-      throw new Error(message)
+      throw new Error(message);
     }
   },
 
-  register: function <T=any>(
+  register: function <T=unknown>(
     type:'state',
     id: string,
     key: T
@@ -257,6 +266,8 @@ const initObj = {
     }
   },
 };
+
+initObj.DB_ATLAS_BOOKMARK_SEARCH_INDEX_NAME ||= `${initObj.DB_NAME}_${COLLECTION_NAME}_search`;
 
 Config.init(initObj);
 

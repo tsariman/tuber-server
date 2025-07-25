@@ -15,7 +15,7 @@ export default async function signout_controller (fastify: FastifyInstance) {
     try {
       const { name } = req.user as TCipheredUser;
       Config.USER_CACHE.del(name);
-    } catch (e: any) {
+    } catch (e) {
       Config.log(MSG_500_ERROR_MESSAGE);
       reply.code(500).send(default_500_error_response(e));
     }

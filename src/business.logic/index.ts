@@ -124,8 +124,8 @@ export const get_query = <T = string>(
     const query = req.query;
     const value = query[key];
     return (value ?? $default) as T;
-  } catch (e: any) {
-    Config.err(e.message);
+  } catch (e) {
+    Config.err((e as Error).message);
   }
   return $default;
 }
@@ -139,8 +139,8 @@ export const get_body = <T = any>(
   try {
     const body = req.body;
     return body?.[key] ?? $default;
-  } catch (e: any) {
-    Config.err(e.message);
+  } catch (e) {
+    Config.err((e as Error).message);
   }
   return $default;
 }

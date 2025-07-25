@@ -46,7 +46,7 @@ export default async function put_bookmarks_by_id_endpoint (
         .build()
       );
     }
-  } catch (e: any) {
+  } catch (e) {
     Config.log(MSG_500_ERROR_MESSAGE, e);
     reply.code(500).send(default_500_error_response(e));
   }

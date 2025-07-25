@@ -8,6 +8,7 @@ import {
   THEME_MODE
 } from 'src/constants';
 import Config from 'src/config';
+import { IThemeOptions } from 'src/shared';
 
 const bootstrap_theme_light_state: TBootstrapState<TThemeOptions> = {
 
@@ -137,12 +138,12 @@ const bootstrap_theme_state: TBootstrapState<TThemeOptions> = {
 
     switch (mode) {
       case 'dark':
-        return new PrepareState(context)
+        return new PrepareState<IThemeOptions>(context)
                 .process(bootstrap_theme_dark_state)
                 .get();
       default:
       case 'light':
-        return new PrepareState(context)
+        return new PrepareState<IThemeOptions>(context)
                 .process(bootstrap_theme_light_state)
                 .get();
     }

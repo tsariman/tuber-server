@@ -6,6 +6,8 @@ import { DEV_DEFAULT_USER, DEV_USER } from './DEV/dev.install.common';
 import {  configuration_get_all } from './model/configuration';
 import { find_index_by_name } from './business.logic/network';
 import { readable_get_all } from './model/readable';
+import { create_user } from './model/user';
+import { COLLECTION_NAME } from './constants';
 
 mongoose.set('strictQuery', false);
 
@@ -15,16 +17,19 @@ app.listen({ port: Config.FASTIFY_PORT }, (err, address) => {
     process.exit(1);
   }
 
-  process.stdout.write(`🚀 tuber server running at ${address}\n\n`);
-  process.stdout.write(`process.env.NODE_ENV = ${Config.NODE_ENV}\n`);
-  process.stdout.write(`Config.DEV = ${Config.DEV}\n`);
+  process.stdout.write(`[INFO] 🚀 tuber server running at ${address}\n\n`);
+  process.stdout.write(`[INFO] process.env.NODE_ENV = ${Config.NODE_ENV}\n`);
+  Config.log(`[INFO] Config.DEV = ${Config.DEV}`);
+  Config.print('\n -------------------------------- \n');
+  Config.print('\n |     APP IS IN DEBUG MODE     | \n');
+  Config.print('\n -------------------------------- \n');
   const DB_URI = Config.DB_REMOTE ? Config.DB_URI_REMOTE : Config.DB_URI_LOCAL;
-  console.log('\nDatabase URI:', DB_URI);
+  console.log('\n[INFO] Database URI:', DB_URI);
 
   const database = Config.DB_REMOTE // Config.DB_PROTOCOL.slice(-6) === 'srv://'
     ? 'Atlas'
     : 'Mongodb';
-  process.stdout.write(`\nConnecting to ${database}... `);
+  process.stdout.write(`\n[INFO] Connecting to ${database}... `);
 
   // Note: Use '127.0.0.1' instead of 'localhost' if connecting locally.
   mongoose.connect(DB_URI).then(async () => {
@@ -32,12 +37,17 @@ app.listen({ port: Config.FASTIFY_PORT }, (err, address) => {
 
     // If using Mongodb Atlas,
     if (database === 'Atlas') {
-      process.stdout.write('\nChecking bookmarks search index... ');
-      const searchIndex = await find_index_by_name('bookmark_search', 'bookmarks');
+      process.stdout.write('\n[INFO] Checking bookmarks search index... ');
+      const searchIndex = await find_index_by_name(
+        Config.DB_ATLAS_BOOKMARK_SEARCH_INDEX_NAME,
+        COLLECTION_NAME
+      );
       if (searchIndex) {
         console.log('Done.');
       } else {
-        console.log(`failed.\nbookmarks index needs to be defined.`);
+        console.log('Failed.');
+        Config.print(`[DEBUG] Search index, '${Config.DB_ATLAS_BOOKMARK_SEARCH_INDEX_NAME}'`);
+        Config.log(' not defined for current database.');
         Config.log(`[DEBUG] Visit endpoint: /dev/setup-collection-index-search/bookmarks`);
         Config.log('[DEBUG] OR');
         Config.log(`[DEBUG] Visit endpoint: /install/setup-collection-index-search/bookmarks`);
@@ -57,18 +67,44 @@ app.listen({ port: Config.FASTIFY_PORT }, (err, address) => {
       }
     }
 
+    // Check if any users exist and create default admin if none found
+    process.stdout.write('[INFO] Checking for existing users... ');
+    const userCount = await DEV_USER.countDocuments();
+    if (userCount === 0) {
+      console.log('None found.');
+
+      // Only create default user in debug mode
+      if (Config.DEBUG) {
+        process.stdout.write('[INFO] Creating default admin user... ');
+        try {
+          await createDefaultAdminUser();
+          console.log('Success!');
+          Config.log('[INFO] Default admin user created with username: "admin"');
+          Config.log('[INFO] Default password: "admin123" (Please change this!)');
+        } catch (error) {
+          console.log('Failed!');
+          Config.log('[ERROR] Failed to create default admin user:', error);
+        }
+      } else {
+        Config.log('[INFO] App not in debug mode. Skipping default user creation.');
+        Config.log('[INFO] To create a default user, enable debug mode or use the dev endpoints.');
+      }
+    } else {
+      console.log(`Found ${userCount} user(s).`);
+    }
+
     // Load configuration values from database in Config object.
-    process.stdout.write('Loading configuration from database... ');
+    process.stdout.write('[INFO] Loading configuration from database... ');
     const dbConfigs = await configuration_get_all();
     if (dbConfigs.length > 0) {
       await Config.load(dbConfigs);
       console.log('Done.');
     } else {
-      console.log('Failed! No configuration found in database.');
+      console.log('Failed. No configuration found in database.');
     }
 
     // Load readable text, if any, from the database into the readable cache.
-    process.stdout.write('Loading readables from the database... ');
+    process.stdout.write('[INFO] Loading readables from the database... ');
     const dbReadables = await readable_get_all();
     if (dbReadables.length <= 0) {
       console.log('Failed.');
@@ -88,3 +124,21 @@ app.listen({ port: Config.FASTIFY_PORT }, (err, address) => {
   })
 
 });
+
+/**
+ * Creates a default admin user when no users exist in the database.
+ * This ensures there's always a way to access the system.
+ */
+async function createDefaultAdminUser() {
+  const defaultAdmin = {
+    name: 'admin',
+    email: 'admin@tuberesearcher.local',
+    password: 'admin123', // This will be hashed by create_user
+    role: 'administrator' as const,
+    firstname: 'System',
+    lastname: 'Administrator'
+  };
+
+  const user = await create_user(defaultAdmin);
+  return user;
+}

@@ -63,9 +63,9 @@ export default async function post_state_dialogs_endpoint (
           .code('not_found')
           .title(`Dialog ${key} Not found`)
           .build(),
-      })
+      });
     }
-  } catch (e: any) {
+  } catch (e) {
     Config.log(MSG_500_ERROR_MESSAGE, e);
     reply.code(500).send(default_500_error_response(e));
   }

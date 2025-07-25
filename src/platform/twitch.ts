@@ -112,7 +112,7 @@ export async function twitch_fetch_thumbnail_url(videoid?: string): Promise<stri
           'Authorization': `Bearer ${twitch_get_api_access_token()}`
         }
       });
-    } catch (e: any) {
+    } catch (e) {
       await get_twitch_renew_access_token_endpoint();
       continue;
     }

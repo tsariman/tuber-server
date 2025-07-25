@@ -4,7 +4,6 @@ import { existsSync } from 'fs';
 import C from '../../config';
 import { defaultDialogAlertState as alert } from '../../state/dialog';
 import mongoose from 'mongoose';
-// import { connect, disconnect } from 'mongoose';
 import { DEV_USER_FILENAME } from '../dev.install.common';
 
 export default async function dev_post_database_reset_endpoint (
@@ -23,10 +22,8 @@ export default async function dev_post_database_reset_endpoint (
     C.log(error);
   }
   async function devDropDatabase() {
-    // await connect(C.DB_URI)
-    await mongoose.connection.db.dropDatabase().then(() => {
+    await mongoose.connection.db?.dropDatabase().then(() => {
       C.log('[request] Database was dropped.');
     });
-    // await disconnect()
   }
 }

@@ -10,17 +10,22 @@ import { request } from 'urllib';
  * @param collectionName Name of the collection to check.
  * @returns `true` if index exist.
  */
-export async function find_index_by_name(indexName: string, collectionName: string) {
-  const allIndexesResponse = await request(
-    `${Config.DB_ATLAS_SEARCH_INDEX_API_URL}/${Config.DB_NAME}/${collectionName}`,
-    {
-      dataType: 'json',
-      contentType: 'application/json',
-      method: 'GET',
-      digestAuth: Config.DB_ATLAS_DIGEST_AUTH
-    }
-  );
-  return (allIndexesResponse.data as any[]).find(i => i.name === indexName);
+export async function find_index_by_name(indexName: string, collectionName: string): Promise<boolean> {
+  try {
+    const allIndexesResponse = await request(
+      `${Config.DB_ATLAS_SEARCH_INDEX_API_URL}/${Config.DB_NAME}/${collectionName}`,
+      {
+        dataType: 'json',
+        contentType: 'application/json',
+        method: 'GET',
+        digestAuth: Config.DB_ATLAS_DIGEST_AUTH
+      }
+    );
+    return (allIndexesResponse.data as any[]).find(i => i.name === indexName);
+  } catch (e: unknown) {
+    console.log(`[ERROR] ${(e as Error).message}`);
+    return false;
+  }
 }
 
 /**

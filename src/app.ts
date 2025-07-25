@@ -1,12 +1,21 @@
 import fastify from 'fastify';
 import router from './router';
 import * as dotenv from 'dotenv';
+import path from 'node:path';
+
+// Load environment-specific config file
+const envFile = process.env.NODE_ENV === 'production' 
+  ? `${__dirname}/../.env.production`
+  : `${__dirname}/../.env.app-config`;
+
+dotenv.config({ path: envFile });
 
 // [PROD] comment out this line
 import cors from '@fastify/cors';
 
 import fastifyCookie from '@fastify/cookie';
 import fastifyJwt from '@fastify/jwt';
+import fastifyStatic from '@fastify/static';
 // import Tokens from '@fastify/csrf'
 import { TCipheredUser } from './schema/users';
 
@@ -19,15 +28,22 @@ declare module 'fastify' {
 };
 
 const server = fastify({
-  // logger one for production
-  logger: !!(process.env.NODE_ENV !== "development")
+  // Disable logging completely
+  logger: false
 });
 
-// [PROD] Comment out this code
 // Middleware: CORS
-server.register(cors, {
-  origin: ['http://localhost:3000']
-});
+if (process.env.NODE_ENV !== 'production') {
+  server.register(cors, {
+    origin: [process.env.CLIENT_DOMAIN || 'http://localhost:3000']
+  });
+  if (process.env.CLIENT_DOMAIN) {
+    console.log('[INFO] Client\'s domain:',process.env.CLIENT_DOMAIN);
+  } else {
+    console.log('[ERROR] Client\'s domain is not set in environment variable.');
+    console.log('        http://localhost:3000 will be used by default. ');
+  }
+}
 
 server.register(fastifyJwt, {
   secret: process.env.JWT_SECRET ?? '',
@@ -39,8 +55,14 @@ server.register(fastifyJwt, {
 
 server.register(fastifyCookie);
 
+// Static file serving for client app
+server.register(fastifyStatic, {
+  root: path.join(__dirname, '../static'),
+  prefix: '/static/', // Serve static files with /static/ prefix
+});
+
 const cookieDomain = process.env.DOMAIN ?? '127.0.0.1:8080';
-console.log(`\u{1F36A} Cookie domain: ${cookieDomain}`);
+console.log(`[INFO] \u{1F36A} Cookie domain: ${cookieDomain}`);
 
 // Route to set cookie
 server.get('/cookie', async (request, reply) => {

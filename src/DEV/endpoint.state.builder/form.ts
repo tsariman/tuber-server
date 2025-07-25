@@ -83,7 +83,7 @@ export default async function dev_get_form_builder_state(
       .build()
     );
     Config.log('Done.');
-  } catch (e: any) {
+  } catch (e) {
     Config.log(C.MSG_500_ERROR_MESSAGE, e);
     reply.code(500).send(default_500_error_response(e));
   }

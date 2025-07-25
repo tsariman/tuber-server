@@ -1,11 +1,11 @@
-import { RouteShorthandOptions } from 'fastify'
-import Config from '../config'
-import { UserPaginationModel } from '../model/user'
-import { check_password } from '../business.logic/security'
-import { defaultDialogAlertState as alert } from '../state/dialog'
-import { ISignInCredentials } from '../business.logic/security/permissions'
+import { RouteShorthandOptions } from 'fastify';
+import Config from '../config';
+import { UserPaginationModel } from '../model/user';
+import { check_password } from '../business.logic/security';
+import { defaultDialogAlertState as alert } from '../state/dialog';
+import { ISignInCredentials } from '../business.logic/security/permissions';
 import { default_500_error_response }
-  from 'src/business.logic/builder/jsonapi.error.builder'
+  from 'src/business.logic/builder/jsonapi.error.builder';
 
 /**
  * [TODO] #1 In authentication, when the user successfully logs in using their
@@ -36,33 +36,32 @@ const authenticate: RouteShorthandOptions['preValidation'] = async function (
   reply,
   done
 ) {
-  process.stdout.write('[DEBUG] Working on pre validation authentication... ')
-  // const { username, password } = request.body as ISignInCredentials
-  const body = req.body as ISignInCredentials['Body']
-  const credentials = body?.credentials ?? {}
-  const { username, password } = credentials
+  // Config.print('[DEBUG] Working on pre validation authentication... ');
+  const body = req.body as ISignInCredentials['Body'];
+  const credentials = body?.credentials ?? {};
+  const { username, password } = credentials;
   if (username) {
-    Config.log(`[DEBUG] username: '${username}', password: '${password}'`)
+    Config.log(`[DEBUG] username: '${username}', password: '${password}'`);
     try {
-      const user = await UserPaginationModel.findOne({ name: username })
+      const user = await UserPaginationModel.findOne({ name: username });
       if (user) {
         if (password && user.password) {
-          const passwordCorrect = await check_password(password, user.password)
+          const passwordCorrect = await check_password(password, user.password);
           if (passwordCorrect) {
             // [TODO] Write session related logic here
-            done()
+            done();
           }
         } else if (!password && !user.password) {
           // [TODO] Write session related logic here
-          done()
+          done();
         }
       }
-    } catch (e: any) {
-      Config.err(e.message)
-      reply.code(500).send(default_500_error_response(e))
+    } catch (e) {
+      Config.err(`[ERROR] ${(e as Error).message}`);
+      reply.code(500).send(default_500_error_response(e));
     }
   }
-  reply.send(alert('Wrong username or password!'))
+  reply.send(alert('Wrong username or password!'));
 }
 
-export default authenticate
+export default authenticate;

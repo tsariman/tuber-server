@@ -28,14 +28,14 @@ export interface IConfigMethods {
    * @param path period-separated list of properties
    * @param $default default value to be returned if the value is not found.
    */
-  readonly read: <T=any>(path: string, $default?: T) => T;
+  readonly read: <T=unknown>(path: string, $default?: T) => T;
   /**
    * Set a configuration value in memory only. The value can be changed at any
    * time.
    * @param path period-separated list of properties
    * @param val value to be saved.
    */
-  readonly write: <T=any>(path: string, val: T) => void;
+  readonly write: <T=unknown>(path: string, val?: T) => void;
   /**
    * Delete a configuration value.
    * @param path period-separated list of properties
