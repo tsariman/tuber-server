@@ -74,7 +74,7 @@ const userSchema = new Schema<IUserDocument>({
   email_3: String,
   phone: String,
   password: { type: String, default: null },
-  role: { type: String, default: 'user' },
+  role: { type: String, default: 'free' },
   username: String,
   firstname: String,
   lastname: String,

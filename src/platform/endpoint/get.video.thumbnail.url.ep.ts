@@ -16,9 +16,9 @@ export interface IBookmarkThumbnailUrlGet {
 }
 
 const jsonapi_400_reply = () => new JsonapiErrorBuilder()
-  .status(400)
-  .code('bad_request')
-  .title('Missing required information')
+  .withStatus(400)
+  .withCode('bad_request')
+  .withTitle('Missing required information')
   .build();
 
 export default async function get_video_thumbnail_url_endpoint (
@@ -38,8 +38,8 @@ export default async function get_video_thumbnail_url_endpoint (
     if (!bookmark) {
       Config.log('Failed.\nBookmark not found.');
       reply.code(404).send(new JsonapiErrorBuilder()
-        .status(404)
-        .title('Bookmark not Found')
+        .withStatus(404)
+        .withTitle('Bookmark not Found')
         .build()
       );
       return;
@@ -115,9 +115,9 @@ export default async function get_video_thumbnail_url_endpoint (
       //               attempt. Log this.
       Config.log('Failed.\nBookmark not found.');
       reply.code(404).send(new JsonapiErrorBuilder()
-        .status(404)
-        .title('Not Found')
-        .detail('Bookmark not found')
+        .withStatus(404)
+        .withTitle('Not Found')
+        .withDetail('Bookmark not found')
         .build()
       );
     }

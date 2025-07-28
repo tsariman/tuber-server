@@ -16,11 +16,11 @@ import {
   dev_post_users_populate_endpoint
 } from './endpoint/dev.post.populate.collections.ep';
 import post_bookmarks_api_setup_search_index_endpoint
-  from '../endpoint/post.bookmarks.api.search.index.ep';
+  from '../endpoint/post.bookmark.api.search.index.ep';
 import dev_post_populate_collection_endpoint
   from './endpoint/dev.post.populate.collection.ep';
-import dev_delete_drop_collection_endpoint
-  from './endpoint/dev.delete.drop.collection.ep';
+import dev_delete_collection_endpoint
+  from './endpoint/dev.delete.collection.ep';
 import dev_get_no_response_hangtime_endpoint
   from './endpoint/dev.get.no.response.hangtime.ep';
 import dev_get_html_page_endpoint from './endpoint/dev.get.html.page.ep';
@@ -125,7 +125,7 @@ export default async function dev_controller(fastify: FastifyInstance) {
   fastify.delete<{ Params: { collection: string }}>(
     '/drop-collection/:collection',
     opts,
-    dev_delete_drop_collection_endpoint
+    dev_delete_collection_endpoint
   );
   // Populate a collection with random data.
   fastify.post<{ Body: { collection: string, quantity: string }}>(

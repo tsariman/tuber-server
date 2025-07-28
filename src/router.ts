@@ -5,10 +5,10 @@ import index_controller from './controller/index.controller';
 import dev_controller from './DEV/dev.controller';
 import prod_install_controller from './INSTALL/prod.controller';
 import Config from './config';
-import users_controller from './controller/users.controller';
-import authenticate_controller from './controller/authenticate.controller';
+import users_controller from './controller/user.controller';
+import authenticate_controller from './controller/authentication.controller';
 import signout_controller from './controller/signout.controller';
-import bookmarks_controller from './controller/bookmarks.controller';
+import bookmark_controller from './controller/bookmark.controller';
 import platform_controller from './platform/platform.controller';
 import state_controller from './state/state.controller';
 import JsonapiErrorBuilder, {
@@ -82,7 +82,7 @@ export default async function router(fastify: FastifyInstance) {
   // fastify.register(bootstrap_controller, { prefix: `/${randomPrefix}` });
   fastify.register($1_bootstrap_controller, { prefix: `/${randomPrefix}` });
   fastify.register(users_controller, { prefix: `/${C.EP_USERS}` });
-  fastify.register(bookmarks_controller, { prefix: `/${C.EP_BOOKMARKS}` });
+  fastify.register(bookmark_controller, { prefix: `/${C.EP_BOOKMARKS}` });
 
   if (Config.DEV) {
     fastify.register(dev_controller, { prefix: `/${C.EP_DEV}` });

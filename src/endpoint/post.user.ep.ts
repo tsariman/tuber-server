@@ -9,7 +9,7 @@ import { TUsersFastifyRequest } from '../schema/users';
 import Config from '../config';
 import { MSG_500_ERROR_MESSAGE } from '../constants';
 
-export default async function post_users_endpoint (
+export default async function post_user_endpoint (
   request: TUsersFastifyRequest,
   reply: FastifyReply
 ) {
@@ -20,12 +20,12 @@ export default async function post_users_endpoint (
     );
   } catch (e) {
     const mongoDbError = get_mongodb_error((e as Error).message);
-    const errors = new JsonapiErrorBuilder();
     if (mongoDbError.code === MONGODB_DUPLICATE_KEY_ERROR) {
-      reply.code(409).send(errors.code(mongoDbError.code)
-        .status(409)
-        .title('Conflict')
-        .detail(mongoDbError.detail)
+      reply.code(409).send(new JsonapiErrorBuilder()
+        .withCode(mongoDbError.code)
+        .withStatus(409)
+        .withTitle('Conflict')
+        .withDetail(mongoDbError.detail)
         .build()
       );
     } else {

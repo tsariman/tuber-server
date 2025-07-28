@@ -2,7 +2,7 @@ import { TBootstrapState } from 'src/state/_state.common.types';
 import { TStateDialog } from '../../common.types';
 
 /** @deprecated */
-export const devUserAddDialogJson: TStateDialog = {
+export const devUserAddDialogState: TStateDialog = {
   '_type': 'form',
   '_key': 'devUserAddDialog',
   'title': 'Create New User',
@@ -15,7 +15,7 @@ export const devUserAddDialogJson: TStateDialog = {
   },
   'content': '$form : devUserAdd : users',
   'open': true
-}
+};
 
 const dev_dialog_state = {
 

@@ -133,7 +133,7 @@ const READABLE_CACHE = new NodeCache();
 const STATE_REGISTRY: Record<string, unknown> = {};
 
 /** Get the mongodb database URL substring that contains credentials. */
-const dbGetUrlCredentials = (user?: string, pass?: string) => {
+const dbGetUrlCredentials = (user?: string, pass?: string): string => {
   if (user && pass) {
     return `${user}:${pass}@`
   }
@@ -167,7 +167,7 @@ const initObj = {
   /** Database name */
   DB_NAME: USER_CONFIG.DEV ? USER_CONFIG.DB_DEV_NAME : USER_CONFIG.DB_PROD_NAME,
 
-  /** Mongodb development and production URI, if all goes well. */
+  /** Mongodb development or production URI, if all goes well. */
   DB_URI_REMOTE: [
     USER_CONFIG.DB_PROTOCOL,
     dbGetUrlCredentials(USER_CONFIG.DB_USERNAME, USER_CONFIG.DB_PASSWORD),
@@ -217,31 +217,32 @@ const initObj = {
     USER_CONFIG.DB_ATLAS_API_PRIVATE_KEY
   ].join(''),
 
-  l: (...args: unknown[]) => console.log(args),
+  /** Much shorter `console.log()`. */
+  l: (...args: unknown[]): void => console.log(args),
 
   /** This is the `console.log()` but will only print if app is in debug mode. */
-  log: function(...args: unknown[]) {
+  log: function(...args: unknown[]): void {
     if (USER_CONFIG.DEBUG) {
       console.log(...args)
     }
   },
 
   /** This is the `console.error()` but will only print if app is in debug mode. */
-  err: function(...args: unknown[]) {
+  err: function(...args: unknown[]): void {
     if (USER_CONFIG.DEBUG) {
       console.error(...args)
     }
   },
 
   /** Output to console on the same line. */
-  print: function(message: string) {
+  print: function(message: string): void {
     if (USER_CONFIG.DEBUG) {
       process.stdout.write(message);
     }
   },
 
   /** Throw exception and prints message. */
-  die: function(message: string) {
+  die: function(message: string): void {
     if (USER_CONFIG.DEBUG) {
       throw new Error(message);
     }
@@ -255,14 +256,14 @@ const initObj = {
     switch (type) {
     case 'state':
       STATE_REGISTRY[id] = key
-      return
+      return;
     }
   },
 
-  getRegistry: function (type:'state') {
+  getRegistry: function (type:'state'): Record<string, unknown> {
     switch (type) {
     case 'state':
-      return STATE_REGISTRY
+      return STATE_REGISTRY;
     }
   },
 };

@@ -86,10 +86,10 @@ export default async function get_bookmarks_collection_endpoint (
         Config.log('[DEBUG] Query did not return any result. '
           + '(aggregationResult[0] is undefined)');
         reply.code(404).send(new JsonapiErrorBuilder()
-          .code('not_found')
-          .status(404)
-          .title('The aggregate result array first object is undefined.')
-          .detail('Either the query is faulty or the aggregate pipeline failed '
+          .withCode('not_found')
+          .withStatus(404)
+          .withTitle('The aggregate result array first object is undefined.')
+          .withDetail('Either the query is faulty or the aggregate pipeline failed '
             +'Or there are no bookmarks that match the query')
           .source({ 'parameter': 'query' })
           .errorMeta('query', searchQuery)

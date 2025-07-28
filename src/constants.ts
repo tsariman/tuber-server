@@ -51,6 +51,7 @@ export const NOTE_FIELD_ROWS = 6;
 export const NOTE_MAX_LENGTH = 500;
 export const NOTE_MAX_LENGTH_MESSAGE = `Note is too long. (${NOTE_MAX_LENGTH} characters max)`;
 export const EMBED_URL_MESSAGE = 'Paste-in the embed URL or iframe HTML code';
+export const EMBED_URL_REQUIRED_MESSAGE = 'We\'re going to need that Embed IFRAME URL. It\'s available the on video page.';
 export const PUBLISHED_HELPER_TEXT = 'If published, anyone can see the bookmark.';
 
 // DEFAULT VALUES -------------------------------------------------------------

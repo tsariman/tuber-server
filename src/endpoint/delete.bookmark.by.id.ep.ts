@@ -7,7 +7,7 @@ import { BookmarkModel } from '../model/bookmark';
 import { IBookmarkDelete } from '../schema/bookmarks';
 import { MSG_500_ERROR_MESSAGE } from '../constants';
 
-export default async function delete_bookmarks_by_id_endpoint (
+export default async function delete_bookmark_by_id_endpoint (
   req: FastifyRequest<IBookmarkDelete>,
   reply: FastifyReply
 ) {

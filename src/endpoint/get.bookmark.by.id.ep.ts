@@ -6,7 +6,7 @@ import { get_bookmark_by_id } from '../model/bookmark';
 import { IBookmarkGet } from '../schema/bookmarks';
 import { MSG_500_ERROR_MESSAGE } from '../constants';
 
-export default async function get_bookmarks_by_id_endpoint (
+export default async function get_bookmark_by_id_endpoint (
   request: FastifyRequest<IBookmarkGet>,
   reply: FastifyReply
 ) {
@@ -21,9 +21,9 @@ export default async function get_bookmarks_by_id_endpoint (
     } else {
       Config.log('Failed.\nBookmark not found.');
       reply.code(404).send(new JsonapiErrorBuilder()
-        .status(404)
-        .title('Not Found')
-        .detail(`Bookmark with id '${request.params.id}' not found.`)
+        .withStatus(404)
+        .withTitle('Not Found')
+        .withDetail(`Bookmark with id '${request.params.id}' not found.`)
         .build()
       );
     }

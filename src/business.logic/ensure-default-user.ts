@@ -79,7 +79,7 @@ export const DEFAULT_USER_TEMPLATES = {
     name: 'demo',
     email: 'demo@tuberesearcher.local',
     password: 'demo123',
-    role: 'user' as const,
+    role: 'free' as const,
     firstname: 'Demo',
     lastname: 'User'
   }

@@ -21,7 +21,7 @@ export interface IConfigMethods {
    * @param path period-separated list of properties
    * @param val value to be saved.
    */
-  readonly save: (path: string, val: any) => Promise<IDbConfigurationDocument>;
+  readonly save: <T=unknown>(path: string, val: T) => Promise<IDbConfigurationDocument>;
   /** 
    * Read a configuration value which was previously set with `write()`,
    * `set()`, or `save()`.
@@ -171,11 +171,14 @@ const config: IConfiguration = {
     resolve(config, path, val);
   },
 
-  save: async (path: string, val: any): Promise<IDbConfigurationDocument> => {
+  save: async <T=unknown>(path: string, val: T): Promise<IDbConfigurationDocument> => {
     writable = true;
     resolve(config, path, val);
     writable = false;
-    return await configuration_save(path, val);
+    
+    // Properly serialize the value
+    const serializedValue = typeof val === 'string' ? val : JSON.stringify(val);
+    return await configuration_save(path, serializedValue);
   },
 
   /**
@@ -183,19 +186,11 @@ const config: IConfiguration = {
    *
    * @param prop period-seperated list of properties
    */
-  read: <T=any>(path: string, $default?: T): T => {
+  read: <T=unknown>(path: string, $default?: T): T => {
     return resolve(config, path) ?? $default;
   },
 
-  /**
-   * Saves a value
-   *
-   * This value is mutable
-   *
-   * @param prop period-seprated list of properties
-   * @param val value to be saved.
-   */
-  write: <T=any>(path: string, val: T): void => {
+  write: <T=unknown>(path: string, val: T): void => {
     writable = true;
     resolve(config, path, val);
     writable = false;

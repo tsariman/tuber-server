@@ -18,18 +18,18 @@ export default async function post_state_dialogs_endpoint (
     if (!key) {
       Config.log(`[ERROR] 'key' was not received.`);
       reply.code(400).send(new JsonapiErrorBuilder()
-        .status(400)
-        .code('bad_request')
-        .title('Missing information')
+        .withStatus(400)
+        .withCode('bad_request')
+        .withTitle('Missing information')
       );
       return;
     }
     if (!mode) {
       Config.log(`[ERROR] 'mode' was not received.`);
       reply.code(400).send(new JsonapiErrorBuilder()
-        .status(400)
-        .code('bad_request')
-        .title('Missing information')
+        .withStatus(400)
+        .withCode('bad_request')
+        .withTitle('Missing information')
       );
       return;
     }
@@ -59,9 +59,9 @@ export default async function post_state_dialogs_endpoint (
           } as TStateAllDialogs
         },
         ...new JsonapiErrorBuilder()
-          .status(404)
-          .code('not_found')
-          .title(`Dialog ${key} Not found`)
+          .withStatus(404)
+          .withCode('not_found')
+          .withTitle(`Dialog ${key} Not found`)
           .build(),
       });
     }

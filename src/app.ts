@@ -14,8 +14,8 @@ dotenv.config({ path: envFile });
 import cors from '@fastify/cors';
 
 import fastifyCookie from '@fastify/cookie';
-import fastifyJwt from '@fastify/jwt';
 import fastifyStatic from '@fastify/static';
+import { setupJWT } from './jwt.config';
 // import Tokens from '@fastify/csrf'
 import { TCipheredUser } from './schema/users';
 
@@ -28,66 +28,66 @@ declare module 'fastify' {
 };
 
 const server = fastify({
-  // Disable logging completely
-  logger: false
+  logger: false // Disable logging completely
 });
 
-// Middleware: CORS
-if (process.env.NODE_ENV !== 'production') {
-  server.register(cors, {
-    origin: [process.env.CLIENT_DOMAIN || 'http://localhost:3000']
-  });
-  if (process.env.CLIENT_DOMAIN) {
-    console.log('[INFO] Client\'s domain:',process.env.CLIENT_DOMAIN);
-  } else {
-    console.log('[ERROR] Client\'s domain is not set in environment variable.');
-    console.log('        http://localhost:3000 will be used by default. ');
+// Async setup function
+async function setupServer() {
+  // Middleware: CORS
+  if (process.env.NODE_ENV !== 'production') {
+    await server.register(cors, {
+      origin: [process.env.CLIENT_DOMAIN || 'http://localhost:3000']
+    });
+    if (process.env.CLIENT_DOMAIN) {
+      console.log('[INFO] Client\'s domain:',process.env.CLIENT_DOMAIN);
+    } else {
+      console.log('[ERROR] Client\'s domain is not set in environment variable.');
+      console.log('        http://localhost:3000 will be used by default. ');
+    }
   }
+
+  // Setup JWT with production key rotation support
+  await setupJWT(server);
+
+  await server.register(fastifyCookie);
+
+  // Static file serving for client app
+  await server.register(fastifyStatic, {
+    root: path.join(__dirname, '../static'),
+    prefix: '/static/', // Serve static files with /static/ prefix
+  });
+
+  const cookieDomain = process.env.DOMAIN ?? '127.0.0.1:8080';
+  console.log(`[INFO] \u{1F36A} Cookie domain: ${cookieDomain}`);
+
+  // Route to set cookie
+  server.get('/cookie', async (request, reply) => {
+    const token = await reply.jwtSign({
+      name: request.usr.name,
+      role: request.usr.role,
+    });
+
+    reply
+      .setCookie('token', token, {
+        domain: cookieDomain,
+        path: '/',
+        secure: false, // send cookie over HTTPS only
+        httpOnly: true,
+        sameSite: true // alternative CSRF protection
+      })
+      .code(200)
+      .send({ token });
+  })
+
+  server.get('/verifycookie', (_request, reply) => {
+    reply.send({ code: 'OK', message: 'it works!' })
+  });
+
+  // Middleware: Router
+  await server.register(router);
+
+  return server;
 }
 
-server.register(fastifyJwt, {
-  secret: process.env.JWT_SECRET ?? '',
-  cookie: {
-    cookieName: 'token',
-    signed: false
-  },
-});
-
-server.register(fastifyCookie);
-
-// Static file serving for client app
-server.register(fastifyStatic, {
-  root: path.join(__dirname, '../static'),
-  prefix: '/static/', // Serve static files with /static/ prefix
-});
-
-const cookieDomain = process.env.DOMAIN ?? '127.0.0.1:8080';
-console.log(`[INFO] \u{1F36A} Cookie domain: ${cookieDomain}`);
-
-// Route to set cookie
-server.get('/cookie', async (request, reply) => {
-  const token = await reply.jwtSign({
-    name: request.usr.name,
-    role: request.usr.role,
-  });
-
-  reply
-    .setCookie('token', token, {
-      domain: cookieDomain,
-      path: '/',
-      secure: false, // send cookie over HTTPS only
-      httpOnly: true,
-      sameSite: true // alternative CSRF protection
-    })
-    .code(200)
-    .send({ token });
-})
-
-server.get('/verifycookie', (_request, reply) => {
-  reply.send({ code: 'OK', message: 'it works!' })
-});
-
-// Middleware: Router
-server.register(router);
-
-export default server;
+// Initialize server
+export default setupServer();

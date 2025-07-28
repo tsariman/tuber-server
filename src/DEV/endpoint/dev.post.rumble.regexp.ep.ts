@@ -1,20 +1,20 @@
-import { FastifyReply, FastifyRequest } from 'fastify'
+import { FastifyReply, FastifyRequest } from 'fastify';
 import JsonapiErrorBuilder, {
   default_500_error_response
-} from 'src/business.logic/builder/jsonapi.error.builder'
-import Config from '../../config'
+} from 'src/business.logic/builder/jsonapi.error.builder';
+import Config from '../../config';
 import {
   $54_STATE_KEY,
   $56_STATE_KEY,
   MSG_500_ERROR_MESSAGE
-} from '../../constants'
-import axios from 'axios'
+} from '../../constants';
+import axios from 'axios';
 
 interface IPostRequest {
   Body: {
-    regexp?: string
-    url?: string
-  }
+    regexp?: string;
+    url?: string;
+  };
 }
 
 /**
@@ -29,27 +29,34 @@ export default async function dev_post_rumble_regexp_endpoint(
   req: FastifyRequest<IPostRequest>,
   reply: FastifyReply
 ): Promise<void> {
-  const regexp = req.body.regexp
-  const url = req.body.url
+  const regexp = req.body.regexp;
+  const url = req.body.url;
   if (!regexp || !url) {
-    Config.log('[ERROR]: URL and regexp are required.')
+    Config.log('[ERROR]: URL and regexp are required.');
     reply.code(400).send(new JsonapiErrorBuilder()
-      .code('bad_request')
-      .status(400)
-      .title('Query parameter is required')
+      .withCode('bad_request')
+      .withStatus(400)
+      .withTitle('Query parameter is required')
       .build()
     )
-    return
+    return;
   }
-  Config.log(`[DEBUG] Parsing ${url} with ${regexp}... `)
+  Config.log(`[DEBUG] Parsing ${url} with ${regexp}... `);
   try {
-    const response = await axios.get(url)
-    const html = await response.data
-    const re = new RegExp(regexp, 'g')
-    const iterator = html.matchAll(re)
-    const matches = [ ...iterator ]
+    const response = await axios.get(url, {
+      maxRedirects: 5,
+      timeout: 10000,
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+      },
+      validateStatus: (status) => status >= 200 && status < 400
+    });
+    const html = await response.data;
+    const re = new RegExp(regexp, 'g');
+    const iterator = html.matchAll(re);
+    const matches = [ ...iterator ];
     if (matches) {
-      Config.log('Success!')
+      Config.log('Success!');
       reply.code(200).send({
         'state': {
           'formsData': {
@@ -62,18 +69,18 @@ export default async function dev_post_rumble_regexp_endpoint(
             [$56_STATE_KEY]: { matches }
           }
         }
-      })
+      });
     } else {
-      Config.log('Failed.')
+      Config.log('Failed.');
       reply.code(404).send(new JsonapiErrorBuilder()
-        .code('not_found')
-        .status(404)
-        .title('Invalid Rumble URL')
+        .withCode('not_found')
+        .withStatus(404)
+        .withTitle('Invalid Rumble URL')
         .build()
-      )
+      );
     }
   } catch (e) {
-    Config.log(MSG_500_ERROR_MESSAGE, e)
-    reply.code(500).send(default_500_error_response(e))
+    Config.log(MSG_500_ERROR_MESSAGE, e);
+    reply.code(500).send(default_500_error_response(e));
   }
 }

@@ -9,14 +9,17 @@ import { create_bookmark } from '../model/bookmark';
 import { IBookmarkPost } from '../schema/bookmarks';
 import fix_missing_bookmark_data from '../platform/all.drivers';
 import { MSG_500_ERROR_MESSAGE } from '../constants';
+import JsonapiRequestDriver from 'src/business.logic/jsonapi.request.driver';
 
-export default async function post_bookmarks_endpoint (
+export default async function post_bookmark_endpoint (
   req: FastifyRequest<IBookmarkPost>,
   reply: FastifyReply
 ) {
   try {
-    const attr = req.body.data.attributes;
-    Config.print(`[DEBUG] Creating [${attr?.platform}] bookmark... `);
+    const driver = new JsonapiRequestDriver(req.body);
+    const platform = driver.getAttribute('platform');
+    const attr = driver.getAttributes();
+    Config.print(`[DEBUG] Creating [${platform}] bookmark... `);
     const bookmark = await fix_missing_bookmark_data(attr);
     if (!bookmark) {
       Config.log('Failed.');

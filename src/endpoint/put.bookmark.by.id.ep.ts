@@ -8,7 +8,7 @@ import { BookmarkModel } from '../model/bookmark';
 import { IBookmarkPut } from '../schema/bookmarks';
 import { MSG_500_ERROR_MESSAGE } from '../constants';
 
-export default async function put_bookmarks_by_id_endpoint (
+export default async function put_bookmark_by_id_endpoint (
   request: FastifyRequest<IBookmarkPut>,
   reply: FastifyReply
 ) {

@@ -1,33 +1,40 @@
-import { FastifyRequest, FastifyReply } from 'fastify'
+import { FastifyRequest, FastifyReply } from 'fastify';
 import JsonapiErrorBuilder, {
   default_500_error_response
-} from '../../business.logic/builder/jsonapi.error.builder'
-import Config from '../../config'
-import { MSG_500_ERROR_MESSAGE } from '../../constants'
-import axios from 'axios'
+} from '../../business.logic/builder/jsonapi.error.builder';
+import Config from '../../config';
+import { MSG_500_ERROR_MESSAGE } from '../../constants';
+import axios from 'axios';
 
 export default async function dev_get_html_page_endpoint(
   req: FastifyRequest<{ Querystring: { url?: string } }>,
   reply: FastifyReply
 ) {
-  const url = req.query.url
+  const url = req.query.url;
   if (!url) {
     reply.code(400).send(new JsonapiErrorBuilder()
-      .code('bad_request')
-      .status(400)
-      .title('url query parameter is required')
-      .detail('url query parameter is required')
+      .withCode('bad_request')
+      .withStatus(400)
+      .withTitle('url query parameter is required')
+      .withDetail('url query parameter is required')
       .build()
     )
-    return
+    return;
   }
-  Config.log('[DEBUG] dev_get_html_page:', url)
+  Config.log('[DEBUG] dev_get_html_page:', url);
   try {
-    const response = await axios.get(url)
-    const html = await response.data
-    reply.send(html)
+    const response = await axios.get(url, {
+      maxRedirects: 5,
+      timeout: 10000,
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+      },
+      validateStatus: (status) => status >= 200 && status < 400
+    })
+    const html = await response.data;
+    reply.send(html);
   } catch (e) {
-    Config.log(MSG_500_ERROR_MESSAGE, e)
-    reply.code(500).send(default_500_error_response(e))
+    Config.log(MSG_500_ERROR_MESSAGE, e);
+    reply.code(500).send(default_500_error_response(e));
   }
 }

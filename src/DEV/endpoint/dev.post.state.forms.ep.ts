@@ -16,9 +16,9 @@ export default async function dev_post_state_forms_endpoint(
     if (!key) {
       Config.log(`[ERROR] 'key' was not received.`)
       reply.code(400).send(new JsonapiErrorBuilder()
-        .status(400)
-        .code('bad_request')
-        .title('Missing information')
+        .withStatus(400)
+        .withCode('bad_request')
+        .withTitle('Missing information')
       )
       return
     }
@@ -35,9 +35,9 @@ export default async function dev_post_state_forms_endpoint(
       Config.log('Failed.')
       reply.code(404).send({
         ...new JsonapiErrorBuilder()
-          .status(404)
-          .code('not_found')
-          .title(`Form ${key} Not found`)
+          .withStatus(404)
+          .withCode('not_found')
+          .withTitle(`Form ${key} Not found`)
           .build(),
         state: {
           'forms': {

@@ -4,7 +4,7 @@ import { TUsersFastifyRequest } from '../schema/users';
 import Config from '../config';
 import { MSG_500_ERROR_MESSAGE } from '../constants';
 
-export default async function demo_users_get_collection_endpoint (
+export default async function get_user_collection_demo_endpoint (
   _req: TUsersFastifyRequest,
   reply: FastifyReply
 ) {

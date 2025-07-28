@@ -8,7 +8,7 @@ import {
   dialogAlertState as dialogAlert
 } from '../../state/dialog';
 
-export default async function dev_delete_drop_collection_endpoint (
+export default async function dev_delete_collection_endpoint (
   req: FastifyRequest<{ Params: { collection: string }}>,
   reply: FastifyReply
 ) {

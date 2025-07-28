@@ -44,7 +44,14 @@ export default async function dev_post_unknown_regexp_endpoint(
   }
   Config.print(`[DEBUG] Parsing ${url} with ${regexp}... `);
   try {
-    const response = await axios.get(url);
+    const response = await axios.get(url, {
+      maxRedirects: 5,
+      timeout: 10000,
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+      },
+      validateStatus: (status) => status >= 200 && status < 400
+    });
     const html = await response.data;
     const re = new RegExp(regexp, 'g');
     const iterator = html.matchAll(re);

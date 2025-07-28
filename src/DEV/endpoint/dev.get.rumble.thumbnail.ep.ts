@@ -16,9 +16,9 @@ export default async function dev_get_rumble_thumbnail_endpoint(
   const slug = req.query.slug
   if (!slug) {
     reply.code(400).send(new JsonapiErrorBuilder()
-      .code('bad_request')
-      .status(400)
-      .title('Query parameter is required')
+      .withCode('bad_request')
+      .withStatus(400)
+      .withTitle('Query parameter is required')
       .build()
     )
     return
@@ -35,10 +35,10 @@ export default async function dev_get_rumble_thumbnail_endpoint(
       })
     } else {
       reply.code(404).send(new JsonapiErrorBuilder()
-        .code('not_found')
-        .status(404)
-        .title('Not found')
-        .detail('Check the slug and try again.')
+        .withCode('not_found')
+        .withStatus(404)
+        .withTitle('Not found')
+        .withDetail('Check the slug and try again.')
         .build()
       )
     }

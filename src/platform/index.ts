@@ -27,22 +27,36 @@ export async function rumble_fix_missing_data(bookmark: IBookmark): Promise<IBoo
     // Had to get rid of query string because it was causing errors.
     const compliantUrl = url.origin + url.pathname
 
-    const response = await axios.get(compliantUrl)
-    const htmlText = await response.data
-    const videoIdMatches = htmlText.match(/"video":"(.*?)"/) ?? []
-    const thumbnailUrlMatches = htmlText.match(
-      /<meta property=og:image content=(.+?)>/
-    ) ?? []
-    const [ m2, thumbnail_url ] = thumbnailUrlMatches
-    const [ m1, videoid ] = videoIdMatches
-    if (m1 && m2 && videoid && thumbnail_url) {
-      return {
-        ...bookmark,
-        videoid,
-        thumbnail_url
+    try {
+      const response = await axios.get(compliantUrl, {
+        maxRedirects: 5,
+        timeout: 10000,
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+        },
+        validateStatus: (status) => status >= 200 && status < 400
+      })
+      
+      const htmlText = await response.data
+      const videoIdMatches = htmlText.match(/"video":"(.*?)"/) ?? []
+      const thumbnailUrlMatches = htmlText.match(
+        /<meta property=og:image content=(.+?)>/
+      ) ?? []
+      const [ m2, thumbnail_url ] = thumbnailUrlMatches
+      const [ m1, videoid ] = videoIdMatches
+      if (m1 && m2 && videoid && thumbnail_url) {
+        return {
+          ...bookmark,
+          videoid,
+          thumbnail_url
+        }
+      } else {
+        C.err(`failed to parse video ID from rumble url`, videoIdMatches)
       }
-    } else {
-      C.err(`failed to parse video ID from rumble url`, videoIdMatches)
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      C.err(`Failed to fetch data for rumble bookmark with slug ${bookmark.slug}:`, errorMessage);
+      return false;
     }
   }
   return false

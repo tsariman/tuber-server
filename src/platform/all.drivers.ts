@@ -92,37 +92,56 @@ async function _rumble_data(
 ): Promise<IBookmark|null> {
   const { slug } = attr;
   if (!slug || !usr || !usr._id) { return null; }
-  const urlObj = new URL(`${PLATFORM_URL['rumble']}${slug}.html`);
-  const fixedBookmark = { ...attr, user_id: usr._id } as IBookmark;
+  
+  try {
+    const urlObj = new URL(`${PLATFORM_URL['rumble']}${slug}.html`);
+    const fixedBookmark = { ...attr, user_id: usr._id } as IBookmark;
 
-  if (!fixedBookmark.thumbnail_url) {
-    // Search database for a bookmark with the same slug then get the videoid and
-    // thumbnail_url from it.
-    const existingBookmark = await get_bookmark_by_slug(slug);
-    if (existingBookmark
-      && existingBookmark.videoid
-      && existingBookmark.thumbnail_url
-    ) {
-      fixedBookmark.videoid = existingBookmark.videoid;
-      fixedBookmark.thumbnail_url = existingBookmark.thumbnail_url;
+    if (!fixedBookmark.thumbnail_url) {
+      // Search database for a bookmark with the same slug then get the videoid and
+      // thumbnail_url from it.
+      const existingBookmark = await get_bookmark_by_slug(slug);
+      if (existingBookmark
+        && existingBookmark.videoid
+        && existingBookmark.thumbnail_url
+      ) {
+        fixedBookmark.videoid = existingBookmark.videoid;
+        fixedBookmark.thumbnail_url = existingBookmark.thumbnail_url;
+      }
+      // If the bookmark is not in the database, then fetch the videoid and
+      // thumbnail_url from the web page.
+      else {
+        // Had to get rid of query string because it was causing errors.
+        const compliantUrl = `${urlObj.origin}${urlObj.pathname}`;
+        const html = await rumble_fetch_html_page(compliantUrl);
+        if (!html) { 
+          Config.log(`[ERROR] Failed to fetch HTML for Rumble URL: ${compliantUrl}`);
+          return null; 
+        }
+        
+        const parsedVideoid = rumble_parse_videoid(html);
+        const parsedThumbnail = rumble_parse_thumbnail_url(html);
+        
+        if (parsedVideoid) {
+          fixedBookmark.videoid = parsedVideoid;
+        }
+        if (parsedThumbnail) {
+          fixedBookmark.thumbnail_url = parsedThumbnail;
+        }
+      }
     }
-    // If the bookmark is not in the database, then fetch the videoid and
-    // thumbnail_url from the web page.
-    else {
-      // Had to get rid of query string because it was causing errors.
-      const compliantUrl = `${urlObj.origin}${urlObj.pathname}`;
-      Config.print(`[DEBUG] Fetching HTML page from ${compliantUrl}... `);
-      const html = await rumble_fetch_html_page(compliantUrl);
-      if (!html) { return null; }
-      fixedBookmark.videoid = rumble_parse_videoid(html);
-      fixedBookmark.thumbnail_url = rumble_parse_thumbnail_url(html);
-    }
-  }
 
-  if (fixedBookmark.videoid && fixedBookmark.thumbnail_url) {
-    return fixedBookmark;
+    // Return bookmark if we have at least a thumbnail_url (consistent with other platforms)
+    if (fixedBookmark.thumbnail_url) {
+      return fixedBookmark;
+    }
+    
+    Config.log(`[WARNING] Could not fetch required data for Rumble bookmark with slug: ${slug}`);
+    return null;
+  } catch (error) {
+    Config.log(`[ERROR] Error processing Rumble bookmark with slug '${slug}':`, error);
+    return null;
   }
-  return null;
 }
 
 async function _twitch_data(

@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import app from './app';
+import appPromise from './app';
 import Config from './config';
 import { DEV_DEFAULT_USER, DEV_USER } from './DEV/dev.install.common';
 // import start_cron_jobs from './cron.jobs'
@@ -11,7 +11,10 @@ import { COLLECTION_NAME } from './constants';
 
 mongoose.set('strictQuery', false);
 
-app.listen({ port: Config.FASTIFY_PORT }, (err, address) => {
+async function startServer() {
+  const app = await appPromise;
+  
+  app.listen({ port: Config.FASTIFY_PORT }, (err, address) => {
   if (err) {
     console.error(err);
     process.exit(1);
@@ -123,6 +126,14 @@ app.listen({ port: Config.FASTIFY_PORT }, (err, address) => {
     process.exit(1);
   })
 
+});
+
+}
+
+// Start the server
+startServer().catch(error => {
+  console.error('Failed to start server:', error);
+  process.exit(1);
 });
 
 /**

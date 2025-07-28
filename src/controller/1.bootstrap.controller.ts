@@ -47,7 +47,6 @@ export default async function $1_bootstrap_controller(fastify: FastifyInstance) 
     const cookie = get_from_body(req, 'cookie', '');
 
     if (cookie) {
-      Config.log('[DEBUG] req.body.cookie:', cookie);
       token = parse_cookie(cookie).token;
       if (!token) {
         Config.log(`[DEBUG] Token is missing.`);
