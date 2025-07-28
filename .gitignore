@@ -1,0 +1,43 @@
+# Ignored folders
+
+dist/*
+node_modules/*
+static/css/*
+static/img/*
+static/js/*
+
+# Ignored source code files
+src/secret-key
+src/session.secrets.ts
+src/DEV/EXPERIMENT
+src/business.logic/jsonapi.request.driver.example.ts
+
+# Ignored development files
+tuberdb-test.annotations.json
+
+# Ignored files
+d1684a88be5c08aed50f565d9c8063ca.txt
+package-lock.json
+NOTES.md
+designdoc.md
+DEV.md
+JWT-PRODUCTION.md
+JWT-TOKEN-LIFESPAN.md
+.env
+.env.production
+.env.production.example
+.env.app-config
+.env.twitch
+requests.rest
+
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
+# Swap the comments on the following lines if you don't wish to use zero-installs
+# Documentation here: https://yarnpkg.com/features/zero-installs
+#!.yarn/cache
+#.pnp.*
