@@ -1,9 +1,9 @@
 import { r } from 'src/business.logic';
 import { TStateForm } from '../../common.types';
-import Config from '../../config';
+import { register } from '../../business.logic/registry';
 import * as C from '../../constants';
 
-Config.register('state', '12', C.$12_STATE_KEY);
+register('state', '12', C.$12_STATE_KEY);
 /** Form for creating a new Vimeo video bookmark @id 12 */
 const newVimeoBookmarkFormState = {
   '_id': '12',

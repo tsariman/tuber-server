@@ -1,4 +1,4 @@
-import Config from '../../config';
+import { register } from '../../business.logic/registry';
 import { TStateForm } from '../../common.types';
 import {
   $57_STATE_KEY,
@@ -8,7 +8,7 @@ import {
 } from '../../constants';
 import { TBootstrapState } from 'src/state/_state.common.types';
 
-Config.register('state', '57', $57_STATE_KEY);
+register('state', '57', $57_STATE_KEY);
 /**
  * Form to test the regexp to grab the thumbnail url from
  * the html page source of an unknown platform.

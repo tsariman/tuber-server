@@ -1,8 +1,8 @@
 import { TStatePage } from '../../common.types';
-import Config from '../../config';
+import { register } from '../../business.logic/registry';
 import { $53_STATE_KEY } from '../../constants';
 
-Config.register('state', '53', $53_STATE_KEY);
+register('state', '53', $53_STATE_KEY);
 /** @id 53 */
 const adminReadablePageState: TStatePage = {
   '_id': '53',

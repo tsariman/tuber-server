@@ -1,4 +1,4 @@
-import { TStateAllIcons } from 'src/common.types';
+import { TStateAllIcons } from '../../common.types';
 import { TBootstrapState } from '../_state.common.types';
 
 /**

@@ -13,7 +13,7 @@ export default class JsonapiRequestDriver<T = TJsonapiDataAttributes> {
   private _request: TJsonapiRequest<T>;
 
   constructor(request: TJsonapiRequest<T>) {
-    this._request = request || {};
+    this._request = request ?? {};
   }
 
   /**

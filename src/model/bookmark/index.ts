@@ -20,7 +20,7 @@ type TSelect = { [key in keyof IBookmarkDocument]: 0|1 };
 const PAGINATION_OPTIONS = {
   ...DB_PAGINATION_OPTIONS,
   select: {
-    ...DB_PAGINATION_OPTIONS.select,
+    ...(DB_PAGINATION_OPTIONS.select as TSelect),
     is_private: 0,
     is_published: 0,
     // TODO Insert fields to exclude here e.g.
@@ -37,13 +37,13 @@ export const BookmarkPaginationModel = model<
 export const BookmarkModel = model<TBookmark>('bookmarks', bookmarkSchema);
 
 /** Exclude fields from the bookmark document. @deprecated */
-export const exclude_bookmark_fields = (bookmark: IMPV2Doc) => {
+export const exclude_bookmark_fields = (bookmark: IMPV2Doc<IBookmarkDocument>) => {
   const {
     _doc: {
       _id,
-      active,
+      is_active,
       is_private,
-      restrictions,
+      restrict,
       rules,
       __v,
       ...bookmarkDoc

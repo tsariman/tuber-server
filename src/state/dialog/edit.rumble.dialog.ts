@@ -1,4 +1,3 @@
-import Config from '../../config';
 import {
   $10_STATE_KEY,
   $11_STATE_KEY,
@@ -7,8 +6,9 @@ import {
 } from '../../constants';
 import { r, remove_form_suffix } from '../../business.logic';
 import { TStateDialog } from '../../common.types';
+import { register } from '../../business.logic/registry';
 
-Config.register('state', '11', $11_STATE_KEY);
+register('state', '11', $11_STATE_KEY);
 /** Dialog to edit a Rumble video bookmark @id 11 */
 const editRumbleBookmarkDialogState: TStateDialog = {
   '_type': 'form',

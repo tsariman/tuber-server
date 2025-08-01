@@ -3,123 +3,123 @@ import Config from '../../config';
 export type TTextField = 'label'|'has_label'|'title'|'text';
 
 export default abstract class AbstractStateBuilder {
-  /** Get the state. @returns {any} state. */
-  abstract build(): any;
+  /** Get the state. @returns {unknown} state. */
+  abstract build(): unknown;
   /**
    * Insert an item into array.
    *
-   * @returns {any} this.
+   * @returns {unknown} this.
    */
-  abstract add(instance: any): any;
+  abstract add(instance: unknown): unknown;
   /**
    * Set the id of the state.
    * @param {string} _id
-   * @returns {any} this.
+   * @returns {unknown} this.
    */
-  abstract with_Id(_id: string): any;
+  abstract with_Id(_id: string): unknown;
   /**
    * Set the key of the state.
    * @param {string} _key
-   * @returns {any} this.
+   * @returns {unknown} this.
    */
-  abstract with_Key(_key: string): any;
-  protected ler<T=any>(value: T, $return: T): T {
+  abstract with_Key(_key: string): unknown;
+  protected ler<T=unknown>(value: T, $return: T): T {
     if (Config.DEBUG) {
       console.log(value);
     }
     return $return;
   }
-  protected warn<T=any>(value: T, $return: T): T {
+  protected warn<T=unknown>(value: T, $return: T): T {
     if (Config.DEBUG) {
       console.warn(value);
     }
     return $return;
   }
-  protected notice<T=any>(value: T, $return: T): T {
+  protected notice<T=unknown>(value: T, $return: T): T {
     if (Config.DEBUG) {
       console.info(value);
     }
     return $return;
   }
-  protected die<T=any>(msg: string, $return: T): T {
+  protected die<T=unknown>(msg: string, $return: T): T {
     if (Config.DEBUG) {
       throw new Error(msg);
     }
     return $return;
   }
-  protected dieIf<T=any>(condition: boolean, msg: string, $return: T): T {
+  protected dieIf<T=unknown>(condition: boolean, msg: string, $return: T): T {
     if (Config.DEBUG && condition) {
       throw new Error(msg);
     }
     return $return;
   }
-  protected dieIfNot<T=any>(condition: boolean, msg: string, $return: T): T {
+  protected dieIfNot<T=unknown>(condition: boolean, msg: string, $return: T): T {
     if (Config.DEBUG && !condition) {
       throw new Error(msg);
     }
     return $return;
   }
-  protected dieIfNull<T=any>(value: any, msg: string, $return: T): T {
+  protected dieIfNull<T=unknown>(value: unknown, msg: string, $return: T): T {
     if (Config.DEBUG && value === null) {
       throw new Error(msg);
     }
     return $return;
   }
-  protected dieIfUndefined<T=any>(value: any, msg: string, $return: T): T {
+  protected dieIfUndefined<T=unknown>(value: unknown, msg: string, $return: T): T {
     if (Config.DEBUG && value === undefined) {
       throw new Error(msg);
     }
     return $return;
   }
-  protected dieIfNullOrUndefined<T=any>(value: any, msg: string, $return: T): T {
+  protected dieIfNullOrUndefined<T=unknown>(value: unknown, msg: string, $return: T): T {
     if (Config.DEBUG && (value === null || value === undefined)) {
       throw new Error(msg);
     }
     return $return;
   }
-  protected dieIfNotString<T=any>(value: any, msg: string, $return: T): T {
+  protected dieIfNotString<T=unknown>(value: unknown, msg: string, $return: T): T {
     if (Config.DEBUG && typeof value !== 'string') {
       throw new Error(msg);
     }
     return $return;
   }
-  protected dieIfNotNumber<T=any>(value: any, msg: string, $return: T): T {
+  protected dieIfNotNumber<T=unknown>(value: unknown, msg: string, $return: T): T {
     if (Config.DEBUG && typeof value !== 'number') {
       throw new Error(msg);
     }
     return $return;
   }
-  protected dieIfNotBoolean<T=any>(value: any, msg: string, $return: T): T {
+  protected dieIfNotBoolean<T=unknown>(value: unknown, msg: string, $return: T): T {
     if (Config.DEBUG && typeof value !== 'boolean') {
       throw new Error(msg);
     }
     return $return;
   }
-  protected dieIfNotArray<T=any>(value: any, msg: string, $return: T): T {
+  protected dieIfNotArray<T=unknown>(value: unknown, msg: string, $return: T): T {
     if (Config.DEBUG && !Array.isArray(value)) {
       throw new Error(msg);
     }
     return $return;
   }
-  protected dieIfNotObject<T=any>(value: any, msg: string, $return: T): T {
+  protected dieIfNotObject<T=unknown>(value: unknown, msg: string, $return: T): T {
     if (Config.DEBUG && typeof value !== 'object') {
       throw new Error(msg);
     }
     return $return;
   }
-  protected dieIfNotFunction<T=any>(value: any, msg: string, $return: T): T {
+  protected dieIfNotFunction<T=unknown>(value: unknown, msg: string, $return: T): T {
     if (Config.DEBUG && typeof value !== 'function') {
       throw new Error(msg);
     }
     return $return;
   }
-  protected dieIfNotRegExp<T=any>(value: any, msg: string, $return: T): T {
+  protected dieIfNotRegExp<T=unknown>(value: unknown, msg: string, $return: T): T {
     if (Config.DEBUG && !(value instanceof RegExp)) {
       throw new Error(msg);
     }
     return $return;
   }
-  protected dieIfNotDate<T=any>(value: any, msg: string, $return: T): T {
+  protected dieIfNotDate<T=unknown>(value: unknown, msg: string, $return: T): T {
     if (Config.DEBUG && !(value instanceof Date)) {
       throw new Error(msg);
     }
@@ -131,7 +131,5 @@ export abstract class AbstractFormItemStateBuilder
   extends AbstractStateBuilder
 {
   /** [ **REQUIRED** ] Form item must have a type. @returns this. */
-  abstract withType(type: string): any;
-  /** [ **REQUIRED** ] Form item must have a name. @returns this. */
-  abstract withName(name: string): any;
+  abstract withType(type: string): unknown;
 }

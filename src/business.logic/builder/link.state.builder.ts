@@ -61,6 +61,7 @@ export default class LinkStateBuilder extends AbstractStateBuilder {
     this._linkState.has.icon = icon;
     return this;
   }
+  /** @deprecated */
   withFaIcon(faIcon: TFaIcon): this {
     this._linkState.has = this._linkState.has ?? {};
     this._linkState.has.faIcon = faIcon;

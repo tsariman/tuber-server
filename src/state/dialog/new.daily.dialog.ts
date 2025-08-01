@@ -1,4 +1,3 @@
-import Config from '../../config';
 import {
   $19_STATE_KEY,
   $21_STATE_KEY,
@@ -7,8 +6,9 @@ import {
 } from '../../constants';
 import { r, remove_form_suffix } from '../../business.logic';
 import { TStateDialog } from '../../common.types';
+import { register } from 'src/business.logic/registry';
 
-Config.register('state', '21', $21_STATE_KEY);
+register('state', '21', $21_STATE_KEY);
 /** Dialog to create a new Dailymotion video bookmark @id 21 */
 const newDailyBookmarkDialogState: TStateDialog = {
   '_type': 'form',

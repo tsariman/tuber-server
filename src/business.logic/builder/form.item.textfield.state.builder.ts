@@ -7,6 +7,7 @@ import {
 } from '../../common.types';
 import AbstractStateBuilder from './abstract.state.builder';
 import LinkStateBuilder from './link.state.builder';
+import { TTextProps } from 'src/shared/interfaces';
 
 type TPredefinedRegex = TStateFormItemCustom['predefinedRegex'];
 
@@ -32,7 +33,7 @@ export default class FormItemTextfieldStateBuilder
    * @param props object containing the props.
    * @returns this.
    */
-  withProps(props: Record<string, any>): this {
+  withProps(props: Record<string, unknown>): this {
     this.$state.props = props;
     return this;
   }
@@ -247,7 +248,7 @@ export class FormItemAdornmentStateBuilder
   /** Get the state. @returns state. */
   build(): TStateFormItemAdornment { return this._state; }
   /** **DO NOT USE!** Not implemented. @returns this. */
-  add(): any { return this.die('Method not implemented.', {}); }
+  add(): unknown { return this.die('Method not implemented.', {}); }
   /** **DO NOT USE!** Not implemented. @returns this. */
   with_Id(): this { return this.die('Method not implemented.', this); }
   /** **DO NOT USE!** Not implemented. @returns this. */
@@ -276,7 +277,7 @@ export class FormItemAdornmentStateBuilder
    * @param {string} props
    * @returns this.
    */
-  withTextProps(props: Record<string, any>): this {
+  withTextProps(props: TTextProps): this {
     this._state.textProps = props;
     return this;
   }

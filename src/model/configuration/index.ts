@@ -17,7 +17,7 @@ type TSelect = { [key in keyof IDbConfigurationDocument]: 0|1 };
 const PAGINATION_OPTONS = {
   ...DB_PAGINATION_OPTIONS,
   select: {
-    ...DB_PAGINATION_OPTIONS.select,
+    ...(DB_PAGINATION_OPTIONS.select as TSelect),
     // TODO Insert fields to exclude here e.g.
     // 'password': 0,
   } as TSelect

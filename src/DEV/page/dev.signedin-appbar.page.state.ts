@@ -1,9 +1,9 @@
-import { TStatePage } from '../../common.types'
-import Config from '../../config'
-import { $43_STATE_KEY } from '../../constants'
+import { TStatePage } from '../../common.types';
+import { register } from '../../business.logic/registry';
+import { $43_STATE_KEY } from '../../constants';
 
+register('state', '43', $43_STATE_KEY);
 /** @id 43 */
-Config.register('state', '43', $43_STATE_KEY)
 const devSignedInPageState: TStatePage = {
   '_id': '43',
   '_key': $43_STATE_KEY,
@@ -22,11 +22,11 @@ const devSignedInPageState: TStatePage = {
       }
     ]
   }
-}
+};
 
-export default devSignedInPageState
+export default devSignedInPageState;
 
 /** Dark theme mode for dev signed in page state. @id 43 */
 export const $43DarkThemeMode: TStatePage = {
   ...devSignedInPageState,
-}
+};

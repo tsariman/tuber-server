@@ -1,7 +1,7 @@
 import {
   TStateFormItem,
   TStateFormItemGroup,
-  TTItemGroup
+  TItemGroup
 } from '../../common.types';
 import AbstractStateBuilder from './abstract.state.builder';
 
@@ -10,7 +10,7 @@ export default class FormItemGroupStateBuilder
 {
   private _items: TStateFormItem[];
   constructor(private _state: TStateFormItemGroup = {},
-    private __type: TTItemGroup = 'stack'
+    private __type: TItemGroup = 'stack'
   ) {
     super();
     this._state.type = this.__type;
@@ -24,7 +24,7 @@ export default class FormItemGroupStateBuilder
     return this._state;
   }
   add(instance: AbstractStateBuilder): this {
-    this._items.push(instance.build());
+    this._items.push(instance.build() as TStateFormItem);
     return this;
   }
   addItem(item: TStateFormItem): this {
@@ -38,7 +38,7 @@ export default class FormItemGroupStateBuilder
    * @param type 
    * @returns this.
    */
-  withType(type: TTItemGroup): this {
+  withType(type: TItemGroup): this {
     this.__type = type;
     return this;
   }
@@ -47,7 +47,7 @@ export default class FormItemGroupStateBuilder
    * @param props object containing the props.
    * @returns this.
    */
-  withProps(props: Record<string, any>): this {
+  withProps(props: Record<string, unknown>): this {
     this._state.props = props;
     return this;
   }

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { PLATFORM_URL } from '.';
-import Config from '../config';
+import { log, write as print } from '../business.logic/logging';
 
 /**
  * Helper function to make robust HTTP requests to Rumble with anti-bot measures
@@ -33,15 +33,15 @@ async function robust_rumble_get(url: string): Promise<string> {
 
   for (let i = 0; i < strategies.length; i++) {
     try {
-      Config.print(`[DEBUG] [Strategy ${i + 1}] fetch for ${url} ... `);
+      print(`[DEBUG] [Strategy ${i + 1}] fetch for ${url} ... `);
       const response = await axios.get(url, strategies[i]);
 
       // If we got a redirect response, try to follow it manually
       if (response.status === 301 || response.status === 302) {
-        Config.log('Redirected.')
+        log('Redirected.')
         const redirectUrl = response.headers.location;
         if (redirectUrl && i === 1) { // Only try manual redirect on second strategy
-          Config.log('[DEBUG]', `Manual redirect to: ${redirectUrl}`);
+          log('[DEBUG]', `Manual redirect to: ${redirectUrl}`);
           const redirectResponse = await axios.get(redirectUrl, {
             ...strategies[0],
             maxRedirects: 2
@@ -52,18 +52,18 @@ async function robust_rumble_get(url: string): Promise<string> {
       }
       
       if (response.status === 200) {
-        Config.log(`Success.`);
+        log(`Success.`);
         return response.data;
       }
       
-      Config.log(`Failed. [Strategy ${i + 1}] returned status: ${response.status}`);
+      log(`Failed. [Strategy ${i + 1}] returned status: ${response.status}`);
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : String(error);
-      Config.log(`Failed. [Strategy ${i + 1}] returned error: ${errorMessage}`);
+      log(`Failed. [Strategy ${i + 1}] returned error: ${errorMessage}`);
       
       // If this is the last strategy, log as error
       if (i === strategies.length - 1) {
-        Config.log('[ERROR] All strategies failed.');
+        log('[ERROR] All strategies failed.');
       }
     }
     
@@ -108,7 +108,7 @@ export async function rumble_fetch_thumbnail_url(slug?: string): Promise<string>
     return '';
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
-    Config.log('[ERROR]', `Failed to fetch thumbnail for slug ${slug}:`, errorMessage);
+    log('[ERROR]', `Failed to fetch thumbnail for slug ${slug}:`, errorMessage);
     return '';
   }
 }
@@ -156,7 +156,7 @@ export async function rumble_fetch_videoid(slug: string): Promise<string> {
     return '';
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
-    Config.log('[ERROR]', `Failed to fetch videoid for slug ${slug}:`, errorMessage);
+    log('[ERROR]', `Failed to fetch videoid for slug ${slug}:`, errorMessage);
     return '';
   }
 }
@@ -212,7 +212,7 @@ export async function rumble_fetch_videoid_thumbnail(
     return { videoid: '', thumbnail_url: '' };
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
-    Config.log('[ERROR]', `Failed to fetch videoid and thumbnail for slug ${slug}:`, errorMessage);
+    log('[ERROR]', `Failed to fetch videoid and thumbnail for slug ${slug}:`, errorMessage);
     return { videoid: '', thumbnail_url: '' };
   }
 }

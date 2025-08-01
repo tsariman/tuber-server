@@ -1,8 +1,8 @@
 import { TStateForm } from '../../common.types';
-import Config from '../../config';
+import { register } from '../../business.logic/registry';
 import { $41_STATE_KEY } from '../../constants';
 
-Config.register('state', '41', $41_STATE_KEY);
+register('state', '41', $41_STATE_KEY);
 /** Form state to sign in. @id 41 */
 const signInFormState: TStateForm = {
   '_type': 'box',

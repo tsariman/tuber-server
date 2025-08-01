@@ -36,6 +36,7 @@ import {
 import { bootstrap_pages_data_state } from 'src/state/bootstrap/page.data';
 import { PrepareState } from 'src/state/PrepareState';
 import { bootstrap_icons_state } from 'src/state/bootstrap/icon';
+import { get_registry } from '../business.logic/registry';
 
 export default async function $1_bootstrap_controller(fastify: FastifyInstance) {
   
@@ -124,7 +125,7 @@ export default async function $1_bootstrap_controller(fastify: FastifyInstance) 
           'dialogsDark': new PrepareState(context)
                               .process(bootstrap_dialogs_dark_state)
                               .get(),
-          'stateRegistry': Config.getRegistry('state'),
+          'stateRegistry': get_registry('state'),
           ...(usr ? { 'net': {
             'name': usr.name,
             'role': usr.role,

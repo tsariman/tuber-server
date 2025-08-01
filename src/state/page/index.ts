@@ -1,5 +1,6 @@
 import { defaultAppBarState } from '../default.content';
 import Config from '../../config';
+import { register } from '../../business.logic/registry';
 import * as C from '../../constants';
 import researchPageState, {
   $40DarkThemeMode,
@@ -32,7 +33,7 @@ import chippedListingPageState, {
 import { is_dev } from '../../model/user/access';
 import { TCipheredUser } from '../../schema/users';
 
-Config.register('state', '42', C.$42_STATE_KEY);
+register('state', '42', C.$42_STATE_KEY);
 /** Sign in page state @id 42 */
 export const signInPageState: TStatePage = {
   '_id': '42',

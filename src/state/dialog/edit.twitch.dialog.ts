@@ -4,11 +4,11 @@ import {
   THEME_LIGHT_BACKGROUND_COLOR,
   THEME_DARK_DIALOG_BACKGROUND_COLOR
 } from '../../constants';
-import Config from '../../config';
 import { r, remove_form_suffix } from '../../business.logic';
 import { TStateDialog } from '../../common.types';
+import { register } from '../../business.logic/registry';
 
-Config.register('state', '37', $37_STATE_KEY);
+register('state', '37', $37_STATE_KEY);
 /** Dialog to edit an existing Twitch video bookmark @id 37 */
 const editTwitchBookmarkDialogState: TStateDialog = {
   '_type': 'form',

@@ -1,9 +1,9 @@
 import { r } from 'src/business.logic';
 import { TStateForm } from '../../common.types';
-import Config from '../../config';
+import { register } from '../../business.logic/registry';
 import * as C from '../../constants';
 
-Config.register('state', '13', C.$13_STATE_KEY);
+register('state', '13', C.$13_STATE_KEY);
 /** Form for editing an existing Vimeo bookmark. @id 13 */
 const editVimeoBookmarkFormState = {
   '_id': '13',

@@ -4,11 +4,11 @@ import {
   THEME_LIGHT_APP_BAR_ICON_COLOR as ICON_COLOR,
 } from '../../constants';
 import { TStateAppbar } from '../../common.types';
-import Config from '../../config';
+import { register } from '../../business.logic/registry';
 import { powerSignInLinkState } from '../nav.link';
 import { r } from 'src/business.logic';
 
-Config.register('state', '63', $63_STATE_KEY);
+register('state', '63', $63_STATE_KEY);
 /** State for research page app bar. @id 63 */
 const researchPageAppbarState: TStateAppbar = {
   '_id': '63',

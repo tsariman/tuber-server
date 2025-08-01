@@ -1,45 +1,45 @@
-import { FastifyReply, FastifyRequest } from 'fastify'
+import { FastifyReply, FastifyRequest } from 'fastify';
 import JsonapiErrorBuilder, {
   default_500_error_response
-} from '../../business.logic/builder/jsonapi.error.builder'
-import Config from '../../config'
-import DEV_STATE_PAGES, { DEV_STATE_PAGES_THEME_DARK } from '../page'
-import { TNetState } from '../../common.types'
-import { MSG_500_ERROR_MESSAGE } from '../../constants'
-import { themed_by_key } from '../../business.logic'
+} from '../../business.logic/builder/jsonapi.error.builder';
+import { log, write as print } from '../../config';
+import DEV_STATE_PAGES, { DEV_STATE_PAGES_THEME_DARK } from '../page';
+import { TNetState } from '../../common.types';
+import { MSG_500_ERROR_MESSAGE } from '../../constants';
+import { themed_by_key } from '../../business.logic';
 
 export default async function dev_post_state_pages_endpoint(
   req: FastifyRequest<{ Body: { key?: string }}>,
   reply: FastifyReply
 ) {
   try {
-    const key = req.body.key
+    const key = req.body.key;
     if (!key) {
-      Config.log(`[ERROR] 'key' was not received.`)
+      log(`[ERROR] 'key' was not received.`);
       reply.code(400).send(new JsonapiErrorBuilder()
         .withStatus(400)
         .withCode('bad_request')
         .withTitle('Missing information')
-      )
-      return
+      );
+      return;
     }
-    Config.print(`[DEBUG] Loading '${key}' state... `)
+    print(`[DEBUG] Loading '${key}' state... `);
     const pageState = themed_by_key(
       key,
       DEV_STATE_PAGES,
       DEV_STATE_PAGES_THEME_DARK
-    )
+    );
     if (pageState) {
-      Config.log('Done.')
+      log('Done.');
       reply.code(200).send({
         state: {
           'pages': { [key]: pageState },
           'pagesLight': { [key]: DEV_STATE_PAGES[key] },
           'pagesDark': { [key]: DEV_STATE_PAGES_THEME_DARK[key] },
         } as TNetState
-      })
+      });
     } else {
-      Config.log('Failed.')
+      log('Failed.');
       reply.code(404).send({
         state: {
           'pages': {
@@ -51,10 +51,10 @@ export default async function dev_post_state_pages_endpoint(
             }
           }
         } as TNetState
-      })
+      });
     }
   } catch (e) {
-    Config.log(MSG_500_ERROR_MESSAGE, e)
-    reply.code(500).send(default_500_error_response(e))
+    log(MSG_500_ERROR_MESSAGE, e);
+    reply.code(500).send(default_500_error_response(e));
   }
 }

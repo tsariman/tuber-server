@@ -1,5 +1,5 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import Config from '../../config';
+import { log, write as print } from '../../config';
 import * as C from '../../constants';
 import { default_500_error_response } from '../../business.logic/builder/jsonapi.error.builder';
 import Form from '../../business.logic/builder/form.state.builder';
@@ -12,7 +12,7 @@ export default async function dev_get_form_builder_state(
   reply: FastifyReply
 ) {
   try {
-    Config.print(`[DEBUG] Testing form builder state... `);
+    print(`[DEBUG] Testing form builder state... `);
     reply.code(200).send(new Form()
       .with_Id('4')
       .with_Key('newYoutubeBookmarkFormState')
@@ -82,9 +82,9 @@ export default async function dev_get_form_builder_state(
       )
       .build()
     );
-    Config.log('Done.');
+    log('Done.');
   } catch (e) {
-    Config.log(C.MSG_500_ERROR_MESSAGE, e);
+    log(C.MSG_500_ERROR_MESSAGE, e);
     reply.code(500).send(default_500_error_response(e));
   }
 }

@@ -2,7 +2,7 @@ import { TCipheredUser } from 'src/schema/users';
 import { TBootstrapState, IStateContext } from './_state.common.types';
 import { TThemeMode } from 'src/common.types';
 import { ensure_context } from './_state.common.logic';
-import Config from 'src/config';
+import { error as err } from '../business.logic/logging';
 
 export class PrepareState<T> {
 
@@ -44,7 +44,7 @@ export class PrepareState<T> {
       const selectedState = stateDictionary[selectedKey];
       this._setState(selectedState);
     } else if (selectedKey) {
-      Config.err(`[ERROR] Invalid key (${selectedKey}) for state selection.`);
+      err(`[ERROR] Invalid key (${selectedKey}) for state selection.`);
     }
     return this;
   }
@@ -68,7 +68,7 @@ export class PrepareState<T> {
       const selectedState = stateDictionary[selectedKey];
       await this._setStateAsync(selectedState);
     } else if (selectedKey) {
-      Config.err(`[ERROR] Invalid key (${selectedKey}) for state selection.`);
+      err(`[ERROR] Invalid key (${selectedKey}) for state selection.`);
     }
     return this;
   }

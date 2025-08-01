@@ -1,14 +1,14 @@
-import Config from '../../config'
 import {
   $8_STATE_KEY,
   $9_STATE_KEY,
   THEME_LIGHT_BACKGROUND_COLOR,
   THEME_DARK_DIALOG_BACKGROUND_COLOR
-} from '../../constants'
-import { r, remove_form_suffix } from '../../business.logic'
-import { TStateDialog } from '../../common.types'
+} from '../../constants';
+import { r, remove_form_suffix } from '../../business.logic';
+import { register } from '../../business.logic/registry';
+import { TStateDialog } from '../../common.types';
 
-Config.register('state', '8', $8_STATE_KEY)
+register('state', '8', $8_STATE_KEY);
 /** Dialog to create a new Rumble video bookmark @id 8 */
 const newRumbleBookmarkDialogState: TStateDialog = {
   '_type': 'form',
@@ -46,9 +46,9 @@ const newRumbleBookmarkDialogState: TStateDialog = {
     }
   ],
   'open': true
-}
+};
 
-export default newRumbleBookmarkDialogState
+export default newRumbleBookmarkDialogState;
 
 /**
  * Dark theme mode for form state to create a new Rumble video bookmark.
@@ -63,4 +63,4 @@ export const $8DarkThemeMode: TStateDialog = {
       'sx': { 'backgroundColor': THEME_DARK_DIALOG_BACKGROUND_COLOR }
     }
   }
-}
+};

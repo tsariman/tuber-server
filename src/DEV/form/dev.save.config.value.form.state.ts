@@ -1,6 +1,6 @@
 import { TBootstrapState } from 'src/state/_state.common.types';
 import { TStateForm } from '../../common.types';
-import Config from '../../config';
+import { register } from '../../business.logic/registry';
 import {
   $62_STATE_KEY,
   THEME_LIGHT_PAPER_COLOR,
@@ -8,7 +8,7 @@ import {
 } from '../../constants';
 import { $26DarkThemeMode } from 'src/state/dialog/new.facebook.dialog';
 
-Config.register('state', '62', $62_STATE_KEY);
+register('state', '62', $62_STATE_KEY);
 /** @id 62 */
 const devSaveConfigValueFormState: TStateForm = {
   '_id': '62',

@@ -1,11 +1,11 @@
-import { Schema } from 'mongoose'
+import { Schema } from 'mongoose';
 
 export interface IEntry {
-  http_status: number
-  collection: string
-  document_version: string
-  created?: Date
-  payload?: string
+  http_status: number;
+  collection: string;
+  document_version: string;
+  created?: Date;
+  payload?: string;
 }
 
 const entrySchema = new Schema<IEntry>({
@@ -17,6 +17,6 @@ const entrySchema = new Schema<IEntry>({
     type: String,
     default: null
   }
-})
+});
 
-export default entrySchema
+export default entrySchema;

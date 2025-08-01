@@ -21,7 +21,7 @@ async function startServer() {
   }
 
   process.stdout.write(`[INFO] 🚀 tuber server running at ${address}\n\n`);
-  process.stdout.write(`[INFO] process.env.NODE_ENV = ${Config.NODE_ENV}\n`);
+  process.stdout.write(`[INFO] process.env.NODE_ENV = ${process.env.NODE_ENV}\n`);
   Config.log(`[INFO] Config.DEV = ${Config.DEV}`);
   Config.print('\n -------------------------------- \n');
   Config.print('\n |     APP IS IN DEBUG MODE     | \n');
@@ -116,13 +116,16 @@ async function startServer() {
       console.log('Done.');
     }
   
-    // Uncomment this to start cron jobs.
+    // TODO - Uncomment this to start cron jobs.
     // process.stdout.write('Setting up cron jobs... ')
     // start_cron_jobs()
     // console.log('Done.')
   }, err => {
-    console.log('Failed!\n');
-    console.error(err);
+    if (Config.DEBUG) {
+      console.error(`Failed.`, err);
+    } else {
+      console.log(`Failed. ${err.message}\n`);
+    }
     process.exit(1);
   })
 

@@ -8,7 +8,7 @@ type TFormControlProps = TStateFormItemCustom['formControlProps'];
 type TFormLabelProps = TStateFormItemCustom['formLabelProps'];
 type TProps = TFormChoices['props'];
 
-export default class FormChoicesStateBuilder extends FormItemBaseStateBuilder {
+export default class FormChoicesStateBuilder<T=unknown> extends FormItemBaseStateBuilder {
 
   constructor(
     private readonly _state: TFormChoices = {},
@@ -52,7 +52,7 @@ export default class FormChoicesStateBuilder extends FormItemBaseStateBuilder {
    * @returns this.
    */
   hasOnchangeHandle(handle: string): this {
-    this._state.has = this._state.has || {};
+    this._state.has ??= {};
     this._state.has.onchangeHandle = handle;
     return this;
   }
@@ -61,8 +61,8 @@ export default class FormChoicesStateBuilder extends FormItemBaseStateBuilder {
    * @param items
    * @returns this.
    */
-  hasItems(items: any[]): this {
-    this._state.has = this._state.has || {};
+  hasItems(items: T[]): this {
+    this._state.has ??= {};
     this._state.has.items = items;
     return this;
   }

@@ -1,9 +1,9 @@
 import { r } from 'src/business.logic';
 import { TStateForm } from '../../common.types';
-import Config from '../../config';
+import { register } from '../../business.logic/registry';
 import * as C from '../../constants';
 
-Config.register('state', '10', C.$10_STATE_KEY);
+register('state', '10', C.$10_STATE_KEY);
 /** Form for creating a edit rumble video bookmark @id 10 */
 const editRumbleBookmarkFormState = {
   '_id': '10',

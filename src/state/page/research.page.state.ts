@@ -1,6 +1,6 @@
 import { TCipheredUser } from '../../schema/users';
 import { TStatePage } from '../../common.types';
-import Config from '../../config';
+import { register } from '../../business.logic/registry';
 import {
   $40_STATE_KEY,
   $70_STATE_KEY,
@@ -20,7 +20,7 @@ import {
 } from '../nav.link';
 import { dev_get_links_state } from 'src/DEV/link.state';
 
-Config.register('state', '40', $40_STATE_KEY);
+register('state', '40', $40_STATE_KEY);
 /** Page state for research page app. @id 40 */
 const researchPageState: TStatePage = {
   '_id': '40',
@@ -61,7 +61,7 @@ export const $40DarkThemeMode: TStatePage = {
   ...researchPageState,
 };
 
-Config.register('state', '70', $70_STATE_KEY);
+register('state', '70', $70_STATE_KEY);
 /** Listing (research alias) page state. @id 70 */
 export const listingPageState: TStatePage = {
   ...researchPageState,

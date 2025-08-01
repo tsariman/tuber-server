@@ -3,7 +3,7 @@ import { FastifyReply, FastifyRequest } from 'fastify';
 import JsonapiErrorBuilder, {
   default_500_error_response
 } from '../business.logic/builder/jsonapi.error.builder';
-import Config from '../config';
+import { log, write as print } from '../business.logic/logging';
 import { BookmarkModel } from '../model/bookmark';
 import { IBookmarkPut } from '../schema/bookmarks';
 import { MSG_500_ERROR_MESSAGE } from '../constants';
@@ -13,12 +13,12 @@ export default async function put_bookmark_by_id_endpoint (
   reply: FastifyReply
 ) {
   try {
-    Config.print('[DEBUG] Updating bookmark... ');
+    print('[DEBUG] Updating bookmark... ');
     // [TODO] Validate request body (request.body.data.attributes)
     //        video_id, platform, start_seconds, title are required
     const attributes = request.body?.data?.attributes;
     if (!attributes) {
-      Config.log('Failed.\nMissing attributes.', request.body);
+      log('Failed.\nMissing attributes.', request.body);
       reply.code(400).send(new JsonapiErrorBuilder()
         .withStatus(400)
         .withTitle('Bad Request')
@@ -27,7 +27,7 @@ export default async function put_bookmark_by_id_endpoint (
       );
       return;
     }
-    // await connect(Config.DB_URI)
+    // await connect(DB_URI)
     const bookmark = await BookmarkModel.findByIdAndUpdate(
       request.params.id,
       { ...attributes, modified_at: new Date() },
@@ -35,10 +35,10 @@ export default async function put_bookmark_by_id_endpoint (
     );
     // await disconnect()
     if (bookmark) {
-      Config.log('Done.');
+      log('Done.');
       reply.code(204).send();
     } else {
-      Config.log('Failed.\nBookmark not found.');
+      log('Failed.\nBookmark not found.');
       reply.code(404).send(new JsonapiErrorBuilder()
         .withStatus(404)
         .withTitle('Not Found')
@@ -47,7 +47,7 @@ export default async function put_bookmark_by_id_endpoint (
       );
     }
   } catch (e) {
-    Config.log(MSG_500_ERROR_MESSAGE, e);
+    log(MSG_500_ERROR_MESSAGE, e);
     reply.code(500).send(default_500_error_response(e));
   }
 }

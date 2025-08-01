@@ -1,4 +1,4 @@
-import { IBookmark } from '../../../schema/bookmarks'
+import { IBookmark } from '../../../schema/bookmarks';
 
 export const rnd_platform = () => {
   const platforms = [
@@ -10,36 +10,36 @@ export const rnd_platform = () => {
     'odysee',
     'twitch',
     'facebook'
-  ]
-  return platforms[platforms.length * Math.random() << 0]
-}
+  ];
+  return platforms[platforms.length * Math.random() << 0];
+};
 
 /**
  * Generates a random character sequence including letters, numbers, and special
  * characters.
  */
 const gen_random_videoid = (length: number): string => {
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-'
-  let result = ''
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-';
+  let result = '';
   for (let i = 0; i < length; i++) {
-    result += chars.charAt(Math.floor(Math.random() * chars.length))
+    result += chars.charAt(Math.floor(Math.random() * chars.length));
   }
-  return result
+  return result;
 }
 
 const gen_random_bookmarks = (number = 100) => {
-  const bookmarks: IBookmark[] = []
+  const bookmarks: IBookmark[] = [];
   for (let i = 0; i < number; i++) {
-    const videoid = gen_random_videoid(11)
+    const videoid = gen_random_videoid(11);
     bookmarks.push({
       videoid: videoid,
       platform: rnd_platform(),
       start_seconds: Math.floor(Math.random() * 300),
       title: `[${i}] ${videoid}`,
       note: videoid,
-    })
+    });
   }
-  return bookmarks
+  return bookmarks;
 }
 
-export default gen_random_bookmarks
+export default gen_random_bookmarks;

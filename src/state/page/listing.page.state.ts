@@ -1,6 +1,6 @@
 import { TCipheredUser } from 'src/schema/users';
 import { TStatePage } from '../../common.types';
-import Config from '../../config';
+import { register } from '../../business.logic/registry';
 import { $51_STATE_KEY } from '../../constants';
 import { $71DarkThemeMode, listingPageAppbarState } from '../appbar';
 import {
@@ -12,7 +12,7 @@ import {
 } from '../nav.link';
 import { dev_get_links_state } from 'src/DEV/link.state';
 
-Config.register('state', '51', $51_STATE_KEY);
+register('state', '51', $51_STATE_KEY);
 /** Page state for listing app. @id 51 */
 const chippedListingPageState = {
   '_id': '51',

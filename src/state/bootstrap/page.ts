@@ -12,7 +12,7 @@ import researchPageState, {
   $70DarkThemeMode,
   listingPageState
 } from '../page/research.page.state';
-import Config from 'src/config';
+import Config from '../../config';
 import { PrepareState } from '../PrepareState';
 import chippedListingPageState, {
   $51DarkThemeMode

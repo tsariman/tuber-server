@@ -1,6 +1,6 @@
 
 export default class TypographyStateBuilder {
-  private _typographyState: any;
+  private _typographyState: Record<string, unknown>;
 
   constructor() {
     this._typographyState = {};

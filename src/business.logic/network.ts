@@ -2,6 +2,8 @@ import axios from 'axios';
 import Config from '../config';
 import { request } from 'urllib';
 
+interface IIndexInfo { name: string; }
+
 // TODO All network related functions go here
 
 /**
@@ -21,8 +23,14 @@ export async function find_index_by_name(indexName: string, collectionName: stri
         digestAuth: Config.DB_ATLAS_DIGEST_AUTH
       }
     );
-    return (allIndexesResponse.data as any[]).find(i => i.name === indexName);
-  } catch (e: unknown) {
+    const data = allIndexesResponse.data;
+    if (!Array.isArray(data)) {
+      console.log('[ERROR] Unexpected response format from Atlas Search Index API');
+      return false;
+    }
+    const result = (data as IIndexInfo[]).find(i => i.name === indexName);
+    return result !== undefined;
+  } catch (e) {
     console.log(`[ERROR] ${(e as Error).message}`);
     return false;
   }

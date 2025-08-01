@@ -2,7 +2,7 @@ import { FastifyReply, FastifyRequest } from 'fastify';
 import JsonapiErrorBuilder, {
   default_500_error_response
 } from '../../business.logic/builder/jsonapi.error.builder';
-import Config from '../../config';
+import { log, write } from '../../config';
 import { STATE_FORMS, STATE_FORMS_THEME_DARK } from '../form';
 import { TNetState, TThemeMode } from '../../common.types';
 import { MSG_500_ERROR_MESSAGE } from '../../constants';
@@ -16,7 +16,7 @@ export default async function post_state_forms_endpoint (
     const key = req.body.key;
     const mode = req.body.mode;
     if (!key) {
-      Config.log(`[ERROR] 'key' was not received.`);
+      log(`[ERROR] 'key' was not received.`);
       reply.code(400).send(new JsonapiErrorBuilder()
         .withStatus(400)
         .withCode('bad_request')
@@ -25,7 +25,7 @@ export default async function post_state_forms_endpoint (
       return;
     }
     if (!mode) {
-      Config.log(`[ERROR] 'mode' was not received.`);
+      log(`[ERROR] 'mode' was not received.`);
       reply.code(400).send(new JsonapiErrorBuilder()
         .withStatus(400)
         .withCode('bad_request')
@@ -33,12 +33,12 @@ export default async function post_state_forms_endpoint (
       );
       return;
     }
-    Config.print(`[DEBUG] Loading '${key}' state... `);
+    write(`[DEBUG] Loading '${key}' state... `);
     const light = STATE_FORMS[key];
     const dark = STATE_FORMS_THEME_DARK[key];
     const formState = themed(light, dark, mode);
     if (formState) {
-      Config.log('Done.');
+      log('Done.');
       reply.code(200).send({
         state: {
           'forms': { [key]: formState },
@@ -47,7 +47,7 @@ export default async function post_state_forms_endpoint (
         } as TNetState
       });
     } else {
-      Config.log('Failed.');
+      log('Failed.');
       reply.code(404).send({
         state: {
           'forms': {
@@ -62,7 +62,7 @@ export default async function post_state_forms_endpoint (
       });
     }
   } catch (e) {
-    Config.log(MSG_500_ERROR_MESSAGE, e);
+    log(MSG_500_ERROR_MESSAGE, e);
     reply.code(500).send(default_500_error_response(e));
   }
 }

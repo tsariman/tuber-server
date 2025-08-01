@@ -4,7 +4,7 @@ import {
   $67_STATE_KEY
 } from '../../constants';
 import { TStateLink } from '../../common.types';
-import Config from '../../config';
+import { register } from '../../business.logic/registry';
 
 export const homeLinkState: TStateLink = {
   'has': {
@@ -29,7 +29,7 @@ export const signInLInkState: TStateLink = {
   }
 };
 
-Config.register('state', '67', $67_STATE_KEY)
+register('state', '67', $67_STATE_KEY)
 /** Link state for logging in. @id 67 */
 export const powerSignInLinkState: TStateLink = {
   '_id': '67',
@@ -51,7 +51,7 @@ export const $67DarkThemeMode = {
   }
 } as TStateLink;
 
-Config.register('state', '66', $66_STATE_KEY)
+register('state', '66', $66_STATE_KEY)
 /** Link state for signing out. @id 66 */
 export const powerLogoutLinkState: TStateLink = {
   '_id': '66',
@@ -106,7 +106,7 @@ export const authenticatedLinkState: TStateLink = {
   }
 };
 
-// Config.register('state', '3', $3_STATE_KEY)
+// register('state', '3', $3_STATE_KEY)
 export const bookmarkAddFromUrlLinkState: TStateLink = {
   'type': 'icon',
   '_id': '3',

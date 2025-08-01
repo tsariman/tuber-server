@@ -8,9 +8,19 @@ import { THEME_MODE } from '../constants';
 import { FastifyRequest } from 'fastify';
 
 /** Returns `true` if the argument is an object. */
-export const is_object = (obj: any) => {
+export const is_object = (obj: unknown): obj is Object => {
   return typeof obj === 'object' && obj !== null && !Array.isArray(obj);
 }
+
+/**
+ * Check if an object contains a specific property
+ * @param obj - The object to check
+ * @param prop - The property name to look for
+ * @returns Type predicate indicating if the object has the property
+ */
+export const has_property = <T extends string>(obj: unknown, prop: T): obj is Record<T, unknown> => {
+  return is_object(obj) && prop in (obj as object);
+};
 
 /**
  * Convert object into query string with brackets. e.g.
@@ -28,22 +38,25 @@ export const is_object = (obj: any) => {
  * ```
  */
 export const bracketize_object_querystring = (
-  obj: any,
+  obj: unknown,
   parentKey = '?',
   depth = 0
 ): string => {
-  if (!is_object(obj)) return obj;
-  return Object.keys(obj).reduce((acc, key) => {
-    const value = obj[key];
-    if (is_object(value)) {
-      parentKey = depth === 0 ? key : `${parentKey}[${key}]`;
-      return acc + bracketize_object_querystring(
-        value, parentKey, depth + 1
-      );
-    }
-    const bracketizedKey = depth === 0 ? key : `${parentKey}[${key}]`;
-    return acc + `${bracketizedKey}=${value}&`
-  }, depth === 0 ? parentKey : '');
+  if (typeof obj === 'string') return obj;
+  if (is_object(obj)) {
+    return Object.keys(obj).reduce((acc, key) => {
+      const value = (obj as TObj)[key];
+      if (is_object(value)) {
+        parentKey = depth === 0 ? key : `${parentKey}[${key}]`;
+        return acc + bracketize_object_querystring(
+          value, parentKey, depth + 1
+        );
+      }
+      const bracketizedKey = depth === 0 ? key : `${parentKey}[${key}]`;
+      return acc + `${bracketizedKey}=${value}&`
+    }, depth === 0 ? parentKey : '');
+  }
+  throw new Error(`obj is '${typeof obj}'. Should be an object or a string`);
 }
 
 /** Insert state fragment using `_key` as key. */
@@ -75,12 +88,16 @@ export const get_state_key = <T=TObj>(state: T): string => {
  * @param DARK Dark theme value
  * @returns the version of the state based on theme mode.
  */
-export function themed_by_key<T=any>(key: string, LIGHT: any, DARK: any): T {
+export function themed_by_key<T = unknown>(
+  key: string,
+  LIGHT: TObj<T>,
+  DARK: TObj<T>
+): T {
   const mode = Config.read<TThemeMode>(
     THEME_MODE,
     Config.DEFAULT_THEME_MODE
   );
-  return mode === 'dark' ? DARK[key as any] : LIGHT[key as any];
+  return mode === 'dark' ? DARK[key] : LIGHT[key];
 }
 
 /**
@@ -90,7 +107,7 @@ export function themed_by_key<T=any>(key: string, LIGHT: any, DARK: any): T {
  * @param dark state for dark theme
  * @returns state based on theme mode.
  */
-export function sys_themed<T=any>(light: T, dark: T): T {
+export function sys_themed<T=unknown>(light: T, dark: T): T {
   const mode = Config.read<TThemeMode>(
     THEME_MODE,
     Config.DEFAULT_THEME_MODE
@@ -106,7 +123,7 @@ export function sys_themed<T=any>(light: T, dark: T): T {
  * @param dark state for dark theme
  * @returns state based on theme mode.
  */
-export function themed<T=any>(light: T, dark: T, mode?: TThemeMode): T {
+export function themed<T=unknown>(light: T, dark: T, mode?: TThemeMode): T {
   mode = mode ?? Config.read<TThemeMode>(
     THEME_MODE,
     Config.DEFAULT_THEME_MODE
@@ -131,7 +148,7 @@ export const get_query = <T = string>(
 }
 
 /** Get request body value */
-export const get_body = <T = any>(
+export const get_body = <T = unknown>(
   req: FastifyRequest<{ Body: Record<string, T>}>,
   key: string,
   $default: T
@@ -154,7 +171,7 @@ export const ms_to_seconds = (ms: number) => {
 }
 
 /** Return a limited number of document in an array if its length exceed the provided limit */
-export const limit_array = <T=any>(arr: T[], limit: number): T[] => {
+export const limit_array = <T=unknown>(arr: T[], limit: number): T[] => {
   return arr.length > limit ? arr.slice(0, limit) : arr;
 }
 
@@ -253,7 +270,7 @@ export function get_theme_mode(cookieString?: string): TThemeMode {
  * @param options 
  * @returns `a` if `element` is in `options`, otherwise `b`.
  */
-export function option<T=any> (
+export function option<T=unknown> (
   options?: string[]
 ): (element: string, a: T, b: T) => T {
   return (element: string, a: T, b: T): T => {

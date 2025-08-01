@@ -1,5 +1,10 @@
 import FormItemBaseStateBuilder from './form.item.base.state.builder';
 import { TStateFormItem } from '../../common.types';
+import {
+  FormControlLabelProps,
+  FormControlProps,
+  FormHelperTextProps
+} from '@mui/material';
 
 export default class FormItemSwitchSingleStateBuilder
   extends FormItemBaseStateBuilder
@@ -19,7 +24,7 @@ export default class FormItemSwitchSingleStateBuilder
    * @param props
    * @returns this.
    */
-  withProps(props: Record<string, any>): this {
+  withProps(props: Record<string, unknown>): this {
     this.$state.props = props;
     return this;
   }
@@ -28,7 +33,7 @@ export default class FormItemSwitchSingleStateBuilder
    * @param props 
    * @returns this.
    */
-  hasFormControlProps(props: Record<string, any>): this {
+  hasFormControlProps(props: FormControlProps): this {
     this.$state.has = this.$state.has || {};
     this.$state.has.formControlProps = props;
     return this;
@@ -38,7 +43,7 @@ export default class FormItemSwitchSingleStateBuilder
    * @param props 
    * @returns this.
    */
-  hasFormControlLabelProps(props: Record<string, any>): this {
+  hasFormControlLabelProps(props: FormControlLabelProps): this {
     this.$state.has = this.$state.has || {};
     this.$state.has.formControlLabelProps = props;
     return this;
@@ -48,7 +53,7 @@ export default class FormItemSwitchSingleStateBuilder
    * @param props 
    * @returns this.
    */
-  hasFormHelperTextProps(props: Record<string, any>): this {
+  hasFormHelperTextProps(props: FormHelperTextProps): this {
     this.$state.has = this.$state.has || {};
     this.$state.has.formHelperTextProps = props;
     return this;

@@ -3,11 +3,11 @@ import {
   THEME_DARK_PAPER_COLOR,
   THEME_LIGHT_PAPER_COLOR
 } from '../../constants';
-import Config from '../../config';
+import { register } from '../../business.logic/registry';
 import { TStateForm } from '../../common.types';
 import { TBootstrapState } from 'src/state/_state.common.types';
 
-Config.register('state', '49', $49_STATE_KEY);
+register('state', '49', $49_STATE_KEY);
 /** @id 49 @deprecated */
 const devSetAuthorizationKeyFormState: TStateForm = {
   '_id': '49',

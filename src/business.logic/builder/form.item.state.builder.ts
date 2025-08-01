@@ -1,10 +1,11 @@
 import { TStateFormItem } from 'src/common.types';
 import AbstractStateBuilder, { TTextField } from './abstract.state.builder';
+import { FormControlProps, FormHelperTextProps, InputLabelProps } from '@mui/material';
 
 type TType = TStateFormItem['type'];
 
 export default class FormItemStateBuilder extends AbstractStateBuilder {
-  protected $items: any[];
+  protected $items: TStateFormItem[];
   constructor(protected $state: TStateFormItem = {}) {
     super();
     this.$items = [];
@@ -89,7 +90,7 @@ export default class FormItemStateBuilder extends AbstractStateBuilder {
    * @param name 
    * @returns this.
    */
-  withProps(props: Record<string, any>): this {
+  withProps(props: Record<string, unknown>): this {
     this.$state.props = props;
     return this;
   }
@@ -150,7 +151,7 @@ export default class FormItemStateBuilder extends AbstractStateBuilder {
    * @param value 
    * @returns this.
    */
-  hasFormControlProps(props: Record<string, any>): this {
+  hasFormControlProps(props: FormControlProps): this {
     this.$state.has = this.$state.has || {};
     this.$state.has.formControlProps = props;
     return this;
@@ -160,7 +161,7 @@ export default class FormItemStateBuilder extends AbstractStateBuilder {
    * @param props 
    * @returns this.
    */
-  hasInputLabelProps(props: Record<string, any>): this {
+  hasInputLabelProps(props: InputLabelProps): this {
     this.$state.has = this.$state.has || {};
     this.$state.has.inputLabelProps = props;
     return this;
@@ -191,7 +192,7 @@ export default class FormItemStateBuilder extends AbstractStateBuilder {
    * @param props 
    * @returns this.
    */
-  hasFormHelperTextProps(props: Record<string, any>): this {
+  hasFormHelperTextProps(props: FormHelperTextProps): this {
     this.$state.has = this.$state.has || {};
     this.$state.has.formHelperTextProps = props;
     return this;

@@ -4,6 +4,7 @@ import {
 } from 'src/common.types';
 import SelectOptionStateBuilder from './select.option.state.builder';
 import FormItemBaseStateBuilder from './form.item.base.state.builder';
+import { FormControlProps, FormHelperTextProps, InputLabelProps } from '@mui/material';
 
 type TType = 'state_select' | 'state_select_native';
 
@@ -36,7 +37,7 @@ export default class FormItemSelectStateBuilder
    * @param props object with props.
    * @returns this.
    */
-  hasFormControlProps(props: Record<string, any>): this {
+  hasFormControlProps(props: FormControlProps): this {
     this.$state.has = this.$state.has || {};
     this.$state.has.formControlProps = props;
     return this;
@@ -46,12 +47,12 @@ export default class FormItemSelectStateBuilder
    * @param props object with props.
    * @returns this.
    */
-  hasInputLabelProps(props: Record<string, any>): this {
+  hasInputLabelProps(props: InputLabelProps): this {
     this.$state.has = this.$state.has || {};
     this.$state.has.inputLabelProps = props;
     return this;
   }
-  withProps(props: Record<string, any>): this {
+  withProps(props: Record<string, unknown>): this {
     this.$state.props = props;
     return this;
   }
@@ -93,7 +94,7 @@ export default class FormItemSelectStateBuilder
    * @param props object with props.
    * @returns this.
    */
-  hasFormHelperTextProps(props: Record<string, any>): this {
+  hasFormHelperTextProps(props: FormHelperTextProps): this {
     this.$state.has = this.$state.has || {};
     this.$state.has.formHelperTextProps = props;
     return this;

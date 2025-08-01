@@ -1,6 +1,7 @@
 {
   "extends": "fastify-tsconfig",
   "compilerOptions": {
+    "lib": ["DOM"],
     "sourceMap": true,
     "outDir": "./dist",
     "noImplicitAny": true,

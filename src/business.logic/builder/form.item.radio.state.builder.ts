@@ -1,6 +1,7 @@
 import { TStateFormItem, TStateFormItemRadioButton } from 'src/common.types';
 import FormItemRadioButtonStateBuilder from './form.item.radio.button.state.builder';
 import FormItemBaseStateBuilder from './form.item.base.state.builder';
+import { FormControlProps, FormLabelProps } from '@mui/material';
 
 export default class FormItemRadioStateBuilder
   extends FormItemBaseStateBuilder
@@ -52,7 +53,7 @@ export default class FormItemRadioStateBuilder
    * @param props object with props.
    * @returns this.
    */
-  hasFormControlProps(props: Record<string, any>): this {
+  hasFormControlProps(props: FormControlProps): this {
     this.$state.has = this.$state.has || {};
     this.$state.has.formControlProps = props;
     return this;
@@ -62,7 +63,7 @@ export default class FormItemRadioStateBuilder
    * @param props 
    * @returns this.
    */
-  hasFormLabelProps(props: Record<string, any>): this {
+  hasFormLabelProps(props: FormLabelProps): this {
     this.$state.has = this.$state.has || {};
     this.$state.has.formLabelProps = props;
     return this;
@@ -72,7 +73,7 @@ export default class FormItemRadioStateBuilder
    * @param props object with props.
    * @returns this.
    */
-  withProps(props: Record<string, any>): this {
+  withProps(props: Record<string, unknown>): this {
     this.$state.props = props;
     return this;
   }

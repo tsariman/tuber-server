@@ -40,7 +40,7 @@ export default class FormItemHtmlStateBuilder extends FormItemBaseStateBuilder {
    * @param props 
    * @returns this.
    */
-  withProps(props: Record<string, any>): this {
+  withProps(props: Record<string, unknown>): this {
     this.$state.props = props;
     return this;
   }

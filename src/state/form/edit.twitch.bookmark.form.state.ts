@@ -1,9 +1,9 @@
 import { r } from 'src/business.logic';
 import { TStateForm } from '../../common.types';
-import Config from '../../config';
+import { register } from '../../business.logic/registry';
 import * as C from '../../constants';
 
-Config.register('state', '39', C.$39_STATE_KEY);
+register('state', '39', C.$39_STATE_KEY);
 /** Form for editing an existing Twitch bookmark. @id 39 */
 const editTwitchBookmarkFormState = {
   '_id': '39',

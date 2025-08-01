@@ -1,14 +1,14 @@
-import Config from '../../config'
 import {
   $28_STATE_KEY,
   $30_STATE_KEY,
   THEME_LIGHT_BACKGROUND_COLOR,
   THEME_DARK_DIALOG_BACKGROUND_COLOR
-} from '../../constants'
-import { r, remove_form_suffix } from '../../business.logic'
-import { TStateDialog } from '../../common.types'
+} from '../../constants';
+import { r, remove_form_suffix } from '../../business.logic';
+import { register } from '../../business.logic/registry';
+import { TStateDialog } from '../../common.types';
 
-Config.register('state', '30', $30_STATE_KEY)
+register('state', '30', $30_STATE_KEY);
 /** Dialog to create a new Unknown video bookmark @id 30 */
 const newUnknownBookmarkDialogState: TStateDialog = {
   '_type': 'form',
@@ -46,9 +46,9 @@ const newUnknownBookmarkDialogState: TStateDialog = {
     }
   ],
   'open': true
-}
+};
 
-export default newUnknownBookmarkDialogState
+export default newUnknownBookmarkDialogState;
 
 /**
  * Dark theme mode for form state to create a new Unknown video bookmark.
@@ -63,4 +63,4 @@ export const $30DarkThemeMode: TStateDialog = {
       'sx': { 'backgroundColor': THEME_DARK_DIALOG_BACKGROUND_COLOR }
     }
   }
-}
+};

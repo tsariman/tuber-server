@@ -1,9 +1,9 @@
 import { r } from 'src/business.logic';
 import { TStateForm } from '../../common.types';
-import Config from '../../config';
+import { register } from '../../business.logic/registry';
 import * as C from '../../constants';
 
-Config.register('state', '19', C.$19_STATE_KEY);
+register('state', '19', C.$19_STATE_KEY);
 /** Form for creating a new Dailymotion video bookmark @id 19 */
 const newDailyBookmarkFormState = {
   '_id': '19',

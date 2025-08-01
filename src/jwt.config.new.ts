@@ -2,7 +2,7 @@ import { FastifyInstance } from 'fastify';
 import { JWTKeyManager } from './business.logic/security/jwt.key.manager';
 import { JWTHealthMonitor } from './business.logic/security/jwt.health.monitor';
 import fastifyJwt from '@fastify/jwt';
-import Config from './config';
+import { log } from './business.logic/logging';
 
 /**
  * Production-ready JWT configuration with key rotation support
@@ -79,7 +79,7 @@ export async function setupProductionJWT(server: FastifyInstance): Promise<void>
     keyManager.rotateKey();
     const newStatus = keyManager.getRotationStatus();
     
-    Config.log('[JWT] Manual key rotation triggered');
+    log('[JWT] Manual key rotation triggered');
     
     reply.send({
       status: 'rotated',
@@ -90,7 +90,7 @@ export async function setupProductionJWT(server: FastifyInstance): Promise<void>
     });
   });
 
-  Config.log('[JWT] Production JWT setup completed with key rotation support');
+  log('[JWT] Production JWT setup completed with key rotation support');
 }
 
 /**
@@ -107,7 +107,7 @@ export async function setupDevelopmentJWT(server: FastifyInstance): Promise<void
     }
   });
 
-  Config.log('[JWT] Development JWT setup completed');
+  log('[JWT] Development JWT setup completed');
 }
 
 /**

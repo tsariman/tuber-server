@@ -3,6 +3,7 @@ import { TStateBackground, TStateComponent, TStatePage } from '../../common.type
 import PageAppbarStateBuilder from './appbar.state.builder';
 import TypographyStateBuilder from './typography.state.builder';
 import DrawerStateBuilder from './drawer.state.builder';
+import { TJsonapiPageLinks } from '../../shared';
 
 export type TStatePageType = '$form'
   | '$webapp'
@@ -123,15 +124,15 @@ export default class PageStateBuilder extends AbstractStateBuilder {
     this._state.backgroundInherited = _key;
     return this;
   }
-  withData(data: any) {
+  withData(data: Record<string, unknown>) {
     this._state.data = data;
     return this;
   }
-  withMeta(meta: any) {
+  withMeta(meta: Record<string, unknown>) {
     this._state.meta = meta;
     return this;
   }
-  withLinks(links: any) {
+  withLinks(links: TJsonapiPageLinks) {
     this._state.links = links;
     return this;
   }

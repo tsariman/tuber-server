@@ -1,4 +1,3 @@
-import Config from '../../config';
 import {
   $36_STATE_KEY,
   $38_STATE_KEY,
@@ -6,9 +5,10 @@ import {
   THEME_DARK_DIALOG_BACKGROUND_COLOR
 } from '../../constants';
 import { r, remove_form_suffix } from '../../business.logic';
+import { register } from '../../business.logic/registry';
 import { TStateDialog } from '../../common.types';
 
-Config.register('state', '36', $36_STATE_KEY)
+register('state', '36', $36_STATE_KEY);
 /** Dialog to create a new Twitch video bookmark @id 36 */
 const newTwitchBookmarkDialogState: TStateDialog = {
   '_type': 'form',

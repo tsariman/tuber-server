@@ -2,7 +2,7 @@ import { FastifyReply, FastifyRequest } from 'fastify';
 import JsonapiErrorBuilder, {
   default_500_error_response
 } from 'src/business.logic/builder/jsonapi.error.builder';
-import Config from '../../config';
+import { log, write as print } from '../../config';
 import {
   $57_STATE_KEY,
   $58_STATE_KEY,
@@ -33,7 +33,7 @@ export default async function dev_post_unknown_regexp_endpoint(
   const regexp = req.body.regexp;
   const url = req.body.url;
   if (!regexp || !url) {
-    Config.log('[ERROR]: URL and regexp are required.');
+    log('[ERROR]: URL and regexp are required.');
     reply.code(400).send(new JsonapiErrorBuilder()
       .withCode('bad_request')
       .withStatus(400)
@@ -42,7 +42,7 @@ export default async function dev_post_unknown_regexp_endpoint(
     );
     return;
   }
-  Config.print(`[DEBUG] Parsing ${url} with ${regexp}... `);
+  print(`[DEBUG] Parsing ${url} with ${regexp}... `);
   try {
     const response = await axios.get(url, {
       maxRedirects: 5,
@@ -57,7 +57,7 @@ export default async function dev_post_unknown_regexp_endpoint(
     const iterator = html.matchAll(re);
     const matches = [ ...iterator ];
     if (matches) {
-      Config.log('Success!');
+      log('Success!');
       const thumbnailUrl = matches[0][1];
       reply.code(200).send({
         'state': {
@@ -70,7 +70,7 @@ export default async function dev_post_unknown_regexp_endpoint(
         }
       } as TNetState);
     } else {
-      Config.log('Failed.');
+      log('Failed.');
       reply.code(404).send(new JsonapiErrorBuilder()
         .withCode('not_found')
         .withStatus(404)
@@ -79,7 +79,7 @@ export default async function dev_post_unknown_regexp_endpoint(
       );
     }
   } catch (e) {
-    Config.log(MSG_500_ERROR_MESSAGE, e);
+    log(MSG_500_ERROR_MESSAGE, e);
     reply.code(500).send(default_500_error_response(e));
   }
 }

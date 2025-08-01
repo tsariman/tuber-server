@@ -1,5 +1,8 @@
+import { PaperProps } from '@mui/material';
 import { TStateForm, TStateFormItem } from '../../common.types';
-import AbstractStateBuilder from './abstract.state.builder';
+import AbstractStateBuilder, {
+  AbstractFormItemStateBuilder
+} from './abstract.state.builder';
 
 type TType = TStateForm['_type'];
 
@@ -24,8 +27,8 @@ export default class FormStateBuilder extends AbstractStateBuilder {
    * @param instance
    * @returns this.
    */
-  add(instance: AbstractStateBuilder): this {
-    this._items.push(instance.build());
+  add(instance: AbstractFormItemStateBuilder): this {
+    this._items.push(instance.build() as TStateFormItem);
     return this;
   }
   /**
@@ -33,7 +36,7 @@ export default class FormStateBuilder extends AbstractStateBuilder {
    * @param instance
    * @returns this.
    */
-  addItem(instance: AbstractStateBuilder): this {
+  addItem(instance: AbstractFormItemStateBuilder): this {
     return this.add(instance);
   }
   /**
@@ -68,7 +71,7 @@ export default class FormStateBuilder extends AbstractStateBuilder {
    * @param props object containing the form component props.
    * @returns this.
    */
-  withProps(props: Record<string, any>): this {
+  withProps(props: Record<string, unknown>): this {
     this._state.props = props;
     return this;
   }
@@ -86,7 +89,7 @@ export default class FormStateBuilder extends AbstractStateBuilder {
    *              props.
    * @returns this.
    */
-  withPaperProps(props: Record<string, any>): this {
+  withPaperProps(props: PaperProps): this {
     this._state.paperProps = props;
     return this;
   }

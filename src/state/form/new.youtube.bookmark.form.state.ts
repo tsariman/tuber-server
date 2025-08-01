@@ -1,9 +1,9 @@
 import { r } from 'src/business.logic';
 import { TStateForm } from '../../common.types';
-import Config from '../../config';
+import { register } from '../../business.logic/registry';
 import * as C from '../../constants';
 
-Config.register('state', '4', C.$4_STATE_KEY);
+register('state', '4', C.$4_STATE_KEY);
 /** Form for creating a new YouTube video bookmark @id 4 */
 const newYouTubeBookmarkFormState = {
   '_id': '4',

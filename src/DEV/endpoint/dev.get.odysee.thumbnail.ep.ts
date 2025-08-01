@@ -4,7 +4,7 @@ import JsonapiErrorBuilder, {
 } from '../../business.logic/builder/jsonapi.error.builder';
 import { $46_STATE_KEY, MSG_500_ERROR_MESSAGE } from '../../constants';
 import { odysee_fetch_thumbnail_url } from '../../platform/odysee';
-import Config from '../../config';
+import { log } from '../../config';
 
 /** 
  * Example URL: http://localhost:8080/dev/odysee/thumbnails?slug=<paste-slug-here>
@@ -43,7 +43,7 @@ export default async function dev_get_odysee_thumbnail_endpoint(
       );
     }
   } catch (e) {
-    Config.log(MSG_500_ERROR_MESSAGE, e);
+    log(MSG_500_ERROR_MESSAGE, e);
     reply.code(500).send(default_500_error_response(e));
   }
 }

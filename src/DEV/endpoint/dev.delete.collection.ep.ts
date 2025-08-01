@@ -1,5 +1,5 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import Config from '../../config';
+import { log, write } from '../../config';
 import mongoose from 'mongoose';
 import { BookmarkPaginationModel } from '../../model/bookmark';
 import { UserPaginationModel } from '../../model/user';
@@ -13,9 +13,9 @@ export default async function dev_delete_collection_endpoint (
   reply: FastifyReply
 ) {
   const { collection } = req.params;
-  Config.print(`[DEBUG] Dropping '${collection}' collection... `);
+  write(`[DEBUG] Dropping '${collection}' collection... `);
   await mongoose.connection.db?.dropCollection(collection);
-  Config.log('Done.');
+  log('Done.');
   const devInstallForm = {
     'bookmarkCount': await BookmarkPaginationModel.countDocuments(),
     'userCount': await UserPaginationModel.countDocuments()

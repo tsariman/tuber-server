@@ -1,4 +1,3 @@
-import Config from '../../config';
 import {
   $24_STATE_KEY,
   $26_STATE_KEY,
@@ -6,9 +5,10 @@ import {
   THEME_DARK_DIALOG_BACKGROUND_COLOR
 } from '../../constants';
 import { r, remove_form_suffix } from '../../business.logic';
+import { register } from '../../business.logic/registry';
 import { TStateDialog } from '../../common.types';
 
-Config.register('state', '26', $26_STATE_KEY)
+register('state', '26', $26_STATE_KEY);
 /** Dialog to create a new Facebook video bookmark @id 26 */
 const newFacebookBookmarkDialogState: TStateDialog = {
   '_type': 'form',

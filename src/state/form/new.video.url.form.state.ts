@@ -1,9 +1,9 @@
 import { r } from 'src/business.logic';
 import { TStateForm, TStateFormItem } from '../../common.types';
-import Config from '../../config';
+import { register } from '../../business.logic/registry';
 import { $1_STATE_KEY } from '../../constants';
 
-Config.register('state', '1', $1_STATE_KEY);
+register('state', '1', $1_STATE_KEY);
 /** Form to insert a new video URL. @id 1 */
 const newVideoUrlFormState: TStateForm = {
   '_id': '1',

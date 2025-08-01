@@ -3,7 +3,7 @@ import Config from '../config';
 import { defaultDialogAlertState as alert } from '../state/dialog';
 import { default_500_error_response } from '../business.logic/builder/jsonapi.error.builder';
 import { MSG_500_ERROR_MESSAGE } from '../constants';
-import { TNetState } from '../common.types';
+import { TJsonapiErrorResponse, TJsonapiResponse, TNetState } from '../common.types';
 import { get_user_collection_count } from '../model/user';
 import { createDefaultUser, DEFAULT_USER_TEMPLATES } from '../business.logic/ensure-default-user';
 
@@ -67,7 +67,7 @@ export default async function post_create_default_user_endpoint(
       `Password: ${DEFAULT_USER_TEMPLATES[template].password}`;
     
     Config.log(`[SUCCESS] ${successMessage}`);
-    
+
     reply.code(201).send({
       ...alert(successMessage),
       data: {
@@ -80,13 +80,13 @@ export default async function post_create_default_user_endpoint(
           created_at: user.created_at
         }
       }
-    } as TNetState);
-    
+    } as TJsonapiResponse);
+
   } catch (e) {
     Config.log(MSG_500_ERROR_MESSAGE, e);
     reply.code(500).send({
       ...alert('Failed to create default user: ' + (e as Error).message),
       ...default_500_error_response(e)
-    } as TNetState);
+    } as TJsonapiErrorResponse);
   }
 }

@@ -1,4 +1,3 @@
-import Config from '../../config';
 import {
   $18_STATE_KEY,
   $23_STATE_KEY,
@@ -7,8 +6,9 @@ import {
 } from '../../constants';
 import { r, remove_form_suffix } from '../../business.logic';
 import { TStateDialog } from '../../common.types';
+import { register } from '../../business.logic/registry';
 
-Config.register('state', '23', $23_STATE_KEY);
+register('state', '23', $23_STATE_KEY);
 /** Dialog to create a edit Odysee video bookmark @id 23 */
 const editOdyseeBookmarkDialogState: TStateDialog = {
   '_type': 'form',

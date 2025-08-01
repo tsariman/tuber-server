@@ -9,7 +9,7 @@ import JsonapiErrorBuilder, {
 import JsonapiResponseBuilder from '../business.logic/builder/jsonapi.response.builder';
 // import { create_user } from '../model/user'
 import { TUsersFastifyRequest } from '../schema/users';
-import Config from '../config';
+import { log } from '../business.logic/logging';
 import { MSG_500_ERROR_MESSAGE } from '../constants';
 
 /**
@@ -39,7 +39,7 @@ export default async function post_demo_users_endpoint (
         .build()
       );
     } else {
-      Config.log(MSG_500_ERROR_MESSAGE, e);
+      log(MSG_500_ERROR_MESSAGE, e);
       reply.code(500).send(default_500_error_response(e));
     }
   }

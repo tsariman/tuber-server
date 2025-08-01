@@ -1,9 +1,9 @@
 import { r } from 'src/business.logic';
 import { TStatePage } from '../../common.types';
-import Config from '../../config';
+import { register } from '../../business.logic/registry';
 import { $55_STATE_KEY } from '../../constants';
 
-Config.register('state', '55', $55_STATE_KEY);
+register('state', '55', $55_STATE_KEY);
 /** @id 55 */
 const adminConfigPageState: TStatePage = {
   '_id': '55',

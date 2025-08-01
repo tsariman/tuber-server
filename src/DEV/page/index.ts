@@ -1,4 +1,4 @@
-import Config from '../../config';
+import { register } from '../../business.logic/registry';
 import * as C from '../../constants';
 import { defaultAppBarState } from '../../state/default.content';
 import devInstallPageState, {
@@ -17,7 +17,7 @@ import {
 } from '../../business.logic';
 import { TCipheredUser } from 'src/schema/users';
 
-Config.register('state', '46', C.$46_STATE_KEY);
+register('state', '46', C.$46_STATE_KEY);
 /** @id 46 */
 export const devTestThumbnailPageState: TStatePage = {
   '_id': '46',
@@ -47,7 +47,7 @@ export const $46DarkThemeMode: TStatePage = {
   ...devTestThumbnailPageState,
 };
 
-Config.register('state', '56', C.$56_STATE_KEY);
+register('state', '56', C.$56_STATE_KEY);
 /** @id 56 */
 export const devTestRumbleRegexpPageState: TStatePage = {
   '_id': '56',
@@ -78,7 +78,7 @@ export const $56DarkThemeMode: TStatePage = {
   ...devTestRumbleRegexpPageState,
 };
 
-Config.register('state', '58', C.$58_STATE_KEY);
+register('state', '58', C.$58_STATE_KEY);
 /** @id 58 */
 export const devTestUnknownRegexpPageState: TStatePage = {
   '_id': '58',
@@ -109,7 +109,7 @@ export const $58DarkThemeMode: TStatePage = {
   ...devTestUnknownRegexpPageState,
 };
 
-Config.register('state', '59', C.$59_STATE_KEY);
+register('state', '59', C.$59_STATE_KEY);
 /** @id 59 */
 export const devTwitchInputClientIdPageState: TStatePage = {
   '_id': '59',
@@ -140,7 +140,7 @@ export const $59DarkThemeMode: TStatePage = {
   ...devTwitchInputClientIdPageState,
 };
 
-Config.register('state', '61', C.$61_STATE_KEY);
+register('state', '61', C.$61_STATE_KEY);
 /** @id 61 */
 export const devSaveConfigValuePageState: TStatePage = {
   '_id': '61',
@@ -171,7 +171,7 @@ export const $61DarkThemeMode: TStatePage = {
   ...devSaveConfigValuePageState,
 };
 
-Config.register('state', '48', C.$48_STATE_KEY);
+register('state', '48', C.$48_STATE_KEY);
 /** @id 48 */
 export const devResearchErrorsViewPageState: TStatePage = {
   '_id': '48',

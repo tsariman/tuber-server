@@ -1,13 +1,13 @@
 import { TBootstrapState } from 'src/state/_state.common.types';
 import { TStateForm } from '../../common.types';
-import Config from '../../config';
+import { register } from '../../business.logic/registry';
 import {
   $60_STATE_KEY,
   THEME_LIGHT_PAPER_COLOR,
   THEME_DARK_PAPER_COLOR
 } from '../../constants';
 
-Config.register('state', '60', $60_STATE_KEY);
+register('state', '60', $60_STATE_KEY);
 /** @id 60 */
 const devTwitchInputClientIdFormState: TStateForm = {
   '_id': '60',

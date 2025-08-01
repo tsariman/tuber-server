@@ -1,7 +1,7 @@
 import { FastifyReply } from 'fastify';
 import { default_500_error_response } from '../business.logic/builder/jsonapi.error.builder';
 import { TUsersFastifyRequest } from '../schema/users';
-import Config from '../config';
+import { log } from '../business.logic/logging';
 import { MSG_500_ERROR_MESSAGE } from '../constants';
 
 export default async function get_user_collection_demo_endpoint (
@@ -13,7 +13,7 @@ export default async function get_user_collection_demo_endpoint (
       data: []
     });
   } catch (e) {
-    Config.log(MSG_500_ERROR_MESSAGE, e);
+    log(MSG_500_ERROR_MESSAGE, e);
     reply.code(500).send(default_500_error_response(e));
   }
 }

@@ -1,5 +1,5 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import Config from '../../config';
+import { log, write } from '../../config';
 import JsonapiErrorBuilder, {
   default_500_error_response
 } from '../../business.logic/builder/jsonapi.error.builder';
@@ -16,7 +16,7 @@ export default async function post_state_pages_endpoint (
     const key = req.body.key;
     const mode = req.body.mode;
     if (!key) {
-      Config.log(`[ERROR] 'key' was not received.`);
+      log(`[ERROR] 'key' was not received.`);
       reply.code(400).send(new JsonapiErrorBuilder()
         .withStatus(400)
         .withCode('bad_request')
@@ -25,7 +25,7 @@ export default async function post_state_pages_endpoint (
       return;
     }
     if (!mode) {
-      Config.log(`[ERROR] 'mode' was not received.`);
+      log(`[ERROR] 'mode' was not received.`);
       reply.code(400).send(new JsonapiErrorBuilder()
         .withStatus(400)
         .withCode('bad_request')
@@ -33,12 +33,12 @@ export default async function post_state_pages_endpoint (
       );
       return;
     }
-    Config.print(`[DEBUG] Loading '${key}' state... `);
+    write(`[DEBUG] Loading '${key}' state... `);
     const light = STATE_PAGES[key];
     const dark = STATE_PAGES_THEME_DARK[key];
     const pageState = themed(light, dark, mode);
     if (pageState) {
-      Config.log('Done.');
+      log('Done.');
       reply.code(200).send({
         state: {
           'pages': { [key]: pageState },
@@ -47,7 +47,7 @@ export default async function post_state_pages_endpoint (
         } as TNetState
       });
     } else {
-      Config.log('Failed.');
+      log('Failed.');
       reply.code(404).send({
         state: {
           'pages': {
@@ -62,7 +62,7 @@ export default async function post_state_pages_endpoint (
       });
     }
   } catch (e) {
-    Config.log(MSG_500_ERROR_MESSAGE, e);
+    log(MSG_500_ERROR_MESSAGE, e);
     reply.code(500).send(default_500_error_response(e));
   }
 }

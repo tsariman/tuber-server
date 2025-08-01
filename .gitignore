@@ -5,6 +5,7 @@ node_modules/*
 static/css/*
 static/img/*
 static/js/*
+logs/*
 
 # Ignored source code files
 src/secret-key

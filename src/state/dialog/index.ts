@@ -1,4 +1,3 @@
-import Config from '../../config';
 import * as C from '../../constants';
 import {
   get_state_key as key,
@@ -56,8 +55,9 @@ import newTwitchBookmarkDialogState, {
 import editTwitchBookmarkDialogState, {
   $37DarkThemeMode
 } from './edit.twitch.dialog';
+import { register } from '../../business.logic/registry';
 
-Config.register('state', '6', C.$6_STATE_KEY);
+register('state', '6', C.$6_STATE_KEY);
 /** Dialog to create a new YouTube video bookmark @id 6 */
 export const newYoutubeBookmarkDialogState: TStateDialog = {
   '_type': 'form',
@@ -112,7 +112,7 @@ export const $6DarkThemeMode: TStateDialog = {
   }
 };
 
-Config.register('state', '2', C.$2_STATE_KEY);
+register('state', '2', C.$2_STATE_KEY);
 /** Dialog that contains the form to insert the new video url. @id 2 */
 export const newVideoUrlDialogState: TStateDialog = {
   '_type': 'form',
@@ -149,7 +149,7 @@ export const $2DarkThemeMode: TStateDialog = {
   }
 };
 
-Config.register('state', '7', C.$7_STATE_KEY);
+register('state', '7', C.$7_STATE_KEY);
 /** Dialog to edit an existing YouTube video bookmark @id 7 */
 export const editYoutubeBookmarkDialogState: TStateDialog = {
   '_type': 'form',
@@ -204,7 +204,7 @@ export const $7DarkThemeMode: TStateDialog = {
   }
 };
 
-Config.register('state', '32', C.$32_STATE_KEY);
+register('state', '32', C.$32_STATE_KEY);
 /** Sign in dialog state. @id 32 */
 export const signInDialogState: TStateDialog = {
   '_type': 'form',
@@ -227,7 +227,7 @@ export const $32DarkThemeMode: TStateDialog = {
   ...signInDialogState,
 };
 
-Config.register('state', '33', C.$33_STATE_KEY);
+register('state', '33', C.$33_STATE_KEY);
 /** Dialog state for registering a new user @id 33 */
 export const registerDialogState: TStateDialog = {
   '_type': 'form',
@@ -251,7 +251,7 @@ export const $33DarkThemeMode: TStateDialog = {
   // TODO Implement the dark theme color values here.
 };
 
-Config.register('state', '34', C.$34_STATE_KEY);
+register('state', '34', C.$34_STATE_KEY);
 /** Dialog state to delete a bookmark. @id 34 */
 export const deleteBookmarkDialogState: TStateDialog = {
   '_type': 'alert',
@@ -289,7 +289,7 @@ export const $34DarkThemeMode: TStateDialog = {
   ...deleteBookmarkDialogState,
 };
 
-Config.register('state', '35', C.$35_STATE_KEY);
+register('state', '35', C.$35_STATE_KEY);
 /** Client alert dialog. @id 35 */
 export const clientAlertDialogState: TStateDialog = {
   '_type': 'alert',
@@ -318,7 +318,7 @@ export const $35DarkThemeMode: TStateDialog = {
   ...clientAlertDialogState,
 };
 
-Config.register('state', '68', C.$68_STATE_KEY);
+register('state', '68', C.$68_STATE_KEY);
 /** Dialog state to confirm logging out. @id 68 */
 export const confirmSignOutDialogState: TStateDialog = {
   '_type': 'alert',
@@ -362,7 +362,7 @@ export const $68DarkThemeMode: TStateDialog = {
  * anything else client side.
  * @id 64
  */
-export function defaultDialogAlertState<T=any>(content: T) {
+export function defaultDialogAlertState<T=unknown>(content: T) {
   return {
     'state': {
       'dialog': {
@@ -374,7 +374,7 @@ export function defaultDialogAlertState<T=any>(content: T) {
         'titleProps': {
           'sx': { 'textAlign': 'center' }
         },
-        'content': content,
+        content,
         'actions': [
           {
             'type': 'state_button',
@@ -404,7 +404,7 @@ export const alert = defaultDialogAlertState;
  * ```
  * @id 65
  */
-export function dialogAlertState<T=any>(content: T): TStateDialog {
+export function dialogAlertState<T=unknown>(content: T): TStateDialog {
   return {
     '_type': 'alert',
     '_id': '65',

@@ -1,9 +1,10 @@
 import { IDbConfigurationDocument } from '../schema/configurations';
 import { configuration_save } from '../model/configuration';
+import { TObj } from 'src/common.types';
 
 /** Reserved methods/keys of the configuration object. */
 export interface IConfigMethods {
-  readonly init: (data?: any) => void;
+  readonly init: (data?: Record<string, unknown>) => void;
   /**
    * Load a configuration value from the database.
    * @param docs array of configuration documents
@@ -14,7 +15,7 @@ export interface IConfigMethods {
    * @param path period-separated list of properties
    * @param val value to be saved.
    */
-  readonly set: (path: string, val: any) => void;
+  readonly set: (path: string, val: unknown) => void;
   /**
    * Save a configuration value to the database. The value can be changed at 
    * any time.
@@ -56,7 +57,7 @@ type TReservedKeys = keyof IConfigMethods;
  * You've been warned.
  */
 export interface IConfiguration extends IConfigMethods {
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 let writable: boolean = false;
@@ -69,7 +70,7 @@ let $delete: boolean = false;
  * @param prop new property name
  * @param val the value at that property
  */
-const create_property = (obj: any, prop: string, val: any): void => {
+const create_property = <T=TObj,K=unknown>(obj: T, prop: string, val: K): void => {
   Object.defineProperty(obj, prop, {
     value: val,
     writable
@@ -107,15 +108,15 @@ const invalid_keys: {[key in TReservedKeys]: number} = {
  * @param path a string containing the dot-separated list of object properties.
  *             e.g. "pagination.users.limit"
  */
-const resolve = (obj: any, path: string, val?: any): any => {
+const resolve = <T=unknown,K=TObj<T>>(obj: K, path: string, val?: T): T => {
   const propArray = path.split('.');
   let o = obj,
-    candidate: any,
+    candidate: unknown,
     j = 0;
 
   do {
     let prop = propArray[j];
-    candidate = o[prop];
+    candidate = (o as TObj)[prop];
 
     // if this is the last property
     if (j >= (propArray.length - 1)) {
@@ -123,25 +124,25 @@ const resolve = (obj: any, path: string, val?: any): any => {
         create_property(o, prop, val);
         return val;
       } else if ($delete) {
-        o[prop] = undefined;
+        (o as TObj)[prop] = undefined;
       }
-      return candidate;
+      return candidate as T;
 
       // if the property does not exist but a value was provided
     } else if (!candidate && val) {
       create_property(o, prop, {});
     }
-    o = o[prop];
+    o = (o as TObj)[prop] as K;
     j++;
   } while (1);
-
+  throw new Error('[ERROR] resolve() failed.');
 };
 
 const config: IConfiguration = {
 
-  init: (data?: any): void => {
+  init: (data?: Record<string, unknown>): void => {
     writable = false;
-    if (data && typeof data === 'object' && !Array.isArray(data)) {
+    if (data) {
       for (const key in data) {
         if (!(key in invalid_keys)) { // if key is invalid
           config[key] = data[key];
@@ -167,7 +168,7 @@ const config: IConfiguration = {
     });
   },
 
-  set: (path: string, val: any): void => {
+  set: <T=unknown>(path: string, val: T): void => {
     resolve(config, path, val);
   },
 
@@ -187,7 +188,7 @@ const config: IConfiguration = {
    * @param prop period-seperated list of properties
    */
   read: <T=unknown>(path: string, $default?: T): T => {
-    return resolve(config, path) ?? $default;
+    return (resolve(config, path) ?? $default) as T;
   },
 
   write: <T=unknown>(path: string, val: T): void => {

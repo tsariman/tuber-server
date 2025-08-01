@@ -1,5 +1,6 @@
 import { AbstractFormItemStateBuilder } from './abstract.state.builder';
 import { TStateFormItemCheckboxBox } from '../../common.types';
+import IFormChoices from 'src/shared/interfaces/IFormChoices';
 
 export default class FormItemBoxStateBuilder extends AbstractFormItemStateBuilder {
   constructor(private readonly _state: TStateFormItemCheckboxBox = {}) {
@@ -32,7 +33,7 @@ export default class FormItemBoxStateBuilder extends AbstractFormItemStateBuilde
    * @param color
    * @returns this.
    */
-  withColor(color: string): this {
+  withColor(color: IFormChoices['color']): this {
     this._state.color = color;
     return this;
   }

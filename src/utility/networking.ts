@@ -1,12 +1,12 @@
-import os from 'os'
+import os from 'os';
 
 /** Determines the local IP address. */
 export function get_ip(inDevMode = false, address?: string) {
-  if (address) { return address }
-  let ip = ''
-  const interfaces = os.networkInterfaces()
+  if (address) { return address; }
+  let ip = '';
+  const interfaces = os.networkInterfaces();
   for (let prop in interfaces) {
-    const info = interfaces[prop]
+    const info = interfaces[prop];
     if (info) {
       info.map(interfac3 => {
         if (!inDevMode
@@ -14,20 +14,20 @@ export function get_ip(inDevMode = false, address?: string) {
           && interfac3.address !== '127.0.0.1'
           && !interfac3.internal
         ) {
-          ip = interfac3.address
+          ip = interfac3.address;
         } else if (inDevMode
           && interfac3.family === 'IPv4'
           && interfac3.internal
         ) {
-          ip = interfac3.address
+          ip = interfac3.address;
         }
-      })
+      });
     }
   }
   if (!ip) {
-    throw new Error('Failed to resolve ip address. Check your logic!')
+    throw new Error('Failed to resolve ip address. Check your logic!');
   }
-  return ip
+  return ip;
 }
 
 export function invalid_db_name(): string {

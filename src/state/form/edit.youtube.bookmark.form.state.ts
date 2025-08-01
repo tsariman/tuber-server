@@ -1,9 +1,9 @@
 import { r } from 'src/business.logic';
 import { TStateForm } from '../../common.types';
-import Config from '../../config';
+import { register } from '../../business.logic/registry';
 import * as C from '../../constants';
 
-Config.register('state', '5', C.$5_STATE_KEY);
+register('state', '5', C.$5_STATE_KEY);
 /** Form for editing an existing YouTube bookmark. @id 5 */
 const editYouTubeBookmarkFormState = {
   '_id': '5',

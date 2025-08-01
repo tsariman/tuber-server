@@ -1,5 +1,5 @@
 import { JWTKeyManager } from './jwt.key.manager';
-import Config from '../../config';
+import { log, error } from '../../config';
 
 /**
  * JWT Health Monitor - Monitors key rotation health and performance
@@ -81,9 +81,9 @@ export class JWTHealthMonitor {
 
     // Log health status
     if (healthStatus === 'error') {
-      Config.err(`[JWT Health] ${message}`);
+      error(`[JWT Health] ${message}`);
     } else if (healthStatus === 'warning') {
-      Config.log(`[JWT Health] ${message}`);
+      log(`[JWT Health] ${message}`);
     }
   }
 
@@ -92,8 +92,8 @@ export class JWTHealthMonitor {
    */
   public getHealthStatus(): {
     overall: 'healthy' | 'warning' | 'error';
-    currentRotation: any;
-    recentChecks: Array<any>;
+    currentRotation: Record<string, number>;
+    recentChecks: Array<unknown>;
     recommendations: string[];
   } {
     const currentStatus = this.keyManager.getRotationStatus();

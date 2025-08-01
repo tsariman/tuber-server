@@ -4,7 +4,7 @@ import sessionSchema, {
   ISessionDocument
 } from '../../schema/sessions';
 import { IUserDocument, TCipheredUser } from '../../schema/users';
-import Config from 'src/config';
+import Config from '../../config';
 import { get_user_by_name } from '../user';
 
 export const SessionModel = model<ISession>('Session', sessionSchema);

@@ -1,4 +1,4 @@
-import Config from '../../config';
+import { register } from '../../business.logic/registry';
 import { TStateForm } from '../../common.types';
 import {
   $54_STATE_KEY,
@@ -7,7 +7,7 @@ import {
 } from '../../constants';
 import { TBootstrapState } from 'src/state/_state.common.types';
 
-Config.register('state', '54', $54_STATE_KEY);
+register('state', '54', $54_STATE_KEY);
 /**
  * Form to test the regexp to grab both the video id and the thumbnail url from
  * the rumble video index.html page.

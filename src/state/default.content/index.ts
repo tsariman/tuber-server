@@ -1,4 +1,4 @@
-import { TStateAppbar } from '../../common.types'
+import { TStateAppbar } from '../../common.types';
 
 /** Default app bar json. */
 export const defaultAppBarState: TStateAppbar = {

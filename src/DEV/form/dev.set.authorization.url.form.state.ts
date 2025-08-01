@@ -1,4 +1,4 @@
-import Config from '../../config';
+import { register } from '../../business.logic/registry';
 import {
   $50_STATE_KEY,
   THEME_DARK_PAPER_COLOR,
@@ -7,7 +7,7 @@ import {
 import { TStateForm } from '../../common.types';
 import { TBootstrapState } from 'src/state/_state.common.types';
 
-Config.register('state', '50', $50_STATE_KEY);
+register('state', '50', $50_STATE_KEY);
 /** Form to set the authorization URL for a platform. @id 50 @deprecated */
 const devSetAuthorizationUrlFormState: TStateForm = {
   '_id': '50',

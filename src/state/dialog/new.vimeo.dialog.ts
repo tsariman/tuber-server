@@ -1,4 +1,3 @@
-import Config from '../../config';
 import {
   $12_STATE_KEY,
   $14_STATE_KEY,
@@ -7,8 +6,9 @@ import {
 } from '../../constants';
 import { r, remove_form_suffix } from '../../business.logic';
 import { TStateDialog } from '../../common.types';
+import { register } from 'src/business.logic/registry';
 
-Config.register('state', '14', $14_STATE_KEY);
+register('state', '14', $14_STATE_KEY);
 /** Dialog to create a new Vimeo video bookmark @id 14 */
 const newVimeoBookmarkDialogState: TStateDialog = {
   '_type': 'form',

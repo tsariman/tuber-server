@@ -48,12 +48,12 @@ export default async function post_bookmarks_api_setup_search_index_endpoint (
       });
     }
 
-  } catch (e: unknown) {
+  } catch (e) {
     (e as Error).message;
   }
 }
 
-async function find_index_by_name(indexName: string): Promise<any> {
+async function find_index_by_name(indexName: string): Promise<unknown> {
   const allIndexesResponse = await request(
     `${Config.DB_ATLAS_SEARCH_INDEX_API_URL}/${Config.DB_NAME}/${COLLECTION_NAME}`,
     {

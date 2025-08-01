@@ -70,7 +70,7 @@ export default class DialogStateBuilder extends AbstractStateBuilder {
     this._state.contentTextProps = props;
     return this;
   }
-  withContent(content: any): this {
+  withContent<T>(content: T): this {
     this._state.content = content;
     return this;
   }

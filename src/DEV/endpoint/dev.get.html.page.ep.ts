@@ -2,7 +2,7 @@ import { FastifyRequest, FastifyReply } from 'fastify';
 import JsonapiErrorBuilder, {
   default_500_error_response
 } from '../../business.logic/builder/jsonapi.error.builder';
-import Config from '../../config';
+import { log } from '../../config';
 import { MSG_500_ERROR_MESSAGE } from '../../constants';
 import axios from 'axios';
 
@@ -21,7 +21,7 @@ export default async function dev_get_html_page_endpoint(
     )
     return;
   }
-  Config.log('[DEBUG] dev_get_html_page:', url);
+  log('[DEBUG] dev_get_html_page:', url);
   try {
     const response = await axios.get(url, {
       maxRedirects: 5,
@@ -34,7 +34,7 @@ export default async function dev_get_html_page_endpoint(
     const html = await response.data;
     reply.send(html);
   } catch (e) {
-    Config.log(MSG_500_ERROR_MESSAGE, e);
+    log(MSG_500_ERROR_MESSAGE, e);
     reply.code(500).send(default_500_error_response(e));
   }
 }

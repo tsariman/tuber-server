@@ -2,7 +2,7 @@ import { FastifyReply, FastifyRequest } from 'fastify';
 import { BookmarkModel } from '../model/bookmark';
 import { UserModel } from '../model/user';
 import JsonapiErrorBuilder, { default_500_error_response } from '../business.logic/builder/jsonapi.error.builder';
-import Config from '../config';
+import { log } from '../business.logic/logging';
 import { MSG_500_ERROR_MESSAGE } from '../constants';
 
 interface ICreateUser {
@@ -51,7 +51,7 @@ export async function put_users_vote_by_id_endpoint(
       );
     }
   } catch (e) {
-    Config.log(MSG_500_ERROR_MESSAGE, e);
+    log(MSG_500_ERROR_MESSAGE, e);
     reply.code(500).send(default_500_error_response(e));
   }
 

@@ -57,7 +57,7 @@ export default class PageAppbarStateBuilder extends AbstractStateBuilder {
    * @param props 
    * @returns this.
    */
-  withProps(props: Record<string, any>): this {
+  withProps(props: Record<string, unknown>): this {
     this._state.props = props;
     return this;
   }
@@ -66,7 +66,7 @@ export default class PageAppbarStateBuilder extends AbstractStateBuilder {
    * @param props 
    * @returns this.
    */
-  withMenuIconProps(props: Record<string, any>) {
+  withMenuIconProps(props: Record<string, unknown>) {
     this._state.menuIconProps = props;
     return this;
   }

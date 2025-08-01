@@ -1,4 +1,4 @@
-import { TThemeMode, TThemeOptions } from 'src/common.types';
+import { TThemeMode } from 'src/common.types';
 import { IStateContext, TBootstrapState } from '../_state.common.types';
 import { PrepareState } from '../PrepareState';
 import {
@@ -7,10 +7,10 @@ import {
   THEME_LIGHT_BACKGROUND_COLOR,
   THEME_MODE
 } from 'src/constants';
-import Config from 'src/config';
-import { IThemeOptions } from 'src/shared';
+import Config from '../../config';
+import { ThemeOptions } from '@mui/material';
 
-const bootstrap_theme_light_state: TBootstrapState<TThemeOptions> = {
+const bootstrap_theme_light_state: TBootstrapState<ThemeOptions> = {
 
   DEFAULT: {
     'components': {
@@ -63,7 +63,7 @@ const bootstrap_theme_light_state: TBootstrapState<TThemeOptions> = {
   // TODO - Insert more (light) theme states here.
 }
 
-const bootstrap_theme_dark_state: TBootstrapState<TThemeOptions> = {
+const bootstrap_theme_dark_state: TBootstrapState<ThemeOptions> = {
 
   DEFAULT: {
     'components': {
@@ -130,20 +130,20 @@ const bootstrap_theme_dark_state: TBootstrapState<TThemeOptions> = {
   // TODO - Insert more (dark) theme states here.
 }
 
-const bootstrap_theme_state: TBootstrapState<TThemeOptions> = {
+const bootstrap_theme_state: TBootstrapState<ThemeOptions> = {
 
-  DEFAULT: (context: IStateContext): TThemeOptions => {
+  DEFAULT: (context: IStateContext): ThemeOptions => {
 
     const mode = context.theme ?? Config.read<TThemeMode>(THEME_MODE, Config.DEFAULT_THEME_MODE);
 
     switch (mode) {
       case 'dark':
-        return new PrepareState<IThemeOptions>(context)
+        return new PrepareState<ThemeOptions>(context)
                 .process(bootstrap_theme_dark_state)
                 .get();
       default:
       case 'light':
-        return new PrepareState<IThemeOptions>(context)
+        return new PrepareState<ThemeOptions>(context)
                 .process(bootstrap_theme_light_state)
                 .get();
     }

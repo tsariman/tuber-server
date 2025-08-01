@@ -44,7 +44,7 @@ export interface IListingsEndpoint {
   Querystring: IJsonapiQuerystring;
 }
 
-export interface IListingDocument extends mongoose.Document, IListing {}
+export interface IListingDocument extends mongoose.Document, IListing {};
 
 const listingSchema = new mongoose.Schema<IListingDocument>({
   is_active: { type: Boolean, default: true },

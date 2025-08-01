@@ -74,6 +74,7 @@ import { TCipheredUser } from '../schema/users';
 import chippedListingPageState, {
   $51DarkThemeMode
 } from 'src/state/page/listing.page.state';
+import { get_registry } from '../business.logic/registry';
 
 /** @deprecated */
 export default async function bootstrap_controller(fastify: FastifyInstance) {
@@ -156,8 +157,8 @@ export default async function bootstrap_controller(fastify: FastifyInstance) {
     try {
       usr = await req.jwtVerify<TCipheredUser>();
       Config.log('[DEBUG] Decoded values from token:', usr);
-    } catch (err: any) {
-      Config.log('[DEBUG] Token verification failed.', err.message);
+    } catch (e) {
+      Config.log('[DEBUG] Token verification failed.', (e as Error).message);
     }
 
     try {
@@ -404,7 +405,7 @@ export default async function bootstrap_controller(fastify: FastifyInstance) {
           'dialogs': dialogsState,
           'dialogsLight': dialogsLightState,
           'dialogsDark': dialogsDarkState,
-          'stateRegistry': Config.getRegistry('state'), // here
+          'stateRegistry': get_registry('state'),
           ...(usr ? { 'net': {
             'name': usr.name,
             'role': usr.role,

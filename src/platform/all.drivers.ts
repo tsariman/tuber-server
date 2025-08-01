@@ -13,8 +13,8 @@ import { unknown_fetch_thumbnail_url } from './unknown';
 import { PLATFORM_URL } from '.';
 import get_bookmark_by_slug from '../model/bookmark/get.bookmark.by.slug';
 import get_bookmark_by_videoid from '../model/bookmark/get.bookmark.by.videoid';
-import Config from '../config';
-import { TCipheredUser } from 'src/schema/users';
+import { log, write as print } from '../business.logic/logging';
+import { TCipheredUser } from '../schema/users';
 
 /**
  * Fill-in missing data for a bookmark.
@@ -115,7 +115,7 @@ async function _rumble_data(
         const compliantUrl = `${urlObj.origin}${urlObj.pathname}`;
         const html = await rumble_fetch_html_page(compliantUrl);
         if (!html) { 
-          Config.log(`[ERROR] Failed to fetch HTML for Rumble URL: ${compliantUrl}`);
+          log(`[ERROR] Failed to fetch HTML for Rumble URL: ${compliantUrl}`);
           return null; 
         }
         
@@ -136,10 +136,10 @@ async function _rumble_data(
       return fixedBookmark;
     }
     
-    Config.log(`[WARNING] Could not fetch required data for Rumble bookmark with slug: ${slug}`);
+    log(`[WARNING] Could not fetch required data for Rumble bookmark with slug: ${slug}`);
     return null;
   } catch (error) {
-    Config.log(`[ERROR] Error processing Rumble bookmark with slug '${slug}':`, error);
+    log(`[ERROR] Error processing Rumble bookmark with slug '${slug}':`, error);
     return null;
   }
 }
@@ -157,7 +157,7 @@ async function _twitch_data(
     if (existingBookmark && existingBookmark.thumbnail_url) {
       fixedBookmark.thumbnail_url = existingBookmark.thumbnail_url;
     } else {
-      Config.print(`[DEBUG] Fetching Twitch thumbnail URL for video with ID '${videoid}'... `);
+      print(`[DEBUG] Fetching Twitch thumbnail URL for video with ID '${videoid}'... `);
       fixedBookmark.thumbnail_url = await twitch_fetch_thumbnail_url(videoid);
     }
   }
@@ -181,7 +181,7 @@ async function _vimeo_data(
     if (existingBookmark && existingBookmark.thumbnail_url) {
       fixedBookmark.thumbnail_url = existingBookmark.thumbnail_url;
     } else {
-      Config.print(`[DEBUG] Fetching vimeo thumbnail url for '${videoid}' video ID... `);
+      print(`[DEBUG] Fetching vimeo thumbnail url for '${videoid}' video ID... `);
       fixedBookmark.thumbnail_url = await vimeo_fetch_thumbnail_url(videoid);
     }
   }
@@ -205,7 +205,7 @@ async function _odysee_data(
     if (existingBookmark && existingBookmark.thumbnail_url) {
       fixedBookmark.thumbnail_url = existingBookmark.thumbnail_url;
     } else {
-      Config.print(`[DEBUG] Fetching Odysee thumbnail url for '${slug}' slug... `);
+      print(`[DEBUG] Fetching Odysee thumbnail url for '${slug}' slug... `);
       fixedBookmark.thumbnail_url = await odysee_fetch_thumbnail_url(slug);
     }
   }
@@ -228,7 +228,7 @@ async function _unknown_data(
     is_published: undefined // Enforces the policy that unknown bookmarks cannot be published.
   } as IBookmark;
   if (!fixedBookmark.thumbnail_url) {
-    Config.print(`[DEBUG] Fetching thumbnail url for '${url}' URL... `);
+    print(`[DEBUG] Fetching thumbnail url for '${url}' URL... `);
     fixedBookmark.thumbnail_url = await unknown_fetch_thumbnail_url(url);
   }
   return fixedBookmark;
@@ -242,12 +242,12 @@ async function _facebook_data(
   if (!url || !usr || !usr._id) { return null; }
   const fixedBookmark = { ...attr, user_id: usr._id } as IBookmark;
   if (!fixedBookmark.thumbnail_url) {
-    Config.print(`[DEBUG] Fetching thumbnail url for '${url}' URL... `);
+    print(`[DEBUG] Fetching thumbnail url for '${url}' URL... `);
     fixedBookmark.thumbnail_url = await unknown_fetch_thumbnail_url(url);
     if (fixedBookmark.thumbnail_url) {
-      Config.log(`Done. Got '${fixedBookmark.thumbnail_url}'.`);
+      log(`Done. Got '${fixedBookmark.thumbnail_url}'.`);
     } else {
-      Config.log(`Failed.`);
+      log(`Failed.`);
     }
   }
   return fixedBookmark;

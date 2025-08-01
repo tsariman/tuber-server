@@ -85,6 +85,10 @@ export function twitch_get_api_refresh_token(): string {
 /** Twitch api token request url */
 export const TWITCH_API_TOKEN_REQUEST_URL = process.env.TWITCH_API_TOKEN_REQUEST_URL ?? '';
 
+interface ITwitchResponseData {
+  data?: Array<{ thumbnail_url?: string }>
+}
+
 /**
  * Fetch thumbnail URL from Twitch video ID.
  * @param videoid Twitch video ID.
@@ -97,7 +101,7 @@ export async function twitch_fetch_thumbnail_url(videoid?: string): Promise<stri
   const url = `${TWITCH_API_URL}?id=${videoid}`;
   let response: TObj = {};
   let thumbnailUrlTemplate = '';
-  let json: any = {};
+  let json = {} as ITwitchResponseData;
   let tries = 0;
   const maxTries = 2;
   do {
@@ -117,7 +121,7 @@ export async function twitch_fetch_thumbnail_url(videoid?: string): Promise<stri
       continue;
     }
 
-    json = response.data;
+    json = response.data as ITwitchResponseData;
     if (json.data?.[0]?.thumbnail_url) {
       thumbnailUrlTemplate = json.data[0].thumbnail_url;
       break;

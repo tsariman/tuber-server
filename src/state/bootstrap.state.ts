@@ -1,10 +1,9 @@
-import Config from '../config';
+import { ThemeOptions } from '@mui/material';
 import {
   TNetState,
   TStateApp,
   TStateAllIcons,
   TThemeMode,
-  TThemeOptions,
   TStateAppbar,
   TStateAllPages,
   TObj,
@@ -39,6 +38,7 @@ import {
   bootstrap_dialogs_state
 } from './bootstrap/dialog';
 import { bootstrap_icons_state } from './bootstrap/icon';
+import { get_registry } from '../business.logic/registry';
 
 export interface IBootstrap {
   token?: string;
@@ -58,15 +58,15 @@ export default async function get_bootstrap_authenticated_state(
                 .process(bootstrap_app_state)
                 .get(),
     // 'theme': get_theme_state(mode),
-    'theme': new PrepareState<TThemeOptions>(context)
+    'theme': new PrepareState<ThemeOptions>(context)
                   .process(bootstrap_theme_state)
                   .get(),
     // 'themeLight': lightThemeState,
-    'themeLight': new PrepareState<TThemeOptions>(context)
+    'themeLight': new PrepareState<ThemeOptions>(context)
                   .process(bootstrap_theme_light_state)
                   .get(),
     // 'themeDark': darkThemeState,
-    'themeDark': new PrepareState<TThemeOptions>(context)
+    'themeDark': new PrepareState<ThemeOptions>(context)
                   .process(bootstrap_theme_dark_state)
                   .get(),
     // 'appbar': bootstrap_default_appbar_state(),
@@ -120,7 +120,7 @@ export default async function get_bootstrap_authenticated_state(
     'dialogsDark': new PrepareState<TStateAllDialogs>(context)
                           .process(bootstrap_dialogs_dark_state)
                           .get(),
-    'stateRegistry': Config.getRegistry('state'),
+    'stateRegistry': get_registry('state'),
     ...(usr && { 'net': {
       'name': usr.name,
       'role': usr.role,

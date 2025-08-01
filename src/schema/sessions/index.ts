@@ -1,23 +1,23 @@
-import mongoose, { Schema } from 'mongoose'
-import userSchema, { IUserDocument } from '../users'
+import mongoose, { Schema } from 'mongoose';
+import userSchema, { IUserDocument } from '../users';
 
 export interface ISession {
-  is_active?: boolean
-  created_at?: Date
-  modified_at?: Date
+  is_active?: boolean;
+  created_at?: Date;
+  modified_at?: Date;
   // When the session expires, it needs to be deleted.
-  expiration_date: Date
+  expiration_date: Date;
   /** The session token. */
-  token: string
+  token: string;
   // User that created the session. If the user updates his information
   // with a session active, this field needs to be updated also.
-  user: IUserDocument
-  ip?: string
-  restrict?: Record<string, string>
-  rules?: Record<string, string>
+  user: IUserDocument;
+  ip?: string;
+  restrict?: Record<string, string>;
+  rules?: Record<string, string>;
 }
 
-export interface ISessionDocument extends mongoose.Document, ISession {}
+export interface ISessionDocument extends mongoose.Document, ISession {};
 
 const sessionSchema = new Schema<ISessionDocument>({
   is_active: { type: Boolean, default: true },
@@ -29,8 +29,8 @@ const sessionSchema = new Schema<ISessionDocument>({
   ip: String,
   restrict: { type: Map, of: String, default: undefined },
   rules: { type: Map, of: String, default: undefined }
-})
+});
 
-sessionSchema.index({ token: 1 })
+sessionSchema.index({ token: 1 });
 
-export default sessionSchema
+export default sessionSchema;

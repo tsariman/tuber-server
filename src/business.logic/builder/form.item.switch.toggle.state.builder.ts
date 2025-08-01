@@ -1,5 +1,6 @@
 import AbstractStateBuilder from './abstract.state.builder';
 import { TStateFormItemSwitchToggle } from '../../common.types';
+import { FormControlLabelProps } from '@mui/material';
 
 export default class FormItemSwitchToggleStateBuilder
   extends AbstractStateBuilder
@@ -38,7 +39,7 @@ export default class FormItemSwitchToggleStateBuilder
    * @param value 
    * @returns this.
    */
-  withFormControlLabelProps(props: Record<string, any>): this {
+  withFormControlLabelProps(props: FormControlLabelProps): this {
     this._state.formControlLabelProps = props;
     return this;
   }

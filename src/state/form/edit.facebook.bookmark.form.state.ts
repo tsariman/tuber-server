@@ -1,9 +1,9 @@
 import { r } from 'src/business.logic';
 import { TStateForm } from '../../common.types';
-import Config from '../../config';
 import * as C from '../../constants';
+import { register } from '../../business.logic/registry';
 
-Config.register('state', '25', C.$25_STATE_KEY);
+register('state', '25', C.$25_STATE_KEY);
 /** Form for creating a edit facebook video bookmark @id 25 */
 const editFacebookBookmarkFormState = {
   '_id': '25',

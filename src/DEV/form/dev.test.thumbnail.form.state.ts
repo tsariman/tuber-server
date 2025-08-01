@@ -1,6 +1,6 @@
 import { TBootstrapState } from 'src/state/_state.common.types';
 import { TStateForm } from '../../common.types';
-import Config from '../../config';
+import { register } from '../../business.logic/registry';
 import {
   $45_STATE_KEY,
   $46_STATE_KEY,
@@ -8,7 +8,7 @@ import {
   THEME_LIGHT_PAPER_COLOR
 } from '../../constants';
 
-Config.register('state', '45', $45_STATE_KEY);
+register('state', '45', $45_STATE_KEY);
 /** @id 45 @deprecated */
 const devTestThumbnailFormState: TStateForm = {
   '_type': 'box',

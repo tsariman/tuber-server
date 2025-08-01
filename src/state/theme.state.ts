@@ -1,22 +1,23 @@
-import Config from 'src/config'
+import Config from 'src/config';
 import {
   THEME_LIGHT_BACKGROUND_COLOR,
   THEME_DARK_DIALOG_BACKGROUND_COLOR,
   THEME_LIGHT_APP_BAR_COLOR,
   THEME_MODE
-} from '../constants'
-import { TThemeMode, TThemeOptions } from 'src/common.types'
+} from '../constants';
+import { TThemeMode } from 'src/common.types';
+import { ThemeOptions } from '@mui/material';
 
 // TODO Modify to change the overall appearance of the page
 
 /** Get material-ui theme object. @deprecated */
-export default function get_theme_state (userMode?: string): TThemeOptions {
-  const mode = userMode ?? Config.read<TThemeMode>(THEME_MODE, Config.DEFAULT_THEME_MODE)
-  return mode === 'dark' ? darkThemeState : lightThemeState
+export default function get_theme_state (userMode?: string): ThemeOptions {
+  const mode = userMode ?? Config.read<TThemeMode>(THEME_MODE, Config.DEFAULT_THEME_MODE);
+  return mode === 'dark' ? darkThemeState : lightThemeState;
 }
 
 /** @deprecated */
-export const darkThemeState: TThemeOptions = {
+export const darkThemeState: ThemeOptions = {
   'components': {
     'MuiDrawer': {
       'styleOverrides': {
@@ -76,7 +77,7 @@ export const darkThemeState: TThemeOptions = {
   'typography': {
     'fontFamily': '\'Quicksand\', sans-serif'
   }
-}
+};
 
 /**
  * TODO Default light theme backup. To revert to the unmodified light theme,
@@ -84,7 +85,7 @@ export const darkThemeState: TThemeOptions = {
  *
  * @deprecated
  */
-export const lightThemeState: TThemeOptions = {
+export const lightThemeState: ThemeOptions = {
   'components': {
     'MuiDrawer': {
       'styleOverrides': {
@@ -130,4 +131,4 @@ export const lightThemeState: TThemeOptions = {
   'typography': {
     'fontFamily': '\'Quicksand\', sans-serif'
   }
-}
+};

@@ -23,13 +23,13 @@ const default_on_request: RouteShorthandOptions['onRequest'] = async (
 
     // TODO Write more session related logic here
 
-  } catch (err: any) {
-    Config.log('[ERROR] JWT verification failed.', err);
+  } catch (e) {
+    Config.log('[ERROR] JWT verification failed.', e);
     reply.code(401).send(default_401_error_response({
       code: 'unauthorized',
       status: '401',
       title: 'JWT verification failed.',
-      detail: err.stack,
+      detail: (e as Error).stack,
       source: {
         pointer: '/src/middleware/on.request.ts',
         parameter: req.url
@@ -62,15 +62,15 @@ export const dev_on_request: RouteShorthandOptions['onRequest'] = async (
   
       // TODO Write more session related logic here
     }
-  } catch (err: any) {
-    if (!Config.DEBUG) {
-      Config.log('[ERROR] JWT verification failed.', err);
+  } catch (e) {
+    if (Config.DEBUG) {
+      Config.log('[ERROR] JWT verification failed.', e);
       reply.code(401).send(default_401_error_response({
         code: 'unauthorized',
         status: '401',
         title: 'JWT verification failed.',
-        detail: err.stack,
-        source: { 
+        detail: (e as Error).stack,
+        source: {
           pointer: '/src/middleware/on.request.ts',
           parameter: req.url
         }

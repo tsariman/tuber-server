@@ -1,5 +1,5 @@
-import { TThemeMode } from 'src/common.types';
-import { TCipheredUser } from 'src/schema/users';
+import { TThemeMode } from '../common.types';
+import { TCipheredUser } from '../schema/users';
 
 export interface IStateContext {
   usr?: TCipheredUser;

@@ -1,5 +1,5 @@
 import { RouteShorthandOptions } from 'fastify';
-import Config from '../config';
+import { log, error as err } from '../business.logic/logging';
 import { UserPaginationModel } from '../model/user';
 import { check_password } from '../business.logic/security';
 import { defaultDialogAlertState as alert } from '../state/dialog';
@@ -36,12 +36,11 @@ const authenticate: RouteShorthandOptions['preValidation'] = async function (
   reply,
   done
 ) {
-  // Config.print('[DEBUG] Working on pre validation authentication... ');
   const body = req.body as ISignInCredentials['Body'];
   const credentials = body?.credentials ?? {};
   const { username, password } = credentials;
   if (username) {
-    Config.log(`[DEBUG] username: '${username}', password: '${password}'`);
+    log(`[DEBUG] username: '${username}', password: '${password}'`);
     try {
       const user = await UserPaginationModel.findOne({ name: username });
       if (user) {
@@ -57,7 +56,7 @@ const authenticate: RouteShorthandOptions['preValidation'] = async function (
         }
       }
     } catch (e) {
-      Config.err(`[ERROR] ${(e as Error).message}`);
+      err(`[ERROR] ${(e as Error).message}`);
       reply.code(500).send(default_500_error_response(e));
     }
   }

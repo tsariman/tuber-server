@@ -1,6 +1,7 @@
 import FormItemBaseStateBuilder from './form.item.base.state.builder';
 import { TStateFormItem, TStateFormItemSwitchToggle } from '../../common.types';
 import FormItemSwitchToggleStateBuilder from './form.item.switch.toggle.state.builder';
+import { FormControlLabelProps, FormControlProps, FormGroupProps, FormLabelProps } from '@mui/material';
 
 export default class FormItemSwitchStateBuilder
   extends FormItemBaseStateBuilder
@@ -22,7 +23,7 @@ export default class FormItemSwitchStateBuilder
    * @param props 
    * @returns this.
    */
-  hasFormControlProps(props: Record<string, any>): this {
+  hasFormControlProps(props: FormControlProps): this {
     this.$state.has = this.$state.has || {};
     this.$state.has.formControlProps = props;
     return this;
@@ -32,7 +33,7 @@ export default class FormItemSwitchStateBuilder
    * @param props 
    * @returns this.
    */
-  hasFormLabelProps(props: Record<string, any>): this {
+  hasFormLabelProps(props: FormLabelProps): this {
     this.$state.has = this.$state.has || {};
     this.$state.has.formLabelProps = props;
     return this;
@@ -42,9 +43,9 @@ export default class FormItemSwitchStateBuilder
    * @param props 
    * @returns this.
    */
-  hasFormGroupProps(props: Record<string, any>): this {
+  hasFormGroupProps(props: FormGroupProps): this {
     this.$state.has = this.$state.has || {};
-    this.$state.has.formHelperTextProps = props;
+    this.$state.has.formGroupProps = props;
     return this;
   }
   /**
@@ -61,7 +62,7 @@ export default class FormItemSwitchStateBuilder
    * @param props 
    * @returns this.
    */
-  hasFormControlLabelProps(props: Record<string, any>): this {
+  hasFormControlLabelProps(props: FormControlLabelProps): this {
     this.$state.has = this.$state.has || {};
     this.$state.has.formControlLabelProps = props;
     return this;
@@ -71,7 +72,7 @@ export default class FormItemSwitchStateBuilder
    * @param props 
    * @returns this.
    */
-  withProps(props: Record<string, any>): this {
+  withProps(props: Record<string, unknown>): this {
     this.$state.props = props;
     return this;
   }

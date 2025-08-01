@@ -69,7 +69,7 @@ export default class DrawerStateBuilder extends AbstractStateBuilder {
    * @param props 
    * @returns this.
    */
-  withProps(props: Record<string, any>): this {
+  withProps(props: Record<string, unknown>): this {
     this._state.props = props;
     return this;
   }

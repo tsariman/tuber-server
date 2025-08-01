@@ -5,7 +5,7 @@ import {
   powerLogoutLinkState,
   powerSignInLinkState
 } from '../../state/nav.link';
-import Config from '../../config';
+import { register } from '../../business.logic/registry';
 import { $40_STATE_KEY, $44_STATE_KEY } from '../../constants';
 import { TStateAppbar, TStatePage } from '../../common.types';
 import { TCipheredUser } from 'src/schema/users';
@@ -54,7 +54,7 @@ export const authAppBarLinksState: TStateAppbar['items'] = [
   authenticatedLinkState
 ];
 
-Config.register('state', '44', $44_STATE_KEY);
+register('state', '44', $44_STATE_KEY);
 /** Page state for development installation form. @id 44 */
 const devInstallPageState: TStatePage = {
   '_id': '44',

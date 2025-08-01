@@ -16,7 +16,7 @@ export interface IPaginatedResult {
 
 export type TpaginatedResultOptional = Partial<IPaginatedResult>;
 
-export interface IMinimalPaginationOptions<T=any> {
+export interface IMinimalPaginationOptions<T=unknown> {
   docs?: T;
   page?: number;
   limit?: number;

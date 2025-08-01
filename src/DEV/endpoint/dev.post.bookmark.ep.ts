@@ -3,7 +3,7 @@ import {
   default_500_error_response
 } from '../../business.logic/builder/jsonapi.error.builder';
 import JsonapiResponseBuilder from '../../business.logic/builder/jsonapi.response.builder';
-import Config from '../../config';
+import { log, write as print } from '../../config';
 import { create_bookmark } from '../../model/bookmark';
 import { IBookmarkPost } from '../../schema/bookmarks';
 import { gen_random_bookmark_votes } from '..';
@@ -16,14 +16,14 @@ export default async function dev_post_bookmarks_endpoint (
 ) {
   try {
     const attr = req.body.data.attributes;
-    Config.print(`[DEBUG] Creating [${attr?.platform}] bookmark... `);
+    print(`[DEBUG] Creating [${attr?.platform}] bookmark... `);
 
     // Generate random votes for development purposes
     const attrWithVotes = gen_random_bookmark_votes(attr);
     const bookmark = await fix_missing_bookmark_data(attrWithVotes, req.usr);
 
     if (!bookmark) {
-      Config.log('Failed.');
+      log('Failed.');
       reply.code(500).send(default_500_error_response({
         title: 'Failed to create bookmark.',
         detail: 'Bookmark is null.'
@@ -31,13 +31,13 @@ export default async function dev_post_bookmarks_endpoint (
       return;
     }
     const dbBookmark = await create_bookmark(bookmark);
-    Config.log('Done.');
+    log('Done.');
     reply.code(201).send(
       new JsonapiResponseBuilder(dbBookmark, 'bookmarks', 'object')
       .mPaginationV2build()
     );
   } catch (e) {
-    Config.log(MSG_500_ERROR_MESSAGE, e);
+    log(MSG_500_ERROR_MESSAGE, e);
     reply.code(500).send(default_500_error_response(e));
   }
 }

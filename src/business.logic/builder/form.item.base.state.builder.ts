@@ -2,7 +2,7 @@ import AbstractStateBuilder, {
   AbstractFormItemStateBuilder,
   TTextField
 } from './abstract.state.builder';
-import { TStateFormItem, TTStateFormItemType } from '../../common.types';
+import { TStateFormItem, TStateFormItemType } from '../../common.types';
 
 type TType = TStateFormItem['_type'];
 
@@ -40,7 +40,7 @@ export default class FormItemBaseStateBuilder extends AbstractFormItemStateBuild
     this.$state._type = _type;
     return this;
   }
-  withType(type: TTStateFormItemType): this {
+  withType(type: TStateFormItemType): this {
     this.$state.type = type;
     return this;
   }

@@ -1,9 +1,9 @@
-import Config from '../../config';
+import { register } from '../../business.logic/registry';
 import * as C from '../../constants';
 import { TStateForm } from '../../common.types';
 import { r } from 'src/business.logic';
 
-Config.register('state', '18', C.$18_STATE_KEY);
+register('state', '18', C.$18_STATE_KEY);
 /** Form for creating a edit odysee video bookmark @id 18 */
 const editOdyseeBookmarkFormState = {
   '_id': '18',

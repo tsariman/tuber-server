@@ -1,4 +1,4 @@
-import { TStatePageDrawer } from '../common.types'
+import { TStatePageDrawer } from '../common.types';
 
 const devTestDrawer: TStatePageDrawer = {
   '_type': 'mini',
@@ -10,6 +10,6 @@ const devTestDrawer: TStatePageDrawer = {
       }
     }
   ],
-}
+};
 
-export default devTestDrawer
+export default devTestDrawer;

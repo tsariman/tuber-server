@@ -1,8 +1,8 @@
-import { $69_STATE_KEY } from '../../constants'
-import { TStateForm } from '../../common.types'
-import Config from '../../config'
+import { $69_STATE_KEY } from '../../constants';
+import { TStateForm } from '../../common.types';
+import { register } from '../../business.logic/registry';
 
-Config.register('state', '69', $69_STATE_KEY)
+register('state', '69', $69_STATE_KEY);
 /** Form state to register a new user. @id 69 */
 const registerFormState: TStateForm = {
   '_id': '69',
@@ -61,12 +61,12 @@ const registerFormState: TStateForm = {
       ]
     }
   ]
-}
+};
 
-export default registerFormState
+export default registerFormState;
 
 /** Dark theme mode form state to register a new user. @id 69 */
 export const $69DarkThemeMode = {
   ...registerFormState,
   // TODO Implement dark theme version of state here.
-} as TStateForm
+} as TStateForm;

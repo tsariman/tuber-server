@@ -1,5 +1,5 @@
-import { RouteShorthandOptions } from 'fastify'
-import default_on_request, { dev_on_request } from '../on.request'
+import { RouteShorthandOptions } from 'fastify';
+import default_on_request, { dev_on_request } from '../on.request';
 // import pre_handler_authenticate from '../pre.handler.authenticate'
 
 /** Use on all routes by default, unless using custom options. */

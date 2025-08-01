@@ -1,9 +1,9 @@
 import { r } from 'src/business.logic';
 import { TStateForm } from '../../common.types';
-import Config from '../../config';
 import * as C from '../../constants';
+import { register } from '../../business.logic/registry';
 
-Config.register('state', '20', C.$20_STATE_KEY);
+register('state', '20', C.$20_STATE_KEY);
 /** Form for editing an existing Dailymotion bookmark. @id 20 */
 const editDailyBookmarkFormState = {
   '_id': '20',
@@ -95,10 +95,10 @@ const editDailyBookmarkFormState = {
       ]
     },
   ]
-} as TStateForm
+} as TStateForm;
 
-export default editDailyBookmarkFormState
+export default editDailyBookmarkFormState;
 
 export const $20DarkThemeMode = {
   ...editDailyBookmarkFormState,
-} as TStateForm
+} as TStateForm;

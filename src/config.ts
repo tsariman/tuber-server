@@ -41,17 +41,20 @@ interface IConfig {
   MAX_LOADED_BOOKMARK_PAGES: string;
   MAX_LOADED_USER_PAGES: string;
   DEFAULT_THEME_MODE: 'light' |  'dark';
+
+  // Development properties
+
+  DEV_DEFAULT_DEV_USER_PASSWORD: string;
 };
 
-/** TODO Configure the app here. */
+/** App configuration values. */
 const USER_CONFIG: IConfig = {
   NODE_ENV: process.env.NODE_ENV ?? 'development',
   DEV: process.env.NODE_ENV === 'development',
 
-  // [PROD] Set to false
   /** Whether the app is in debugging mode or not. */
   DEBUG: process.env.NODE_ENV === 'development'
-    || process.env.DEBUG === 'true', // boolean
+    || process.env.DEBUG === 'true',
   
   DOMAIN: process.env.DOMAIN ?? '',
   CLIENT_DOMAIN: process.env.CLIENT_DOMAIN ?? 'http://localhost:3000',
@@ -125,6 +128,12 @@ const USER_CONFIG: IConfig = {
   MAX_LOADED_USER_PAGES: process.env.MAX_LOADED_USER_PAGES || '4',
   /** Current theme mode */
   DEFAULT_THEME_MODE: 'dark',
+
+  // Development values
+
+  DEV_DEFAULT_DEV_USER_PASSWORD: process.env.DEV 
+    ? process.env.DEV_DEFAULT_DEV_USER_PASSWORD ?? 'dev'
+    : '',
 };
 
 const USER_CACHE = new NodeCache({ stdTTL: Number(process.env.STDTTL) || 900 });
@@ -217,20 +226,17 @@ const initObj = {
     USER_CONFIG.DB_ATLAS_API_PRIVATE_KEY
   ].join(''),
 
-  /** Much shorter `console.log()`. */
-  l: (...args: unknown[]): void => console.log(args),
-
   /** This is the `console.log()` but will only print if app is in debug mode. */
   log: function(...args: unknown[]): void {
     if (USER_CONFIG.DEBUG) {
-      console.log(...args)
+      console.log(...args);
     }
   },
 
   /** This is the `console.error()` but will only print if app is in debug mode. */
   err: function(...args: unknown[]): void {
     if (USER_CONFIG.DEBUG) {
-      console.error(...args)
+      console.error(...args);
     }
   },
 
@@ -274,5 +280,29 @@ Config.init(initObj);
 
 // Makes config object key available in suggestions
 export type TAppConfig = IConfiguration & typeof initObj;
+
+/** This is the `console.log()` but will only print if app is in debug mode. */
+export function log(...args: unknown[]): void {
+  if (USER_CONFIG.DEBUG) {
+    console.log(...args);
+  }
+}
+
+/** Output to console on the same line but only if the app is in debug mode. */
+export function write(text: string): void {
+  if (text && USER_CONFIG.DEBUG) {
+    process.stdout.write(text);
+    return;
+  } else if (!text) {
+    throw new Error('Redundant call to `write()`.');
+  }
+}
+
+/** This is the `console.error()` but will only print if app is in debug mode. */
+export function error(...args: unknown[]): void {
+  if (USER_CONFIG.DEBUG) {
+    console.error(...args);
+  }
+}
 
 export default Config as TAppConfig;

@@ -3,7 +3,7 @@ import AbstractStateBuilder from "./abstract.state.builder";
 
 type TIconProps = TStateFormItemCustom['iconProps'];
 
-export default class FormItemCustomStateBuilder<T=any> extends AbstractStateBuilder {
+export default class FormItemCustomStateBuilder<T=unknown> extends AbstractStateBuilder {
   private _items: T[];
   constructor(private readonly _state: TStateFormItemCustom<T> = {}) {
     super();

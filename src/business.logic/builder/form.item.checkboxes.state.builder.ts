@@ -34,7 +34,7 @@ export default class FormItemCheckboxesStateBuilder extends FormItemBaseStateBui
    * @param props object with props.
    * @returns this.
    */
-  hasFormControlProps(props: Record<string, any>): this {
+  hasFormControlProps(props: Record<string, unknown>): this {
     this._state.has = this._state.has || {};
     this._state.has.formControlProps = props;
     return this;
@@ -44,7 +44,7 @@ export default class FormItemCheckboxesStateBuilder extends FormItemBaseStateBui
    * @param props 
    * @returns this.
    */
-  hasFormLabelProps(props: Record<string, any>): this {
+  hasFormLabelProps(props: Record<string, unknown>): this {
     this._state.has = this._state.has || {};
     this._state.has.formLabelProps = props;
     return this;
@@ -54,7 +54,7 @@ export default class FormItemCheckboxesStateBuilder extends FormItemBaseStateBui
    * @param props object with props.
    * @returns this.
    */
-  hasFormGroupProps(props: Record<string, any>): this {
+  hasFormGroupProps(props: Record<string, unknown>): this {
     this._state.has = this._state.has || {};
     this._state.has.formGroupProps = props;
     return this;
@@ -64,7 +64,7 @@ export default class FormItemCheckboxesStateBuilder extends FormItemBaseStateBui
    * @param props object with props.
    * @returns this.
    */
-  hasFormHelperTextProps(props: Record<string, any>): this {
+  hasFormHelperTextProps(props: Record<string, unknown>): this {
     this._state.has = this._state.has || {};
     this._state.has.formHelperTextProps = props;
     return this;

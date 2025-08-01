@@ -1,5 +1,7 @@
+import IFormChoices from 'src/shared/interfaces/IFormChoices';
 import { AbstractFormItemStateBuilder } from './abstract.state.builder';
 import { TStateFormItemRadioButton } from 'src/common.types';
+import { FormControlLabelProps } from '@mui/material';
 
 export default class FormItemRadioButtonStateBuilder
   extends AbstractFormItemStateBuilder
@@ -56,7 +58,7 @@ export default class FormItemRadioButtonStateBuilder
    * @param color 
    * @returns this.
    */
-  withColor(color: string): this {
+  withColor(color: IFormChoices['color']): this {
     this._state.color = color;
     return this;
   }
@@ -81,7 +83,7 @@ export default class FormItemRadioButtonStateBuilder
    * @param props 
    * @returns this.
    */
-  withProps(props: Record<string, any>): this {
+  withProps(props: Record<string, unknown>): this {
     this._state.props = props;
     return this;
   }
@@ -90,7 +92,7 @@ export default class FormItemRadioButtonStateBuilder
    * @param props 
    * @returns this.
    */
-  hasFormControlLabelProps(props: Record<string, any>): this {
+  hasFormControlLabelProps(props: FormControlLabelProps): this {
     this._state.has = this._state.has || {};
     this._state.has.formControlLabelProps = props;
     return this;

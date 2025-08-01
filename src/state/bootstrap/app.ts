@@ -1,6 +1,6 @@
 import { TStateApp } from 'src/common.types';
 import { IStateContext, TBootstrapState } from '../_state.common.types';
-import Config from 'src/config';
+import Config from '../../config';
 import { $40_STATE_KEY, $44_STATE_KEY } from 'src/constants';
 
 const bootstrap_app_state = {

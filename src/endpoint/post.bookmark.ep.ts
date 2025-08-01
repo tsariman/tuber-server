@@ -4,12 +4,12 @@ import {
   default_400_error_response
 } from '../business.logic/builder/jsonapi.error.builder';
 import JsonapiResponseBuilder from '../business.logic/builder/jsonapi.response.builder';
-import Config from '../config';
+import { log, write as print } from '../business.logic/logging';
 import { create_bookmark } from '../model/bookmark';
 import { IBookmarkPost } from '../schema/bookmarks';
 import fix_missing_bookmark_data from '../platform/all.drivers';
 import { MSG_500_ERROR_MESSAGE } from '../constants';
-import JsonapiRequestDriver from 'src/business.logic/jsonapi.request.driver';
+import JsonapiRequestDriver from '../business.logic/jsonapi.request.driver';
 
 export default async function post_bookmark_endpoint (
   req: FastifyRequest<IBookmarkPost>,
@@ -19,10 +19,10 @@ export default async function post_bookmark_endpoint (
     const driver = new JsonapiRequestDriver(req.body);
     const platform = driver.getAttribute('platform');
     const attr = driver.getAttributes();
-    Config.print(`[DEBUG] Creating [${platform}] bookmark... `);
+    print(`[DEBUG] Creating [${platform}] bookmark... `);
     const bookmark = await fix_missing_bookmark_data(attr);
     if (!bookmark) {
-      Config.log('Failed.');
+      log('Failed.');
       reply.code(400).send(default_400_error_response({
         title: 'Failed to create bookmark.',
         detail: 'Bookmark is null.'
@@ -30,14 +30,14 @@ export default async function post_bookmark_endpoint (
       return;
     }
     const dbBookmark = await create_bookmark(bookmark);
-    Config.log('Done.');
-    Config.log('[DEBUG] Sending response...', dbBookmark);
+    log('Done.');
+    log('[DEBUG] Sending response...', dbBookmark);
     reply.code(201).send(
       new JsonapiResponseBuilder(dbBookmark, 'bookmarks', 'object')
       .mPaginationV2build()
     );
   } catch (e) {
-    Config.log(MSG_500_ERROR_MESSAGE, e);
+    log(MSG_500_ERROR_MESSAGE, e);
     reply.code(500).send(default_500_error_response(e));
   }
 }

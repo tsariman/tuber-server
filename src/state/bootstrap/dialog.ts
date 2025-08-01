@@ -1,6 +1,6 @@
 import { TStateAllDialogs, TThemeMode } from 'src/common.types';
 import { IStateContext, TBootstrapState } from '../_state.common.types';
-import Config from 'src/config';
+import Config from '../../config';
 import { $32_STATE_KEY, $68_STATE_KEY, THEME_MODE } from 'src/constants';
 import { PrepareState } from '../PrepareState';
 import {

@@ -1,3 +1,4 @@
+import { TJsonapiMeta } from 'src/shared/interfaces/IJsonapi';
 import {
   TIJsonapiError,
   TJsonapiErrorLinks,
@@ -31,7 +32,7 @@ export default class JsonapiErrorBuilder {
    * @param val value of the property
    * @returns `this`
    */
-  withMeta(key: string, val: any) {
+  withMeta<T=unknown>(key: string, val: T) {
     if (!val) return this;
     this._response.meta = this._response.meta || {};
     this._response.meta[key] = val;
@@ -45,9 +46,9 @@ export default class JsonapiErrorBuilder {
    * @param val value of the property
    * @returns `this`
    */
-  withErrorMeta(key: string, val: any) {
+  withErrorMeta<T=unknown>(key: string, val: T) {
     if (!val) return this;
-    const meta = this._response.errors[this._index].meta || {};
+    const meta = this._response.errors[this._index].meta ?? {};
     meta[key] = val;
     this._response.errors[this._index].meta = meta;
     return this;
@@ -74,8 +75,8 @@ export default class JsonapiErrorBuilder {
    * @param meta optional meta data
    * @returns `this`
    */
-  hrefLink(key: string, href: string, meta?: any) {
-    this._response.links = this._response.links || { self: '' };
+  hrefLink(key: string, href: string, meta?: TJsonapiMeta) {
+    this._response.links = this._response.links ?? { self: '' };
     const link: TJsonapiLink = { href, meta };
     this._response.links[key] = link;
     return this;
