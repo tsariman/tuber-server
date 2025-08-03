@@ -3,7 +3,8 @@ import Config from '../config';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { defaultDialogAlertState as alert } from '../state/dialog';
 import JsonapiErrorBuilder from '../business.logic/builder/jsonapi.error.builder';
-import { COLLECTION_NAME } from 'src/constants';
+import { COLLECTION_NAME } from '../constants.server';
+import { log, log_err } from '../utility/logging';
 
 /**
  * Setup atlas search index for the bookmarks collection.  
@@ -33,11 +34,11 @@ export default async function post_bookmarks_api_setup_search_index_endpoint (
         method: 'POST',
         digestAuth: Config.DB_ATLAS_DIGEST_AUTH,
       });
-      Config.log('[DEBUG] Creating atlas bookmark search index... ');
-      Config.log('[DEBUG] http response:', httpResponse);
+      log('[DEBUG] Creating atlas bookmark search index... ');
+      log('[DEBUG] http response:', httpResponse);
     } else {
       const message = 'bookmark_search index already exist.';
-      Config.log(`[DEBUG] ${message}`);
+      log(`[DEBUG] ${message}`);
       reply.code(409).send({
         ...alert('bookmark_search index already exist!'),
         ...new JsonapiErrorBuilder()
@@ -49,7 +50,7 @@ export default async function post_bookmarks_api_setup_search_index_endpoint (
     }
 
   } catch (e) {
-    (e as Error).message;
+    log_err((e as Error).message, e);
   }
 }
 

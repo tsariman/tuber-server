@@ -1,3 +1,4 @@
+import { ler, log } from '../utility/logging';
 import Config from '../config';
 import { create_user, get_user_collection_count } from '../model/user';
 import { IUser } from '../schema/users';
@@ -27,28 +28,28 @@ export async function ensureDefaultUserExists(): Promise<boolean> {
   try {
     // Only create default user in debug mode
     if (!Config.DEBUG) {
-      Config.log('[DEBUG] App not in debug mode. Skipping default user creation.');
+      log('[DEBUG] App not in debug mode. Skipping default user creation.');
       return false;
     }
 
     const userCount = await get_user_collection_count();
     
     if (userCount === 0) {
-      Config.log('[INFO] No users found in database. Creating default admin user...');
+      log('[INFO] No users found in database. Creating default admin user...');
       
       await create_user(DEFAULT_USER);
       
-      Config.log('[INFO] Default admin user created successfully!');
-      Config.log('[INFO] Username: admin');
-      Config.log('[INFO] Password: admin123 (Please change this immediately!)');
-      Config.log('[INFO] Role: administrator');
+      log('[INFO] Default admin user created successfully!');
+      log('[INFO] Username: admin');
+      log('[INFO] Password: admin123 (Please change this immediately!)');
+      log('[INFO] Role: administrator');
       
       return true;
     }
     
     return false;
   } catch (error) {
-    Config.log('[ERROR] Failed to ensure default user exists:', error);
+    ler('[ERROR] Failed to ensure default user exists:', error);
     throw error;
   }
 }
@@ -105,10 +106,10 @@ export async function createDefaultUser(template: keyof typeof DEFAULT_USER_TEMP
   
   const user = await create_user(userTemplate);
   
-  Config.log(`[INFO] Default ${template} user created:`);
-  Config.log(`[INFO] Username: ${userTemplate.name}`);
-  Config.log(`[INFO] Password: ${userTemplate.password}`);
-  Config.log(`[INFO] Role: ${userTemplate.role}`);
+  log(`[INFO] Default ${template} user created:`);
+  log(`[INFO] Username: ${userTemplate.name}`);
+  log(`[INFO] Password: ${userTemplate.password}`);
+  log(`[INFO] Role: ${userTemplate.role}`);
   
   return user;
 }

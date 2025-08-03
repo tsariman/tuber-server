@@ -1,8 +1,8 @@
 import { TCipheredUser } from 'src/schema/users';
 import { TBootstrapState, IStateContext } from './_state.common.types';
-import { TThemeMode } from 'src/common.types';
+import { TThemeMode } from '../common.types';
 import { ensure_context } from './_state.common.logic';
-import { error as err } from '../business.logic/logging';
+import { ler as err } from '../utility/logging';
 
 export class PrepareState<T> {
 

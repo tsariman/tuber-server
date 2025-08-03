@@ -3,10 +3,11 @@ import JsonapiErrorBuilder, {
   default_500_error_response
 } from '../../business.logic/builder/jsonapi.error.builder';
 import  { STATE_DIALOGS, STATE_DIALOGS_THEME_DARK } from '../dialog';
-import { TNetState, TStateAllDialogs, TThemeMode } from '../../common.types';
-import { MSG_500_ERROR_MESSAGE } from 'src/constants';
+import { TNetState, TStateAllDialogs } from '../../shared';
+import { TThemeMode } from '../../common.types';
+import { MSG_500_ERROR_MESSAGE } from 'src/constants.server';
 import { themed } from '../../business.logic';
-import { log, write } from '../../config';
+import { ler, log, log_err, write } from '../../utility/logging';
 
 export default async function post_state_dialogs_endpoint (
   req: FastifyRequest<{ Body: { key?: string, mode?: TThemeMode }}>,
@@ -66,7 +67,8 @@ export default async function post_state_dialogs_endpoint (
       });
     }
   } catch (e) {
-    log(MSG_500_ERROR_MESSAGE, e);
+    ler(MSG_500_ERROR_MESSAGE);
+    log_err('POST state dialog', e);
     reply.code(500).send(default_500_error_response(e));
   }
 }

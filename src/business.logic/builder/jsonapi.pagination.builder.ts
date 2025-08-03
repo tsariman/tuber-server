@@ -1,4 +1,4 @@
-import { TJsonapiPaginationLinks } from '../../common.types';
+import { TJsonapiPaginationLinks } from '../../shared';
 import { bracketize_object_querystring } from '..';
 
 export interface IPaginatedResult {

@@ -1,13 +1,14 @@
 import NodeCache from 'node-cache';
 import * as dotenv from 'dotenv';
-import { get_ip, invalid_db_name } from './utility/networking';
+import { get_ip } from './utility/networking';
 import Config, { IConfiguration } from './utility/configuration';
-import { COLLECTION_NAME } from './constants';
+import { missing_db_name, missing_db_user } from './utility/logging';
+import { COLLECTION_NAME } from './constants.server';
 
 // Load environment-specific config file
 const envFile = process.env.NODE_ENV === 'production' 
   ? `${__dirname}/../.env.production`
-  : `${__dirname}/../.env.app-config`;
+  : `${__dirname}/../.env.development`;
 
 dotenv.config({ path: envFile });
 
@@ -72,14 +73,14 @@ const USER_CONFIG: IConfig = {
   DB_PROTOCOL: process.env.DB_PROTOCOL || 'mongodb://',
 
   /** Mongodb production database name. */
-  DB_PROD_NAME: process.env.DB_NAME || invalid_db_name(),
+  DB_PROD_NAME: process.env.DB_NAME || missing_db_name(),
 
   /** Mongodb development database name */
   DB_DEV_NAME: process.env.DB_TEST_NAME || `${process.env.DB_NAME}-test`,
 
   // [PROD] Enter Mongodb's production username here
   /** Mongodb database username. */
-  DB_USERNAME: process.env.DB_USERNAME ?? '',
+  DB_USERNAME: process.env.DB_USERNAME || missing_db_user(),
 
   // [PROD] Enter Mongodb's production password here
   /** Mongodb database password. */
@@ -139,7 +140,6 @@ const USER_CONFIG: IConfig = {
 const USER_CACHE = new NodeCache({ stdTTL: Number(process.env.STDTTL) || 900 });
 const SLUG_CACHE = new NodeCache({ stdTTL: Number(process.env.STDTTL) || 900 });
 const READABLE_CACHE = new NodeCache();
-const STATE_REGISTRY: Record<string, unknown> = {};
 
 /** Get the mongodb database URL substring that contains credentials. */
 const dbGetUrlCredentials = (user?: string, pass?: string): string => {
@@ -193,8 +193,8 @@ const initObj = {
    */
   DB_URI_LOCAL: [
     `mongodb://`,
-    // credentials,
-    get_ip(USER_CONFIG.DEBUG, USER_CONFIG.DB_HOST),
+    /*credentials*/
+    /*IP*/ get_ip(USER_CONFIG.DEBUG, USER_CONFIG.DB_HOST),
     /*PORT*/ USER_CONFIG.DB_PORT ? `:${USER_CONFIG.DB_PORT}` : ':27017',
     '/',
     USER_CONFIG.DB_DEV_NAME,
@@ -226,52 +226,6 @@ const initObj = {
     USER_CONFIG.DB_ATLAS_API_PRIVATE_KEY
   ].join(''),
 
-  /** This is the `console.log()` but will only print if app is in debug mode. */
-  log: function(...args: unknown[]): void {
-    if (USER_CONFIG.DEBUG) {
-      console.log(...args);
-    }
-  },
-
-  /** This is the `console.error()` but will only print if app is in debug mode. */
-  err: function(...args: unknown[]): void {
-    if (USER_CONFIG.DEBUG) {
-      console.error(...args);
-    }
-  },
-
-  /** Output to console on the same line. */
-  print: function(message: string): void {
-    if (USER_CONFIG.DEBUG) {
-      process.stdout.write(message);
-    }
-  },
-
-  /** Throw exception and prints message. */
-  die: function(message: string): void {
-    if (USER_CONFIG.DEBUG) {
-      throw new Error(message);
-    }
-  },
-
-  register: function <T=unknown>(
-    type:'state',
-    id: string,
-    key: T
-  ): void {
-    switch (type) {
-    case 'state':
-      STATE_REGISTRY[id] = key
-      return;
-    }
-  },
-
-  getRegistry: function (type:'state'): Record<string, unknown> {
-    switch (type) {
-    case 'state':
-      return STATE_REGISTRY;
-    }
-  },
 };
 
 initObj.DB_ATLAS_BOOKMARK_SEARCH_INDEX_NAME ||= `${initObj.DB_NAME}_${COLLECTION_NAME}_search`;
@@ -280,29 +234,5 @@ Config.init(initObj);
 
 // Makes config object key available in suggestions
 export type TAppConfig = IConfiguration & typeof initObj;
-
-/** This is the `console.log()` but will only print if app is in debug mode. */
-export function log(...args: unknown[]): void {
-  if (USER_CONFIG.DEBUG) {
-    console.log(...args);
-  }
-}
-
-/** Output to console on the same line but only if the app is in debug mode. */
-export function write(text: string): void {
-  if (text && USER_CONFIG.DEBUG) {
-    process.stdout.write(text);
-    return;
-  } else if (!text) {
-    throw new Error('Redundant call to `write()`.');
-  }
-}
-
-/** This is the `console.error()` but will only print if app is in debug mode. */
-export function error(...args: unknown[]): void {
-  if (USER_CONFIG.DEBUG) {
-    console.error(...args);
-  }
-}
 
 export default Config as TAppConfig;

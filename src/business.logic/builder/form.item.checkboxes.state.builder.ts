@@ -1,4 +1,4 @@
-import { TStateFormItem, TStateFormItemCustom } from 'src/common.types';
+import { TStateFormItem, TStateFormItemCustom } from '../../shared';
 import FormItemBoxStateBuilder from './form.item.box.state.builder';
 import FormItemBaseStateBuilder from './form.item.base.state.builder';
 

@@ -2,8 +2,8 @@ import { FastifyRequest, FastifyReply } from 'fastify';
 import JsonapiErrorBuilder, {
   default_500_error_response
 } from '../../business.logic/builder/jsonapi.error.builder';
-import { log } from '../../config';
-import { MSG_500_ERROR_MESSAGE } from '../../constants';
+import { log } from '../../utility/logging';
+import { MSG_500_ERROR_MESSAGE } from '../../constants.server';
 import axios from 'axios';
 
 export default async function dev_get_html_page_endpoint(

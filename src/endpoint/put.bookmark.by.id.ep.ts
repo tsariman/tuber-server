@@ -1,12 +1,11 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-// import { connect, disconnect } from 'mongoose'
 import JsonapiErrorBuilder, {
   default_500_error_response
 } from '../business.logic/builder/jsonapi.error.builder';
-import { log, write as print } from '../business.logic/logging';
+import { ler, log, log_err, write as print } from '../utility/logging';
 import { BookmarkModel } from '../model/bookmark';
 import { IBookmarkPut } from '../schema/bookmarks';
-import { MSG_500_ERROR_MESSAGE } from '../constants';
+import { MSG_500_ERROR_MESSAGE } from '../constants.server';
 
 export default async function put_bookmark_by_id_endpoint (
   request: FastifyRequest<IBookmarkPut>,
@@ -27,13 +26,11 @@ export default async function put_bookmark_by_id_endpoint (
       );
       return;
     }
-    // await connect(DB_URI)
     const bookmark = await BookmarkModel.findByIdAndUpdate(
       request.params.id,
       { ...attributes, modified_at: new Date() },
       { new: true }
     );
-    // await disconnect()
     if (bookmark) {
       log('Done.');
       reply.code(204).send();
@@ -47,7 +44,8 @@ export default async function put_bookmark_by_id_endpoint (
       );
     }
   } catch (e) {
-    log(MSG_500_ERROR_MESSAGE, e);
+    ler(MSG_500_ERROR_MESSAGE);
+    log_err('PUT user by id', e);
     reply.code(500).send(default_500_error_response(e));
   }
 }

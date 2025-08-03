@@ -41,7 +41,8 @@ import dev_post_twitch_client_id_endpoint
   from './endpoint/dev.post.twitch.client.id.ep';
 import dev_post_save_config_value_endpoint
   from './endpoint/dev.post.save.config.value.ep';
-import { TJsonapiRequest } from 'src/common.types';
+import { TJsonapiRequest } from 'src/shared';
+import dev_get_env_var_enpoint from './endpoint/dev.get.env.var.ep';
 
 interface IPostPopulate {
   Params: {
@@ -200,4 +201,5 @@ export default async function dev_controller(fastify: FastifyInstance) {
     opts,
     dev_post_save_config_value_endpoint
   );
+  fastify.get('/environment-variable', dev_get_env_var_enpoint);
 }

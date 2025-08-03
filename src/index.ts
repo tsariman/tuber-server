@@ -7,7 +7,8 @@ import {  configuration_get_all } from './model/configuration';
 import { find_index_by_name } from './business.logic/network';
 import { readable_get_all } from './model/readable';
 import { create_user } from './model/user';
-import { COLLECTION_NAME } from './constants';
+import { COLLECTION_NAME } from './constants.server';
+import { log, write as print, log_err, ler } from './utility/logging';
 
 mongoose.set('strictQuery', false);
 
@@ -22,10 +23,10 @@ async function startServer() {
 
   process.stdout.write(`[INFO] 🚀 tuber server running at ${address}\n\n`);
   process.stdout.write(`[INFO] process.env.NODE_ENV = ${process.env.NODE_ENV}\n`);
-  Config.log(`[INFO] Config.DEV = ${Config.DEV}`);
-  Config.print('\n -------------------------------- \n');
-  Config.print('\n |     APP IS IN DEBUG MODE     | \n');
-  Config.print('\n -------------------------------- \n');
+  log(`[INFO] Config.DEV = ${Config.DEV}`);
+  print('\n -------------------------------- \n');
+  print('\n |     APP IS IN DEBUG MODE     | \n');
+  print('\n -------------------------------- \n');
   const DB_URI = Config.DB_REMOTE ? Config.DB_URI_REMOTE : Config.DB_URI_LOCAL;
   console.log('\n[INFO] Database URI:', DB_URI);
 
@@ -49,11 +50,11 @@ async function startServer() {
         console.log('Done.');
       } else {
         console.log('Failed.');
-        Config.print(`[DEBUG] Search index, '${Config.DB_ATLAS_BOOKMARK_SEARCH_INDEX_NAME}'`);
-        Config.log(' not defined for current database.');
-        Config.log(`[DEBUG] Visit endpoint: /dev/setup-collection-index-search/bookmarks`);
-        Config.log('[DEBUG] OR');
-        Config.log(`[DEBUG] Visit endpoint: /install/setup-collection-index-search/bookmarks`);
+        print(`[DEBUG] Search index, '${Config.DB_ATLAS_BOOKMARK_SEARCH_INDEX_NAME}'`);
+        log(' not defined for current database.');
+        log(`[DEBUG] Visit endpoint: /dev/setup-collection-index-search/bookmarks`);
+        log('[DEBUG] OR');
+        log(`[DEBUG] Visit endpoint: /install/setup-collection-index-search/bookmarks`);
       }
     }
 
@@ -62,11 +63,11 @@ async function startServer() {
       const devUser = await DEV_USER.findOne({ name: DEV_DEFAULT_USER.name });
       console.log('');
       if (devUser) {
-        Config.log('[DEBUG] "Dev user" is available.\n');
+        log('[DEBUG] "Dev user" is available.\n');
         Config.write('dev_user_available', true);
       } else {
         Config.write('dev_user_available', false);
-        Config.log('[DEBUG] Dev user is not available.\n');
+        log('[DEBUG] Dev user is not available.\n');
       }
     }
 
@@ -82,15 +83,15 @@ async function startServer() {
         try {
           await createDefaultAdminUser();
           console.log('Success!');
-          Config.log('[INFO] Default admin user created with username: "admin"');
-          Config.log('[INFO] Default password: "admin123" (Please change this!)');
+          log('[INFO] Default admin user created with username: "admin"');
+          log('[INFO] Default password: "admin123" (Please change this!)');
         } catch (error) {
           console.log('Failed!');
-          Config.log('[ERROR] Failed to create default admin user:', error);
+          ler('[ERROR] Failed to create default admin user:', error);
         }
       } else {
-        Config.log('[INFO] App not in debug mode. Skipping default user creation.');
-        Config.log('[INFO] To create a default user, enable debug mode or use the dev endpoints.');
+        log('[INFO] App not in debug mode. Skipping default user creation.');
+        log('[INFO] To create a default user, enable debug mode or use the dev endpoints.');
       }
     } else {
       console.log(`Found ${userCount} user(s).`);
@@ -135,7 +136,7 @@ async function startServer() {
 
 // Start the server
 startServer().catch(error => {
-  console.error('Failed to start server:', error);
+  log_err('Failed to start server', error);
   process.exit(1);
 });
 

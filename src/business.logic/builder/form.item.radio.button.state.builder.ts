@@ -1,6 +1,6 @@
 import IFormChoices from 'src/shared/interfaces/IFormChoices';
 import { AbstractFormItemStateBuilder } from './abstract.state.builder';
-import { TStateFormItemRadioButton } from 'src/common.types';
+import { TJsonapiStateResponse, TStateFormItemRadioButton } from '../../shared';
 import { FormControlLabelProps } from '@mui/material';
 
 export default class FormItemRadioButtonStateBuilder
@@ -20,7 +20,7 @@ export default class FormItemRadioButtonStateBuilder
    * @param _id
    * @returns this.
    */
-  with_Id(_id: string): this {
+  withId(_id: string): this {
     this._state._id = _id;
     return this;
   }
@@ -29,7 +29,7 @@ export default class FormItemRadioButtonStateBuilder
    * @param _key 
    * @returns this.
    */
-  with_Key(_key: string): this {
+  withKey(_key: string): this {
     this._state._key = _key;
     return this;
   }
@@ -107,4 +107,7 @@ export default class FormItemRadioButtonStateBuilder
     this._state.has.color = color;
     return this;
   }
+  configure(): this { return this; }
+  withBootstrapState(): this { return this; }
+  buildResponse(): TJsonapiStateResponse { return {'state': {}}; }
 }

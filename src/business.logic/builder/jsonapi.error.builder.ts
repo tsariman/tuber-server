@@ -4,9 +4,9 @@ import {
   TJsonapiErrorLinks,
   TJsonapiErrorResponse,
   TJsonapiErrorSource,
-  TJsonapiLink,
-  TOptional
-} from '../../common.types';
+  TJsonapiLink
+} from '../../shared';
+import { TOptional } from '../../common.types';
 
 export type TJsonapiError = TOptional<TIJsonapiError, 'code' | 'title'>;
 

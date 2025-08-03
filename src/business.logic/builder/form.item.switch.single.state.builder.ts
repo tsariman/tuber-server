@@ -1,5 +1,5 @@
 import FormItemBaseStateBuilder from './form.item.base.state.builder';
-import { TStateFormItem } from '../../common.types';
+import { TStateFormItem } from '../../shared';
 import {
   FormControlLabelProps,
   FormControlProps,

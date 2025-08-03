@@ -1,5 +1,5 @@
 import AbstractStateBuilder from './abstract.state.builder';
-import { TStateFormItemSwitchToggle } from '../../common.types';
+import { TJsonapiStateResponse, TStateFormItemSwitchToggle } from '../../shared';
 import { FormControlLabelProps } from '@mui/material';
 
 export default class FormItemSwitchToggleStateBuilder
@@ -13,9 +13,9 @@ export default class FormItemSwitchToggleStateBuilder
   /** **DO NOT USE!** Not implemented. @returns this. */
   add() { return this.die('Method not implemented.', this); }
   /** **DO NOT USE!** Not implemented. @returns this. */
-  with_Id() { return this.die('Method not implemented.', this); }
+  withId() { return this.die('Method not implemented.', this); }
   /** **DO NOT USE!** Not implemented. @returns this. */
-  with_Key() { return this.die('Method not implemented.', this); }
+  withKey() { return this.die('Method not implemented.', this); }
   /**
    * Set the toggle label.
    * @param label 
@@ -45,4 +45,7 @@ export default class FormItemSwitchToggleStateBuilder
   }
   /** Get the state. @returns state. */
   build(): TStateFormItemSwitchToggle { return this._state; }
+  configure(): this { return this; }
+  withBootstrapState(): this { return this; }
+  buildResponse(): TJsonapiStateResponse { return {'state': {}}; }
 }

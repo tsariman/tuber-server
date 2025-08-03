@@ -1,4 +1,4 @@
-import * as C from '../../constants';
+import * as C from '../../constants.server';
 import devTestThumbnailFormState, {
   $45DarkThemeMode
 } from './dev.test.thumbnail.form.state';
@@ -6,7 +6,8 @@ import devInstallFormState, { $47DarkThemeMode } from './dev.install.form.state'
 import devSetAuthorizationKeyFormState, {
   $49DarkThemeMode
 } from './dev.set.authorization.key.form.state';
-import { TStateAllForms, TThemeMode } from '../../common.types';
+import { TStateAllForms } from '../../shared';
+import { TThemeMode } from '../../common.types';
 import devTestRumbleRegexpFormState, {
   $54DarkThemeMode
 } from './dev.test.rumble.regexp.form.state';

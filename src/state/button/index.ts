@@ -1,5 +1,5 @@
 import { r } from 'src/business.logic';
-import { TStateFormItem } from '../../common.types';
+import { TStateFormItem } from '../../shared';
 
 export const dialogDefaultCloseButtonJson: TStateFormItem = {
   'type': 'state_button',

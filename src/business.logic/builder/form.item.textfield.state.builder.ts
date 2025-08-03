@@ -1,10 +1,11 @@
 import FormItemBaseStateBuilder from './form.item.base.state.builder';
 import {
+  TJsonapiStateResponse,
   TStateFormItem,
   TStateFormItemAdornment,
   TStateFormItemCustom,
   TStateFormItemInputProps
-} from '../../common.types';
+} from '../../shared';
 import AbstractStateBuilder from './abstract.state.builder';
 import LinkStateBuilder from './link.state.builder';
 import { TTextProps } from 'src/shared/interfaces';
@@ -216,9 +217,9 @@ export class FormItemInputPropsStateBuilder
   /** **DO NOT USE!** Not implemented. @returns this. */
   add(): this { return this.die('Method not implemented.', this); }
   /** **DO NOT USE!** Not implemented. @returns this. */
-  with_Id(_id: string): this { return this.die('Method not implemented.', this); }
+  withId(_id: string): this { return this.die('Method not implemented.', this); }
   /** **DO NOT USE!** Not implemented. @returns this. */
-  with_Key(_key: string): this { return this.die('Method not implemented.', this); }
+  withKey(_key: string): this { return this.die('Method not implemented.', this); }
   /**
    * Set the `start` input props.
    * @param props
@@ -237,6 +238,9 @@ export class FormItemInputPropsStateBuilder
     this._state.end = end.build();
     return this;
   }
+  configure(): this { return this; }
+  withBootstrapState(): this { return this; }
+  buildResponse(): TJsonapiStateResponse { return {'state': {}}; }
 }
 
 export class FormItemAdornmentStateBuilder
@@ -250,9 +254,9 @@ export class FormItemAdornmentStateBuilder
   /** **DO NOT USE!** Not implemented. @returns this. */
   add(): unknown { return this.die('Method not implemented.', {}); }
   /** **DO NOT USE!** Not implemented. @returns this. */
-  with_Id(): this { return this.die('Method not implemented.', this); }
+  withId(): this { return this.die('Method not implemented.', this); }
   /** **DO NOT USE!** Not implemented. @returns this. */
-  with_Key(): this { return this.die('Method not implemented.', this); }
+  withKey(): this { return this.die('Method not implemented.', this); }
   /**
    * Set the icon.
    * @param {LinkStateBuilder} icon 
@@ -281,4 +285,7 @@ export class FormItemAdornmentStateBuilder
     this._state.textProps = props;
     return this;
   }
+  configure(): this { return this; }
+  withBootstrapState(): this { return this; }
+  buildResponse(): TJsonapiStateResponse { return {'state': {}}; }
 }

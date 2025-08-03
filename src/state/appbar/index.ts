@@ -2,11 +2,11 @@ import {
   $63_STATE_KEY,
   $71_STATE_KEY,
   THEME_LIGHT_APP_BAR_ICON_COLOR as ICON_COLOR,
-} from '../../constants';
-import { TStateAppbar } from '../../common.types';
+} from '../../constants.server';
+import { TStateAppbar } from '../../shared';
 import { register } from '../../business.logic/registry';
 import { powerSignInLinkState } from '../nav.link';
-import { r } from 'src/business.logic';
+import { r } from '../../business.logic';
 
 register('state', '63', $63_STATE_KEY);
 /** State for research page app bar. @id 63 */

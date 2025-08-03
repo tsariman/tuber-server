@@ -18,7 +18,7 @@ export function write(text: string): void {
 }
 
 /** This is the `console.error()` but will only print if app is in debug mode. */
-export function error(...args: unknown[]): void {
+export function ler(...args: unknown[]): void {
   if (process.env.NODE_ENV === 'development') {
     console.error(...args);
   }
@@ -45,6 +45,20 @@ export function l(level: string, message: string, ...meta: unknown[]): void {
 }
 
 /** Log errors using winston. */
-export function log_err(...args: unknown[]): void {
-  logger.error(args.map(String).join(' '));
+export function log_err(message: string, ...meta: unknown[]): void {
+  logger.error(message, ...meta);
+}
+
+// Exceptions -----------------------------------------------------------------
+
+export function missing_db_name(): never {
+  const message = 'Could not read database name from .env files.';
+  logger.error(message, { env: process.env.NODE_ENV });
+  throw new Error(message);
+}
+
+export function missing_db_user(): never {
+  const message = 'Could not read database username from .env files';
+  logger.error(message, { env: process.env.NODE_ENV });
+  throw new Error(message);
 }

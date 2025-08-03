@@ -1,7 +1,7 @@
 import { defaultAppBarState } from '../default.content';
 import Config from '../../config';
 import { register } from '../../business.logic/registry';
-import * as C from '../../constants';
+import * as C from '../../constants.server';
 import researchPageState, {
   $40DarkThemeMode,
   $70DarkThemeMode,
@@ -18,7 +18,8 @@ import DEV_STATE_PAGES, {
   dev_bootstrap_pages_state
 } from '../../DEV/page';
 import adminReadablePageState from '../../ADMIN/page/admin.readable.page.state';
-import { TStateAllPages, TStatePage, TThemeMode } from '../../common.types';
+import { TStateAllPages, TStatePage } from '../../shared';
+import { TThemeMode } from '../../common.types';
 import {
   get_state_key as key,
   remove_form_suffix,

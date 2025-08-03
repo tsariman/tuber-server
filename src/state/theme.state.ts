@@ -4,8 +4,8 @@ import {
   THEME_DARK_DIALOG_BACKGROUND_COLOR,
   THEME_LIGHT_APP_BAR_COLOR,
   THEME_MODE
-} from '../constants';
-import { TThemeMode } from 'src/common.types';
+} from '../constants.server';
+import { TThemeMode } from '../common.types';
 import { ThemeOptions } from '@mui/material';
 
 // TODO Modify to change the overall appearance of the page

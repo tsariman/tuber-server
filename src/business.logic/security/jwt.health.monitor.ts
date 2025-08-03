@@ -1,5 +1,5 @@
 import { JWTKeyManager } from './jwt.key.manager';
-import { log, error } from '../../config';
+import { log, ler } from '../../utility/logging';
 
 /**
  * JWT Health Monitor - Monitors key rotation health and performance
@@ -81,7 +81,7 @@ export class JWTHealthMonitor {
 
     // Log health status
     if (healthStatus === 'error') {
-      error(`[JWT Health] ${message}`);
+      ler(`[JWT Health] ${message}`);
     } else if (healthStatus === 'warning') {
       log(`[JWT Health] ${message}`);
     }

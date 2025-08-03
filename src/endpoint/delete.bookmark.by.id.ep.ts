@@ -2,10 +2,10 @@ import { FastifyReply, FastifyRequest } from 'fastify';
 import JsonapiErrorBuilder, {
   default_500_error_response
 } from '../business.logic/builder/jsonapi.error.builder';
-import { log, write as print } from '../business.logic/logging';
+import { ler, log, log_err, write as print } from '../utility/logging';
 import { BookmarkModel } from '../model/bookmark';
 import { IBookmarkDelete } from '../schema/bookmarks';
-import { MSG_500_ERROR_MESSAGE } from '../constants';
+import { MSG_500_ERROR_MESSAGE } from '../constants.server';
 
 export default async function delete_bookmark_by_id_endpoint (
   req: FastifyRequest<IBookmarkDelete>,
@@ -32,7 +32,8 @@ export default async function delete_bookmark_by_id_endpoint (
       );
     }
   } catch (e) {
-    log(MSG_500_ERROR_MESSAGE, e);
+    ler(MSG_500_ERROR_MESSAGE);
+    log_err('DELETE bookmark by id', e);
     reply.code(500).send(default_500_error_response(e));
   }
 }

@@ -1,7 +1,7 @@
 import { r } from 'src/business.logic';
-import { TStateForm } from '../../common.types';
+import { TStateForm } from '../../shared';
 import { register } from '../../business.logic/registry';
-import * as C from '../../constants';
+import * as C from '../../constants.server';
 
 register('state', '13', C.$13_STATE_KEY);
 /** Form for editing an existing Vimeo bookmark. @id 13 */

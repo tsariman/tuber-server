@@ -1,4 +1,4 @@
-import { TStateFormItem } from 'src/common.types';
+import { TStateFormItem } from '../../shared';
 import FormItemBaseStateBuilder from './form.item.base.state.builder';
 
 export default class FormItemButtonStateBuilder extends FormItemBaseStateBuilder {
@@ -9,9 +9,9 @@ export default class FormItemButtonStateBuilder extends FormItemBaseStateBuilder
   /** **DO NOT USE.** Method not implemented. @returns this. */
   add() { return this.die('Method not implemented.', this); }
   /** **DO NOT USE.** Method not implemented. @returns this. */
-  with_Id(): this { return this.die('Method not implemented.', this); }
+  withId(): this { return this.die('Method not implemented.', this); }
   /** **DO NOT USE.** Method not implemented. @returns this. */
-  with_Key(_key: string): this {
+  withKey(_key: string): this {
     return this.die('Method not implemented.', this);
   }
   /** **DO NOT USE.** Method not implemented. @returns this. */

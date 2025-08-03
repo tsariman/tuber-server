@@ -1,4 +1,4 @@
-import { TStateFormItem, TStateFormItemRadioButton } from 'src/common.types';
+import { TStateFormItem, TStateFormItemRadioButton } from '../../shared';
 import FormItemRadioButtonStateBuilder from './form.item.radio.button.state.builder';
 import FormItemBaseStateBuilder from './form.item.base.state.builder';
 import { FormControlProps, FormLabelProps } from '@mui/material';

@@ -1,5 +1,5 @@
 import { TBootstrapState } from 'src/state/_state.common.types';
-import { TStateDialog } from '../../common.types';
+import { TStateDialog } from '../../shared';
 
 /** @deprecated */
 export const devUserAddDialogState: TStateDialog = {

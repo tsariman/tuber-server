@@ -3,11 +3,11 @@ import { MONGODB_DUPLICATE_KEY_ERROR, get_mongodb_error } from '../business.logi
 import JsonapiErrorBuilder, {
   default_500_error_response
 } from '../business.logic/builder/jsonapi.error.builder';
-import JsonapiResponseBuilder from '../business.logic/builder/jsonapi.response.builder';
+import JsonapiResponseColBuilder from '../business.logic/builder/jsonapi.response.col.builder';
 import { create_user } from '../model/user';
 import { TUsersFastifyRequest } from '../schema/users';
-import { log } from '../business.logic/logging';
-import { MSG_500_ERROR_MESSAGE } from '../constants';
+import { ler, log_err } from '../utility/logging';
+import { MSG_500_ERROR_MESSAGE } from '../constants.server';
 
 export default async function post_user_endpoint (
   request: TUsersFastifyRequest,
@@ -16,7 +16,7 @@ export default async function post_user_endpoint (
   try {
     const user = await create_user(request.body);
     reply.code(201).send(
-      new JsonapiResponseBuilder(user, 'users', 'object').mPaginationV2build()
+      new JsonapiResponseColBuilder(user, 'users', 'object').mPaginationV2build()
     );
   } catch (e) {
     const mongoDbError = get_mongodb_error((e as Error).message);
@@ -29,7 +29,8 @@ export default async function post_user_endpoint (
         .build()
       );
     } else {
-      log(MSG_500_ERROR_MESSAGE, e);
+      ler(MSG_500_ERROR_MESSAGE);
+      log_err('POST user', e);
       reply.code(500).send(default_500_error_response(e));
     }
   }

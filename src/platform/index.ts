@@ -1,5 +1,5 @@
 import { IBookmark } from '../schema/bookmarks';
-import { error as err } from '../business.logic/logging';
+import { ler as err, log_err } from '../utility/logging';
 import { TPlatform } from '../common.types';
 import axios from 'axios';
 
@@ -53,9 +53,8 @@ export async function rumble_fix_missing_data(bookmark: IBookmark): Promise<IBoo
       } else {
         err(`failed to parse video ID from rumble url`, videoIdMatches);
       }
-    } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : String(error);
-      err(`Failed to fetch data for rumble bookmark with slug ${bookmark.slug}:`, errorMessage);
+    } catch (e) {
+      log_err(`Failed to fetch data for rumble bookmark with slug '${bookmark.slug}'`, e);
       return false;
     }
   }

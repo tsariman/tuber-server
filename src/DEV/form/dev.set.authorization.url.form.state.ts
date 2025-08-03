@@ -3,8 +3,8 @@ import {
   $50_STATE_KEY,
   THEME_DARK_PAPER_COLOR,
   THEME_LIGHT_PAPER_COLOR
-} from '../../constants';
-import { TStateForm } from '../../common.types';
+} from '../../constants.server';
+import { TStateForm } from '../../shared';
 import { TBootstrapState } from 'src/state/_state.common.types';
 
 register('state', '50', $50_STATE_KEY);

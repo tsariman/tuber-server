@@ -14,9 +14,10 @@ import state_controller from './state/state.controller';
 import JsonapiErrorBuilder, {
   default_404_error_response
 } from './business.logic/builder/jsonapi.error.builder';
-import * as C from './constants';
+import * as C from './constants.server';
 import dev_builder_controller from './DEV/dev.builder.controller';
 import $1_bootstrap_controller from './controller/1.bootstrap.controller';
+import { log } from './utility/logging';
 
 // Global variable to store the current bootstrap prefix
 let BOOTSTRAP_PREFIX: string = '';
@@ -45,7 +46,7 @@ export default async function router(fastify: FastifyInstance) {
   // Default 500 handler
   // [TODO] Dosn't work. Fix it.
   fastify.setErrorHandler((error, _req, reply) => {
-    Config.log('[ERROR]', error);
+    log('[ERROR]', error);
     const status = error.statusCode ?? 500;
     reply.status(status).send(new JsonapiErrorBuilder()
       .withStatus(status)

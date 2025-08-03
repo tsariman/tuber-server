@@ -1,4 +1,4 @@
-import { TStateFormItem } from 'src/common.types';
+import { TJsonapiStateResponse, TStateFormItem } from '../../shared';
 import AbstractStateBuilder, { TTextField } from './abstract.state.builder';
 import { FormControlProps, FormHelperTextProps, InputLabelProps } from '@mui/material';
 
@@ -30,7 +30,7 @@ export default class FormItemStateBuilder extends AbstractStateBuilder {
    * @param _id 
    * @returns this.
    */
-  with_Id(_id: string): this {
+  withId(_id: string): this {
     this.$state._id = _id;
     return this;
   }
@@ -39,7 +39,7 @@ export default class FormItemStateBuilder extends AbstractStateBuilder {
    * @param _key 
    * @returns this.
    */
-  with_Key(_key: string): this {
+  withKey(_key: string): this {
     this.$state._key = _key;
     return this;
   }
@@ -197,4 +197,7 @@ export default class FormItemStateBuilder extends AbstractStateBuilder {
     this.$state.has.formHelperTextProps = props;
     return this;
   }
+  configure(): this { return this; }
+  withBootstrapState(): this { return this; }
+  buildResponse(): TJsonapiStateResponse { return {'state': {}}; }
 }

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import Config from '../config';
 import { request } from 'urllib';
+import { log, log_err } from 'src/utility/logging';
 
 interface IIndexInfo { name: string; }
 
@@ -31,7 +32,8 @@ export async function find_index_by_name(indexName: string, collectionName: stri
     const result = (data as IIndexInfo[]).find(i => i.name === indexName);
     return result !== undefined;
   } catch (e) {
-    console.log(`[ERROR] ${(e as Error).message}`);
+    log(`[ERROR] ${(e as Error).message}`);
+    log_err(`${(e as Error).message}`, e);
     return false;
   }
 }

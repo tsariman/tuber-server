@@ -1,7 +1,12 @@
 import FormItemBaseStateBuilder from './form.item.base.state.builder';
-import { TStateFormItem, TStateFormItemSwitchToggle } from '../../common.types';
+import { TStateFormItem, TStateFormItemSwitchToggle } from '../../shared';
 import FormItemSwitchToggleStateBuilder from './form.item.switch.toggle.state.builder';
-import { FormControlLabelProps, FormControlProps, FormGroupProps, FormLabelProps } from '@mui/material';
+import {
+  FormControlLabelProps,
+  FormControlProps,
+  FormGroupProps,
+  FormLabelProps
+} from '@mui/material';
 
 export default class FormItemSwitchStateBuilder
   extends FormItemBaseStateBuilder

@@ -1,6 +1,6 @@
-import { TStatePage } from '../../common.types';
+import { TStatePage } from '../../shared';
 import { register } from '../../business.logic/registry';
-import { $53_STATE_KEY } from '../../constants';
+import { $53_STATE_KEY } from '../../constants.server';
 
 register('state', '53', $53_STATE_KEY);
 /** @id 53 */

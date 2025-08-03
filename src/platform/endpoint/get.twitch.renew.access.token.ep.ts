@@ -9,7 +9,7 @@ import {
   CONF_TWITCH_DISABLE_THUMBNAIL_RETRIEVAL,
   CONF_TWITCH_DISABLE_TOKEN_RENEWAL,
   CONF_TWITCH_TOKEN_EXPIRATION
-} from '../../constants';
+} from '../../constants.server';
 import Config from '../../config';
 
 /**

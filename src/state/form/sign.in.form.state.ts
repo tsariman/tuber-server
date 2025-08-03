@@ -1,6 +1,6 @@
-import { TStateForm } from '../../common.types';
+import { TStateForm } from '../../shared';
 import { register } from '../../business.logic/registry';
-import { $41_STATE_KEY } from '../../constants';
+import { $41_STATE_KEY } from '../../constants.server';
 
 register('state', '41', $41_STATE_KEY);
 /** Form state to sign in. @id 41 */

@@ -1,7 +1,7 @@
 import { FastifyInstance } from 'fastify';
 import { JWTKeyManager } from './business.logic/security/jwt.key.manager';
 import { JWTHealthMonitor } from './business.logic/security/jwt.health.monitor';
-import { log } from './business.logic/logging';
+import { log } from './utility/logging';
 import fastifyJwt from '@fastify/jwt';
 
 /**

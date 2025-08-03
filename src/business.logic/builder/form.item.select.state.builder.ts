@@ -1,7 +1,7 @@
 import {
   TStateFormItem,
   TStateFormItemSelectOption
-} from 'src/common.types';
+} from '../../shared';
 import SelectOptionStateBuilder from './select.option.state.builder';
 import FormItemBaseStateBuilder from './form.item.base.state.builder';
 import { FormControlProps, FormHelperTextProps, InputLabelProps } from '@mui/material';

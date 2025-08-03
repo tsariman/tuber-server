@@ -50,20 +50,19 @@ import {
 } from '../business.logic';
 import { get_documents_count } from '../DEV';
 import {
-  IBootstrapResponse,
-  TObj,
   TStateAllDialogs,
   TStateAllForms,
   TStateAllPages,
   TStateApp,
   TStateAppbar,
-} from '../common.types';
+} from '../shared';
+import { IBootstrapResponse, TObj } from '../common.types';
 import {
   $40_STATE_KEY,
   $44_STATE_KEY,
   $46_STATE_KEY,
   $58_STATE_KEY,
-} from '../constants';
+} from '../constants.server';
 import signInFormState, {
   $41DarkThemeMode
 } from 'src/state/form/sign.in.form.state';
@@ -75,6 +74,7 @@ import chippedListingPageState, {
   $51DarkThemeMode
 } from 'src/state/page/listing.page.state';
 import { get_registry } from '../business.logic/registry';
+import { log, log_err } from '../utility/logging';
 
 /** @deprecated */
 export default async function bootstrap_controller(fastify: FastifyInstance) {
@@ -145,20 +145,20 @@ export default async function bootstrap_controller(fastify: FastifyInstance) {
     const cookie = get_from_body(req, 'cookie', '');
 
     if (cookie) {
-      Config.log('[DEBUG] req.body.cookie:', cookie);
+      log('[DEBUG] req.body.cookie:', cookie);
       token = parse_cookie(cookie).token;
-      Config.log('[DEBUG] token:', token);
+      log('[DEBUG] token:', token);
     } else {
-      Config.log('[DEBUG] No cookie received.');
+      log('[DEBUG] No cookie received.');
     }
 
     let usr: TCipheredUser | null = null;
 
     try {
       usr = await req.jwtVerify<TCipheredUser>();
-      Config.log('[DEBUG] Decoded values from token:', usr);
+      log('[DEBUG] Decoded values from token:', usr);
     } catch (e) {
-      Config.log('[DEBUG] Token verification failed.', (e as Error).message);
+      log('[DEBUG] Token verification failed.', (e as Error).message);
     }
 
     try {
@@ -418,9 +418,9 @@ export default async function bootstrap_controller(fastify: FastifyInstance) {
         }
       } as IBootstrapResponse);
 
-    } catch (err) {
-      console.error(err);
-      reply.code(500).send(default_500_error_response(err));
+    } catch (e) {
+      log_err('attempting to bootstrap state', e);
+      reply.code(500).send(default_500_error_response(e));
     }
   });
 

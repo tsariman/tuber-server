@@ -1,29 +1,24 @@
 import fastify from 'fastify';
 import router from './router';
 import * as dotenv from 'dotenv';
+// Load common settings first
+dotenv.config({ path: `${__dirname}/../.env`});
+/** Load environment-specific config file */
+// const envFile = process.env.NODE_ENV === 'production' 
+//   ? `${__dirname}/../.env.production`
+//   : `${__dirname}/../.env.development`;
+// dotenv.config({ path: envFile });
+// dotenv.config({ path: `${__dirname}/../.env.app-config` });
 import path from 'node:path';
-
-// Load environment-specific config file
-const envFile = process.env.NODE_ENV === 'production' 
-  ? `${__dirname}/../.env.production`
-  : `${__dirname}/../.env.app-config`;
-
-dotenv.config({ path: envFile });
-
-// [PROD] comment out this line
 import cors from '@fastify/cors';
-
 import fastifyCookie from '@fastify/cookie';
 import fastifyStatic from '@fastify/static';
 import { setupJWT } from './jwt.config';
-// import Tokens from '@fastify/csrf'
 import { TCipheredUser } from './schema/users';
-
-dotenv.config({ path: `${__dirname}/../.env.app-config` });
 
 declare module 'fastify' {
   interface FastifyRequest {
-    usr: TCipheredUser
+    usr: TCipheredUser;
   }
 };
 

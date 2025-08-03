@@ -1,4 +1,4 @@
-import * as C from '../../constants';
+import * as C from '../../constants.server';
 import newVideoUrlFormState, {
   $1DarkThemeMode
 } from './new.video.url.form.state';
@@ -54,7 +54,8 @@ import signInFormState, {
   $41DarkThemeMode
 } from './sign.in.form.state';
 import Config from '../../config';
-import { TStateAllForms, TThemeMode } from '../../common.types';
+import { TStateAllForms } from '../../shared';
+import { TThemeMode } from '../../common.types';
 import DEV_STATE_FORM, {
   DEV_STATE_FORM_THEME_DARK,
   dev_bootstrap_forms_dark_state,

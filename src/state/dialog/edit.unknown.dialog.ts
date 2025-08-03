@@ -3,9 +3,9 @@ import {
   $31_STATE_KEY,
   THEME_LIGHT_BACKGROUND_COLOR,
   THEME_DARK_DIALOG_BACKGROUND_COLOR
-} from '../../constants';
+} from '../../constants.server';
 import { r, remove_form_suffix } from '../../business.logic';
-import { TStateDialog } from '../../common.types';
+import { TStateDialog } from '../../shared';
 import { register } from '../../business.logic/registry';
 
 register('state', '31', $31_STATE_KEY);

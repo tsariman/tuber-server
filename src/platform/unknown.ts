@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { match_regex_array } from '../business.logic';
-import { THUMBNAIL_URLS_REGEXP } from '../constants';
+import { THUMBNAIL_URLS_REGEXP } from '../constants.server';
 
 export async function unknown_fetch_thumbnail_url(url?: string): Promise<string> {
   if (!url) { return ''; }

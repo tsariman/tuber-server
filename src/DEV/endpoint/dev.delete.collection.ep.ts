@@ -1,12 +1,9 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { log, write } from '../../config';
+import { log, write } from '../../utility/logging';
 import mongoose from 'mongoose';
 import { BookmarkPaginationModel } from '../../model/bookmark';
 import { UserPaginationModel } from '../../model/user';
-import {
-  // defaultDialogAlertState as alert,
-  dialogAlertState as dialogAlert
-} from '../../state/dialog';
+import { dialogAlertState as dialogAlert } from '../../state/dialog';
 
 export default async function dev_delete_collection_endpoint (
   req: FastifyRequest<{ Params: { collection: string }}>,

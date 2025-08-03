@@ -25,11 +25,14 @@ DEV.md
 JWT-PRODUCTION.md
 JWT-TOKEN-LIFESPAN.md
 .env
+.env.development
 .env.production
 .env.production.example
 .env.app-config
 .env.twitch
-requests.rest
+DEV.default.rest
+DEV.builder.rest
+DEV.env.var.rest
 
 .yarn/*
 !.yarn/patches

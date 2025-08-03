@@ -29,7 +29,3 @@ export function get_ip(inDevMode = false, address?: string) {
   }
   return ip;
 }
-
-export function invalid_db_name(): string {
-  throw new Error('Could not read database name from .env file.');
-}

@@ -1,10 +1,10 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import JsonapiErrorBuilder, { default_500_error_response } from '../business.logic/builder/jsonapi.error.builder';
-import JsonapiResponseBuilder from '../business.logic/builder/jsonapi.response.builder';
-import { log, write as print } from '../business.logic/logging';
+import JsonapiResponseColBuilder from '../business.logic/builder/jsonapi.response.col.builder';
+import { ler, log, log_err, write as print } from '../utility/logging';
 import { get_bookmark_by_id } from '../model/bookmark';
 import { IBookmarkGet } from '../schema/bookmarks';
-import { MSG_500_ERROR_MESSAGE } from '../constants';
+import { MSG_500_ERROR_MESSAGE } from '../constants.server';
 
 export default async function get_bookmark_by_id_endpoint (
   request: FastifyRequest<IBookmarkGet>,
@@ -16,7 +16,7 @@ export default async function get_bookmark_by_id_endpoint (
     if (bookmark) {
       log('Done.');
       reply.code(200).send(
-        new JsonapiResponseBuilder(bookmark, 'bookmarks', 'object').mPaginationV2build()
+        new JsonapiResponseColBuilder(bookmark, 'bookmarks', 'object').mPaginationV2build()
       );
     } else {
       log('Failed.\nBookmark not found.');
@@ -28,7 +28,8 @@ export default async function get_bookmark_by_id_endpoint (
       );
     }
   } catch (e) {
-    log(MSG_500_ERROR_MESSAGE, e);
+    ler(MSG_500_ERROR_MESSAGE);
+    log_err('GET bookmark by id', e);
     reply.code(500).send(default_500_error_response(e));
   }
 }

@@ -1,13 +1,13 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import JsonapiErrorBuilder, {
   default_500_error_response
-} from 'src/business.logic/builder/jsonapi.error.builder';
-import { log, write as print } from '../../config';
+} from '../../business.logic/builder/jsonapi.error.builder';
+import { log, log_err, write as print } from '../../utility/logging';
 import { get_video_thumbnail_url } from '../all.drivers';
 import { BookmarkModel, get_bookmark_by_id } from 'src/model/bookmark';
-import { IBookmark } from 'src/schema/bookmarks';
-import { TPlatform } from 'src/common.types';
-import JsonapiResponseBuilder from 'src/business.logic/builder/jsonapi.response.builder';
+import { IBookmark } from '../../schema/bookmarks';
+import { TPlatform } from '../../common.types';
+import JsonapiResponseColBuilder from '../../business.logic/builder/jsonapi.response.col.builder';
 
 export interface IBookmarkThumbnailUrlGet {
   Params: {
@@ -49,7 +49,7 @@ export default async function get_video_thumbnail_url_endpoint (
       log('[DEBUG] Bookmark already has a thumbnail url.');
       log('[DEBUG] thumbnail_url:', bookmark.thumbnail_url);
       reply.code(200).send(
-        new JsonapiResponseBuilder(bookmark, 'bookmarks', 'object')
+        new JsonapiResponseColBuilder(bookmark, 'bookmarks', 'object')
           .mPaginationV2build()
       );
       return;
@@ -107,7 +107,7 @@ export default async function get_video_thumbnail_url_endpoint (
     if (updatedBookmark) {
       log('Done.');
       reply.code(200).send(
-        new JsonapiResponseBuilder(updatedBookmark, 'bookmarks', 'object')
+        new JsonapiResponseColBuilder(updatedBookmark, 'bookmarks', 'object')
           .mPaginationV2build()
       );
     } else {
@@ -122,7 +122,8 @@ export default async function get_video_thumbnail_url_endpoint (
       );
     }
   } catch (e) {
-    log(`Failed.\n[ERROR][500] get platform video thumbnail url`, e);
+    log(`Failed.\n[ERROR][500] get platform video thumbnail url`);
+    log_err(`GET platform video thumbnail url`, e);
     reply.code(500).send(default_500_error_response(e));
   }
 }

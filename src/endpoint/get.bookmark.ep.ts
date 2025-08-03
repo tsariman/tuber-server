@@ -4,15 +4,16 @@ import { get_query } from '../business.logic';
 import JsonapiErrorBuilder, {
   default_500_error_response
 } from '../business.logic/builder/jsonapi.error.builder';
-import JsonapiResponseBuilder from '../business.logic/builder/jsonapi.response.builder';
+import JsonapiResponseColBuilder from '../business.logic/builder/jsonapi.response.col.builder';
 import Config from '../config';
 import {
   BookmarkModel,
   get_bookmark_collection
 } from '../model/bookmark';
 import { IBookmarkGet } from '../schema/bookmarks';
-import { DB_PAGINATION_QUERY, MSG_500_ERROR_MESSAGE } from '../constants';
+import { DB_PAGINATION_QUERY, MSG_500_ERROR_MESSAGE } from '../constants.server';
 import { get_raw_query } from './_endpoint.common.logic';
+import { log, write as print, log_err, ler } from '../utility/logging';
 
 export default async function get_bookmarks_collection_endpoint (
   req: FastifyRequest<IBookmarkGet>,
@@ -83,7 +84,7 @@ export default async function get_bookmarks_collection_endpoint (
       if (!aggregationResult[0]) {
         // [TODO] Remove this error reporting. An undefined aggregate result
         //        most likely means there are no document matching the query.
-        Config.log('[DEBUG] Query did not return any result. '
+        log('[DEBUG] Query did not return any result. '
           + '(aggregationResult[0] is undefined)');
         reply.code(404).send(new JsonapiErrorBuilder()
           .withCode('not_found')
@@ -100,7 +101,7 @@ export default async function get_bookmarks_collection_endpoint (
       const { totalItems, results } = aggregationResult[0];
       if (aggregationResult.length > 0) {
         const filter = `?filter[search]=${searchQuery}&`;
-        reply.code(200).send(new JsonapiResponseBuilder(
+        reply.code(200).send(new JsonapiResponseColBuilder(
             results,
             'bookmarks',
             'collection'
@@ -119,20 +120,21 @@ export default async function get_bookmarks_collection_endpoint (
         });
       }
     } else {
-      Config.log('[DEBUG] Running search query:', searchQuery);
-      Config.print(`[DEBUG] Getting bookmarks collection (page ${page}, limit ${limit})... `);
+      log('[DEBUG] Running search query:', searchQuery);
+      print(`[DEBUG] Getting bookmarks collection (page ${page}, limit ${limit})... `);
       const result = await get_bookmark_collection(page, limit);
-      Config.log('Done.');
+      log('Done.');
       const bookmarkDocs = result.docs;
       reply.code(200).send(
-        new JsonapiResponseBuilder(bookmarkDocs, 'bookmarks', 'collection')
+        new JsonapiResponseColBuilder(bookmarkDocs, 'bookmarks', 'collection')
           .meta('max_loaded_pages', Config.MAX_LOADED_BOOKMARK_PAGES)
           .buildPaginationV2Links(result)
           .mPaginationV2build()
       );
     }
   } catch (e) {
-    Config.log(MSG_500_ERROR_MESSAGE, e);
+    ler(MSG_500_ERROR_MESSAGE);
+    log_err('GET bookmark collection', e);
     reply.code(500).send(default_500_error_response(e));
   }
 }

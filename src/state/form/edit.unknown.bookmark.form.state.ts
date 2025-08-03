@@ -1,7 +1,7 @@
 import { r } from 'src/business.logic';
-import { TStateForm } from '../../common.types';
+import { TStateForm } from '../../shared';
 import { register } from '../../business.logic/registry';
-import * as C from '../../constants';
+import * as C from '../../constants.server';
 
 register('state', '29', C.$29_STATE_KEY);
 /** Form for editing an existing unknown platform video bookmark @id 29 */

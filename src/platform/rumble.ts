@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { PLATFORM_URL } from '.';
-import { log, write as print } from '../business.logic/logging';
+import { ler, log, log_err, write as print } from '../utility/logging';
 
 /**
  * Helper function to make robust HTTP requests to Rumble with anti-bot measures
@@ -57,13 +57,14 @@ async function robust_rumble_get(url: string): Promise<string> {
       }
       
       log(`Failed. [Strategy ${i + 1}] returned status: ${response.status}`);
-    } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : String(error);
+    } catch (e) {
+      const errorMessage = e instanceof Error ? e.message : String(e);
       log(`Failed. [Strategy ${i + 1}] returned error: ${errorMessage}`);
       
       // If this is the last strategy, log as error
       if (i === strategies.length - 1) {
-        log('[ERROR] All strategies failed.');
+        ler('[ERROR] All strategies failed.');
+        log_err('retrieving Rumble thumbnail', e);
       }
     }
     
@@ -106,9 +107,10 @@ export async function rumble_fetch_thumbnail_url(slug?: string): Promise<string>
       return thumbnail_url;
     }
     return '';
-  } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : String(error);
-    log('[ERROR]', `Failed to fetch thumbnail for slug ${slug}:`, errorMessage);
+  } catch (e) {
+    const errorMessage = e instanceof Error ? e.message : String(e);
+    ler('[ERROR]', `Failed to fetch thumbnail for slug ${slug}:`, errorMessage);
+    log_err(`fetching Rumble thumbnail`, e);
     return '';
   }
 }
@@ -154,9 +156,10 @@ export async function rumble_fetch_videoid(slug: string): Promise<string> {
       return videoid;
     }
     return '';
-  } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : String(error);
-    log('[ERROR]', `Failed to fetch videoid for slug ${slug}:`, errorMessage);
+  } catch (e) {
+    const errorMessage = e instanceof Error ? e.message : String(e);
+    ler('[ERROR]', `Failed to fetch videoid for slug ${slug}:`, errorMessage);
+    log_err(`fetching Rumble videoid`, e);
     return '';
   }
 }
@@ -210,9 +213,10 @@ export async function rumble_fetch_videoid_thumbnail(
       return { videoid, thumbnail_url };
     }
     return { videoid: '', thumbnail_url: '' };
-  } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : String(error);
-    log('[ERROR]', `Failed to fetch videoid and thumbnail for slug ${slug}:`, errorMessage);
+  } catch (e) {
+    const errorMessage = e instanceof Error ? e.message : String(e);
+    ler('[ERROR]', `Failed to fetch videoid and thumbnail for slug ${slug}:`, errorMessage);
+    log_err(`fetching Rumble videoid`, e);
     return { videoid: '', thumbnail_url: '' };
   }
 }

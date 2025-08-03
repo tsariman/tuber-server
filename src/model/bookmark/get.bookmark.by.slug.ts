@@ -2,11 +2,12 @@ import { PipelineStage } from 'mongoose';
 import { IBookmarkDocument } from '../../schema/bookmarks';
 import { BookmarkModel } from '.';
 import Config from '../../config';
+import { log, log_err, write as print } from '../../utility/logging';
 
 export default async function get_bookmark_by_slug (
   slug: string
 ): Promise<IBookmarkDocument | null> {
-  Config.print('[DEBUG] Retrieving Rumble bookmark with the same slug... ')
+  print('[DEBUG] Retrieving Rumble bookmark with the same slug... ');
   try {
     const pipeline: PipelineStage[] = [];
     pipeline.push({
@@ -48,11 +49,12 @@ export default async function get_bookmark_by_slug (
     });
     const aggregationResult = await BookmarkModel.aggregate(pipeline);
     const dbDoc: IBookmarkDocument | null = aggregationResult[0] ?? null;
-    Config.log('Success.');
+    log('Success.');
     return dbDoc;
   } catch (e) {
-    Config.log('Failed.');
-    Config.log('[DEBUG]', (e as Error).message);
+    log('Failed.');
+    log('[DEBUG]', (e as Error).message);
+    log_err('GET bookmark by slug failed.', e);
   }
 
   return null;

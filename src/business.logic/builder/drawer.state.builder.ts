@@ -1,5 +1,5 @@
 import AbstractStateBuilder from './abstract.state.builder';
-import { TStateLink, TStatePageDrawer } from 'src/common.types';
+import { TJsonapiStateResponse, TStateLink, TStatePageDrawer } from '../../shared';
 import LinkStateBuilder from './link.state.builder';
 
 type TAnchor = TStatePageDrawer['anchor'];
@@ -7,10 +7,33 @@ type T_Type = TStatePageDrawer['_type'];
 type TWidth = TStatePageDrawer['width'];
 
 export default class DrawerStateBuilder extends AbstractStateBuilder {
+  private _pageKey?: string;
+  private _response?: TJsonapiStateResponse;
   private _items: TStateLink[];
   constructor(private _state: TStatePageDrawer = {}) {
     super();
     this._items = [];
+  }
+  buildResponse(): TJsonapiStateResponse {
+    return this._response || this.response_not_defined();
+  }
+  configure(conf: { pageKey?: string }): this {
+    this._pageKey = conf.pageKey;
+    return this;
+  }
+  withBootstrapState(): this {
+    if (!this._pageKey) {
+      throw new Error('Set the parent page by calling `withPageKey()` first');
+    }
+    this._response = {
+      state: {
+        drawer: this._state,
+        pages: {[this._pageKey]: { drawer: this._state }},
+        pagesDark: {[this._pageKey]: { drawer: this._state }},
+        pagesLight: {[this._pageKey]: { drawer: this._state }},
+      }
+    };
+    return this;
   }
   /** Get the state. @returns state. */
   build(): TStatePageDrawer {
@@ -28,11 +51,11 @@ export default class DrawerStateBuilder extends AbstractStateBuilder {
     this._items?.push(instance.build());
     return this;
   }
-  with_Id(_id: string) {
+  withId(_id: string) {
     this._state._id = _id;
     return this;
   }
-  with_Key(_key: string) {
+  withKey(_key: string) {
     this._state._key = _key;
     return this;
   }

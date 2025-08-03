@@ -1,5 +1,6 @@
 import ROTATION_KEYS from '../../session.secrets';
 import Config from '../../config';
+import { log } from '../../utility/logging';
 
 /**
  * JWT Key Manager for production-ready key rotation
@@ -49,7 +50,7 @@ export class JWTKeyManager {
       this.lastRotationTime = parseInt(savedRotationTime);
     }
 
-    Config.log(`[JWT] Initialized with key index ${this.currentKeyIndex}`);
+    log(`[JWT] Initialized with key index ${this.currentKeyIndex}`);
   }
 
   /**
@@ -85,7 +86,7 @@ export class JWTKeyManager {
     // Persist the rotation state
     this.persistRotationState();
     
-    Config.log(`[JWT] Key rotated from index ${oldIndex} to ${this.currentKeyIndex}`);
+    log(`[JWT] Key rotated from index ${oldIndex} to ${this.currentKeyIndex}`);
   }
 
   /**
@@ -158,7 +159,7 @@ export class JWTKeyManager {
    */
   public setRotationInterval(intervalMs: number): void {
     this.rotationIntervalMs = intervalMs;
-    Config.log(`[JWT] Rotation interval set to ${intervalMs}ms`);
+    log(`[JWT] Rotation interval set to ${intervalMs}ms`);
   }
 }
 

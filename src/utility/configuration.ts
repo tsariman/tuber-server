@@ -1,6 +1,6 @@
 import { IDbConfigurationDocument } from '../schema/configurations';
 import { configuration_save } from '../model/configuration';
-import { TObj } from 'src/common.types';
+import { TObj } from '../common.types';
 
 /** Reserved methods/keys of the configuration object. */
 export interface IConfigMethods {

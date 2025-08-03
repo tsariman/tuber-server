@@ -8,11 +8,12 @@ import {
   CONF_TWITCH_TOKEN_EXPIRATION,
   CONF_TWITCH_REFRESH_TOKEN,
   CONF_TWITCH_DISABLE_THUMBNAIL_RETRIEVAL
-} from 'src/constants';
+} from 'src/constants.server';
 import {
   get_twitch_renew_access_token_endpoint
 } from './endpoint/get.twitch.renew.access.token.ep';
-import { TObj } from 'src/common.types';
+import { TObj } from '../common.types';
+import { log } from '../utility/logging';
 
 dotenv.config({ path: `${__dirname}/../../.env.twitch` });
 
@@ -117,6 +118,8 @@ export async function twitch_fetch_thumbnail_url(videoid?: string): Promise<stri
         }
       });
     } catch (e) {
+      // [TODO] That's wrong. You should set a flag here that can be read in 
+      //        another part of the code to renew the twitch access token.
       await get_twitch_renew_access_token_endpoint();
       continue;
     }
@@ -126,7 +129,7 @@ export async function twitch_fetch_thumbnail_url(videoid?: string): Promise<stri
       thumbnailUrlTemplate = json.data[0].thumbnail_url;
       break;
     } else {
-      Config.log(`[ERROR] twitch_fetch_thumbnail_url()`, json);
+      log(`[ERROR] twitch_fetch_thumbnail_url()`, json);
     }
   } while (!json.data?.[0]?.thumbnail_url);
   if (!thumbnailUrlTemplate) { return ''; }

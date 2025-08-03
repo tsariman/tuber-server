@@ -2,10 +2,11 @@ import { FastifyReply, FastifyRequest } from 'fastify';
 import JsonapiErrorBuilder, {
   default_500_error_response
 } from '../../business.logic/builder/jsonapi.error.builder';
-import { log, write } from '../../config';
+import { ler, log, log_err, write } from '../../utility/logging';
 import { STATE_FORMS, STATE_FORMS_THEME_DARK } from '../form';
-import { TNetState, TThemeMode } from '../../common.types';
-import { MSG_500_ERROR_MESSAGE } from '../../constants';
+import { TNetState } from '../../shared';
+import { TThemeMode } from '../../common.types';
+import { MSG_500_ERROR_MESSAGE } from '../../constants.server';
 import { themed } from '../../business.logic';
 
 export default async function post_state_forms_endpoint (
@@ -62,7 +63,8 @@ export default async function post_state_forms_endpoint (
       });
     }
   } catch (e) {
-    log(MSG_500_ERROR_MESSAGE, e);
+    ler(MSG_500_ERROR_MESSAGE, e);
+    log_err('POST state form', e);
     reply.code(500).send(default_500_error_response(e));
   }
 }

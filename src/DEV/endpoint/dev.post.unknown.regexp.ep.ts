@@ -2,12 +2,12 @@ import { FastifyReply, FastifyRequest } from 'fastify';
 import JsonapiErrorBuilder, {
   default_500_error_response
 } from 'src/business.logic/builder/jsonapi.error.builder';
-import { log, write as print } from '../../config';
+import { log, write as print } from '../../utility/logging';
 import {
   $57_STATE_KEY,
   $58_STATE_KEY,
   MSG_500_ERROR_MESSAGE
-} from '../../constants';
+} from '../../constants.server';
 import axios from 'axios';
 import { TNetState } from 'src/shared';
 

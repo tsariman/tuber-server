@@ -1,7 +1,7 @@
 import { r } from 'src/business.logic';
-import { TStateForm } from '../../common.types';
+import { TStateForm } from '../../shared';
 import { register } from '../../business.logic/registry';
-import * as C from '../../constants';
+import * as C from '../../constants.server';
 
 register('state', '10', C.$10_STATE_KEY);
 /** Form for creating a edit rumble video bookmark @id 10 */

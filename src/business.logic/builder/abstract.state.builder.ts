@@ -1,3 +1,4 @@
+import { TJsonapiStateResponse } from '../../shared';
 import Config from '../../config';
 
 export type TTextField = 'label'|'has_label'|'title'|'text';
@@ -5,6 +6,7 @@ export type TTextField = 'label'|'has_label'|'title'|'text';
 export default abstract class AbstractStateBuilder {
   /** Get the state. @returns {unknown} state. */
   abstract build(): unknown;
+  abstract buildResponse(): TJsonapiStateResponse;
   /**
    * Insert an item into array.
    *
@@ -16,13 +18,19 @@ export default abstract class AbstractStateBuilder {
    * @param {string} _id
    * @returns {unknown} this.
    */
-  abstract with_Id(_id: string): unknown;
+  abstract withId(_id: string): unknown;
   /**
    * Set the key of the state.
    * @param {string} _key
    * @returns {unknown} this.
    */
-  abstract with_Key(_key: string): unknown;
+  abstract withKey(_key: string): unknown;
+  abstract configure(co: object): unknown;
+  /** Makes a stand alone state that can be returned as a HTTP response. */
+  abstract withBootstrapState(): unknown;
+  protected response_not_defined(): never {
+    throw new Error('Response is not defined. Did you forget to call `withBootstrapState()`?');
+  }
   protected ler<T=unknown>(value: T, $return: T): T {
     if (Config.DEBUG) {
       console.log(value);

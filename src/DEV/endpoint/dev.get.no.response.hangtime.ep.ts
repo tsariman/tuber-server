@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { ms_to_seconds } from '../../business.logic';
-import C from '../../config';
+import { log } from '../../utility/logging';
 
 type TDevHandRequest = FastifyRequest<{
   Params: {
@@ -13,7 +13,7 @@ export default async function dev_get_no_response_hangtime_endpoint (
   _reply: FastifyReply
 ) {
   const hangTime = parseInt(request.params.hangTime) || 5000;
-  C.log('Hanging endpoint called for', ms_to_seconds(hangTime));
+  log('Hanging endpoint called for', ms_to_seconds(hangTime));
   let loopForever = true;
   setTimeout(() => {
     loopForever = false;

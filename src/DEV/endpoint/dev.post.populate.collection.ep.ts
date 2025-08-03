@@ -9,13 +9,14 @@ import {
   defaultDialogAlertState as alert,
   dialogAlertState as dialogAlert
 } from '../../state/dialog';
+import { log, write as print } from '../../utility/logging';
 
 export default async function dev_post_populate_collection_endpoint (
   req: FastifyRequest<{ Body: { collection: string, quantity: string }}>,
   reply: FastifyReply
 ) {
   const { collection, quantity } = req.body;
-  Config.print(`[DEBUG] Populating '${collection}' collection with ${quantity} documents... `);
+  print(`[DEBUG] Populating '${collection}' collection with ${quantity} documents... `);
   const number = parseInt(quantity, 10);
   switch (collection) {
     case 'users':
@@ -25,7 +26,7 @@ export default async function dev_post_populate_collection_endpoint (
           parseInt(Config.PAGINATION_USERS_LIMIT)
         );
         const userCount = await UserPaginationModel.countDocuments();
-        Config.log('Done.');
+        log('Done.');
         reply.send({
           'state': {
             'dialog': dialogAlert(`Populated '${collection}' collection with ${quantity} documents!`),
@@ -37,7 +38,7 @@ export default async function dev_post_populate_collection_endpoint (
           }
         });
       } catch (err) {
-        Config.log('Failed.', err);
+        log('Failed.', err);
         reply.send(alert(`Failed to populate '${collection}' collection with ${quantity} documents!`));
       }
       return;
@@ -48,7 +49,7 @@ export default async function dev_post_populate_collection_endpoint (
           parseInt(Config.PAGINATION_BOOKMARKS_LIMIT)
         );
         const bookmarkCount = await BookmarkPaginationModel.countDocuments();
-        Config.log('Done.');
+        log('Done.');
         reply.send({
           'state': {
             'dialog': dialogAlert(`Populated <span style="color:#3399ff">${collection}</span> collection with ${quantity} documents!`),
@@ -60,12 +61,12 @@ export default async function dev_post_populate_collection_endpoint (
           }
         });
       } catch (err) {
-        Config.log('Failed.', err);
+        log('Failed.', err);
         reply.send(alert(`Failed to populate '${collection}' collection with ${quantity} documents!`));
       }
       return;
     default:
-      Config.log('Failed.');
+      log('Failed.');
       reply.send(alert(`Collection '${collection}' not found!`));
       return;
   }

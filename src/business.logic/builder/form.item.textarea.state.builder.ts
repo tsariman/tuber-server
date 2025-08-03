@@ -1,4 +1,4 @@
-import { TStateFormItem } from 'src/common.types';
+import { TStateFormItem } from '../../shared';
 import FormItemTextfieldStateBuilder from './form.item.textfield.state.builder';
 
 export default class FormItemTextareaStateBuilder extends FormItemTextfieldStateBuilder {

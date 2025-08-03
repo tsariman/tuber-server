@@ -1,7 +1,7 @@
-import { TCipheredUser } from 'src/schema/users';
-import { TStatePage } from '../../common.types';
+import { TCipheredUser } from '../../schema/users';
+import { TStatePage } from '../../shared';
 import { register } from '../../business.logic/registry';
-import { $51_STATE_KEY } from '../../constants';
+import { $51_STATE_KEY } from '../../constants.server';
 import { $71DarkThemeMode, listingPageAppbarState } from '../appbar';
 import {
   bookmarkAddFromUrlLinkState,
@@ -10,7 +10,7 @@ import {
   powerLogoutLinkState,
   powerSignInLinkState
 } from '../nav.link';
-import { dev_get_links_state } from 'src/DEV/link.state';
+import { dev_get_links_state } from '../../DEV/link.state';
 
 register('state', '51', $51_STATE_KEY);
 /** Page state for listing app. @id 51 */

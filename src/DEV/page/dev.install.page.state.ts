@@ -6,8 +6,8 @@ import {
   powerSignInLinkState
 } from '../../state/nav.link';
 import { register } from '../../business.logic/registry';
-import { $40_STATE_KEY, $44_STATE_KEY } from '../../constants';
-import { TStateAppbar, TStatePage } from '../../common.types';
+import { $40_STATE_KEY, $44_STATE_KEY } from '../../constants.server';
+import { TStateAppbar, TStatePage } from '../../shared';
 import { TCipheredUser } from 'src/schema/users';
 
 export const appbarLinksState: TStateAppbar['items'] = [

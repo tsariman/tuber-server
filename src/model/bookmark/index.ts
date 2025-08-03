@@ -5,7 +5,7 @@ import bookmarkSchema, {
   IBookmarkDocument,
   TBookmark,
 } from '../../schema/bookmarks';
-import { DB_PAGINATION_OPTIONS, DB_PAGINATION_QUERY } from '../../constants';
+import { DB_PAGINATION_OPTIONS, DB_PAGINATION_QUERY } from '../../constants.server';
 
 /** mongoose-paginate-v2 query */
 const PAGINATION_QUERY = {

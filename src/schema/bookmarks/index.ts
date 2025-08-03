@@ -1,8 +1,8 @@
 import mongoose, { Schema } from 'mongoose';
 import paginate from 'mongoose-paginate-v2';
+import { TJsonapiResource } from '../../shared';
 import {
   IJsonapiQuerystring,
-  TJsonapiResource,
   TObj,
   WithRequired
 } from '../../common.types';

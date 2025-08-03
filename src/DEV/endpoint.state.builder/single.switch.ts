@@ -1,5 +1,5 @@
 import { FastifyRequest, FastifyReply } from 'fastify';
-import { log, write as print } from '../../config';
+import { log, write as print } from '../../utility/logging';
 import { default_500_error_response } from '../../business.logic/builder/jsonapi.error.builder';
 import Switch from '../../business.logic/builder/form.item.switch.single.state.builder';
 

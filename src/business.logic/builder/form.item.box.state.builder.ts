@@ -1,5 +1,5 @@
 import { AbstractFormItemStateBuilder } from './abstract.state.builder';
-import { TStateFormItemCheckboxBox } from '../../common.types';
+import { TJsonapiStateResponse, TStateFormItemCheckboxBox } from '../../shared';
 import IFormChoices from 'src/shared/interfaces/IFormChoices';
 
 export default class FormItemBoxStateBuilder extends AbstractFormItemStateBuilder {
@@ -11,8 +11,8 @@ export default class FormItemBoxStateBuilder extends AbstractFormItemStateBuilde
   }
   /** Method not implemented. @returns this. */
   add(): this { return this.die('Method not implemented.', this); }
-  with_Id(_id: string) { return this.die('Method not implemented.', this); }
-  with_Key(_key: string) { return this.die('Method not implemented.', this); }
+  withId(_id: string) { return this.die('Method not implemented.', this); }
+  withKey(_key: string) { return this.die('Method not implemented.', this); }
   /** Method not implemented. @returns this. */
   withType() { return this.die('Method not implemented.', this); }
   withName(name: string): this {
@@ -72,4 +72,7 @@ export default class FormItemBoxStateBuilder extends AbstractFormItemStateBuilde
     this._state.has.items = items;
     return this;
   }
+  configure(): this { return this; }
+  withBootstrapState(): this { return this; }
+  buildResponse(): TJsonapiStateResponse { return {'state': {}}; }
 }

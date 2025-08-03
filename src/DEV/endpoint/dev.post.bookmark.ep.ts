@@ -2,13 +2,13 @@ import { FastifyReply, FastifyRequest } from 'fastify';
 import {
   default_500_error_response
 } from '../../business.logic/builder/jsonapi.error.builder';
-import JsonapiResponseBuilder from '../../business.logic/builder/jsonapi.response.builder';
-import { log, write as print } from '../../config';
+import JsonapiResponseColBuilder from '../../business.logic/builder/jsonapi.response.col.builder';
+import { log, write as print } from '../../utility/logging';
 import { create_bookmark } from '../../model/bookmark';
 import { IBookmarkPost } from '../../schema/bookmarks';
 import { gen_random_bookmark_votes } from '..';
-import fix_missing_bookmark_data from 'src/platform/all.drivers';
-import { MSG_500_ERROR_MESSAGE } from '../../constants';
+import fix_missing_bookmark_data from '../../platform/all.drivers';
+import { MSG_500_ERROR_MESSAGE } from '../../constants.server';
 
 export default async function dev_post_bookmarks_endpoint (
   req: FastifyRequest<IBookmarkPost>,
@@ -33,7 +33,7 @@ export default async function dev_post_bookmarks_endpoint (
     const dbBookmark = await create_bookmark(bookmark);
     log('Done.');
     reply.code(201).send(
-      new JsonapiResponseBuilder(dbBookmark, 'bookmarks', 'object')
+      new JsonapiResponseColBuilder(dbBookmark, 'bookmarks', 'object')
       .mPaginationV2build()
     );
   } catch (e) {

@@ -1,7 +1,7 @@
 import { TBootstrapState } from 'src/state/_state.common.types';
-import { TStateForm } from '../../common.types';
+import { TStateForm } from '../../shared';
 import { register } from '../../business.logic/registry';
-import * as C from '../../constants';
+import * as C from '../../constants.server';
 
 register('state', '47', C.$47_STATE_KEY);
 /** Development shortcuts form. @id 47 */

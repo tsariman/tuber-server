@@ -1,11 +1,15 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import Config from '../config';
+import { ler, log, log_err } from '../utility/logging';
 import { defaultDialogAlertState as alert } from '../state/dialog';
 import { default_500_error_response } from '../business.logic/builder/jsonapi.error.builder';
-import { MSG_500_ERROR_MESSAGE } from '../constants';
-import { TJsonapiErrorResponse, TJsonapiResponse, TNetState } from '../common.types';
+import { MSG_500_ERROR_MESSAGE } from '../constants.server';
+import { TJsonapiErrorResponse, TJsonapiResponse, TNetState } from '../shared';
 import { get_user_collection_count } from '../model/user';
-import { createDefaultUser, DEFAULT_USER_TEMPLATES } from '../business.logic/ensure-default-user';
+import {
+  createDefaultUser,
+  DEFAULT_USER_TEMPLATES
+} from '../business.logic/ensure-default-user';
 
 interface ICreateDefaultUserRequest {
   Body: {
@@ -66,7 +70,7 @@ export default async function post_create_default_user_endpoint(
       `Username: ${DEFAULT_USER_TEMPLATES[template].name}, ` +
       `Password: ${DEFAULT_USER_TEMPLATES[template].password}`;
     
-    Config.log(`[SUCCESS] ${successMessage}`);
+    log(`[SUCCESS] ${successMessage}`);
 
     reply.code(201).send({
       ...alert(successMessage),
@@ -83,7 +87,8 @@ export default async function post_create_default_user_endpoint(
     } as TJsonapiResponse);
 
   } catch (e) {
-    Config.log(MSG_500_ERROR_MESSAGE, e);
+    ler(MSG_500_ERROR_MESSAGE);
+    log_err('POST default user', e);
     reply.code(500).send({
       ...alert('Failed to create default user: ' + (e as Error).message),
       ...default_500_error_response(e)

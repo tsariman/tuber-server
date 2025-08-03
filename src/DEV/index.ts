@@ -1,7 +1,7 @@
 import { IBookmark } from '../schema/bookmarks';
 import { BookmarkModel } from '../model/bookmark';
 import { UserModel } from '../model/user';
-import { log } from '../business.logic/logging';
+import { log } from '../utility/logging';
 
 export async function get_documents_count () {
   const bookmarkCount = (await BookmarkModel.countDocuments()).toString();

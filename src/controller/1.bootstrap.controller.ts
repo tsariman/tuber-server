@@ -3,40 +3,41 @@ import {
   get_body as get_from_body,
   get_theme_mode,
   parse_cookie
-} from 'src/business.logic';
-import { default_500_error_response } from 'src/business.logic/builder/jsonapi.error.builder';
-import { IBootstrapResponse, TNetState, TStateAllIcons } from 'src/common.types';
-import Config from 'src/config';
-import { TCipheredUser } from 'src/schema/users';
-import { IStateContext } from 'src/state/_state.common.types';
-import { bootstrap_background_state } from 'src/state/bootstrap/background';
-import { bootstrap_app_state } from 'src/state/bootstrap/app';
+} from '../business.logic';
+import { default_500_error_response } from '../business.logic/builder/jsonapi.error.builder';
+import { TNetState, TStateAllIcons } from '../shared';
+import { IBootstrapResponse } from '../common.types';
+import { TCipheredUser } from '../schema/users';
+import { IStateContext } from '../state/_state.common.types';
+import { bootstrap_background_state } from '../state/bootstrap/background';
+import { bootstrap_app_state } from '../state/bootstrap/app';
 import {
   bootstrap_theme_state,
   bootstrap_theme_light_state,
   bootstrap_theme_dark_state
-} from 'src/state/bootstrap/theme';
-import { bootstrap_appbar_state } from 'src/state/bootstrap/appbar';
+} from '../state/bootstrap/theme';
+import { bootstrap_appbar_state } from '../state/bootstrap/appbar';
 
 import {
   bootstrap_dialogs_state,
   bootstrap_dialogs_light_state,
   bootstrap_dialogs_dark_state
-} from 'src/state/bootstrap/dialog';
+} from '../state/bootstrap/dialog';
 import {
   bootstrap_forms_state,
   bootstrap_forms_light_state,
   bootstrap_forms_dark_state
-} from 'src/state/bootstrap/form';
+} from '../state/bootstrap/form';
 import {
   bootstrap_pages_state,
   bootstrap_pages_light_state,
   bootstrap_pages_dark_state
-} from 'src/state/bootstrap/page';
-import { bootstrap_pages_data_state } from 'src/state/bootstrap/page.data';
-import { PrepareState } from 'src/state/PrepareState';
-import { bootstrap_icons_state } from 'src/state/bootstrap/icon';
+} from '../state/bootstrap/page';
+import { bootstrap_pages_data_state } from '../state/bootstrap/page.data';
+import { PrepareState } from '../state/PrepareState';
+import { bootstrap_icons_state } from '../state/bootstrap/icon';
 import { get_registry } from '../business.logic/registry';
+import { log, log_err } from '../utility/logging';
 
 export default async function $1_bootstrap_controller(fastify: FastifyInstance) {
   
@@ -50,19 +51,19 @@ export default async function $1_bootstrap_controller(fastify: FastifyInstance) 
     if (cookie) {
       token = parse_cookie(cookie).token;
       if (!token) {
-        Config.log(`[DEBUG] Token is missing.`);
+        log(`[DEBUG] Token is missing.`);
       }
     } else {
-      Config.log('[DEBUG] No cookie received.');
+      log('[DEBUG] No cookie received.');
     }
 
     let usr: TCipheredUser | undefined;
 
     try {
       usr = await req.jwtVerify<TCipheredUser>();
-      Config.log('[DEBUG] Decoded values from token:', usr);
+      log('[DEBUG] Decoded values from token:', usr);
     } catch (err: unknown) {
-      Config.log('[DEBUG] Token verification failed.', (err as Error).message);
+      log('[DEBUG] Token verification failed.', (err as Error).message);
     }
 
     const context: IStateContext = {
@@ -137,9 +138,9 @@ export default async function $1_bootstrap_controller(fastify: FastifyInstance) 
           })
         } as TNetState
       } as IBootstrapResponse);
-    } catch (err) {
-      console.error(err);
-      reply.code(500).send(default_500_error_response(err));
+    } catch (e) {
+      log_err('in attempting to bootstrap state', e);
+      reply.code(500).send(default_500_error_response(e));
     }
   });
     

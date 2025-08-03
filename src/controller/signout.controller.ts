@@ -1,10 +1,11 @@
 import { FastifyRequest, FastifyReply, FastifyInstance } from 'fastify';
-import Config from '../config';
 import {
   default_500_error_response
 } from '../business.logic/builder/jsonapi.error.builder';
-import { MSG_500_ERROR_MESSAGE } from 'src/constants';
+import { USER_CACHE } from '../business.logic/cache';
+import { MSG_500_ERROR_MESSAGE } from '../constants.server';
 import { TCipheredUser } from '../schema/users';
+import { log, log_err } from '../utility/logging';
 
 export default async function signout_controller (fastify: FastifyInstance) {
 
@@ -14,9 +15,10 @@ export default async function signout_controller (fastify: FastifyInstance) {
   ) {
     try {
       const { name } = req.user as TCipheredUser;
-      Config.USER_CACHE.del(name);
+      USER_CACHE.del(name);
     } catch (e) {
-      Config.log(MSG_500_ERROR_MESSAGE);
+      log(MSG_500_ERROR_MESSAGE);
+      log_err('attempting signout user', e);
       reply.code(500).send(default_500_error_response(e));
     }
   });

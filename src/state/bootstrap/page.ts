@@ -1,4 +1,5 @@
-import { TStateAllPages, TStateAppbar, TThemeMode } from 'src/common.types';
+import { TStateAllPages, TStateAppbar } from '../../shared';
+import { TThemeMode } from '../../common.types';
 import { IStateContext, TBootstrapState } from '../_state.common.types';
 import {
   $40_STATE_KEY,
@@ -6,7 +7,7 @@ import {
   $51_STATE_KEY,
   $70_STATE_KEY,
   THEME_MODE
-} from 'src/constants';
+} from 'src/constants.server';
 import researchPageState, {
   $40DarkThemeMode,
   $70DarkThemeMode,

@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { log, write as print } from '../../config';
-import * as C from '../../constants';
+import { log, write as print } from '../../utility/logging';
+import * as C from '../../constants.server';
 import { default_500_error_response } from '../../business.logic/builder/jsonapi.error.builder';
 import Form from '../../business.logic/builder/form.state.builder';
 import Group from '../../business.logic/builder/form.item.group.state.builder';
@@ -14,8 +14,8 @@ export default async function dev_get_form_builder_state(
   try {
     print(`[DEBUG] Testing form builder state... `);
     reply.code(200).send(new Form()
-      .with_Id('4')
-      .with_Key('newYoutubeBookmarkFormState')
+      .withId('4')
+      .withKey('newYoutubeBookmarkFormState')
 
       .addItem(new Group()
         .withType('stack')

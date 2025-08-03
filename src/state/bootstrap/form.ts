@@ -1,7 +1,8 @@
-import { TStateAllForms, TThemeMode } from '../../common.types';
+import { TStateAllForms } from '../../shared';
+import { TThemeMode } from '../../common.types';
 import { IStateContext, TBootstrapState } from '../_state.common.types';
 import Config from '../../config';
-import { $41_STATE_KEY, $47_STATE_KEY, THEME_MODE } from '../../constants';
+import { $41_STATE_KEY, $47_STATE_KEY, THEME_MODE } from '../../constants.server';
 import { PrepareState } from '../PrepareState';
 import devInstallFormState, { $47DarkThemeMode } from '../../DEV/form/dev.install.form.state';
 import signInFormState, { $41DarkThemeMode } from '../form/sign.in.form.state';

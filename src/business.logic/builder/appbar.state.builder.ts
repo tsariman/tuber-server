@@ -1,5 +1,9 @@
 import AbstractStateBuilder from 'src/business.logic/builder/abstract.state.builder';
-import { TStateAppbar, TStateLink } from '../../common.types';
+import {
+  TJsonapiStateResponse,
+  TStateAppbar,
+  TStateLink
+} from '../../shared';
 import LinkStateBuilder from './link.state.builder';
 import FormItemCustomStateBuilder from './form.item.custom.state.builder';
 
@@ -11,17 +15,49 @@ type TSearchFieldIconButtonProps = TStateAppbar['searchFieldIconButtonProps'];
 
 export default class PageAppbarStateBuilder extends AbstractStateBuilder {
   private _items: TStateLink[];
+  private _response?: TJsonapiStateResponse;
+  private _pageKey?: string;
 
   constructor(private _state: TStateAppbar = {}) {
     super();
     this._items = [];
   }
 
-  with_Id(_id: string): this {
+  /** Calling this method is required if performing a state response. */
+  withPageKey(pageKey: string): this {
+    this._pageKey = pageKey;
+    return this;
+  }
+
+  configure(conf: { pageKey?: string }): this {
+    this._pageKey = conf.pageKey;
+    return this;
+  }
+
+  /**
+   * Converts state build to a stand alone state that can be returned as a HTTP
+   * response.  
+   * [ **warning** ] Instance must be configured with `pageKey` before calling.
+   */
+  withBootstrapState(): this {
+    if (!this._pageKey) {
+      throw new Error('Set the parent page by calling `withPageKey()` first');
+    }
+    this._response = {
+      state: {
+        pages: { [this._pageKey]: { appbar: this._state }},
+        pagesLight: { [this._pageKey]: { appbar: this._state }},
+        pagesDark: { [this._pageKey]: { appbar: this._state }},
+      }
+    };
+    return this;
+  }
+
+  withId(_id: string): this {
     this._state._id = _id;
     return this;
   }
-  with_Key(_key: string): this {
+  withKey(_key: string): this {
     this._state._key = _key;
     return this;
   }
@@ -134,7 +170,10 @@ export default class PageAppbarStateBuilder extends AbstractStateBuilder {
     return this;
   }
   /** Get the state. @returns state. */
-  build() {
+  build(): TStateAppbar {
     return this._state;
+  }
+  buildResponse(): TJsonapiStateResponse {
+    return this._response || this.response_not_defined();
   }
 }

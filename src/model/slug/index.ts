@@ -2,7 +2,7 @@ import { PaginateModel, PaginateResult, model } from 'mongoose';
 import slugSchema, {
   IDbSlugDocument
 } from 'src/schema/slugs';
-import {DB_PAGINATION_OPTIONS, DB_PAGINATION_QUERY } from '../../constants';
+import {DB_PAGINATION_OPTIONS, DB_PAGINATION_QUERY } from '../../constants.server';
 
 /** mongoose-paginate-v2 query */
 const PAGINATION_QUERY = {
@@ -17,7 +17,7 @@ type TSelect = { [key in keyof IDbSlugDocument]: 0|1 };
 const PAGINATION_OPTIONS = {
   ...DB_PAGINATION_OPTIONS,
   select: {
-    ...DB_PAGINATION_OPTIONS.select,
+    ...(DB_PAGINATION_OPTIONS.select as TSelect),
     // TODO Insert fields to exclude here e.g.
     // 'password': 0,
   } as TSelect,

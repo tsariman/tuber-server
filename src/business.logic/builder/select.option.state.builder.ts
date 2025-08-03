@@ -1,4 +1,4 @@
-import { TStateFormItemSelectOption } from 'src/common.types';
+import { TJsonapiStateResponse, TStateFormItemSelectOption } from '../../shared';
 import AbstractStateBuilder from './abstract.state.builder';
 
 export default class SelectOptionStateBuilder extends AbstractStateBuilder {
@@ -19,14 +19,14 @@ export default class SelectOptionStateBuilder extends AbstractStateBuilder {
    * **DO NOT USE**. Method is NOT implemented.
    * @returns this.
    */
-  with_Id() {
+  withId() {
     return this.die('Method not implemented.', this);
   }
   /**
    * **DO NOT USE**. Method is NOT implemented.
    * @returns this.
    */
-  with_Key() {
+  withKey() {
     return this.die('Method not implemented.', this);
   }
   withLabel(label: string) {
@@ -41,4 +41,7 @@ export default class SelectOptionStateBuilder extends AbstractStateBuilder {
     this._state.value = value;
     return this;
   }
+  configure(): this { return this; }
+  withBootstrapState(): this { return this; }
+  buildResponse(): TJsonapiStateResponse { return {'state': {}}; }
 }

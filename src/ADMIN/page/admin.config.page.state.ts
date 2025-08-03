@@ -1,7 +1,7 @@
 import { r } from 'src/business.logic';
-import { TStatePage } from '../../common.types';
+import { TStatePage } from '../../shared';
 import { register } from '../../business.logic/registry';
-import { $55_STATE_KEY } from '../../constants';
+import { $55_STATE_KEY } from '../../constants.server';
 
 register('state', '55', $55_STATE_KEY);
 /** @id 55 */

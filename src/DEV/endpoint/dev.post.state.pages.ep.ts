@@ -2,10 +2,10 @@ import { FastifyReply, FastifyRequest } from 'fastify';
 import JsonapiErrorBuilder, {
   default_500_error_response
 } from '../../business.logic/builder/jsonapi.error.builder';
-import { log, write as print } from '../../config';
+import { log, write as print } from '../../utility/logging';
 import DEV_STATE_PAGES, { DEV_STATE_PAGES_THEME_DARK } from '../page';
-import { TNetState } from '../../common.types';
-import { MSG_500_ERROR_MESSAGE } from '../../constants';
+import { TNetState } from '../../shared';
+import { MSG_500_ERROR_MESSAGE } from '../../constants.server';
 import { themed_by_key } from '../../business.logic';
 
 export default async function dev_post_state_pages_endpoint(

@@ -4,8 +4,8 @@ import sessionSchema, {
   ISessionDocument
 } from '../../schema/sessions';
 import { IUserDocument, TCipheredUser } from '../../schema/users';
-import Config from '../../config';
 import { get_user_by_name } from '../user';
+import { USER_CACHE } from '../../business.logic/cache';
 
 export const SessionModel = model<ISession>('Session', sessionSchema);
 
@@ -113,7 +113,7 @@ export const get_user = async ({
   token
 }: IGetSessionUser): Promise<IUserDocument | null> => {
   if (name) {
-    const cUser = Config.USER_CACHE.get(name);
+    const cUser = USER_CACHE.get(name);
     if (cUser) { return cUser as IUserDocument; }
   }
   if (token) {
@@ -121,7 +121,7 @@ export const get_user = async ({
     if (session) {
       const sUser = session.user;
       if (sUser) {
-        Config.USER_CACHE.set(sUser.name, sUser);
+        USER_CACHE.set(sUser.name, sUser);
         return sUser;
       }
     }
@@ -129,7 +129,7 @@ export const get_user = async ({
   if (name) {
     const user = await get_user_by_name(name);
     if (user) {
-      Config.USER_CACHE.set(user.name, user);
+      USER_CACHE.set(user.name, user);
       return user;
     }
   }

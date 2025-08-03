@@ -1,7 +1,7 @@
 // import { FastifyReply, FastifyRequest } from 'fastify';
 // import { IBookmarkPost } from '../schema/bookmarks';
-// import Config from '../config';
-// import { MSG_500_ERROR_MESSAGE } from '../constants';
+// import { log, write as print } from '../utility/logging';
+// import { MSG_500_ERROR_MESSAGE } from '../constants.server';
 // import {
 //   default_500_error_response
 // } from 'src/business.logic/jsonapi.error.builder';
@@ -11,11 +11,11 @@
 //   reply: FastifyReply
 // ) {
 //   try {
-//     Config.print(`[DEBUG] User ... `);
+//     print(`[DEBUG] User ... `);
 //     const attributes = req.body.data.attributes;
 //     const bookmark = await fix_missing_bookmark_data(attributes);
 //     if (!bookmark) {
-//       Config.log('Failed.');
+//       log('Failed.');
 //       reply.code(400).send(default_400_error_response({
 //         title: 'Failed to create bookmark vote.',
 //         detail: 'Bookmark is null.'
@@ -23,14 +23,15 @@
 //       return;
 //     }
 //     const dbBookmark = await create_bookmark(bookmark);
-//     Config.log('Done.');
-//     Config.log('[DEBUG] Sending response...', dbBookmark);
+//     log('Done.');
+//     log('[DEBUG] Sending response...', dbBookmark);
 //     reply.code(201).send(
 //       new JsonapiResponseBuilder(dbBookmark, 'bookmarks', 'object')
 //       .mPaginationV2build()
 //     );
 //   } catch (e) {
-//     Config.log(MSG_500_ERROR_MESSAGE, e);
+//     ler(MSG_500_ERROR_MESSAGE);
+//     log_err('POST bookmark vote', e);
 //     reply.code(500).send(default_500_error_response(e));
 //   }
 // }

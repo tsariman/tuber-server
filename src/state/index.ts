@@ -1,4 +1,4 @@
-import { TStateAppbar, TStateBackground } from '../common.types';
+import { TStateAppbar, TStateBackground } from '../shared';
 
 /** Directive used to remove states client-side. */
 export const NET_STATE_PATCH_DELETE = '<#DEL>';

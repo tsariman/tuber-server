@@ -1,6 +1,6 @@
 import { register } from '../../business.logic/registry';
-import * as C from '../../constants';
-import { TStateForm } from '../../common.types';
+import * as C from '../../constants.server';
+import { TStateForm } from '../../shared';
 import { r } from 'src/business.logic';
 
 register('state', '18', C.$18_STATE_KEY);

@@ -1,5 +1,5 @@
-import { $69_STATE_KEY } from '../../constants';
-import { TStateForm } from '../../common.types';
+import { $69_STATE_KEY } from '../../constants.server';
+import { TStateForm } from '../../shared';
 import { register } from '../../business.logic/registry';
 
 register('state', '69', $69_STATE_KEY);

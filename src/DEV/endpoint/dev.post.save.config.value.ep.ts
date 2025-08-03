@@ -6,9 +6,10 @@ import Config from '../../config';
 import {
   $62_STATE_KEY,
   MSG_500_ERROR_MESSAGE
-} from '../../constants';
-import { TJsonapiRequest } from 'src/common.types';
+} from '../../constants.server';
+import { TJsonapiRequest } from 'src/shared';
 import JsonapiRequestDriver from 'src/business.logic/jsonapi.request.driver';
+import { log, write as print } from '../../utility/logging';
 
 interface IPostRequest {
   Body: TJsonapiRequest<{
@@ -34,7 +35,7 @@ export default async function dev_post_save_config_value_endpoint(
     const value = driver.getAttribute('value');
 
     if (!key || !value) {
-      Config.log('[ERROR]: Key and value are required.');
+      log('[ERROR]: Key and value are required.');
       reply.code(400).send(new JsonapiErrorBuilder()
         .withCode('bad_request')
         .withStatus(400)
@@ -43,9 +44,9 @@ export default async function dev_post_save_config_value_endpoint(
       );
       return;
     }
-    Config.print(`[DEBUG] Saving configuration value... `);
+    print(`[DEBUG] Saving configuration value... `);
     await Config.save(key, value);
-    Config.log('Success!');
+    log('Success!');
     reply.code(200).send({
       'state': {
         'formsData': {
@@ -54,7 +55,7 @@ export default async function dev_post_save_config_value_endpoint(
       }
     });
   } catch (e) {
-    Config.log(`${MSG_500_ERROR_MESSAGE} while saving configuration value.`, e);
+    log(`${MSG_500_ERROR_MESSAGE} while saving configuration value.`, e);
     reply.code(500).send(default_500_error_response);
   }
 }

@@ -1,12 +1,12 @@
 import { TBootstrapState } from 'src/state/_state.common.types';
-import { TStateForm } from '../../common.types';
+import { TStateForm } from '../../shared';
 import { register } from '../../business.logic/registry';
 import {
   $45_STATE_KEY,
   $46_STATE_KEY,
   THEME_DARK_PAPER_COLOR,
   THEME_LIGHT_PAPER_COLOR
-} from '../../constants';
+} from '../../constants.server';
 
 register('state', '45', $45_STATE_KEY);
 /** @id 45 @deprecated */

@@ -1,11 +1,11 @@
 import { TCipheredUser } from '../../schema/users';
-import { TStatePage } from '../../common.types';
+import { TStatePage } from '../../shared';
 import { register } from '../../business.logic/registry';
 import {
   $40_STATE_KEY,
   $70_STATE_KEY,
   THEME_LIGHT_APP_BAR_ICON_COLOR as ICON_COLOR,
-} from '../../constants';
+} from '../../constants.server';
 import researchPageAppbarState, {
   $63DarkThemeMode
 } from '../appbar';

@@ -1,14 +1,14 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { UserPaginationModel, exclude_user_fields } from '../../model/user';
 import gen_random_users from '../population/users';
-import JsonapiResponseBuilder from 'src/business.logic/builder/jsonapi.response.builder';
-import Config from 'src/config';
+import JsonapiResponseColBuilder from '../../business.logic/builder/jsonapi.response.col.builder';
+import Config from '../../config';
 import gen_random_bookmarks from '../population/bookmarks';
 import {
   BookmarkPaginationModel,
   exclude_bookmark_fields
 } from '../../model/bookmark';
-import { limit_array } from 'src/business.logic';
+import { limit_array } from '../../business.logic';
 
 /** 
  * Populates the users collection with random users. Used when populating
@@ -26,7 +26,7 @@ export async function dev_post_users_populate_endpoint (
     parseInt(Config.PAGINATION_USERS_LIMIT, 10)
   );
   reply.send(
-    new JsonapiResponseBuilder(dbUsers, 'users', 'collection')
+    new JsonapiResponseColBuilder(dbUsers, 'users', 'collection')
       .meta('max_loaded_pages', Config.MAX_LOADED_USER_PAGES)
       .setResourceFilter(exclude_user_fields)
       .mPaginationV2build()
@@ -49,7 +49,7 @@ export async function dev_post_bookmarks_populate_endpoint (
     parseInt(Config.PAGINATION_BOOKMARKS_LIMIT, 10)
   );
   reply.send(
-    new JsonapiResponseBuilder(dbBookmarks, 'bookmarks', 'collection')
+    new JsonapiResponseColBuilder(dbBookmarks, 'bookmarks', 'collection')
       .meta('max_loaded_pages', Config.MAX_LOADED_BOOKMARK_PAGES)
       .setResourceFilter(exclude_bookmark_fields)
       .mPaginationV2build()

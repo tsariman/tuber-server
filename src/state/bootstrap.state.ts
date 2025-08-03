@@ -3,14 +3,13 @@ import {
   TNetState,
   TStateApp,
   TStateAllIcons,
-  TThemeMode,
   TStateAppbar,
   TStateAllPages,
-  TObj,
   TStateBackground,
   TStateAllForms,
   TStateAllDialogs
-} from '../common.types';
+} from '../shared';
+import { TThemeMode, TObj } from '../common.types';
 import { TCipheredUser } from '../schema/users';
 import {
   bootstrap_pages_dark_state,

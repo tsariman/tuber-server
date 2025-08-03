@@ -1,7 +1,7 @@
 import {
   TFormChoices,
   TStateFormItemCustom,
-} from '../../common.types';
+} from '../../shared';
 import FormItemBaseStateBuilder from './form.item.base.state.builder';
 
 type TFormControlProps = TStateFormItemCustom['formControlProps'];
@@ -9,14 +9,12 @@ type TFormLabelProps = TStateFormItemCustom['formLabelProps'];
 type TProps = TFormChoices['props'];
 
 export default class FormChoicesStateBuilder<T=unknown> extends FormItemBaseStateBuilder {
-
   constructor(
     private readonly _state: TFormChoices = {},
   ) {
     super(_state);
     this._state = {};
   }
-
   /**
    * Set the form control component props
    * @param props

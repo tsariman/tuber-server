@@ -1,4 +1,4 @@
-import { TStateAppbar } from 'src/common.types';
+import { TStateAppbar } from 'src/shared';
 import { TBootstrapState } from '../_state.common.types';
 
 const bootstrap_appbar_state: TBootstrapState<TStateAppbar> = {

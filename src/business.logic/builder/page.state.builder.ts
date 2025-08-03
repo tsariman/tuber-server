@@ -1,5 +1,10 @@
 import AbstractStateBuilder from './abstract.state.builder';
-import { TStateBackground, TStateComponent, TStatePage } from '../../common.types';
+import {
+  TJsonapiStateResponse,
+  TStateBackground,
+  TStateComponent,
+  TStatePage
+} from '../../shared';
 import PageAppbarStateBuilder from './appbar.state.builder';
 import TypographyStateBuilder from './typography.state.builder';
 import DrawerStateBuilder from './drawer.state.builder';
@@ -15,17 +20,18 @@ export default class PageStateBuilder extends AbstractStateBuilder {
   private _appbar?: PageAppbarStateBuilder;
   private _typography?: TypographyStateBuilder;
   private _state: TStatePage;
+  private _response?: TJsonapiStateResponse;
 
   constructor(state?: TStatePage) {
     super();
     this._state = state ?? {};
   }
 
-  with_Id(id: string) {
+  withId(id: string) {
     this._state._id = id;
     return this;
   }
-  with_Key(key: string) {
+  withKey(key: string) {
     this._state._key = key;
     return this;
   }
@@ -146,5 +152,22 @@ export default class PageStateBuilder extends AbstractStateBuilder {
     return this.die('PageStateBuilder.add() not implemented.',
       this
     );
+  }
+  configure(): this { return this; }
+  withBootstrapState(): this {
+    if (!this._state._key) {
+      throw new Error('Page `_key` not defined. Did you call `withKey()`?');
+    }
+    this._response = {
+      'state': {
+        'pages': { [this._state._key]: this._state },
+        'pagesDark': { [this._state._key]: this._state },
+        'pagesLight': { [this._state._key]: this._state }
+      }
+    };
+    return this;
+  }
+  buildResponse(): TJsonapiStateResponse {
+    return this._response ?? this.response_not_defined();
   }
 }

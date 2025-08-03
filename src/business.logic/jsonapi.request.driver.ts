@@ -2,7 +2,7 @@ import {
   TJsonapiRequest,
   TJsonapiDataAttributes,
   TJsonapiResource
-} from '../common.types';
+} from '../shared';
 
 /**
  * A utility class for accessing values in JSON:API formatted requests.

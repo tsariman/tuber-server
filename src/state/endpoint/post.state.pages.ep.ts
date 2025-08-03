@@ -1,11 +1,12 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { log, write } from '../../config';
+import { ler, log, log_err, write } from '../../utility/logging';
 import JsonapiErrorBuilder, {
   default_500_error_response
 } from '../../business.logic/builder/jsonapi.error.builder';
 import  { STATE_PAGES, STATE_PAGES_THEME_DARK } from '../page';
-import { TNetState, TThemeMode } from '../../common.types';
-import { MSG_500_ERROR_MESSAGE } from '../../constants';
+import { TNetState } from '../../shared';
+import { TThemeMode } from '../../common.types';
+import { MSG_500_ERROR_MESSAGE } from '../../constants.server';
 import { themed } from '../../business.logic';
 
 export default async function post_state_pages_endpoint (
@@ -62,7 +63,8 @@ export default async function post_state_pages_endpoint (
       });
     }
   } catch (e) {
-    log(MSG_500_ERROR_MESSAGE, e);
+    ler(MSG_500_ERROR_MESSAGE);
+    log_err('POST state page', e);
     reply.code(500).send(default_500_error_response(e));
   }
 }

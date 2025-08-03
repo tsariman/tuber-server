@@ -1,4 +1,4 @@
-import { TStateFormItemCustom } from "src/common.types";
+import { TJsonapiStateResponse, TStateFormItemCustom } from "../../shared";
 import AbstractStateBuilder from "./abstract.state.builder";
 
 type TIconProps = TStateFormItemCustom['iconProps'];
@@ -26,9 +26,9 @@ export default class FormItemCustomStateBuilder<T=unknown> extends AbstractState
     return this;
   }
   /** **DO NOT USE**. Method is NOT implemented. @returns this. */
-  with_Id() { return this.die('Method not implemented.', this); }
+  withId() { return this.die('Method not implemented.', this); }
   /** **DO NOT USE**. Method is NOT implemented. @returns this. */
-  with_Key() { return this.die('Method not implemented.', this); }
+  withKey() { return this.die('Method not implemented.', this); }
   /**
    * Set an icon for the custom form item.
    * @param icon 
@@ -74,4 +74,7 @@ export default class FormItemCustomStateBuilder<T=unknown> extends AbstractState
     this._state.label = label;
     return this;
   }
+  configure(): this { return this; }
+  withBootstrapState(): this { return this; }
+  buildResponse(): TJsonapiStateResponse { return {'state': {}}; }
 }

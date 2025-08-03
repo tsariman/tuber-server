@@ -1,6 +1,6 @@
 
 import { CSSProperties } from 'react';
-import * as C from '../../../../tuber-client/src/constants';
+import * as C from '../../constants.client';
 import IAbstractState from './IAbstractState';
 import IStateFormItemCustom from './IStateFormItemCustom';
 import IStateLink from './IStateLink';

@@ -1,8 +1,9 @@
 import {
   TStateFormItem,
   TStateFormItemGroup,
-  TItemGroup
-} from '../../common.types';
+  TItemGroup,
+  TJsonapiStateResponse
+} from '../../shared';
 import AbstractStateBuilder from './abstract.state.builder';
 
 export default class FormItemGroupStateBuilder
@@ -31,8 +32,8 @@ export default class FormItemGroupStateBuilder
     this._items.push(item);
     return this;
   }
-  with_Id(_id: string): this { return this.die('Method not implemented.', this); }
-  with_Key(_key: string): this { return this.die('Method not implemented.', this); }
+  withId(_id: string): this { return this.die('Method not implemented.', this); }
+  withKey(_key: string): this { return this.die('Method not implemented.', this); }
   /**
    * Set the form item group layout.
    * @param type 
@@ -60,4 +61,7 @@ export default class FormItemGroupStateBuilder
     this._items = items;
     return this;
   }
+  configure(): this { return this; }
+  withBootstrapState(): this { return this; }
+  buildResponse(): TJsonapiStateResponse { return {'state': {}}; }
 }

@@ -1,214 +1,123 @@
+import { TJsonapiMeta } from '../../shared/interfaces/IJsonapi';
 import {
-  IAggregateDoc,
-  IMPV2Doc,
-  TEndpoint,
-  TJsonapiLink,
+  TJsonapiDataAttributes,
+  TJsonapiPaginationLinks,
   TJsonapiResource,
-  TJsonapiResourceLinkage,
   TJsonapiResponse,
-  TNetState,
-  TObj
-} from '../../common.types';
-import JsonapiResponsePaginationBuilder, { 
-  IMinimalPaginationOptions,
-  IPaginatedResult,
-  get_pagination_options
-} from './jsonapi.pagination.builder';
-import Config from '../../config';
-import { has_property } from '../index';
+} from '../../shared';
 
-type JSONAPI_RESOURCE_TYPE = 'collection' | 'object' | 'null' | 'linkage';
+export default class JsonapiResponseBuilder<T = TJsonapiDataAttributes> {
+  private _dataMember: TJsonapiResource<T>;
+  private _meta?: TJsonapiMeta;
+  private _links?: TJsonapiPaginationLinks;
+  private _included?: TJsonapiResource[];
 
-export default class JsonapiResponseBuilder<TCollection> {
-  readonly JSONAPI_VERSION = '1.1';
-  private skeletonResource: TJsonapiResource;
-  private response: TJsonapiResponse;
-  private readonly RESOURCE_OF_TYPE: {[key in JSONAPI_RESOURCE_TYPE]: TJsonapiResponse['data']} = {
-    'collection': [] as TJsonapiResource[],
-    'object': {} as TJsonapiResource,
-    'null': null,
-    'linkage': {} as TJsonapiResourceLinkage
-  };
-  private resourceType: JSONAPI_RESOURCE_TYPE;
-  /** Filter to remove unwanted properties @deprecated */
-  private resourceFilter: <T>(entity: T) => T;
-  private dataMember: TCollection;
-  private alreadyBuilt: boolean;
-
-  constructor(
-    data: TCollection,
-    endpoint: TEndpoint,
-    type: JSONAPI_RESOURCE_TYPE = 'collection'
-  ) {
-    this.response = {
-      jsonapi: { version: this.JSONAPI_VERSION }
+  constructor(attributes?: T, type = 'resource') {
+    this._dataMember = {
+      type,
+      attributes,
     };
-    this.response.data = [];
-    this.skeletonResource = { type: endpoint };
-    this.resourceFilter = <T=unknown>(): T => {
-      Config.die('Resource filter not set.');
-      return { _doc: {} } as T;
-    };
-    this.resourceType = type;
-    this.dataMember = data;
-    this.alreadyBuilt = false;
   }
 
-  toString = () => this.response;
-
-  /** Get the function that filter resource. @deprecated */
-  getResourceFilter = () => this.resourceFilter;
-
-  setResourceFilter = <T>(fn: T) => {
-    this.resourceFilter = fn as typeof this.resourceFilter;
+  setId(id: string | number): this {
+    this._dataMember.id = id.toString();
     return this;
   }
 
-  buildLinks = (mOpts: IMinimalPaginationOptions) => {
-    const opts = get_pagination_options(mOpts);
-    this.response.links = new JsonapiResponsePaginationBuilder(opts).build();
+  setType(type: string): this {
+    this._dataMember.type = type;
     return this;
   }
 
-  buildPaginationV2Links = (opts: IPaginatedResult) => {
-    this.response.links = new JsonapiResponsePaginationBuilder(opts).build();
+  setAttributes(attributes: T): this {
+    this._dataMember.attributes = attributes;
     return this;
   }
 
-  link = (key: string, val: string) => {
-    this.response.links = this.response.links || { self: '' };
-    this.response.links[key] = val;
+  addAttribute<K extends keyof T>(key: K, val: T[K]): this {
+    this._dataMember.attributes ??= {} as T;
+    this._dataMember.attributes[key] = val;
     return this;
   }
 
-  hrefLink = <T>(key: string, href: string, meta: T) => {
-    this.response.links = this.response.links || { self: '' };
-    const link: TJsonapiLink = { href };
-    if (meta) {
-      link.meta = meta;
+  addRelationship(name: string, data: TJsonapiResource | TJsonapiResource[]): this {
+    if (!this._dataMember.relationships) {
+      this._dataMember.relationships = {};
     }
-    this.response.links[key] = link;
+    
+    // Convert resource(s) to resource linkage format
+    const linkageData = Array.isArray(data) 
+      ? data.map(resource => ({ type: resource.type, id: resource.id || '' }))
+      : { type: data.type, id: data.id || '' };
+    
+    this._dataMember.relationships[name] = { data: linkageData };
     return this;
   }
 
-  meta = <T>(key: string, val: T) => {
-    this.response.meta = this.response.meta || {};
-    this.response.meta[key] = val;
+  setMeta(meta: TJsonapiMeta): this {
+    this._meta = meta;
     return this;
   }
 
-  state = (s: { state: TNetState}) => {
-    if (has_property(s, 'state')) {
-      this.response.state = s.state;
-    }
+  setLinks(links: TJsonapiPaginationLinks): this {
+    this._links = links;
     return this;
   }
 
-  /** Per Jsonapi specification, the raw data must be a string. @deprecated */
-  private _applyStringSpecification = (obj: TObj): TObj => {
-    Object.keys(obj).forEach(key => {
-      const value = obj[key];
-      switch (typeof value) {
-        case 'bigint':
-        case 'boolean':
-        case 'number':
-        case 'symbol':
-          obj[key] = value.toString();
-          break;
-        case 'string':
-          obj[key] = value.trim();
-          break;
-        case 'object':
-          if (value === null) {
-            break;
-          } 
-          if (Array.isArray(value)) {
-            obj[key] = value.map(
-              item => this._applyStringSpecification(item)
-            );
-          } else {
-            obj[key] = this._applyStringSpecification(value as TObj);
-          }
-          break;
-        case 'undefined':
-        case 'function':
-        default:
-      }
-    });
-    return obj;
+  addLink<K extends keyof TJsonapiPaginationLinks>(
+    key: K,
+    val: TJsonapiPaginationLinks[K]
+  ): this {
+    this._links ??= { self: '' };
+    this._links[key] = val;
+    return this;
   }
 
-  /** Get the resource for mongoose-pagination-v2 @deprecated */
-  private getMPV2Resource = <T>(data: TCollection & IMPV2Doc<T>): TJsonapiResource => {
-    // const attributes = this.resourceFilter(data)
-    const { _doc: { _id, ...attributes } } = data;
-    return {
-      ...this.skeletonResource,
-      id: data._doc._id,
-      attributes: this._applyStringSpecification(attributes)
-    } as TJsonapiResource;
-  }
-
-  /** Build the response for mongoose-paginate-v2 @deprecated */
-  mPaginationV2build() {
-    if (this.alreadyBuilt) {
-      throw new Error('Response already built');
+  addIncluded(resource: TJsonapiResource): this {
+    if (!this._included) {
+      this._included = [];
     }
-    this.response.data = this.RESOURCE_OF_TYPE[this.resourceType];
-    switch (this.resourceType) {
-      case 'collection':
-        this.response.data = (this.dataMember as (TCollection & IMPV2Doc)[]).map(
-          item => this.getMPV2Resource(item)
-        );
-        break;
-      case 'object':
-        this.response.data = this.getMPV2Resource(this.dataMember as TCollection & IMPV2Doc);
-        break;
-      case 'linkage':
-        throw new Error('Not implemented');
-      case 'null':
-        this.response.data = null;
-        break;
-    }
-
-    this.alreadyBuilt = true;
-    return this.response;
+    this._included.push(resource);
+    return this;
   }
-
-  /** Get the resource */
-  private getResource = (data: TCollection & IAggregateDoc): TJsonapiResource => {
-    const { _id, __v, ...attributes } = data;
-    return {
-      ...this.skeletonResource,
-      id: data._id,
-      attributes
-    } as TJsonapiResource;
-  };
 
   build() {
-    if (this.alreadyBuilt) {
-      throw new Error('Response already built');
-    }
-    this.response.data = this.RESOURCE_OF_TYPE[this.resourceType];
-    switch (this.resourceType) {
-      case 'collection':
-        this.response.data = (this.dataMember as (TCollection & IAggregateDoc)[]).map(
-          item => this.getResource(item)
-        );
-        break;
-      case 'object':
-        this.response.data = this.getResource(
-          this.dataMember as TCollection & IAggregateDoc
-        );
-        break;
-      case 'linkage':
-        throw new Error('Not implemented');
-      case 'null':
-        this.response.data = null;
-        break;
+    const response: TJsonapiResponse<T> = {
+      data: this._dataMember,
+    };
+
+    if (this._meta) {
+      response.meta = this._meta;
     }
 
-    this.alreadyBuilt = true;
-    return this.response;
+    if (this._links) {
+      response.links = this._links;
+    }
+
+    if (this._included && this._included.length > 0) {
+      response.included = this._included;
+    }
+
+    return response;
+  }
+
+  buildArray(resources: TJsonapiResource<T>[]): TJsonapiResponse<T> {
+    const response: TJsonapiResponse<T> = {
+      data: resources,
+    };
+
+    if (this._meta) {
+      response.meta = this._meta;
+    }
+
+    if (this._links) {
+      response.links = this._links;
+    }
+
+    if (this._included && this._included.length > 0) {
+      response.included = this._included;
+    }
+
+    return response;
   }
 }

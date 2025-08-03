@@ -13,7 +13,7 @@ import { unknown_fetch_thumbnail_url } from './unknown';
 import { PLATFORM_URL } from '.';
 import get_bookmark_by_slug from '../model/bookmark/get.bookmark.by.slug';
 import get_bookmark_by_videoid from '../model/bookmark/get.bookmark.by.videoid';
-import { log, write as print } from '../business.logic/logging';
+import { ler, log, log_err, write as print } from '../utility/logging';
 import { TCipheredUser } from '../schema/users';
 
 /**
@@ -138,8 +138,9 @@ async function _rumble_data(
     
     log(`[WARNING] Could not fetch required data for Rumble bookmark with slug: ${slug}`);
     return null;
-  } catch (error) {
-    log(`[ERROR] Error processing Rumble bookmark with slug '${slug}':`, error);
+  } catch (e) {
+    ler(`[ERROR] Error processing Rumble bookmark with slug '${slug}'`);
+    log_err(`processing Rumble bookmark`, e);
     return null;
   }
 }

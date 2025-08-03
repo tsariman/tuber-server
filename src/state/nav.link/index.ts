@@ -2,8 +2,8 @@ import {
   $48_STATE_KEY,
   $66_STATE_KEY,
   $67_STATE_KEY
-} from '../../constants';
-import { TStateLink } from '../../common.types';
+} from '../../constants.server';
+import { TStateLink } from '../../shared';
 import { register } from '../../business.logic/registry';
 
 export const homeLinkState: TStateLink = {

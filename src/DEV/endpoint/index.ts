@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import devTestDrawer from '../dev.test.drawer.state'
 import { NET_STATE_PATCH_DELETE } from '../../state'
-import { TNetState } from '../../common.types'
+import { TNetState } from '../../shared'
 
 export async function dev_post_load_test_drawer_endpoint (
   _request: FastifyRequest,

@@ -2,8 +2,8 @@ import { FastifyReply, FastifyRequest } from 'fastify';
 import { BookmarkModel } from '../model/bookmark';
 import { UserModel } from '../model/user';
 import JsonapiErrorBuilder, { default_500_error_response } from '../business.logic/builder/jsonapi.error.builder';
-import { log } from '../business.logic/logging';
-import { MSG_500_ERROR_MESSAGE } from '../constants';
+import { ler, log_err } from '../utility/logging';
+import { MSG_500_ERROR_MESSAGE } from '../constants.server';
 
 interface ICreateUser {
   Params: { userId?: string };
@@ -51,7 +51,8 @@ export async function put_users_vote_by_id_endpoint(
       );
     }
   } catch (e) {
-    log(MSG_500_ERROR_MESSAGE, e);
+    ler(MSG_500_ERROR_MESSAGE);
+    log_err('PUT user vote by id', e);
     reply.code(500).send(default_500_error_response(e));
   }
 

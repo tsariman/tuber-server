@@ -2,9 +2,9 @@ import { FastifyReply, FastifyRequest } from 'fastify';
 import JsonapiErrorBuilder, {
   default_500_error_response
 } from '../../business.logic/builder/jsonapi.error.builder';
-import { $46_STATE_KEY, MSG_500_ERROR_MESSAGE } from '../../constants';
+import { $46_STATE_KEY, MSG_500_ERROR_MESSAGE } from '../../constants.server';
 import { odysee_fetch_thumbnail_url } from '../../platform/odysee';
-import { log } from '../../config';
+import { log } from '../../utility/logging';
 
 /** 
  * Example URL: http://localhost:8080/dev/odysee/thumbnails?slug=<paste-slug-here>

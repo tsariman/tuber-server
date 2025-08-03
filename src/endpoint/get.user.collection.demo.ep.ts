@@ -1,8 +1,8 @@
 import { FastifyReply } from 'fastify';
 import { default_500_error_response } from '../business.logic/builder/jsonapi.error.builder';
 import { TUsersFastifyRequest } from '../schema/users';
-import { log } from '../business.logic/logging';
-import { MSG_500_ERROR_MESSAGE } from '../constants';
+import { ler, log_err } from '../utility/logging';
+import { MSG_500_ERROR_MESSAGE } from '../constants.server';
 
 export default async function get_user_collection_demo_endpoint (
   _req: TUsersFastifyRequest,
@@ -13,7 +13,8 @@ export default async function get_user_collection_demo_endpoint (
       data: []
     });
   } catch (e) {
-    log(MSG_500_ERROR_MESSAGE, e);
+    ler(MSG_500_ERROR_MESSAGE);
+    log_err('GET user collection demo', e);
     reply.code(500).send(default_500_error_response(e));
   }
 }

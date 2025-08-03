@@ -2,7 +2,7 @@ import { PaginateModel, PaginateResult, model } from 'mongoose';
 import readableSchema, {
   IReadableDocument
 } from '../../schema/readables';
-import { DB_PAGINATION_OPTIONS, DB_PAGINATION_QUERY } from 'src/constants';
+import { DB_PAGINATION_OPTIONS, DB_PAGINATION_QUERY } from 'src/constants.server';
 
 /** mongoose-paginate-v2 query */
 const PAGINATION_QUERY = {

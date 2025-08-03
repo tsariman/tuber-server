@@ -1,5 +1,5 @@
 import { TBootstrapState } from 'src/state/_state.common.types';
-import { TStateForm } from '../../common.types';
+import { TStateForm } from '../../shared';
 
 /** @deprecated */
 export const devUserAddFormJson: TStateForm = {

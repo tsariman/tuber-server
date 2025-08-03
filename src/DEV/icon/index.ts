@@ -1,5 +1,5 @@
-import { TStateIcon } from 'src/common.types';
-import { TBootstrapState } from 'src/state/_state.common.types';
+import { TStateIcon } from '../../shared';
+import { TBootstrapState } from '../../common.types';
 
 const dev_bootstrap_icons_state = {
 

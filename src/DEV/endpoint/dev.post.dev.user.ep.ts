@@ -11,6 +11,7 @@ import {
   DEV_USER_FILENAME,
   devGetHashedDefaultUsrPwd
 } from '../dev.install.common';
+import { ler, log } from '../../utility/logging';
 
 export default async function dev_post_create_update_dev_user_endpoint (
   _request: FastifyRequest,
@@ -36,18 +37,18 @@ export default async function dev_post_create_update_dev_user_endpoint (
           { id },
           { password: await devGetHashedDefaultUsrPwd() }
         ).then(() => {
-          C.log('Default dev password resetted. \n');
-          C.log(`Password is '${DEV_DEFAULT_USER_PWD}' \n`);
+          log('Default dev password resetted. \n');
+          log(`Password is '${DEV_DEFAULT_USER_PWD}' \n`);
         })
         // await disconnect()
         reply.send(alert('Default dev password resetted.'));
       }
     } else {
       // #4 If the default dev user does not exist in the database, create it.
-      createDefaultUser().catch(err => C.log(err));
+      createDefaultUser().catch(err => ler(err));
       reply.send(alert('Default dev user created successfully.'));
     }
-  } catch (e) { C.log(e); }
+  } catch (e) { log(e); }
 
   /** Creates the default dev user. */
   async function createDefaultUser() {
@@ -57,8 +58,8 @@ export default async function dev_post_create_update_dev_user_endpoint (
     const devUser: IUser = { ...DEV_DEFAULT_USER, password };
     const user = new DEV_USER(devUser);
     await user.save().then(user => {
-      C.log('Default dev user created successfully. \n');
-      C.log(`Password='${DEV_DEFAULT_USER_PWD}' \n`);
+      log('Default dev user created successfully. \n');
+      log(`Password='${DEV_DEFAULT_USER_PWD}' \n`);
       fs.writeFile(DEV_USER_FILENAME, user.id).catch(err => {
         if (C.DEBUG) {
           process.stdout.write(`Failed to save ${DEV_USER_FILENAME}. \n`);

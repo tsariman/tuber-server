@@ -6,11 +6,11 @@ import {
 import JsonapiErrorBuilder, {
   default_500_error_response
 } from '../business.logic/builder/jsonapi.error.builder';
-import JsonapiResponseBuilder from '../business.logic/builder/jsonapi.response.builder';
+import JsonapiResponseColBuilder from '../business.logic/builder/jsonapi.response.col.builder';
 // import { create_user } from '../model/user'
 import { TUsersFastifyRequest } from '../schema/users';
-import { log } from '../business.logic/logging';
-import { MSG_500_ERROR_MESSAGE } from '../constants';
+import { log } from '../utility/logging';
+import { MSG_500_ERROR_MESSAGE } from '../constants.server';
 
 /**
  * Creating a user is disabled, for now.  
@@ -26,7 +26,7 @@ export default async function post_demo_users_endpoint (
   try {
     // const user = await create_user(req.body)
     reply.code(201).send(
-      new JsonapiResponseBuilder(req.body, 'users', 'object').mPaginationV2build()
+      new JsonapiResponseColBuilder(req.body, 'users', 'object').mPaginationV2build()
     );
   } catch (e) {
     const mongoDbError = get_mongodb_error((e as Error).message);

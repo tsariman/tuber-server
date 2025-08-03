@@ -1,8 +1,9 @@
 import { RouteShorthandOptions } from 'fastify';
 import {
   default_401_error_response
-} from 'src/business.logic/builder/jsonapi.error.builder';
+} from '../business.logic/builder/jsonapi.error.builder';
 import Config from '../config';
+import { log } from '../utility/logging';
 import { TCipheredUser } from '../schema/users';
 
 /**
@@ -24,7 +25,7 @@ const default_on_request: RouteShorthandOptions['onRequest'] = async (
     // TODO Write more session related logic here
 
   } catch (e) {
-    Config.log('[ERROR] JWT verification failed.', e);
+    log('[ERROR] JWT verification failed.', e);
     reply.code(401).send(default_401_error_response({
       code: 'unauthorized',
       status: '401',
@@ -64,7 +65,7 @@ export const dev_on_request: RouteShorthandOptions['onRequest'] = async (
     }
   } catch (e) {
     if (Config.DEBUG) {
-      Config.log('[ERROR] JWT verification failed.', e);
+      log('[ERROR] JWT verification failed.', e);
       reply.code(401).send(default_401_error_response({
         code: 'unauthorized',
         status: '401',

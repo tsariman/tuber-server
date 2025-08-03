@@ -1,7 +1,7 @@
 import { r } from 'src/business.logic';
-import { TStateForm } from '../../common.types';
+import { TStateForm } from '../../shared';
 import { register } from '../../business.logic/registry';
-import * as C from '../../constants';
+import * as C from '../../constants.server';
 
 register('state', '24', C.$24_STATE_KEY);
 /** Form for creating a new facebook video bookmark @id 24 */

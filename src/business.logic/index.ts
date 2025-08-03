@@ -4,8 +4,15 @@ import {
   TObj,
   TThemeMode
 } from '../common.types';
-import { THEME_MODE } from '../constants';
+import { THEME_MODE } from '../constants.server';
 import { FastifyRequest } from 'fastify';
+import { log, log_err } from '../utility/logging';
+
+export const die = (message: string): void => {
+  if (process.env.NODE_ENV === 'development') {
+    throw new Error(message);
+  }
+}
 
 /** Returns `true` if the argument is an object. */
 export const is_object = (obj: unknown): obj is Object => {
@@ -65,7 +72,7 @@ export const set_state_by_key = <T, K>(
   fragment: K
 ) => {
   const _key = (fragment as TObj)['_key'];
-  if (!_key) Config.die('Fragment must have a `_key`.');
+  if (!_key) die('Fragment must have a `_key`.');
   (state as TObj)[_key as string] = fragment;
 }
 
@@ -76,7 +83,7 @@ export const set_state_by_key = <T, K>(
  */
 export const get_state_key = <T=TObj>(state: T): string => {
   const _key = (state as TObj)['_key'] as string;
-  if (!_key) Config.die('Fragment must have a `_key`.');
+  if (!_key) die('Fragment must have a `_key`.');
   return _key;
 }
 
@@ -142,7 +149,7 @@ export const get_query = <T = string>(
     const value = query[key];
     return (value ?? $default) as T;
   } catch (e) {
-    Config.err((e as Error).message);
+    log_err((e as Error).message, e);
   }
   return $default;
 }
@@ -157,7 +164,7 @@ export const get_body = <T = unknown>(
     const body = req.body;
     return body?.[key] ?? $default;
   } catch (e) {
-    Config.err((e as Error).message);
+    log_err((e as Error).message, e);
   }
   return $default;
 }
@@ -200,7 +207,7 @@ export function match_regex_array(
   for (const regex of regexArray) {
     const match = str.match(regex);
     if (match) {
-      Config.log(`[DEBUG] Matched: ${regex}`);
+      log(`[DEBUG] Matched: ${regex}`);
       return match;
     }
   }
@@ -209,7 +216,7 @@ export function match_regex_array(
 
 export function remove_form_suffix(_key?: string) {
   if (!_key) {
-    Config.die('formState._key not defined.');
+    die('formState._key not defined.');
     return '';
   }
   return _key.slice(-4) === 'Form'

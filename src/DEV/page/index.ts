@@ -1,12 +1,13 @@
 import { register } from '../../business.logic/registry';
-import * as C from '../../constants';
+import * as C from '../../constants.server';
 import { defaultAppBarState } from '../../state/default.content';
 import devInstallPageState, {
   $44DarkThemeMode,
   get_44_dark_theme_mode,
   get_dev_install_page_state
 } from './dev.install.page.state';
-import { TStateAllPages, TStatePage, TThemeMode } from '../../common.types';
+import { TStateAllPages, TStatePage } from '../../shared';
+import { TThemeMode } from '../../common.types';
 import devSignedInPageState, {
   $43DarkThemeMode
 } from './dev.signedin-appbar.page.state';

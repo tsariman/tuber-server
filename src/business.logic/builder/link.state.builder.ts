@@ -1,4 +1,8 @@
-import { TStateFormItemCustom, TStateLink } from 'src/common.types';
+import {
+  TJsonapiStateResponse,
+  TStateFormItemCustom,
+  TStateLink
+} from '../../shared';
 import AbstractStateBuilder from './abstract.state.builder';
 
 type TColor = TStateFormItemCustom['color'];
@@ -15,11 +19,11 @@ export default class LinkStateBuilder extends AbstractStateBuilder {
     super();
   }
 
-  with_Id(_id: string): this {
+  withId(_id: string): this {
     this._linkState._id = _id;
     return this;
   }
-  with_Key(_key: string): this {
+  withKey(_key: string): this {
     this._linkState._key = _key;
     return this;
   }
@@ -84,4 +88,7 @@ export default class LinkStateBuilder extends AbstractStateBuilder {
   add() {
     return this.die('Method not implemented.', this);
   }
+  configure(): this { return this; }
+  withBootstrapState(): this { return this; }
+  buildResponse(): TJsonapiStateResponse { return {'state': {}}; }
 }

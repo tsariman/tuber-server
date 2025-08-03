@@ -1,4 +1,4 @@
-import { TStatePageDrawer } from '../common.types';
+import { TStatePageDrawer } from '../shared';
 
 const devTestDrawer: TStatePageDrawer = {
   '_type': 'mini',

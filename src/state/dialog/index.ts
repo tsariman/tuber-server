@@ -1,4 +1,4 @@
-import * as C from '../../constants';
+import * as C from '../../constants.server';
 import {
   get_state_key as key,
   r,
@@ -10,9 +10,9 @@ import {
 import {
   TNetState,
   TStateAllDialogs,
-  TStateDialog,
-  TThemeMode
-} from '../../common.types';
+  TStateDialog
+} from '../../shared';
+import { TThemeMode } from '../../common.types';
 import newRumbleBookmarkDialogState, {
   $8DarkThemeMode
 } from './new.rumble.dialog';

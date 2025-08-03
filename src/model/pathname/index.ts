@@ -1,6 +1,6 @@
 import { PaginateModel, PaginateResult, model } from 'mongoose';
 import pathnameSchema, { IPathnameDocument } from 'src/schema/pathnames';
-import { DB_PAGINATION_OPTIONS, DB_PAGINATION_QUERY } from '../../constants';
+import { DB_PAGINATION_OPTIONS, DB_PAGINATION_QUERY } from '../../constants.server';
 
 const PAGINATION_QUERY = {
   ...DB_PAGINATION_QUERY,

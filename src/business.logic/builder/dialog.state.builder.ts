@@ -1,5 +1,5 @@
 import AbstractStateBuilder from './abstract.state.builder';
-import { TStateDialog } from '../../common.types';
+import { TJsonapiStateResponse, TStateDialog } from '../../shared';
 import FormItemButtonStateBuilder from './form.item.button.state.builder';
 
 type TType = TStateDialog['_type'];
@@ -10,12 +10,30 @@ type TContentTextProps = TStateDialog['contentTextProps'];
 type TActionsProps = TStateDialog['actionsProps'];
 
 export default class DialogStateBuilder extends AbstractStateBuilder {
+  private _response?: TJsonapiStateResponse;
   constructor(private _state: TStateDialog = {}, type: TType = 'alert') {
     super()
     this._state._type = type;
   }
-  build(): TStateDialog {
-    return this._state;
+  configure(conf: { _key?: string }): this {
+    this._state._key = conf._key;
+    return this;
+  }
+  withBootstrapState(): this {
+    if (!this._state._key) { throw new Error(' `_key` must be defined first. ')}
+    this._response = {
+      state: {
+        dialog: this._state,
+        dialogs: { [this._state._key]: this._state },
+        dialogsDark: { [this._state._key]: this._state },
+        dialogsLight: { [this._state._key]: this._state }
+      }
+    };
+    return this;
+  }
+  build(): TStateDialog { return this._state; }
+  buildResponse(): TJsonapiStateResponse {
+    return this._response || this.response_not_defined();
   }
   /**
    * **DO NOT USE.** Not implemented.
@@ -34,11 +52,11 @@ export default class DialogStateBuilder extends AbstractStateBuilder {
   withActionButton(instance: FormItemButtonStateBuilder): this {
     return this.add(instance);
   }
-  with_Id(_id: string): this {
+  withId(_id: string): this {
     this._state._id = _id;
     return this;
   }
-  with_Key(_key: string): this {
+  withKey(_key: string): this {
     this._state._key = _key;
     return this;
   }

@@ -1,4 +1,4 @@
-import { TThemeMode } from 'src/common.types';
+import { TThemeMode } from '../../common.types';
 import { IStateContext, TBootstrapState } from '../_state.common.types';
 import { PrepareState } from '../PrepareState';
 import {
@@ -6,7 +6,7 @@ import {
   THEME_LIGHT_APP_BAR_COLOR,
   THEME_LIGHT_BACKGROUND_COLOR,
   THEME_MODE
-} from 'src/constants';
+} from '../../constants.server';
 import Config from '../../config';
 import { ThemeOptions } from '@mui/material';
 
