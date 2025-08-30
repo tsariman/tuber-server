@@ -21,6 +21,7 @@ import adminReadablePageState from '../../ADMIN/page/admin.readable.page.state';
 import { TStateAllPages, TStatePage } from '../../shared';
 import { TThemeMode } from '../../common.types';
 import {
+  clone_with_descriptors,
   get_state_key as key,
   remove_form_suffix,
   set_state_by_key,
@@ -57,9 +58,10 @@ export const signInPageState: TStatePage = {
 };
 
 /** Dark theme mode sign in page state @id 42 */
-export const $42DarkThemeMode: TStatePage = {
-  ...signInPageState,
-};
+export const $42DarkThemeMode: TStatePage = (() => {
+  const base = clone_with_descriptors(signInPageState);
+  return base;
+})();
 
 /**
  * Get the research page state.

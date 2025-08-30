@@ -11,12 +11,12 @@ import {
   TEndpoint,
   TObj
 } from 'src/common.types';
+import { die, has_property } from '../../utility';
 import JsonapiResponsePaginationBuilder, { 
   IMinimalPaginationOptions,
   IPaginatedResult,
   get_pagination_options
 } from './jsonapi.pagination.builder';
-import { die, has_property } from '../index';
 
 type JSONAPI_RESOURCE_TYPE = 'collection' | 'object' | 'null' | 'linkage';
 

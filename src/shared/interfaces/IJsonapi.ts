@@ -226,5 +226,11 @@ export interface IJsonapiRequest<T=IJsonapiDataAttributes>
   extends IJsonapiBaseRequest
 {
   data?: IJsonapiRequestResource<T>;
-  included?: IJsonapiResource[]
+  included?: IJsonapiResource[];
+}
+
+export interface IJsonapiRequestClient<T=IJsonapiDataAttributes>
+  extends IJsonapiRequest<T>
+{
+  data: IJsonapiRequestResource<T>;
 }

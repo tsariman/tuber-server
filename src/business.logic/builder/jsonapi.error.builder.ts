@@ -1,4 +1,3 @@
-import { TJsonapiMeta } from 'src/shared/interfaces/IJsonapi';
 import {
   TIJsonapiError,
   TJsonapiErrorLinks,
@@ -6,6 +5,7 @@ import {
   TJsonapiErrorSource,
   TJsonapiLink
 } from '../../shared';
+import { TJsonapiMeta } from '../../shared/interfaces/IJsonapi';
 import { TOptional } from '../../common.types';
 
 export type TJsonapiError = TOptional<TIJsonapiError, 'code' | 'title'>;

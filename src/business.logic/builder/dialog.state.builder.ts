@@ -12,7 +12,7 @@ type TActionsProps = TStateDialog['actionsProps'];
 export default class DialogStateBuilder extends AbstractStateBuilder {
   private _response?: TJsonapiStateResponse;
   constructor(private _state: TStateDialog = {}, type: TType = 'alert') {
-    super()
+    super();
     this._state._type = type;
   }
   configure(conf: { _key?: string }): this {

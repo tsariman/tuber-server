@@ -1,25 +1,29 @@
 import { CSSProperties } from 'react';
 import { IAdornment } from '.';
-import { IRedux, TReduxHandle } from '../state';
+import { TReduxHandle } from '../state';
 import { IStateFormItemInputProps } from './IStateFormItem';
 import {
   BadgeProps,
+  ChipProps,
   FormControlLabelProps,
   FormControlProps,
   FormGroupProps,
   FormHelperTextProps,
   FormLabelProps,
+  IconProps,
   InputLabelProps,
   RadioGroupProps,
   SvgIconProps
 } from '@mui/material';
 
+export type TStateFormITemCustomColor = 'default' | 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning';
+
 export default interface IStateFormItemCustom<T = unknown> {
-  callback?: (redux: IRedux) => (e: unknown) => void;
+  callback?: TReduxHandle;
   /** CSS classes (JSS), most likely inherited from parent element */
   classes?: unknown;
   content?: string;
-  color?: string;
+  color?: TStateFormITemCustomColor;
   /**
    * Currently the only way to set the default value for a
    * field. Don't use the `value` attribute, it will not
@@ -40,7 +44,8 @@ export default interface IStateFormItemCustom<T = unknown> {
    */
   iconPosition?: 'left' | 'right';
   /** To be spread on `Icon` and `FontAwesomeIcon` component tags. */
-  iconProps?: SvgIconProps;
+  iconProps?: IconProps;
+  svgIconProps?: SvgIconProps;
   /** Contains data for <select />,  */
   items?: T[];
   /** Component id */
@@ -56,7 +61,7 @@ export default interface IStateFormItemCustom<T = unknown> {
   /** Get human-readable helper text. */
   helperText?: string;
   title?: string;
-  variant?: string;
+  variant?: ChipProps['variant'];
   /**
    * badge props. If defined, the badge will show  
    * Badge example:

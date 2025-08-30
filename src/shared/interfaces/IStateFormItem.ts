@@ -98,7 +98,7 @@ export type TStateFormItemType = typeof C.BREAK_LINE
   | typeof C.TIME_PICKER
   | typeof C.BAD_FORM_ITEM;
 
-export default interface IStateFormItem extends IAbstractState {
+export default interface IStateFormItem<T=unknown> extends IAbstractState {
   /** Form field type e.g. textfield, select, radio... etc. */
   type?: TStateFormItemType;
   /** Form field `id` */
@@ -106,19 +106,19 @@ export default interface IStateFormItem extends IAbstractState {
   /** Form field `name` */
   name?: string;
   /** Form field `value` */
-  value?: unknown;
+  value?: string;
   href?: string;
   style?: CSSProperties;
-  onClick?: unknown;
-  onFocus?: unknown;
-  onKeyDown?: unknown;
-  onChange?: unknown;
-  onBlur?: unknown;
+  onClick?: Function;
+  onFocus?: Function;
+  onKeyDown?: Function;
+  onChange?: Function;
+  onBlur?: Function;
   label?: string;
   highlight?: string;
   disabled?: boolean;
   /** Contains members that are generally not `JSX.Element` props. */
-  has?: IStateFormItemCustom;
+  has?: IStateFormItemCustom<T>;
   inputProps?: IStateFormItemInputProps;
   items?: Array<IStateFormItem>;
   /** Disable form item */

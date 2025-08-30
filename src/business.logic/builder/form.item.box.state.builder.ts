@@ -1,6 +1,6 @@
 import { AbstractFormItemStateBuilder } from './abstract.state.builder';
 import { TJsonapiStateResponse, TStateFormItemCheckboxBox } from '../../shared';
-import IFormChoices from 'src/shared/interfaces/IFormChoices';
+import IFormChoices from '../../shared/interfaces/IFormChoices';
 
 export default class FormItemBoxStateBuilder extends AbstractFormItemStateBuilder {
   constructor(private readonly _state: TStateFormItemCheckboxBox = {}) {
@@ -58,7 +58,7 @@ export default class FormItemBoxStateBuilder extends AbstractFormItemStateBuilde
    * @param props 
    * @returns this.
    */
-  withProps(props: Record<string, unknown>): this {
+  withProps<T extends Record<string, unknown>>(props: T): this {
     this._state.props = props;
     return this;
   }
@@ -73,6 +73,6 @@ export default class FormItemBoxStateBuilder extends AbstractFormItemStateBuilde
     return this;
   }
   configure(): this { return this; }
-  withBootstrapState(): this { return this; }
+  withBootstrapState(): never { return this.bootstrap_not_available(); }
   buildResponse(): TJsonapiStateResponse { return {'state': {}}; }
 }

@@ -1,6 +1,7 @@
 import AbstractStateBuilder from './abstract.state.builder';
 import { TJsonapiStateResponse, TStateLink, TStatePageDrawer } from '../../shared';
 import LinkStateBuilder from './link.state.builder';
+import { DrawerProps } from '@mui/material';
 
 type TAnchor = TStatePageDrawer['anchor'];
 type T_Type = TStatePageDrawer['_type'];
@@ -92,7 +93,7 @@ export default class DrawerStateBuilder extends AbstractStateBuilder {
    * @param props 
    * @returns this.
    */
-  withProps(props: Record<string, unknown>): this {
+  withProps(props: DrawerProps): this {
     this._state.props = props;
     return this;
   }

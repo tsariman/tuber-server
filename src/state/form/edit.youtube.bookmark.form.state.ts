@@ -1,4 +1,4 @@
-import { r } from 'src/business.logic';
+import { clone_with_descriptors, t } from '../../business.logic';
 import { TStateForm } from '../../shared';
 import { register } from '../../business.logic/registry';
 import * as C from '../../constants.server';
@@ -23,7 +23,7 @@ const editYouTubeBookmarkFormState = {
             {
               'type': 'number',
               'name': 'start_seconds',
-              'label': r('172', 'Start'),
+              get 'label'() { return t('172', 'Start'); },
               'props': {
                 'sx': { 'width': 240 },
                 'variant': 'filled'
@@ -31,13 +31,13 @@ const editYouTubeBookmarkFormState = {
               'inputProps': { 'readOnly': true },
               'has': {
                 'required': true,
-                'requiredMessage': r('192', C.START_SECONDS_REQUIRED_MESSAGE),
+                get 'requiredMessage'() { return t('192', C.START_SECONDS_REQUIRED_MESSAGE); },
               }
             },
             {
               'type': 'number',
               'name': 'end_seconds',
-              'label': r('173', 'Length'),
+              get 'label'() { return t('173', 'Length'); },
               'props': {
                 'sx': { 'width': 240 },
                 'variant': 'filled'
@@ -47,7 +47,7 @@ const editYouTubeBookmarkFormState = {
             {
               'type': 'textfield',
               'name': 'videoid',
-              'label': r('174', 'Video ID'),
+              get 'label'() { return t('174', 'Video ID'); },
               'props': {
                 'fullWidth': true,
                 'variant': 'filled'
@@ -57,7 +57,7 @@ const editYouTubeBookmarkFormState = {
             {
               'type': 'textfield',
               'name': 'platform',
-              'label': r('175', 'Platform'),
+              get 'label'() { return t('175', 'Platform'); },
               'props': {
                 'sx': { 'width': 240 },
                 'variant': 'filled'
@@ -69,36 +69,36 @@ const editYouTubeBookmarkFormState = {
         {
           'type': 'textfield',
           'name': 'title',
-          'label': r('176', 'Title'),
+          get 'label'() { return t('176', 'Title'); },
           'props': {
             'fullWidth': true
           },
           'has': {
             'required': true,
-            'requiredMessage': r('193', C.TITLE_REQUIRED_MESSAGE),
-            'maxLength': r('194', C.TITLE_MAX_LENGTH),
-            'maxLengthMessage': r('195', C.TITLE_MAX_LENGTH_MESSAGE)
+            get 'requiredMessage'() { return t('193', C.TITLE_REQUIRED_MESSAGE); },
+            'maxLength': C.TITLE_MAX_LENGTH,
+            get 'maxLengthMessage'() { return t('195', C.TITLE_MAX_LENGTH_MESSAGE); }
           }
         },
         {
           'type': 'textarea',
           'name': 'note',
-          'label': r('177', 'Note'),
+          get 'label'() { return t('177', 'Note'); },
           'props': {
             'multiline': true,
-            'rows': r('196', C.NOTE_FIELD_ROWS)
+            'rows': C.NOTE_FIELD_ROWS
           },
           'has': {
-            'maxLength': r('197', C.NOTE_MAX_LENGTH),
-            'maxLengthMessage': r('198', C.NOTE_MAX_LENGTH_MESSAGE)
+            'maxLength': C.NOTE_MAX_LENGTH,
+            get 'maxLengthMessage'() { return t('198', C.NOTE_MAX_LENGTH_MESSAGE); }
           }
         },
         {
           'type': 'single_switch',
           'name': 'is_published',
-          'label': r('178', 'Published'),
+          get 'label'() { return t('178', 'Published'); },
           'has': {
-            'helperText': r('199', C.PUBLISHED_HELPER_TEXT)
+            get 'helperText'() { return t('199', C.PUBLISHED_HELPER_TEXT); }
           }
         }
       ]
@@ -108,7 +108,7 @@ const editYouTubeBookmarkFormState = {
 
 export default editYouTubeBookmarkFormState;
 
-export const $5DarkThemeMode = {
-  ...editYouTubeBookmarkFormState,
-  // TODO - add dark theme mode overrides here
-} as TStateForm;
+export const $5DarkThemeMode = (() => {
+  const base = clone_with_descriptors(editYouTubeBookmarkFormState);
+  return base;
+})();

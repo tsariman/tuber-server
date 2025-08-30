@@ -56,7 +56,7 @@ const USER_CONFIG: IConfig = {
   /** Whether the app is in debugging mode or not. */
   DEBUG: process.env.NODE_ENV === 'development'
     || process.env.DEBUG === 'true',
-  
+
   DOMAIN: process.env.DOMAIN ?? '',
   CLIENT_DOMAIN: process.env.CLIENT_DOMAIN ?? 'http://localhost:3000',
   DEMO: process.env.DEMO === 'true',

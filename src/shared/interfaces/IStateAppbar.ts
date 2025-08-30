@@ -3,6 +3,7 @@ import {
   BoxProps,
   ButtonProps,
   IconButtonProps,
+  MenuProps,
   SxProps,
   TypographyProps
 } from '@mui/material';
@@ -17,7 +18,6 @@ import IStateComponent from './IStateComponent';
 import IStateFormItemCustom from './IStateFormItemCustom';
 import IStateLink from './IStateLink';
 import IStateTypography from './IStateTypography';
-import { ImgHTMLAttributes } from 'react';
 
 export type TAppbarStyle = 'basic' | 'mini' | 'responsive' | 'middle_search' | 'none';
 
@@ -33,16 +33,16 @@ export default interface IStateAppbar extends Omit<IAbstractState, 'props'> {
   toolbarProps?: ToolbarProps;
   /** hamburger icon props */
   menuIconProps?: IconButtonProps;
-  logoProps?: ImgHTMLAttributes<HTMLImageElement>;
+  logoProps?: Record<string, unknown>;
   /** mui5 text-logo props */
   textLogoProps?: TypographyProps;
-  logoContainerProps?: HTMLAttributes<HTMLDivElement>;
+  logoContainerProps?: HTMLAttributes<HTMLDivElement> & { sx?: SxProps };
   /** Appbar textfield props */
   inputBaseProps?: InputBaseProps;
   /** Appbar input chips */
   inputBaseChips?: IStateFormItemCustom[];
   /** Appbar search field props */
-  searchFieldProps?: BoxProps;
+  searchContainerProps?:  HTMLAttributes<HTMLDivElement> & { sx?: SxProps };
   /** Icon that's in the left corner of app bar search field. */
   searchFieldIcon?: IStateFormItemCustom;
   /** Whether to hide the search field icon. */
@@ -61,11 +61,11 @@ export default interface IStateAppbar extends Omit<IAbstractState, 'props'> {
   mobileMenuIconProps?: IconButtonProps;
   mobileMenuIcon2Props?: IconButtonProps;
   /** each individual items */
-  mobileMenuProps?: HTMLAttributes<HTMLUListElement>;
+  mobileMenuProps?: MenuProps;
   /** each individual items */
-  mobileMenu2Props?: HTMLAttributes<HTMLUListElement>;
+  mobileMenu2Props?: MenuProps;
   /** props applied to all menu items */
-  menuItemsProps?: HTMLAttributes<HTMLLIElement>;
+  menuItemsProps?: HTMLAttributes<HTMLLIElement> & { sx?: SxProps };
   /** style to be applied to all menu items */
   menuItemsSx?: SxProps;
   /** mobile menu id */

@@ -1,4 +1,4 @@
-import { r } from '../../business.logic';
+import { clone_with_descriptors, t } from '../../business.logic';
 import { TStateForm } from '../../shared';
 import { register } from '../../business.logic/registry';
 import * as C from '../../constants.server';
@@ -16,7 +16,7 @@ const newRumbleBookmarkFormState = {
         {
           'type': 'textfield',
           'name': 'slug',
-          'label': r('221', 'Video URL Slug'),
+          get 'label'() { return t('221', 'Video URL Slug'); },
           'props': {
             'fullWidth': true,
             'variant': 'filled'
@@ -33,7 +33,7 @@ const newRumbleBookmarkFormState = {
             {
               'type': 'number',
               'name': 'start_seconds',
-              'label': r('222', 'Start'),
+              get 'label'() { return t('222', 'Start'); },
               'props': {
                 'sx': { 'width': 240 },
                 'variant': 'filled'
@@ -41,13 +41,13 @@ const newRumbleBookmarkFormState = {
               'inputProps': { 'readOnly': true },
               'has': {
                 'required': true, // [TODO] Make a configuration.
-                'requiredMessage': r('223', C.START_SECONDS_REQUIRED_MESSAGE),
+                get 'requiredMessage'() { return t('223', C.START_SECONDS_REQUIRED_MESSAGE); },
               }
             },
             {
               'type': 'textfield',
               'name': 'videoid',
-              'label': r('224', 'Video ID will be resolved eventually...'),
+              get 'label'() { return t('224', 'Video ID will be resolved eventually...'); },
               'props': {
                 'fullWidth': true,
                 'variant': 'filled'
@@ -57,7 +57,7 @@ const newRumbleBookmarkFormState = {
             {
               'type': 'textfield',
               'name': 'platform',
-              'label': r('225', 'Platform'),
+              get 'label'() { return t('225', 'Platform'); },
               'props': {
                 'sx': { 'width': 240 },
                 'variant': 'filled'
@@ -69,28 +69,28 @@ const newRumbleBookmarkFormState = {
         {
           'type': 'textfield',
           'name': 'title',
-          'label': r('226', 'Title'),
+          get 'label'() { return t('226', 'Title'); },
           'props': {
             'fullWidth': true
           },
           'has': {
             'required': true, // [TODO] Make a configuration.
-            'requiredMessage': r('227', C.TITLE_REQUIRED_MESSAGE),
+            get 'requiredMessage'() { return t('227', C.TITLE_REQUIRED_MESSAGE); },
             'maxLength': C.TITLE_MAX_LENGTH, // [TODO] Make a configuration.
-            'maxLengthMessage': r('228', C.TITLE_MAX_LENGTH_MESSAGE)
+            get 'maxLengthMessage'() { return t('228', C.TITLE_MAX_LENGTH_MESSAGE); }
           }
         },
         {
           'type': 'textarea',
           'name': 'note',
-          'label': r('229', 'Note'),
+          get 'label'() { return t('229', 'Note'); },
           'props': {
             'multiline': true, // [TODO] Make a configuration.
             'rows': C.NOTE_FIELD_ROWS, // [TODO] Make a configuration.
           },
           'has': {
             'maxLength': C.NOTE_MAX_LENGTH, // [TODO] Make a configuration.
-            'maxLengthMessage': r('230', C.NOTE_MAX_LENGTH_MESSAGE)
+            get 'maxLengthMessage'() { return t('230', C.NOTE_MAX_LENGTH_MESSAGE); }
           }
         }
       ]
@@ -100,7 +100,7 @@ const newRumbleBookmarkFormState = {
 
 export default newRumbleBookmarkFormState;
 
-export const $9DarkThemeMode = {
-  ...newRumbleBookmarkFormState,
-  // TODO - add dark theme mode overrides here
-} as TStateForm;
+export const $9DarkThemeMode: TStateForm = (() => {
+  const base = clone_with_descriptors(newRumbleBookmarkFormState);
+  return base;
+})();

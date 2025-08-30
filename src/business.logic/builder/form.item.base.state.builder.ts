@@ -2,12 +2,14 @@ import AbstractStateBuilder, {
   AbstractFormItemStateBuilder,
   TTextField
 } from './abstract.state.builder';
-import { TJsonapiStateResponse, TStateFormItem, TStateFormItemType } from '../../shared';
+import {
+  TStateFormItem,
+  TStateFormItemType
+} from '../../shared';
 
 type TType = TStateFormItem['_type'];
 
 export default class FormItemBaseStateBuilder extends AbstractFormItemStateBuilder {
-  private _response?: TJsonapiStateResponse;
   constructor(
     protected readonly $state: TStateFormItem = {},
   ) {
@@ -78,13 +80,11 @@ export default class FormItemBaseStateBuilder extends AbstractFormItemStateBuild
   protected missing_form_name(): never {
     throw new Error('Call configure() first to define the formName and field name.');
   }
-  withBootstrapState(): this { return this; }
+  withBootstrapState(): never { return this.bootstrap_not_available(); }
   /** Get the state. @returns state. */
   build(): TStateFormItem { return this.$state; }
   configure(): this { return this; }
-  buildResponse(): TJsonapiStateResponse {
-    return this._response || this.response_not_defined();
-  }
+  buildResponse(): never { return this.response_not_defined(); }
   /**
    * **DO NOT USE.** Base class method not implemented.
    * @returns this.

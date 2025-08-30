@@ -1,4 +1,4 @@
-import AbstractStateBuilder from 'src/business.logic/builder/abstract.state.builder';
+import AbstractStateBuilder from '../../business.logic/builder/abstract.state.builder';
 import {
   TJsonapiStateResponse,
   TStateAppbar,
@@ -6,10 +6,11 @@ import {
 } from '../../shared';
 import LinkStateBuilder from './link.state.builder';
 import FormItemCustomStateBuilder from './form.item.custom.state.builder';
+import { AppBarProps, IconButtonProps } from '@mui/material';
 
 type TTypography = TStateAppbar['typography'];
 type TTextLogoProps = TStateAppbar['textLogoProps'];
-type TSearchFieldProps = TStateAppbar['searchFieldProps'];
+type TSearchContainerProps = TStateAppbar['searchContainerProps'];
 type TInputBaseProps = { id?: string } & TStateAppbar['inputBaseProps'];
 type TSearchFieldIconButtonProps = TStateAppbar['searchFieldIconButtonProps'];
 
@@ -93,7 +94,7 @@ export default class PageAppbarStateBuilder extends AbstractStateBuilder {
    * @param props 
    * @returns this.
    */
-  withProps(props: Record<string, unknown>): this {
+  withProps(props: AppBarProps): this {
     this._state.props = props;
     return this;
   }
@@ -102,7 +103,7 @@ export default class PageAppbarStateBuilder extends AbstractStateBuilder {
    * @param props 
    * @returns this.
    */
-  withMenuIconProps(props: Record<string, unknown>) {
+  withMenuIconProps(props: IconButtonProps): this {
     this._state.menuIconProps = props;
     return this;
   }
@@ -129,8 +130,8 @@ export default class PageAppbarStateBuilder extends AbstractStateBuilder {
    * @param props 
    * @returns this.
    */
-  withSearchFieldProps(props: TSearchFieldProps): this {
-    this._state.searchFieldProps = props;
+  withSearchContainerProps(props: TSearchContainerProps): this {
+    this._state.searchContainerProps = props;
     return this;
   }
   /**
@@ -165,7 +166,7 @@ export default class PageAppbarStateBuilder extends AbstractStateBuilder {
    * @param props 
    * @returns this.
    */
-  withSearchFieldIconButtonProps(props: TSearchFieldIconButtonProps) {
+  withSearchFieldIconButtonProps(props: TSearchFieldIconButtonProps): this {
     this._state.searchFieldIconButtonProps = props;
     return this;
   }

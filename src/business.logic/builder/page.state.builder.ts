@@ -130,11 +130,11 @@ export default class PageStateBuilder extends AbstractStateBuilder {
     this._state.backgroundInherited = _key;
     return this;
   }
-  withData(data: Record<string, unknown>) {
+  withData<T extends Record<string, unknown>>(data: T) {
     this._state.data = data;
     return this;
   }
-  withMeta(meta: Record<string, unknown>) {
+  withMeta<T extends Record<string, unknown>>(meta: T) {
     this._state.meta = meta;
     return this;
   }

@@ -6,6 +6,7 @@ import {
   THEME_LIGHT_PAPER_COLOR
 } from '../../constants.server';
 import { TBootstrapState } from 'src/state/_state.common.types';
+import { clone_with_descriptors } from 'src/business.logic';
 
 register('state', '54', $54_STATE_KEY);
 /**
@@ -98,14 +99,17 @@ const devTestRumbleRegexpFormState = {
 
 export default devTestRumbleRegexpFormState;
 
-/** Dark theme version for the rumble regexp test form. */
-export const $54DarkThemeMode = {
-  ...devTestRumbleRegexpFormState,
-  'paperProps': {
-    ...devTestRumbleRegexpFormState.paperProps,
-    'sx': { 'backgroundColor': THEME_DARK_PAPER_COLOR }
-  },
-} as TStateForm;
+/** Dark theme version for the rumble regexp test form. @id 54 */
+export const $54DarkThemeMode: TStateForm = (() => {
+  const base = clone_with_descriptors(devTestRumbleRegexpFormState);
+  const paperProps = clone_with_descriptors(base.paperProps ?? {});
+  paperProps.sx = {
+    ...paperProps.sx,
+    'backgroundColor': THEME_DARK_PAPER_COLOR
+  };
+  base.paperProps = paperProps;
+  return base;
+})();
 
 export const dev_test_rumble_regexp_form_state = {
 

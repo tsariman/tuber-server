@@ -4,7 +4,7 @@ import {
   THEME_DARK_DIALOG_BACKGROUND_COLOR,
   THEME_LIGHT_BACKGROUND_COLOR
 } from '../../constants.server';
-import { r, remove_form_suffix } from '../../business.logic';
+import { t, remove_form_suffix, clone_with_descriptors } from '../../business.logic';
 import { TStateDialog } from '../../shared';
 import { register } from '../../business.logic/registry';
 
@@ -14,7 +14,7 @@ const editFacebookBookmarkDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '27',
   '_key': $27_STATE_KEY,
-  'title': r('12', 'Edit Facebook Bookmark'),
+  get 'title'() { return t('12', 'Edit Facebook Bookmark'); },
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
@@ -31,7 +31,7 @@ const editFacebookBookmarkDialogState: TStateDialog = {
       'type': 'state_button',
       'props': { 'color': 'secondary' },
       'has': {
-        'text': r('13', 'Cancel'),
+        get 'text'() { return t('13', 'Cancel'); },
         'onclickHandle': 'tuberCallbacks.defaultClose'
       }
     },
@@ -40,7 +40,7 @@ const editFacebookBookmarkDialogState: TStateDialog = {
       'props': { 'color': 'primary' },
       'has': {
         'disableOnError': true,
-        'text': r('14', 'Save'),
+        get 'text'() { return t('14', 'Save'); },
         'onclickHandle': 'tuberCallbacks.$27_C_1'
       }
     }
@@ -55,13 +55,16 @@ export default editFacebookBookmarkDialogState;
  * bookmark.
  * @id 27
  */
-export const $27DarkThemeMode: TStateDialog = {
-  ...editFacebookBookmarkDialogState,
-  'props': {
-    ...editFacebookBookmarkDialogState.props,
-    'PaperProps': {
-      ...editFacebookBookmarkDialogState.props?.PaperProps,
-      'sx': { 'backgroundColor': THEME_DARK_DIALOG_BACKGROUND_COLOR }
-    }
-  }
-};
+export const $27DarkThemeMode: TStateDialog = (() => {
+  const base = clone_with_descriptors(editFacebookBookmarkDialogState);
+  const props = clone_with_descriptors(base.props ?? {});
+  const paperProps = clone_with_descriptors(props.PaperProps ?? {});
+  const sx = {
+    ...paperProps.sx,
+    'backgroundColor': THEME_DARK_DIALOG_BACKGROUND_COLOR
+  } as typeof paperProps.sx;
+  paperProps.sx = sx;
+  props.PaperProps = paperProps;
+  base.props = props;
+  return base;
+})();

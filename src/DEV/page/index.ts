@@ -12,11 +12,12 @@ import devSignedInPageState, {
   $43DarkThemeMode
 } from './dev.signedin-appbar.page.state';
 import {
+  clone_with_descriptors,
   get_state_key as key,
   remove_form_suffix,
   themed
 } from '../../business.logic';
-import { TCipheredUser } from 'src/schema/users';
+import { TCipheredUser } from '../../schema/users';
 
 register('state', '46', C.$46_STATE_KEY);
 /** @id 46 */
@@ -44,9 +45,10 @@ export const devTestThumbnailPageState: TStatePage = {
   'layout': 'layout_centered_no_scroll'
 };
 
-export const $46DarkThemeMode: TStatePage = {
-  ...devTestThumbnailPageState,
-};
+export const $46DarkThemeMode: TStatePage = (() => {
+  const base = clone_with_descriptors(devTestThumbnailPageState);
+  return base;
+})();
 
 register('state', '56', C.$56_STATE_KEY);
 /** @id 56 */
@@ -75,9 +77,10 @@ export const devTestRumbleRegexpPageState: TStatePage = {
   },
 };
 
-export const $56DarkThemeMode: TStatePage = {
-  ...devTestRumbleRegexpPageState,
-};
+export const $56DarkThemeMode: TStatePage = (() => {
+  const base = clone_with_descriptors(devTestRumbleRegexpPageState);
+  return base;
+})();
 
 register('state', '58', C.$58_STATE_KEY);
 /** @id 58 */
@@ -106,9 +109,10 @@ export const devTestUnknownRegexpPageState: TStatePage = {
   },
 };
 
-export const $58DarkThemeMode: TStatePage = {
-  ...devTestUnknownRegexpPageState,
-};
+export const $58DarkThemeMode: TStatePage = (() => {
+  const base = clone_with_descriptors(devTestUnknownRegexpPageState);
+  return base;
+})();
 
 register('state', '59', C.$59_STATE_KEY);
 /** @id 59 */
@@ -137,9 +141,10 @@ export const devTwitchInputClientIdPageState: TStatePage = {
   },
 };
 
-export const $59DarkThemeMode: TStatePage = {
-  ...devTwitchInputClientIdPageState,
-};
+export const $59DarkThemeMode: TStatePage = (() => {
+  const base = clone_with_descriptors(devTwitchInputClientIdPageState);
+  return base;
+})();
 
 register('state', '61', C.$61_STATE_KEY);
 /** @id 61 */
@@ -168,9 +173,10 @@ export const devSaveConfigValuePageState: TStatePage = {
   },
 };
 
-export const $61DarkThemeMode: TStatePage = {
-  ...devSaveConfigValuePageState,
-};
+export const $61DarkThemeMode: TStatePage = (() => {
+  const base = clone_with_descriptors(devSaveConfigValuePageState);
+  return base;
+})();
 
 register('state', '48', C.$48_STATE_KEY);
 /** @id 48 */
@@ -191,9 +197,10 @@ export const devResearchErrorsViewPageState: TStatePage = {
   }
 };
 
-export const $48DarkThemeMode: TStatePage = {
-  ...devResearchErrorsViewPageState,
-};
+export const $48DarkThemeMode: TStatePage = (() => {
+  const base = clone_with_descriptors(devResearchErrorsViewPageState);
+  return base;
+})();
 
 /** @deprecated */
 export function dev_bootstrap_pages_light_state(

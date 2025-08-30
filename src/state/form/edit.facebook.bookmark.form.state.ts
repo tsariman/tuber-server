@@ -1,4 +1,4 @@
-import { r } from 'src/business.logic';
+import { clone_with_descriptors, t } from 'src/business.logic';
 import { TStateForm } from '../../shared';
 import * as C from '../../constants.server';
 import { register } from '../../business.logic/registry';
@@ -23,7 +23,7 @@ const editFacebookBookmarkFormState = {
             {
               'type': 'number',
               'name': 'start_seconds',
-              'label': r('80', 'Start'),
+              get 'label'() { return t('80', 'Start'); },
               'props': {
                 'sx': { 'width': 160 },
                 'variant': 'filled'
@@ -31,13 +31,13 @@ const editFacebookBookmarkFormState = {
               'inputProps': { 'readOnly': true },
               'has': {
                 'required': true,
-                'requiredMessage': r('101', C.START_SECONDS_REQUIRED_MESSAGE),
+                get 'requiredMessage'() { return t('101', C.START_SECONDS_REQUIRED_MESSAGE); },
               }
             },
             {
               'type': 'textfield',
               'name': 'author',
-              'label': r('81', 'Author'),
+              get 'label'() { return t('81', 'Author'); },
               'props': {
                 'fullWidth': true,
                 'variant': 'filled',
@@ -47,7 +47,7 @@ const editFacebookBookmarkFormState = {
             {
               'type': 'textfield',
               'name': 'videoid',
-              'label': r('82', 'Video ID'),
+              get 'label'() { return t('82', 'Video ID'); },
               'props': {
                 'sx': { 'width': 320 },
                 'variant': 'filled'
@@ -57,7 +57,7 @@ const editFacebookBookmarkFormState = {
             {
               'type': 'textfield',
               'name': 'platform',
-              'label': r('83', 'Platform'),
+              get 'label'() { return t('83', 'Platform'); },
               'props': {
                 'sx': { 'width': 240 },
                 'variant': 'filled'
@@ -69,36 +69,36 @@ const editFacebookBookmarkFormState = {
         {
           'type': 'textfield',
           'name': 'title',
-          'label': r('84', 'Title'),
+          get 'label'() { return t('84', 'Title'); },
           'props': {
             'fullWidth': true
           },
           'has': {
             'required': true,
-            'requiredMessage': r('102', C.TITLE_REQUIRED_MESSAGE),
-            'maxLength': r('103', C.TITLE_MAX_LENGTH),
-            'maxLengthMessage': r('104', C.TITLE_MAX_LENGTH_MESSAGE),
+            get 'requiredMessage'() { return t('102', C.TITLE_REQUIRED_MESSAGE); },
+            'maxLength': C.TITLE_MAX_LENGTH,
+            get 'maxLengthMessage'() { return t('104', C.TITLE_MAX_LENGTH_MESSAGE); },
           }
         },
         {
           'type': 'textarea',
           'name': 'note',
-          'label': r('85', 'Note'),
+          get 'label'() { return t('85', 'Note'); },
           'props': {
             'multiline': true,
-            'rows': r('105', C.NOTE_FIELD_ROWS)
+            'rows': C.NOTE_FIELD_ROWS
           },
           'has': {
-            'maxLength': r('106', C.NOTE_MAX_LENGTH),
-            'maxLengthMessage': r('107', C.NOTE_MAX_LENGTH_MESSAGE)
+            'maxLength': C.NOTE_MAX_LENGTH,
+            get 'maxLengthMessage'() {return t('107', C.NOTE_MAX_LENGTH_MESSAGE); }
           }
         },
         {
           'type': 'single_switch',
           'name': 'is_published',
-          'label': r('86', 'Published'),
+          get 'label'() { return t('86', 'Published'); },
           'has': {
-            'helperText': r('108', C.PUBLISHED_HELPER_TEXT)
+            get 'helperText'() { return t('108', C.PUBLISHED_HELPER_TEXT); }
           }
         }
       ]
@@ -108,7 +108,7 @@ const editFacebookBookmarkFormState = {
 
 export default editFacebookBookmarkFormState;
 
-export const $25DarkThemeMode = {
-  ...editFacebookBookmarkFormState,
-  // TODO: Add dark theme overrides here
-} as TStateForm;
+export const $25DarkThemeMode = (() => {
+  const base = clone_with_descriptors(editFacebookBookmarkFormState);
+  return base;
+})();

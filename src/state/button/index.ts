@@ -1,11 +1,11 @@
-import { r } from 'src/business.logic';
+import { t } from 'src/business.logic';
 import { TStateFormItem } from '../../shared';
 
 export const dialogDefaultCloseButtonJson: TStateFormItem = {
   'type': 'state_button',
   'props': { 'color': 'secondary' },
   'has': {
-    'text': r('8', 'Cancel'),
+    get 'text'() { return t('8', 'Cancel'); },
     'onclickHandle': 'tuberCallbacks.defaultClose'
   }
 };

@@ -1,7 +1,8 @@
-import IFormChoices from 'src/shared/interfaces/IFormChoices';
+import { FormControlLabelProps } from '@mui/material';
+import IFormChoices from '../../shared/interfaces/IFormChoices';
 import { AbstractFormItemStateBuilder } from './abstract.state.builder';
 import { TJsonapiStateResponse, TStateFormItemRadioButton } from '../../shared';
-import { FormControlLabelProps } from '@mui/material';
+import { TStateFormITemCustomColor } from '../../shared/interfaces/IStateFormItemCustom';
 
 export default class FormItemRadioButtonStateBuilder
   extends AbstractFormItemStateBuilder
@@ -83,7 +84,7 @@ export default class FormItemRadioButtonStateBuilder
    * @param props 
    * @returns this.
    */
-  withProps(props: Record<string, unknown>): this {
+  withProps<T extends Record<string, unknown>>(props: T): this {
     this._state.props = props;
     return this;
   }
@@ -93,7 +94,7 @@ export default class FormItemRadioButtonStateBuilder
    * @returns this.
    */
   hasFormControlLabelProps(props: FormControlLabelProps): this {
-    this._state.has = this._state.has || {};
+    this._state.has ??= {};
     this._state.has.formControlLabelProps = props;
     return this;
   }
@@ -102,12 +103,12 @@ export default class FormItemRadioButtonStateBuilder
    * @param props 
    * @returns this.
    */
-  hasColor(color: string): this {
-    this._state.has = this._state.has || {};
+  hasColor(color: TStateFormITemCustomColor): this {
+    this._state.has ??= {};
     this._state.has.color = color;
     return this;
   }
   configure(): this { return this; }
-  withBootstrapState(): this { return this; }
+  withBootstrapState(): never { return this.bootstrap_not_available(); }
   buildResponse(): TJsonapiStateResponse { return {'state': {}}; }
 }

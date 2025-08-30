@@ -1,10 +1,14 @@
 import {
+  FormControlProps,
+  FormHelperTextProps,
+  InputLabelProps
+} from '@mui/material';
+import {
   TStateFormItem,
   TStateFormItemSelectOption
 } from '../../shared';
 import SelectOptionStateBuilder from './select.option.state.builder';
 import FormItemBaseStateBuilder from './form.item.base.state.builder';
-import { FormControlProps, FormHelperTextProps, InputLabelProps } from '@mui/material';
 
 type TType = 'state_select' | 'state_select_native';
 
@@ -23,7 +27,7 @@ export default class FormItemSelectStateBuilder
   withType() { return this.die('Method not implemented.', this); }
   build(): TStateFormItem {
     if (this._items.length > 0) {
-      this.$state.has = this.$state.has || {};
+      this.$state.has ??= {};
       this.$state.has.items = this._items;
     }
     return this.$state;
@@ -38,7 +42,7 @@ export default class FormItemSelectStateBuilder
    * @returns this.
    */
   hasFormControlProps(props: FormControlProps): this {
-    this.$state.has = this.$state.has || {};
+    this.$state.has ??= {};
     this.$state.has.formControlProps = props;
     return this;
   }
@@ -48,11 +52,11 @@ export default class FormItemSelectStateBuilder
    * @returns this.
    */
   hasInputLabelProps(props: InputLabelProps): this {
-    this.$state.has = this.$state.has || {};
+    this.$state.has ??= {};
     this.$state.has.inputLabelProps = props;
     return this;
   }
-  withProps(props: Record<string, unknown>): this {
+  withProps<T extends Record<string, unknown>>(props: T): this {
     this.$state.props = props;
     return this;
   }
@@ -65,7 +69,7 @@ export default class FormItemSelectStateBuilder
     return this.die('Method not implemented.', this);
   }
   hasOnchangeHandle(handle: string): this {
-    this.$state.has = this.$state.has || {};
+    this.$state.has ??= {};
     this.$state.has.onchangeHandle = handle;
     return this;
   }
@@ -75,7 +79,7 @@ export default class FormItemSelectStateBuilder
    * @returns this.
    */
   hasItems(items: SelectOptionStateBuilder[]): this {
-    this.$state.has = this.$state.has || {};
+    this.$state.has ??= {};
     this.$state.has.items = items.map(item => item.build());
     return this;
   }
@@ -85,7 +89,7 @@ export default class FormItemSelectStateBuilder
    * @returns this.
    */
   hasHelperText(text: string): this {
-    this.$state.has = this.$state.has || {};
+    this.$state.has ??= {};
     this.$state.has.helperText = text;
     return this;
   }
@@ -95,7 +99,7 @@ export default class FormItemSelectStateBuilder
    * @returns this.
    */
   hasFormHelperTextProps(props: FormHelperTextProps): this {
-    this.$state.has = this.$state.has || {};
+    this.$state.has ??= {};
     this.$state.has.formHelperTextProps = props;
     return this;
   }

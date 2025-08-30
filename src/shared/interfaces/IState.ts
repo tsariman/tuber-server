@@ -17,6 +17,8 @@ import IStateSnackbar from './IStateSnackbar';
 import IStateTopLevelLinks from './IStateTopLevelLinks';
 import IStateTypography from './IStateTypography';
 import IStateFormItemCustom from './IStateFormItemCustom';
+import IStateAllIcons from './IStateAllIcons';
+import { ThemeOptions } from '@mui/material';
 
 /**
  * Local version of ThemeOptions. This is a simplified version for local use.
@@ -53,8 +55,6 @@ export interface IThemeOptionsLocal {
   components?: Record<string, unknown>;
   [key: string]: unknown;
 }
-import IStateAllIcons from './IStateAllIcons';
-import { ThemeOptions } from '@mui/material';
 
 export interface ILoadedPagesRange {
   first: string;

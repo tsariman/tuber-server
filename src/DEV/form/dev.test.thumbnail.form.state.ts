@@ -7,9 +7,10 @@ import {
   THEME_DARK_PAPER_COLOR,
   THEME_LIGHT_PAPER_COLOR
 } from '../../constants.server';
+import { clone_with_descriptors } from 'src/business.logic';
 
 register('state', '45', $45_STATE_KEY);
-/** @id 45 @deprecated */
+/** @id 45 */
 const devTestThumbnailFormState: TStateForm = {
   '_type': 'box',
   '_id': '45',
@@ -63,14 +64,17 @@ const devTestThumbnailFormState: TStateForm = {
 
 export default devTestThumbnailFormState;
 
-/** @deprecated */
-export const $45DarkThemeMode = {
-  ...devTestThumbnailFormState,
-  'paperProps': {
-    ...devTestThumbnailFormState.paperProps,
-    'sx': { 'backgroundColor': THEME_DARK_PAPER_COLOR }
-  },
-} as TStateForm;
+/** @id 45 */
+export const $45DarkThemeMode: TStateForm = (() => {
+  const base = clone_with_descriptors(devTestThumbnailFormState);
+  const paperProps = clone_with_descriptors(base.paperProps ?? {});
+  paperProps.sx = {
+    ...paperProps.sx,
+    'backgroundColor': THEME_DARK_PAPER_COLOR
+  };
+  base.paperProps = paperProps;
+  return base;
+})();
 
 export const dev_test_thumbnail_form_state = {
 

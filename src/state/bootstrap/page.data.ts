@@ -7,7 +7,7 @@ const bootstrap_pages_data_state: TBootstrapState<Promise<TObj<TObj>>> = {
 
   DEFAULT: async (context: IStateContext): Promise<TObj<TObj>> => {
     const { usr } = context;
-    const inDev = Config.DEV && !!usr && usr.role === 'developer';
+    const inDev = Config.DEV && usr?.role === 'developer';
     const pagesData: TObj<TObj> = {
 
       'bookmarks': {

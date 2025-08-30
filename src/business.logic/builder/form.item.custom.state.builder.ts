@@ -1,6 +1,7 @@
-import { TJsonapiStateResponse, TStateFormItemCustom } from "../../shared";
-import AbstractStateBuilder from "./abstract.state.builder";
+import { TJsonapiStateResponse, TStateFormItemCustom } from '../../shared';
+import AbstractStateBuilder from './abstract.state.builder';
 
+type TSvgIconProps = TStateFormItemCustom['svgIconProps'];
 type TIconProps = TStateFormItemCustom['iconProps'];
 
 export default class FormItemCustomStateBuilder<T=unknown> extends AbstractStateBuilder {
@@ -47,13 +48,19 @@ export default class FormItemCustomStateBuilder<T=unknown> extends AbstractState
     this._state.faIcon = faIcon;
     return this;
   }
+
+  withIconProps(iconProps: TIconProps): this {
+    this._state.iconProps = iconProps;
+    return this;
+  }
+
   /**
    * Set the icon component props for the custom form item.
    * @param props 
    * @returns this.
    */
-  withIconProps(svgIconProps: TIconProps): this {
-    this._state.iconProps = svgIconProps;
+  withSvgIconProps(svgIconProps: TSvgIconProps): this {
+    this._state.svgIconProps = svgIconProps;
     return this;
   }
   /**
@@ -75,6 +82,6 @@ export default class FormItemCustomStateBuilder<T=unknown> extends AbstractState
     return this;
   }
   configure(): this { return this; }
-  withBootstrapState(): this { return this; }
+  withBootstrapState(): never { return this.bootstrap_not_available(); }
   buildResponse(): TJsonapiStateResponse { return {'state': {}}; }
 }

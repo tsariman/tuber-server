@@ -1,3 +1,4 @@
+import { clone_with_descriptors } from 'src/business.logic';
 import { register } from '../../business.logic/registry';
 import {
   $50_STATE_KEY,
@@ -8,7 +9,7 @@ import { TStateForm } from '../../shared';
 import { TBootstrapState } from 'src/state/_state.common.types';
 
 register('state', '50', $50_STATE_KEY);
-/** Form to set the authorization URL for a platform. @id 50 @deprecated */
+/** Form to set the authorization URL for a platform. @id 50 */
 const devSetAuthorizationUrlFormState: TStateForm = {
   '_id': '50',
   '_key': $50_STATE_KEY,
@@ -75,14 +76,16 @@ const devSetAuthorizationUrlFormState: TStateForm = {
 
 export default devSetAuthorizationUrlFormState;
 
-/** @deprecated */
-export const $50DarkThemeMode = {
-  ...devSetAuthorizationUrlFormState,
-  'paperProps': {
-    ...devSetAuthorizationUrlFormState.paperProps,
-    'sx': { 'backgroundColor': THEME_DARK_PAPER_COLOR }
-  }
-} as TStateForm;
+export const $50DarkThemeMode: TStateForm = (() => {
+  const base = clone_with_descriptors(devSetAuthorizationUrlFormState);
+  const paperProps = clone_with_descriptors(base.paperProps ?? {});
+  paperProps.sx = {
+    ...paperProps.sx,
+    'backgroundColor': THEME_DARK_PAPER_COLOR
+  };
+  base.paperProps = paperProps;
+  return base;
+})();
 
 export const dev_set_authorization_url_form_state = {
 

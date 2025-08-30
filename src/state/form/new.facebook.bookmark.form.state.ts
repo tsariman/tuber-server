@@ -1,4 +1,4 @@
-import { r } from 'src/business.logic';
+import { clone_with_descriptors, t } from '../../business.logic';
 import { TStateForm } from '../../shared';
 import { register } from '../../business.logic/registry';
 import * as C from '../../constants.server';
@@ -16,7 +16,7 @@ const newFacebookBookmarkFormState = {
         {
           'type': 'textfield',
           'name': 'url',
-          'label': r('200', 'Link'),
+          get 'label'() { return t('200', 'Link'); },
           'props': {
             'fullWidth': true,
             'variant': 'filled'
@@ -24,46 +24,46 @@ const newFacebookBookmarkFormState = {
           'inputProps': { 'readOnly': true },
           'has': {
             'required': true,
-            'requiredMessage': r('201', C.URL_REQUIRED_MESSAGE),
+            get 'requiredMessage'() { return t('201', C.URL_REQUIRED_MESSAGE); },
           }
         },
         {
           'type': 'textfield',
           'name': 'embed_url',
-          'label': r('202', 'Embed HTML Code'),
+          get 'label'() { return t('202', 'Embed HTML Code'); },
           'props': {
             'fullWidth': true,
           },
           'has': {
             'required': true,
-            'requiredMessage': r('203', 'We need the embed HTML code'),
+            get 'requiredMessage'() { return t('203', 'We need the embed HTML code'); },
           }
         },
         {
           'type': 'textfield',
           'name': 'title',
-          'label': r('204', 'Title'),
+          get 'label'() { return t('204', 'Title'); },
           'props': {
             'fullWidth': true
           },
           'has': {
             'required': true,
-            'requiredMessage': r('205', C.TITLE_REQUIRED_MESSAGE),
-            'maxLength': r('206', C.TITLE_MAX_LENGTH),
-            'maxLengthMessage': r('207', C.TITLE_MAX_LENGTH_MESSAGE)
+            get 'requiredMessage'() { return t('205', C.TITLE_REQUIRED_MESSAGE); },
+            'maxLength': C.TITLE_MAX_LENGTH,
+            get 'maxLengthMessage'() { return t('207', C.TITLE_MAX_LENGTH_MESSAGE); }
           }
         },
         {
           'type': 'textarea',
           'name': 'note',
-          'label': r('208', 'Note'),
+          get 'label'() { return t('208', 'Note'); },
           'props': {
             'multiline': true,
-            'rows': r('209', C.NOTE_FIELD_ROWS)
+            'rows': C.NOTE_FIELD_ROWS
           },
           'has': {
-            'maxLength': r('210', C.NOTE_MAX_LENGTH),
-            'maxLengthMessage': r('211', C.NOTE_MAX_LENGTH_MESSAGE)
+            'maxLength': C.NOTE_MAX_LENGTH,
+            get 'maxLengthMessage'() { return t('211', C.NOTE_MAX_LENGTH_MESSAGE); }
           }
         }
       ]
@@ -73,7 +73,7 @@ const newFacebookBookmarkFormState = {
 
 export default newFacebookBookmarkFormState;
 
-export const $24DarkThemeMode = {
-  ...newFacebookBookmarkFormState,
-  // TODO - add dark theme mode overrides here
-} as TStateForm;
+export const $24DarkThemeMode: TStateForm = (() => {
+  const base = clone_with_descriptors(newFacebookBookmarkFormState);
+  return base;
+})();

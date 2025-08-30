@@ -1,4 +1,4 @@
-import { r } from 'src/business.logic';
+import { clone_with_descriptors, t } from 'src/business.logic';
 import { TStatePage } from '../../shared';
 import { register } from '../../business.logic/registry';
 import { $55_STATE_KEY } from '../../constants.server';
@@ -14,12 +14,12 @@ const adminConfigPageState: TStatePage = {
     'items': [ ],
     'inputBaseProps': {
       'id': 'video-url',
-      'placeholder': r('273', 'Filter ...'),
+      get 'placeholder'() { return t('273', 'Filter ...') },
       'inputProps': { 'aria-label': 'Configuration filter' },
     },
     'searchFieldIcon': {
       'icon': 'alternate_email_outline',
-      'iconProps': {
+      'svgIconProps': {
         'sx': { 'color': 'grey.500' }
       }
     },
@@ -41,6 +41,7 @@ const adminConfigPageState: TStatePage = {
 
 export default adminConfigPageState;
 
-export const $55DarkThemeMode: TStatePage = {
-  ...adminConfigPageState,
-};
+export const $55DarkThemeMode: TStatePage = (() => {
+  const base = clone_with_descriptors(adminConfigPageState);
+  return base;
+})();

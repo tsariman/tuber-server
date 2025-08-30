@@ -4,7 +4,12 @@ import {
   THEME_LIGHT_BACKGROUND_COLOR,
   THEME_DARK_DIALOG_BACKGROUND_COLOR
 } from '../../constants.server';
-import { r, remove_form_suffix } from '../../business.logic';
+import {
+  t,
+  remove_form_suffix,
+  clone_with_descriptors,
+  clone_or_default
+} from '../../business.logic';
 import { register } from '../../business.logic/registry';
 import { TStateDialog } from '../../shared';
 
@@ -14,7 +19,7 @@ const newUnknownBookmarkDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '30',
   '_key': $30_STATE_KEY,
-  'title': r('67', 'Insert new Unknown Bookmark'),
+  get 'title'() { return t('67', 'Insert new Unknown Bookmark'); },
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
@@ -31,7 +36,7 @@ const newUnknownBookmarkDialogState: TStateDialog = {
       'type': 'state_button',
       'props': { 'color': 'secondary' },
       'has': {
-        'text': r('68', 'Cancel'),
+        get 'text'() { return t('68', 'Cancel'); },
         'onclickHandle': 'tuberCallbacks.defaultClose'
       }
     },
@@ -40,7 +45,7 @@ const newUnknownBookmarkDialogState: TStateDialog = {
       'props': { 'color': 'primary' },
       'has': {
         'disableOnError': true,
-        'text': r('69', 'Save'),
+        get 'text'() { return t('69', 'Save'); },
         'onclickHandle': 'tuberCallbacks.$30_C_1'
       }
     }
@@ -54,13 +59,15 @@ export default newUnknownBookmarkDialogState;
  * Dark theme mode for form state to create a new Unknown video bookmark.
  * @id 30
  */
-export const $30DarkThemeMode: TStateDialog = {
-  ...newUnknownBookmarkDialogState,
-  'props': {
-    ...newUnknownBookmarkDialogState.props,
-    'PaperProps': {
-      ...newUnknownBookmarkDialogState.props?.PaperProps,
-      'sx': { 'backgroundColor': THEME_DARK_DIALOG_BACKGROUND_COLOR }
-    }
-  }
-};
+export const $30DarkThemeMode: TStateDialog = (() => {
+  const base = clone_with_descriptors(newUnknownBookmarkDialogState);
+  const props = clone_or_default(base.props, {});
+  const paperProps = clone_or_default(props.PaperProps, {});
+  paperProps.sx = {
+    ...paperProps.sx,
+    'backgroundColor': THEME_DARK_DIALOG_BACKGROUND_COLOR
+  };
+  props.PaperProps = paperProps;
+  base.props = props;
+  return base;
+})();

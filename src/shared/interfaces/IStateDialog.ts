@@ -1,64 +1,82 @@
-import { PaperProps, SxProps } from '@mui/material';
-import IStateAvatar from './IStateAvatar';
+import {
+  AvatarProps,
+  DialogActionsProps,
+  DialogContentProps,
+  DialogContentTextProps,
+  DialogProps,
+  DialogTitleProps,
+  PaperProps,
+  SlideProps,
+  SxProps
+} from '@mui/material';
 import IStateForm from './IStateForm';
 import IStateFormItem from './IStateFormItem';
+import { ReactNode } from 'react';
+import { TransitionProps } from '@mui/material/transitions';
+import { TOptional } from '../../common.types';
 
+/** @deprecated */
 export interface IDialogProps {
   open?: boolean;
   onClose?: Function;
   'aria-describedby'?: string;
   'aria-labelledby'?: string;
   /** @deprecated */
-  backdropComponent?: unknown;
-  children?: unknown;
-  classes?: unknown;
+  backdropComponent?: ReactNode;
+  children?: ReactNode;
+  classes?: string[];
   disableEscapeKeyDown?: boolean;
   fullScreen?: boolean;
   fullWidth?: boolean;
   maxWidth?: 'xs'|'sm'|'md'|'lg'|'xl'| false;
   onBackdropClick?: () => void;
-  PaperComponent?: unknown;
+  PaperComponent?: ReactNode;
   PaperProps?: PaperProps;
   scroll?: 'body' | 'paper';
   sx?: SxProps;
-  TransitionComponent?: unknown;
-  transitionDuration?: unknown;
-  TransitionProps?: unknown;
+  TransitionComponent?: ReactNode;
+  transitionDuration?: ReactNode;
+  TransitionProps?: TransitionProps;
   [prop: string]: unknown;
 }
 
+/** @deprecated */
 export interface IDialogActionsProps {
-  children?: unknown;
-  classes?: unknown;
+  children?: ReactNode;
+  classes?: string[];
   disableSpacing?: boolean;
   sx?: SxProps;
   [prop: string]: unknown;
 }
 
+/** @deprecated */
 export interface IDialogContentProps {
-  children?: unknown;
-  classes?: unknown;
+  children?: ReactNode;
+  classes?: string[];
   dividers?: boolean;
   sx?: SxProps;
   [prop: string]: unknown;
 }
 
+/** @deprecated */
 export interface IDialogContentTextProps {
-  children?: unknown;
-  classes?: unknown;
+  children?: ReactNode;
+  classes?: string[];
   sx?: SxProps;
   [prop: string]: unknown;
 }
 
+/** @deprecated */
 export interface IDialogTitleProps {
-  children?: unknown;
-  classes?: unknown;
+  children?: ReactNode;
+  classes?: string[];
   sx?: SxProps;
   [prop: string]: unknown;
 }
 
+/** @deprecated */
 export interface ISlideProps {
-  children?: unknown;
+  children?: ReactNode;
   addEndListener?: Function;
   appear?: boolean;
   container?: unknown;
@@ -69,16 +87,25 @@ export interface ISlideProps {
   [prop: string]: unknown;
 }
 
+export interface IStateDialogAvatar {
+  icon?: string;
+  faIcon?: string;
+  /** Don't use more than two letters. */
+  text?: string;
+  /** Spread me on an avatar component */
+  props?: AvatarProps
+}
+
 export interface IStateDialogSelectionItem<T=unknown> {
   title?: string;
-  avatar?: IStateAvatar;
+  avatar?: IStateDialogAvatar;
   info?: T;
 }
 
 /**
  * Dialog base state
  */
-export default interface IStateDialog<T=unknown> extends IStateForm {
+export default interface IStateDialog<T=unknown> extends Omit<IStateForm, 'props'> {
   /** Set the dialog type */
   _type?: 'selection' | 'alert' | 'form' | 'any';
   open?: boolean;
@@ -87,7 +114,7 @@ export default interface IStateDialog<T=unknown> extends IStateForm {
   contentText?: string;
   content?: unknown;
   /** Button component */
-  actions?: IStateFormItem[]; // for defining the dialog actions
+  actions?: IStateFormItem<T>[]; // for defining the dialog actions
   /** [TODO] Check if this property is in use. If not, remove it. */
   showActions?: boolean;
   onSubmit?: () => void;
@@ -100,15 +127,15 @@ export default interface IStateDialog<T=unknown> extends IStateForm {
   callback?: (item: IStateDialogSelectionItem<T>) => void;
 
   /** @see https://mui.com/material-ui/api/dialog/ */
-  props?: IDialogProps;
+  props?: TOptional<DialogProps, 'open'>;
   /** @see https://mui.com/material-ui/api/dialog-title/ */
-  titleProps?: IDialogTitleProps;
+  titleProps?: DialogTitleProps;
   /** @see https://mui.com/material-ui/api/dialog-content/ */
-  contentProps?: IDialogContentProps;
+  contentProps?: DialogContentProps;
   /** @see https://mui.com/material-ui/api/dialog-content-text/ */
-  contentTextProps?: IDialogContentTextProps;
+  contentTextProps?: DialogContentTextProps;
   /** @see https://mui.com/material-ui/api/dialog-actions/ */
-  actionsProps?: IDialogActionsProps;
+  actionsProps?: DialogActionsProps;
   /** @see https://mui.com/material-ui/api/slide/ */
-  slideProps?: ISlideProps;
+  slideProps?: SlideProps;
 }

@@ -1,6 +1,12 @@
 import { SxProps } from '@mui/material/styles';
 import IStateFormItem from './IStateFormItem';
-import { AvatarProps, CardMediaProps, TypographyProps } from '@mui/material';
+import {
+  AvatarProps,
+  CardHeaderProps,
+  CardMediaOwnProps,
+  CardMediaProps,
+  TypographyProps
+} from '@mui/material';
 import { CSSProperties, ElementType, HTMLAttributes, ReactNode } from 'react';
 import IAbstractState from './IAbstractState';
 
@@ -57,7 +63,7 @@ export interface IAvatarProps extends AvatarProps {
   alt?: string;
   children?: ReactNode;
   classes?: Record<string, string>;
-  imgProps?: HTMLAttributes<HTMLImageElement>;
+  imgProps?: HTMLAttributes<HTMLImageElement> & { sx?: SxProps; };
   sizes?: string;
   src?: string;
   srcSet?: string;
@@ -86,12 +92,12 @@ export default interface IStateCard extends Omit<IAbstractState, 'props'> {
     | 'image_media'
     | 'multi_action_area';
   props?: IStateCardProps;
-  mediaProps?: ICardMediaProps;
+  mediaProps?: CardMediaOwnProps;
   contentProps?: IStateCardContentProps;
   actionArea?: IStateCardActionAreaProps;
   actionsProps?: IStateCardActionsProps;
   actions?: IStateFormItem[];
-  headerProps?: ICardHeaderProps;
+  headerProps?: CardHeaderProps;
   avatarProps?: IAvatarProps;
   title?: string;
   fullText?: string;

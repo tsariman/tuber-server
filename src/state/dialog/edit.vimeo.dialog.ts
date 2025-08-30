@@ -4,7 +4,7 @@ import {
   THEME_LIGHT_BACKGROUND_COLOR,
   THEME_DARK_DIALOG_BACKGROUND_COLOR
 } from '../../constants.server';
-import { r, remove_form_suffix } from '../../business.logic';
+import { t, remove_form_suffix, clone_or_default } from '../../business.logic';
 import { TStateDialog } from '../../shared';
 import { register } from '../../business.logic/registry';
 
@@ -14,7 +14,7 @@ const editVimeoBookmarkDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '15',
   '_key': $15_STATE_KEY,
-  'title': r('27', 'Edit Vimeo Bookmark'),
+  get 'title'() { return t('27', 'Edit Vimeo Bookmark'); },
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
@@ -31,7 +31,7 @@ const editVimeoBookmarkDialogState: TStateDialog = {
       'type': 'state_button',
       'props': { 'color': 'secondary' },
       'has': {
-        'text': r('28', 'Cancel'),
+        get 'text'() { return t('28', 'Cancel'); },
         'onclickHandle': 'tuberCallbacks.defaultClose'
       }
     },
@@ -39,7 +39,7 @@ const editVimeoBookmarkDialogState: TStateDialog = {
       'type': 'state_button',
       'props': { 'color': 'primary' },
       'has': {
-        'text': r('29', 'Save'),
+        get 'text'() { return t('29', 'Save'); },
         'onclickHandle': 'tuberCallbacks.$15_C_1'
       }
     }
@@ -54,13 +54,16 @@ export default editVimeoBookmarkDialogState;
  * bookmark.
  * @id 15
  */
-export const $15DarkThemeMode: TStateDialog = {
-  ...editVimeoBookmarkDialogState,
-  'props': {
-    ...editVimeoBookmarkDialogState.props,
-    'PaperProps': {
-      ...editVimeoBookmarkDialogState.props?.PaperProps,
-      'sx': { 'backgroundColor': THEME_DARK_DIALOG_BACKGROUND_COLOR }
-    }
-  }
-};
+export const $15DarkThemeMode: TStateDialog = (() => {
+  const base = clone_or_default(editVimeoBookmarkDialogState, {});
+  const props = clone_or_default(base.props, {});
+  const paperProps = clone_or_default(props.PaperProps, {});
+  const sx: typeof paperProps['sx'] = {
+    ...paperProps.sx,
+    'backgroundColor': THEME_DARK_DIALOG_BACKGROUND_COLOR
+  };
+  paperProps.sx = sx;
+  props.PaperProps = paperProps;
+  base.props = props;
+  return base;
+})();

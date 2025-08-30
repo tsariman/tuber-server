@@ -13,7 +13,7 @@ interface IReadableLanguageText {
 }
 
 interface IReadableLocalization {
-  [language_code: string]: IReadableLanguageText
+  [language_code: string]: IReadableLanguageText;
 }
 
 /** Readable saved to the database */
@@ -39,6 +39,7 @@ const readableSchema = new mongoose.Schema<IReadableDocument>({
   key: { type: String, required: true, unique: true },
   text: { type: String, required: true },
   description: { type: String, default: undefined },
+  localization: { type: Object, default: undefined },
   restrictions: { type: [ String ], default: undefined },
   rules: { type: [ String ], default: undefined }
 });

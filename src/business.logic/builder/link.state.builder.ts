@@ -12,6 +12,7 @@ type TOnclickHandle = TStateFormItemCustom['onclickHandle'];
 type TIcon = TStateFormItemCustom['icon'];
 type TFaIcon = TStateFormItemCustom['faIcon'];
 type TIconProps = TStateFormItemCustom['iconProps'];
+type TSvgIconProps = TStateFormItemCustom['svgIconProps'];
 
 export default class LinkStateBuilder extends AbstractStateBuilder {
 
@@ -81,6 +82,11 @@ export default class LinkStateBuilder extends AbstractStateBuilder {
     this._linkState.has.iconProps = iconProps;
     return this;
   }
+  withSvgIconProps(svgIconProps: TSvgIconProps): this {
+    this._linkState.has ??= {};
+    this._linkState.has.svgIconProps = svgIconProps;
+    return this;
+  }
   build() {
     return this._linkState;
   }
@@ -89,6 +95,6 @@ export default class LinkStateBuilder extends AbstractStateBuilder {
     return this.die('Method not implemented.', this);
   }
   configure(): this { return this; }
-  withBootstrapState(): this { return this; }
+  withBootstrapState(): never { return this.bootstrap_not_available(); }
   buildResponse(): TJsonapiStateResponse { return {'state': {}}; }
 }

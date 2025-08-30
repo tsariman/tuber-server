@@ -11,6 +11,7 @@ import {
   powerSignInLinkState
 } from '../nav.link';
 import { dev_get_links_state } from '../../DEV/link.state';
+import { clone_with_descriptors } from '../../business.logic';
 
 register('state', '51', $51_STATE_KEY);
 /** Page state for listing app. @id 51 */
@@ -39,7 +40,7 @@ const chippedListingPageState = {
     ],
     'searchFieldIcon': {
       'icon': 'public_outline',
-      'iconProps': {
+      'svgIconProps': {
         'sx': { 'color': '#fff' }
       }
     },
@@ -59,40 +60,33 @@ const chippedListingPageState = {
 export default chippedListingPageState;
 
 /** Dark theme mode for listing page state. @id 51 */
-export const $51DarkThemeMode: TStatePage = {
-  ...chippedListingPageState,
-};
+export const $51DarkThemeMode: TStatePage = (() => {
+  const base = clone_with_descriptors(chippedListingPageState);
+  return base;
+})();
 
 /** @deprecated */
-export function get_chipped_listing_page_state(
-  usr?: TCipheredUser
-): TStatePage {
-  return {
-    ...chippedListingPageState,
-    appbar: {
-      ...listingPageAppbarState,
-      items: [
-        ...dev_get_links_state(usr),
-        bookmarkAddFromUrlLinkState,
-        lightModeLinkState,
-        usr ? powerLogoutLinkState : powerSignInLinkState,
-      ]
-    }
-  };
+export function get_chipped_listing_page_state(usr?: TCipheredUser): TStatePage {
+  const base = clone_with_descriptors(chippedListingPageState);
+  const appbar = clone_with_descriptors(listingPageAppbarState);
+  const items = clone_with_descriptors(dev_get_links_state(usr));
+  items.push(bookmarkAddFromUrlLinkState);
+  items.push(lightModeLinkState);
+  items.push(usr ? powerLogoutLinkState : powerSignInLinkState);
+  appbar.items = items;
+  base.appbar = appbar;
+  return base;
 }
 
 /** @deprecated */
 export function get_51_dark_theme_mode(usr?: TCipheredUser): TStatePage {
-  return {
-    ...$51DarkThemeMode,
-    appbar: {
-      ...$71DarkThemeMode,
-      items: [
-        ...dev_get_links_state(usr),
-        bookmarkAddFromUrlLinkState,
-        darkModeLinkState,
-        usr ? powerLogoutLinkState : powerSignInLinkState,
-      ]
-    }
-  };
-}
+  const base = clone_with_descriptors($51DarkThemeMode);
+  const appbar = clone_with_descriptors($71DarkThemeMode);
+  const items = dev_get_links_state(usr);
+  items.push(bookmarkAddFromUrlLinkState);
+  items.push(darkModeLinkState);
+  items.push(usr ? powerLogoutLinkState : powerSignInLinkState);
+  appbar.items = items;
+  base.appbar = appbar;
+  return base;
+};

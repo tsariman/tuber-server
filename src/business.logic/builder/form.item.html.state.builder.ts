@@ -11,7 +11,7 @@ export default class FormItemHtmlStateBuilder extends FormItemBaseStateBuilder {
    * @returns 
    */
   hasText(text: string): this {
-    this.$state.has = this.$state.has || {};
+    this.$state.has ??= {};
     this.$state.has.text = text;
     return this;
   }
@@ -21,7 +21,7 @@ export default class FormItemHtmlStateBuilder extends FormItemBaseStateBuilder {
    * @returns this.
    */
   hasKey(key: string): this {
-    this.$state.has = this.$state.has || {};
+    this.$state.has ??= {};
     this.$state.has.key = key;
     return this;
   }
@@ -31,7 +31,7 @@ export default class FormItemHtmlStateBuilder extends FormItemBaseStateBuilder {
    * @returns this.
    */
   hasRoute(route: string): this {
-    this.$state.has = this.$state.has || {};
+    this.$state.has ??= {};
     this.$state.has.route = route;
     return this;
   }
@@ -40,7 +40,7 @@ export default class FormItemHtmlStateBuilder extends FormItemBaseStateBuilder {
    * @param props 
    * @returns this.
    */
-  withProps(props: Record<string, unknown>): this {
+  withProps<T extends Record<string, unknown>>(props: T): this {
     this.$state.props = props;
     return this;
   }
@@ -50,7 +50,7 @@ export default class FormItemHtmlStateBuilder extends FormItemBaseStateBuilder {
    * @returns this.
    */
   hasOnclickHandle(handle: string): this {
-    this.$state.has = this.$state.has || {};
+    this.$state.has ??= {};
     this.$state.has.onclickHandle = handle;
     return this;
   }
@@ -60,7 +60,7 @@ export default class FormItemHtmlStateBuilder extends FormItemBaseStateBuilder {
    * @returns this.
    */
   hasContent(content: string): this {
-    this.$state.has = this.$state.has ?? {};
+    this.$state.has ??= {};
     this.$state.has.content = content;
     return this;
   }

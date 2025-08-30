@@ -48,7 +48,7 @@ export default class FormItemGroupStateBuilder
    * @param props object containing the props.
    * @returns this.
    */
-  withProps(props: Record<string, unknown>): this {
+  withProps<T extends Record<string, unknown>>(props: T): this {
     this._state.props = props;
     return this;
   }
@@ -62,6 +62,6 @@ export default class FormItemGroupStateBuilder
     return this;
   }
   configure(): this { return this; }
-  withBootstrapState(): this { return this; }
+  withBootstrapState(): never { return this.bootstrap_not_available(); }
   buildResponse(): TJsonapiStateResponse { return {'state': {}}; }
 }

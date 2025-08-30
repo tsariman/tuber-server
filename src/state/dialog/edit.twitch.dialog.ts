@@ -4,7 +4,7 @@ import {
   THEME_LIGHT_BACKGROUND_COLOR,
   THEME_DARK_DIALOG_BACKGROUND_COLOR
 } from '../../constants.server';
-import { r, remove_form_suffix } from '../../business.logic';
+import { t, remove_form_suffix, clone_with_descriptors } from '../../business.logic';
 import { TStateDialog } from '../../shared';
 import { register } from '../../business.logic/registry';
 
@@ -14,7 +14,7 @@ const editTwitchBookmarkDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '37',
   '_key': $37_STATE_KEY,
-  'title': r('21', 'Edit Twitch Bookmark'),
+  get 'title'() { return t('21', 'Edit Twitch Bookmark'); },
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
@@ -25,13 +25,13 @@ const editTwitchBookmarkDialogState: TStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': `'$form : ${remove_form_suffix($39_STATE_KEY)} : bookmarks`,
+  'content': `$form : ${remove_form_suffix($39_STATE_KEY)} : bookmarks`,
   'actions': [
     {
       'type': 'state_button',
       'props': { 'color': 'secondary' },
       'has': {
-        'text': r('22', 'Cancel'),
+        get 'text'() { return t('22', 'Cancel'); },
         'onclickHandle': 'tuberCallbacks.defaultClose'
       }
     },
@@ -39,7 +39,7 @@ const editTwitchBookmarkDialogState: TStateDialog = {
       'type': 'state_button',
       'props': { 'color': 'primary' },
       'has': {
-        'text': r('23', 'Save'),
+        get 'text'() { return t('23', 'Save'); },
         'onclickHandle': 'tuberCallbacks.$37_C_1'
       }
     }
@@ -54,13 +54,16 @@ export default editTwitchBookmarkDialogState;
  * bookmark.
  * @id 37
  */
-export const $37DarkThemeMode: TStateDialog = {
-  ...editTwitchBookmarkDialogState,
-  'props': {
-    ...editTwitchBookmarkDialogState.props,
-    'PaperProps': {
-      ...editTwitchBookmarkDialogState.props?.PaperProps,
-      'sx': { 'backgroundColor': THEME_DARK_DIALOG_BACKGROUND_COLOR }
-    }
-  }
-};
+export const $37DarkThemeMode: TStateDialog = (() => {
+  const base = clone_with_descriptors(editTwitchBookmarkDialogState);
+  const props = clone_with_descriptors(base.props ?? {});
+  const paperProps = clone_with_descriptors(props.PaperProps ?? {});
+  const sx: typeof paperProps['sx'] = {
+    ...paperProps.sx,
+    'backgroundColor': THEME_DARK_DIALOG_BACKGROUND_COLOR
+  };
+  paperProps.sx = sx;
+  props.PaperProps = paperProps;
+  base.props = props;
+  return base;
+})();

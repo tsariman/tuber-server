@@ -1,4 +1,4 @@
-import { r } from 'src/business.logic';
+import { clone_with_descriptors, t } from '../../business.logic';
 import { TStateForm } from '../../shared';
 import { register } from '../../business.logic/registry';
 import * as C from '../../constants.server';
@@ -16,7 +16,7 @@ const newUnknownBookmarkFormState = {
         {
           'type': 'textfield',
           'name': 'url',
-          'label': r('240', 'Video URL'),
+          get 'label'() { return t('240', 'Video URL'); },
           'props': {
             'fullWidth': true,
             'variant': 'filled'
@@ -24,19 +24,19 @@ const newUnknownBookmarkFormState = {
           'inputProps': { 'readOnly': true },
           'has': {
             'required': true, // [TODO] make a configuration.
-            'requiredMessage': r('241', 'Where did that URL go?'),
+            get 'requiredMessage'() { return t('241', 'Where did that URL go?'); },
           }
         },
         {
           'type': 'textfield',
           'name': 'embed_url',
-          'label': r('242', 'Embed IFRAME URL'),
+          get 'label'() { return t('242', 'Embed IFRAME URL'); },
           'props': {
             'fullWidth': true,
           },
           'has': {
             'required': true,
-            'requiredMessage': r('243', C.EMBED_URL_MESSAGE),
+            get 'requiredMessage'() { return t('243', C.EMBED_URL_MESSAGE); },
           }
         },
         {
@@ -46,7 +46,7 @@ const newUnknownBookmarkFormState = {
               <span style="font-size:1.2rem;color:blue">
                 Note:
               </span>
-              ${r('244', 'Don\'t hesitate to paste-in the entire embed HTML code above. Bare in\
+              ${t('244', 'Don\'t hesitate to paste-in the entire embed HTML code above. Bare in\
               mind, some embed URLs need to be customized for them to work.')}
             `
           }
@@ -54,7 +54,7 @@ const newUnknownBookmarkFormState = {
         {
           'type': 'textfield',
           'name': 'thumbnail_url',
-          'label': r('245', 'Thumbnail URL'),
+          get 'label'() { return t('245', 'Thumbnail URL'); },
           'props': {
             'fullWidth': true,
             // 'variant': 'filled'
@@ -64,28 +64,28 @@ const newUnknownBookmarkFormState = {
         {
           'type': 'textfield',
           'name': 'title',
-          'label': r('246', 'Title'),
+          get 'label'() { return t('246', 'Title'); },
           'props': {
             'fullWidth': true
           },
           'has': {
             'required': true,
-            'requiredMessage': r('246', C.TITLE_REQUIRED_MESSAGE),
+            get 'requiredMessage'() { return t('246', C.TITLE_REQUIRED_MESSAGE); },
             'maxLength': C.TITLE_MAX_LENGTH, // [TODO] make a configuration.
-            'maxLengthMessage': r('247', C.TITLE_MAX_LENGTH_MESSAGE),
+            get 'maxLengthMessage'() { return t('247', C.TITLE_MAX_LENGTH_MESSAGE); },
           }
         },
         {
           'type': 'textarea',
           'name': 'note',
-          'label': r('248', 'Note'),
+          get 'label'() { return t('248', 'Note'); },
           'props': {
             'multiline': true,
             'rows': C.NOTE_FIELD_ROWS // [TODO] Make a configuration.
           },
           'has': {
             'maxLength': C.NOTE_MAX_LENGTH,
-            'maxLengthMessage': r('249', C.NOTE_MAX_LENGTH_MESSAGE)
+            get 'maxLengthMessage'() { return t('249', C.NOTE_MAX_LENGTH_MESSAGE); }
           }
         }
       ]
@@ -95,7 +95,7 @@ const newUnknownBookmarkFormState = {
 
 export default newUnknownBookmarkFormState;
 
-export const $28DarkThemeMode = {
-  ...newUnknownBookmarkFormState,
-  // TODO - add dark theme mode overrides here
-} as TStateForm;
+export const $28DarkThemeMode: TStateForm = (() => {
+  const base = clone_with_descriptors(newUnknownBookmarkFormState);
+  return base;
+})();

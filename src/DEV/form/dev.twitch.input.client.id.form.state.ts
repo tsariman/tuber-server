@@ -6,6 +6,7 @@ import {
   THEME_LIGHT_PAPER_COLOR,
   THEME_DARK_PAPER_COLOR
 } from '../../constants.server';
+import { clone_with_descriptors } from 'src/business.logic';
 
 register('state', '60', $60_STATE_KEY);
 /** @id 60 */
@@ -74,13 +75,17 @@ const devTwitchInputClientIdFormState: TStateForm = {
 
 export default devTwitchInputClientIdFormState;
 
-export const $60DarkThemeMode = {
-  ...devTwitchInputClientIdFormState,
-  'paperProps': {
-    ...devTwitchInputClientIdFormState.paperProps,
-    'sx': { 'backgroundColor': THEME_DARK_PAPER_COLOR }
-  },
-} as TStateForm;
+/** @id 60 */
+export const $60DarkThemeMode: TStateForm = (() => {
+  const base = clone_with_descriptors(devTwitchInputClientIdFormState);
+  const paperProps = clone_with_descriptors(base.paperProps ?? {});
+  paperProps.sx = {
+    ...paperProps.sx,
+    'backgroundColor': THEME_DARK_PAPER_COLOR
+  };
+  base.paperProps = paperProps;
+  return base;
+})();
 
 export const dev_twitch_input_client_id_form_state = {
 

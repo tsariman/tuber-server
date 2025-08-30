@@ -1,8 +1,8 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
+import { parse_cookie } from '../utility';
 import {
   get_body as get_from_body,
-  get_theme_mode,
-  parse_cookie
+  get_theme_mode
 } from '../business.logic';
 import { default_500_error_response } from '../business.logic/builder/jsonapi.error.builder';
 import { TNetState, TStateAllIcons } from '../shared';

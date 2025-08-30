@@ -1,6 +1,8 @@
+import { SxProps } from '@mui/material';
 import { TStateForm } from '../../shared';
 import { register } from '../../business.logic/registry';
 import { $41_STATE_KEY } from '../../constants.server';
+import { clone_with_descriptors, t } from '../../business.logic';
 
 register('state', '41', $41_STATE_KEY);
 /** Form state to sign in. @id 41 */
@@ -12,7 +14,7 @@ const signInFormState: TStateForm = {
     'sx': {
       'p': 3,
       'width': '37ch',
-    },
+    } as SxProps,
   },
   'paperBackground': true,
   'paperProps': { 'elevation': 24 },
@@ -24,7 +26,7 @@ const signInFormState: TStateForm = {
         {
           'type': 'text',
           'name': 'username',
-          'label': 'Username',
+          get 'label'() { return t('278', 'Username'); },
           'has': {
             'required': true,
             'requiredMessage': 'Type-in your username first'
@@ -32,7 +34,7 @@ const signInFormState: TStateForm = {
         },
         {
           'type': 'password',
-          'label': 'Password',
+          get 'label'() { return t('277', 'Password'); },
           'name': 'password',
           'has': {
             'required': true,
@@ -41,13 +43,13 @@ const signInFormState: TStateForm = {
         },
         {
           'type': 'checkboxes',
-          'label': 'Available options',
+          get 'label'() { return t('276', 'Available options'); },
           'name': 'options',
           'has': {
             'items': [
               {
                 'name': 'keep-signed-in',
-                'label': 'Keep me signed in'
+                get 'label'() { return t('274', 'Keep me signed in'); }
               }
             ],
           }
@@ -57,7 +59,7 @@ const signInFormState: TStateForm = {
           'has': {
             'icon': 'vpn_key',
             'iconPosition': 'right',
-            'title': 'Sign in',
+            get 'title'() { return t('275', 'Sign in'); },
             'onclickHandle': 'tuberCallbacks.$41_C_1'
           }
         }
@@ -69,7 +71,7 @@ const signInFormState: TStateForm = {
 export default signInFormState;
 
 /** Dark theme mode form state to sign in. @id 41 */
-export const $41DarkThemeMode = {
-  ...signInFormState,
-  // TODO - add dark theme mode overrides here
-} as TStateForm;
+export const $41DarkThemeMode: TStateForm = (() => {
+  const base = clone_with_descriptors(signInFormState);
+  return base;
+})();

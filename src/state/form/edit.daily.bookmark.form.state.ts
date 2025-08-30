@@ -1,4 +1,4 @@
-import { r } from 'src/business.logic';
+import { clone_with_descriptors, t } from '../../business.logic';
 import { TStateForm } from '../../shared';
 import * as C from '../../constants.server';
 import { register } from '../../business.logic/registry';
@@ -23,22 +23,22 @@ const editDailyBookmarkFormState = {
             {
               'type': 'number',
               'name': 'start_seconds',
-              'label': r('73', 'Start'),
+              get 'label'() { return t('73', 'Start'); },
               'props': {
                 'sx': { 'width': 240, },
-                'helperText': r('74', 'time in second(s)'),
+                get 'helperText'() { return t('74', 'time in second(s)'); },
                 'variant': 'filled'
               },
               'inputProps': { 'readOnly': true },
               'has': {
                 'required': true,
-                'requiredMessage': r('93', C.START_SECONDS_REQUIRED_MESSAGE),
+                get 'requiredMessage'() { return t('93', C.START_SECONDS_REQUIRED_MESSAGE); },
               }
             },
             {
               'type': 'textfield',
               'name': 'videoid',
-              'label': r('75', 'Video ID'),
+              get 'label'() { return t('75', 'Video ID'); },
               'props': {
                 'fullWidth': true,
                 'variant': 'filled'
@@ -48,7 +48,7 @@ const editDailyBookmarkFormState = {
             {
               'type': 'textfield',
               'name': 'platform',
-              'label': r('76', 'Platform'),
+              get 'label'() { return t('76', 'Platform'); },
               'props': {
                 'sx': { 'width': 240 },
                 'variant': 'filled'
@@ -60,36 +60,36 @@ const editDailyBookmarkFormState = {
         {
           'type': 'textfield',
           'name': 'title',
-          'label': r('77', 'Title'),
+          get 'label'() { return t('77', 'Title'); },
           'props': {
             'fullWidth': true
           },
           'has': {
             'required': true,
-            'requiredMessage': r('94', C.TITLE_REQUIRED_MESSAGE),
-            'maxLength': r('95', C.TITLE_MAX_LENGTH),
-            'maxLengthMessage': r('96', C.TITLE_MAX_LENGTH_MESSAGE),
+            get 'requiredMessage'() { return t('94', C.TITLE_REQUIRED_MESSAGE); },
+            'maxLength': C.TITLE_MAX_LENGTH,
+            get 'maxLengthMessage'() { return t('96', C.TITLE_MAX_LENGTH_MESSAGE); },
           }
         },
         {
           'type': 'textarea',
           'name': 'note',
-          'label': r('78', 'Note'),
+          get 'label'() { return t('78', 'Note'); },
           'props': {
             'multiline': true,
-            'rows': r('97', C.NOTE_FIELD_ROWS)
+            'rows': C.NOTE_FIELD_ROWS
           },
           'has': {
-            'maxLength': r('98', C.NOTE_MAX_LENGTH),
-            'maxLengthMessage': r('99', C.NOTE_MAX_LENGTH_MESSAGE)
+            'maxLength': C.NOTE_MAX_LENGTH,
+            get 'maxLengthMessage'() { return t('99', C.NOTE_MAX_LENGTH_MESSAGE); }
           }
         },
         {
           'type': 'single_switch',
           'name': 'is_published',
-          'label': r('79', 'Published'),
+          get 'label'() { return t('79', 'Published'); },
           'has': {
-            'helperText': r('100', C.PUBLISHED_HELPER_TEXT)
+            get 'helperText'() { return t('100', C.PUBLISHED_HELPER_TEXT); }
           }
         }
       ]
@@ -99,6 +99,7 @@ const editDailyBookmarkFormState = {
 
 export default editDailyBookmarkFormState;
 
-export const $20DarkThemeMode = {
-  ...editDailyBookmarkFormState,
-} as TStateForm;
+export const $20DarkThemeMode = (() => {
+  const base = clone_with_descriptors(editDailyBookmarkFormState);
+  return base;
+})();

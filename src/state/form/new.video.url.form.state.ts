@@ -1,4 +1,4 @@
-import { r } from 'src/business.logic';
+import { clone_with_descriptors, t } from '../../business.logic';
 import { TStateForm, TStateFormItem } from '../../shared';
 import { register } from '../../business.logic/registry';
 import { $1_STATE_KEY } from '../../constants.server';
@@ -36,7 +36,7 @@ const newVideoUrlFormState: TStateForm = {
         {
           'type': 'text',
           'name': 'url',
-          'label': r('250', 'Paste Video URL Here ...'),
+          get 'label'() { return t('250', 'Paste Video URL Here ...'); },
           'props': { 'fullWidth': true },
           'inputProps': {
             'end': {
@@ -52,7 +52,7 @@ const newVideoUrlFormState: TStateForm = {
           'has': {
             'onkeydownHandle': `tuberCallbacks.$1_C_2`,
             'required': true,
-            'requiredMessage': r('251', 'You forgot the URL of the video')
+            get 'requiredMessage'() { return t('251', 'You forgot the URL of the video'); }
           }
         },
       ] as TStateFormItem[]
@@ -62,7 +62,7 @@ const newVideoUrlFormState: TStateForm = {
 
 export default newVideoUrlFormState;
 
-export const $1DarkThemeMode = {
-  ...newVideoUrlFormState,
-  // TODO - add dark theme mode overrides here
-} as TStateForm;
+export const $1DarkThemeMode: TStateForm = (() => {
+  const base = clone_with_descriptors(newVideoUrlFormState);
+  return base;
+})();

@@ -1,6 +1,7 @@
 import { TStatePage } from '../../shared';
 import { register } from '../../business.logic/registry';
 import { $43_STATE_KEY } from '../../constants.server';
+import { clone_with_descriptors } from 'src/business.logic';
 
 register('state', '43', $43_STATE_KEY);
 /** @id 43 */
@@ -27,6 +28,7 @@ const devSignedInPageState: TStatePage = {
 export default devSignedInPageState;
 
 /** Dark theme mode for dev signed in page state. @id 43 */
-export const $43DarkThemeMode: TStatePage = {
-  ...devSignedInPageState,
-};
+export const $43DarkThemeMode: TStatePage = (() => {
+  const base = clone_with_descriptors(devSignedInPageState);
+  return base;
+})();

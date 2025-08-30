@@ -22,7 +22,7 @@ export default class FormItemButtonStateBuilder extends FormItemBaseStateBuilder
    * @returns this.
    */
   withPropsHref(href: string): this {
-    this._state.props = this._state.props ?? {};
+    this._state.props ??= {};
     this._state.props.href = href;
     return this;
   }
@@ -32,7 +32,7 @@ export default class FormItemButtonStateBuilder extends FormItemBaseStateBuilder
    * @returns this.
    */
   hasOnclickHandle(handle: string): this {
-    this._state.has = this._state.has ?? {};
+    this._state.has ??= {};
     this._state.has.onclickHandle = handle;
     return this;
   }
@@ -42,7 +42,7 @@ export default class FormItemButtonStateBuilder extends FormItemBaseStateBuilder
    * @returns this.
    */
   hasIcon(icon: string): this {
-    this._state.has = this._state.has ?? {};
+    this._state.has ??= {};
     this._state.has.icon = icon;
     return this;
   }
@@ -52,7 +52,7 @@ export default class FormItemButtonStateBuilder extends FormItemBaseStateBuilder
    * @returns this.
    */
   hasFaIcon(faIcon: string): this {
-    this._state.has = this._state.has ?? {};
+    this._state.has ??= {};
     this._state.has.faIcon = faIcon;
     return this;
   }
@@ -61,7 +61,7 @@ export default class FormItemButtonStateBuilder extends FormItemBaseStateBuilder
    * @param props 
    * @returns this.
    */
-  withProps(props: Record<string, unknown>): this {
+  withProps<T extends Record<string, unknown>>(props: T): this {
     this._state.props = props;
     return this;
   }

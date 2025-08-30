@@ -4,7 +4,7 @@ import {
   THEME_LIGHT_BACKGROUND_COLOR,
   THEME_DARK_DIALOG_BACKGROUND_COLOR
 } from '../../constants.server';
-import { r, remove_form_suffix } from '../../business.logic';
+import { t, remove_form_suffix, clone_with_descriptors } from '../../business.logic';
 import { TStateDialog } from '../../shared';
 import { register } from '../../business.logic/registry';
 
@@ -14,7 +14,7 @@ const editRumbleBookmarkDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '11',
   '_key': $11_STATE_KEY,
-  'title': r('18', 'Edit Rumble Bookmark'),
+  get 'title'() { return t('18', 'Edit Rumble Bookmark'); },
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
@@ -31,7 +31,7 @@ const editRumbleBookmarkDialogState: TStateDialog = {
       'type': 'state_button',
       'props': { 'color': 'secondary' },
       'has': {
-        'text': r('19', 'Cancel'),
+        get 'text'() { return t('19', 'Cancel'); },
         'onclickHandle': 'tuberCallbacks.defaultClose'
       }
     },
@@ -40,7 +40,7 @@ const editRumbleBookmarkDialogState: TStateDialog = {
       'props': { 'color': 'primary' },
       'has': {
         'disableOnError': true,
-        'text': r('20', 'Save'),
+        get 'text'() { return t('20', 'Save'); },
         'onclickHandle': 'tuberCallbacks.$11_C_1'
       }
     }
@@ -55,13 +55,16 @@ export default editRumbleBookmarkDialogState;
  * bookmark.
  * @id 11
  */
-export const $11DarkThemeMode: TStateDialog = {
-  ...editRumbleBookmarkDialogState,
-  'props': {
-    ...editRumbleBookmarkDialogState.props,
-    'PaperProps': {
-      ...editRumbleBookmarkDialogState.props?.PaperProps,
-      'sx': { 'backgroundColor': THEME_DARK_DIALOG_BACKGROUND_COLOR }
-    }
-  }
-};
+export const $11DarkThemeMode: TStateDialog = (() => {
+  const base = clone_with_descriptors(editRumbleBookmarkDialogState);
+  const props = clone_with_descriptors(base.props ?? {});
+  const paperProps = clone_with_descriptors(props.PaperProps ?? {});
+  const sx: typeof paperProps['sx'] = {
+    ...paperProps.sx,
+    'backgroundColor': THEME_DARK_DIALOG_BACKGROUND_COLOR
+  };
+  paperProps.sx = sx;
+  props.PaperProps = paperProps;
+  base.props = props;
+  return base;
+})();

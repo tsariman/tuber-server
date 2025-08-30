@@ -12,6 +12,7 @@ src/secret-key
 src/session.secrets.ts
 src/DEV/EXPERIMENT
 src/business.logic/jsonapi.request.driver.example.ts
+src/shared/interfaces.zip
 
 # Ignored development files
 tuberdb-test.annotations.json

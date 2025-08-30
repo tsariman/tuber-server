@@ -1,5 +1,9 @@
 import { PaperProps } from '@mui/material';
-import { TJsonapiStateResponse, TStateForm, TStateFormItem } from '../../shared';
+import {
+  TJsonapiStateResponse,
+  TStateForm,
+  TStateFormItem
+} from '../../shared';
 import AbstractStateBuilder, {
   AbstractFormItemStateBuilder
 } from './abstract.state.builder';
@@ -71,7 +75,7 @@ export default class FormStateBuilder extends AbstractStateBuilder {
    * @param props object containing the form component props.
    * @returns this.
    */
-  withProps(props: Record<string, unknown>): this {
+  withProps<T extends Record<string, unknown>>(props: T): this {
     this._state.props = props;
     return this;
   }
@@ -94,6 +98,6 @@ export default class FormStateBuilder extends AbstractStateBuilder {
     return this;
   }
   configure(): this { return this; }
-  withBootstrapState(): this { return this; }
+  withBootstrapState(): never { return this.bootstrap_not_available(); }
   buildResponse(): TJsonapiStateResponse { return {'state': {}}; }
 }

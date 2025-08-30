@@ -1,6 +1,7 @@
 import { TStatePage } from '../../shared';
 import { register } from '../../business.logic/registry';
 import { $53_STATE_KEY } from '../../constants.server';
+import { clone_with_descriptors } from 'src/business.logic';
 
 register('state', '53', $53_STATE_KEY);
 /** @id 53 */
@@ -27,7 +28,7 @@ const adminReadablePageState: TStatePage = {
 
     'searchFieldIcon': {
       'icon': 'filter_none_outline',
-      'iconProps': {
+      'svgIconProps': {
         'sx': { 'color': 'grey.500' }
       }
     },
@@ -46,6 +47,7 @@ const adminReadablePageState: TStatePage = {
 
 export default adminReadablePageState;
 
-export const $53DarkThemeMode: TStatePage = {
-  ...adminReadablePageState,
-};
+export const $53DarkThemeMode: TStatePage = (() => {
+  const base = clone_with_descriptors(adminReadablePageState);
+  return base;
+})();

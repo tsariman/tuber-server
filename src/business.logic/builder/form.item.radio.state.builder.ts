@@ -1,7 +1,7 @@
+import { FormControlProps, FormLabelProps } from '@mui/material';
 import { TStateFormItem, TStateFormItemRadioButton } from '../../shared';
 import FormItemRadioButtonStateBuilder from './form.item.radio.button.state.builder';
 import FormItemBaseStateBuilder from './form.item.base.state.builder';
-import { FormControlProps, FormLabelProps } from '@mui/material';
 
 export default class FormItemRadioStateBuilder
   extends FormItemBaseStateBuilder
@@ -23,7 +23,7 @@ export default class FormItemRadioStateBuilder
   }
   build(): TStateFormItem {
     if (this._items.length > 0) {
-      this.$state.has = this.$state.has || {};
+      this.$state.has ??= {};
       this.$state.has.items = this._items;
     }
     return this.$state;
@@ -54,7 +54,7 @@ export default class FormItemRadioStateBuilder
    * @returns this.
    */
   hasFormControlProps(props: FormControlProps): this {
-    this.$state.has = this.$state.has || {};
+    this.$state.has ??= {};
     this.$state.has.formControlProps = props;
     return this;
   }
@@ -64,7 +64,7 @@ export default class FormItemRadioStateBuilder
    * @returns this.
    */
   hasFormLabelProps(props: FormLabelProps): this {
-    this.$state.has = this.$state.has || {};
+    this.$state.has ??= {};
     this.$state.has.formLabelProps = props;
     return this;
   }
@@ -73,7 +73,7 @@ export default class FormItemRadioStateBuilder
    * @param props object with props.
    * @returns this.
    */
-  withProps(props: Record<string, unknown>): this {
+  withProps<T extends Record<string, unknown>>(props: T): this {
     this.$state.props = props;
     return this;
   }
@@ -84,7 +84,7 @@ export default class FormItemRadioStateBuilder
    * @returns this.
    */
   hasOnchangeHandle(handle: string): this {
-    this.$state.has = this.$state.has || {};
+    this.$state.has ??= {};
     this.$state.has.onchangeHandle = handle;
     return this;
   }
@@ -94,7 +94,7 @@ export default class FormItemRadioStateBuilder
    * @returns this.
    */
   withItems(items: TStateFormItemRadioButton[]): this {
-    this.$state.has = this.$state.has || {};
+    this.$state.has ??= {};
     this.$state.has.items = items;
     return this;
   }

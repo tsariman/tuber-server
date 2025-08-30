@@ -1,4 +1,4 @@
-import { r } from 'src/business.logic';
+import { clone_with_descriptors, t } from '../../business.logic';
 import { TStateForm } from '../../shared';
 import { register } from '../../business.logic/registry';
 import * as C from '../../constants.server';
@@ -23,7 +23,7 @@ const newTwitchBookmarkFormState = {
             {
               'type': 'number',
               'name': 'start_seconds',
-              'label': r('231', 'Start'),
+              get 'label'() { return t('231', 'Start'); },
               'props': {
                 'sx': { 'width': 240 },
                 'variant': 'filled'
@@ -31,13 +31,13 @@ const newTwitchBookmarkFormState = {
               'inputProps': { 'readOnly': true },
               'has': {
                 'required': true, // [TODO] Make a configuration.
-                'requiredMessage': r('232', C.START_SECONDS_REQUIRED_MESSAGE),
+                get 'requiredMessage'() { return t('232', C.START_SECONDS_REQUIRED_MESSAGE); },
               }
             },
             {
               'type': 'textfield',
               'name': 'videoid',
-              'label': r('233', 'Video ID'),
+              get 'label'() { return t('233', 'Video ID'); },
               'props': {
                 'fullWidth': true,
                 'variant': 'filled'
@@ -47,7 +47,7 @@ const newTwitchBookmarkFormState = {
             {
               'type': 'textfield',
               'name': 'platform',
-              'label': r('234', 'Platform'),
+              get 'label'() { return t('234', 'Platform'); },
               'props': {
                 'sx': { 'width': 240 },
                 'variant': 'filled'
@@ -59,28 +59,28 @@ const newTwitchBookmarkFormState = {
         {
           'type': 'textfield',
           'name': 'title',
-          'label': r('235', 'Title'),
+          get 'label'() { return t('235', 'Title'); },
           'props': {
             'fullWidth': true
           },
           'has': {
             'required': true,
-            'requiredMessage': r('236', C.TITLE_REQUIRED_MESSAGE),
+            get 'requiredMessage'() { return t('236', C.TITLE_REQUIRED_MESSAGE); },
             'maxLength': C.TITLE_MAX_LENGTH, // [TODO] Make a configuration.
-            'maxLengthMessage': r('237', C.TITLE_MAX_LENGTH_MESSAGE)
+            get 'maxLengthMessage'() { return t('237', C.TITLE_MAX_LENGTH_MESSAGE); }
           }
         },
         {
           'type': 'textarea',
           'name': 'note',
-          'label': r('238', 'Note'),
+          get 'label'() { return t('238', 'Note'); },
           'props': {
             'multiline': true,
             'rows': C.NOTE_FIELD_ROWS // [TODO] Make a configuration.
           },
           'has': {
             'maxLength': C.NOTE_MAX_LENGTH, // [TODO] Make a configuration.
-            'maxLengthMessage': r('239', C.NOTE_MAX_LENGTH_MESSAGE)
+            get 'maxLengthMessage'() { return t('239', C.NOTE_MAX_LENGTH_MESSAGE); }
           }
         }
       ]
@@ -90,7 +90,7 @@ const newTwitchBookmarkFormState = {
 
 export default newTwitchBookmarkFormState;
 
-export const $38DarkThemeMode = {
-  ...newTwitchBookmarkFormState,
-  // TODO - add dark theme mode overrides here
-} as TStateForm;
+export const $38DarkThemeMode: TStateForm = (() => {
+  const base = clone_with_descriptors(newTwitchBookmarkFormState);
+  return base;
+})();

@@ -1,11 +1,13 @@
 import * as C from '../../constants.server';
 import {
   get_state_key as key,
-  r,
+  t,
   remove_form_suffix,
   set_state_by_key,
   themed,
-  themed_by_key
+  themed_by_key,
+  clone_with_descriptors,
+  clone_or_default
 } from '../../business.logic';
 import {
   TNetState,
@@ -63,7 +65,7 @@ export const newYoutubeBookmarkDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '6',
   '_key': C.$6_STATE_KEY,
-  'title': r('30', 'Insert New YouTube Bookmark'),
+  get 'title'() { return t('30', 'Insert New YouTube Bookmark'); },
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
@@ -80,7 +82,7 @@ export const newYoutubeBookmarkDialogState: TStateDialog = {
       'type': 'state_button',
       'props': { 'color': 'secondary' },
       'has': {
-        'text': r('31', 'Cancel'),
+        get 'text'() { return t('31', 'Cancel'); },
         'onclickHandle': 'tuberCallbacks.defaultClose'
       }
     },
@@ -88,7 +90,7 @@ export const newYoutubeBookmarkDialogState: TStateDialog = {
       'type': 'state_button',
       'props': { 'color': 'primary' },
       'has': {
-        'text': r('32', 'Save'),
+        get 'text'() { return t('32', 'Save'); },
         'onclickHandle': 'tuberCallbacks.$6_C_1'
       }
     }
@@ -101,16 +103,18 @@ export const newYoutubeBookmarkDialogState: TStateDialog = {
  * bookmark.
  * @id 6
  */
-export const $6DarkThemeMode: TStateDialog = {
-  ...newYoutubeBookmarkDialogState,
-  'props': {
-    ...newYoutubeBookmarkDialogState.props,
-    'PaperProps': {
-      ...newYoutubeBookmarkDialogState.props?.PaperProps,
-      'sx': { 'backgroundColor': C.THEME_DARK_DIALOG_BACKGROUND_COLOR }
-    }
-  }
-};
+export const $6DarkThemeMode: TStateDialog = (() => {
+  const base = clone_with_descriptors(newYoutubeBookmarkDialogState);
+  const props = clone_or_default(base.props, {});
+  const paperProps = clone_or_default(props, {});
+  paperProps.sx = {
+    ...paperProps.sx,
+    'backgroundColor': C.THEME_DARK_DIALOG_BACKGROUND_COLOR
+  };
+  props.PaperProps = paperProps;
+  base.props = props;
+  return base;
+})();
 
 register('state', '2', C.$2_STATE_KEY);
 /** Dialog that contains the form to insert the new video url. @id 2 */
@@ -118,7 +122,7 @@ export const newVideoUrlDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '2',
   '_key': C.$2_STATE_KEY,
-  'title': r('33', 'Insert the URL of Video to be Bookmarked'),
+  get 'title'() { return t('33', 'Insert the URL of Video to be Bookmarked'); },
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
@@ -138,16 +142,18 @@ export const newVideoUrlDialogState: TStateDialog = {
  * Dark theme mode for form state to create a new video url.
  * @id 2
  */
-export const $2DarkThemeMode: TStateDialog = {
-  ...newVideoUrlDialogState,
-  'props': {
-    ...newVideoUrlDialogState.props,
-    'PaperProps': {
-      ...newVideoUrlDialogState.props?.PaperProps,
-      'sx': { 'backgroundColor': C.THEME_DARK_DIALOG_BACKGROUND_COLOR }
-    }
-  }
-};
+export const $2DarkThemeMode: TStateDialog = (() => {
+  const base = clone_with_descriptors(newVideoUrlDialogState);
+  const props = clone_or_default(base.props, {});
+  const paperProps = clone_or_default(props.PaperProps, {});
+  paperProps.sx = {
+    ...paperProps.sx,
+    'backgrondColor': C.THEME_DARK_DIALOG_BACKGROUND_COLOR
+  };
+  props.PaperProps = paperProps;
+  base.props = props;
+  return base;
+})();
 
 register('state', '7', C.$7_STATE_KEY);
 /** Dialog to edit an existing YouTube video bookmark @id 7 */
@@ -155,7 +161,7 @@ export const editYoutubeBookmarkDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '7',
   '_key': C.$7_STATE_KEY,
-  'title': r('34', 'Edit YouTube Bookmark'),
+  get 'title'() { return t('34', 'Edit YouTube Bookmark'); },
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
@@ -172,7 +178,7 @@ export const editYoutubeBookmarkDialogState: TStateDialog = {
       'type': 'state_button',
       'props': { 'color': 'secondary' },
       'has': {
-        'text': r('35', 'Cancel'),
+        get 'text'() { return t('35', 'Cancel'); },
         'onclickHandle': 'tuberCallbacks.defaultClose'
       }
     },
@@ -180,7 +186,7 @@ export const editYoutubeBookmarkDialogState: TStateDialog = {
       'type': 'state_button',
       'props': { 'color': 'primary' },
       'has': {
-        'text': r('36', 'Save'),
+        get 'text'() { return t('36', 'Save'); },
         'onclickHandle': 'tuberCallbacks.$7_C_1'
       }
     }
@@ -193,16 +199,18 @@ export const editYoutubeBookmarkDialogState: TStateDialog = {
  * bookmark.
  * @id 7
  */
-export const $7DarkThemeMode: TStateDialog = {
-  ...editYoutubeBookmarkDialogState,
-  'props': {
-    ...editYoutubeBookmarkDialogState.props,
-    'PaperProps': {
-      ...editYoutubeBookmarkDialogState.props?.PaperProps,
-      'sx': { 'backgroundColor': C.THEME_DARK_DIALOG_BACKGROUND_COLOR }
-    }
-  }
-};
+export const $7DarkThemeMode: TStateDialog = (() => {
+  const base = clone_with_descriptors(editYoutubeBookmarkDialogState);
+  const props = clone_or_default(base.props, {});
+  const paperProps = clone_or_default(props.PaperProps, {});
+  paperProps.sx = {
+    ...paperProps.sx,
+    'backgroundColor': C.THEME_DARK_DIALOG_BACKGROUND_COLOR
+  };
+  props.PaperProps = paperProps;
+  base.props = props;
+  return base;
+})();
 
 register('state', '32', C.$32_STATE_KEY);
 /** Sign in dialog state. @id 32 */
@@ -210,7 +218,7 @@ export const signInDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '32',
   '_key': C.$32_STATE_KEY,
-  'title': r('37', 'Enter Your Credentials'),
+  get 'title'() { return t('37', 'Enter Your Credentials'); },
   'props': {
     'fullWidth': true,
     'maxWidth': 'xs'
@@ -223,9 +231,10 @@ export const signInDialogState: TStateDialog = {
 };
 
 /** Dark theme mode for sign in dialog state. @id 32 */
-export const $32DarkThemeMode: TStateDialog = {
-  ...signInDialogState,
-};
+export const $32DarkThemeMode: TStateDialog = (() => {
+  const base = clone_with_descriptors(signInDialogState);
+  return base;
+})();
 
 register('state', '33', C.$33_STATE_KEY);
 /** Dialog state for registering a new user @id 33 */
@@ -233,7 +242,7 @@ export const registerDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '33',
   '_key': C.$33_STATE_KEY,
-  'title': r('38', 'Register New User'),
+  get 'title'() { return t('38', 'Register New User'); },
   'props': {
     'fullWidth': true,
     'maxWidth': 'xs'
@@ -246,10 +255,10 @@ export const registerDialogState: TStateDialog = {
 };
 
 /** Dark theme mode dialog state for registering a new user @id 33 */
-export const $33DarkThemeMode: TStateDialog = {
-  ...registerDialogState,
-  // TODO Implement the dark theme color values here.
-};
+export const $33DarkThemeMode: TStateDialog = (() => {
+  const base = clone_with_descriptors(registerDialogState);
+  return base;
+})();
 
 register('state', '34', C.$34_STATE_KEY);
 /** Dialog state to delete a bookmark. @id 34 */
@@ -257,18 +266,18 @@ export const deleteBookmarkDialogState: TStateDialog = {
   '_type': 'alert',
   '_id': '34',
   '_key': C.$34_STATE_KEY,
-  'title': r('39', 'Delete Bookmark'),
+  get 'title'() { return t('39', 'Delete Bookmark'); },
   'props': { 'fullWidth': true },
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': r('40', 'Are you sure you want to delete this bookmark?'),
+  get 'content'() { return t('40', 'Are you sure you want to delete this bookmark?'); },
   'actions': [
     {
       'type': 'state_button',
       'props': { 'color': 'secondary' },
       'has': {
-        'text': r('41', 'Cancel'),
+        get 'text'() { return t('41', 'Cancel'); },
         'onclickHandle': 'tuberCallbacks.defaultClose'
       }
     },
@@ -276,7 +285,7 @@ export const deleteBookmarkDialogState: TStateDialog = {
       'type': 'state_button',
       'props': { 'color': 'primary' },
       'has': {
-        'text': r('42', 'Delete'),
+        get 'text'() { return t('42', 'Delete'); },
         'onclickHandle': 'tuberCallbacks.$34_C_1'
       }
     }
@@ -285,9 +294,10 @@ export const deleteBookmarkDialogState: TStateDialog = {
 };
 
 /** Dark theme mode dialog state to delete a bookmark. @id 34  */
-export const $34DarkThemeMode: TStateDialog = {
-  ...deleteBookmarkDialogState,
-};
+export const $34DarkThemeMode: TStateDialog = (() => {
+  const base = clone_with_descriptors(deleteBookmarkDialogState);
+  return base;
+})();
 
 register('state', '35', C.$35_STATE_KEY);
 /** Client alert dialog. @id 35 */
@@ -295,7 +305,7 @@ export const clientAlertDialogState: TStateDialog = {
   '_type': 'alert',
   '_id': '35',
   '_key': C.$35_STATE_KEY,
-  'title': r('43', 'Feedback'),
+  get 'title'() { return t('43', 'Feedback'); },
   'props': { 'fullWidth': true },
   'titleProps': {
     'sx': { 'textAlign': 'center' }
@@ -306,7 +316,7 @@ export const clientAlertDialogState: TStateDialog = {
       'type': 'state_button',
       'props': { 'color': 'secondary' },
       'has': {
-        'text': r('44', 'Cancel'),
+        get 'text'() { return t('44', 'Cancel'); },
         'onclickHandle': 'tuberCallbacks.defaultClose'
       }
     }
@@ -314,9 +324,10 @@ export const clientAlertDialogState: TStateDialog = {
 };
 
 /** Dark theme mode for client alert dialog. @id 35 */
-export const $35DarkThemeMode: TStateDialog = {
-  ...clientAlertDialogState,
-};
+export const $35DarkThemeMode: TStateDialog = (() => {
+  const base = clone_with_descriptors(clientAlertDialogState);
+  return base;
+})();
 
 register('state', '68', C.$68_STATE_KEY);
 /** Dialog state to confirm logging out. @id 68 */
@@ -329,13 +340,13 @@ export const confirmSignOutDialogState: TStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': r('45', 'Are you sure you want to logout?'),
+  get 'content'() { return t('45', 'Are you sure you want to logout?'); },
   'actions': [
     {
       'type': 'state_button',
       'props': { 'color': 'secondary' },
       'has': {
-        'text': r('46', 'Cancel'),
+        get 'text'() { return t('46', 'Cancel'); },
         'onclickHandle': 'tuberCallbacks.defaultClose'
       }
     },
@@ -343,7 +354,7 @@ export const confirmSignOutDialogState: TStateDialog = {
       'type': 'state_button',
       'props': { 'color': 'primary' },
       'has': {
-        'text': r('47', 'Logout'),
+        get 'text'() { return t('47', 'Logout'); },
         'onclickHandle': 'tuberCallbacks.$68_C_1'
       }
     }
@@ -352,9 +363,10 @@ export const confirmSignOutDialogState: TStateDialog = {
 };
 
 /** Dark theme mode for dialog state to confirm logging out. @id 68 */
-export const $68DarkThemeMode: TStateDialog = {
-  ...confirmSignOutDialogState,
-};
+export const $68DarkThemeMode: TStateDialog = (() => {
+  const base = clone_with_descriptors(confirmSignOutDialogState);
+  return base;
+})();
 
 /**
  * Default alert dialog.  
@@ -369,7 +381,7 @@ export function defaultDialogAlertState<T=unknown>(content: T) {
         '_type': 'alert',
         '_id': '64',
         '_key': C.$64_STATE_KEY,
-        'title': r('48', 'Server Response'),
+        get 'title'() { return t('48', 'Server Response'); },
         'props': { 'fullWidth': true },
         'titleProps': {
           'sx': { 'textAlign': 'center' }
@@ -380,7 +392,7 @@ export function defaultDialogAlertState<T=unknown>(content: T) {
             'type': 'state_button',
             'props': { 'color': 'secondary' },
             'has': {
-              'text': r('49', 'Close'),
+              get 'text'() { return t('49', 'Close'); },
               'onclickHandle': 'tuberCallbacks.defaultClose'
             }
           }
@@ -409,7 +421,7 @@ export function dialogAlertState<T=unknown>(content: T): TStateDialog {
     '_type': 'alert',
     '_id': '65',
     '_key': C.$65_STATE_KEY,
-    'title': r('50', 'Server Response'),
+    get 'title'() { return t('50', 'Server Response'); },
     'props': { 'fullWidth': true },
     'titleProps': {
       'sx': { 'textAlign': 'center' }
@@ -420,7 +432,7 @@ export function dialogAlertState<T=unknown>(content: T): TStateDialog {
         'type': 'state_button',
         'props': { 'color': 'secondary' },
         'has': {
-          'text': r('51', 'Close'),
+          get 'text'() { return t('51', 'Close'); },
           'onclickHandle': 'tuberCallbacks.defaultClose'
         }
       }

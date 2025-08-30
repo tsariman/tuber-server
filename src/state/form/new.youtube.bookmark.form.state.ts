@@ -1,4 +1,4 @@
-import { r } from 'src/business.logic';
+import { clone_with_descriptors, t } from '../../business.logic';
 import { TStateForm } from '../../shared';
 import { register } from '../../business.logic/registry';
 import * as C from '../../constants.server';
@@ -23,7 +23,7 @@ const newYouTubeBookmarkFormState = {
             {
               'type': 'number',
               'name': 'start_seconds',
-              'label': r('261', 'Start'),
+              get 'label'() { return t('261', 'Start'); },
               'props': {
                 'sx': { 'width': 240 },
                 'variant': 'filled'
@@ -34,13 +34,13 @@ const newYouTubeBookmarkFormState = {
               },
               'has': {
                 'required': true,
-                'requiredMessage': r('262', C.START_SECONDS_REQUIRED_MESSAGE),
+                get 'requiredMessage'() { return t('262', C.START_SECONDS_REQUIRED_MESSAGE); },
               }
             },
             {
               'type': 'number',
               'name': 'end_seconds',
-              'label': r('263', 'Length'),
+              get 'label'() { return t('263', 'Length'); },
               'props': {
                 'sx': { 'width': 240 },
                 'variant': 'filled'
@@ -50,7 +50,7 @@ const newYouTubeBookmarkFormState = {
             {
               'type': 'textfield',
               'name': 'videoid',
-              'label': r('264', 'Video ID'),
+              get 'label'() { return t('264', 'Video ID'); },
               'props': {
                 'fullWidth': true,
                 'variant': 'filled'
@@ -60,7 +60,7 @@ const newYouTubeBookmarkFormState = {
             {
               'type': 'textfield',
               'name': 'platform',
-              'label': r('265', 'Platform'),
+              get 'label'() { return t('265', 'Platform'); },
               'props': {
                 'sx': { 'width': 240 },
               },
@@ -71,30 +71,30 @@ const newYouTubeBookmarkFormState = {
         {
           'type': 'textfield',
           'name': 'title',
-          'label': r('266', 'Title'),
+          get 'label'() { return t('266', 'Title'); },
           'props': {
             'fullWidth': true
           },
           'has': {
             'required': true,
-            'requiredMessage': r('267', C.TITLE_REQUIRED_MESSAGE),
+            get 'requiredMessage'() { return t('267', C.TITLE_REQUIRED_MESSAGE); },
             'maxLength': C.TITLE_MAX_LENGTH,
-            'maxLengthMessage': r('268', C.TITLE_MAX_LENGTH_MESSAGE),
-            'invalidationRegex': r('269', '[/#.]'),
-            'invalidationMessage': r('270', `Characters not allowed: '/', '#', '.'`)
+            get 'maxLengthMessage'() { return t('268', C.TITLE_MAX_LENGTH_MESSAGE); },
+            get 'invalidationRegex'() { return t('269', '[/#.]'); },
+            get 'invalidationMessage'() { return t('270', `Characters not allowed: '/', '#', '.'`); }
           }
         },
         {
           'type': 'textarea',
           'name': 'note',
-          'label': r('271', 'Note'),
+          get 'label'() { return t('271', 'Note'); },
           'props': {
             'multiline': true,
             'rows': C.NOTE_FIELD_ROWS
           },
           'has': {
             'maxLength': C.NOTE_MAX_LENGTH,
-            'maxLengthMessage': r('272', C.NOTE_MAX_LENGTH_MESSAGE)
+            get 'maxLengthMessage'() { return t('272', C.NOTE_MAX_LENGTH_MESSAGE); }
           }
         }
       ]
@@ -104,7 +104,7 @@ const newYouTubeBookmarkFormState = {
 
 export default newYouTubeBookmarkFormState;
 
-export const $4DarkThemeMode = {
-  ...newYouTubeBookmarkFormState,
-  // TODO - add dark theme mode overrides here
-} as TStateForm;
+export const $4DarkThemeMode: TStateForm = (() => {
+  const base = clone_with_descriptors(newYouTubeBookmarkFormState);
+  return base;
+})();

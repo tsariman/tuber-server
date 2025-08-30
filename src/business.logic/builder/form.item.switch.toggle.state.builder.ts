@@ -1,5 +1,8 @@
 import AbstractStateBuilder from './abstract.state.builder';
-import { TJsonapiStateResponse, TStateFormItemSwitchToggle } from '../../shared';
+import {
+  TJsonapiStateResponse,
+  TStateFormItemSwitchToggle
+} from '../../shared';
 import { FormControlLabelProps } from '@mui/material';
 
 export default class FormItemSwitchToggleStateBuilder
@@ -46,6 +49,6 @@ export default class FormItemSwitchToggleStateBuilder
   /** Get the state. @returns state. */
   build(): TStateFormItemSwitchToggle { return this._state; }
   configure(): this { return this; }
-  withBootstrapState(): this { return this; }
+  withBootstrapState(): never { return this.bootstrap_not_available(); }
   buildResponse(): TJsonapiStateResponse { return {'state': {}}; }
 }

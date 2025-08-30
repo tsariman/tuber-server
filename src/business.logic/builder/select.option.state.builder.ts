@@ -8,24 +8,15 @@ export default class SelectOptionStateBuilder extends AbstractStateBuilder {
   build(): TStateFormItemSelectOption {
     return this._state;
   }
-  /**
-   * **DO NOT USE**. Method is NOT implemented.
-   * @returns this.
-   */
+  /** **DO NOT USE**. Method is NOT implemented. @returns this. */
   add(): this {
     return this.die('Method not implemented.', this);
   }
-  /**
-   * **DO NOT USE**. Method is NOT implemented.
-   * @returns this.
-   */
-  withId() {
+  /** **DO NOT USE**. Method is NOT implemented. @returns this. */
+  withId(): this {
     return this.die('Method not implemented.', this);
   }
-  /**
-   * **DO NOT USE**. Method is NOT implemented.
-   * @returns this.
-   */
+  /** **DO NOT USE**. Method is NOT implemented. @returns this. */
   withKey() {
     return this.die('Method not implemented.', this);
   }
@@ -42,6 +33,6 @@ export default class SelectOptionStateBuilder extends AbstractStateBuilder {
     return this;
   }
   configure(): this { return this; }
-  withBootstrapState(): this { return this; }
+  withBootstrapState(): never { return this.bootstrap_not_available(); }
   buildResponse(): TJsonapiStateResponse { return {'state': {}}; }
 }

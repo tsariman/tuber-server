@@ -1,12 +1,12 @@
-import FormItemBaseStateBuilder from './form.item.base.state.builder';
-import { TStateFormItem, TStateFormItemSwitchToggle } from '../../shared';
-import FormItemSwitchToggleStateBuilder from './form.item.switch.toggle.state.builder';
 import {
   FormControlLabelProps,
   FormControlProps,
   FormGroupProps,
   FormLabelProps
 } from '@mui/material';
+import FormItemBaseStateBuilder from './form.item.base.state.builder';
+import { TStateFormItem, TStateFormItemSwitchToggle } from '../../shared';
+import FormItemSwitchToggleStateBuilder from './form.item.switch.toggle.state.builder';
 
 export default class FormItemSwitchStateBuilder
   extends FormItemBaseStateBuilder
@@ -29,7 +29,7 @@ export default class FormItemSwitchStateBuilder
    * @returns this.
    */
   hasFormControlProps(props: FormControlProps): this {
-    this.$state.has = this.$state.has || {};
+    this.$state.has ??= {};
     this.$state.has.formControlProps = props;
     return this;
   }
@@ -39,7 +39,7 @@ export default class FormItemSwitchStateBuilder
    * @returns this.
    */
   hasFormLabelProps(props: FormLabelProps): this {
-    this.$state.has = this.$state.has || {};
+    this.$state.has ??= {};
     this.$state.has.formLabelProps = props;
     return this;
   }
@@ -49,7 +49,7 @@ export default class FormItemSwitchStateBuilder
    * @returns this.
    */
   hasFormGroupProps(props: FormGroupProps): this {
-    this.$state.has = this.$state.has || {};
+    this.$state.has ??= {};
     this.$state.has.formGroupProps = props;
     return this;
   }
@@ -68,7 +68,7 @@ export default class FormItemSwitchStateBuilder
    * @returns this.
    */
   hasFormControlLabelProps(props: FormControlLabelProps): this {
-    this.$state.has = this.$state.has || {};
+    this.$state.has ??= {};
     this.$state.has.formControlLabelProps = props;
     return this;
   }
@@ -77,7 +77,7 @@ export default class FormItemSwitchStateBuilder
    * @param props 
    * @returns this.
    */
-  withProps(props: Record<string, unknown>): this {
+  withProps<T extends Record<string, unknown>>(props: T): this {
     this.$state.props = props;
     return this;
   }

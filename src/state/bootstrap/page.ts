@@ -1,4 +1,4 @@
-import { TStateAllPages, TStateAppbar } from '../../shared';
+import { TStateAllPages } from '../../shared';
 import { TThemeMode } from '../../common.types';
 import { IStateContext, TBootstrapState } from '../_state.common.types';
 import {
@@ -37,6 +37,11 @@ import researchPageAppbarState, {
   $71DarkThemeMode,
   listingPageAppbarState
 } from '../appbar';
+import {
+  clone_empty,
+  clone_or_default,
+  clone_with_descriptors
+} from 'src/business.logic';
 
 const bootstrap_pages_state: TBootstrapState<TStateAllPages> = {
 
@@ -65,73 +70,66 @@ const bootstrap_pages_light_state: TBootstrapState<TStateAllPages> = {
     const inDev = Config.DEV && !!usr && usr.role === 'developer';
 
     const lightPages: TStateAllPages = {
-      [$40_STATE_KEY]: {
-        ...researchPageState,
-        appbar: {
-          ...researchPageAppbarState,
-          items: [
-            ...(inDev ? [
-              researchAppErrorsViewLinkState,
-              homeLinkState,
-              ] : usr ? [
-                bookmarkAddFromUrlLinkState,
-              ] : []
-            ),
-            lightModeLinkState,
-            usr ? powerLogoutLinkState : powerSignInLinkState,
-          ]
+      [$40_STATE_KEY]: (() => {
+        const base = clone_with_descriptors(researchPageState);
+        const appbar = clone_with_descriptors(researchPageAppbarState);
+        const items = clone_empty(appbar.items);
+        if (inDev) {
+          items.push(researchAppErrorsViewLinkState);
+          items.push(homeLinkState);
+        } else if (usr) {
+          items.push(bookmarkAddFromUrlLinkState);
         }
-      },
-      [$70_STATE_KEY]: {
-          ...listingPageState,
-          appbar: {
-            ...researchPageAppbarState,
-            items: [
-              ...(inDev ? [
-                researchAppErrorsViewLinkState,
-                homeLinkState,
-                ] : usr ? [
-                  bookmarkAddFromUrlLinkState,
-                ] : []
-              ),
-              lightModeLinkState,
-              powerLogoutLinkState,
-            ]
-          }
-        },
-      [$51_STATE_KEY]: {
-          ...chippedListingPageState,
-          appbar: {
-            ...listingPageAppbarState,
-            items: [
-              ...(inDev ? [
-                researchAppErrorsViewLinkState,
-                homeLinkState,
-                ] : usr ? [
-                  bookmarkAddFromUrlLinkState,
-                ] : []
-              ),
-              lightModeLinkState,
-              powerLogoutLinkState
-            ]
-          }
+        items.push(lightModeLinkState);
+        items.push(usr ? powerLogoutLinkState : powerSignInLinkState);
+        appbar.items = items;
+        base.appbar = appbar;
+        return base;
+      })(),
+      [$70_STATE_KEY]: (() => {
+        const base = clone_with_descriptors(listingPageState);
+        const appbar = clone_with_descriptors(researchPageAppbarState);
+        const items = clone_or_default(appbar.items, []);
+        if (inDev) {
+          items.push(researchAppErrorsViewLinkState);
+          items.push(homeLinkState);
+        } else if (usr) {
+          items.push(bookmarkAddFromUrlLinkState);
         }
+        items.push(lightModeLinkState);
+        items.push(powerLogoutLinkState);
+        appbar.items = items;
+        base.appbar = appbar;
+        return base;
+      })(),
+      [$51_STATE_KEY]: (() => {
+        const base = clone_with_descriptors(chippedListingPageState);
+        const appbar = clone_with_descriptors(listingPageAppbarState);
+        const items = clone_or_default(appbar.items, []);
+        if (inDev) {
+          items.push(researchAppErrorsViewLinkState);
+          items.push(homeLinkState);
+        } else if (usr) {
+          items.push(bookmarkAddFromUrlLinkState);
+        }
+        items.push(lightModeLinkState);
+        items.push(powerLogoutLinkState);
+        appbar.items = items;
+        base.appbar = appbar;
+        return base;
+      })(),
     };
 
     if (inDev) {
-      lightPages[$44_STATE_KEY] = {
-        ...devInstallPageState,
-        'appbar': {
-          ...devInstallPageState,
-          'items': [
-            ...(devInstallPageState.appbar 
-              && devInstallPageState.appbar.items
-              || []
-            ),
-            powerLogoutLinkState,
-          ]
-        } as TStateAppbar,
-      };
+      lightPages[$44_STATE_KEY] = (() => {
+        const base = clone_with_descriptors(devInstallPageState);
+        const appbar = clone_or_default(base.appbar, {});
+        const items = clone_or_default(appbar.items, []);
+        items.push(powerLogoutLinkState);
+        appbar.items = items;
+        base.appbar = appbar;
+        return base;
+      })();
     }
 
     return lightPages;
@@ -144,76 +142,69 @@ const bootstrap_pages_dark_state = {
 
   DEFAULT: (context: IStateContext): TStateAllPages => {
     const { usr } = context;
-    const inDev = Config.DEV && !!usr && usr.role === 'developer';
+    const inDev = Config.DEV && usr?.role === 'developer';
 
     const darkPages: TStateAllPages = {
-      [$40_STATE_KEY]: {
-        ...$40DarkThemeMode,
-        appbar: {
-          ...$63DarkThemeMode,
-          items: [
-            ...(inDev ? [
-              researchAppErrorsViewLinkState,
-              homeLinkState,
-              ] : usr ? [
-                bookmarkAddFromUrlLinkState,
-              ]: []
-            ),
-            darkModeLinkState,
-            usr ? $66DarkThemeMode : $67DarkThemeMode,
-          ]
+      [$40_STATE_KEY]: (() => {
+        const base = clone_with_descriptors($40DarkThemeMode);
+        const appbar = clone_with_descriptors($63DarkThemeMode);
+        const items = clone_empty(appbar.items);
+        if (inDev) {
+          items.push(researchAppErrorsViewLinkState);
+          items.push(homeLinkState);
+        } else if (usr) {
+          items.push(bookmarkAddFromUrlLinkState);
         }
-      },
-      [$70_STATE_KEY]: {
-        ...$70DarkThemeMode,
-        appbar: {
-          ...$63DarkThemeMode,
-          items: [
-            ...(inDev ? [
-              researchAppErrorsViewLinkState,
-              homeLinkState,
-              ] : usr ? [
-                bookmarkAddFromUrlLinkState,
-              ]: []
-            ),
-            darkModeLinkState,
-            $66DarkThemeMode
-          ]
+        items.push(darkModeLinkState);
+        items.push(usr ? $66DarkThemeMode : $67DarkThemeMode);
+        appbar.items = items;
+        base.appbar = appbar;
+        return base;
+      })(),
+      [$70_STATE_KEY]: (() => {
+        const base = clone_with_descriptors($70DarkThemeMode);
+        const appbar = clone_with_descriptors($63DarkThemeMode);
+        const items = clone_with_descriptors(appbar.items ?? []);
+        if (inDev) {
+          items.push(researchAppErrorsViewLinkState);
+          items.push(homeLinkState);
+        } else if (usr) {
+          items.push(bookmarkAddFromUrlLinkState);
         }
-      },
-      [$51_STATE_KEY]: {
-        ...$51DarkThemeMode,
-        appbar: {
-          ...$71DarkThemeMode,
-          items: [
-            ...(inDev ? [
-              researchAppErrorsViewLinkState,
-              homeLinkState,
-              ] : usr ? [
-                bookmarkAddFromUrlLinkState,
-              ] : []
-            ),
-            darkModeLinkState,
-            $66DarkThemeMode
-          ]
+        items.push(darkModeLinkState);
+        items.push($66DarkThemeMode);
+        appbar.items = items;
+        base.appbar = appbar;
+        return base;
+      })(),
+      [$51_STATE_KEY]: (() => {
+        const base = clone_with_descriptors($51DarkThemeMode);
+        const appbar = clone_with_descriptors($71DarkThemeMode);
+        const items = clone_with_descriptors(appbar.items ?? []);
+        if (inDev) {
+          items.push(researchAppErrorsViewLinkState);
+          items.push(homeLinkState);
+        } else if (usr) {
+          items.push(bookmarkAddFromUrlLinkState);
         }
-      }
+        items.push(darkModeLinkState);
+        items.push($66DarkThemeMode);
+        appbar.items = items;
+        base.appbar = appbar;
+        return base;
+      })(),
     };
 
     if (inDev) {
-      darkPages[$44_STATE_KEY] = {
-        ...$44DarkThemeMode,
-        'appbar': {
-          ...$44DarkThemeMode,
-          'items': [
-            ...($44DarkThemeMode.appbar 
-              && $44DarkThemeMode.appbar.items
-              || []
-            ),
-            $66DarkThemeMode,
-          ]
-        } as TStateAppbar,
-      };
+      darkPages[$44_STATE_KEY] = (() => {
+        const base = clone_with_descriptors($44DarkThemeMode);
+        const appbar = clone_or_default(base.appbar, {});
+        const items = clone_or_default(appbar.items, []);
+        items.push($66DarkThemeMode);
+        appbar.items = items;
+        base.appbar = appbar;
+        return base;
+      })();
     }
 
     return darkPages;

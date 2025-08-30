@@ -18,7 +18,8 @@ import {
   powerLogoutLinkState,
   powerSignInLinkState,
 } from '../nav.link';
-import { dev_get_links_state } from 'src/DEV/link.state';
+import { dev_get_links_state } from '../../DEV/link.state';
+import { clone_or_default, clone_with_descriptors } from '../../business.logic';
 
 register('state', '40', $40_STATE_KEY);
 /** Page state for research page app. @id 40 */
@@ -37,7 +38,7 @@ const researchPageState: TStatePage = {
     },
     'searchFieldIcon': {
       'icon': 'public_outline',
-      'iconProps': {
+      'svgIconProps': {
         'sx': { 'color': ICON_COLOR }
       }
     },
@@ -57,20 +58,25 @@ const researchPageState: TStatePage = {
 export default researchPageState;
 
 /** Dark theme mode for research page state. @id 40 */
-export const $40DarkThemeMode: TStatePage = {
-  ...researchPageState,
-};
+export const $40DarkThemeMode: TStatePage = (() => {
+  const base = clone_with_descriptors(researchPageState);
+  return base;
+})();
 
 register('state', '70', $70_STATE_KEY);
 /** Listing (research alias) page state. @id 70 */
-export const listingPageState: TStatePage = {
-  ...researchPageState,
-  '_id': '70',
-  '_key': $70_STATE_KEY,
-  'title': 'Listing',
-};
+export const listingPageState: TStatePage = (() => {
+  const base = clone_with_descriptors(researchPageState);
+  base._id = '70';
+  base._key = $70_STATE_KEY;
+  base.title = 'Listing';
+  return base;
+})();
 /** Dark theme mode for listing (research alias) page state. @id 70 */
-export const $70DarkThemeMode: TStatePage = { ...listingPageState };
+export const $70DarkThemeMode: TStatePage = (() => {
+  const base = clone_with_descriptors(listingPageState);
+  return base;
+})();
 
 /**
  * Get the research page state.
@@ -82,18 +88,15 @@ export const $70DarkThemeMode: TStatePage = { ...listingPageState };
  * @deprecated
  */
 export function get_research_page_state(usr?: TCipheredUser): TStatePage {
-  return {
-    ...researchPageState,
-    appbar: {
-      ...researchPageAppbarState,
-      items: [
-        ...dev_get_links_state(usr),
-        bookmarkAddFromUrlLinkState,
-        lightModeLinkState,
-        usr ? powerLogoutLinkState : powerSignInLinkState,
-      ]
-    }
-  };
+  const base = clone_with_descriptors(researchPageState);
+  const appbar = clone_with_descriptors(researchPageAppbarState);
+  const items = dev_get_links_state(usr);
+  items.push(bookmarkAddFromUrlLinkState);
+  items.push(lightModeLinkState);
+  items.push(usr ? powerLogoutLinkState : powerSignInLinkState);
+  appbar.items = items;
+  base.appbar = appbar;
+  return base;
 }
 
 /**
@@ -106,18 +109,15 @@ export function get_research_page_state(usr?: TCipheredUser): TStatePage {
  * @deprecated
  */
 export function get_40_dark_theme_mode(usr?: TCipheredUser ): TStatePage {
-  return {
-    ...$40DarkThemeMode,
-    appbar: {
-      ...$63DarkThemeMode,
-      items: [
-        ...dev_get_links_state(usr),
-        bookmarkAddFromUrlLinkState,
-        darkModeLinkState,
-        usr ? $66DarkThemeMode : $67DarkThemeMode,
-      ]
-    }
-  };
+  const base = clone_with_descriptors($40DarkThemeMode);
+  const appbar = clone_with_descriptors($63DarkThemeMode);
+  const items = dev_get_links_state(usr);
+  items.push(bookmarkAddFromUrlLinkState);
+  items.push(darkModeLinkState);
+  items.push(usr ? $66DarkThemeMode : $67DarkThemeMode);
+  appbar.items = items;
+  base.appbar = appbar;
+  return base;
 }
 
 /**
@@ -127,24 +127,21 @@ export function get_40_dark_theme_mode(usr?: TCipheredUser ): TStatePage {
  * @deprecated
  */
 export function get_listing_page_state (usr?: TCipheredUser): TStatePage {
-  return {
-    ...listingPageState,
-    appbar: {
-      ...researchPageAppbarState,
-      'searchFieldIconButton': {
-        'has': {
-          'icon': 'search_outline',
-          'onclickHandle': 'tuberCallbacks.appbarFilterBookmarks'
-        }
-      },
-      items: [
-        ...dev_get_links_state(usr),
-        bookmarkAddFromUrlLinkState,
-        lightModeLinkState,
-        usr ? powerLogoutLinkState : powerSignInLinkState,
-      ]
-    }
-  };
+  const base = clone_with_descriptors(listingPageState);
+  const appbar = clone_with_descriptors(researchPageAppbarState);
+  const searchFieldIconButton = clone_or_default(appbar.searchFieldIconButton, {});
+  const has = clone_or_default(searchFieldIconButton.has, {});
+  has.icon = 'search_outline';
+  has.onclickHandle = 'tuberCallbacks.appbarFilterBookmarks';
+  searchFieldIconButton.has = has;
+  appbar.searchFieldIconButton = searchFieldIconButton;
+  const items = dev_get_links_state(usr);
+  items.push(bookmarkAddFromUrlLinkState);
+  items.push(lightModeLinkState);
+  items.push(usr ? powerLogoutLinkState : powerSignInLinkState);
+  appbar.items = items;
+  base.appbar = appbar;
+  return base;
 }
 
 /**
@@ -157,16 +154,13 @@ export function get_listing_page_state (usr?: TCipheredUser): TStatePage {
  * @deprecated
  */
 export function get_70_dark_theme_mode(usr?: TCipheredUser): TStatePage {
-  return {
-    ...$70DarkThemeMode,
-    appbar: {
-      ...$63DarkThemeMode,
-      items: [
-        ...dev_get_links_state(usr),
-        bookmarkAddFromUrlLinkState,
-        darkModeLinkState,
-        usr ? powerLogoutLinkState : powerSignInLinkState,
-      ]
-    }
-  };
-}
+  const base = clone_with_descriptors($70DarkThemeMode);
+  const appbar = clone_with_descriptors($63DarkThemeMode);
+  const items = dev_get_links_state(usr);
+  items.push(bookmarkAddFromUrlLinkState);
+  items.push(darkModeLinkState);
+  items.push(usr ? powerLogoutLinkState : powerSignInLinkState);
+  appbar.items = items;
+  base.appbar = appbar;
+  return base;
+};

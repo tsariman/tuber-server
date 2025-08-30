@@ -1,6 +1,10 @@
+import {
+  FormControlProps,
+  FormHelperTextProps,
+  InputLabelProps
+} from '@mui/material';
 import { TJsonapiStateResponse, TStateFormItem } from '../../shared';
 import AbstractStateBuilder, { TTextField } from './abstract.state.builder';
-import { FormControlProps, FormHelperTextProps, InputLabelProps } from '@mui/material';
 
 type TType = TStateFormItem['type'];
 
@@ -90,7 +94,7 @@ export default class FormItemStateBuilder extends AbstractStateBuilder {
    * @param name 
    * @returns this.
    */
-  withProps(props: Record<string, unknown>): this {
+  withProps<T extends Record<string, unknown>>(props: T): this {
     this.$state.props = props;
     return this;
   }
@@ -132,7 +136,7 @@ export default class FormItemStateBuilder extends AbstractStateBuilder {
    * @returns this.
    */
   hasIcon(icon: string): this {
-    this.$state.has = this.$state.has ?? {};
+    this.$state.has ??= {};
     this.$state.has.icon = icon;
     return this;
   }
@@ -142,7 +146,7 @@ export default class FormItemStateBuilder extends AbstractStateBuilder {
    * @returns this.
    */
   hasFaIcon(faIcon: string): this {
-    this.$state.has = this.$state.has ?? {};
+    this.$state.has ??= {};
     this.$state.has.faIcon = faIcon;
     return this;
   }
@@ -152,7 +156,7 @@ export default class FormItemStateBuilder extends AbstractStateBuilder {
    * @returns this.
    */
   hasFormControlProps(props: FormControlProps): this {
-    this.$state.has = this.$state.has || {};
+    this.$state.has ??= {};
     this.$state.has.formControlProps = props;
     return this;
   }
@@ -162,7 +166,7 @@ export default class FormItemStateBuilder extends AbstractStateBuilder {
    * @returns this.
    */
   hasInputLabelProps(props: InputLabelProps): this {
-    this.$state.has = this.$state.has || {};
+    this.$state.has ??= {};
     this.$state.has.inputLabelProps = props;
     return this;
   }
@@ -173,7 +177,7 @@ export default class FormItemStateBuilder extends AbstractStateBuilder {
    * @returns this.
    */
   hasItems(items: AbstractStateBuilder[]): this {
-    this.$state.has = this.$state.has || {};
+    this.$state.has ??= {};
     this.$state.has.items = items.map(item => item.build());
     return this;
   }
@@ -183,7 +187,7 @@ export default class FormItemStateBuilder extends AbstractStateBuilder {
    * @returns this.
    */
   hasHelperText(helperText: string): this {
-    this.$state.has = this.$state.has || {};
+    this.$state.has ??= {};
     this.$state.has.helperText = helperText;
     return this;
   }
@@ -193,11 +197,11 @@ export default class FormItemStateBuilder extends AbstractStateBuilder {
    * @returns this.
    */
   hasFormHelperTextProps(props: FormHelperTextProps): this {
-    this.$state.has = this.$state.has || {};
+    this.$state.has ??= {};
     this.$state.has.formHelperTextProps = props;
     return this;
   }
   configure(): this { return this; }
-  withBootstrapState(): this { return this; }
+  withBootstrapState(): never { return this.bootstrap_not_available(); }
   buildResponse(): TJsonapiStateResponse { return {'state': {}}; }
 }

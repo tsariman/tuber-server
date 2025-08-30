@@ -21,7 +21,7 @@ export default class FormChoicesStateBuilder<T=unknown> extends FormItemBaseStat
    * @returns this.
    */
   hasFormControlProps(props: TFormControlProps): this {
-    this._state.has = this._state.has || {};
+    this._state.has ??= {};
     this._state.has.formControlProps = props;
     return this;
   }
@@ -31,7 +31,7 @@ export default class FormChoicesStateBuilder<T=unknown> extends FormItemBaseStat
    * @returns this.
    */
   hasFormLabelProps(props: TFormLabelProps): this {
-    this._state.has = this._state.has || {};
+    this._state.has ??= {};
     this._state.has.formLabelProps = props;
     return this;
   }

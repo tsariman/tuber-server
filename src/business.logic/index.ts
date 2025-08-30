@@ -1,3 +1,10 @@
+import { 
+  die,
+  has_property,
+  is_object,
+  is_record,
+  parse_cookie
+} from '../utility';
 import Config from '../config';
 import {
   IJsonapiQuerystring,
@@ -6,28 +13,8 @@ import {
 } from '../common.types';
 import { THEME_MODE } from '../constants.server';
 import { FastifyRequest } from 'fastify';
-import { log, log_err } from '../utility/logging';
-
-export const die = (message: string): void => {
-  if (process.env.NODE_ENV === 'development') {
-    throw new Error(message);
-  }
-}
-
-/** Returns `true` if the argument is an object. */
-export const is_object = (obj: unknown): obj is Object => {
-  return typeof obj === 'object' && obj !== null && !Array.isArray(obj);
-}
-
-/**
- * Check if an object contains a specific property
- * @param obj - The object to check
- * @param prop - The property name to look for
- * @returns Type predicate indicating if the object has the property
- */
-export const has_property = <T extends string>(obj: unknown, prop: T): obj is Record<T, unknown> => {
-  return is_object(obj) && prop in (obj as object);
-};
+import { ler, log, log_err } from '../utility/logging';
+import { get_current_language_key, READABLE_CACHE } from './cache';
 
 /**
  * Convert object into query string with brackets. e.g.
@@ -50,9 +37,9 @@ export const bracketize_object_querystring = (
   depth = 0
 ): string => {
   if (typeof obj === 'string') return obj;
-  if (is_object(obj)) {
+  if (is_record(obj)) {
     return Object.keys(obj).reduce((acc, key) => {
-      const value = (obj as TObj)[key];
+      const value = obj[key];
       if (is_object(value)) {
         parentKey = depth === 0 ? key : `${parentKey}[${key}]`;
         return acc + bracketize_object_querystring(
@@ -66,25 +53,32 @@ export const bracketize_object_querystring = (
   throw new Error(`obj is '${typeof obj}'. Should be an object or a string`);
 }
 
-/** Insert state fragment using `_key` as key. */
+/** Insert `fragment` into `state` at property `_key`. */
 export const set_state_by_key = <T, K>(
   state: T,
   fragment: K
 ) => {
-  const _key = (fragment as TObj)['_key'];
-  if (!_key) die('Fragment must have a `_key`.');
-  (state as TObj)[_key as string] = fragment;
+  if (is_object(state) && has_property<string>(fragment, '_key')) {
+    if (!fragment._key) die('Fragment must have a valid `_key`.');
+    (state as TObj)[fragment._key] = fragment;
+    return;
+  }
+  ler('state', state);
+  ler('fragment', fragment);
+  throw new Error(`Failed to include state using '_key'.`);
 }
 
 /**
- * Retrieves the value of `_key` from the given state.
+ * Retrieve the value of `_key` from the given state.
  * @param state State object
  * @returns `_key` value
  */
-export const get_state_key = <T=TObj>(state: T): string => {
-  const _key = (state as TObj)['_key'] as string;
-  if (!_key) die('Fragment must have a `_key`.');
-  return _key;
+export const get_state_key = <T>(state: T): string => {
+  if (has_property<string>(state, '_key')) {
+    return state._key;
+  }
+  ler('[ERROR] Invalid state', state);
+  throw new Error(`Argument is either not a state or '_key' is invalid`);
 }
 
 /**
@@ -234,24 +228,6 @@ export function has_cookie(req: FastifyRequest<{ Body: { cookie?: string } }>): 
 }
 
 /**
- * Parse cookie string into an object.
- * @param cookieString Cookie string
- * @returns object
- */
-export function parse_cookie(cookieString?: string) {
-  if (!cookieString) return {};
-  const cookies = {} as Record<string, string>;
-  const pairs = cookieString.split(';');
-
-  pairs.forEach(pair => {
-    const [key, value] = pair.split('=').map(s => s.trim());
-    cookies[key] = value;
-  })
-
-  return cookies;
-}
-
-/**
  * Get the theme mode from the cookie string.
  *
  * @param cookieString 
@@ -298,7 +274,51 @@ export function option<T=unknown> (
  * @param $default Default value is required... :(
  * @returns 
  */
-export function r<T>(key: string, $default: T): T {
-  return Config.READABLE_CACHE.get(key) ?? $default;
+export function t<T>(key: string, $default: T): T {
+  const lang_key = get_current_language_key();
+  const languageCache = READABLE_CACHE.get(lang_key);
+
+  if (!languageCache) {
+    // log_err(`Language cache not found for: ${lang_key}`);
+    return $default;
+  }
+
+  const v = languageCache.get(key);
+  if (typeof $default === 'string') {
+    return (typeof v === 'string' ? v : $default) as T;
+  }
+  return (v ?? $default) as T;
 }
 
+/** Shallow clone that preserves getters/setters and prototype (no spread). */
+export function clone_with_descriptors<T extends object>(source: T): T {
+  const target = (Array.isArray(source)
+    ? new Array(source.length)
+    : Object.create(Object.getPrototypeOf(source))) as T;
+  return Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
+}
+
+/**
+ * Shallow clone that preserves getters/setters and prototype (no spread).
+ *
+ * @returns object clone or default value
+ */
+export function clone_or_default<T extends object>(
+  source: T | null | undefined, defaultValue: T
+): T {
+  return source ? clone_with_descriptors(source) : defaultValue;
+}
+
+/** Get empty version of the passed argument with the same type. */
+export function clone_empty<T extends object>(source: T | null | undefined): T {
+  if (!source) {
+    return {} as T;
+  }
+
+  if (Array.isArray(source)) {
+    return [] as T;
+  }
+
+  // Create empty object with same prototype
+  return Object.create(Object.getPrototypeOf(source)) as T;
+}

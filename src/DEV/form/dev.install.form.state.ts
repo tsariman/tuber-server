@@ -1,7 +1,8 @@
-import { TBootstrapState } from 'src/state/_state.common.types';
+import { TBootstrapState } from '../../state/_state.common.types';
 import { TStateForm } from '../../shared';
 import { register } from '../../business.logic/registry';
 import * as C from '../../constants.server';
+import { clone_with_descriptors } from '../../business.logic';
 
 register('state', '47', C.$47_STATE_KEY);
 /** Development shortcuts form. @id 47 */
@@ -363,14 +364,20 @@ const devInstallFormState = {
 
 export default devInstallFormState;
 
-/** Dark theme version for the development shortcuts form. */
-export const $47DarkThemeMode = {
-  ...devInstallFormState,
-  'paperProps': {
+/** Dark theme version for the development shortcuts form. @id 47 */
+export const $47DarkThemeMode = (() => {
+  const base = clone_with_descriptors(devInstallFormState);
+  const paperProps = {
+    ...base.paperProps,
     'elevation': 0,
-    'sx': { 'backgroundColor': C.THEME_DARK_PAPER_COLOR }
-  },
-} as TStateForm;
+    'sx': {
+      ...base.paperProps?.sx,
+      'backgroundColor': C.THEME_DARK_PAPER_COLOR
+    }
+  } as typeof base.paperProps;
+  base.paperProps = paperProps;
+  return base;
+})();
 
 export const dev_install_form_state = {
 

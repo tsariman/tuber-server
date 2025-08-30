@@ -6,9 +6,10 @@ import {
 import { register } from '../../business.logic/registry';
 import { TStateForm } from '../../shared';
 import { TBootstrapState } from 'src/state/_state.common.types';
+import { clone_or_default, clone_with_descriptors } from 'src/business.logic';
 
 register('state', '49', $49_STATE_KEY);
-/** @id 49 @deprecated */
+/** @id 49 */
 const devSetAuthorizationKeyFormState: TStateForm = {
   '_id': '49',
   '_key': $49_STATE_KEY,
@@ -84,14 +85,16 @@ const devSetAuthorizationKeyFormState: TStateForm = {
 
 export default devSetAuthorizationKeyFormState;
 
-/** @deprecated */
-export const $49DarkThemeMode = {
-  ...devSetAuthorizationKeyFormState,
-  'paperProps': {
-    ...devSetAuthorizationKeyFormState.paperProps,
-    'sx': { 'backgroundColor': THEME_DARK_PAPER_COLOR }
-  },
-} as TStateForm;
+export const $49DarkThemeMode: TStateForm = (() => {
+  const base = clone_with_descriptors(devSetAuthorizationKeyFormState);
+  const paperProps = clone_or_default(base.paperProps, {});
+  paperProps.sx = {
+    ...paperProps.sx,
+    'backgroundColor': THEME_DARK_PAPER_COLOR
+  };
+  base.paperProps = paperProps;
+  return base;
+})();
 
 export const dev_set_authorization_key_form_state = {
 

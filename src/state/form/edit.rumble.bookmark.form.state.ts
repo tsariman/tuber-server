@@ -1,4 +1,4 @@
-import { r } from 'src/business.logic';
+import { clone_with_descriptors, t } from '../../business.logic';
 import { TStateForm } from '../../shared';
 import { register } from '../../business.logic/registry';
 import * as C from '../../constants.server';
@@ -16,7 +16,7 @@ const editRumbleBookmarkFormState = {
         {
           'type': 'textfield',
           'name': 'slug',
-          'label': r('117', 'Video URL Slug'),
+          get 'label'() { return t('117', 'Video URL Slug'); },
           'props': {
             'fullWidth': true,
             'variant': 'filled'
@@ -33,7 +33,7 @@ const editRumbleBookmarkFormState = {
             {
               'type': 'number',
               'name': 'start_seconds',
-              'label': r('118', 'Start'),
+              get 'label'() { return t('118', 'Start'); },
               'props': {
                 'sx': { 'width': 240 },
                 'variant': 'filled'
@@ -41,13 +41,13 @@ const editRumbleBookmarkFormState = {
               'inputProps': { 'readOnly': true },
               'has': {
                 'required': true,
-                'requiredMessage': r('119', C.START_SECONDS_REQUIRED_MESSAGE),
+                get 'requiredMessage'() { return t('119', C.START_SECONDS_REQUIRED_MESSAGE); },
               }
             },
             {
               'type': 'textfield',
               'name': 'videoid',
-              'label': r('120', 'Video ID'),
+              get 'label'() { return t('120', 'Video ID'); },
               'props': {
                 'fullWidth': true,
                 'variant': 'filled'
@@ -57,7 +57,7 @@ const editRumbleBookmarkFormState = {
             {
               'type': 'textfield',
               'name': 'platform',
-              'label': r('121', 'Platform'),
+              get 'label'() { return t('121', 'Platform'); },
               'props': {
                 'sx': { 'width': 240 },
                 'variant': 'filled'
@@ -69,36 +69,36 @@ const editRumbleBookmarkFormState = {
         {
           'type': 'textfield',
           'name': 'title',
-          'label': r('122', 'Title'),
+          get 'label'() { return t('122', 'Title'); },
           'props': {
             'fullWidth': true
           },
           'has': {
             'required': true,
-            'requiredMessage': r('123', C.TITLE_REQUIRED_MESSAGE),
-            'maxLength': r('124', C.TITLE_MAX_LENGTH),
-            'maxLengthMessage': r('125', C.TITLE_MAX_LENGTH_MESSAGE)
+            get 'requiredMessage'() { return t('123', C.TITLE_REQUIRED_MESSAGE); },
+            'maxLength': C.TITLE_MAX_LENGTH,
+            get 'maxLengthMessage'() { return t('125', C.TITLE_MAX_LENGTH_MESSAGE); }
           }
         },
         {
           'type': 'textarea',
           'name': 'note',
-          'label': r('126', 'Note'),
+          get 'label'() { return t('126', 'Note'); },
           'props': {
             'multiline': true,
-            'rows': r('127', C.NOTE_FIELD_ROWS)
+            'rows': C.NOTE_FIELD_ROWS
           },
           'has': {
-            'maxLength': r('128', C.NOTE_MAX_LENGTH),
-            'maxLengthMessage': r('129', C.NOTE_MAX_LENGTH_MESSAGE)
+            'maxLength': C.NOTE_MAX_LENGTH,
+            get 'maxLengthMessage'() { return t('129', C.NOTE_MAX_LENGTH_MESSAGE); }
           }
         },
         {
           'type': 'single_switch',
           'name': 'is_published',
-          'label': r('130', 'Published'),
+          get 'label'() { return t('130', 'Published'); },
           'has': {
-            'helperText': r('131', C.PUBLISHED_HELPER_TEXT)
+            get 'helperText'() { return t('131', C.PUBLISHED_HELPER_TEXT); }
           }
         }
       ]
@@ -108,7 +108,7 @@ const editRumbleBookmarkFormState = {
 
 export default editRumbleBookmarkFormState;
 
-export const $10DarkThemeMode = {
-  ...editRumbleBookmarkFormState,
-  // TODO - add dark theme mode overrides
-} as TStateForm;
+export const $10DarkThemeMode = (() => {
+  const base = clone_with_descriptors(editRumbleBookmarkFormState);
+  return base;
+})();

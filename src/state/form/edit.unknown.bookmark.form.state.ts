@@ -1,4 +1,4 @@
-import { r } from 'src/business.logic';
+import { clone_with_descriptors, t } from '../../business.logic';
 import { TStateForm } from '../../shared';
 import { register } from '../../business.logic/registry';
 import * as C from '../../constants.server';
@@ -16,7 +16,7 @@ const editUnknownBookmarkFormState = {
         {
           'type': 'textfield',
           'name': 'url',
-          'label': r('146', 'Video URL'),
+          get 'label'() { return t('146', 'Video URL'); },
           'props': {
             'fullWidth': true,
             'variant': 'filled'
@@ -26,7 +26,7 @@ const editUnknownBookmarkFormState = {
         {
           'type': 'textfield',
           'name': 'embed_url',
-          'label': r('147', 'Embed IFRAME URL'),
+          get 'label'() { return t('147', 'Embed IFRAME URL'); },
           'props': {
             'fullWidth': true,
             'variant': 'filled'
@@ -36,7 +36,7 @@ const editUnknownBookmarkFormState = {
         {
           'type': 'textfield',
           'name': 'thumbnail_url',
-          'label': r('148', 'Thumbnail URL'),
+          get 'label'() { return t('148', 'Thumbnail URL'); },
           'props': {
             'fullWidth': true,
             // 'variant': 'filled'
@@ -44,34 +44,34 @@ const editUnknownBookmarkFormState = {
           // 'inputProps': { 'readOnly': true },
           'has': {
             'required': true,
-            'requiredMessage': r('149', 'Where did that thumbnail URL go?'),
+            get 'requiredMessage'() { return t('149', 'Where did that thumbnail URL go?'); },
           }
         },
         {
           'type': 'textfield',
           'name': 'title',
-          'label': r('150', 'Title'),
+          get 'label'() { return t('150', 'Title'); },
           'props': {
             'fullWidth': true
           },
           'has': {
             'required': true,
-            'requiredMessage': r('151', C.TITLE_REQUIRED_MESSAGE),
-            'maxLength': r('152', C.TITLE_MAX_LENGTH),
-            'maxLengthMessage': r('153', C.TITLE_MAX_LENGTH_MESSAGE)
+            get 'requiredMessage'() { return t('151', C.TITLE_REQUIRED_MESSAGE); },
+            'maxLength': C.TITLE_MAX_LENGTH,
+            get 'maxLengthMessage'() { return t('153', C.TITLE_MAX_LENGTH_MESSAGE); }
           }
         },
         {
           'type': 'textarea',
           'name': 'note',
-          'label': r('154', 'Note'),
+          get 'label'() { return t('154', 'Note'); },
           'props': {
             'multiline': true,
-            'rows': r('155', C.NOTE_FIELD_ROWS)
+            'rows': C.NOTE_FIELD_ROWS
           },
           'has': {
-            'maxLength': r('156', C.NOTE_MAX_LENGTH),
-            'maxLengthMessage': r('157', C.NOTE_MAX_LENGTH_MESSAGE)
+            'maxLength': C.NOTE_MAX_LENGTH,
+            get 'maxLengthMessage'() { return t('157', C.NOTE_MAX_LENGTH_MESSAGE); }
           }
         }
       ]
@@ -81,7 +81,7 @@ const editUnknownBookmarkFormState = {
 
 export default editUnknownBookmarkFormState
 
-export const $29DarkThemeMode = {
-  ...editUnknownBookmarkFormState,
-  // TODO - add dark theme overrides here
-} as TStateForm
+export const $29DarkThemeMode = (() => {
+  const base = clone_with_descriptors(editUnknownBookmarkFormState);
+  return base;
+})();
