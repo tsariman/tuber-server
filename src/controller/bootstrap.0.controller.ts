@@ -44,7 +44,7 @@ import {
 import { 
   clone_or_default,
   clone_with_descriptors,
-  get_body as get_from_body,
+  get_from_body,
   get_state_key,
   get_theme_mode,
   set_state_by_key,
@@ -52,13 +52,14 @@ import {
 } from '../business.logic';
 import { get_documents_count } from '../DEV';
 import {
+  TJsonapiStateResponse,
   TStateAllDialogs,
   TStateAllForms,
   TStateAllPages,
   TStateApp,
   TStateAppbar,
 } from '../shared';
-import { IBootstrapResponse, TObj } from '../common.types';
+import { TObj } from '../common.types';
 import {
   $40_STATE_KEY,
   $44_STATE_KEY,
@@ -79,7 +80,7 @@ import { get_registry } from '../business.logic/registry';
 import { log, log_err } from '../utility/logging';
 
 /** @deprecated */
-export default async function bootstrap_controller(fastify: FastifyInstance) {
+export default async function bootstrap_0_controller(fastify: FastifyInstance) {
 
   const DEFAULT_APP_INFO: TStateApp = {
     'fetchingStateAllowed': true,
@@ -393,7 +394,7 @@ export default async function bootstrap_controller(fastify: FastifyInstance) {
           'dialogs': dialogsState,
           'dialogsLight': dialogsLightState,
           'dialogsDark': dialogsDarkState,
-          'stateRegistry': get_registry('state'),
+          'staticRegistry': get_registry('state'),
           ...(usr ? { 'net': {
             'name': usr.name,
             'role': usr.role,
@@ -404,7 +405,7 @@ export default async function bootstrap_controller(fastify: FastifyInstance) {
             'net': undefined,
           }),
         }
-      } as IBootstrapResponse);
+      } as TJsonapiStateResponse);
 
     } catch (e) {
       log_err('attempting to bootstrap state', e);

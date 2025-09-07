@@ -16,9 +16,9 @@ export default class FormItemSwitchToggleStateBuilder
   /** **DO NOT USE!** Not implemented. @returns this. */
   add() { return this.die('Method not implemented.', this); }
   /** **DO NOT USE!** Not implemented. @returns this. */
-  withId() { return this.die('Method not implemented.', this); }
+  with_Id() { return this.die('Method not implemented.', this); }
   /** **DO NOT USE!** Not implemented. @returns this. */
-  withKey() { return this.die('Method not implemented.', this); }
+  with_Key() { return this.die('Method not implemented.', this); }
   /**
    * Set the toggle label.
    * @param label 
@@ -49,6 +49,6 @@ export default class FormItemSwitchToggleStateBuilder
   /** Get the state. @returns state. */
   build(): TStateFormItemSwitchToggle { return this._state; }
   configure(): this { return this; }
-  withBootstrapState(): never { return this.bootstrap_not_available(); }
+  withBootstrapState(): never { return this.bootstrapNotAvailable(); }
   buildResponse(): TJsonapiStateResponse { return {'state': {}}; }
 }

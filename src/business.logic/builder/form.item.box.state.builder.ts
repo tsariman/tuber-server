@@ -11,8 +11,8 @@ export default class FormItemBoxStateBuilder extends AbstractFormItemStateBuilde
   }
   /** Method not implemented. @returns this. */
   add(): this { return this.die('Method not implemented.', this); }
-  withId(_id: string) { return this.die('Method not implemented.', this); }
-  withKey(_key: string) { return this.die('Method not implemented.', this); }
+  with_Id(_id: string) { return this.die('Method not implemented.', this); }
+  with_Key(_key: string) { return this.die('Method not implemented.', this); }
   /** Method not implemented. @returns this. */
   withType() { return this.die('Method not implemented.', this); }
   withName(name: string): this {
@@ -73,6 +73,6 @@ export default class FormItemBoxStateBuilder extends AbstractFormItemStateBuilde
     return this;
   }
   configure(): this { return this; }
-  withBootstrapState(): never { return this.bootstrap_not_available(); }
+  withBootstrapState(): never { return this.bootstrapNotAvailable(); }
   buildResponse(): TJsonapiStateResponse { return {'state': {}}; }
 }

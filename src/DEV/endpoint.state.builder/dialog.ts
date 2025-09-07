@@ -13,7 +13,7 @@ export default async function dev_get_dialog_builder_state(
     print(`[DEBUG] Testing dialog builder state... `);
     const id = Math.random().toString(36).substring(7);
     reply.code(200).send(new DialogStateBuilder()
-      .withId(id)
+      .with_Id(id)
       .with_Type('alert')
       .withTitle('Dialog Builder Alert State')
       .withContentText('This is the dialog builder alert state.')

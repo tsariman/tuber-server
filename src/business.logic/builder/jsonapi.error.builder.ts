@@ -214,7 +214,7 @@ export const default_404_error_response = (
 }
 
 /**
- * Default 401 error response to help prevent repetitive and overinflated code.
+ * Default 401 error response to help prevent repetitive code.
  *
  * @param title of the error message
  * @param detail of the error message

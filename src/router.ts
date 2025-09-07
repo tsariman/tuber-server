@@ -9,6 +9,7 @@ import users_controller from './controller/user.controller';
 import authenticate_controller from './controller/authentication.controller';
 import signout_controller from './controller/signout.controller';
 import bookmark_controller from './controller/bookmark.controller';
+import listing_controller from './controller/listing.controller';
 import platform_controller from './platform/platform.controller';
 import state_controller from './state/state.controller';
 import JsonapiErrorBuilder, {
@@ -16,7 +17,7 @@ import JsonapiErrorBuilder, {
 } from './business.logic/builder/jsonapi.error.builder';
 import * as C from './constants.server';
 import dev_builder_controller from './DEV/dev.builder.controller';
-import $1_bootstrap_controller from './controller/1.bootstrap.controller';
+import bootstrap_1_controller from './controller/bootstrap.1.controller';
 import { log } from './utility/logging';
 
 // Global variable to store the current bootstrap prefix
@@ -80,10 +81,10 @@ export default async function router(fastify: FastifyInstance) {
   fastify.register(signout_controller, { prefix: `/${C.EP_SIGNOUT}` });
   fastify.register(index_controller, { prefix: '/' });
   fastify.register(state_controller, { prefix: `/${C.EP_STATE}` });
-  // fastify.register(bootstrap_controller, { prefix: `/${randomPrefix}` });
-  fastify.register($1_bootstrap_controller, { prefix: `/${randomPrefix}` });
+  fastify.register(bootstrap_1_controller, { prefix: `/${randomPrefix}` });
   fastify.register(users_controller, { prefix: `/${C.EP_USERS}` });
   fastify.register(bookmark_controller, { prefix: `/${C.EP_BOOKMARKS}` });
+  fastify.register(listing_controller, { prefix: `/${C.EP_LISTINGS}` });
 
   if (Config.DEV) {
     fastify.register(dev_controller, { prefix: `/${C.EP_DEV}` });

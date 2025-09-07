@@ -19,7 +19,7 @@ export default async function get_bookmark_by_id_endpoint (
         new JsonapiResponseColBuilder(bookmark, 'bookmarks', 'object').mPaginationV2build()
       );
     } else {
-      log('Failed.\nBookmark not found.');
+      log('Failed.\n[DEBUG][404] Bookmark not found.');
       reply.code(404).send(new JsonapiErrorBuilder()
         .withStatus(404)
         .withTitle('Not Found')

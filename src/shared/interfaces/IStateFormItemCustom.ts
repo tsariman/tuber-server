@@ -15,8 +15,25 @@ import {
   RadioGroupProps,
   SvgIconProps
 } from '@mui/material';
+import { IStateKeys } from './IState';
 
 export type TStateFormITemCustomColor = 'default' | 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning';
+
+export type TDirectiveLoad = {
+  [K in IStateKeys]?: string[] | string; // Identifier(s) for the state to be loaded
+};
+
+export type THandleDirectiveType = '$form' | '$form_dialog' | '$none';
+
+export interface IHandleDirective {
+  type: THandleDirectiveType; // The directive type like '$form', '$view', etc.
+  formName?: string;          // Form name for form-related directives
+  endpoint?: string;          // API endpoint for data operations
+  route?: string;             // Route for navigation
+  id?: string;                // Optional ID for specific operations
+  params?: Record<string, string>; // Additional parameters
+  load?: TDirectiveLoad;
+}
 
 export default interface IStateFormItemCustom<T = unknown> {
   callback?: TReduxHandle;
@@ -92,8 +109,8 @@ export default interface IStateFormItemCustom<T = unknown> {
    * Then call with handle:
    * ```ts
    * const formItem = {
-   *   has: {
-   *     handle: 'onclick: callbackGroup.callback1'
+   *   'has': {
+   *     'onclickHandle': 'callbackGroup.callback1'
    *   }
    * };
    * ```
@@ -104,6 +121,18 @@ export default interface IStateFormItemCustom<T = unknown> {
   onkeydownHandle?: string;
   onblurHandle?: string;
   ondeleteHandle?: string;
+  /** `onclick` callback defined using directives */
+  onclickHandleDirective?: IHandleDirective;
+  /** `onfocus` callback defined using directives */
+  onfocusHandleDirective?: IHandleDirective;
+  /** `onchange` callback defined using directives */
+  onchangeHandleDirective?: IHandleDirective;
+  /** `onkeydown` callback defined using directives */
+  onkeydownHandleDirective?: IHandleDirective;
+  /** `onblur` callback defined using directives */
+  onblurHandleDirective?: IHandleDirective;
+  /** `ondelete` callback defined using directives */
+  ondeleteHandleDirective?: IHandleDirective;
   /** Used by the Chip component */
   onClick?: TReduxHandle;
   /** Used by the Chip component */
@@ -174,7 +203,7 @@ export default interface IStateFormItemCustom<T = unknown> {
   requiredMessage?: string;
 }
 
-export type THandleCallback = 'onclick'
+export type THandle = 'onclick'
   | 'onchange'
   | 'onkeydown'
   | 'onblur'

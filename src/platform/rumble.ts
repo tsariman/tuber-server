@@ -56,11 +56,11 @@ async function robust_rumble_get(url: string): Promise<string> {
         return response.data;
       }
       
-      log(`Failed. [Strategy ${i + 1}] returned status: ${response.status}`);
+      log(`Failed.[INFO][${response.status}] [Strategy ${i + 1}]`);
     } catch (e) {
       const errorMessage = e instanceof Error ? e.message : String(e);
-      log(`Failed. [Strategy ${i + 1}] returned error: ${errorMessage}`);
-      
+      log(`Failed.[ERROR][500] [Strategy ${i + 1}] returned error: ${errorMessage}`);
+
       // If this is the last strategy, log as error
       if (i === strategies.length - 1) {
         ler('[ERROR] All strategies failed.');

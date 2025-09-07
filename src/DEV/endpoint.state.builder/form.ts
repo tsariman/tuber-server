@@ -14,8 +14,8 @@ export default async function dev_get_form_builder_state(
   try {
     print(`[DEBUG] Testing form builder state... `);
     reply.code(200).send(new Form()
-      .withId('4')
-      .withKey('newYoutubeBookmarkFormState')
+      .with_Id('4')
+      .with_Key('newYoutubeBookmarkFormState')
 
       .addItem(new Group()
         .withType('stack')

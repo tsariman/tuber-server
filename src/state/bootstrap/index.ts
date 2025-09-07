@@ -102,7 +102,7 @@ export default async function get_bootstrap_authenticated_state(
     'dialogsDark': new PrepareState<TStateAllDialogs>(context)
                           .process(bootstrap_dialogs_dark_state)
                           .get(),
-    'stateRegistry': get_registry('state'),
+    'staticRegistry': get_registry('state'),
     ...(usr && { 'net': {
       'name': usr.name,
       'role': usr.role,

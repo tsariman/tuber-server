@@ -17,7 +17,7 @@ export default async function put_bookmark_by_id_endpoint (
     //        video_id, platform, start_seconds, title are required
     const attributes = request.body?.data?.attributes;
     if (!attributes) {
-      log('Failed.\nMissing attributes.', request.body);
+      log('Failed.\n[DEBUG][400] Missing attributes.', request.body);
       reply.code(400).send(new JsonapiErrorBuilder()
         .withStatus(400)
         .withTitle('Bad Request')
@@ -35,7 +35,7 @@ export default async function put_bookmark_by_id_endpoint (
       log('Done.');
       reply.code(204).send();
     } else {
-      log('Failed.\nBookmark not found.');
+      log('Failed.\n[DEBUG][404] Bookmark not found.');
       reply.code(404).send(new JsonapiErrorBuilder()
         .withStatus(404)
         .withTitle('Not Found')

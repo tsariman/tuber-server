@@ -13,11 +13,11 @@ export default class SelectOptionStateBuilder extends AbstractStateBuilder {
     return this.die('Method not implemented.', this);
   }
   /** **DO NOT USE**. Method is NOT implemented. @returns this. */
-  withId(): this {
+  with_Id(): this {
     return this.die('Method not implemented.', this);
   }
   /** **DO NOT USE**. Method is NOT implemented. @returns this. */
-  withKey() {
+  with_Key() {
     return this.die('Method not implemented.', this);
   }
   withLabel(label: string) {
@@ -33,6 +33,6 @@ export default class SelectOptionStateBuilder extends AbstractStateBuilder {
     return this;
   }
   configure(): this { return this; }
-  withBootstrapState(): never { return this.bootstrap_not_available(); }
+  withBootstrapState(): never { return this.bootstrapNotAvailable(); }
   buildResponse(): TJsonapiStateResponse { return {'state': {}}; }
 }

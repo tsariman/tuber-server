@@ -26,8 +26,8 @@
 //     log('Done.');
 //     log('[DEBUG] Sending response...', dbBookmark);
 //     reply.code(201).send(
-//       new JsonapiResponseBuilder(dbBookmark, 'bookmarks', 'object')
-//       .mPaginationV2build()
+//       JsonapiResponseBuilder.forSingleResource(dbBookmark, 'bookmarks')
+//       .build()
 //     );
 //   } catch (e) {
 //     ler(MSG_500_ERROR_MESSAGE);

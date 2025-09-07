@@ -104,7 +104,7 @@ async function startServer() {
       await Config.load(dbConfigs);
       console.log('Done.');
     } else {
-      console.log('Failed. No configuration found in database.');
+      console.log('Failed.\n[INFO][404] No configuration found in database.');
     }
 
     // Load readable text, if any, from the database into the readable cache.
@@ -123,9 +123,9 @@ async function startServer() {
     // console.log('Done.')
   }, err => {
     if (Config.DEBUG) {
-      console.error(`Failed.`, err);
+      console.error(`Failed.\n[ERROR][500]`, err);
     } else {
-      console.log(`Failed. ${err.message}\n`);
+      console.log(`Failed.\n[ERROR][500] ${err.message}\n`);
     }
     process.exit(1);
   })

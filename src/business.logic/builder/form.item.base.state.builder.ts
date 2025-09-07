@@ -20,7 +20,7 @@ export default class FormItemBaseStateBuilder extends AbstractFormItemStateBuild
    * @param _id 
    * @returns this.
    */
-  withId(_id: string): this {
+  with_Id(_id: string): this {
     this.$state._id = _id;
     return this;
   }
@@ -29,7 +29,7 @@ export default class FormItemBaseStateBuilder extends AbstractFormItemStateBuild
    * @param _key 
    * @returns this.
    */
-  withKey(_key: string): this {
+  with_Key(_key: string): this {
     this.$state._key = _key;
     return this;
   }
@@ -80,11 +80,11 @@ export default class FormItemBaseStateBuilder extends AbstractFormItemStateBuild
   protected missing_form_name(): never {
     throw new Error('Call configure() first to define the formName and field name.');
   }
-  withBootstrapState(): never { return this.bootstrap_not_available(); }
+  withBootstrapState(): never { return this.bootstrapNotAvailable(); }
   /** Get the state. @returns state. */
   build(): TStateFormItem { return this.$state; }
   configure(): this { return this; }
-  buildResponse(): never { return this.response_not_defined(); }
+  buildResponse(): never { return this.responseNotDefined(); }
   /**
    * **DO NOT USE.** Base class method not implemented.
    * @returns this.

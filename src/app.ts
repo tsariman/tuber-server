@@ -15,6 +15,7 @@ import fastifyCookie from '@fastify/cookie';
 import fastifyStatic from '@fastify/static';
 import { setupJWT } from './jwt.config';
 import { TCipheredUser } from './schema/users';
+import qs from 'qs';
 
 declare module 'fastify' {
   interface FastifyRequest {
@@ -23,7 +24,16 @@ declare module 'fastify' {
 };
 
 const server = fastify({
-  logger: false // Disable logging completely
+  logger: false, // Disable logging completely
+  querystringParser: (str) => qs.parse(str, {
+    decoder: (value, defaultDecoder) => {
+      // Try to convert numeric strings to numbers for page parameters
+      if (/^\d+$/.test(value)) {
+        return parseInt(value, 10);
+      }
+      return defaultDecoder(value);
+    }
+  })
 });
 
 // Async setup function

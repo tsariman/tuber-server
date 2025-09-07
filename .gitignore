@@ -8,23 +8,31 @@ static/js/*
 logs/*
 
 # Ignored source code files
+test-qs-config.js
 src/secret-key
 src/session.secrets.ts
 src/DEV/EXPERIMENT
 src/business.logic/jsonapi.request.driver.example.ts
 src/shared/interfaces.zip
+src/examples/*
 
 # Ignored development files
 tuberdb-test.annotations.json
 
-# Ignored files
-d1684a88be5c08aed50f565d9c8063ca.txt
-package-lock.json
+# Ignored documentation files
 NOTES.md
 designdoc.md
 DEV.md
 JWT-PRODUCTION.md
 JWT-TOKEN-LIFESPAN.md
+src/endpoint/INTEGRATION_TEST.listing.by.id.ep.md
+src/endpoint/README.listing.by.id.ep.md
+JSON_API_COMPLIANCE_ANALYSIS.md
+
+# Ignored files
+d1684a88be5c08aed50f565d9c8063ca.txt
+package-lock.json
+
 .env
 .env.development
 .env.production

@@ -36,7 +36,7 @@ export default async function get_video_thumbnail_url_endpoint (
     print('[DEBUG] Retrieving bookmark... ');
     const bookmark = await get_bookmark_by_id(id);
     if (!bookmark) {
-      log('Failed.\nBookmark not found.');
+      log('Failed.\n[DEBUG][404] Bookmark not found.');
       reply.code(404).send(new JsonapiErrorBuilder()
         .withStatus(404)
         .withTitle('Bookmark not Found')
@@ -46,8 +46,8 @@ export default async function get_video_thumbnail_url_endpoint (
     }
     log('Done.');
     if (bookmark.thumbnail_url) {
-      log('[DEBUG] Bookmark already has a thumbnail url.');
-      log('[DEBUG] thumbnail_url:', bookmark.thumbnail_url);
+      log('[DEBUG][409] Bookmark already has a thumbnail url.');
+      log('[DEBUG][409] thumbnail_url:', bookmark.thumbnail_url);
       reply.code(200).send(
         new JsonapiResponseColBuilder(bookmark, 'bookmarks', 'object')
           .mPaginationV2build()
@@ -113,7 +113,7 @@ export default async function get_video_thumbnail_url_endpoint (
     } else {
       // [TODO] [HACK] Not finding the bookmark is not just an error but a hack
       //               attempt. Log this.
-      log('Failed.\nBookmark not found.');
+      log('Failed.\n[DEBUG][404] Bookmark not found.');
       reply.code(404).send(new JsonapiErrorBuilder()
         .withStatus(404)
         .withTitle('Not Found')
@@ -122,7 +122,7 @@ export default async function get_video_thumbnail_url_endpoint (
       );
     }
   } catch (e) {
-    log(`Failed.\n[ERROR][500] get platform video thumbnail url`);
+    log(`Failed.\n[DEBUG][500] Internal Server Error - Getting platform video thumbnail url`);
     log_err(`GET platform video thumbnail url`, e);
     reply.code(500).send(default_500_error_response(e));
   }

@@ -15,7 +15,7 @@ import Config from '../config';
 import dev_post_bookmarks_endpoint from '../DEV/endpoint/dev.post.bookmark.ep';
 import get_video_thumbnail_url_endpoint, {
   IBookmarkThumbnailUrlGet
-}  from 'src/platform/endpoint/get.video.thumbnail.url.ep';
+}  from '../platform/endpoint/get.video.thumbnail.url.ep';
 
 /** Default options */
 const opts = { ...DEFAULT_ROUTE_OPTIONS }

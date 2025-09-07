@@ -17,7 +17,15 @@ import { ler, log, log_err } from '../utility/logging';
 import { get_current_language_key, READABLE_CACHE } from './cache';
 
 /**
- * Convert object into query string with brackets. e.g.
+ * Encode a query string key, preserving bracket notation
+ */
+const encodeQueryKey = (key: string): string => {
+  // Encode the key but preserve brackets for array/object notation
+  return key.replace(/[^a-zA-Z0-9\[\]]/g, (char) => encodeURIComponent(char));
+};
+
+/**
+ * Converts object into query string using brackets. e.g.
  * ```ts
  * const obj = {
  *   page: {
@@ -28,7 +36,7 @@ import { get_current_language_key, READABLE_CACHE } from './cache';
  * ```
  * becomes:
  * ```ts
- * '?page[size]=10&page[number]=1&'
+ * '?page[size]=10&page[number]=1'
  * ```
  */
 export const bracketize_object_querystring = (
@@ -38,17 +46,36 @@ export const bracketize_object_querystring = (
 ): string => {
   if (typeof obj === 'string') return obj;
   if (is_record(obj)) {
-    return Object.keys(obj).reduce((acc, key) => {
-      const value = obj[key];
+    const pairs: string[] = [];
+    
+    for (const [key, value] of Object.entries(obj)) {
+      // Skip null and undefined values
+      if (value == null) continue;
+      
       if (is_object(value)) {
-        parentKey = depth === 0 ? key : `${parentKey}[${key}]`;
-        return acc + bracketize_object_querystring(
-          value, parentKey, depth + 1
+        // Fix: Don't mutate parentKey, create new key for recursion
+        const nestedKey = depth === 0 ? key : `${parentKey}[${key}]`;
+        const nestedResult = bracketize_object_querystring(
+          value, nestedKey, depth + 1
         );
+        if (nestedResult) pairs.push(nestedResult);
+      } else if (Array.isArray(value)) {
+        // Handle arrays by adding multiple entries with same key
+        value.forEach((item, index) => {
+          if (item != null) {
+            const arrayKey = depth === 0 ? `${key}[${index}]` : `${parentKey}[${key}][${index}]`;
+            pairs.push(`${encodeQueryKey(arrayKey)}=${encodeURIComponent(String(item))}`);
+          }
+        });
+      } else {
+        // Handle primitive values
+        const bracketizedKey = depth === 0 ? key : `${parentKey}[${key}]`;
+        pairs.push(`${encodeQueryKey(bracketizedKey)}=${encodeURIComponent(String(value))}`);
       }
-      const bracketizedKey = depth === 0 ? key : `${parentKey}[${key}]`;
-      return acc + `${bracketizedKey}=${value}&`
-    }, depth === 0 ? parentKey : '');
+    }
+    
+    const result = pairs.join('&');
+    return depth === 0 && parentKey === '?' ? (result ? `?${result}` : '') : result;
   }
   throw new Error(`obj is '${typeof obj}'. Should be an object or a string`);
 }
@@ -132,15 +159,14 @@ export function themed<T=unknown>(light: T, dark: T, mode?: TThemeMode): T {
   return mode === 'dark' ? dark : light;
 }
 
-/** Get query string value */
-export const get_query = <T = string>(
+/** Get request query string value */
+export const get_from_query = <T = string>(
   req: FastifyRequest<{ Querystring: IJsonapiQuerystring }>,
   key: keyof IJsonapiQuerystring,
   $default: T
 ): T => {
   try {
-    const query = req.query;
-    const value = query[key];
+    const value = req?.query[key];
     return (value ?? $default) as T;
   } catch (e) {
     log_err((e as Error).message, e);
@@ -149,14 +175,13 @@ export const get_query = <T = string>(
 }
 
 /** Get request body value */
-export const get_body = <T = unknown>(
+export const get_from_body = <T = unknown>(
   req: FastifyRequest<{ Body: Record<string, T>}>,
   key: string,
   $default: T
 ): T => {
   try {
-    const body = req.body;
-    return body?.[key] ?? $default;
+    return req.body?.[key] ?? $default;
   } catch (e) {
     log_err((e as Error).message, e);
   }

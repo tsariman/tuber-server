@@ -48,7 +48,7 @@ export default class FormStateBuilder extends AbstractStateBuilder {
    * @param _id 
    * @returns this.
    */
-  withId(_id: string): this {
+  with_Id(_id: string): this {
     this._state._id = _id;
     return this;
   }
@@ -57,7 +57,7 @@ export default class FormStateBuilder extends AbstractStateBuilder {
    * @param _key 
    * @returns this.
    */
-  withKey(_key: string): this {
+  with_Key(_key: string): this {
     this._state._key = _key;
     return this;
   }
@@ -98,6 +98,6 @@ export default class FormStateBuilder extends AbstractStateBuilder {
     return this;
   }
   configure(): this { return this; }
-  withBootstrapState(): never { return this.bootstrap_not_available(); }
+  withBootstrapState(): never { return this.bootstrapNotAvailable(); }
   buildResponse(): TJsonapiStateResponse { return {'state': {}}; }
 }

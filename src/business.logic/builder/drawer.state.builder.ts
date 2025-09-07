@@ -16,7 +16,7 @@ export default class DrawerStateBuilder extends AbstractStateBuilder {
     this._items = [];
   }
   buildResponse(): TJsonapiStateResponse {
-    return this._response || this.response_not_defined();
+    return this._response || this.responseNotDefined();
   }
   configure(conf: { pageKey?: string }): this {
     this._pageKey = conf.pageKey;
@@ -52,11 +52,11 @@ export default class DrawerStateBuilder extends AbstractStateBuilder {
     this._items?.push(instance.build());
     return this;
   }
-  withId(_id: string) {
+  with_Id(_id: string) {
     this._state._id = _id;
     return this;
   }
-  withKey(_key: string) {
+  with_Key(_key: string) {
     this._state._key = _key;
     return this;
   }

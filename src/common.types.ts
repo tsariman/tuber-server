@@ -12,6 +12,12 @@ export type WithRequired<T, K extends keyof T> = T & { [P in K]-?: T[P] };
 /** Make properties optional. */
 export type TOptional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>;
 
+/** Type for excluding or including mongodb document fields */
+export type TSelect<T=TObj> = Record<keyof T, 0|1>;
+
+/** @deprecated */
+export type TSelectOriginal<T> = { [P in keyof T]: 0|1 };
+
 export interface IAggregateDoc {
   _id: string;
   __v: number;
@@ -36,7 +42,7 @@ export type TPlatform = '_blank'
 
 // Endpoint types
 export type TEndpoint = 'users'| 'entries' | 'bookmarks' | 'tags'
-| 'authorizations';
+| 'authorizations' | 'listings';
 
 /** State map type */
 export interface IStateMapEntry<T = unknown> {
@@ -61,12 +67,7 @@ export interface IJsonapiQuerystring {
   'filter[search]'?: string;
 }
 
-/** Bootstrap response */
-export interface IBootstrapResponse {
-  state: TNetState;
-  meta?: Record<string, unknown>; // Make meta optional since it's often not provided
-}
-
+/** Values that may be needed to customize the returned bootstrap state. */
 export interface IStateContext {
   usr?: TCipheredUser;
   token?: string;

@@ -15,7 +15,7 @@ export default async function dev_post_bookmarks_endpoint (
   reply: FastifyReply
 ) {
   try {
-    const attr = req.body.data.attributes;
+    const attr = req.body.data?.attributes;
     print(`[DEBUG] Creating [${attr?.platform}] bookmark... `);
 
     // Generate random votes for development purposes

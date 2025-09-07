@@ -31,7 +31,7 @@ export default function dev_get_env_var_enpoint (
     const variable = req.query.var;
     if (variable) {
       console.log(`${variable} =`, process.env[variable]);
-      reply.code(200).send(new JsonapiResponseBuilder<typeof process.env>()
+      reply.code(200).send(JsonapiResponseBuilder.forSingleResource<typeof process.env>()
         .addAttribute(variable, process.env[variable])
         .build()
       );

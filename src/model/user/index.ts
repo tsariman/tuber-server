@@ -3,7 +3,6 @@ import {
   PaginateResult,
   model
 } from 'mongoose';
-import { get_query } from '../../business.logic';
 import { IMPV2Doc } from '../../common.types';
 import { get_hashed_password } from '../../business.logic/security';
 import Config from '../../config';
@@ -79,8 +78,8 @@ export const create_user = async (userInfo: IUser): Promise<IUserDocument> => {
 export const get_user_collection = async (
   req: TUsersFastifyRequest
 ): Promise<PaginateResult<IUserDocument>> => {
-  const page = Number(get_query(req, 'page[number]', '1'));
-  const limit = Number(get_query(req, 'page[size]', Config.PAGINATION_USER_LIMIT));
+  const page = Number(req.query.page?.number ?? 1);
+  const limit = Number(req.query.page?.size ?? Config.PAGINATION_USER_LIMIT);
   const result = await UserPaginationModel.paginate(PAGINATION_QUERY, {
     ...PAGINATION_OPTONS,
     page,

@@ -217,9 +217,9 @@ export class FormItemInputPropsStateBuilder
   /** **DO NOT USE!** Not implemented. @returns this. */
   add(): this { return this.die('Method not implemented.', this); }
   /** **DO NOT USE!** Not implemented. @returns this. */
-  withId(_id: string): this { return this.die('Method not implemented.', this); }
+  with_Id(_id: string): this { return this.die('Method not implemented.', this); }
   /** **DO NOT USE!** Not implemented. @returns this. */
-  withKey(_key: string): this { return this.die('Method not implemented.', this); }
+  with_Key(_key: string): this { return this.die('Method not implemented.', this); }
   /**
    * Set the `start` input props.
    * @param props
@@ -254,9 +254,9 @@ export class FormItemAdornmentStateBuilder
   /** **DO NOT USE!** Not implemented. @returns this. */
   add(): unknown { return this.die('Method not implemented.', {}); }
   /** **DO NOT USE!** Not implemented. @returns this. */
-  withId(): this { return this.die('Method not implemented.', this); }
+  with_Id(): this { return this.die('Method not implemented.', this); }
   /** **DO NOT USE!** Not implemented. @returns this. */
-  withKey(): this { return this.die('Method not implemented.', this); }
+  with_Key(): this { return this.die('Method not implemented.', this); }
   /**
    * Set the icon.
    * @param {LinkStateBuilder} icon 
@@ -286,6 +286,6 @@ export class FormItemAdornmentStateBuilder
     return this;
   }
   configure(): this { return this; }
-  withBootstrapState(): never { return this.bootstrap_not_available(); }
+  withBootstrapState(): never { return this.bootstrapNotAvailable(); }
   buildResponse(): TJsonapiStateResponse { return {'state': {}}; }
 }

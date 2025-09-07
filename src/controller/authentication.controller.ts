@@ -66,7 +66,7 @@ export default async function authentication_controller (fastify: FastifyInstanc
       }
     }
     const title = 'Wrong username or password!';
-    log(`Failed. '${title}'`);
+    log(`Failed.\n[DEBUG][401] '${title}'`);
 
     // Optional: Try to create default user if none exist (useful for empty database scenario)
     try {

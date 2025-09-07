@@ -1,7 +1,7 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 import paginate from 'mongoose-paginate-v2';
 
-interface ICountry extends Document {
+interface ICountry {
   is_active?: boolean;
   created_at?: Date;
   modified_at?: Date;
@@ -11,17 +11,17 @@ interface ICountry extends Document {
   rules?: string[];
 }
 
-export interface ICountryDocument
-  extends mongoose.Document, ICountry {};
+export interface ICountryDocument<T=unknown>
+  extends mongoose.Document<T>, ICountry {};
 
-const countrySchema: Schema = new Schema({
+const countrySchema: Schema = new Schema<ICountryDocument>({
   is_active: { type: Boolean, default: true },
   created_at: { type: Date, default: Date.now },
   modified_at: Date,
   name: { type: String, required: true },
   languageCode: { type: [ String ], required: true },
-  restrictions: { type: [ String ], default: undefined },
-  rules: { type: [ String ], default: undefined }
+  restrictions: { type: Map, of: String, default: undefined },
+  rules: { type: Map, of: String, default: undefined }
 });
 
 countrySchema.plugin(paginate);

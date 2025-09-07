@@ -1,6 +1,5 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { PipelineStage } from 'mongoose';
-import { get_query } from '../business.logic';
 import JsonapiErrorBuilder, {
   default_500_error_response
 } from '../business.logic/builder/jsonapi.error.builder';
@@ -20,13 +19,9 @@ export default async function get_bookmarks_collection_endpoint (
   reply: FastifyReply
 ) {
   try {
-    const searchQuery = get_query(req, 'filter[search]', '');
-    const page = parseInt(get_query(req, 'page[number]', '1'));
-    const limit = parseInt(get_query(
-      req,
-      'page[size]',
-      Config.PAGINATION_BOOKMARKS_LIMIT
-    ));
+    const searchQuery = req.query.filter?.search;
+    const page = req.query.page?.number ?? 1;
+    const limit = req.query.page?.size ?? parseInt(Config.PAGINATION_BOOKMARKS_LIMIT);
     if (searchQuery) {
       const pipeline: PipelineStage[] = [];
       pipeline.push({
@@ -92,8 +87,8 @@ export default async function get_bookmarks_collection_endpoint (
           .withTitle('The aggregate result array first object is undefined.')
           .withDetail('Either the query is faulty or the aggregate pipeline failed '
             +'Or there are no bookmarks that match the query')
-          .source({ 'parameter': 'query' })
-          .errorMeta('query', searchQuery)
+          .withSource({ 'parameter': 'query' })
+          .withErrorMeta('query', searchQuery)
           .build()
         );
         return;

@@ -12,7 +12,7 @@ import {
   TObj
 } from 'src/common.types';
 import { die, has_property } from '../../utility';
-import JsonapiResponsePaginationBuilder, { 
+import JsonapiPaginationBuilder, { 
   IMinimalPaginationOptions,
   IPaginatedResult,
   get_pagination_options
@@ -68,12 +68,12 @@ export default class JsonapiResponseColBuilder<TCollection> {
 
   buildLinks = (mOpts: IMinimalPaginationOptions) => {
     const opts = get_pagination_options(mOpts);
-    this._response.links = new JsonapiResponsePaginationBuilder(opts).build();
+    this._response.links = new JsonapiPaginationBuilder(opts).build();
     return this;
   }
 
   buildPaginationV2Links = (opts: IPaginatedResult) => {
-    this._response.links = new JsonapiResponsePaginationBuilder(opts).build();
+    this._response.links = new JsonapiPaginationBuilder(opts).build();
     return this;
   }
 

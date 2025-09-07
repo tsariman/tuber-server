@@ -1,8 +1,9 @@
 import mongoose, { Schema } from 'mongoose';
-import { IJsonapiQuerystring, WithRequired } from '../../common.types';
+import { WithRequired } from '../../common.types';
 import { TRole } from '../../business.logic/security/permissions';
 import { FastifyRequest } from 'fastify';
 import paginate from 'mongoose-paginate-v2';
+import { TJsonapiQueryParams } from '../../shared';
 
 export interface IUser {
   is_active?: boolean;
@@ -45,7 +46,7 @@ export interface IUsersEndpoint {
   Params: {
     name: string;
   }
-  Querystring: IJsonapiQuerystring;
+  Querystring: TJsonapiQueryParams;
 }
 
 export type TUsersFastifyRequest = FastifyRequest<IUsersEndpoint>;

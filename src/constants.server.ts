@@ -7,7 +7,9 @@ export const COLLECTION_NAME = 'bookmarks';
 export const EP_AUTHENTICATE = 'authenticate';
 export const EP_SIGNOUT = 'signout';
 export const EP_BOOKMARKS = 'bookmarks';
-export const EP_BOOKMARKS_ID = 'bookmarks/:id';
+export const EP_BOOKMARKS_ID = `${EP_BOOKMARKS}/:id`;
+export const EP_LISTINGS = 'listings';
+export const EP_LISTINGS_ID = `${EP_LISTINGS}/:id`;
 export const EP_USERS = 'users';
 export const EP_STATE = 'state';
 export const EP_DEV = 'dev';
@@ -32,7 +34,7 @@ export const THEME_DARK_APP_BAR_COLOR = '#000000de'; // [TODO]: Change this
 
 export const LOG_INFO = '[INFO]';
 export const LOG_DEBUG = '[DEBUG]';
-export const MSG_500_ERROR_MESSAGE = 'Failed.\nInternal Server Error.';
+export const MSG_500_ERROR_MESSAGE = 'Failed.\n[ERROR][500] Internal Server Error.';
 export const MSG_INVALID_ACCESS_TOKEN = 'INVALID_ACCESS_TOKEN';
 
 // FORMS (form fields prefix) -------------------------------------------------

@@ -7,22 +7,22 @@ export const die = (message: string): void => {
   }
 }
 
-/** Check if the argument is an object. Returns `true` if it is. */
+/** Checks if the argument is an object. Returns `true` if it is. */
 export const is_object = (obj: unknown): obj is object => {
   return typeof obj === 'object' && obj !== null && !Array.isArray(obj);
 }
 
-/** Check if the argument is a record. Returns `true` if it is. */
+/** Checks if the argument is a record. Returns `true` if it is. */
 export const is_record = <T=unknown>(obj: unknown): obj is Record<string, T> => {
   return is_object(obj);
 }
 
-/** Check if the argument is a potential instance. Returns `true` if it is. */
+/** Checks if the argument is a potential instance. Returns `true` if it is. */
 export const is_instance = <T=Record<string, unknown>>(obj: unknown): obj is T => {
   return is_object(obj);
 }
 
-/** Check if the argument is an object or array. Returns `true` if it is. */
+/** Checks if the argument is an object or array. Returns `true` if it is. */
 export const is_struct = <T>(obj: T): obj is T => {
   return typeof obj === 'object' && obj !== null;
 }

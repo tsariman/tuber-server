@@ -19,20 +19,20 @@ export default abstract class AbstractStateBuilder {
    * @param {string} _id
    * @returns {unknown} this.
    */
-  abstract withId(_id: string): unknown;
+  abstract with_Id(_id: string): unknown;
   /**
    * Set the key of the state.
    * @param {string} _key
    * @returns {unknown} this.
    */
-  abstract withKey(_key: string): unknown;
+  abstract with_Key(_key: string): unknown;
   abstract configure(co: object): unknown;
   /** Makes a stand alone state that can be returned as a HTTP response. */
   abstract withBootstrapState(): unknown;
-  protected response_not_defined(): never {
+  protected responseNotDefined(): never {
     throw new Error('Response is not defined. Did you forget to call `withBootstrapState()`?');
   }
-  protected bootstrap_not_available(): never {
+  protected bootstrapNotAvailable(): never {
     throw new Error('Bootstrap is not implemented.');
   }
   protected ler<T=unknown>(value: T, $return: T): T {

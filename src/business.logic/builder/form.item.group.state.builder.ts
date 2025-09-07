@@ -32,8 +32,8 @@ export default class FormItemGroupStateBuilder
     this._items.push(item);
     return this;
   }
-  withId(_id: string): this { return this.die('Method not implemented.', this); }
-  withKey(_key: string): this { return this.die('Method not implemented.', this); }
+  with_Id(_id: string): this { return this.die('Method not implemented.', this); }
+  with_Key(_key: string): this { return this.die('Method not implemented.', this); }
   /**
    * Set the form item group layout.
    * @param type 
@@ -62,6 +62,6 @@ export default class FormItemGroupStateBuilder
     return this;
   }
   configure(): this { return this; }
-  withBootstrapState(): never { return this.bootstrap_not_available(); }
+  withBootstrapState(): never { return this.bootstrapNotAvailable(); }
   buildResponse(): TJsonapiStateResponse { return {'state': {}}; }
 }

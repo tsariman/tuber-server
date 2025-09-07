@@ -17,46 +17,46 @@ import {
 import { TThemeMode } from '../../common.types';
 import newRumbleBookmarkDialogState, {
   $8DarkThemeMode
-} from './new.rumble.dialog';
+} from './new.rumble.dialog.state';
 import editRumbleBookmarkDialogState, {
   $11DarkThemeMode
-} from './edit.rumble.dialog';
+} from './edit.rumble.dialog.state';
 import newVimeoBookmarkDialogState, {
   $14DarkThemeMode
-} from './new.vimeo.dialog';
+} from './new.vimeo.dialog.state';
 import newOdyseeBookmarkDialogState, {
   $16DarkThemeMode
-} from './new.odysee.dialog';
+} from './new.odysee.dialog.state';
 import newDailyBookmarkDialogState, {
   $21DarkThemeMode
-} from './new.daily.dialog';
+} from './new.daily.dialog.state';
 import editDailyBookmarkDialogState, {
   $22DarkThemeMode
-} from './edit.daily.dialog';
+} from './edit.daily.dialog.state';
 import editVimeoBookmarkDialogState, {
   $15DarkThemeMode
-} from './edit.vimeo.dialog';
+} from './edit.vimeo.dialog.state';
 import editOdyseeBookmarkDialogState, {
   $23DarkThemeMode
-} from './edit.odysee.dialog';
+} from './edit.odysee.dialog.state';
 import newFacebookBookmarkDialogState, {
   $26DarkThemeMode
-} from './new.facebook.dialog';
+} from './new.facebook.dialog.state';
 import editFacebookBookmarkDialogState, {
   $27DarkThemeMode
-} from './edit.facebook.dialog';
+} from './edit.facebook.dialog.state';
 import newUnknownBookmarkDialogState, {
   $30DarkThemeMode
-} from './new.unknown.dialog';
+} from './new.unknown.dialog.state';
 import editUnknownBookmarkDialogState, {
   $31DarkThemeMode
-} from './edit.unknown.dialog';
+} from './edit.unknown.dialog.state';
 import newTwitchBookmarkDialogState, {
   $36DarkThemeMode
-} from './new.twitch.dialog';
+} from './new.twitch.dialog.state';
 import editTwitchBookmarkDialogState, {
   $37DarkThemeMode
-} from './edit.twitch.dialog';
+} from './edit.twitch.dialog.state';
 import { register } from '../../business.logic/registry';
 
 register('state', '6', C.$6_STATE_KEY);
@@ -148,7 +148,7 @@ export const $2DarkThemeMode: TStateDialog = (() => {
   const paperProps = clone_or_default(props.PaperProps, {});
   paperProps.sx = {
     ...paperProps.sx,
-    'backgrondColor': C.THEME_DARK_DIALOG_BACKGROUND_COLOR
+    'backgroundColor': C.THEME_DARK_DIALOG_BACKGROUND_COLOR
   };
   props.PaperProps = paperProps;
   base.props = props;
@@ -438,7 +438,7 @@ export function dialogAlertState<T=unknown>(content: T): TStateDialog {
       }
     ],
     'open': true
-  } as TStateDialog;
+  };
 }
 
 /**

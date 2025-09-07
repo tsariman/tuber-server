@@ -16,7 +16,13 @@ export {
   IJsonapiResourceLinkage as TJsonapiResourceLinkage,
   IJsonapiResponse as TJsonapiResponse,
   IJsonapiStateResponse as TJsonapiStateResponse,
-  IJsonapiPageLinks as TJsonapiPageLinks
+  IJsonapiPageLinks as TJsonapiPageLinks,
+  IJsonapiDataRelationships as TJsonapiDataRelationships,
+  IJsonapiRelationship as TJsonapiRelationship,
+  TJsonapiDataLinkage as TTJsonapiDataLinkage,
+  IJsonapiQueryParams as TJsonapiQueryParams,
+  IJsonapiPageParams as TJsonapiPageParams,
+  IJsonapiFilterParams as TJsonapiFilterParams
 } from './interfaces/IJsonapi';
 export { default as TAbstractState } from './interfaces/IAbstractState';
 export {

@@ -27,11 +27,11 @@ export default class PageStateBuilder extends AbstractStateBuilder {
     this._state = state ?? {};
   }
 
-  withId(id: string) {
+  with_Id(id: string) {
     this._state._id = id;
     return this;
   }
-  withKey(key: string) {
+  with_Key(key: string) {
     this._state._key = key;
     return this;
   }
@@ -168,6 +168,6 @@ export default class PageStateBuilder extends AbstractStateBuilder {
     return this;
   }
   buildResponse(): TJsonapiStateResponse {
-    return this._response ?? this.response_not_defined();
+    return this._response ?? this.responseNotDefined();
   }
 }

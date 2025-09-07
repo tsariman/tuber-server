@@ -24,23 +24,10 @@ export interface IMinimalPaginationOptions<T=unknown> {
   filter?: string;
 }
 
-/*
-example:
-{
-  "links": {
-    "self": "?page[number]=3&page[size]=1",
-    "first": "?page[number]=1&page[size]=1",
-    "prev": "?page[number]=2&page[size]=1",
-    "next": "?page[number]=4&page[size]=1",
-    "last": "?page[number]=13&page[size]=1"
-  },
-}
-*/
-
 /**
  * @see https://jsonapi.org/format/#fetching-pagination
  */
-export default class JsonapiResponsePaginationBuilder {
+export default class JsonapiPaginationBuilder {
 
   private _links: TJsonapiPaginationLinks;
   private _opts: IPaginatedResult;
@@ -56,12 +43,14 @@ export default class JsonapiResponsePaginationBuilder {
     limit = 10,
     totalDocs = 0
   }: IMinimalPaginationOptions) => {
+    if (limit <= 0) throw new Error('Limit must be greater than 0');
+    
     const totalPages = Math.ceil(totalDocs / limit) || 1;
     const nextPage = page < totalPages ? page + 1 : null;
     const hasNextPage = page < totalPages;
     const prevPage = page > 1 ? page - 1 : null;
     const hasPrevPage = page > 1;
-    const pagingCounter = ((page - 1) * page) + 1;
+    const pagingCounter = ((page - 1) * limit) + 1; // Fixed: was ((page - 1) * page) + 1
     return {
       docs,
       totalDocs,
@@ -80,8 +69,17 @@ export default class JsonapiResponsePaginationBuilder {
     this._links.self = this.selfLink();
     this._links.first = this.firstLink();
     this._links.last = this.lastLink();
-    this._links.prev = this.prevLink();
-    this._links.next = this.nextLink();
+    
+    const prevLink = this.prevLink();
+    if (prevLink) {
+      this._links.prev = prevLink;
+    }
+    
+    const nextLink = this.nextLink();
+    if (nextLink) {
+      this._links.next = nextLink;
+    }
+    
     return this._links;
   }
 
@@ -98,8 +96,15 @@ export default class JsonapiResponsePaginationBuilder {
         size: this.getSize()
       }
     };
-    const str = bracketize_object_querystring(selfObj, this._opts.filter);
-    return str.substring(0, str.length - 1);
+    let result = bracketize_object_querystring(selfObj);
+    
+    // Add filter if it exists
+    if (this._opts.filter) {
+      const separator = result.includes('?') ? '&' : '?';
+      result += `${separator}${this._opts.filter}`;
+    }
+    
+    return result;
   }
 
   private firstLink(): string {
@@ -109,8 +114,15 @@ export default class JsonapiResponsePaginationBuilder {
         size: this.getSize()
       }
     };
-    const str = bracketize_object_querystring(firstObj, this._opts.filter);
-    return str.substring(0, str.length - 1);
+    let result = bracketize_object_querystring(firstObj);
+    
+    // Add filter if it exists
+    if (this._opts.filter) {
+      const separator = result.includes('?') ? '&' : '?';
+      result += `${separator}${this._opts.filter}`;
+    }
+    
+    return result;
   }
 
   private lastLink(): string {
@@ -120,30 +132,59 @@ export default class JsonapiResponsePaginationBuilder {
         size: this.getSize()
       }
     };
-    const str = bracketize_object_querystring(lastObj, this._opts.filter);
-    return str.substring(0, str.length - 1);
+    let result = bracketize_object_querystring(lastObj);
+    
+    // Add filter if it exists
+    if (this._opts.filter) {
+      const separator = result.includes('?') ? '&' : '?';
+      result += `${separator}${this._opts.filter}`;
+    }
+    
+    return result;
   }
 
-  private prevLink(): string {
+  private prevLink(): string | undefined {
+    if (!this._opts.hasPrevPage || !this._opts.prevPage) {
+      return undefined;
+    }
+    
     const prevObj = {
       page: {
         number: this._opts.prevPage,
         size: this.getSize()
       }
     };
-    const str = bracketize_object_querystring(prevObj, this._opts.filter);
-    return str.substring(0, str.length - 1);
+    let result = bracketize_object_querystring(prevObj);
+    
+    // Add filter if it exists
+    if (this._opts.filter) {
+      const separator = result.includes('?') ? '&' : '?';
+      result += `${separator}${this._opts.filter}`;
+    }
+    
+    return result;
   }
 
-  private nextLink(): string {
+  private nextLink(): string | undefined {
+    if (!this._opts.hasNextPage || !this._opts.nextPage) {
+      return undefined;
+    }
+    
     const nextObj = {
       page: {
         number: this._opts.nextPage,
         size: this.getSize()
       }
     };
-    const str = bracketize_object_querystring(nextObj, this._opts.filter);
-    return str.substring(0, str.length - 1);
+    let result = bracketize_object_querystring(nextObj);
+    
+    // Add filter if it exists
+    if (this._opts.filter) {
+      const separator = result.includes('?') ? '&' : '?';
+      result += `${separator}${this._opts.filter}`;
+    }
+    
+    return result;
   }
 
 }
@@ -155,12 +196,15 @@ export function get_pagination_options({
   totalDocs = 0,
   filter = ''
 }: IMinimalPaginationOptions): IPaginatedResult {
+  if (limit <= 0) throw new Error('Limit must be greater than 0');
+  if (page < 1) throw new Error('Page must be greater than 0');
+  
   const totalPages = Math.ceil(totalDocs / limit) || 1;
   const nextPage = page < totalPages ? page + 1 : null;
   const hasNextPage = page < totalPages;
   const prevPage = page > 1 ? page - 1 : null;
   const hasPrevPage = page > 1;
-  const pagingCounter = ((page - 1) * page) + 1;
+  const pagingCounter = ((page - 1) * limit) + 1; // Fixed: was ((page - 1) * page) + 1
   return {
     totalDocs,
     limit,
@@ -174,16 +218,3 @@ export function get_pagination_options({
     filter
   };
 }
-
-/*
-docs: results,
-totalDocs,
-limit,
-page,
-totalPages: (Math.ceil(totalDocs / limit)) || 1,
-nextPage: page < ((Math.ceil(totalDocs / limit)) || 1) ? page + 1 : null,
-hasNextPage: page < ((Math.ceil(totalDocs / limit)) || 1),
-prevPage: page > 1 ? page - 1 : null,
-hasPrevPage: page > 1,
-pagingCounter: ((page - 1) * page) + 1,
-*/

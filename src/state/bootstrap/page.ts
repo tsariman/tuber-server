@@ -7,7 +7,7 @@ import {
   $51_STATE_KEY,
   $70_STATE_KEY,
   THEME_MODE
-} from 'src/constants.server';
+} from '../../constants.server';
 import researchPageState, {
   $40DarkThemeMode,
   $70DarkThemeMode,
@@ -20,7 +20,7 @@ import chippedListingPageState, {
 } from '../page/listing.page.state';
 import devInstallPageState, {
   $44DarkThemeMode
-} from 'src/DEV/page/dev.install.page.state';
+} from '../../DEV/page/dev.install.page.state';
 import {
   $66DarkThemeMode,
   $67DarkThemeMode,
@@ -41,7 +41,7 @@ import {
   clone_empty,
   clone_or_default,
   clone_with_descriptors
-} from 'src/business.logic';
+} from '../../business.logic';
 
 const bootstrap_pages_state: TBootstrapState<TStateAllPages> = {
 

@@ -1,5 +1,5 @@
 import { model, PaginateModel, PaginateResult } from 'mongoose';
-import { IMPV2Doc } from '../../common.types';
+import { IMPV2Doc, TSelect } from '../../common.types';
 import bookmarkSchema, {
   IBookmark,
   IBookmarkDocument,
@@ -14,18 +14,16 @@ const PAGINATION_QUERY = {
   // TODO Add custom pagination query here
 };
 
-type TSelect = { [key in keyof IBookmarkDocument]: 0|1 };
-
 /** mongoose-paginate-v2 options */
 const PAGINATION_OPTIONS = {
   ...DB_PAGINATION_OPTIONS,
   select: {
-    ...(DB_PAGINATION_OPTIONS.select as TSelect),
+    ...(DB_PAGINATION_OPTIONS.select as TSelect<IBookmarkDocument>),
     is_private: 0,
     is_published: 0,
     // TODO Insert fields to exclude here e.g.
     // 'password': 0,
-  } as TSelect
+  } as TSelect<IBookmarkDocument>
   // TODO Add custom pagination options here
 };
 
@@ -84,5 +82,5 @@ export const get_bookmark_collection = async function (
 
 export const get_bookmark_document_count = async function (): Promise<number> {
   const count = await BookmarkModel.countDocuments()
-  return count
+  return count;
 };

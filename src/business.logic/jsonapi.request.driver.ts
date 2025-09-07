@@ -1,7 +1,10 @@
 import {
   TJsonapiRequest,
   TJsonapiDataAttributes,
-  TJsonapiResource
+  TJsonapiResource,
+  TTJsonapiDataLinkage,
+  TJsonapiRelationship,
+  TJsonapiDataRelationships
 } from '../shared';
 
 /**
@@ -128,7 +131,7 @@ export default class JsonapiRequestDriver<T = TJsonapiDataAttributes> {
    * Get the relationships from the first data object
    * @returns The relationships object or undefined if not present
    */
-  getRelationships(): Record<string, unknown> | undefined {
+  getRelationships(): TJsonapiDataRelationships | undefined {
     const firstData = this.getFirstData();
     return firstData?.relationships;
   }
@@ -138,7 +141,7 @@ export default class JsonapiRequestDriver<T = TJsonapiDataAttributes> {
    * @param key The relationship key to retrieve
    * @returns The relationship object or undefined if not found
    */
-  getRelationship(key: string): unknown {
+  getRelationship(key: string): TJsonapiRelationship | undefined {
     const relationships = this.getRelationships();
     return relationships?.[key];
   }
@@ -148,17 +151,17 @@ export default class JsonapiRequestDriver<T = TJsonapiDataAttributes> {
    * @param key The relationship key
    * @returns The relationship data or undefined if not found
    */
-  getRelationshipData(key: string): unknown {
+  getRelationshipData(key: string): TTJsonapiDataLinkage | undefined {
     const relationship = this.getRelationship(key);
-    return (relationship as Record<string, unknown>)?.data;
+    return relationship?.data;
   }
 
   /**
    * Get the meta object from the request
    * @returns The meta object or undefined if not present
    */
-  getMeta(): Record<string, unknown> | undefined {
-    return this._request.meta;
+  getMeta<T=Record<string, unknown>>(): T | undefined {
+    return this._request.meta as T;
   }
 
   /**
@@ -166,7 +169,7 @@ export default class JsonapiRequestDriver<T = TJsonapiDataAttributes> {
    * @param key The meta key to retrieve
    * @returns The meta value or undefined if not found
    */
-  getMetaValue(key: string): unknown {
+  getMetaValues(key: string): unknown {
     const meta = this.getMeta();
     return meta?.[key];
   }

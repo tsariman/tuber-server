@@ -9,9 +9,9 @@ export default class FormItemButtonStateBuilder extends FormItemBaseStateBuilder
   /** **DO NOT USE.** Method not implemented. @returns this. */
   add() { return this.die('Method not implemented.', this); }
   /** **DO NOT USE.** Method not implemented. @returns this. */
-  withId(): this { return this.die('Method not implemented.', this); }
+  with_Id(): this { return this.die('Method not implemented.', this); }
   /** **DO NOT USE.** Method not implemented. @returns this. */
-  withKey(_key: string): this {
+  with_Key(_key: string): this {
     return this.die('Method not implemented.', this);
   }
   /** **DO NOT USE.** Method not implemented. @returns this. */

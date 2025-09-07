@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
-import { IJsonapiQuerystring } from '../../common.types';
 import paginate from 'mongoose-paginate-v2';
+import { WithRequired } from '../../common.types';
+import { TJsonapiRequest } from '../../shared';
+import { IJsonapiQueryParams } from '../../shared/interfaces/IJsonapi';
 
 export interface IListing {
   is_active?: boolean;
@@ -36,15 +38,23 @@ export interface IListing {
   rules?: Record<string, string>;
 }
 
-export interface IListingsEndpoint {
+export interface IListingsGet {
   Body: IListing;
   Params: {
     id: string;
   };
-  Querystring: IJsonapiQuerystring;
+  Querystring: IJsonapiQueryParams;
 }
 
-export interface IListingDocument extends mongoose.Document, IListing {};
+export interface IListingPost {
+  Body: TJsonapiRequest<IListing>
+}
+
+export type TListing = WithRequired<IListing,
+  'is_active' | 'created_at' | 'modified_at' | 'is_private' | 'user_id'
+>;
+
+export interface IListingDocument extends mongoose.Document, TListing {};
 
 const listingSchema = new mongoose.Schema<IListingDocument>({
   is_active: { type: Boolean, default: true },

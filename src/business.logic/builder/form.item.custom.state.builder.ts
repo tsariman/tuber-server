@@ -27,9 +27,9 @@ export default class FormItemCustomStateBuilder<T=unknown> extends AbstractState
     return this;
   }
   /** **DO NOT USE**. Method is NOT implemented. @returns this. */
-  withId() { return this.die('Method not implemented.', this); }
+  with_Id() { return this.die('Method not implemented.', this); }
   /** **DO NOT USE**. Method is NOT implemented. @returns this. */
-  withKey() { return this.die('Method not implemented.', this); }
+  with_Key() { return this.die('Method not implemented.', this); }
   /**
    * Set an icon for the custom form item.
    * @param icon 
@@ -82,6 +82,6 @@ export default class FormItemCustomStateBuilder<T=unknown> extends AbstractState
     return this;
   }
   configure(): this { return this; }
-  withBootstrapState(): never { return this.bootstrap_not_available(); }
+  withBootstrapState(): never { return this.bootstrapNotAvailable(); }
   buildResponse(): TJsonapiStateResponse { return {'state': {}}; }
 }

@@ -1,9 +1,5 @@
 import { INetState } from './IState';
 
-/* ----------------------------------------------------------------------------
-RESPONSE SPECIFICATION
----------------------------------------------------------------------------- */
-
 export interface IResponseRequirement {
   driver?: string;
   state?: INetState;
@@ -26,8 +22,10 @@ JSONAPI SPECIFICATION
  * @see https://jsonapi.org/format/#document-jsonapi-object
  */
 export interface IJsonapiMember {
-  version: string;
-  [key: string]: string | undefined;
+  version?: '1.0' | '1.1';
+  ext?: string[]; // Extension names
+  profile?: string[]; // Profile names
+  [key: string]: string | string[] | undefined;
 }
 
 /**
@@ -134,14 +132,16 @@ export interface IJsonapiResourceLinkage extends IJsonapiCompoundDoc {
 export interface IJsonapiResourceAbstract {
   meta?: TJsonapiMeta;
   links?: IJsonapiResourceLinks;
-  _index?: number;
 }
+
+export type TJsonapiDataLinkage = IJsonapiResourceLinkage | IJsonapiResourceLinkage[] | null;
+export type TJsonapiDataCollection = IJsonapiResourceLinkage[];
 
 /**
  * @see https://jsonapi.org/format/#document-resource-object-relationships
  */
 export interface IJsonapiRelationship extends IJsonapiResourceAbstract {
-  data: IJsonapiResourceLinkage | IJsonapiResourceLinkage[];
+  data: TJsonapiDataLinkage;
 }
 export interface IJsonapiDataRelationships {
   [key: string]: IJsonapiRelationship;
@@ -151,7 +151,7 @@ export interface IJsonapiDataRelationships {
  * @see https://jsonapi.org/format/#document-resource-objects
  */
 export interface IJsonapiDataAttributes {
-  [key: string]: unknown;
+  [member: string]: unknown;
 }
 
 export interface IJsonapiResource<T=IJsonapiDataAttributes> 
@@ -159,6 +159,25 @@ export interface IJsonapiResource<T=IJsonapiDataAttributes>
 {
   attributes?: T;
   relationships?: IJsonapiDataRelationships;
+}
+
+export interface IJsonapiPageParams {
+  number?: number;
+  size?: number;
+  [key: string]: number | undefined;
+}
+
+export interface IJsonapiFilterParams {
+  search?: string;
+  [key: string]: string | undefined;
+}
+
+export interface IJsonapiQueryParams {
+  fields?: Record<string, string>;
+  include?: string;
+  sort?: string;
+  page?: IJsonapiPageParams;
+  filter?: IJsonapiFilterParams;
 }
 
 // RESPONSE SPECIFICATION //
@@ -177,13 +196,16 @@ export interface IJsonapiBaseResponse extends IJsonapiAbstractResponse {
   meta?: TJsonapiMeta;
   links?: IJsonapiPaginationLinks;
 }
+/** The `meta` member is required. */
 export interface IJsonapiMetaResponse extends IJsonapiBaseResponse {
   meta: TJsonapiMeta;
 }
-export interface IJsonapiDataResponse extends IJsonapiBaseResponse {
-  data: IJsonapiResponseResource[] | IJsonapiResponseResource | IJsonapiResourceLinkage | null;
+/** The `data` member is required. */
+export interface IJsonapiDataResponse<T=IJsonapiDataAttributes> extends IJsonapiBaseResponse {
+  data: IJsonapiResponseResource<T> | IJsonapiResponseResource<T>[] | null;
   included?: IJsonapiResource[];
 }
+/** The `errors` member is required. */
 export interface IJsonapiErrorResponse extends IJsonapiBaseResponse {
   errors: IJsonapiError[];
 }
@@ -192,14 +214,12 @@ export interface IJsonapiErrorResponse extends IJsonapiBaseResponse {
  * @see https://jsonapi.org/format/#document-top-level
  */
 export interface IJsonapiResponse<T=IJsonapiDataAttributes> extends IJsonapiBaseResponse {
-  data?: IJsonapiResource<T>[] | IJsonapiResource<T> | IJsonapiResourceLinkage | null;
+  data?: IJsonapiResource<T> | IJsonapiResource<T>[] | IJsonapiResourceLinkage | null;
   errors?: IJsonapiError[];
   included?: IJsonapiResource[];
 }
 
-/**
- * Makes the `state` member available while keeping the others optional.
- */
+/** Makes the `state` member required while keeping the others optional. */
 export interface IJsonapiStateResponse extends IJsonapiResponse {
   state: INetState;
 }

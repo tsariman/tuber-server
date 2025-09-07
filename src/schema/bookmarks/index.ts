@@ -1,11 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
 import paginate from 'mongoose-paginate-v2';
-import { TJsonapiResource } from '../../shared';
-import {
-  IJsonapiQuerystring,
-  TObj,
-  WithRequired
-} from '../../common.types';
+import { TJsonapiQueryParams, TJsonapiRequest, TJsonapiResource } from '../../shared';
+import { WithRequired } from '../../common.types';
 
 /**
  * 'G' - General
@@ -67,7 +63,7 @@ export interface IBookmark {
     user_id?: string;
     /** The reason why this bookmark was reported. */
     reason?: string;
-  }[]
+  }[];
   restrict?: Record<string, string>;
   rules?: Record<string, string>;
 }
@@ -81,15 +77,12 @@ export interface IBookmarkGet {
   Params: {
     id: string;
   };
-  Querystring: IJsonapiQuerystring;
+  Querystring: TJsonapiQueryParams;
 }
 
 /** Available fields for a post request. */
 export interface IBookmarkPost {
-  Body: {
-    data: TJsonapiResource<IBookmark>;
-    meta: TObj;
-  };
+  Body: TJsonapiRequest<IBookmark>;
 }
 
 /** Available fields for a put request. */
@@ -112,7 +105,7 @@ export type TBookmark = WithRequired<IBookmark,
   'is_active' | 'created_at' | 'modified_at' | 'is_private' | 'user_id'
 >;
 
-export interface IBookmarkDocument extends mongoose.Document, TBookmark {};
+export interface IBookmarkDocument<T=unknown> extends mongoose.Document<T>, TBookmark {};
 
 const bookmarkSchema = new Schema<IBookmarkDocument>({
   is_active: { type: Boolean, default: true },

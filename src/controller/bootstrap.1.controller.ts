@@ -1,12 +1,8 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
 import { parse_cookie } from '../utility';
-import {
-  get_body as get_from_body,
-  get_theme_mode
-} from '../business.logic';
+import { get_from_body, get_theme_mode } from '../business.logic';
 import { default_500_error_response } from '../business.logic/builder/jsonapi.error.builder';
-import { TNetState, TStateAllIcons } from '../shared';
-import { IBootstrapResponse } from '../common.types';
+import { TJsonapiStateResponse, TStateAllIcons } from '../shared';
 import { TCipheredUser } from '../schema/users';
 import { IStateContext } from '../state/_state.common.types';
 import { bootstrap_background_state } from '../state/bootstrap/background';
@@ -17,7 +13,6 @@ import {
   bootstrap_theme_dark_state
 } from '../state/bootstrap/theme';
 import { bootstrap_appbar_state } from '../state/bootstrap/appbar';
-
 import {
   bootstrap_dialogs_state,
   bootstrap_dialogs_light_state,
@@ -39,7 +34,7 @@ import { bootstrap_icons_state } from '../state/bootstrap/icon';
 import { get_registry } from '../business.logic/registry';
 import { log, log_err } from '../utility/logging';
 
-export default async function $1_bootstrap_controller(fastify: FastifyInstance) {
+export default async function bootstrap_1_controller(fastify: FastifyInstance) {
   
   fastify.post('/', async function (
     req: FastifyRequest<{ Body: { cookie?: string } }>,
@@ -62,8 +57,8 @@ export default async function $1_bootstrap_controller(fastify: FastifyInstance) 
     try {
       usr = await req.jwtVerify<TCipheredUser>();
       log('[DEBUG] Decoded values from token:', usr);
-    } catch (err: unknown) {
-      log('[DEBUG] Token verification failed.', (err as Error).message);
+    } catch (e) {
+      log('[DEBUG] Token verification failed.', (e as Error).message);
     }
 
     const context: IStateContext = {
@@ -126,7 +121,7 @@ export default async function $1_bootstrap_controller(fastify: FastifyInstance) 
           'dialogsDark': new PrepareState(context)
                               .process(bootstrap_dialogs_dark_state)
                               .get(),
-          'stateRegistry': get_registry('state'),
+          'staticRegistry': get_registry('state'),
           ...(usr ? { 'net': {
             'name': usr.name,
             'role': usr.role,
@@ -136,8 +131,8 @@ export default async function $1_bootstrap_controller(fastify: FastifyInstance) 
             // Originally, session was null but it crashed the app
             'net': undefined,
           })
-        } as TNetState
-      } as IBootstrapResponse);
+        }
+      } as TJsonapiStateResponse);
     } catch (e) {
       log_err('in attempting to bootstrap state', e);
       reply.code(500).send(default_500_error_response(e));

@@ -33,7 +33,7 @@ export default class DialogStateBuilder extends AbstractStateBuilder {
   }
   build(): TStateDialog { return this._state; }
   buildResponse(): TJsonapiStateResponse {
-    return this._response || this.response_not_defined();
+    return this._response || this.responseNotDefined();
   }
   /**
    * **DO NOT USE.** Not implemented.
@@ -52,11 +52,11 @@ export default class DialogStateBuilder extends AbstractStateBuilder {
   withActionButton(instance: FormItemButtonStateBuilder): this {
     return this.add(instance);
   }
-  withId(_id: string): this {
+  with_Id(_id: string): this {
     this._state._id = _id;
     return this;
   }
-  withKey(_key: string): this {
+  with_Key(_key: string): this {
     this._state._key = _key;
     return this;
   }
