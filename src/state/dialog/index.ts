@@ -10,7 +10,7 @@ import {
   clone_or_default
 } from '../../business.logic';
 import {
-  TNetState,
+  TJsonapiStateResponse,
   TStateAllDialogs,
   TStateDialog
 } from '../../shared';
@@ -374,7 +374,7 @@ export const $68DarkThemeMode: TStateDialog = (() => {
  * anything else client side.
  * @id 64
  */
-export function defaultDialogAlertState<T=unknown>(content: T) {
+export function defaultDialogAlertState<T=unknown>(content: T): TJsonapiStateResponse {
   return {
     'state': {
       'dialog': {
@@ -399,7 +399,7 @@ export function defaultDialogAlertState<T=unknown>(content: T) {
         ],
         'open': true
       }
-    } as TNetState
+    }
   };
 }
 

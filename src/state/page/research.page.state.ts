@@ -1,4 +1,3 @@
-import { TCipheredUser } from '../../schema/users';
 import { TStatePage } from '../../shared';
 import { register } from '../../business.logic/registry';
 import {
@@ -13,13 +12,20 @@ import {
   $66DarkThemeMode,
   $67DarkThemeMode,
   bookmarkAddFromUrlLinkState,
+  createUserLinkState,
   darkModeLinkState,
+  homeLinkState,
   lightModeLinkState,
   powerLogoutLinkState,
   powerSignInLinkState,
+  researchAppErrorsViewLinkState,
 } from '../nav.link';
-import { dev_get_links_state } from '../../DEV/link.state';
-import { clone_or_default, clone_with_descriptors } from '../../business.logic';
+import {
+  clone_empty,
+  clone_or_default,
+  clone_with_descriptors
+} from '../../business.logic';
+import { IBootstrapThemed, IStateContext } from '../_state.common.types';
 
 register('state', '40', $40_STATE_KEY);
 /** Page state for research page app. @id 40 */
@@ -63,6 +69,52 @@ export const $40DarkThemeMode: TStatePage = (() => {
   return base;
 })();
 
+/** Bootstrap-ready light and dark themed research page app. @id 40 */
+export const bs_researchPageState = (
+  context: IStateContext
+): IBootstrapThemed<TStatePage> => {
+  return {
+    'dark': (() => {
+      const base = clone_with_descriptors($40DarkThemeMode);
+      const appbar = clone_with_descriptors($63DarkThemeMode);
+      const items = clone_empty(appbar.items);
+      if (!context.usr) {
+        items.push(createUserLinkState);
+      }
+      if (context.inDev) {
+        items.push(researchAppErrorsViewLinkState);
+        items.push(homeLinkState);
+      } else if (context.usr) {
+        items.push(bookmarkAddFromUrlLinkState);
+      }
+      items.push(darkModeLinkState);
+      items.push(context.usr ? $66DarkThemeMode : $67DarkThemeMode);
+      appbar.items = items;
+      base.appbar = appbar;
+      return base;
+    })(),
+    'light': (() => {
+      const base = clone_with_descriptors(researchPageState);
+      const appbar = clone_with_descriptors(researchPageAppbarState);
+      const items = clone_empty(appbar.items);
+      if (!context.usr) {
+        items.push(createUserLinkState);
+      }
+      if (context.inDev) {
+        items.push(researchAppErrorsViewLinkState);
+        items.push(homeLinkState);
+      } else if (context.usr) {
+        items.push(bookmarkAddFromUrlLinkState);
+      }
+      items.push(lightModeLinkState);
+      items.push(context.usr ? powerLogoutLinkState : powerSignInLinkState);
+      appbar.items = items;
+      base.appbar = appbar;
+      return base;
+    })()
+  };
+};
+
 register('state', '70', $70_STATE_KEY);
 /** Listing (research alias) page state. @id 70 */
 export const listingPageState: TStatePage = (() => {
@@ -77,90 +129,42 @@ export const $70DarkThemeMode: TStatePage = (() => {
   const base = clone_with_descriptors(listingPageState);
   return base;
 })();
-
-/**
- * Get the research page state.
- *
- * @param usr User data from the decoded token.
- * @param mode theme mode
- * @returns state page
- *
- * @deprecated
- */
-export function get_research_page_state(usr?: TCipheredUser): TStatePage {
-  const base = clone_with_descriptors(researchPageState);
-  const appbar = clone_with_descriptors(researchPageAppbarState);
-  const items = dev_get_links_state(usr);
-  items.push(bookmarkAddFromUrlLinkState);
-  items.push(lightModeLinkState);
-  items.push(usr ? powerLogoutLinkState : powerSignInLinkState);
-  appbar.items = items;
-  base.appbar = appbar;
-  return base;
+/** Bootstrap-ready light and dark themed listing page app. @id 70 */
+export const bs_listingPageState = (
+  context: IStateContext
+): IBootstrapThemed<TStatePage> => {
+  return {
+    'dark': (() => {
+      const base = clone_with_descriptors($70DarkThemeMode);
+      const appbar = clone_with_descriptors($63DarkThemeMode);
+      const items = clone_with_descriptors(appbar.items ?? []);
+      if (context.inDev) {
+        items.push(researchAppErrorsViewLinkState);
+        items.push(homeLinkState);
+      } else if (context.usr) {
+        items.push(bookmarkAddFromUrlLinkState);
+      }
+      items.push(darkModeLinkState);
+      items.push($66DarkThemeMode);
+      appbar.items = items;
+      base.appbar = appbar;
+      return base;
+    })(),
+    'light': (() => {
+      const base = clone_with_descriptors(listingPageState);
+      const appbar = clone_with_descriptors(researchPageAppbarState);
+      const items = clone_or_default(appbar.items, []);
+      if (context.inDev) {
+        items.push(researchAppErrorsViewLinkState);
+        items.push(homeLinkState);
+      } else if (context.usr) {
+        items.push(bookmarkAddFromUrlLinkState);
+      }
+      items.push(lightModeLinkState);
+      items.push(powerLogoutLinkState);
+      appbar.items = items;
+      base.appbar = appbar;
+      return base;
+    })()
+  };
 }
-
-/**
- * Dark theme mode variant for research page state.
- *
- * @param usr user object retrieve from the decoded token.
- * @param mode theme mode
- * @returns page state
- *
- * @deprecated
- */
-export function get_40_dark_theme_mode(usr?: TCipheredUser ): TStatePage {
-  const base = clone_with_descriptors($40DarkThemeMode);
-  const appbar = clone_with_descriptors($63DarkThemeMode);
-  const items = dev_get_links_state(usr);
-  items.push(bookmarkAddFromUrlLinkState);
-  items.push(darkModeLinkState);
-  items.push(usr ? $66DarkThemeMode : $67DarkThemeMode);
-  appbar.items = items;
-  base.appbar = appbar;
-  return base;
-}
-
-/**
- * @param usr 
- * @returns
- * @id 70
- * @deprecated
- */
-export function get_listing_page_state (usr?: TCipheredUser): TStatePage {
-  const base = clone_with_descriptors(listingPageState);
-  const appbar = clone_with_descriptors(researchPageAppbarState);
-  const searchFieldIconButton = clone_or_default(appbar.searchFieldIconButton, {});
-  const has = clone_or_default(searchFieldIconButton.has, {});
-  has.icon = 'search_outline';
-  has.onclickHandle = 'tuberCallbacks.appbarFilterBookmarks';
-  searchFieldIconButton.has = has;
-  appbar.searchFieldIconButton = searchFieldIconButton;
-  const items = dev_get_links_state(usr);
-  items.push(bookmarkAddFromUrlLinkState);
-  items.push(lightModeLinkState);
-  items.push(usr ? powerLogoutLinkState : powerSignInLinkState);
-  appbar.items = items;
-  base.appbar = appbar;
-  return base;
-}
-
-/**
- * Get dark theme mode for listing page state.
- *
- * @param usr 
- * @returns 
- * @id 70
- *
- * @deprecated
- */
-export function get_70_dark_theme_mode(usr?: TCipheredUser): TStatePage {
-  const base = clone_with_descriptors($70DarkThemeMode);
-  const appbar = clone_with_descriptors($63DarkThemeMode);
-  const items = dev_get_links_state(usr);
-  items.push(bookmarkAddFromUrlLinkState);
-  items.push(darkModeLinkState);
-  items.push(usr ? powerLogoutLinkState : powerSignInLinkState);
-  appbar.items = items;
-  base.appbar = appbar;
-  return base;
-};

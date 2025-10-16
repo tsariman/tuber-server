@@ -27,9 +27,10 @@ const signInFormState: TStateForm = {
           'type': 'text',
           'name': 'username',
           get 'label'() { return t('278', 'Username'); },
+          'props': { 'autoComplete': 'off' },
           'has': {
             'required': true,
-            'requiredMessage': 'Type-in your username first'
+            get 'requiredMessage'() { return t('required_username', 'Type-in your username first'); }
           }
         },
         {
@@ -38,7 +39,7 @@ const signInFormState: TStateForm = {
           'name': 'password',
           'has': {
             'required': true,
-            'requiredMessage': 'You forgot the password'
+            get 'requiredMessage'() { return t('no-password', 'You forgot the password'); }
           }
         },
         {

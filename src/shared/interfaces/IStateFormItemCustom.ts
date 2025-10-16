@@ -1,5 +1,4 @@
 import { CSSProperties } from 'react';
-import { IAdornment } from '.';
 import { TReduxHandle } from '../state';
 import { IStateFormItemInputProps } from './IStateFormItem';
 import {
@@ -17,13 +16,26 @@ import {
 } from '@mui/material';
 import { IStateKeys } from './IState';
 
-export type TStateFormITemCustomColor = 'default' | 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning';
+// Import IAdornment from the shared types file to avoid duplication
+import { IAdornment } from '../../common.types';
+
+export type TStateFormITemCustomColor = 'default'
+  | 'primary'
+  | 'secondary'
+  | 'error'
+  | 'info'
+  | 'success'
+  | 'warning';
 
 export type TDirectiveLoad = {
   [K in IStateKeys]?: string[] | string; // Identifier(s) for the state to be loaded
 };
 
-export type THandleDirectiveType = '$form' | '$form_dialog' | '$none';
+export type THandleDirectiveType = '$form'
+| '$form_dialog'
+| '$form_none'
+| '$filter'
+| '$none';
 
 export interface IHandleDirective {
   type: THandleDirectiveType; // The directive type like '$form', '$view', etc.
@@ -116,10 +128,15 @@ export default interface IStateFormItemCustom<T = unknown> {
    * ```
    */
   onclickHandle?: string;
+  /** Check `onclickHandle` documentation for more information. */
   onfocusHandle?: string;
+  /** Check `onclickHandle` documentation for more information. */
   onchangeHandle?: string;
+  /** Check `onclickHandle` documentation for more information. */
   onkeydownHandle?: string;
+  /** Check `onclickHandle` documentation for more information. */
   onblurHandle?: string;
+  /** Check `onclickHandle` documentation for more information. */
   ondeleteHandle?: string;
   /** `onclick` callback defined using directives */
   onclickHandleDirective?: IHandleDirective;
@@ -170,8 +187,9 @@ export default interface IStateFormItemCustom<T = unknown> {
   /** Message to display if the value of the input field exceeds `maxLength` */
   maxLengthMessage?: string;
   /**
-   * Set to `true` to disable some fields on error.
+   * Set to `true` to disable some fields on error.  
    * [TODO] Does not work. Needs to be implemented.
+   * @deprecated
    */
   disableOnError?: boolean;
   /**

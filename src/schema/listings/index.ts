@@ -54,7 +54,7 @@ export type TListing = WithRequired<IListing,
   'is_active' | 'created_at' | 'modified_at' | 'is_private' | 'user_id'
 >;
 
-export interface IListingDocument extends mongoose.Document, TListing {};
+export interface IListingDocument<T=unknown> extends mongoose.Document<T>, TListing {};
 
 const listingSchema = new mongoose.Schema<IListingDocument>({
   is_active: { type: Boolean, default: true },

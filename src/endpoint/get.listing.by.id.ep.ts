@@ -17,7 +17,7 @@ export default async function get_listing_by_id_endpoint (
     print(`[DEBUG] Getting listing with id '${listingId}' with bookmarks... `);
 
     // Validate and convert listingId to ObjectId if necessary
-    let objectId: unknown;
+    let objectId: Types.ObjectId;
     try {
       objectId = new Types.ObjectId(listingId);
     } catch (error) {

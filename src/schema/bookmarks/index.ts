@@ -86,7 +86,7 @@ export interface IBookmarkPost {
 }
 
 /** Available fields for a put request. */
-export interface IBookmarkPut {
+export interface IBookmarkPatch {
   Body: {
     data: TJsonapiResource<IBookmark>;
   };

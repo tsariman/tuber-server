@@ -1,20 +1,20 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { PipelineStage } from 'mongoose';
+import { PipelineStage, Types } from 'mongoose';
 import JsonapiErrorBuilder, {
   default_500_error_response
 } from '../business.logic/builder/jsonapi.error.builder';
-import JsonapiResponseColBuilder from '../business.logic/builder/jsonapi.response.col.builder';
+import JsonapiResponseBuilder from '../business.logic/builder/jsonapi.response.builder';
 import Config from '../config';
 import {
   BookmarkModel,
-  get_bookmark_collection
+  read_bookmark_collection
 } from '../model/bookmark';
-import { IBookmarkGet } from '../schema/bookmarks';
+import { IBookmarkDocument, IBookmarkGet } from '../schema/bookmarks';
 import { DB_PAGINATION_QUERY, MSG_500_ERROR_MESSAGE } from '../constants.server';
 import { get_raw_query } from './_endpoint.common.logic';
 import { log, write as print, log_err, ler } from '../utility/logging';
 
-export default async function get_bookmarks_collection_endpoint (
+export default async function get_bookmark_collection_endpoint (
   req: FastifyRequest<IBookmarkGet>,
   reply: FastifyReply
 ) {
@@ -95,16 +95,47 @@ export default async function get_bookmarks_collection_endpoint (
       }
       const { totalItems, results } = aggregationResult[0];
       if (aggregationResult.length > 0) {
-        const filter = `?filter[search]=${searchQuery}&`;
-        reply.code(200).send(new JsonapiResponseColBuilder(
-            results,
-            'bookmarks',
-            'collection'
-          )
-          .meta('max_loaded_pages', Config.MAX_LOADED_BOOKMARK_PAGES)
-          .meta('search', get_raw_query(req))
-          .buildLinks({ docs: results, filter, page, limit, totalDocs: totalItems })
-          .build()
+        const filter = `filter[search]=${encodeURIComponent(searchQuery)}`;
+        
+        // Convert results to JSON:API resources
+        const resources = results.map((bookmark: IBookmarkDocument<Types.ObjectId>) => ({
+          type: 'bookmarks',
+          id: bookmark._id?.toString() ?? '',
+          attributes: {
+            author: bookmark.author,
+            embed_url: bookmark.embed_url,
+            slug: bookmark.slug,
+            rating: bookmark.rating,
+            targeted_audience: bookmark.targeted_audience,
+            play_count: bookmark.play_count,
+            videoid: bookmark.videoid,
+            platform: bookmark.platform,
+            start_seconds: bookmark.start_seconds,
+            end_seconds: bookmark.end_seconds,
+            title: bookmark.title,
+            note: bookmark.note,
+            upvotes: bookmark.upvotes,
+            downvotes: bookmark.downvotes,
+            url: bookmark.url,
+            thumbnail_url: bookmark.thumbnail_url,
+            restrict: bookmark.restrict,
+            rules: bookmark.rules,
+            created_at: bookmark.created_at,
+            modified_at: bookmark.modified_at,
+            user_id: bookmark.user_id,
+            is_active: bookmark.is_active,
+          }
+        }));
+
+        reply.code(200).send(
+          JsonapiResponseBuilder.forCollection()
+            .withCollection(resources)
+            .withCollectionPagination(totalItems, page, limit, filter)
+            .withMeta({
+              max_loaded_pages: Config.MAX_LOADED_BOOKMARK_PAGES,
+              search: get_raw_query(req)
+            })
+            .buildCollection()
         );
       } else {
         reply.status(200).send({
@@ -117,14 +148,57 @@ export default async function get_bookmarks_collection_endpoint (
     } else {
       log('[DEBUG] Running search query:', searchQuery);
       print(`[DEBUG] Getting bookmarks collection (page ${page}, limit ${limit})... `);
-      const result = await get_bookmark_collection(page, limit);
+      const result = await read_bookmark_collection(page, limit);
       log('Done.');
-      const bookmarkDocs = result.docs;
+      
+      // Convert mongoose documents to JSON:API resources
+      const resources = result.docs.map((bookmark) => ({
+        type: 'bookmarks',
+        id: bookmark._id.toString(),
+        attributes: {
+          author: bookmark.author,
+          embed_url: bookmark.embed_url,
+          slug: bookmark.slug,
+          rating: bookmark.rating,
+          targeted_audience: bookmark.targeted_audience,
+          play_count: bookmark.play_count,
+          videoid: bookmark.videoid,
+          platform: bookmark.platform,
+          start_seconds: bookmark.start_seconds,
+          end_seconds: bookmark.end_seconds,
+          title: bookmark.title,
+          note: bookmark.note,
+          upvotes: bookmark.upvotes,
+          downvotes: bookmark.downvotes,
+          url: bookmark.url,
+          thumbnail_url: bookmark.thumbnail_url,
+          restrict: bookmark.restrict,
+          rules: bookmark.rules,
+          created_at: bookmark.created_at,
+          modified_at: bookmark.modified_at,
+          user_id: bookmark.user_id,
+          is_active: bookmark.is_active
+        }
+      }));
+
       reply.code(200).send(
-        new JsonapiResponseColBuilder(bookmarkDocs, 'bookmarks', 'collection')
-          .meta('max_loaded_pages', Config.MAX_LOADED_BOOKMARK_PAGES)
-          .buildPaginationV2Links(result)
-          .mPaginationV2build()
+        JsonapiResponseBuilder.forCollection()
+          .withCollection(resources)
+          .withPaginationLinks({
+            totalDocs: result.totalDocs,
+            limit: result.limit,
+            page: result.page,
+            totalPages: result.totalPages,
+            nextPage: result.nextPage,
+            hasNextPage: result.hasNextPage,
+            prevPage: result.prevPage,
+            hasPrevPage: result.hasPrevPage,
+            pagingCounter: result.pagingCounter
+          })
+          .withMeta({
+            max_loaded_pages: Config.MAX_LOADED_BOOKMARK_PAGES
+          })
+          .buildCollection()
       );
     }
   } catch (e) {

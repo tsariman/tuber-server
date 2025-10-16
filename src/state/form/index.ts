@@ -68,7 +68,7 @@ import {
   themed,
   themed_by_key
 } from '../../business.logic';
-import registerFormState, { $69DarkThemeMode } from './register.form.state';
+import newUserFormState, { $69DarkThemeMode } from './new.user.form.state';
 import { TCipheredUser } from '../../schema/users';
 import { is_dev } from '../../model/user/access';
 
@@ -184,7 +184,7 @@ export const STATE_FORMS: TStateAllForms = {
   [C.$38_STATE_KEY]: newTwitchBookmarkFormState,
   [C.$39_STATE_KEY]: editTwitchBookmarkFormState,
   [C.$41_STATE_KEY]: signInFormState,
-  [C.$69_STATE_KEY]: registerFormState,
+  [C.$69_STATE_KEY]: newUserFormState,
   ...(Config.DEV ? DEV_STATE_FORM : {})
 };
 

@@ -20,7 +20,7 @@ export default async function post_bookmark_endpoint (
     const platform = driver.getAttribute('platform');
     const attr = driver.getAttributes();
     print(`[DEBUG] Creating [${platform}] bookmark... `);
-    const bookmark = await fix_missing_bookmark_data(attr);
+    const bookmark = await fix_missing_bookmark_data(attr, req.usr);
     if (!bookmark) {
       log('Failed.');
       reply.code(400).send(default_400_error_response({

@@ -4,7 +4,7 @@ import JsonapiErrorBuilder, {
 } from '../../business.logic/builder/jsonapi.error.builder';
 import { log, log_err, write as print } from '../../utility/logging';
 import { get_video_thumbnail_url } from '../all.drivers';
-import { BookmarkModel, get_bookmark_by_id } from 'src/model/bookmark';
+import { BookmarkModel, read_bookmark_by_id } from 'src/model/bookmark';
 import { IBookmark } from '../../schema/bookmarks';
 import { TPlatform } from '../../common.types';
 import JsonapiResponseColBuilder from '../../business.logic/builder/jsonapi.response.col.builder';
@@ -34,7 +34,7 @@ export default async function get_video_thumbnail_url_endpoint (
       return;
     }
     print('[DEBUG] Retrieving bookmark... ');
-    const bookmark = await get_bookmark_by_id(id);
+    const bookmark = await read_bookmark_by_id(id);
     if (!bookmark) {
       log('Failed.\n[DEBUG][404] Bookmark not found.');
       reply.code(404).send(new JsonapiErrorBuilder()

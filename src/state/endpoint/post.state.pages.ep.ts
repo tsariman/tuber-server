@@ -4,7 +4,7 @@ import JsonapiErrorBuilder, {
   default_500_error_response
 } from '../../business.logic/builder/jsonapi.error.builder';
 import  { STATE_PAGES, STATE_PAGES_THEME_DARK } from '../page';
-import { TNetState } from '../../shared';
+import { TJsonapiStateResponse } from '../../shared';
 import { TThemeMode } from '../../common.types';
 import { MSG_500_ERROR_MESSAGE } from '../../constants.server';
 import { themed } from '../../business.logic';
@@ -45,8 +45,8 @@ export default async function post_state_pages_endpoint (
           'pages': { [key]: pageState },
           'pagesLight': { [key]: STATE_PAGES[key] },
           'pagesDark': { [key]: STATE_PAGES_THEME_DARK[key] },
-        } as TNetState
-      });
+        }
+      } as TJsonapiStateResponse);
     } else {
       log('Failed.');
       reply.code(404).send({
@@ -59,8 +59,8 @@ export default async function post_state_pages_endpoint (
               'data': { 'message': `Page not found!` },
             }
           }
-        } as TNetState
-      });
+        }
+      } as TJsonapiStateResponse);
     }
   } catch (e) {
     ler(MSG_500_ERROR_MESSAGE);

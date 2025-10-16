@@ -9,8 +9,7 @@ import {
   TStateAllForms,
   TStateAllDialogs
 } from '../shared';
-import { TThemeMode, TObj } from '../common.types';
-import { TCipheredUser } from '../schema/users';
+import { TObj } from '../common.types';
 import {
   bootstrap_pages_dark_state,
   bootstrap_pages_light_state,
@@ -39,18 +38,10 @@ import {
 import { bootstrap_icons_state } from './bootstrap/icon';
 import { get_registry } from '../business.logic/registry';
 
-export interface IBootstrap {
-  token?: string;
-  usr?: TCipheredUser;
-  mode?: TThemeMode;
-}
-
 /** @deprecated */
 export default async function get_bootstrap_authenticated_state(
-  bootstrap: IBootstrap
+  context: IStateContext
 ): Promise<TNetState> {
-  const { usr, mode, token } = bootstrap;
-  const context: IStateContext = { usr, token, theme: mode };
   return {
     // 'app': _get_default_app_info(usr, mode),
     'app': new PrepareState<TStateApp>(context)
@@ -120,11 +111,11 @@ export default async function get_bootstrap_authenticated_state(
                           .process(bootstrap_dialogs_dark_state)
                           .get(),
     'staticRegistry': get_registry('state'),
-    ...(usr && { 'net': {
-      'name': usr.name,
-      'role': usr.role,
-      'token': token,
-      'jwt_version': usr.jwt_version
+    ...(context.usr && { 'net': {
+      'name': context.usr.name,
+      'role': context.usr.role,
+      'token': context.token,
+      'jwt_version': context.usr.jwt_version
     }}),
   };
 }

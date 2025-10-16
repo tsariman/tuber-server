@@ -6,42 +6,22 @@ import {
   $44_STATE_KEY,
   $51_STATE_KEY,
   $70_STATE_KEY,
+  $74_STATE_KEY,
   THEME_MODE
 } from '../../constants.server';
-import researchPageState, {
-  $40DarkThemeMode,
-  $70DarkThemeMode,
-  listingPageState
+import {
+  bs_listingPageState,
+  bs_researchPageState,
 } from '../page/research.page.state';
+import { bs_chippedListingPageState } from '../page/listing.page.state';
+import { bs_newUserPageState } from '../page/new.user.page.state';
 import Config from '../../config';
 import { PrepareState } from '../PrepareState';
-import chippedListingPageState, {
-  $51DarkThemeMode
-} from '../page/listing.page.state';
 import devInstallPageState, {
   $44DarkThemeMode
 } from '../../DEV/page/dev.install.page.state';
-import {
-  $66DarkThemeMode,
-  $67DarkThemeMode,
-  bookmarkAddFromUrlLinkState,
-  darkModeLinkState,
-  homeLinkState,
-  lightModeLinkState,
-  powerLogoutLinkState,
-  powerSignInLinkState,
-  researchAppErrorsViewLinkState
-} from '../nav.link';
-import researchPageAppbarState, {
-  $63DarkThemeMode,
-  $71DarkThemeMode,
-  listingPageAppbarState
-} from '../appbar';
-import {
-  clone_empty,
-  clone_or_default,
-  clone_with_descriptors
-} from '../../business.logic';
+import { $66DarkThemeMode, powerLogoutLinkState } from '../nav.link';
+import { clone_or_default, clone_with_descriptors } from '../../business.logic';
 
 const bootstrap_pages_state: TBootstrapState<TStateAllPages> = {
 
@@ -68,57 +48,18 @@ const bootstrap_pages_light_state: TBootstrapState<TStateAllPages> = {
   DEFAULT: (context: IStateContext): TStateAllPages => {
     const { usr } = context;
     const inDev = Config.DEV && !!usr && usr.role === 'developer';
+    context.inDev = inDev;
 
     const lightPages: TStateAllPages = {
-      [$40_STATE_KEY]: (() => {
-        const base = clone_with_descriptors(researchPageState);
-        const appbar = clone_with_descriptors(researchPageAppbarState);
-        const items = clone_empty(appbar.items);
-        if (inDev) {
-          items.push(researchAppErrorsViewLinkState);
-          items.push(homeLinkState);
-        } else if (usr) {
-          items.push(bookmarkAddFromUrlLinkState);
-        }
-        items.push(lightModeLinkState);
-        items.push(usr ? powerLogoutLinkState : powerSignInLinkState);
-        appbar.items = items;
-        base.appbar = appbar;
-        return base;
-      })(),
-      [$70_STATE_KEY]: (() => {
-        const base = clone_with_descriptors(listingPageState);
-        const appbar = clone_with_descriptors(researchPageAppbarState);
-        const items = clone_or_default(appbar.items, []);
-        if (inDev) {
-          items.push(researchAppErrorsViewLinkState);
-          items.push(homeLinkState);
-        } else if (usr) {
-          items.push(bookmarkAddFromUrlLinkState);
-        }
-        items.push(lightModeLinkState);
-        items.push(powerLogoutLinkState);
-        appbar.items = items;
-        base.appbar = appbar;
-        return base;
-      })(),
-      [$51_STATE_KEY]: (() => {
-        const base = clone_with_descriptors(chippedListingPageState);
-        const appbar = clone_with_descriptors(listingPageAppbarState);
-        const items = clone_or_default(appbar.items, []);
-        if (inDev) {
-          items.push(researchAppErrorsViewLinkState);
-          items.push(homeLinkState);
-        } else if (usr) {
-          items.push(bookmarkAddFromUrlLinkState);
-        }
-        items.push(lightModeLinkState);
-        items.push(powerLogoutLinkState);
-        appbar.items = items;
-        base.appbar = appbar;
-        return base;
-      })(),
+      [$40_STATE_KEY]: bs_researchPageState(context).light,
+      [$70_STATE_KEY]: bs_listingPageState(context).light,
+      [$51_STATE_KEY]: bs_chippedListingPageState(context).light,
     };
+
+    // Pages that's only available when the user is not authenticated.
+    if (!usr) {
+      lightPages[$74_STATE_KEY] = bs_newUserPageState(context).light;
+    }
 
     if (inDev) {
       lightPages[$44_STATE_KEY] = (() => {
@@ -143,57 +84,18 @@ const bootstrap_pages_dark_state = {
   DEFAULT: (context: IStateContext): TStateAllPages => {
     const { usr } = context;
     const inDev = Config.DEV && usr?.role === 'developer';
+    context.inDev = inDev;
 
     const darkPages: TStateAllPages = {
-      [$40_STATE_KEY]: (() => {
-        const base = clone_with_descriptors($40DarkThemeMode);
-        const appbar = clone_with_descriptors($63DarkThemeMode);
-        const items = clone_empty(appbar.items);
-        if (inDev) {
-          items.push(researchAppErrorsViewLinkState);
-          items.push(homeLinkState);
-        } else if (usr) {
-          items.push(bookmarkAddFromUrlLinkState);
-        }
-        items.push(darkModeLinkState);
-        items.push(usr ? $66DarkThemeMode : $67DarkThemeMode);
-        appbar.items = items;
-        base.appbar = appbar;
-        return base;
-      })(),
-      [$70_STATE_KEY]: (() => {
-        const base = clone_with_descriptors($70DarkThemeMode);
-        const appbar = clone_with_descriptors($63DarkThemeMode);
-        const items = clone_with_descriptors(appbar.items ?? []);
-        if (inDev) {
-          items.push(researchAppErrorsViewLinkState);
-          items.push(homeLinkState);
-        } else if (usr) {
-          items.push(bookmarkAddFromUrlLinkState);
-        }
-        items.push(darkModeLinkState);
-        items.push($66DarkThemeMode);
-        appbar.items = items;
-        base.appbar = appbar;
-        return base;
-      })(),
-      [$51_STATE_KEY]: (() => {
-        const base = clone_with_descriptors($51DarkThemeMode);
-        const appbar = clone_with_descriptors($71DarkThemeMode);
-        const items = clone_with_descriptors(appbar.items ?? []);
-        if (inDev) {
-          items.push(researchAppErrorsViewLinkState);
-          items.push(homeLinkState);
-        } else if (usr) {
-          items.push(bookmarkAddFromUrlLinkState);
-        }
-        items.push(darkModeLinkState);
-        items.push($66DarkThemeMode);
-        appbar.items = items;
-        base.appbar = appbar;
-        return base;
-      })(),
+      [$40_STATE_KEY]: bs_researchPageState(context).dark,
+      [$70_STATE_KEY]: bs_listingPageState(context).dark,
+      [$51_STATE_KEY]: bs_chippedListingPageState(context).dark,
     };
+
+    // Pages that's only available when the user is not authenticated.
+    if (!usr) {
+      darkPages[$74_STATE_KEY] = bs_newUserPageState(context).dark;
+    }
 
     if (inDev) {
       darkPages[$44_STATE_KEY] = (() => {

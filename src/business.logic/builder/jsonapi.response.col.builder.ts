@@ -20,7 +20,7 @@ import JsonapiPaginationBuilder, {
 
 type JSONAPI_RESOURCE_TYPE = 'collection' | 'object' | 'null' | 'linkage';
 
-/** Jsonapi response collection builder */
+/** Jsonapi response collection builder @deprecated */
 export default class JsonapiResponseColBuilder<TCollection> {
   readonly JSONAPI_VERSION = '1.1';
   private _skeletonResource: TJsonapiResource;
@@ -151,7 +151,7 @@ export default class JsonapiResponseColBuilder<TCollection> {
     } as TJsonapiResource;
   }
 
-  /** Build the response for mongoose-paginate-v2 @deprecated */
+  /** Build the response for mongoose-paginate-v2 */
   mPaginationV2build() {
     if (this._alreadyBuilt) {
       throw new Error('Response already built');

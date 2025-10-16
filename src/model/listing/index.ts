@@ -30,7 +30,7 @@ export const ListingPaginationModel = model<
 
 export const ListingModel = model<TListing>('listings', listingSchema);
 
-export const get_listing_by_id = async function (
+export const read_listing_by_id = async function (
   id: string
 ): Promise<IListingDocument | null> {
   const listingDoc = await ListingPaginationModel.findById(id);
@@ -48,7 +48,7 @@ export const create_listing = async function (
   return listing;
 };
 
-export const get_listing_collection = async function (
+export const read_listing_collection = async function (
   page: number,
   limit: number
 ): Promise<PaginateResult<IListingDocument>> {
@@ -60,7 +60,7 @@ export const get_listing_collection = async function (
   return result;
 }
 
-export const get_listing_document_count = async function(): Promise<number> {
+export const read_listing_document_count = async function(): Promise<number> {
   const count = await ListingModel.countDocuments();
   return count;
 };

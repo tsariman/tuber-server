@@ -1,7 +1,10 @@
 import {
   $48_STATE_KEY,
   $66_STATE_KEY,
-  $67_STATE_KEY
+  $67_STATE_KEY,
+  $72_STATE_KEY,
+  $74_STATE_KEY,
+  $75_STATE_KEY
 } from '../../constants.server';
 import { TStateLink } from '../../shared';
 import { clone_with_descriptors, t } from '../../business.logic';
@@ -13,15 +16,13 @@ export const homeLinkState: TStateLink = {
     'route': '/'
   }
 };
-
 /** Backup for the original "signin" link. */
 export const defaultSignInLinkState: TStateLink = {
   'has': {
-    get 'text'() { return t('sign_in', 'Sign in'); },
+    get 'text'() { return t('signin', 'Sign in'); },
     'route': 'sign-in'
   }
 };
-
 export const signInLInkState: TStateLink = {
   'type': 'icon',
   'has': {
@@ -42,7 +43,6 @@ export const powerSignInLinkState: TStateLink = {
     'svgIconProps': { 'sx': { 'color': 'grey.500' }}
   }
 };
-
 /** Dark theme mode for link state to sign in. @id 67 */
 export const $67DarkThemeMode: TStateLink = (() => {
   const base = clone_with_descriptors(powerSignInLinkState ?? {});
@@ -65,7 +65,6 @@ export const powerLogoutLinkState: TStateLink = {
     'svgIconProps': { 'sx': { 'color': 'info.light' }}
   }
 };
-
 /** Dark theme mode for link state to sign out. @id 66 */
 export const $66DarkThemeMode: TStateLink = (() => {
   const base = clone_with_descriptors(powerLogoutLinkState);
@@ -75,7 +74,6 @@ export const $66DarkThemeMode: TStateLink = (() => {
   base.has = has;
   return base;
 })();
-
 /** Get link state for signing out. @id 67 */
 export const getAuthPowerLinkState = (username: string): TStateLink => {
   const base = clone_with_descriptors(powerLogoutLinkState);
@@ -86,7 +84,6 @@ export const getAuthPowerLinkState = (username: string): TStateLink => {
   // [TODO] This will be a dropdown menu so users can see their profile.
   return base;
 };
-
 /** Get dark mode link state for signing out. @id 66 */
 export const getAuthDarkModePowerLinkState = (
   username: string
@@ -98,7 +95,6 @@ export const getAuthDarkModePowerLinkState = (
   // [TODO] This will be a dropdown menu so users can see their profile.
   return base;
 }
-
 export const authenticatedLinkState: TStateLink = {
   'type': 'hybrid',
   'has': {
@@ -106,7 +102,6 @@ export const authenticatedLinkState: TStateLink = {
     'text': '',
   }
 };
-
 /** Link to create a new bookmark from a video URL. */
 export const bookmarkAddFromUrlLinkState: TStateLink = {
   'type': 'icon',
@@ -117,21 +112,18 @@ export const bookmarkAddFromUrlLinkState: TStateLink = {
     'svgIconProps': { 'sx': { 'color': 'grey.600' }},
   }
 };
-
 export const defaultErrorsViewLinkState: TStateLink = {
   'has': {
-    get 'text'() { return t('client_errors', 'Client errors'); },
+    get 'text'() { return t('clienterrors', 'Client errors'); },
     'route': 'default-errors-view'
   }
 };
-
 export const researchAppErrorsViewLinkState: TStateLink = {
   'has': {
-    get 'text'() { return t('client_errors', 'Client errors'); },
+    get 'text'() { return t('clienterrors', 'Client errors'); },
     'route': $48_STATE_KEY
   }
 };
-
 export const darkModeLinkState: TStateLink = {
   'type': 'icon',
   'has': {
@@ -142,7 +134,6 @@ export const darkModeLinkState: TStateLink = {
     'onclickHandle': `tuberCallbacks.$44_C_1`,
   }
 };
-
 export const lightModeLinkState: TStateLink = {
   'type': 'icon',
   'has': {
@@ -151,5 +142,23 @@ export const lightModeLinkState: TStateLink = {
       'sx': { 'color': '#5d89ba' }
     },
     'onclickHandle': `tuberCallbacks.$44_C_1`,
+  }
+};
+export const signupLinkState: TStateLink = {
+  'has': {
+    'text': 'Sign Up',
+    'route': $72_STATE_KEY
+  }
+};
+export const createUserLinkState: TStateLink = {
+  'has': {
+    'icon': 'user_new',
+    'route': $74_STATE_KEY
+  }
+};
+export const userLinkState: TStateLink = {
+  'has': {
+    'icon': 'user',
+    'route': $75_STATE_KEY
   }
 };

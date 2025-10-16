@@ -1,9 +1,16 @@
 import { TCipheredUser } from './schema/users';
-import { TNetState } from './shared';
-
-export type TStateResponse = { 'state': TNetState };
 
 // Utility types
+
+export type TAllTypes = 'string'
+  |'number'
+  |'bigint'
+  |'boolean'
+  |'function'
+  |'object'
+  |'symbol'
+  |'undefined';
+
 export type TObj<T=unknown> = Record<string, T>;
 
 /** Make properties required. @see https://stackoverflow.com/a/69328045/1875859 */
@@ -76,3 +83,34 @@ export interface IStateContext {
 
 /** Dedicated to managing requested states from server. */
 export type TBootstrapState<T> = Record<string, T | ((context: IStateContext) => T)>;
+
+/**
+ * Type for textfield adornment, e.g.
+ *
+ * icons and text symbol located within the textfield that serve as a type of
+ * label. e.g.  
+ * ```json
+ * {
+ *   'type': 'textfield',
+ *   'name': 'machine_name',
+ *   'props': {}, // Maerial-ui props
+ *   'inputProps': {
+ *     'start': { // IAdornment start here
+ *       'icon': {},
+ *       'faIcon': (),
+ *        
+ *     }
+ *   }
+ * }
+ * ```
+ */
+export interface IAdornment {
+  position?: 'start' | 'end';
+  type?: 'text' | 'button';
+  /** Material-UI icon */
+  icon?: string;
+  /** Fontawesone icon */
+  faIcon?: string;
+  text?: string;
+  [x: string]: unknown;
+}

@@ -1,3 +1,4 @@
+import { PaginateResult } from 'mongoose';
 import { TJsonapiDataLinkage, TJsonapiMeta } from '../../shared/interfaces/IJsonapi';
 import {
   TJsonapiDataAttributes,
@@ -90,6 +91,54 @@ export default class JsonapiResponseBuilder<T = TJsonapiDataAttributes> {
   }
 
   withCollection(resources: TJsonapiResource<T>[] = []): this {
+    this._data = resources;
+    return this;
+  }
+
+  /**
+   * Convert database documents to JSON:API resources
+   * @param dbDocs - Array of database documents
+   * @param resourceType - The JSON:API resource type
+   * @param transform - Optional transformation function for attributes
+   */
+  withDocuments<TDoc = Record<string, unknown>>(
+    dbDocs: TDoc[],
+    resourceType: string,
+    transform?: (doc: TDoc) => T
+  ): this {
+    if (!Array.isArray(dbDocs)) {
+      throw new Error('toResources: dbDocs must be an array');
+    }
+
+    const resources = dbDocs.map((doc) => {
+      if (!doc || typeof doc !== 'object') {
+        throw new Error('withDocuments(): Invalid document structure');
+      }
+
+      const resource: TJsonapiResource<T> = {
+        type: resourceType
+      };
+
+      // Handle ID extraction and conversion
+      const docWithId = doc as Record<string, unknown>;
+      if ('_id' in docWithId) {
+        resource.id = String(docWithId._id); // Convert ObjectId to string
+      } else if ('id' in docWithId) {
+        resource.id = String(docWithId.id);
+      }
+
+      // Extract attributes (excluding MongoDB meta fields)
+      const excludeFields = ['_id', 'id', '__v'];
+      const attributes = Object.fromEntries(
+        Object.entries(docWithId).filter(([key]) => !excludeFields.includes(key))
+      );
+
+      // Apply optional transformation or use extracted attributes
+      resource.attributes = transform ? transform(doc) : attributes as T;
+
+      return resource;
+    });
+
     this._data = resources;
     return this;
   }
@@ -207,6 +256,39 @@ export default class JsonapiResponseBuilder<T = TJsonapiDataAttributes> {
    */
   withPaginationLinks(paginatedResult: IPaginatedResult): this {
     this._links = new JsonapiPaginationBuilder(paginatedResult).build();
+    return this;
+  }
+
+  /**
+   * Handle complete mongoose-paginate-v2 result with documents and pagination
+   * @param result - PaginateResult from mongoose-paginate-v2
+   * @param resourceType - JSON:API resource type
+   * @param transform - Optional transformation function for documents
+   * @param filter - Optional filter string for pagination links
+   */
+  withMongoosePaginatedResult<TDoc = Record<string, unknown>>(
+    result: PaginateResult<TDoc>,
+    resourceType: string,
+    transform?: (doc: TDoc) => T,
+    filter?: string
+  ): this {
+    // Convert documents to JSON:API resources
+    this.withDocuments(result.docs, resourceType, transform);
+    
+    // Build pagination links
+    this._links = new JsonapiPaginationBuilder({
+      totalDocs: result.totalDocs,
+      limit: result.limit,
+      page: result.page,
+      totalPages: result.totalPages,
+      nextPage: result.nextPage,
+      hasNextPage: result.hasNextPage,
+      prevPage: result.prevPage,
+      hasPrevPage: result.hasPrevPage,
+      pagingCounter: result.pagingCounter,
+      filter
+    }).build();
+    
     return this;
   }
 

@@ -1,4 +1,4 @@
-import { model, PaginateModel, PaginateResult } from 'mongoose';
+import { model, PaginateModel, PaginateResult, Types } from 'mongoose';
 import { IMPV2Doc, TSelect } from '../../common.types';
 import bookmarkSchema, {
   IBookmark,
@@ -50,12 +50,35 @@ export const exclude_bookmark_fields = (bookmark: IMPV2Doc<IBookmarkDocument>) =
   return bookmarkDoc;
 };
 
-export const get_bookmark_by_id = async function (
+export const read_bookmark_by_id = async function (
   id: string
 ): Promise<IBookmarkDocument | null> {
   const bookmarkDoc = await BookmarkPaginationModel.findById(id);
   return bookmarkDoc;
 };
+
+export const update_bookmark_by_id = async function (
+  id: string,
+  attributes: IBookmark
+): Promise<IBookmarkDocument | null> {
+  const bookmark = await BookmarkModel.findByIdAndUpdate(
+    id,
+    { ...attributes, modified_at: new Date() },
+    { new: true }
+  );
+  return bookmark;
+}
+
+export const delete_bookmark_by_id = async function (
+  id: string
+): Promise<IBookmarkDocument | null> {
+  const bookmark = await BookmarkModel.findByIdAndUpdate(
+    id,
+    { is_active: false },
+    { new: true }
+  );
+  return bookmark;
+}
 
 export const create_bookmark = async function (
   bookmarkInfo?: IBookmark
@@ -68,19 +91,19 @@ export const create_bookmark = async function (
   return bookmark;
 };
 
-export const get_bookmark_collection = async function (
+export const read_bookmark_collection = async function (
   page: number,
   limit: number
-): Promise<PaginateResult<IBookmarkDocument>> {
+): Promise<PaginateResult<IBookmarkDocument<Types.ObjectId>>> {
   const result = await BookmarkPaginationModel.paginate(PAGINATION_QUERY, {
     ...PAGINATION_OPTIONS,
     page,
     limit
   });
-  return result;
+  return result as PaginateResult<IBookmarkDocument<Types.ObjectId>>;
 };
 
-export const get_bookmark_document_count = async function (): Promise<number> {
+export const read_bookmark_document_count = async function (): Promise<number> {
   const count = await BookmarkModel.countDocuments()
   return count;
 };

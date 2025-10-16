@@ -8,7 +8,7 @@ import {
 } from '../business.logic/builder/jsonapi.error.builder';
 import { MSG_500_ERROR_MESSAGE } from '../constants.server';
 import get_bootstrap_authenticated_state from '../state/bootstrap';
-import { TNetState } from '../shared';
+import { TJsonapiStateResponse, TNetState } from '../shared';
 import { get_ciphered_user, get_user } from 'src/model/session';
 import {  get_theme_mode, option } from '../business.logic';
 import { ensureDefaultUserExists } from '../business.logic/ensure-default-user';
@@ -41,16 +41,16 @@ export default async function authentication_controller (fastify: FastifyInstanc
                 ? '2 months.'
                 : '24 hours.'
               );
-              const mode = get_theme_mode(req.body.cookie);
+              const theme = get_theme_mode(req.body.cookie);
               reply
                 .code(200)
                 .send({
                   'state': await get_bootstrap_authenticated_state({
                     usr,
                     token,
-                    mode
+                    theme
                   })
-                });
+                } as TJsonapiStateResponse);
               return;
             }
           }

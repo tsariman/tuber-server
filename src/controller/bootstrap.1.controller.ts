@@ -70,57 +70,57 @@ export default async function bootstrap_1_controller(fastify: FastifyInstance) {
     try {
       reply.send({
         'state': {
-          'app': new PrepareState(context)
-                      .process(bootstrap_app_state)
-                      .get(),
-          'theme': new PrepareState(context)
-                        .process(bootstrap_theme_state)
-                        .get(),
-          'themeLight': new PrepareState(context)
-                            .process(bootstrap_theme_light_state)
-                            .get(),
-          'themeDark': new PrepareState(context)
-                            .process(bootstrap_theme_dark_state)
-                            .get(),
-          'appbar': new PrepareState(context)
-                        .process(bootstrap_appbar_state)
-                        .get(),
-          'icons': new PrepareState<TStateAllIcons>(context)
-                        .process(bootstrap_icons_state)
-                        .get(),
-          'pages': new PrepareState(context)
-                        .process(bootstrap_pages_state)
-                        .get(),
-          'pagesLight': new PrepareState(context)
-                            .process(bootstrap_pages_light_state)
-                            .get(),
-          'pagesDark': new PrepareState(context)
-                            .process(bootstrap_pages_dark_state)
-                            .get(),
-          'pagesData': (await new PrepareState(context)
-                                    .processAsync(bootstrap_pages_data_state))
-                                    .get(),
-          'background': new PrepareState(context)
-                              .process(bootstrap_background_state)
-                              .get(),
-          'forms': new PrepareState(context)
-                        .process(bootstrap_forms_state)
-                        .get(),
-          'formsLight': new PrepareState(context)
-                              .process(bootstrap_forms_light_state)
-                              .get(),
-          'formsDark': new PrepareState(context)
-                            .process(bootstrap_forms_dark_state)
-                            .get(),
-          'dialogs': new PrepareState(context)
-                          .process(bootstrap_dialogs_state)
-                          .get(),
-          'dialogsLight': new PrepareState(context)
-                                .process(bootstrap_dialogs_light_state)
-                                .get(),
-          'dialogsDark': new PrepareState(context)
-                              .process(bootstrap_dialogs_dark_state)
-                              .get(),
+          'app': new PrepareState(context).process(
+            bootstrap_app_state
+          ).get(),
+          'theme': new PrepareState(context).process(
+            bootstrap_theme_state
+          ).get(),
+          'themeLight': new PrepareState(context).process(
+            bootstrap_theme_light_state
+          ).get(),
+          'themeDark': new PrepareState(context).process(
+            bootstrap_theme_dark_state
+          ).get(),
+          'appbar': new PrepareState(context).process(
+            bootstrap_appbar_state
+          ).get(),
+          'icons': new PrepareState<TStateAllIcons>(context).process(
+            bootstrap_icons_state
+          ).get(),
+          'pages': new PrepareState(context).process(
+            bootstrap_pages_state
+          ).get(),
+          'pagesLight': new PrepareState(context).process(
+            bootstrap_pages_light_state
+          ).get(),
+          'pagesDark': new PrepareState(context).process(
+            bootstrap_pages_dark_state
+          ).get(),
+          'pagesData': (await new PrepareState(context).processAsync(
+            bootstrap_pages_data_state
+          )).get(),
+          'background': new PrepareState(context).process(
+            bootstrap_background_state
+          ).get(),
+          'forms': new PrepareState(context).process(
+            bootstrap_forms_state
+          ).get(),
+          'formsLight': new PrepareState(context).process(
+            bootstrap_forms_light_state
+          ).get(),
+          'formsDark': new PrepareState(context).process(
+            bootstrap_forms_dark_state
+          ).get(),
+          'dialogs': new PrepareState(context).process(
+            bootstrap_dialogs_state
+          ).get(),
+          'dialogsLight': new PrepareState(context).process(
+            bootstrap_dialogs_light_state
+          ).get(),
+          'dialogsDark': new PrepareState(context).process(
+            bootstrap_dialogs_dark_state
+          ).get(),
           'staticRegistry': get_registry('state'),
           ...(usr ? { 'net': {
             'name': usr.name,

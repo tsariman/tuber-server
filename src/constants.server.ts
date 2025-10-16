@@ -254,9 +254,17 @@ export const $66_STATE_KEY = 'powerLogoutLink';
 export const $67_STATE_KEY = 'powerSignInLink';
 /** Confirm logout dialog state. @id 68 */
 export const $68_STATE_KEY = 'confirmLogoutDialog';
-/** Register form state. @id 69 */
-export const $69_STATE_KEY = 'registerForm';
+/** Create new account form state. @id 69 */
+export const $69_STATE_KEY = 'newUserForm';
 /** Listing (research alias). @id 70 */
 export const $70_STATE_KEY = 'listing';
 /** Listing page app bar state. @id 71 */
 export const $71_STATE_KEY = 'listingPageAppbar';
+/** Sign up page. @id 72 */
+export const $72_STATE_KEY = 'signup';
+/** Default page app bar state. @id 73 */
+export const $73_STATE_KEY = 'defaultPageAppbar';
+/** Create a new user page. @id 74 */
+export const $74_STATE_KEY = 'new-user';
+/** User account page. @id 75 */
+export const $75_STATE_KEY = 'user';

@@ -1,12 +1,28 @@
 import {
   $63_STATE_KEY,
   $71_STATE_KEY,
+  $73_STATE_KEY,
   THEME_LIGHT_APP_BAR_ICON_COLOR as ICON_COLOR,
 } from '../../constants.server';
 import { TStateAppbar } from '../../shared';
 import { register } from '../../business.logic/registry';
 import { powerSignInLinkState } from '../nav.link';
 import { clone_with_descriptors, t } from '../../business.logic';
+
+register('state', '73', $73_STATE_KEY);
+/** A provided default app bar as starting point for any page */
+export const defaultPageAppbarState: TStateAppbar = {
+  '_id': '73',
+  '_key': $73_STATE_KEY,
+  'appbarStyle': 'mini',
+  'items': [ powerSignInLinkState ],
+};
+
+/** Dark theme mode for the default page app bar state. @id 73 */
+export const $73DarkThemeMode: TStateAppbar = (() => {
+  const base = clone_with_descriptors(defaultPageAppbarState);
+  return base;
+})();
 
 register('state', '63', $63_STATE_KEY);
 /** State for research page app bar. @id 63 */

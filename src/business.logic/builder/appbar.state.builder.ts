@@ -24,6 +24,11 @@ export default class PageAppbarStateBuilder extends AbstractStateBuilder {
     this._items = [];
   }
 
+  withInheritedState(state: TStateAppbar): this {
+    this._state = { ...state };
+    return this;
+  }
+
   /** Calling this method is required if performing a state response. */
   withPageKey(pageKey: string): this {
     this._pageKey = pageKey;
@@ -172,6 +177,13 @@ export default class PageAppbarStateBuilder extends AbstractStateBuilder {
   }
   /** Get the state. @returns state. */
   build(): TStateAppbar {
+    if (this._items.length > 0) {
+      if (this._state.items) {
+        this._state.items.push(...this._items);
+      } else {
+        this._state.items = [...this._items];
+      }
+    }
     return this._state;
   }
   buildResponse(): TJsonapiStateResponse {

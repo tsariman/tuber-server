@@ -1,3 +1,4 @@
+import { MongoServerError } from 'mongodb';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import {
   default_500_error_response,
@@ -93,9 +94,9 @@ export default async function post_listing_endpoint (
         .withId(_id)
         .build()
     );
-  } catch (e: any) {
+  } catch (e) {
     // Handle duplicate name error
-    if (e.code === 11000 && e.keyPattern?.name) {
+    if (e instanceof MongoServerError && e.code === 11000 && e.keyPattern?.name) {
       log('Failed.');
       reply.code(409).send(default_400_error_response({
         title: 'Failed to create listing.',
