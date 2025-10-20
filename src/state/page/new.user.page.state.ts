@@ -1,7 +1,12 @@
-import { $74_STATE_KEY, $69_STATE_KEY } from '../../constants.server';
+import {
+  $74_STATE_KEY,
+  $69_STATE_KEY,
+  EP_USERS
+} from '../../constants.server';
 import { register } from '../../business.logic/registry';
 import { TStatePage } from '../../shared';
 import {
+  clone_as_collection,
   clone_with_descriptors,
   remove_form_suffix,
   t
@@ -18,10 +23,14 @@ export const newUserPageState: TStatePage = {
   get 'title'() { return t('newaccount', 'Create a New Account'); },
   'appbar': (() => {
     const base = clone_with_descriptors(defaultAppBarState);
-    base.items?.push(homeLinkState);
+    base.appbarStyle = 'basic';
+    const link = clone_as_collection(base.items);
+    link.add(homeLinkState);
+    base.items = link.items;
     return base;
   })(),
-  'content': `$form : ${remove_form_suffix($69_STATE_KEY)} : ${$74_STATE_KEY}`
+  'content': `$form : ${remove_form_suffix($69_STATE_KEY)} : ${EP_USERS}`,
+  'layout': 'layout_centered'
 };
 
 /** Dark theme mode for page to create new account. @id 74 */

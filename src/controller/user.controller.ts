@@ -20,7 +20,7 @@ const postUsersEnpointSwitch = Config.DEMO
   ? post_demo_users_endpoint
   : post_user_endpoint;
 
-export default async function users_controller(fastify: FastifyInstance) {
+export default async function user_controller(fastify: FastifyInstance) {
   // GET /users
   fastify.get<IUsersEndpoint>('/', opts, getUsersEndpointSwitch);
   // GET /users/:name

@@ -1,10 +1,15 @@
 import {
   $19_STATE_KEY,
   $21_STATE_KEY,
-  THEME_LIGHT_BACKGROUND_COLOR,
-  THEME_DARK_DIALOG_BACKGROUND_COLOR
+  THEME_DARK_DIALOG_BACKGROUND_COLOR,
+  THEME_LIGHT_PAPER_SX_PROPS
 } from '../../constants.server';
-import { t, remove_form_suffix, clone_with_descriptors, clone_or_default } from '../../business.logic';
+import {
+  t,
+  remove_form_suffix,
+  clone_with_descriptors,
+  clone_or_default
+} from '../../business.logic';
 import { TStateDialog } from '../../shared';
 import { register } from 'src/business.logic/registry';
 
@@ -18,9 +23,7 @@ const newDailyBookmarkDialogState: TStateDialog = {
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
-    'PaperProps': {
-      'sx': { 'backgroundColor': THEME_LIGHT_BACKGROUND_COLOR }
-    }
+    'PaperProps': { 'sx': { ...THEME_LIGHT_PAPER_SX_PROPS } }
   },
   'titleProps': {
     'sx': { 'textAlign': 'center' }

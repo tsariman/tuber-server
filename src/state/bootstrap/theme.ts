@@ -1,12 +1,7 @@
 import { TThemeMode } from '../../common.types';
 import { IStateContext, TBootstrapState } from '../_state.common.types';
 import { PrepareState } from '../PrepareState';
-import {
-  THEME_DARK_DIALOG_BACKGROUND_COLOR,
-  THEME_LIGHT_APP_BAR_COLOR,
-  THEME_LIGHT_BACKGROUND_COLOR,
-  THEME_MODE
-} from '../../constants.server';
+import { THEME_MODE } from '../../constants.server';
 import Config from '../../config';
 import { ThemeOptions } from '@mui/material';
 
@@ -17,7 +12,7 @@ const bootstrap_theme_light_state: TBootstrapState<ThemeOptions> = {
       'MuiDrawer': {
         'styleOverrides': {
           'paper': {
-            'backgroundColor': THEME_LIGHT_BACKGROUND_COLOR,
+            'backgroundColor': '#f0f0f0',
             'borderLeft': 'none',
             'borderRight': 'none'
           },
@@ -26,8 +21,8 @@ const bootstrap_theme_light_state: TBootstrapState<ThemeOptions> = {
       'MuiAppBar': {
         'styleOverrides': {
           'colorPrimary': {
-            'color': THEME_LIGHT_APP_BAR_COLOR,
-            'backgroundColor': THEME_LIGHT_BACKGROUND_COLOR
+            'color': '#4c4c4c',
+            'backgroundColor': '#f0f0f0'
           },
         },
       },
@@ -49,7 +44,7 @@ const bootstrap_theme_light_state: TBootstrapState<ThemeOptions> = {
     },
     'palette': {
       'background': {
-        'default': THEME_LIGHT_BACKGROUND_COLOR
+        'default': '#f0f0f0'
       },
       'secondary': {
         'main': '#ef6c00'
@@ -70,7 +65,7 @@ const bootstrap_theme_dark_state: TBootstrapState<ThemeOptions> = {
       'MuiDrawer': {
         'styleOverrides': {
           'paper': {
-            'backgroundColor': THEME_DARK_DIALOG_BACKGROUND_COLOR,
+            'backgroundColor': '#141a1f',
             'borderLeft': 'none',
             'borderRight': 'none'
           },
@@ -80,7 +75,7 @@ const bootstrap_theme_dark_state: TBootstrapState<ThemeOptions> = {
         'styleOverrides': {
           'colorPrimary': {
             'color': 'inherit',
-            'backgroundColor': THEME_DARK_DIALOG_BACKGROUND_COLOR
+            'backgroundColor': '#141a1f'
           },
         },
       },
@@ -103,7 +98,7 @@ const bootstrap_theme_dark_state: TBootstrapState<ThemeOptions> = {
     'palette': {
       'mode': 'dark',
       'background': {
-        'default': THEME_DARK_DIALOG_BACKGROUND_COLOR
+        'default': '#141a1f'
       },
       'grey': {
         '50': '#212121',
@@ -133,21 +128,22 @@ const bootstrap_theme_dark_state: TBootstrapState<ThemeOptions> = {
 const bootstrap_theme_state: TBootstrapState<ThemeOptions> = {
 
   DEFAULT: (context: IStateContext): ThemeOptions => {
-
-    const mode = context.theme ?? Config.read<TThemeMode>(THEME_MODE, Config.DEFAULT_THEME_MODE);
+    const mode = context.theme ?? Config.read<TThemeMode>(
+      THEME_MODE,
+      Config.DEFAULT_THEME_MODE
+    );
 
     switch (mode) {
       case 'dark':
-        return new PrepareState<ThemeOptions>(context)
-                .process(bootstrap_theme_dark_state)
-                .get();
+        return new PrepareState<ThemeOptions>(
+          context
+        ).process(bootstrap_theme_dark_state).get();
       default:
       case 'light':
-        return new PrepareState<ThemeOptions>(context)
-                .process(bootstrap_theme_light_state)
-                .get();
+        return new PrepareState<ThemeOptions>(
+          context
+        ).process(bootstrap_theme_light_state).get();
     }
-
   }
 
   // TODO - Insert more theme states here.

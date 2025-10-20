@@ -90,7 +90,7 @@ export const lightThemeState: ThemeOptions = {
     'MuiDrawer': {
       'styleOverrides': {
         'paper': {
-          'backgroundColor': THEME_LIGHT_BACKGROUND_COLOR,
+          'backgroundColor': '#f0f0f0',
           'borderLeft': 'none',
           'borderRight': 'none'
         },
@@ -100,7 +100,7 @@ export const lightThemeState: ThemeOptions = {
       'styleOverrides': {
         'colorPrimary': {
           'color': THEME_LIGHT_APP_BAR_COLOR,
-          'backgroundColor': THEME_LIGHT_BACKGROUND_COLOR
+          'backgroundColor': '#f0f0f0',
         },
       },
     },

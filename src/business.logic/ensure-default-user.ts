@@ -1,6 +1,6 @@
 import { ler, log } from '../utility/logging';
 import Config from '../config';
-import { create_user, get_user_collection_count } from '../model/user';
+import { create_user, read_user_collection_count } from '../model/user';
 import { IUser } from '../schema/users';
 
 /**
@@ -32,7 +32,7 @@ export async function ensureDefaultUserExists(): Promise<boolean> {
       return false;
     }
 
-    const userCount = await get_user_collection_count();
+    const userCount = await read_user_collection_count();
     
     if (userCount === 0) {
       log('[INFO] No users found in database. Creating default admin user...');

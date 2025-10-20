@@ -21,14 +21,18 @@ export const EP_REGISTER = 'register';
 // THEMING (theme prefix) -----------------------------------------------------
 
 export const THEME_MODE = 'theme_mode';
-export const THEME_LIGHT_PAPER_COLOR = '#dddddd';
-export const THEME_DARK_PAPER_COLOR = '#424242';
-export const THEME_LIGHT_BACKGROUND_COLOR = '#f0f0f0';
-export const THEME_DARK_DIALOG_BACKGROUND_COLOR = '#141a1f';
+export const THEME_LIGHT_PAPER_COLOR = 'grey.300'; // '#dddddd'; //
+export const THEME_DARK_PAPER_COLOR = 'grey.100';
+export const THEME_LIGHT_BACKGROUND_COLOR = 'grey.100'; // '#f0f0f0'; //
+export const THEME_DARK_DIALOG_BACKGROUND_COLOR = '#141a1f'; // 'grey.900'; //
 export const THEME_LIGHT_APP_BAR_ICON_COLOR = 'grey.500';
 export const THEME_DARK_APP_BAR_ICON_COLOR = 'grey.200';
-export const THEME_LIGHT_APP_BAR_COLOR = '#000000de';
-export const THEME_DARK_APP_BAR_COLOR = '#000000de'; // [TODO]: Change this
+export const THEME_LIGHT_APP_BAR_COLOR = 'text.primary'; // '#000000';
+export const THEME_DARK_APP_BAR_COLOR = '#000000';
+export const THEME_LIGHT_PAPER_SX_PROPS = {
+  'backgroundColor': THEME_LIGHT_BACKGROUND_COLOR,
+  'overflow': 'hidden'
+};
 
 // MESSAGES (msg prefix) ------------------------------------------------------
 
@@ -254,7 +258,7 @@ export const $66_STATE_KEY = 'powerLogoutLink';
 export const $67_STATE_KEY = 'powerSignInLink';
 /** Confirm logout dialog state. @id 68 */
 export const $68_STATE_KEY = 'confirmLogoutDialog';
-/** Create new account form state. @id 69 */
+/** Create a new user account form state. @id 69 */
 export const $69_STATE_KEY = 'newUserForm';
 /** Listing (research alias). @id 70 */
 export const $70_STATE_KEY = 'listing';

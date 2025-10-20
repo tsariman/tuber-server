@@ -21,7 +21,11 @@ import devInstallPageState, {
   $44DarkThemeMode
 } from '../../DEV/page/dev.install.page.state';
 import { $66DarkThemeMode, powerLogoutLinkState } from '../nav.link';
-import { clone_or_default, clone_with_descriptors } from '../../business.logic';
+import {
+  clone_as_collection,
+  clone_or_default,
+  clone_with_descriptors
+} from '../../business.logic';
 
 const bootstrap_pages_state: TBootstrapState<TStateAllPages> = {
 
@@ -65,9 +69,9 @@ const bootstrap_pages_light_state: TBootstrapState<TStateAllPages> = {
       lightPages[$44_STATE_KEY] = (() => {
         const base = clone_with_descriptors(devInstallPageState);
         const appbar = clone_or_default(base.appbar, {});
-        const items = clone_or_default(appbar.items, []);
-        items.push(powerLogoutLinkState);
-        appbar.items = items;
+        const link = clone_as_collection(appbar.items);
+        link.add(powerLogoutLinkState);
+        appbar.items = link.items;
         base.appbar = appbar;
         return base;
       })();
@@ -101,9 +105,9 @@ const bootstrap_pages_dark_state = {
       darkPages[$44_STATE_KEY] = (() => {
         const base = clone_with_descriptors($44DarkThemeMode);
         const appbar = clone_or_default(base.appbar, {});
-        const items = clone_or_default(appbar.items, []);
-        items.push($66DarkThemeMode);
-        appbar.items = items;
+        const link = clone_as_collection(appbar.items);
+        link.add($66DarkThemeMode);
+        appbar.items = link.items;
         base.appbar = appbar;
         return base;
       })();

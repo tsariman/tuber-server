@@ -2,9 +2,13 @@ import {
   $25_STATE_KEY,
   $27_STATE_KEY,
   THEME_DARK_DIALOG_BACKGROUND_COLOR,
-  THEME_LIGHT_BACKGROUND_COLOR
+  THEME_LIGHT_PAPER_SX_PROPS
 } from '../../constants.server';
-import { t, remove_form_suffix, clone_with_descriptors } from '../../business.logic';
+import {
+  t,
+  remove_form_suffix,
+  clone_with_descriptors
+} from '../../business.logic';
 import { TStateDialog } from '../../shared';
 import { register } from '../../business.logic/registry';
 
@@ -18,9 +22,7 @@ const editFacebookBookmarkDialogState: TStateDialog = {
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
-    'PaperProps': {
-      'sx': { 'backgroundColor': THEME_LIGHT_BACKGROUND_COLOR }
-    }
+    'PaperProps': { 'sx': { ...THEME_LIGHT_PAPER_SX_PROPS } }
   },
   'titleProps': {
     'sx': { 'textAlign': 'center' }

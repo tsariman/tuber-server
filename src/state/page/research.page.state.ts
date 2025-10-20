@@ -21,9 +21,9 @@ import {
   researchAppErrorsViewLinkState,
 } from '../nav.link';
 import {
-  clone_empty,
-  clone_or_default,
-  clone_with_descriptors
+  clone_as_collection,
+  clone_with_descriptors,
+  create_empty_collection
 } from '../../business.logic';
 import { IBootstrapThemed, IStateContext } from '../_state.common.types';
 
@@ -77,38 +77,38 @@ export const bs_researchPageState = (
     'dark': (() => {
       const base = clone_with_descriptors($40DarkThemeMode);
       const appbar = clone_with_descriptors($63DarkThemeMode);
-      const items = clone_empty(appbar.items);
+      const link = create_empty_collection(appbar.items);
       if (!context.usr) {
-        items.push(createUserLinkState);
+        link.add(createUserLinkState);
       }
       if (context.inDev) {
-        items.push(researchAppErrorsViewLinkState);
-        items.push(homeLinkState);
+        link.add(researchAppErrorsViewLinkState);
+        link.add(homeLinkState);
       } else if (context.usr) {
-        items.push(bookmarkAddFromUrlLinkState);
+        link.add(bookmarkAddFromUrlLinkState);
       }
-      items.push(darkModeLinkState);
-      items.push(context.usr ? $66DarkThemeMode : $67DarkThemeMode);
-      appbar.items = items;
+      link.add(darkModeLinkState);
+      link.add(context.usr ? $66DarkThemeMode : $67DarkThemeMode);
+      appbar.items = link.items;
       base.appbar = appbar;
       return base;
     })(),
     'light': (() => {
       const base = clone_with_descriptors(researchPageState);
       const appbar = clone_with_descriptors(researchPageAppbarState);
-      const items = clone_empty(appbar.items);
+      const link = create_empty_collection(appbar.items);
       if (!context.usr) {
-        items.push(createUserLinkState);
+        link.add(createUserLinkState);
       }
       if (context.inDev) {
-        items.push(researchAppErrorsViewLinkState);
-        items.push(homeLinkState);
+        link.add(researchAppErrorsViewLinkState);
+        link.add(homeLinkState);
       } else if (context.usr) {
-        items.push(bookmarkAddFromUrlLinkState);
+        link.add(bookmarkAddFromUrlLinkState);
       }
-      items.push(lightModeLinkState);
-      items.push(context.usr ? powerLogoutLinkState : powerSignInLinkState);
-      appbar.items = items;
+      link.add(lightModeLinkState);
+      link.add(context.usr ? powerLogoutLinkState : powerSignInLinkState);
+      appbar.items = link.items;
       base.appbar = appbar;
       return base;
     })()
@@ -137,32 +137,32 @@ export const bs_listingPageState = (
     'dark': (() => {
       const base = clone_with_descriptors($70DarkThemeMode);
       const appbar = clone_with_descriptors($63DarkThemeMode);
-      const items = clone_with_descriptors(appbar.items ?? []);
+      const link = clone_as_collection(appbar.items);
       if (context.inDev) {
-        items.push(researchAppErrorsViewLinkState);
-        items.push(homeLinkState);
+        link.add(researchAppErrorsViewLinkState);
+        link.add(homeLinkState);
       } else if (context.usr) {
-        items.push(bookmarkAddFromUrlLinkState);
+        link.add(bookmarkAddFromUrlLinkState);
       }
-      items.push(darkModeLinkState);
-      items.push($66DarkThemeMode);
-      appbar.items = items;
+      link.add(darkModeLinkState);
+      link.add($66DarkThemeMode);
+      appbar.items = link.items;
       base.appbar = appbar;
       return base;
     })(),
     'light': (() => {
       const base = clone_with_descriptors(listingPageState);
       const appbar = clone_with_descriptors(researchPageAppbarState);
-      const items = clone_or_default(appbar.items, []);
+      const link = clone_as_collection(appbar.items);
       if (context.inDev) {
-        items.push(researchAppErrorsViewLinkState);
-        items.push(homeLinkState);
+        link.add(researchAppErrorsViewLinkState);
+        link.add(homeLinkState);
       } else if (context.usr) {
-        items.push(bookmarkAddFromUrlLinkState);
+        link.add(bookmarkAddFromUrlLinkState);
       }
-      items.push(lightModeLinkState);
-      items.push(powerLogoutLinkState);
-      appbar.items = items;
+      link.add(lightModeLinkState);
+      link.add(powerLogoutLinkState);
+      appbar.items = link.items;
       base.appbar = appbar;
       return base;
     })()

@@ -9,7 +9,7 @@ export interface IStateContext {
   inDev?: boolean;
 }
 
-/** Dedicated to managing requested states from server. */
+/** Dedicated to managing requested states in the bootstrap phase. */
 export type TBootstrapState<T> = Record<string, T | ((context: IStateContext) => T)>;
 
 /** Use when returning both the `light` and the `dark` version of a state. */

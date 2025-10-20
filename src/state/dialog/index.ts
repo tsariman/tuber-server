@@ -69,9 +69,7 @@ export const newYoutubeBookmarkDialogState: TStateDialog = {
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
-    'PaperProps': {
-      'sx': { 'backgroundColor': C.THEME_LIGHT_BACKGROUND_COLOR }
-    }
+    'PaperProps': { 'sx': { ...C.THEME_LIGHT_PAPER_SX_PROPS } }
   },
   'titleProps': {
     'sx': { 'textAlign': 'center' }
@@ -165,9 +163,7 @@ export const editYoutubeBookmarkDialogState: TStateDialog = {
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
-    'PaperProps': {
-      'sx': { 'backgroundColor': C.THEME_LIGHT_BACKGROUND_COLOR }
-    }
+    'PaperProps': { 'sx': { ...C.THEME_LIGHT_PAPER_SX_PROPS } }
   },
   'titleProps': {
     'sx': { 'textAlign': 'center' }

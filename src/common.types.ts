@@ -25,17 +25,12 @@ export type TSelect<T=TObj> = Record<keyof T, 0|1>;
 /** @deprecated */
 export type TSelectOriginal<T> = { [P in keyof T]: 0|1 };
 
-export interface IAggregateDoc {
-  _id: string;
-  __v: number;
-}
+export interface IAggregateDoc { _id: string; __v: number; }
 
-// Mongoose document interfaces
-export interface IMPV2Doc<T = unknown> { 
-  _doc: T & IAggregateDoc;
-}
+/** Mongoose document interfaces */
+export interface IMPV2Doc<T = unknown> { _doc: T & IAggregateDoc; }
 
-// Platform types
+/** Platform types */
 export type TPlatform = '_blank'
   | 'youtube'
   | 'vimeo'
@@ -47,9 +42,13 @@ export type TPlatform = '_blank'
   | 'bitchute'
   | 'unknown';
 
-// Endpoint types
-export type TEndpoint = 'users'| 'entries' | 'bookmarks' | 'tags'
-| 'authorizations' | 'listings';
+/** Endpoint types */
+export type TEndpoint = 'users'
+  | 'entries'
+  | 'bookmarks'
+  | 'tags'
+  | 'authorizations'
+  | 'listings';
 
 /** State map type */
 export interface IStateMapEntry<T = unknown> {
@@ -61,7 +60,7 @@ export interface IStateMap {
   [entry: string]: IStateMapEntry;
 }
 
-// Theme types
+/** Theme types */
 export type TThemeMode = 'light' | 'dark';
 
 /** Generic JSON API query string */
@@ -113,4 +112,10 @@ export interface IAdornment {
   faIcon?: string;
   text?: string;
   [x: string]: unknown;
+}
+
+/** Convert an array to a collection. The `add()` method **must** be implemented. */
+export interface ICollection<T = unknown> {
+  items: T[];
+  add: (element: T) => void;
 }

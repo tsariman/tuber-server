@@ -7,6 +7,7 @@ import {
 } from '../utility';
 import Config from '../config';
 import {
+  ICollection,
   IJsonapiQuerystring,
   TObj,
   TThemeMode
@@ -346,4 +347,28 @@ export function clone_empty<T extends object>(source: T | null | undefined): T {
 
   // Create empty object with same prototype
   return Object.create(Object.getPrototypeOf(source)) as T;
+}
+
+/**
+ * Same as "clone with descriptors", except that the array (source) is
+ * encapsulated as a collection.
+ */
+export function clone_as_collection<T=unknown>(source?: T[]): ICollection<T> {
+  const array = source && source.length > 0 ? clone_with_descriptors(source) : [];
+  const encapsulation: ICollection<T> = {
+    get items(): T[] { return array; },
+    add(element: T) { array.push(element); }
+  };
+  return encapsulation;
+}
+
+/** Creates an empty collection preserving the type of the argument. */
+export function create_empty_collection<T=unknown>(ofType?: T[]): ICollection<T> {
+  void ofType;
+  const array: T[] = [];
+  const encapsulation: ICollection<T> = {
+    get items(): T[] { return array; },
+    add(element: T) { array.push(element); }
+  };
+  return encapsulation;
 }

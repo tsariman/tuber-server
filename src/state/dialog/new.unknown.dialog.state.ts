@@ -1,8 +1,8 @@
 import {
   $28_STATE_KEY,
   $30_STATE_KEY,
-  THEME_LIGHT_BACKGROUND_COLOR,
-  THEME_DARK_DIALOG_BACKGROUND_COLOR
+  THEME_DARK_DIALOG_BACKGROUND_COLOR,
+  THEME_LIGHT_PAPER_SX_PROPS
 } from '../../constants.server';
 import {
   t,
@@ -23,9 +23,7 @@ const newUnknownBookmarkDialogState: TStateDialog = {
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
-    'PaperProps': {
-      'sx': { 'backgroundColor': THEME_LIGHT_BACKGROUND_COLOR }
-    }
+    'PaperProps': { 'sx': { ...THEME_LIGHT_PAPER_SX_PROPS } }
   },
   'titleProps': {
     'sx': { 'textAlign': 'center' }

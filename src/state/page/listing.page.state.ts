@@ -11,7 +11,10 @@ import {
   powerLogoutLinkState,
   researchAppErrorsViewLinkState
 } from '../nav.link';
-import { clone_or_default, clone_with_descriptors } from '../../business.logic';
+import {
+  clone_as_collection,
+  clone_with_descriptors
+} from '../../business.logic';
 import { IStateContext, IBootstrapThemed } from '../_state.common.types';
 
 register('state', '51', $51_STATE_KEY);
@@ -74,32 +77,32 @@ export const bs_chippedListingPageState = (
     'dark': (() => {
       const base = clone_with_descriptors($51DarkThemeMode);
       const appbar = clone_with_descriptors($71DarkThemeMode);
-      const items = clone_with_descriptors(appbar.items ?? []);
+      const link = clone_as_collection(appbar.items);
       if (context.inDev) {
-        items.push(researchAppErrorsViewLinkState);
-        items.push(homeLinkState);
+        link.add(researchAppErrorsViewLinkState);
+        link.add(homeLinkState);
       } else if (context.usr) {
-        items.push(bookmarkAddFromUrlLinkState);
+        link.add(bookmarkAddFromUrlLinkState);
       }
-      items.push(darkModeLinkState);
-      items.push($66DarkThemeMode);
-      appbar.items = items;
+      link.add(darkModeLinkState);
+      link.add($66DarkThemeMode);
+      appbar.items = link.items;
       base.appbar = appbar;
       return base;
     })(),
     'light': (() => {
       const base = clone_with_descriptors(chippedListingPageState);
       const appbar = clone_with_descriptors(listingPageAppbarState);
-      const items = clone_or_default(appbar.items, []);
+      const link = clone_as_collection(appbar.items);
       if (context.inDev) {
-        items.push(researchAppErrorsViewLinkState);
-        items.push(homeLinkState);
+        link.add(researchAppErrorsViewLinkState);
+        link.add(homeLinkState);
       } else if (context.usr) {
-        items.push(bookmarkAddFromUrlLinkState);
+        link.add(bookmarkAddFromUrlLinkState);
       }
-      items.push(lightModeLinkState);
-      items.push(powerLogoutLinkState);
-      appbar.items = items;
+      link.add(lightModeLinkState);
+      link.add(powerLogoutLinkState);
+      appbar.items = link.items;
       base.appbar = appbar;
       return base;
     })()

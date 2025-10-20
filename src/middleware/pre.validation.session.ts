@@ -1,9 +1,12 @@
 import { RouteShorthandOptions } from 'fastify';
 
 const pre_validation_session: RouteShorthandOptions['preValidation'] = async function (
-  _request, _reply, done
+  request,
+  reply,
+  done
 ) {
-
+  void request;
+  void reply;
   done();
 }
 

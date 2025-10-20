@@ -25,7 +25,7 @@ const default_on_request: RouteShorthandOptions['onRequest'] = async (
     // TODO Write more session related logic here
 
   } catch (e) {
-    log('[ERROR] JWT verification failed.', e);
+    log('[DEBUG] JWT verification failed.', e);
     reply.code(401).send(default_401_error_response({
       code: 'unauthorized',
       status: '401',

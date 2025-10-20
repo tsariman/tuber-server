@@ -5,7 +5,7 @@ import index_controller from './controller/index.controller';
 import dev_controller from './DEV/dev.controller';
 import prod_install_controller from './INSTALL/prod.controller';
 import Config from './config';
-import users_controller from './controller/user.controller';
+import user_controller from './controller/user.controller';
 import authenticate_controller from './controller/authentication.controller';
 import signout_controller from './controller/signout.controller';
 import bookmark_controller from './controller/bookmark.controller';
@@ -82,7 +82,7 @@ export default async function router(fastify: FastifyInstance) {
   fastify.register(index_controller, { prefix: '/' });
   fastify.register(state_controller, { prefix: `/${C.EP_STATE}` });
   fastify.register(bootstrap_1_controller, { prefix: `/${randomPrefix}` });
-  fastify.register(users_controller, { prefix: `/${C.EP_USERS}` });
+  fastify.register(user_controller, { prefix: `/${C.EP_USERS}` });
   fastify.register(bookmark_controller, { prefix: `/${C.EP_BOOKMARKS}` });
   fastify.register(listing_controller, { prefix: `/${C.EP_LISTINGS}` });
 

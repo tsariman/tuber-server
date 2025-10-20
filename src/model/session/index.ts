@@ -4,7 +4,7 @@ import sessionSchema, {
   ISessionDocument
 } from '../../schema/sessions';
 import { IUserDocument, TCipheredUser } from '../../schema/users';
-import { get_user_by_name } from '../user';
+import { read_user_by_name } from '../user';
 import { USER_CACHE } from '../../business.logic/cache';
 
 export const SessionModel = model<ISession>('Session', sessionSchema);
@@ -127,7 +127,7 @@ export const get_user = async ({
     }
   }
   if (name) {
-    const user = await get_user_by_name(name);
+    const user = await read_user_by_name(name);
     if (user) {
       USER_CACHE.set(user.name, user);
       return user;
