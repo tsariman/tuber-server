@@ -35,7 +35,9 @@ export const BookmarkPaginationModel = model<
 export const BookmarkModel = model<TBookmark>('bookmarks', bookmarkSchema);
 
 /** Exclude fields from the bookmark document. @deprecated */
-export const exclude_bookmark_fields = (bookmark: IMPV2Doc<IBookmarkDocument>) => {
+export const exclude_bookmark_fields_IMPV2Doc = (
+  bookmark: IMPV2Doc<IBookmarkDocument>
+) => {
   const {
     _doc: {
       _id,
@@ -49,6 +51,12 @@ export const exclude_bookmark_fields = (bookmark: IMPV2Doc<IBookmarkDocument>) =
   } = bookmark;
   return bookmarkDoc;
 };
+
+/** Excludes sensitive fields from the bookmark document. */
+export const transform_bookmark_doc = (bookmark: IBookmarkDocument) => {
+  const { _id, is_active, is_private, restrict, rules, ...bookmarkDoc } = bookmark;
+  return bookmarkDoc;
+}
 
 export const read_bookmark_by_id = async function (
   id: string

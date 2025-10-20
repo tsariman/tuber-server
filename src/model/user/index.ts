@@ -41,7 +41,7 @@ export const UserPaginationModel = model<
 export const UserModel = model<IUserDocument>('users', userSchema);
 
 /** Exclude fields from the user document. @deprecated */
-export const exclude_user_fields = (user: IMPV2Doc<IUserDocument>) => {
+export const exclude_user_fields_IMPV2Doc = (user: IMPV2Doc<IUserDocument>) => {
   const {
     _doc: {
       jwt_version,
@@ -55,9 +55,22 @@ export const exclude_user_fields = (user: IMPV2Doc<IUserDocument>) => {
   } = user;
 
   return userDoc;
+};
+
+/** Excludes sensitive fields from the user document. */
+export const transform_user_doc = (user: IUserDocument) => {
+  const { jwt_version, is_active, password, restrict, rules, _id, ...userDoc } = user;
+  return userDoc;
+};
+
+export const read_user_by_id = async (
+  id: string
+): Promise<IUserDocument | null> => {
+  const userDoc = await UserModel.findById(id).select('-password -jwt_version -restrict -rules');
+  return userDoc;
 }
 
-export const get_user_by_name = async (
+export const read_user_by_name = async (
   name: string
 ): Promise<IUserDocument | null> => {
   const userDoc = await UserPaginationModel.findOne({ name });
@@ -75,7 +88,7 @@ export const create_user = async (userInfo: IUser): Promise<IUserDocument> => {
 }
 
 /** Get all users */
-export const get_user_collection = async (
+export const read_user_collection = async (
   req: TUsersFastifyRequest
 ): Promise<PaginateResult<IUserDocument>> => {
   const page = Number(req.query.page?.number ?? 1);
@@ -89,7 +102,7 @@ export const get_user_collection = async (
 }
 
 /** Find a user by email using mongoose */
-export const get_user_by_email = async (
+export const read_user_by_email = async (
   email: string
 ): Promise<IUserDocument | null> => {
   const userDoc = await UserModel.findOne({ email });
@@ -97,7 +110,7 @@ export const get_user_by_email = async (
 }
 
 /** Return total number of documents in the users collection */
-export const get_user_collection_count = async (): Promise<number> => {
+export const read_user_collection_count = async (): Promise<number> => {
   const count = await UserModel.countDocuments();
   return count;
 }

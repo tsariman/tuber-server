@@ -3,7 +3,7 @@ import {
   default_500_error_response,
   default_400_error_response
 } from '../business.logic/builder/jsonapi.error.builder';
-import JsonapiResponseColBuilder from '../business.logic/builder/jsonapi.response.col.builder';
+import JsonapiResponseBuilder from '../business.logic/builder/jsonapi.response.builder';
 import { ler, log, log_err, write as print } from '../utility/logging';
 import { create_bookmark } from '../model/bookmark';
 import { IBookmarkPost } from '../schema/bookmarks';
@@ -33,8 +33,7 @@ export default async function post_bookmark_endpoint (
     log('Done.');
     log('[DEBUG] Sending response...', dbBookmark);
     reply.code(201).send(
-      new JsonapiResponseColBuilder(dbBookmark, 'bookmarks', 'object')
-      .mPaginationV2build()
+      JsonapiResponseBuilder.forSingleResource(dbBookmark, 'bookmarks').build()
     );
   } catch (e) {
     ler(MSG_500_ERROR_MESSAGE);

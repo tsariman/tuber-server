@@ -7,7 +7,7 @@ import { get_video_thumbnail_url } from '../all.drivers';
 import { BookmarkModel, read_bookmark_by_id } from 'src/model/bookmark';
 import { IBookmark } from '../../schema/bookmarks';
 import { TPlatform } from '../../common.types';
-import JsonapiResponseColBuilder from '../../business.logic/builder/jsonapi.response.col.builder';
+import JsonapiResponseBuilder from '../../business.logic/builder/jsonapi.response.builder';
 
 export interface IBookmarkThumbnailUrlGet {
   Params: {
@@ -49,8 +49,7 @@ export default async function get_video_thumbnail_url_endpoint (
       log('[DEBUG][409] Bookmark already has a thumbnail url.');
       log('[DEBUG][409] thumbnail_url:', bookmark.thumbnail_url);
       reply.code(200).send(
-        new JsonapiResponseColBuilder(bookmark, 'bookmarks', 'object')
-          .mPaginationV2build()
+        JsonapiResponseBuilder.forSingleResource(bookmark, 'bookmarks').build()
       );
       return;
     }
@@ -107,8 +106,7 @@ export default async function get_video_thumbnail_url_endpoint (
     if (updatedBookmark) {
       log('Done.');
       reply.code(200).send(
-        new JsonapiResponseColBuilder(updatedBookmark, 'bookmarks', 'object')
-          .mPaginationV2build()
+        JsonapiResponseBuilder.forSingleResource(updatedBookmark, 'bookmarks').build()
       );
     } else {
       // [TODO] [HACK] Not finding the bookmark is not just an error but a hack

@@ -1,4 +1,4 @@
-import { IBookmark } from '../../../schema/bookmarks';
+import { TBookmark } from '../../../schema/bookmarks';
 
 export const rnd_platform = () => {
   const platforms = [
@@ -28,10 +28,15 @@ const gen_random_videoid = (length: number): string => {
 }
 
 const gen_random_bookmarks = (number = 100) => {
-  const bookmarks: IBookmark[] = [];
+  const bookmarks: TBookmark[] = [];
   for (let i = 0; i < number; i++) {
     const videoid = gen_random_videoid(11);
     bookmarks.push({
+      is_active: true,
+      created_at: new Date(),
+      modified_at: new Date(),
+      is_private: false,
+      user_id: '',
       videoid: videoid,
       platform: rnd_platform(),
       start_seconds: Math.floor(Math.random() * 300),

@@ -1,13 +1,10 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { UserPaginationModel, exclude_user_fields } from '../../model/user';
+import { transform_user_doc, UserPaginationModel } from '../../model/user';
 import gen_random_users from '../population/users';
-import JsonapiResponseColBuilder from '../../business.logic/builder/jsonapi.response.col.builder';
+import JsonapiResponseBuilder from '../../business.logic/builder/jsonapi.response.builder';
 import Config from '../../config';
 import gen_random_bookmarks from '../population/bookmarks';
-import {
-  BookmarkPaginationModel,
-  exclude_bookmark_fields
-} from '../../model/bookmark';
+import { BookmarkPaginationModel, transform_bookmark_doc } from '../../model/bookmark';
 import { limit_array } from '../../business.logic';
 
 /** 
@@ -26,10 +23,10 @@ export async function dev_post_users_populate_endpoint (
     parseInt(Config.PAGINATION_USERS_LIMIT, 10)
   );
   reply.send(
-    new JsonapiResponseColBuilder(dbUsers, 'users', 'collection')
-      .meta('max_loaded_pages', Config.MAX_LOADED_USER_PAGES)
-      .setResourceFilter(exclude_user_fields)
-      .mPaginationV2build()
+    JsonapiResponseBuilder.forCollection()
+      .withDocuments(dbUsers, 'users', transform_user_doc)
+      .withMeta({ max_loaded_pages: Config.MAX_LOADED_USER_PAGES })
+      .build()
   );
 }
 
@@ -49,9 +46,9 @@ export async function dev_post_bookmarks_populate_endpoint (
     parseInt(Config.PAGINATION_BOOKMARKS_LIMIT, 10)
   );
   reply.send(
-    new JsonapiResponseColBuilder(dbBookmarks, 'bookmarks', 'collection')
-      .meta('max_loaded_pages', Config.MAX_LOADED_BOOKMARK_PAGES)
-      .setResourceFilter(exclude_bookmark_fields)
-      .mPaginationV2build()
+    JsonapiResponseBuilder.forCollection()
+      .withDocuments(dbBookmarks, 'bookmarks', transform_bookmark_doc)
+      .withMeta({ max_loaded_pages: Config.MAX_LOADED_BOOKMARK_PAGES })
+      .build()
   );
 }

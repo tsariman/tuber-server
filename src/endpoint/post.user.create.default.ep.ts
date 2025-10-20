@@ -5,7 +5,7 @@ import { defaultDialogAlertState as alert } from '../state/dialog';
 import { default_500_error_response } from '../business.logic/builder/jsonapi.error.builder';
 import { MSG_500_ERROR_MESSAGE } from '../constants.server';
 import { TJsonapiErrorResponse, TJsonapiResponse, TNetState } from '../shared';
-import { get_user_collection_count } from '../model/user';
+import { read_user_collection_count } from '../model/user';
 import {
   createDefaultUser,
   DEFAULT_USER_TEMPLATES
@@ -48,7 +48,7 @@ export default async function post_create_default_user_endpoint(
     
     // Check if users already exist (unless force is true)
     if (!force) {
-      const userCount = await get_user_collection_count();
+      const userCount = await read_user_collection_count();
       if (userCount > 0) {
         reply.code(409).send({
           ...alert(`Users already exist in the database (${userCount} found). Use force=true to create anyway.`),

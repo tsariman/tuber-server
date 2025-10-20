@@ -3,7 +3,7 @@ import { MONGODB_DUPLICATE_KEY_ERROR, get_mongodb_error } from '../business.logi
 import JsonapiErrorBuilder, {
   default_500_error_response
 } from '../business.logic/builder/jsonapi.error.builder';
-import JsonapiResponseColBuilder from '../business.logic/builder/jsonapi.response.col.builder';
+import JsonapiResponseBuilder from '../business.logic/builder/jsonapi.response.builder';
 import { create_user } from '../model/user';
 import { TUsersFastifyRequest } from '../schema/users';
 import { ler, log_err } from '../utility/logging';
@@ -16,7 +16,7 @@ export default async function post_user_endpoint (
   try {
     const user = await create_user(request.body);
     reply.code(201).send(
-      new JsonapiResponseColBuilder(user, 'users', 'object').mPaginationV2build()
+      JsonapiResponseBuilder.forSingleResource(user, 'users').build()
     );
   } catch (e) {
     const mongoDbError = get_mongodb_error((e as Error).message);

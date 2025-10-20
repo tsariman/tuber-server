@@ -1,7 +1,7 @@
 import { FastifyReply } from 'fastify';
 import { default_500_error_response } from '../business.logic/builder/jsonapi.error.builder';
-import JsonapiResponseColBuilder from '../business.logic/builder/jsonapi.response.col.builder';
-import { exclude_user_fields, get_user_collection } from '../model/user';
+import JsonapiResponseBuilder from '../business.logic/builder/jsonapi.response.builder';
+import { read_user_collection, transform_user_doc } from '../model/user';
 import { TUsersFastifyRequest } from '../schema/users';
 import { ler, log_err } from '../utility/logging';
 import { MSG_500_ERROR_MESSAGE } from '../constants.server';
@@ -11,13 +11,11 @@ export default async function get_users_collection_endpoint (
   reply: FastifyReply
 ) {
   try {
-    const result = await get_user_collection(req);
-    const userDocs = result.docs;
+    const result = await read_user_collection(req);
     reply.code(200).send(
-      new JsonapiResponseColBuilder(userDocs, 'users', 'collection')
-      .setResourceFilter(exclude_user_fields)
-      .buildPaginationV2Links(result)
-      .mPaginationV2build()
+      JsonapiResponseBuilder.forCollection()
+        .withMongoosePaginatedResult(result, 'users', transform_user_doc)
+        .build()
     );
   } catch (e) {
     ler(MSG_500_ERROR_MESSAGE);

@@ -1,17 +1,17 @@
 import { FastifyReply } from 'fastify';
 import JsonapiErrorBuilder from '../business.logic/builder/jsonapi.error.builder';
-import JsonapiResponseColBuilder from '../business.logic/builder/jsonapi.response.col.builder';
-import { get_user_by_name } from '../model/user';
+import JsonapiResponseBuilder from '../business.logic/builder/jsonapi.response.builder';
+import { read_user_by_name } from '../model/user';
 import { TUsersFastifyRequest } from '../schema/users';
 
 export default async function get_user_by_name_endpoint (
-  request: TUsersFastifyRequest,
+  request: TUsersFastifyRequest<'name'>,
   reply: FastifyReply
 ) {
-  const user = await get_user_by_name(request.params.name);
+  const user = await read_user_by_name(request.params.name);
   if (user) {
     reply.code(200).send(
-      new JsonapiResponseColBuilder(user, 'users', 'object').mPaginationV2build()
+      JsonapiResponseBuilder.forSingleResource(user, 'users').build()
     );
   }
   reply.code(404).send(new JsonapiErrorBuilder()

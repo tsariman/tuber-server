@@ -41,15 +41,18 @@ export interface IUser {
   rules?: Record<string, string>;
 }
 
-export interface IUsersEndpoint {
+export type TUserParams = {
+  name: string;
+  id: string;
+}
+
+export interface IUsersEndpoint<K extends keyof TUserParams = keyof TUserParams> {
   Body: IUser;
-  Params: {
-    name: string;
-  }
+  Params: Pick<TUserParams, K>;
   Querystring: TJsonapiQueryParams;
 }
 
-export type TUsersFastifyRequest = FastifyRequest<IUsersEndpoint>;
+export type TUsersFastifyRequest<K extends keyof TUserParams = keyof TUserParams> = FastifyRequest<IUsersEndpoint<K>>;
 
 /**
  * Similar to the user interface except some keys which were optional are now
@@ -107,7 +110,7 @@ const userSchema = new Schema<IUserDocument>({
    * [PRIORITY - LOW]
    */
   rules: { type: Map, of: String, default: undefined }
-});
+}, { versionKey: false });
 
 userSchema.plugin(paginate);
 

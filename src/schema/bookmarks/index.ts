@@ -143,7 +143,7 @@ const bookmarkSchema = new Schema<IBookmarkDocument>({
   },
   restrict: { type: Map, of: String, default: undefined },
   rules: { type: Map, of: String, default: undefined }
-});
+}, { versionKey: false });
 
 bookmarkSchema.index({ title: 1, note: 1 });
 

@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import JsonapiErrorBuilder, { default_500_error_response } from '../business.logic/builder/jsonapi.error.builder';
-import JsonapiResponseColBuilder from '../business.logic/builder/jsonapi.response.col.builder';
+import JsonapiResponseBuilder from '../business.logic/builder/jsonapi.response.builder';
 import { ler, log, log_err, write as print } from '../utility/logging';
 import { read_bookmark_by_id } from '../model/bookmark';
 import { IBookmarkGet } from '../schema/bookmarks';
@@ -16,7 +16,7 @@ export default async function get_bookmark_by_id_endpoint (
     if (bookmark) {
       log('Done.');
       reply.code(200).send(
-        new JsonapiResponseColBuilder(bookmark, 'bookmarks', 'object').mPaginationV2build()
+        JsonapiResponseBuilder.forSingleResource(bookmark, 'bookmarks').build()
       );
     } else {
       log('Failed.\n[DEBUG][404] Bookmark not found.');

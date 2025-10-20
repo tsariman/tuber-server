@@ -2,10 +2,16 @@ import { TStateAllForms } from '../../shared';
 import { TThemeMode } from '../../common.types';
 import { IStateContext, TBootstrapState } from '../_state.common.types';
 import Config from '../../config';
-import { $41_STATE_KEY, $47_STATE_KEY, THEME_MODE } from '../../constants.server';
+import {
+  $41_STATE_KEY,
+  $47_STATE_KEY,
+  $69_STATE_KEY,
+  THEME_MODE
+} from '../../constants.server';
 import { PrepareState } from '../PrepareState';
 import devInstallFormState, { $47DarkThemeMode } from '../../DEV/form/dev.install.form.state';
 import signInFormState, { $41DarkThemeMode } from '../form/sign.in.form.state';
+import newUserFormState, { $69DarkThemeMode } from '../form/new.user.form.state';
 
 const bootstrap_forms_state: TBootstrapState<TStateAllForms> = {
 
@@ -35,7 +41,8 @@ const bootstrap_forms_light_state: TBootstrapState<TStateAllForms> = {
     const inDev = Config.DEV && !!usr && usr.role === 'developer';
 
     const lightForms: TStateAllForms = {
-      [$41_STATE_KEY]: signInFormState
+      [$41_STATE_KEY]: signInFormState,
+      [$69_STATE_KEY]: newUserFormState
     };
 
     if (inDev) {
@@ -55,7 +62,8 @@ const bootstrap_forms_dark_state: TBootstrapState<TStateAllForms> = {
     const inDev = Config.DEV && !!usr && usr.role === 'developer';
 
     const darkForms: TStateAllForms = {
-      [$41_STATE_KEY]: $41DarkThemeMode
+      [$41_STATE_KEY]: $41DarkThemeMode,
+      [$69_STATE_KEY]: $69DarkThemeMode
     };
 
     if (inDev) {

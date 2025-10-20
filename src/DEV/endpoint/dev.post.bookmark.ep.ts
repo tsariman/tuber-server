@@ -2,7 +2,7 @@ import { FastifyReply, FastifyRequest } from 'fastify';
 import {
   default_500_error_response
 } from '../../business.logic/builder/jsonapi.error.builder';
-import JsonapiResponseColBuilder from '../../business.logic/builder/jsonapi.response.col.builder';
+import JsonapiResponseBuilder from '../../business.logic/builder/jsonapi.response.builder';
 import { log, write as print } from '../../utility/logging';
 import { create_bookmark } from '../../model/bookmark';
 import { IBookmarkPost } from '../../schema/bookmarks';
@@ -33,8 +33,7 @@ export default async function dev_post_bookmarks_endpoint (
     const dbBookmark = await create_bookmark(bookmark);
     log('Done.');
     reply.code(201).send(
-      new JsonapiResponseColBuilder(dbBookmark, 'bookmarks', 'object')
-      .mPaginationV2build()
+      JsonapiResponseBuilder.forSingleResource(dbBookmark, 'bookmarks').build()
     );
   } catch (e) {
     log(MSG_500_ERROR_MESSAGE, e);
