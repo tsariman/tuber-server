@@ -1,7 +1,9 @@
+import { SxProps } from '@mui/material';
 import { $69_STATE_KEY } from '../../constants.server';
 import { TStateForm } from '../../shared';
 import { register } from '../../business.logic/registry';
 import { clone_with_descriptors, t } from '../../business.logic';
+import { paragraph, title_centered } from '../html';
 
 register('state', '69', $69_STATE_KEY);
 /** Form state to create a new user account. @id 69 */
@@ -10,18 +12,23 @@ const newUserFormState: TStateForm = {
   '_key': $69_STATE_KEY,
   '_type': 'box',
   'props': {
-    'sx': {
-      'p': 3,
-      'width': '37ch',
-    },
+    'sx': { 'p': 3, 'width': '37ch' } as SxProps,
   },
   'paperBackground': true,
-  'paperProps': { 'elevation': 24 },
+  'paperProps': { 'elevation': 24, 'sx': { 'm': 6 } },
   'items': [
     {
       'type': 'stack',
       'props': { 'spacing': 2 },
       'items': [
+        {
+          'type': 'html',
+          'has': {
+            get 'content'() {
+              return title_centered(t('create_acount', 'Create an Account'))
+            }
+          }
+        },
         {
           'type': 'text',
           'name': 'username',
@@ -29,17 +36,17 @@ const newUserFormState: TStateForm = {
           'props': { 'autoComplete': 'off' },
           'has': {
             'required': true,
-            get 'requiredMessage'() { return t('nousername', 'A username is required.'); }
+            get 'requiredMessage'() { return t('no_username', 'A username is required.'); }
           }
         },
         {
           'type': 'text',
           'name': 'firstname',
-          get 'label'() { return t('first_name', 'First Name'); },
+          get 'label'() { return t('firstname', 'First Name'); },
           'props': { 'autoComplete': 'off' },
           'has': {
             'required': true,
-            get 'requiredMessage'() { return t('nofirstname', 'Your first name is required.'); }
+            get 'requiredMessage'() { return t('no_firstname', 'Your first name is required.'); }
           }
         },
         {
@@ -49,7 +56,7 @@ const newUserFormState: TStateForm = {
           'props': { 'autoComplete': 'off' },
           'has': {
             'required': true,
-            get 'requiredMessage'() { return t('nolastname', 'Your last name is required.'); }
+            get 'requiredMessage'() { return t('no_lastname', 'Your last name is required.'); }
           }
         },
         {
@@ -59,7 +66,7 @@ const newUserFormState: TStateForm = {
           'props': { 'autoComplete': 'off' },
           'has': {
             'required': true,
-            get 'requiredMessage'() { return t('noemail', 'Email is required.'); }
+            get 'requiredMessage'() { return t('no_email', 'Email is required.'); }
           }
         },
         {
@@ -68,7 +75,7 @@ const newUserFormState: TStateForm = {
           get 'label'() { return t('password', 'Password'); },
           'has': {
             'required': true,
-            get 'requiredMessage'() { return t('nopassword', 'You forgot the password.'); }
+            get 'requiredMessage'() { return t('no_password', 'You forgot the password.'); }
           }
         },
         {
@@ -77,15 +84,18 @@ const newUserFormState: TStateForm = {
           get 'label'() { return t('password', 'Re-enter Password'); },
           'has': {
             'required': true,
-            get 'requiredMessage'() { return t('nopassword', 'You forgot the password.'); }
+            get 'requiredMessage'() { return t('no_password', 'You forgot the password.'); }
           }
         },
         {
           'type': 'html',
           'has': {
-            'content': `<h3>Email Verification/h3> <p>Don't forget to check 
-            your email so it can be verified.</p>
-            `
+            get 'content'() { 
+              return `
+                ${title_centered(t('69_help_email1', 'Email Verification'), 'h2')}
+                ${paragraph(t('69_help_email2', `Don't forget to check your email so it can be verified.`))}
+              `
+            }
           }
         },
         {

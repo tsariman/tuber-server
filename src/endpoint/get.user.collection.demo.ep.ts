@@ -5,7 +5,7 @@ import { ler, log_err } from '../utility/logging';
 import { MSG_500_ERROR_MESSAGE } from '../constants.server';
 
 export default async function get_user_collection_demo_endpoint (
-  _req: TUsersFastifyRequest,
+  _req: TUsersFastifyRequest<'name'>,
   reply: FastifyReply
 ) {
   try {

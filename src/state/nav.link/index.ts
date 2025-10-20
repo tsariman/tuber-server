@@ -151,12 +151,14 @@ export const signupLinkState: TStateLink = {
   }
 };
 export const createUserLinkState: TStateLink = {
+  'type': 'icon',
   'has': {
     'icon': 'user_new',
     'route': $74_STATE_KEY
   }
 };
 export const userLinkState: TStateLink = {
+  'type': 'icon',
   'has': {
     'icon': 'user',
     'route': $75_STATE_KEY

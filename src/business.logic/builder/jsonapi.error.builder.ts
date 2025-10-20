@@ -3,10 +3,12 @@ import {
   TJsonapiErrorLinks,
   TJsonapiErrorResponse,
   TJsonapiErrorSource,
-  TJsonapiLink
+  TJsonapiLink,
+  TNetState
 } from '../../shared';
 import { TJsonapiMeta } from '../../shared/interfaces/IJsonapi';
 import { TOptional } from '../../common.types';
+import { signInDialogState } from 'src/state/dialog';
 
 export type TJsonapiError = TOptional<TIJsonapiError, 'code' | 'title'>;
 
@@ -178,6 +180,10 @@ export default class JsonapiErrorBuilder {
   build() {
     return this._response;
   }
+  withState(state: TNetState) {
+    this._response.state = state;
+    return this;
+  }
 }
 
 /**
@@ -213,22 +219,15 @@ export const default_404_error_response = (
     .build();
 }
 
-/**
- * Default 401 error response to help prevent repetitive code.
- *
- * @param title of the error message
- * @param detail of the error message
- * @returns `TJsonapiErrorResponse`
- */
-export const default_401_error_response = (
-  error: TJsonapiError
-) => {
+/** Default 401 error response to help prevent repetitive code. */
+export const default_401_error_response = (error: TJsonapiError) => {
   const { title, detail } = error;
   return new JsonapiErrorBuilder()
     .withStatus(401)
     .withCode('unauthorized')
     .withTitle(title)
     .withDetail(detail)
+    .withState({ 'dialog': signInDialogState })
     .build();
 }
 
