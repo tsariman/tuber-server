@@ -5,8 +5,8 @@ import {
 } from '../business.logic/errors';
 import JsonapiErrorBuilder, {
   default_500_error_response
-} from '../business.logic/builder/jsonapi.error.builder';
-import JsonapiResponseBuilder from '../business.logic/builder/jsonapi.response.builder';
+} from '../business.logic/builder/JsonapiErrorBuilder';
+import JsonapiResponseBuilder from '../business.logic/builder/JsonapiResponseBuilder';
 // import { create_user } from '../model/user'
 import { TUsersFastifyRequest } from '../schema/users';
 import { log } from '../utility/logging';
@@ -19,7 +19,7 @@ import { MSG_500_ERROR_MESSAGE } from '../constants.server';
  * @param request 
  * @param reply 
  */
-export default async function post_demo_users_endpoint (
+export default async function post_demo_user_endpoint (
   req: TUsersFastifyRequest,
   reply: FastifyReply
 ) {

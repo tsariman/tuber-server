@@ -5,13 +5,13 @@ import { ISignInCredentials } from '../business.logic/security/permissions';
 import {
   default_401_error_response,
   default_500_error_response
-} from '../business.logic/builder/jsonapi.error.builder';
+} from '../business.logic/builder/JsonapiErrorBuilder';
 import { MSG_500_ERROR_MESSAGE } from '../constants.server';
 import get_bootstrap_authenticated_state from '../state/bootstrap';
 import { TJsonapiStateResponse, TNetState } from '../shared';
 import { get_ciphered_user, get_user } from 'src/model/session';
 import {  get_theme_mode, option } from '../business.logic';
-import { ensureDefaultUserExists } from '../business.logic/ensure-default-user';
+import { ensureDefaultUserExists } from '../business.logic/ensure.default.user';
 import { USER_CACHE } from '../business.logic/cache';
 import { ler, log, log_err, write as print } from '../utility/logging';
 

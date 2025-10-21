@@ -1,5 +1,5 @@
 import { FastifyInstance } from 'fastify';
-import get_bookmark_collection_endpoint from '../endpoint/get.bookmark.ep';
+import get_bookmark_collection_endpoint from '../endpoint/get.bookmark.collection.ep';
 import get_bookmark_by_id_endpoint from '../endpoint/get.bookmark.by.id.ep';
 import post_bookmark_endpoint from '../endpoint/post.bookmark.ep';
 import patch_bookmark_by_id_endpoint from '../endpoint/patch.bookmark.by.id.ep';
@@ -30,7 +30,7 @@ export default async function bookmark_controller(fastify: FastifyInstance) {
     '/',
     { ...DEFAULT_ROUTE_OPTIONS, onRequest: undefined },
     get_bookmark_collection_endpoint
-  )
+  );
 
   // GET /bookmarks/:id
   fastify.get<IBookmarkGet>('/:id', opts, get_bookmark_by_id_endpoint);

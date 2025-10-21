@@ -42,6 +42,7 @@ package-lock.json
 DEV.default.rest
 DEV.builder.rest
 DEV.env.var.rest
+DEV.col.bookmarks.rest
 
 .yarn/*
 !.yarn/patches

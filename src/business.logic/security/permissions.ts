@@ -4,7 +4,7 @@ export type TRole = 'owner' | 'developer' | 'administrator' | 'moderator'
                     | 'supporter' | 'member' | 'patron' | 'sponsor' | 'investor'
                     | 'donor' | 'free';
 
-const ROLE_CLEARANCE_LEVEL: Readonly<Record<TRole, number>> = {
+export const ROLE_CLEARANCE_LEVEL: Readonly<Record<TRole, number>> = {
   /** Have ownership and decision making power. ($3000000) */
   owner: 7,
   /** Have ownership privilege and make request for changes. ($300000) */
@@ -153,6 +153,7 @@ const PERMISSIONS = {
 
 export type TPermission = keyof typeof PERMISSIONS;
 
+/** Required permission level and above. */
 const PERMISSIONS_LEVEL: Readonly<{[key in keyof typeof PERMISSIONS]: number}> = {
   user_get: 6,
   user_get_mod: 5,

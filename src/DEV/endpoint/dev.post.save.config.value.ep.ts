@@ -1,14 +1,14 @@
 import { FastifyRequest, FastifyReply } from 'fastify';
 import JsonapiErrorBuilder, {
   default_500_error_response
-} from 'src/business.logic/builder/jsonapi.error.builder';
+} from 'src/business.logic/builder/JsonapiErrorBuilder';
 import Config from '../../config';
 import {
   $62_STATE_KEY,
   MSG_500_ERROR_MESSAGE
 } from '../../constants.server';
 import { TJsonapiRequest } from 'src/shared';
-import JsonapiRequestDriver from 'src/business.logic/jsonapi.request.driver';
+import JsonapiRequestDriver from 'src/business.logic/JsonapiRequestDriver';
 import { log, write as print } from '../../utility/logging';
 
 interface IPostRequest {

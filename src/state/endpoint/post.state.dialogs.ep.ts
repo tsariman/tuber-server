@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import JsonapiErrorBuilder, {
   default_500_error_response
-} from '../../business.logic/builder/jsonapi.error.builder';
+} from '../../business.logic/builder/JsonapiErrorBuilder';
 import  { STATE_DIALOGS, STATE_DIALOGS_THEME_DARK } from '../dialog';
 import { TNetState, TStateAllDialogs } from '../../shared';
 import { TThemeMode } from '../../common.types';

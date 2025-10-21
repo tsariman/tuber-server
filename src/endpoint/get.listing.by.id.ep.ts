@@ -1,8 +1,8 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { PipelineStage, Types } from 'mongoose';
 import { ListingModel } from '../model/listing';
-import JsonapiResponseBuilder from '../business.logic/builder/jsonapi.response.builder';
-import JsonapiErrorBuilder, { default_500_error_response } from '../business.logic/builder/jsonapi.error.builder';
+import JsonapiResponseBuilder from '../business.logic/builder/JsonapiResponseBuilder';
+import JsonapiErrorBuilder, { default_500_error_response } from '../business.logic/builder/JsonapiErrorBuilder';
 import { IListingsGet } from '../schema/listings';
 import { MSG_500_ERROR_MESSAGE } from '../constants.server';
 import { ler, log, log_err, write as print } from '../utility/logging';

@@ -1,7 +1,6 @@
 import { FastifyInstance } from 'fastify';
 // import { randomBytes } from 'crypto';
 import index_controller from './controller/index.controller';
-// import bootstrap_controller from './controller/bootstrap.controller';
 import dev_controller from './DEV/dev.controller';
 import prod_install_controller from './INSTALL/prod.controller';
 import Config from './config';
@@ -14,7 +13,7 @@ import platform_controller from './platform/platform.controller';
 import state_controller from './state/state.controller';
 import JsonapiErrorBuilder, {
   default_404_error_response
-} from './business.logic/builder/jsonapi.error.builder';
+} from './business.logic/builder/JsonapiErrorBuilder';
 import * as C from './constants.server';
 import dev_builder_controller from './DEV/dev.builder.controller';
 import bootstrap_1_controller from './controller/bootstrap.1.controller';

@@ -2,14 +2,14 @@ import { FastifyReply, FastifyRequest } from 'fastify';
 import Config from '../config';
 import { ler, log, log_err } from '../utility/logging';
 import { defaultDialogAlertState as alert } from '../state/dialog';
-import { default_500_error_response } from '../business.logic/builder/jsonapi.error.builder';
+import { default_500_error_response } from '../business.logic/builder/JsonapiErrorBuilder';
 import { MSG_500_ERROR_MESSAGE } from '../constants.server';
 import { TJsonapiErrorResponse, TJsonapiResponse, TNetState } from '../shared';
 import { read_user_collection_count } from '../model/user';
 import {
   createDefaultUser,
   DEFAULT_USER_TEMPLATES
-} from '../business.logic/ensure-default-user';
+} from '../business.logic/ensure.default.user';
 
 interface ICreateDefaultUserRequest {
   Body: {

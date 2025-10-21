@@ -90,6 +90,13 @@ async function setupServer() {
 
   // Middleware: Router
   await server.register(router);
+  if (process.env.NODE_ENV === 'development'
+    || process.env.DEBUG === 'true'
+  ) {
+    // Conditionally import the 'router.dev.ts' file as `router_dev`
+    const { default: router_dev } = await import('./router.dev');
+    await server.register(router_dev);
+  }
 
   return server;
 }

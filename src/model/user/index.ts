@@ -59,7 +59,8 @@ export const exclude_user_fields_IMPV2Doc = (user: IMPV2Doc<IUserDocument>) => {
 
 /** Excludes sensitive fields from the user document. */
 export const transform_user_doc = (user: IUserDocument) => {
-  const { jwt_version, is_active, password, restrict, rules, _id, ...userDoc } = user;
+  const plainUser = user.toObject();
+  const { jwt_version, is_active, password, restrict, rules, _id, __v, ...userDoc } = plainUser;
   return userDoc;
 };
 

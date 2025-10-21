@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { BookmarkModel } from '../model/bookmark';
 import { UserModel } from '../model/user';
-import JsonapiErrorBuilder, { default_500_error_response } from '../business.logic/builder/jsonapi.error.builder';
+import JsonapiErrorBuilder, { default_500_error_response } from '../business.logic/builder/JsonapiErrorBuilder';
 import { ler, log_err } from '../utility/logging';
 import { MSG_500_ERROR_MESSAGE } from '../constants.server';
 

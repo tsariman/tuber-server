@@ -2,7 +2,7 @@ import { FastifyReply, FastifyRequest } from 'fastify';
 import { $46_STATE_KEY, MSG_500_ERROR_MESSAGE } from '../../constants.server';
 import JsonapiErrorBuilder, {
   default_500_error_response
-} from '../../business.logic/builder/jsonapi.error.builder';
+} from '../../business.logic/builder/JsonapiErrorBuilder';
 import { vimeo_fetch_thumbnail_url } from '../../platform/vimeo';
 import { log } from '../../utility/logging';
 

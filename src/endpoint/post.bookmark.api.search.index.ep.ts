@@ -2,7 +2,7 @@ import { request } from 'urllib';
 import Config from '../config';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { defaultDialogAlertState as alert } from '../state/dialog';
-import JsonapiErrorBuilder from '../business.logic/builder/jsonapi.error.builder';
+import JsonapiErrorBuilder from '../business.logic/builder/JsonapiErrorBuilder';
 import { COLLECTION_NAME } from '../constants.server';
 import { log, log_err } from '../utility/logging';
 

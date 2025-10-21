@@ -1,7 +1,7 @@
 import { FastifyRequest, FastifyReply, FastifyInstance } from 'fastify';
 import {
   default_500_error_response
-} from '../business.logic/builder/jsonapi.error.builder';
+} from '../business.logic/builder/JsonapiErrorBuilder';
 import { USER_CACHE } from '../business.logic/cache';
 import { MSG_500_ERROR_MESSAGE } from '../constants.server';
 import { TCipheredUser } from '../schema/users';

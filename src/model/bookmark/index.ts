@@ -5,7 +5,12 @@ import bookmarkSchema, {
   IBookmarkDocument,
   TBookmark,
 } from '../../schema/bookmarks';
-import { DB_PAGINATION_OPTIONS, DB_PAGINATION_QUERY } from '../../constants.server';
+import {
+  DB_PAGINATION_OPTIONS,
+  DB_PAGINATION_QUERY,
+  EP_BOOKMARKS
+} from '../../constants.server';
+import { IJsonapiResource } from '../../shared/interfaces/IJsonapi';
 
 /** mongoose-paginate-v2 query */
 const PAGINATION_QUERY = {
@@ -115,3 +120,21 @@ export const read_bookmark_document_count = async function (): Promise<number> {
   const count = await BookmarkModel.countDocuments()
   return count;
 };
+
+/** Excludes _id from the bookmark document. */
+export const exclude_bookmark_id = (bookmark: IBookmarkDocument): IBookmark => {
+  const { _id, ...bookmarkDoc } = bookmark.toObject();
+  return bookmarkDoc;
+}
+
+/** Converts bookmarks from MongoDB documents to JSON:API resources. */
+export const to_jsonapi_bookmark_resources = (
+  documents: IBookmarkDocument<Types.ObjectId>[]
+) => {
+  const resources: IJsonapiResource<IBookmark>[] = documents.map(bookmark => ({
+    type: EP_BOOKMARKS,
+    id: bookmark._id?.toString() ?? '',
+    attributes: exclude_bookmark_id(bookmark)
+  }));
+  return resources;
+}

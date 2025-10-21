@@ -80,6 +80,13 @@ export interface IBookmarkGet {
   Querystring: TJsonapiQueryParams;
 }
 
+/** Required field to perform a MongoDB aggregate search. */
+export interface IBookmarkSearchQuery {
+  searchQuery: string;
+  page: number;
+  limit: number;
+}
+
 /** Available fields for a post request. */
 export interface IBookmarkPost {
   Body: TJsonapiRequest<IBookmark>;

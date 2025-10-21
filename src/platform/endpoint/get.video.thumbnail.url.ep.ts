@@ -1,13 +1,13 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import JsonapiErrorBuilder, {
   default_500_error_response
-} from '../../business.logic/builder/jsonapi.error.builder';
+} from '../../business.logic/builder/JsonapiErrorBuilder';
 import { log, log_err, write as print } from '../../utility/logging';
 import { get_video_thumbnail_url } from '../all.drivers';
 import { BookmarkModel, read_bookmark_by_id } from 'src/model/bookmark';
 import { IBookmark } from '../../schema/bookmarks';
 import { TPlatform } from '../../common.types';
-import JsonapiResponseBuilder from '../../business.logic/builder/jsonapi.response.builder';
+import JsonapiResponseBuilder from '../../business.logic/builder/JsonapiResponseBuilder';
 
 export interface IBookmarkThumbnailUrlGet {
   Params: {

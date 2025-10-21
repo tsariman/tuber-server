@@ -71,7 +71,7 @@ import signInFormState, {
 } from '../state/form/sign.in.form.state';
 import {
   default_500_error_response
-} from '../business.logic/builder/jsonapi.error.builder';
+} from '../business.logic/builder/JsonapiErrorBuilder';
 import { TCipheredUser } from '../schema/users';
 import chippedListingPageState, {
   $51DarkThemeMode

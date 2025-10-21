@@ -2,9 +2,9 @@ import { FastifyReply, FastifyRequest } from 'fastify';
 import { log } from '../../utility/logging';
 import {
   default_500_error_response
-} from '../../business.logic/builder/jsonapi.error.builder';
+} from '../../business.logic/builder/JsonapiErrorBuilder';
 import { MSG_500_ERROR_MESSAGE } from '../../constants.server';
-import JsonapiResponseBuilder from '../../business.logic/builder/jsonapi.response.builder';
+import JsonapiResponseBuilder from '../../business.logic/builder/JsonapiResponseBuilder';
 
 interface IQueryEnvVar {
   Querystring: {

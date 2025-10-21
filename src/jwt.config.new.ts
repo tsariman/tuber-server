@@ -1,13 +1,13 @@
 import { FastifyInstance } from 'fastify';
-import { JWTKeyManager } from './business.logic/security/jwt.key.manager';
-import { JWTHealthMonitor } from './business.logic/security/jwt.health.monitor';
+import { JWTKeyManager } from './business.logic/security/JwtKeyManager';
+import { JWTHealthMonitor } from './business.logic/security/JwtHealthMonitor';
 import fastifyJwt from '@fastify/jwt';
 import { log } from './utility/logging';
 
 /**
  * Production-ready JWT configuration with key rotation support
  */
-export async function setupProductionJWT(server: FastifyInstance): Promise<void> {
+export async function setup_production_jwt(server: FastifyInstance): Promise<void> {
   const keyManager = JWTKeyManager.getInstance();
   const healthMonitor = JWTHealthMonitor.getInstance();
   
@@ -117,7 +117,7 @@ export async function setupJWT(server: FastifyInstance): Promise<void> {
   const isProduction = process.env.NODE_ENV === 'production';
   
   if (isProduction) {
-    await setupProductionJWT(server);
+    await setup_production_jwt(server);
   } else {
     await setupDevelopmentJWT(server);
   }

@@ -2,7 +2,7 @@ import { FastifyReply, FastifyRequest } from 'fastify';
 import { ler, log, log_err, write } from '../../utility/logging';
 import JsonapiErrorBuilder, {
   default_500_error_response
-} from '../../business.logic/builder/jsonapi.error.builder';
+} from '../../business.logic/builder/JsonapiErrorBuilder';
 import  { STATE_PAGES, STATE_PAGES_THEME_DARK } from '../page';
 import { TJsonapiStateResponse } from '../../shared';
 import { TThemeMode } from '../../common.types';
