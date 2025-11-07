@@ -4,7 +4,7 @@ import JsonapiResponseBuilder from '../business.logic/builder/JsonapiResponseBui
 import { read_user_by_id } from '../model/user';
 import { TUsersFastifyRequest } from '../schema/users';
 import { ler, log_err } from '../utility/logging';
-import { MSG_500_ERROR_MESSAGE } from '../constants.server';
+import { MSG_500_ERROR_MESSAGE } from '@tuber/shared';
 
 export default async function get_user_by_id_endpoint (
   req: TUsersFastifyRequest<'id'>,

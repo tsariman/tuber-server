@@ -8,7 +8,7 @@ import {
   $70_STATE_KEY,
   $74_STATE_KEY,
   THEME_MODE
-} from '../../constants.server';
+} from '@tuber/shared';
 import {
   bs_listingPageState,
   bs_researchPageState,

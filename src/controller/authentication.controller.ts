@@ -6,7 +6,7 @@ import {
   default_401_error_response,
   default_500_error_response
 } from '../business.logic/builder/JsonapiErrorBuilder';
-import { MSG_500_ERROR_MESSAGE } from '../constants.server';
+import { MSG_500_ERROR_MESSAGE } from '@tuber/shared';
 import get_bootstrap_authenticated_state from '../state/bootstrap';
 import { TJsonapiStateResponse, TNetState } from '../shared';
 import { get_ciphered_user, get_user } from 'src/model/session';

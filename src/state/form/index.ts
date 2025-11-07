@@ -1,4 +1,4 @@
-import * as C from '../../constants.server';
+import * as C from '@tuber/shared';
 import newVideoUrlFormState, {
   $1DarkThemeMode
 } from './new.video.url.form.state';

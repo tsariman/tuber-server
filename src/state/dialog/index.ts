@@ -1,4 +1,4 @@
-import * as C from '../../constants.server';
+import * as C from '@tuber/shared';
 import {
   get_state_key as key,
   t,

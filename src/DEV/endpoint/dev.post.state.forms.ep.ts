@@ -4,7 +4,7 @@ import JsonapiErrorBuilder, {
 } from '../../business.logic/builder/JsonapiErrorBuilder';
 import DEV_STATE_FORM from '../form';
 import { TNetState } from '../../shared';
-import { MSG_500_ERROR_MESSAGE } from '../../constants.server';
+import { MSG_500_ERROR_MESSAGE } from '@tuber/shared';
 import { log, write as print } from '../../utility/logging';
 
 export default async function dev_post_state_forms_endpoint(

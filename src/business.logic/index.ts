@@ -12,7 +12,7 @@ import {
   TObj,
   TThemeMode
 } from '../common.types';
-import { THEME_MODE } from '../constants.server';
+import { THEME_MODE } from '@tuber/shared';
 import { FastifyRequest } from 'fastify';
 import { ler, log, log_err } from '../utility/logging';
 import { get_current_language_key, READABLE_CACHE } from './cache';

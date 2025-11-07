@@ -7,7 +7,7 @@ import {
   $47_STATE_KEY,
   $69_STATE_KEY,
   THEME_MODE
-} from '../../constants.server';
+} from '@tuber/shared';
 import { PrepareState } from '../PrepareState';
 import devInstallFormState, { $47DarkThemeMode } from '../../DEV/form/dev.install.form.state';
 import signInFormState, { $41DarkThemeMode } from '../form/sign.in.form.state';

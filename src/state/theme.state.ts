@@ -4,7 +4,7 @@ import {
   THEME_DARK_DIALOG_BACKGROUND_COLOR,
   THEME_LIGHT_APP_BAR_COLOR,
   THEME_MODE
-} from '../constants.server';
+} from '@tuber/shared';
 import { TThemeMode } from '../common.types';
 import { ThemeOptions } from '@mui/material';
 

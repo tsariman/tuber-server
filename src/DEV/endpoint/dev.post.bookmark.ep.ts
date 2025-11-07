@@ -8,7 +8,7 @@ import { create_bookmark } from '../../model/bookmark';
 import { IBookmarkPost } from '../../schema/bookmarks';
 import { gen_random_bookmark_votes } from '..';
 import fix_missing_bookmark_data from '../../platform/all.drivers';
-import { MSG_500_ERROR_MESSAGE } from '../../constants.server';
+import { MSG_500_ERROR_MESSAGE } from '@tuber/shared';
 
 export default async function dev_post_bookmarks_endpoint (
   req: FastifyRequest<IBookmarkPost>,

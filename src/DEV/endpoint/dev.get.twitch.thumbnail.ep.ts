@@ -3,7 +3,7 @@ import JsonapiErrorBuilder, {
   default_500_error_response
 } from '../../business.logic/builder/JsonapiErrorBuilder';
 import { twitch_fetch_thumbnail_url } from '../../platform/twitch';
-import { $46_STATE_KEY, MSG_500_ERROR_MESSAGE } from '../../constants.server';
+import { $46_STATE_KEY, MSG_500_ERROR_MESSAGE } from '@tuber/shared';
 import { log } from '../../utility/logging';
 
 export default async function dev_get_twitch_thumbnail_endpoint(

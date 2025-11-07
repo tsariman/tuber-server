@@ -1,5 +1,5 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { $46_STATE_KEY, MSG_500_ERROR_MESSAGE } from '../../constants.server';
+import { $46_STATE_KEY, MSG_500_ERROR_MESSAGE } from '@tuber/shared';
 import JsonapiErrorBuilder, {
   default_500_error_response
 } from '../../business.logic/builder/JsonapiErrorBuilder';

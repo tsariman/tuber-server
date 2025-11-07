@@ -2,7 +2,7 @@ import {
   $74_STATE_KEY,
   $69_STATE_KEY,
   EP_USERS
-} from '../../constants.server';
+} from '@tuber/shared';
 import { register } from '../../business.logic/registry';
 import { TStatePage } from '../../shared';
 import {

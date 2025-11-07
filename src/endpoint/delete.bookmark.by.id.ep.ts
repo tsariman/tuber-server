@@ -5,7 +5,7 @@ import JsonapiErrorBuilder, {
 import { ler, log, log_err, write as print } from '../utility/logging';
 import { BookmarkModel } from '../model/bookmark';
 import { IBookmarkDelete } from '../schema/bookmarks';
-import { MSG_500_ERROR_MESSAGE } from '../constants.server';
+import { MSG_500_ERROR_MESSAGE } from '@tuber/shared';
 
 export default async function delete_bookmark_by_id_endpoint (
   req: FastifyRequest<IBookmarkDelete>,

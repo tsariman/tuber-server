@@ -6,7 +6,7 @@ import {
   $46_STATE_KEY,
   THEME_DARK_PAPER_COLOR,
   THEME_LIGHT_PAPER_COLOR
-} from '../../constants.server';
+} from '@tuber/shared';
 import { clone_with_descriptors } from 'src/business.logic';
 
 register('state', '45', $45_STATE_KEY);

@@ -1,5 +1,5 @@
 import { register } from '../../business.logic/registry';
-import * as C from '../../constants.server';
+import * as C from '@tuber/shared';
 import { defaultAppBarState } from '../../state/default.content';
 import devInstallPageState, {
   $44DarkThemeMode,

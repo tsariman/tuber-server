@@ -4,7 +4,7 @@ import JsonapiResponseBuilder from '../business.logic/builder/JsonapiResponseBui
 import { ler, log, log_err, write as print } from '../utility/logging';
 import { read_bookmark_by_id } from '../model/bookmark';
 import { IBookmarkGet } from '../schema/bookmarks';
-import { MSG_500_ERROR_MESSAGE } from '../constants.server';
+import { MSG_500_ERROR_MESSAGE } from '@tuber/shared';
 
 export default async function get_bookmark_by_id_endpoint (
   request: FastifyRequest<IBookmarkGet>,

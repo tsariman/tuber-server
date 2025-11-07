@@ -3,7 +3,7 @@ import {
   default_500_error_response
 } from '../business.logic/builder/JsonapiErrorBuilder';
 import { USER_CACHE } from '../business.logic/cache';
-import { MSG_500_ERROR_MESSAGE } from '../constants.server';
+import { MSG_500_ERROR_MESSAGE } from '@tuber/shared';
 import { TCipheredUser } from '../schema/users';
 import { log, log_err } from '../utility/logging';
 

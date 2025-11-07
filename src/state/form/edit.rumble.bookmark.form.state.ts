@@ -1,7 +1,7 @@
 import { clone_with_descriptors, t } from '../../business.logic';
 import { TStateForm } from '../../shared';
 import { register } from '../../business.logic/registry';
-import * as C from '../../constants.server';
+import * as C from '@tuber/shared';
 
 register('state', '10', C.$10_STATE_KEY);
 /** Form for creating a edit rumble video bookmark @id 10 */

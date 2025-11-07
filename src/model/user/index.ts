@@ -11,7 +11,7 @@ import userSchema, {
   IUserDocument,
   TUsersFastifyRequest
 } from '../../schema/users';
-import { DB_PAGINATION_OPTIONS, DB_PAGINATION_QUERY } from '../../constants.server';
+import { DB_PAGINATION_OPTIONS, DB_PAGINATION_QUERY } from '@tuber/shared';
 
 /** mongoose-paginate-v2 query */
 const PAGINATION_QUERY = {

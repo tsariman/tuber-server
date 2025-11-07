@@ -3,7 +3,7 @@ import {
   $15_STATE_KEY,
   THEME_DARK_DIALOG_BACKGROUND_COLOR,
   THEME_LIGHT_PAPER_SX_PROPS
-} from '../../constants.server';
+} from '@tuber/shared';
 import {
   t,
   remove_form_suffix,

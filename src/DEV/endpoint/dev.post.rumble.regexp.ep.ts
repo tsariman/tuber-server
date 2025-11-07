@@ -7,7 +7,7 @@ import {
   $54_STATE_KEY,
   $56_STATE_KEY,
   MSG_500_ERROR_MESSAGE
-} from '../../constants.server';
+} from '@tuber/shared';
 import axios from 'axios';
 
 interface IPostRequest {

@@ -1,0 +1,6 @@
+packages:
+  - '.'
+  - '../tuber-shared'
+
+ignoredBuiltDependencies:
+  - bcrypt

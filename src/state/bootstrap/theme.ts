@@ -1,7 +1,7 @@
 import { TThemeMode } from '../../common.types';
 import { IStateContext, TBootstrapState } from '../_state.common.types';
 import { PrepareState } from '../PrepareState';
-import { THEME_MODE } from '../../constants.server';
+import { THEME_MODE } from '@tuber/shared';
 import Config from '../../config';
 import { ThemeOptions } from '@mui/material';
 

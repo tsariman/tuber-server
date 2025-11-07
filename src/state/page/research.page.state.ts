@@ -4,7 +4,7 @@ import {
   $40_STATE_KEY,
   $70_STATE_KEY,
   THEME_LIGHT_APP_BAR_ICON_COLOR as ICON_COLOR,
-} from '../../constants.server';
+} from '@tuber/shared';
 import researchPageAppbarState, {
   $63DarkThemeMode
 } from '../appbar';

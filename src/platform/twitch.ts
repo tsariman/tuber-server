@@ -8,7 +8,7 @@ import {
   CONF_TWITCH_TOKEN_EXPIRATION,
   CONF_TWITCH_REFRESH_TOKEN,
   CONF_TWITCH_DISABLE_THUMBNAIL_RETRIEVAL
-} from 'src/constants.server';
+} from '@tuber/shared';
 import {
   get_twitch_renew_access_token_endpoint
 } from './endpoint/get.twitch.renew.access.token.ep';

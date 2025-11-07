@@ -1,7 +1,7 @@
 import { clone_with_descriptors, t } from 'src/business.logic';
 import { TStatePage } from '../../shared';
 import { register } from '../../business.logic/registry';
-import { $55_STATE_KEY } from '../../constants.server';
+import { $55_STATE_KEY } from '@tuber/shared';
 
 register('state', '55', $55_STATE_KEY);
 /** @id 55 */

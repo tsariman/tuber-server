@@ -1,5 +1,5 @@
 import { FastifyInstance } from 'fastify';
-import * as C from './constants.server';
+import * as C from '@tuber/shared';
 import bookmark_controller from './DEV/controller/bookmark.controller';
 import user_controller from './DEV/controller/user.controller';
 

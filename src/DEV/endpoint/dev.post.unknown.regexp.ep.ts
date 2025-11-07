@@ -7,7 +7,7 @@ import {
   $57_STATE_KEY,
   $58_STATE_KEY,
   MSG_500_ERROR_MESSAGE
-} from '../../constants.server';
+} from '@tuber/shared';
 import axios from 'axios';
 import { TNetState } from 'src/shared';
 

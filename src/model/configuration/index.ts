@@ -2,7 +2,7 @@ import { PaginateModel, PaginateResult, model } from 'mongoose';
 import configurationSchema, {
   IDbConfigurationDocument
 } from '../../schema/configurations';
-import { DB_PAGINATION_OPTIONS, DB_PAGINATION_QUERY } from '../../constants.server';
+import { DB_PAGINATION_OPTIONS, DB_PAGINATION_QUERY } from '@tuber/shared';
 
 /** mongoose-paginate-v2 query */
 const PAGINATION_QUERY = {

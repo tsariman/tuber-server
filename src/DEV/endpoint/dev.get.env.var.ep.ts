@@ -3,7 +3,7 @@ import { log } from '../../utility/logging';
 import {
   default_500_error_response
 } from '../../business.logic/builder/JsonapiErrorBuilder';
-import { MSG_500_ERROR_MESSAGE } from '../../constants.server';
+import { MSG_500_ERROR_MESSAGE } from '@tuber/shared';
 import JsonapiResponseBuilder from '../../business.logic/builder/JsonapiResponseBuilder';
 
 interface IQueryEnvVar {

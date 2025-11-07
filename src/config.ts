@@ -3,7 +3,7 @@ import * as dotenv from 'dotenv';
 import { get_ip } from './utility/networking';
 import Config, { IConfiguration } from './utility/configuration';
 import { missing_db_name, missing_db_user } from './utility/logging';
-import { COLLECTION_NAME } from './constants.server';
+import { COLLECTION_NAME } from '@tuber/shared';
 
 // Load environment-specific config file
 const envFile = process.env.NODE_ENV === 'production' 

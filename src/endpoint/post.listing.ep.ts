@@ -1,4 +1,3 @@
-import { MongoServerError } from 'mongodb';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import {
   default_500_error_response,
@@ -8,7 +7,7 @@ import JsonapiResponseBuilder from '../business.logic/builder/JsonapiResponseBui
 import { ler, log, log_err, write as print } from '../utility/logging';
 import { create_listing } from '../model/listing';
 import { IListingPost, IListing } from '../schema/listings';
-import { MSG_500_ERROR_MESSAGE } from '../constants.server';
+import { MSG_500_ERROR_MESSAGE } from '@tuber/shared';
 import JsonapiRequestDriver from '../business.logic/JsonapiRequestDriver';
 
 export default async function post_listing_endpoint (
@@ -95,8 +94,8 @@ export default async function post_listing_endpoint (
         .build()
     );
   } catch (e) {
-    // Handle duplicate name error
-    if (e instanceof MongoServerError && e.code === 11000 && e.keyPattern?.name) {
+    // Handle duplicate name error (MongoDB duplicate key error)
+    if (e && typeof e === 'object' && 'code' in e && e.code === 11000) {
       log('Failed.');
       reply.code(409).send(default_400_error_response({
         title: 'Failed to create listing.',

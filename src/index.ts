@@ -7,7 +7,7 @@ import {  configuration_get_all } from './model/configuration';
 import { find_index_by_name } from './business.logic/network';
 import { readable_get_all } from './model/readable';
 import { create_user } from './model/user';
-import { COLLECTION_NAME } from './constants.server';
+import { COLLECTION_NAME } from '@tuber/shared';
 import { log, write as print, log_err, ler } from './utility/logging';
 
 mongoose.set('strictQuery', false);

@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { log, write as print } from '../../utility/logging';
-import { MSG_500_ERROR_MESSAGE } from '../../constants.server';
+import { MSG_500_ERROR_MESSAGE } from '@tuber/shared';
 import { default_500_error_response } from '../../business.logic/builder/JsonapiErrorBuilder';
 import DialogStateBuilder from '../../business.logic/builder/DialogStateBuilder';
 import FormItemButtonBuilder from '../../business.logic/builder/FormItemButtonStateBuilder';

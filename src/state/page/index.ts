@@ -1,7 +1,7 @@
 import { defaultAppBarState } from '../default.content';
 import Config from '../../config';
 import { register } from '../../business.logic/registry';
-import * as C from '../../constants.server';
+import * as C from '@tuber/shared';
 import researchPageState, {
   $40DarkThemeMode,
   $70DarkThemeMode,

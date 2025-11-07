@@ -1,9 +1,9 @@
 import { SxProps } from '@mui/material';
-import { $69_STATE_KEY } from '../../constants.server';
+import { $69_STATE_KEY } from '@tuber/shared';
 import { TStateForm } from '../../shared';
 import { register } from '../../business.logic/registry';
 import { clone_with_descriptors, t } from '../../business.logic';
-import { paragraph, title_centered } from '../html';
+import { title_centered } from '../html';
 
 register('state', '69', $69_STATE_KEY);
 /** Form state to create a new user account. @id 69 */
@@ -80,30 +80,36 @@ const newUserFormState: TStateForm = {
         },
         {
           'type': 'password',
-          'name': 're_enter_password',
+          'name': 're_entered_password',
           get 'label'() { return t('password', 'Re-enter Password'); },
           'has': {
             'required': true,
             get 'requiredMessage'() { return t('no_password', 'You forgot the password.'); }
           }
         },
-        {
-          'type': 'html',
-          'has': {
-            get 'content'() { 
-              return `
-                ${title_centered(t('69_help_email1', 'Email Verification'), 'h2')}
-                ${paragraph(t('69_help_email2', `Don't forget to check your email so it can be verified.`))}
-              `
-            }
-          }
-        },
+        // {
+        //   'type': 'html',
+        //   'has': {
+        //     get 'content'() { 
+        //       return `
+        //         ${title_centered(t('69_help_email1', 'Email Verification'), 'h2')}
+        //         ${paragraph(t('69_help_email2', `Don't forget to check your email so it can be verified.`))}
+        //       `
+        //     }
+        //   }
+        // },
         {
           'type': 'submit',
           'has': {
             'icon': 'vpn_key',
             'iconPosition': 'right',
-            get 'title'() { return t('signup', 'Sign up'); }
+            get 'title'() { return t('signup', 'Sign up'); },
+            'onclickHandleDirective': {
+              'type': '$form',
+              'formName': $69_STATE_KEY,
+              'endpoint': 'users',
+              'rules': [ 'disable_on_submit' ]
+            }
           }
         }
       ]

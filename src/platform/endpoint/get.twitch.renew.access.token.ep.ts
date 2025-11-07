@@ -9,7 +9,7 @@ import {
   CONF_TWITCH_DISABLE_THUMBNAIL_RETRIEVAL,
   CONF_TWITCH_DISABLE_TOKEN_RENEWAL,
   CONF_TWITCH_TOKEN_EXPIRATION
-} from '../../constants.server';
+} from '@tuber/shared';
 import Config from '../../config';
 
 /**

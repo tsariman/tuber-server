@@ -2,7 +2,7 @@ import {
   $49_STATE_KEY,
   THEME_DARK_PAPER_COLOR,
   THEME_LIGHT_PAPER_COLOR
-} from '../../constants.server';
+} from '@tuber/shared';
 import { register } from '../../business.logic/registry';
 import { TStateForm } from '../../shared';
 import { TBootstrapState } from 'src/state/_state.common.types';

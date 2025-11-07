@@ -20,8 +20,8 @@ chmod +x /usr/local/bin/docker-compose
 curl -fsSL https://rpm.nodesource.com/setup_18.x | bash -
 yum install -y nodejs
 
-# Install yarn
-npm install -g yarn
+# Install pnpm
+npm install -g pnpm
 
 # Install git
 yum install -y git
@@ -35,7 +35,7 @@ cd /home/ec2-user/app
 
 # For now, create a placeholder for manual upload
 echo "Upload your application files to /home/ec2-user/app"
-echo "Then run: yarn install && yarn build && yarn start"
+echo "Then run: pnpm install && pnpm build && pnpm start"
 
 # Set ownership
 chown -R ec2-user:ec2-user /home/ec2-user/app

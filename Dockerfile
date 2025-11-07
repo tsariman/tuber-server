@@ -1,20 +1,23 @@
 # Use Node.js 18 LTS
 FROM node:18-alpine
 
+# Install pnpm
+RUN corepack enable && corepack prepare pnpm@latest --activate
+
 # Set working directory
 WORKDIR /app
 
 # Copy package files
-COPY package.json yarn.lock ./
+COPY package.json pnpm-lock.yaml ./
 
 # Install dependencies
-RUN yarn install --frozen-lockfile --production=false
+RUN pnpm install --frozen-lockfile --prod=false
 
 # Copy source code
 COPY . .
 
 # Build the application
-RUN yarn build
+RUN pnpm build
 
 # Expose port
 EXPOSE 8080
@@ -23,4 +26,4 @@ EXPOSE 8080
 ENV NODE_ENV=production
 
 # Start the application
-CMD ["yarn", "start"]
+CMD ["pnpm", "start"]

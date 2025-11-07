@@ -1,6 +1,6 @@
 import { clone_with_descriptors, t } from '../../business.logic';
 import { TStateForm } from '../../shared';
-import * as C from '../../constants.server';
+import * as C from '@tuber/shared';
 import { register } from '../../business.logic/registry';
 
 register('state', '20', C.$20_STATE_KEY);

@@ -1,7 +1,7 @@
 // import { FastifyReply, FastifyRequest } from 'fastify';
 // import { IBookmarkPost } from '../schema/bookmarks';
 // import { log, write as print } from '../utility/logging';
-// import { MSG_500_ERROR_MESSAGE } from '../constants.server';
+// import { MSG_500_ERROR_MESSAGE } from '@tuber/shared';
 // import {
 //   default_500_error_response
 // } from 'src/business.logic/jsonapi.error.builder';

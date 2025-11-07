@@ -8,7 +8,7 @@ import { ler, log, log_err, write as print } from '../utility/logging';
 import { create_bookmark } from '../model/bookmark';
 import { IBookmarkPost } from '../schema/bookmarks';
 import fix_missing_bookmark_data from '../platform/all.drivers';
-import { MSG_500_ERROR_MESSAGE } from '../constants.server';
+import { MSG_500_ERROR_MESSAGE } from '@tuber/shared';
 import JsonapiRequestDriver from '../business.logic/JsonapiRequestDriver';
 
 export default async function post_bookmark_endpoint (

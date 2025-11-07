@@ -6,7 +6,7 @@ import { ler, log, log_err, write } from '../../utility/logging';
 import { STATE_FORMS, STATE_FORMS_THEME_DARK } from '../form';
 import { TNetState } from '../../shared';
 import { TThemeMode } from '../../common.types';
-import { MSG_500_ERROR_MESSAGE } from '../../constants.server';
+import { MSG_500_ERROR_MESSAGE } from '@tuber/shared';
 import { themed } from '../../business.logic';
 
 export default async function post_state_forms_endpoint (

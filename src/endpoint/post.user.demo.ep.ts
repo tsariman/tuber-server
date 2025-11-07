@@ -10,7 +10,7 @@ import JsonapiResponseBuilder from '../business.logic/builder/JsonapiResponseBui
 // import { create_user } from '../model/user'
 import { TUsersFastifyRequest } from '../schema/users';
 import { log } from '../utility/logging';
-import { MSG_500_ERROR_MESSAGE } from '../constants.server';
+import { MSG_500_ERROR_MESSAGE } from '@tuber/shared';
 
 /**
  * Creating a user is disabled, for now.  

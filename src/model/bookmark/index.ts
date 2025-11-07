@@ -9,7 +9,7 @@ import {
   DB_PAGINATION_OPTIONS,
   DB_PAGINATION_QUERY,
   EP_BOOKMARKS
-} from '../../constants.server';
+} from '@tuber/shared';
 import { IJsonapiResource } from '../../shared/interfaces/IJsonapi';
 
 /** mongoose-paginate-v2 query */
@@ -122,9 +122,11 @@ export const read_bookmark_document_count = async function (): Promise<number> {
 };
 
 /** Excludes _id from the bookmark document. */
-export const exclude_bookmark_id = (bookmark: IBookmarkDocument): IBookmark => {
-  const { _id, ...bookmarkDoc } = bookmark.toObject();
-  return bookmarkDoc;
+export const exclude_bookmark_id = (bookmarkDoc: IBookmarkDocument): IBookmark => {
+  const { _id, __v, ...bookmark } = typeof bookmarkDoc.toObject === 'function'
+    ? bookmarkDoc.toObject()
+    : bookmarkDoc;
+  return bookmark;
 }
 
 /** Converts bookmarks from MongoDB documents to JSON:API resources. */

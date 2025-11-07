@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { log, write as print } from '../../utility/logging';
-import * as C from '../../constants.server';
+import * as C from '@tuber/shared';
 import { default_500_error_response } from '../../business.logic/builder/JsonapiErrorBuilder';
 import Form from '../../business.logic/builder/FormStateBuilder';
 import Group from '../../business.logic/builder/FormItemGroupStateBuilder';

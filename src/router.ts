@@ -14,7 +14,7 @@ import state_controller from './state/state.controller';
 import JsonapiErrorBuilder, {
   default_404_error_response
 } from './business.logic/builder/JsonapiErrorBuilder';
-import * as C from './constants.server';
+import * as C from '@tuber/shared';
 import dev_builder_controller from './DEV/dev.builder.controller';
 import bootstrap_1_controller from './controller/bootstrap.1.controller';
 import { log } from './utility/logging';

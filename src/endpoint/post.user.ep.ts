@@ -7,7 +7,7 @@ import JsonapiResponseBuilder from '../business.logic/builder/JsonapiResponseBui
 import { create_user } from '../model/user';
 import { TUsersFastifyRequest } from '../schema/users';
 import { ler, log_err } from '../utility/logging';
-import { MSG_500_ERROR_MESSAGE } from '../constants.server';
+import { MSG_500_ERROR_MESSAGE } from '@tuber/shared';
 
 export default async function post_user_endpoint (
   request: TUsersFastifyRequest,

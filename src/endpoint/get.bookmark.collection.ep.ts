@@ -8,7 +8,7 @@ import {
   to_jsonapi_bookmark_resources
 } from '../model/bookmark';
 import { IBookmark, IBookmarkGet } from '../schema/bookmarks';
-import { MSG_500_ERROR_MESSAGE } from '../constants.server';
+import { MSG_500_ERROR_MESSAGE } from '@tuber/shared';
 import { get_raw_query } from './_endpoint.common.logic';
 import { log, write as print, log_err, ler } from '../utility/logging';
 import get_bookmark_search_query_pipeline from '../model/bookmark/get.bookmark.search.query.pipeline';
@@ -30,7 +30,8 @@ export default async function get_bookmark_collection_endpoint (
         limit
       }, req.usr);
       const aggregationResult = await BookmarkModel.aggregate(pipeline);
-      
+      log('Done.');
+
       // Handle empty results - return 200 with empty data
       const { totalItems = 0, results = [] } = aggregationResult[0] || {};
       

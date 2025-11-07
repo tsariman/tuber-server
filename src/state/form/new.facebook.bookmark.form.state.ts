@@ -1,7 +1,7 @@
 import { clone_with_descriptors, t } from '../../business.logic';
 import { TStateForm } from '../../shared';
 import { register } from '../../business.logic/registry';
-import * as C from '../../constants.server';
+import * as C from '@tuber/shared';
 
 register('state', '24', C.$24_STATE_KEY);
 /** Form for creating a new facebook video bookmark @id 24 */

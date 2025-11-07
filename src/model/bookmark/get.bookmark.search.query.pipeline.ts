@@ -1,6 +1,6 @@
 import Config from '../../config';
 import { PipelineStage } from 'mongoose';
-import { DB_PAGINATION_QUERY } from '../../constants.server';
+import { DB_PAGINATION_QUERY } from '@tuber/shared';
 import { TCipheredUser } from '../../schema/users';
 import { can_view_unpublished_bookmarks } from '../../business.logic/security';
 import { IBookmarkSearchQuery } from 'src/schema/bookmarks';
@@ -70,8 +70,10 @@ export default function get_bookmark_search_query_pipeline(
         downvotes: 1,
         url: 1,
         thumbnail_url: 1,
-        restrictions: 1,
+        restrict: 1,
         rules: 1,
+        author: 1,
+        is_published: 1,
         results: {
           $slice: ['$results', (page - 1) * limit, limit]
         },

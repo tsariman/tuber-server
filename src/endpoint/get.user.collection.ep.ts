@@ -4,7 +4,7 @@ import JsonapiResponseBuilder from '../business.logic/builder/JsonapiResponseBui
 import { read_user_collection, transform_user_doc } from '../model/user';
 import { TUsersFastifyRequest } from '../schema/users';
 import { ler, log_err } from '../utility/logging';
-import { MSG_500_ERROR_MESSAGE } from '../constants.server';
+import { MSG_500_ERROR_MESSAGE } from '@tuber/shared';
 
 export default async function get_user_collection_endpoint (
   req: TUsersFastifyRequest,

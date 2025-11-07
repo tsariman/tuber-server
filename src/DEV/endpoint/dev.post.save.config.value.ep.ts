@@ -6,7 +6,7 @@ import Config from '../../config';
 import {
   $62_STATE_KEY,
   MSG_500_ERROR_MESSAGE
-} from '../../constants.server';
+} from '@tuber/shared';
 import { TJsonapiRequest } from 'src/shared';
 import JsonapiRequestDriver from 'src/business.logic/JsonapiRequestDriver';
 import { log, write as print } from '../../utility/logging';

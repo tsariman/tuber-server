@@ -37,6 +37,9 @@ export type THandleDirectiveType = '$form'
 | '$filter'
 | '$none';
 
+export type THandleDirectiveRule = 'close_dialog'
+| 'disable_on_submit';
+
 export interface IHandleDirective {
   type: THandleDirectiveType; // The directive type like '$form', '$view', etc.
   formName?: string;          // Form name for form-related directives
@@ -45,6 +48,7 @@ export interface IHandleDirective {
   id?: string;                // Optional ID for specific operations
   params?: Record<string, string>; // Additional parameters
   load?: TDirectiveLoad;
+  rules?: THandleDirectiveRule[]
 }
 
 export default interface IStateFormItemCustom<T = unknown> {
@@ -186,11 +190,7 @@ export default interface IStateFormItemCustom<T = unknown> {
   maxLength?: number;
   /** Message to display if the value of the input field exceeds `maxLength` */
   maxLengthMessage?: string;
-  /**
-   * Set to `true` to disable some fields on error.  
-   * [TODO] Does not work. Needs to be implemented.
-   * @deprecated
-   */
+  /** Set to `true` to disable some fields on error. @deprecated */
   disableOnError?: boolean;
   /**
    * Regular expression to disallow certain words or characters in an input field.  
@@ -219,6 +219,10 @@ export default interface IStateFormItemCustom<T = unknown> {
   required?: boolean;
   /** Message to display if the input is empty. */
   requiredMessage?: string;
+  /** Name of the field whose value this input must match. */
+  mustMatch?: string;
+  /** Message to display if the field values do not match. */
+  mustMatchMessage?: string;
 }
 
 export type THandle = 'onclick'

@@ -6,7 +6,7 @@ import JsonapiErrorBuilder, {
 import  { STATE_PAGES, STATE_PAGES_THEME_DARK } from '../page';
 import { TJsonapiStateResponse } from '../../shared';
 import { TThemeMode } from '../../common.types';
-import { MSG_500_ERROR_MESSAGE } from '../../constants.server';
+import { MSG_500_ERROR_MESSAGE } from '@tuber/shared';
 import { themed } from '../../business.logic';
 
 export default async function post_state_pages_endpoint (

@@ -81,12 +81,16 @@ export interface IFormItemDataError {
   invalidationMessage?: string;
   validationRegex?: string;
   validationMessage?: string;
+  mustMatch?: string;
+  mustMatchMessage?: string;
+}
+
+export interface IFormErrorProfiles {
+  [name: string]: IFormItemDataError;
 }
 
 export interface IStateFormsDataErrors {
-  [formName: string]: {
-    [name: string]: IFormItemDataError;
-  }
+  [formName: string]: IFormErrorProfiles;
 }
 
 export interface IStatePathnames {

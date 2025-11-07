@@ -1,7 +1,7 @@
 import { TBootstrapState } from '../../state/_state.common.types';
 import { TStateForm } from '../../shared';
 import { register } from '../../business.logic/registry';
-import * as C from '../../constants.server';
+import * as C from '@tuber/shared';
 import { clone_with_descriptors } from '../../business.logic';
 import * as ITEM from '../form.item.state';
 import { devFormItemSeparator as __vertical_separator__ } from '../form.item.state';

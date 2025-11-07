@@ -1,4 +1,4 @@
-import * as C from '../../constants.server';
+import * as C from '@tuber/shared';
 import devTestThumbnailFormState, {
   $45DarkThemeMode
 } from './dev.test.thumbnail.form.state';

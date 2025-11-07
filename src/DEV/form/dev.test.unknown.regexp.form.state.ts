@@ -5,7 +5,7 @@ import {
   $58_STATE_KEY,
   THEME_DARK_PAPER_COLOR,
   THEME_LIGHT_PAPER_COLOR
-} from '../../constants.server';
+} from '@tuber/shared';
 import { TBootstrapState } from 'src/state/_state.common.types';
 import { clone_with_descriptors } from 'src/business.logic';
 

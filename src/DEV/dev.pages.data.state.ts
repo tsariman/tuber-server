@@ -1,7 +1,7 @@
 import { get_state_key as key } from '../business.logic';
 import { get_documents_count } from '.';
 import devInstallFormState from './form/dev.install.form.state';
-import { $46_STATE_KEY, $58_STATE_KEY } from '../constants.server';
+import { $46_STATE_KEY, $58_STATE_KEY } from '@tuber/shared';
 import Config from '../config';
 import { TObj } from '../common.types';
 

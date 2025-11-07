@@ -1,5 +1,5 @@
 import { TStateFormItem } from 'src/shared';
-import * as C from '../constants.server';
+import * as C from '@tuber/shared';
 
 export const devFormItemSeparator: TStateFormItem = {
   'type': 'html_tag',

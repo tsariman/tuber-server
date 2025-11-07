@@ -1,5 +1,5 @@
 import { RouteShorthandOptions } from 'fastify';
-import { MISSING_ACCESS_TOKEN, DEFAULT_AUTH_HEADER } from '../constants.server';
+import { MISSING_ACCESS_TOKEN, DEFAULT_AUTH_HEADER } from '@tuber/shared';
 import {
   $400_MISSING_PAYLOAD,
   $401_MISSING_ACCESS_TOKEN,

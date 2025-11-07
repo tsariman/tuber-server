@@ -8,7 +8,7 @@ import {
   CONF_TWITCH_CLIENT_ID,
   CONF_TWITCH_CLIENT_SECRET,
   MSG_500_ERROR_MESSAGE
-} from '../../constants.server';
+} from '@tuber/shared';
 import { log, write as print } from '../../utility/logging';
 import { TNetState } from '../../shared';
 

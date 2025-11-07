@@ -3,7 +3,7 @@ import JsonapiErrorBuilder, {
   default_500_error_response
 } from '../../business.logic/builder/JsonapiErrorBuilder';
 import { log } from '../../utility/logging';
-import { MSG_500_ERROR_MESSAGE } from '../../constants.server';
+import { MSG_500_ERROR_MESSAGE } from '@tuber/shared';
 import axios from 'axios';
 
 export default async function dev_get_html_page_endpoint(
