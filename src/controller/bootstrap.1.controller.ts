@@ -2,7 +2,7 @@ import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
 import { parse_cookie } from '../utility';
 import { get_from_body, get_theme_mode } from '../business.logic';
 import { default_500_error_response } from '../business.logic/builder/JsonapiErrorBuilder';
-import { TJsonapiStateResponse, TStateAllIcons } from '../shared';
+import { TJsonapiStateResponse, TStateAllIcons } from '@tuber/shared';
 import { TCipheredUser } from '../schema/users';
 import { IStateContext } from '../state/_state.common.types';
 import { bootstrap_background_state } from '../state/bootstrap/background';

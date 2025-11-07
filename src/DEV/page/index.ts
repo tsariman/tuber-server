@@ -6,7 +6,7 @@ import devInstallPageState, {
   get_44_dark_theme_mode,
   get_dev_install_page_state
 } from './dev.install.page.state';
-import { TStateAllPages, TStatePage } from '../../shared';
+import { TStateAllPages, TStatePage } from '@tuber/shared';
 import { TThemeMode } from '../../common.types';
 import devSignedInPageState, {
   $43DarkThemeMode

@@ -1,7 +1,7 @@
 import {
   TFormChoices,
   TStateFormItemCustom,
-} from '../../shared';
+} from '@tuber/shared';
 import FormItemBaseStateBuilder from './FormItemBaseStateBuilder';
 
 type TFormControlProps = TStateFormItemCustom['formControlProps'];

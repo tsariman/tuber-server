@@ -42,7 +42,7 @@ export default async function post_bookmarks_api_setup_search_index_endpoint (
       reply.code(409).send({
         ...alert('bookmark_search index already exist!'),
         ...new JsonapiErrorBuilder()
-          .withCode('conflict')
+          .withCode('DUPLICATE_RESOURCE')
           .withStatus(409)
           .withTitle(message)
           .build()

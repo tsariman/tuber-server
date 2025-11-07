@@ -1,8 +1,11 @@
 import { FormControlLabelProps } from '@mui/material';
-import IFormChoices from '../../shared/interfaces/IFormChoices';
 import { AbstractFormItemStateBuilder } from './AbstractStateBuilder';
-import { TJsonapiStateResponse, TStateFormItemRadioButton } from '../../shared';
-import { TStateFormITemCustomColor } from '../../shared/interfaces/IStateFormItemCustom';
+import {
+  TJsonapiStateResponse,
+  TStateFormItemRadioButton,
+  TStateFormITemCustomColor,
+  TFormChoices
+} from '@tuber/shared';
 
 export default class FormItemRadioButtonStateBuilder
   extends AbstractFormItemStateBuilder
@@ -59,7 +62,7 @@ export default class FormItemRadioButtonStateBuilder
    * @param color 
    * @returns this.
    */
-  withColor(color: IFormChoices['color']): this {
+  withColor(color: TFormChoices['color']): this {
     this._state.color = color;
     return this;
   }

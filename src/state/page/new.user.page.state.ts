@@ -4,7 +4,7 @@ import {
   EP_USERS
 } from '@tuber/shared';
 import { register } from '../../business.logic/registry';
-import { TStatePage } from '../../shared';
+import { TStatePage } from '@tuber/shared';
 import {
   clone_as_collection,
   clone_with_descriptors,

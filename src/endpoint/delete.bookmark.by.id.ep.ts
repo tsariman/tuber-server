@@ -25,7 +25,7 @@ export default async function delete_bookmark_by_id_endpoint (
       log('Failed.');
       reply.code(404).send(new JsonapiErrorBuilder()
         .withStatus(404)
-        .withCode('not_found')
+        .withCode('RESOURCE_NOT_FOUND')
         .withTitle('Not Found')
         .withDetail(`Bookmark with id ${req.params.id} not found`)
         .build()

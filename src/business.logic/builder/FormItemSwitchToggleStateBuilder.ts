@@ -2,7 +2,7 @@ import AbstractStateBuilder from './AbstractStateBuilder';
 import {
   TJsonapiStateResponse,
   TStateFormItemSwitchToggle
-} from '../../shared';
+} from '@tuber/shared';
 import { FormControlLabelProps } from '@mui/material';
 
 export default class FormItemSwitchToggleStateBuilder

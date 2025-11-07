@@ -3,7 +3,7 @@ import { WithRequired } from '../../common.types';
 import { TRole } from '../../business.logic/security/permissions';
 import { FastifyRequest } from 'fastify';
 import paginate from 'mongoose-paginate-v2';
-import { TJsonapiQueryParams } from '../../shared';
+import { TJsonapiQueryParams } from '@tuber/shared';
 
 export interface IUser {
   is_active?: boolean;

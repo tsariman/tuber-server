@@ -1,4 +1,4 @@
-import { TStatePageDrawer } from '../shared';
+import { TStatePageDrawer } from '@tuber/shared';
 
 const devTestDrawer: TStatePageDrawer = {
   '_type': 'mini',

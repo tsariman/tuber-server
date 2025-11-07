@@ -6,7 +6,7 @@ import {
 import {
   TStateFormItem,
   TStateFormItemSelectOption
-} from '../../shared';
+} from '@tuber/shared';
 import SelectOptionStateBuilder from './SelectOptionStateBuilder';
 import FormItemBaseStateBuilder from './FormItemBaseStateBuilder';
 

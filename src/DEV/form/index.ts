@@ -6,7 +6,7 @@ import devInstallFormState, { $47DarkThemeMode } from './dev.install.form.state'
 import devSetAuthorizationKeyFormState, {
   $49DarkThemeMode
 } from './dev.set.authorization.key.form.state';
-import { TStateAllForms } from '../../shared';
+import { TStateAllForms } from '@tuber/shared';
 import { TThemeMode } from '../../common.types';
 import devTestRumbleRegexpFormState, {
   $54DarkThemeMode

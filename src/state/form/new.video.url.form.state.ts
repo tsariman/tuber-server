@@ -1,5 +1,5 @@
 import { clone_with_descriptors, t } from '../../business.logic';
-import { TStateForm, TStateFormItem } from '../../shared';
+import { TStateForm, TStateFormItem } from '@tuber/shared';
 import { register } from '../../business.logic/registry';
 import { $1_STATE_KEY } from '@tuber/shared';
 

@@ -3,8 +3,8 @@ import {
   $71_STATE_KEY,
   $73_STATE_KEY,
   THEME_LIGHT_APP_BAR_ICON_COLOR as ICON_COLOR,
+  TStateAppbar
 } from '@tuber/shared';
-import { TStateAppbar } from '../../shared';
 import { register } from '../../business.logic/registry';
 import { powerSignInLinkState } from '../nav.link';
 import { clone_with_descriptors, t } from '../../business.logic';

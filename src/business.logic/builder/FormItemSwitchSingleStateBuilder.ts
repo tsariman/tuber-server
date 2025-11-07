@@ -4,7 +4,7 @@ import {
   FormHelperTextProps
 } from '@mui/material';
 import FormItemBaseStateBuilder from './FormItemBaseStateBuilder';
-import { TStateFormItem } from '../../shared';
+import { TStateFormItem } from '@tuber/shared';
 
 export default class FormItemSwitchSingleStateBuilder
   extends FormItemBaseStateBuilder

@@ -1,4 +1,4 @@
-import { TStateFormItem } from '../../shared';
+import { TStateFormItem } from '@tuber/shared';
 import FormItemBaseStateBuilder from './FormItemBaseStateBuilder';
 
 export default class FormItemButtonStateBuilder extends FormItemBaseStateBuilder {

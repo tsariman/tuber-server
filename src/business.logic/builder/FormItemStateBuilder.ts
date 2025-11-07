@@ -3,7 +3,7 @@ import {
   FormHelperTextProps,
   InputLabelProps
 } from '@mui/material';
-import { TJsonapiStateResponse, TStateFormItem } from '../../shared';
+import { TJsonapiStateResponse, TStateFormItem } from '@tuber/shared';
 import AbstractStateBuilder, { TTextField } from './AbstractStateBuilder';
 
 type TType = TStateFormItem['type'];

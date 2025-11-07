@@ -1,5 +1,5 @@
 import AbstractStateBuilder from './AbstractStateBuilder';
-import { TJsonapiStateResponse, TStateLink, TStatePageDrawer } from '../../shared';
+import { TJsonapiStateResponse, TStateLink, TStatePageDrawer } from '@tuber/shared';
 import LinkStateBuilder from './LinkStateBuilder';
 import { DrawerProps } from '@mui/material';
 

@@ -16,7 +16,7 @@ export default async function dev_get_odysee_thumbnail_endpoint(
   const slug = req.query.slug;
   if (!slug) {
     reply.code(400).send(new JsonapiErrorBuilder()
-      .withCode('bad_request')
+      .withCode('MISSING_VALUE')
       .withStatus(400)
       .withTitle('Query parameter is required')
       .build()
@@ -35,7 +35,7 @@ export default async function dev_get_odysee_thumbnail_endpoint(
       });
     } else {
       reply.code(404).send(new JsonapiErrorBuilder()
-        .withCode('not_found')
+        .withCode('RESOURCE_NOT_FOUND')
         .withStatus(404)
         .withTitle('not found')
         .withDetail('Check the slug and try again.')

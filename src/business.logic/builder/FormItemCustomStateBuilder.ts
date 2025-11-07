@@ -1,4 +1,4 @@
-import { TJsonapiStateResponse, TStateFormItemCustom } from '../../shared';
+import { TJsonapiStateResponse, TStateFormItemCustom } from '@tuber/shared';
 import AbstractStateBuilder from './AbstractStateBuilder';
 
 type TSvgIconProps = TStateFormItemCustom['svgIconProps'];

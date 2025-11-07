@@ -3,7 +3,7 @@ import JsonapiErrorBuilder, {
   default_500_error_response
 } from '../../business.logic/builder/JsonapiErrorBuilder';
 import  { STATE_DIALOGS, STATE_DIALOGS_THEME_DARK } from '../dialog';
-import { TNetState, TStateAllDialogs } from '../../shared';
+import { TNetState, TStateAllDialogs } from '@tuber/shared';
 import { TThemeMode } from '../../common.types';
 import { MSG_500_ERROR_MESSAGE } from '@tuber/shared';
 import { themed } from '../../business.logic';
@@ -20,7 +20,7 @@ export default async function post_state_dialogs_endpoint (
       log(`[ERROR] 'key' was not received.`);
       reply.code(400).send(new JsonapiErrorBuilder()
         .withStatus(400)
-        .withCode('bad_request')
+        .withCode('MISSING_VALUE')
         .withTitle('Missing information')
       );
       return;
@@ -29,7 +29,7 @@ export default async function post_state_dialogs_endpoint (
       log(`[ERROR] 'mode' was not received.`);
       reply.code(400).send(new JsonapiErrorBuilder()
         .withStatus(400)
-        .withCode('bad_request')
+        .withCode('MISSING_VALUE')
         .withTitle('Missing information')
       );
       return;
@@ -61,7 +61,7 @@ export default async function post_state_dialogs_endpoint (
         },
         ...new JsonapiErrorBuilder()
           .withStatus(404)
-          .withCode('not_found')
+          .withCode('RESOURCE_NOT_FOUND')
           .withTitle(`Dialog ${key} Not found`)
           .build(),
       });

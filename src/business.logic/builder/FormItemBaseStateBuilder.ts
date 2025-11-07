@@ -5,7 +5,7 @@ import AbstractStateBuilder, {
 import {
   TStateFormItem,
   TStateFormItemType
-} from '../../shared';
+} from '@tuber/shared';
 
 type TType = TStateFormItem['_type'];
 

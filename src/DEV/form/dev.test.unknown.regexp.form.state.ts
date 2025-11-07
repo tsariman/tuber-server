@@ -1,5 +1,5 @@
 import { register } from '../../business.logic/registry';
-import { TStateForm } from '../../shared';
+import { TStateForm } from '@tuber/shared';
 import {
   $57_STATE_KEY,
   $58_STATE_KEY,

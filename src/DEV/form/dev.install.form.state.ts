@@ -1,5 +1,5 @@
 import { TBootstrapState } from '../../state/_state.common.types';
-import { TStateForm } from '../../shared';
+import { TStateForm } from '@tuber/shared';
 import { register } from '../../business.logic/registry';
 import * as C from '@tuber/shared';
 import { clone_with_descriptors } from '../../business.logic';

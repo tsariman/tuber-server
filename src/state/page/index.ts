@@ -11,7 +11,7 @@ import DEV_STATE_PAGES, {
   DEV_STATE_PAGES_THEME_DARK,
 } from '../../DEV/page';
 import adminReadablePageState from '../../ADMIN/page/admin.readable.page.state';
-import { TStateAllPages, TStatePage } from '../../shared';
+import { TStateAllPages, TStatePage } from '@tuber/shared';
 import {
   clone_with_descriptors,
   remove_form_suffix,

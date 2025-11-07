@@ -8,9 +8,9 @@ import bookmarkSchema, {
 import {
   DB_PAGINATION_OPTIONS,
   DB_PAGINATION_QUERY,
-  EP_BOOKMARKS
+  EP_BOOKMARKS,
+  IJsonapiResource
 } from '@tuber/shared';
-import { IJsonapiResource } from '../../shared/interfaces/IJsonapi';
 
 /** mongoose-paginate-v2 query */
 const PAGINATION_QUERY = {

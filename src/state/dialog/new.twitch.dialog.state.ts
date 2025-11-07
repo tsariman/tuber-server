@@ -11,7 +11,7 @@ import {
   clone_or_default
 } from '../../business.logic';
 import { register } from '../../business.logic/registry';
-import { TStateDialog } from '../../shared';
+import { TStateDialog } from '@tuber/shared';
 
 register('state', '36', $36_STATE_KEY);
 /** Dialog to create a new Twitch video bookmark @id 36 */

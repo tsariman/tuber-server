@@ -8,7 +8,7 @@ import {
   TStateBackground,
   TStateAllForms,
   TStateAllDialogs
-} from '../shared';
+} from '@tuber/shared';
 import { TObj } from '../common.types';
 import {
   bootstrap_pages_dark_state,

@@ -54,7 +54,7 @@ import signInFormState, {
   $41DarkThemeMode
 } from './sign.in.form.state';
 import Config from '../../config';
-import { TStateAllForms } from '../../shared';
+import { TStateAllForms } from '@tuber/shared';
 import { TThemeMode } from '../../common.types';
 import DEV_STATE_FORM, {
   DEV_STATE_FORM_THEME_DARK,

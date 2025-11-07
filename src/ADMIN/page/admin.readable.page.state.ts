@@ -1,6 +1,5 @@
-import { TStatePage } from '../../shared';
 import { register } from '../../business.logic/registry';
-import { $53_STATE_KEY } from '@tuber/shared';
+import { TStatePage, $53_STATE_KEY } from '@tuber/shared';
 import { clone_with_descriptors } from 'src/business.logic';
 
 register('state', '53', $53_STATE_KEY);

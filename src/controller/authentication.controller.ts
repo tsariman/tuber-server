@@ -8,7 +8,7 @@ import {
 } from '../business.logic/builder/JsonapiErrorBuilder';
 import { MSG_500_ERROR_MESSAGE } from '@tuber/shared';
 import get_bootstrap_authenticated_state from '../state/bootstrap';
-import { TJsonapiStateResponse, TNetState } from '../shared';
+import { TJsonapiStateResponse, TNetState } from '@tuber/shared';
 import { get_ciphered_user, get_user } from 'src/model/session';
 import {  get_theme_mode, option } from '../business.logic';
 import { ensureDefaultUserExists } from '../business.logic/ensure.default.user';

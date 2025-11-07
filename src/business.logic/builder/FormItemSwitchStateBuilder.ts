@@ -5,7 +5,7 @@ import {
   FormLabelProps
 } from '@mui/material';
 import FormItemBaseStateBuilder from './FormItemBaseStateBuilder';
-import { TStateFormItem, TStateFormItemSwitchToggle } from '../../shared';
+import { TStateFormItem, TStateFormItemSwitchToggle } from '@tuber/shared';
 import FormItemSwitchToggleStateBuilder from './FormItemSwitchToggleStateBuilder';
 
 export default class FormItemSwitchStateBuilder

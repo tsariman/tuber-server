@@ -4,16 +4,18 @@ import {
   TJsonapiErrorResponse,
   TJsonapiErrorSource,
   TJsonapiLink,
-  TNetState
-} from '../../shared';
-import { TJsonapiMeta } from '../../shared/interfaces/IJsonapi';
+  TNetState,
+  TJsonapiMeta,
+  TJsonapiErrorCode,
+  TJsonapiErrorStatus
+} from '@tuber/shared';
 import { TOptional } from '../../common.types';
 import { signInDialogState } from 'src/state/dialog';
 
 export type TJsonapiError = TOptional<TIJsonapiError, 'code' | 'title'>;
 
 const errorSkeleton: TIJsonapiError = {
-  code: '',
+  code: 'NOT_IMPLEMENTED',
   title: '',
 };
 
@@ -123,9 +125,13 @@ export default class JsonapiErrorBuilder {
    * @param val value of the `status` property
    * @returns `this`
    */
-  withStatus(val?: number) {
+  withStatus(val: unknown) {
     if (!val) return this;
-    this._response.errors[this._index].status = val.toString();
+    if (typeof val === 'string') {
+      this._response.errors[this._index].status = val as TJsonapiErrorStatus;
+    } else if (typeof val === 'number') {
+      this._response.errors[this._index].status = ''+val as TJsonapiErrorStatus;
+    }
     return this;
   }
   /** @deprecated */
@@ -135,7 +141,7 @@ export default class JsonapiErrorBuilder {
    * @param val value of the `code` property
    * @returns `this`
    */
-  withCode(val?: string) {
+  withCode(val?: TJsonapiErrorCode) {
     if (!val) return this;
     this._response.errors[this._index].code = val;
     return this;
@@ -195,7 +201,7 @@ export default class JsonapiErrorBuilder {
 export const default_500_error_response = (e: unknown) => {
   return new JsonapiErrorBuilder()
     .withStatus(500)
-    .withCode('internal_server_error')
+    .withCode('INTERNAL_ERROR')
     .withTitle((e as Error).message)
     .withDetail((e as Error).stack)
     .build();
@@ -212,7 +218,7 @@ export const default_404_error_response = (
 ) => {
   return new JsonapiErrorBuilder()
     .withStatus(404)
-    .withCode('not_found')
+    .withCode('RESOURCE_NOT_FOUND')
     .withTitle(error.title)
     .withDetail(error.detail)
     .withSource(error.source)
@@ -224,7 +230,7 @@ export const default_401_error_response = (error: TJsonapiError) => {
   const { title, detail } = error;
   return new JsonapiErrorBuilder()
     .withStatus(401)
-    .withCode('unauthorized')
+    .withCode('AUTHENTICATION_REQUIRED')
     .withTitle(title)
     .withDetail(detail)
     .withState({ 'dialog': signInDialogState })
@@ -242,7 +248,7 @@ export const default_400_error_response = (
 ) => {
   return new JsonapiErrorBuilder()
     .withStatus(400)
-    .withCode('bad_request')
+    .withCode('INVALID_FORMAT')
     .withTitle(error.title)
     .withDetail(error.detail)
     .build();

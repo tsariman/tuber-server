@@ -27,7 +27,7 @@ const default_on_request: RouteShorthandOptions['onRequest'] = async (
   } catch (e) {
     log('[DEBUG] JWT verification failed.', e);
     reply.code(401).send(default_401_error_response({
-      code: 'unauthorized',
+      code: 'AUTHENTICATION_REQUIRED',
       status: '401',
       title: 'JWT verification failed.',
       detail: (e as Error).stack,
@@ -67,7 +67,7 @@ export const dev_on_request: RouteShorthandOptions['onRequest'] = async (
     if (Config.DEBUG) {
       log('[ERROR] JWT verification failed.', e);
       reply.code(401).send(default_401_error_response({
-        code: 'unauthorized',
+        code: 'AUTHENTICATION_REQUIRED',
         status: '401',
         title: 'JWT verification failed.',
         detail: (e as Error).stack,

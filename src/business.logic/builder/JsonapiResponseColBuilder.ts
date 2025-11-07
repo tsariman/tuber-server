@@ -4,7 +4,7 @@ import {
   TJsonapiResourceLinkage,
   TJsonapiResponse,
   TNetState,
-} from '../../shared';
+} from '@tuber/shared';
 import {
   IAggregateDoc,
   IMPV2Doc,

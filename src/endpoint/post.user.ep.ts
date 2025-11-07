@@ -22,7 +22,7 @@ export default async function post_user_endpoint (
     const mongoDbError = get_mongodb_error((e as Error).message);
     if (mongoDbError.code === MONGODB_DUPLICATE_KEY_ERROR) {
       reply.code(409).send(new JsonapiErrorBuilder()
-        .withCode(mongoDbError.code)
+        .withCode('DUPLICATE_RESOURCE')
         .withStatus(409)
         .withTitle('Conflict')
         .withDetail(mongoDbError.detail)

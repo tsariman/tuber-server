@@ -4,7 +4,7 @@ import JsonapiErrorBuilder, {
 } from '../../business.logic/builder/JsonapiErrorBuilder';
 import { ler, log, log_err, write } from '../../utility/logging';
 import { STATE_FORMS, STATE_FORMS_THEME_DARK } from '../form';
-import { TNetState } from '../../shared';
+import { TNetState } from '@tuber/shared';
 import { TThemeMode } from '../../common.types';
 import { MSG_500_ERROR_MESSAGE } from '@tuber/shared';
 import { themed } from '../../business.logic';
@@ -20,7 +20,7 @@ export default async function post_state_forms_endpoint (
       log(`[ERROR] 'key' was not received.`);
       reply.code(400).send(new JsonapiErrorBuilder()
         .withStatus(400)
-        .withCode('bad_request')
+        .withCode('MISSING_VALUE')
         .withTitle('Missing information')
       );
       return;
@@ -29,7 +29,7 @@ export default async function post_state_forms_endpoint (
       log(`[ERROR] 'mode' was not received.`);
       reply.code(400).send(new JsonapiErrorBuilder()
         .withStatus(400)
-        .withCode('bad_request')
+        .withCode('MISSING_VALUE')
         .withTitle('Missing information')
       );
       return;
@@ -57,7 +57,7 @@ export default async function post_state_forms_endpoint (
         },
         ...new JsonapiErrorBuilder()
           .withStatus(404)
-          .withCode('not_found')
+          .withCode('RESOURCE_NOT_FOUND')
           .withTitle(`Form ${key} Not found`)
           .build(),
       });

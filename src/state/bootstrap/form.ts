@@ -1,4 +1,4 @@
-import { TStateAllForms } from '../../shared';
+import { TStateAllForms } from '@tuber/shared';
 import { TThemeMode } from '../../common.types';
 import { IStateContext, TBootstrapState } from '../_state.common.types';
 import Config from '../../config';

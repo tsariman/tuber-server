@@ -1,4 +1,4 @@
-import { TStateAppbar } from '../../shared';
+import { TStateAppbar } from '@tuber/shared';
 
 /** Default app bar json. */
 export const defaultAppBarState: TStateAppbar = {

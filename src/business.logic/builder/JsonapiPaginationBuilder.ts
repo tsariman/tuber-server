@@ -1,4 +1,4 @@
-import { TJsonapiPaginationLinks } from '../../shared';
+import { TJsonapiPaginationLinks } from '@tuber/shared';
 import { bracketize_object_querystring } from '..';
 
 export interface IPaginatedResult {

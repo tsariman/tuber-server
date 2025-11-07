@@ -1,5 +1,5 @@
 import AbstractStateBuilder from './AbstractStateBuilder';
-import { TJsonapiStateResponse, TStateDialog } from '../../shared';
+import { TJsonapiStateResponse, TStateDialog } from '@tuber/shared';
 import FormItemButtonStateBuilder from './FormItemButtonStateBuilder';
 
 type TType = TStateDialog['_type'];

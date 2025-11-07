@@ -4,7 +4,7 @@ import {
   THEME_LIGHT_PAPER_COLOR
 } from '@tuber/shared';
 import { register } from '../../business.logic/registry';
-import { TStateForm } from '../../shared';
+import { TStateForm } from '@tuber/shared';
 import { TBootstrapState } from 'src/state/_state.common.types';
 import { clone_or_default, clone_with_descriptors } from 'src/business.logic';
 

@@ -1,4 +1,4 @@
-import { TStateFormItem, TStateFormItemCustom } from '../../shared';
+import { TStateFormItem, TStateFormItemCustom } from '@tuber/shared';
 import FormItemBoxStateBuilder from './FormItemBoxStateBuilder';
 import FormItemBaseStateBuilder from './FormItemBaseStateBuilder';
 import {

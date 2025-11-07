@@ -10,7 +10,7 @@ import {
   MSG_500_ERROR_MESSAGE
 } from '@tuber/shared';
 import { log, write as print } from '../../utility/logging';
-import { TNetState } from '../../shared';
+import { TNetState } from '@tuber/shared';
 
 interface IPostRequest {
   Body: {
@@ -36,7 +36,7 @@ export default async function dev_post_twitch_client_id_endpoint(
     if (!clientId || !clientSecret) {
       log('[ERROR]: Client ID and Secret are required.');
       reply.code(400).send(new JsonapiErrorBuilder()
-        .withCode('bad_request')
+        .withCode('MISSING_VALUE')
         .withStatus(400)
         .withTitle('Query parameter is required')
         .build()

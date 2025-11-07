@@ -1,4 +1,4 @@
-import { TStateAppbar, TStateBackground } from '../shared';
+import { TStateAppbar, TStateBackground } from '@tuber/shared';
 
 /** Directive used to remove states client-side. */
 export const NET_STATE_PATCH_DELETE = '<#DEL>';

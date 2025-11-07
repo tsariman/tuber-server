@@ -1,5 +1,5 @@
 import { register } from '../../business.logic/registry';
-import { TStateForm } from '../../shared';
+import { TStateForm } from '@tuber/shared';
 import {
   $54_STATE_KEY,
   THEME_DARK_PAPER_COLOR,

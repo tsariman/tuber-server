@@ -1,4 +1,4 @@
-import { TStateAllIcons } from '../../shared';
+import { TStateAllIcons } from '@tuber/shared';
 import { TBootstrapState } from '../_state.common.types';
 
 /**

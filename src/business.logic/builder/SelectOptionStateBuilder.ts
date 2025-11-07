@@ -1,4 +1,4 @@
-import { TJsonapiStateResponse, TStateFormItemSelectOption } from '../../shared';
+import { TJsonapiStateResponse, TStateFormItemSelectOption } from '@tuber/shared';
 import AbstractStateBuilder from './AbstractStateBuilder';
 
 export default class SelectOptionStateBuilder extends AbstractStateBuilder {

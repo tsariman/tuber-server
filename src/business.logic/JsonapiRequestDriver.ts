@@ -5,7 +5,7 @@ import {
   TTJsonapiDataLinkage,
   TJsonapiRelationship,
   TJsonapiDataRelationships
-} from '../shared';
+} from '@tuber/shared';
 
 /**
  * A utility class for accessing values in JSON:API formatted requests.

@@ -1,7 +1,11 @@
 import mongoose, { Schema } from 'mongoose';
 import paginate from 'mongoose-paginate-v2';
-import { TJsonapiQueryParams, TJsonapiRequest, TJsonapiResource } from '../../shared';
-import { WithRequired } from '../../common.types';
+import {
+  TJsonapiQueryParams,
+  TJsonapiRequest,
+  TJsonapiResource,
+  TWithRequired
+} from '@tuber/shared';
 
 /**
  * 'G' - General
@@ -108,7 +112,7 @@ export interface IBookmarkDelete {
   };
 }
 
-export type TBookmark = WithRequired<IBookmark,
+export type TBookmark = TWithRequired<IBookmark,
   'is_active' | 'created_at' | 'modified_at' | 'is_private' | 'user_id'
 >;
 

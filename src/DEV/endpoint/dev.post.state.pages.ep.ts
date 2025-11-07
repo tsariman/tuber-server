@@ -4,8 +4,7 @@ import JsonapiErrorBuilder, {
 } from '../../business.logic/builder/JsonapiErrorBuilder';
 import { log, write as print } from '../../utility/logging';
 import DEV_STATE_PAGES, { DEV_STATE_PAGES_THEME_DARK } from '../page';
-import { TNetState } from '../../shared';
-import { MSG_500_ERROR_MESSAGE } from '@tuber/shared';
+import { TNetState, MSG_500_ERROR_MESSAGE } from '@tuber/shared';
 import { themed_by_key } from '../../business.logic';
 
 export default async function dev_post_state_pages_endpoint(
@@ -18,7 +17,7 @@ export default async function dev_post_state_pages_endpoint(
       log(`[ERROR] 'key' was not received.`);
       reply.code(400).send(new JsonapiErrorBuilder()
         .withStatus(400)
-        .withCode('bad_request')
+        .withCode('MISSING_VALUE')
         .withTitle('Missing information')
       );
       return;

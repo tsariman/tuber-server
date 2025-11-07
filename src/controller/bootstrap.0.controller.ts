@@ -58,8 +58,8 @@ import {
   TStateAllPages,
   TStateApp,
   TStateAppbar,
-} from '../shared';
-import { TObj } from '../common.types';
+  TObj
+} from '@tuber/shared';
 import {
   $40_STATE_KEY,
   $44_STATE_KEY,

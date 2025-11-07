@@ -4,9 +4,9 @@ import {
   $67_STATE_KEY,
   $72_STATE_KEY,
   $74_STATE_KEY,
-  $75_STATE_KEY
+  $75_STATE_KEY,
+  TStateLink
 } from '@tuber/shared';
-import { TStateLink } from '../../shared';
 import { clone_with_descriptors, t } from '../../business.logic';
 import { register } from '../../business.logic/registry';
 

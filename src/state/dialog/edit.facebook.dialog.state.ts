@@ -9,7 +9,7 @@ import {
   remove_form_suffix,
   clone_with_descriptors
 } from '../../business.logic';
-import { TStateDialog } from '../../shared';
+import { TStateDialog } from '@tuber/shared';
 import { register } from '../../business.logic/registry';
 
 register('state', '27', $27_STATE_KEY);

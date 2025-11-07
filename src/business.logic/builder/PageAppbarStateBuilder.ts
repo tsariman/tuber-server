@@ -3,7 +3,7 @@ import {
   TJsonapiStateResponse,
   TStateAppbar,
   TStateLink
-} from '../../shared';
+} from '@tuber/shared';
 import LinkStateBuilder from './LinkStateBuilder';
 import FormItemCustomStateBuilder from './FormItemCustomStateBuilder';
 import { AppBarProps, IconButtonProps } from '@mui/material';

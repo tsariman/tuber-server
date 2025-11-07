@@ -1,8 +1,7 @@
 import mongoose from 'mongoose';
 import paginate from 'mongoose-paginate-v2';
 import { WithRequired } from '../../common.types';
-import { TJsonapiRequest } from '../../shared';
-import { IJsonapiQueryParams } from '../../shared/interfaces/IJsonapi';
+import { TJsonapiRequest, TJsonapiQueryParams } from '@tuber/shared';
 
 export interface IListing {
   is_active?: boolean;
@@ -43,7 +42,7 @@ export interface IListingsGet {
   Params: {
     id: string;
   };
-  Querystring: IJsonapiQueryParams;
+  Querystring: TJsonapiQueryParams;
 }
 
 export interface IListingPost {

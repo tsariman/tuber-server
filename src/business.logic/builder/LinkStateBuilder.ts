@@ -2,7 +2,7 @@ import {
   TJsonapiStateResponse,
   TStateFormItemCustom,
   TStateLink
-} from '../../shared';
+} from '@tuber/shared';
 import AbstractStateBuilder from './AbstractStateBuilder';
 
 type TColor = TStateFormItemCustom['color'];

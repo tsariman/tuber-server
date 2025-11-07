@@ -3,7 +3,7 @@ import {
   TJsonapiStateResponse,
   TStateForm,
   TStateFormItem
-} from '../../shared';
+} from '@tuber/shared';
 import AbstractStateBuilder, {
   AbstractFormItemStateBuilder
 } from './AbstractStateBuilder';

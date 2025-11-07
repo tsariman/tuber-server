@@ -10,7 +10,7 @@ import {
   clone_with_descriptors,
   clone_or_default
 } from '../../business.logic';
-import { TStateDialog } from '../../shared';
+import { TStateDialog } from '@tuber/shared';
 import { register } from 'src/business.logic/registry';
 
 register('state', '21', $21_STATE_KEY);

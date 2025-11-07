@@ -20,7 +20,7 @@ export default async function patch_bookmark_by_id_endpoint (
       log('Failed.\n[DEBUG][400] Missing attributes.', request.body);
       reply.code(400).send(new JsonapiErrorBuilder()
         .withStatus(400)
-        .withCode('bad_request')
+        .withCode('MISSING_VALUE')
         .withTitle('Bad Request')
         .withDetail('Missing attributes')
         .build()
@@ -35,7 +35,7 @@ export default async function patch_bookmark_by_id_endpoint (
       log('Failed.\n[DEBUG][404] Bookmark not found.');
       reply.code(404).send(new JsonapiErrorBuilder()
         .withStatus(404)
-        .withCode('not_found')
+        .withCode('RESOURCE_NOT_FOUND')
         .withTitle('Not Found')
         .withDetail('Bookmark not found')
         .withSource({ parameter: request.params.id })

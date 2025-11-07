@@ -1,4 +1,4 @@
-import { TStateIcon } from '../../shared';
+import { TStateIcon } from '@tuber/shared';
 import { TBootstrapState } from '../../common.types';
 
 const dev_bootstrap_icons_state = {

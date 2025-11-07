@@ -13,7 +13,7 @@ import {
   TJsonapiStateResponse,
   TStateAllDialogs,
   TStateDialog
-} from '../../shared';
+} from '@tuber/shared';
 import { TThemeMode } from '../../common.types';
 import newRumbleBookmarkDialogState, {
   $8DarkThemeMode

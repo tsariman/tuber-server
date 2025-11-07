@@ -2,7 +2,7 @@ import {
   homeLinkState,
   researchAppErrorsViewLinkState
 } from '../state/nav.link';
-import { TStateLink } from '../shared';
+import { TStateLink } from '@tuber/shared';
 import { TCipheredUser } from '../schema/users';
 import { is_dev } from '../model/user/access';
 

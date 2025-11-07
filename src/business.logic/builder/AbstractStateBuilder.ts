@@ -1,4 +1,4 @@
-import { TJsonapiStateResponse } from '../../shared';
+import { TJsonapiStateResponse } from '@tuber/shared';
 
 export type TTextField = 'label'|'has_label'|'title'|'text';
 

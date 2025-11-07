@@ -1,4 +1,4 @@
-import { TStateAllPages } from '../../shared';
+import { TStateAllPages } from '@tuber/shared';
 import { TThemeMode } from '../../common.types';
 import { IStateContext, TBootstrapState } from '../_state.common.types';
 import {

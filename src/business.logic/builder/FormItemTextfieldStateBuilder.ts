@@ -4,11 +4,11 @@ import {
   TStateFormItem,
   TStateFormItemAdornment,
   TStateFormItemCustom,
-  TStateFormItemInputProps
-} from '../../shared';
+  TStateFormItemInputProps,
+  TTextProps
+} from '@tuber/shared';
 import AbstractStateBuilder from './AbstractStateBuilder';
 import LinkStateBuilder from './LinkStateBuilder';
-import { TTextProps } from '../../shared/interfaces';
 
 type TPredefinedRegex = TStateFormItemCustom['predefinedRegex'];
 

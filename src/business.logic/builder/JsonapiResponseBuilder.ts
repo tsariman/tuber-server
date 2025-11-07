@@ -1,11 +1,12 @@
 import { PaginateResult } from 'mongoose';
-import { TJsonapiDataLinkage, TJsonapiMeta } from '../../shared/interfaces/IJsonapi';
 import {
+  TJsonapiDataLinkage,
+  TJsonapiMeta,
   TJsonapiDataAttributes,
   TJsonapiPaginationLinks,
   TJsonapiResource,
   TJsonapiResponse,
-} from '../../shared';
+} from '@tuber/shared';
 import JsonapiPaginationBuilder, { 
   IMinimalPaginationOptions,
   IPaginatedResult,

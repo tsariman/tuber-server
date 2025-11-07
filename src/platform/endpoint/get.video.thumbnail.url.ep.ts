@@ -17,7 +17,7 @@ export interface IBookmarkThumbnailUrlGet {
 
 const jsonapi_400_reply = () => new JsonapiErrorBuilder()
   .withStatus(400)
-  .withCode('bad_request')
+  .withCode('MISSING_VALUE')
   .withTitle('Missing required information')
   .build();
 

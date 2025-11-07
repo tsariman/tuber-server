@@ -1,5 +1,5 @@
 import { FormControlProps, FormLabelProps } from '@mui/material';
-import { TStateFormItem, TStateFormItemRadioButton } from '../../shared';
+import { TStateFormItem, TStateFormItemRadioButton } from '@tuber/shared';
 import FormItemRadioButtonStateBuilder from './FormItemRadioButtonStateBuilder';
 import FormItemBaseStateBuilder from './FormItemBaseStateBuilder';
 

@@ -1,6 +1,9 @@
 import { AbstractFormItemStateBuilder } from './AbstractStateBuilder';
-import { TJsonapiStateResponse, TStateFormItemCheckboxBox } from '../../shared';
-import IFormChoices from '../../shared/interfaces/IFormChoices';
+import {
+  TJsonapiStateResponse,
+  TStateFormItemCheckboxBox,
+  TFormChoices
+} from '@tuber/shared';
 
 export default class FormItemBoxStateBuilder extends AbstractFormItemStateBuilder {
   constructor(private readonly _state: TStateFormItemCheckboxBox = {}) {
@@ -33,7 +36,7 @@ export default class FormItemBoxStateBuilder extends AbstractFormItemStateBuilde
    * @param color
    * @returns this.
    */
-  withColor(color: IFormChoices['color']): this {
+  withColor(color: TFormChoices['color']): this {
     this._state.color = color;
     return this;
   }

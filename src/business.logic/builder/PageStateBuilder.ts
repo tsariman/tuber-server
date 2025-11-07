@@ -3,12 +3,12 @@ import {
   TJsonapiStateResponse,
   TStateBackground,
   TStateComponent,
-  TStatePage
-} from '../../shared';
+  TStatePage,
+  TJsonapiPageLinks
+} from '@tuber/shared';
 import PageAppbarStateBuilder from './PageAppbarStateBuilder';
 import TypographyStateBuilder from './TypographyStateBuilder';
 import DrawerStateBuilder from './DrawerStateBuilder';
-import { TJsonapiPageLinks } from '../../shared';
 
 export type TStatePageType = '$form'
   | '$webapp'
