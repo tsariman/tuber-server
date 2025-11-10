@@ -1,4 +1,4 @@
-import { TCipheredUser } from 'src/schema/users';
+import { TCipheredUser } from '../schema/users';
 import { TBootstrapState, IStateContext } from './_state.common.types';
 import { TThemeMode } from '../common.types';
 import { ensure_context } from './_state.common.logic';

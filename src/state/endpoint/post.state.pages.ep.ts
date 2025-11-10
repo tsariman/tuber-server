@@ -4,9 +4,8 @@ import JsonapiErrorBuilder, {
   default_500_error_response
 } from '../../business.logic/builder/JsonapiErrorBuilder';
 import  { STATE_PAGES, STATE_PAGES_THEME_DARK } from '../page';
-import { TJsonapiStateResponse } from '@tuber/shared';
+import { MSG_500_ERROR_MESSAGE, TJsonapiStateResponse } from '@tuber/shared';
 import { TThemeMode } from '../../common.types';
-import { MSG_500_ERROR_MESSAGE } from '@tuber/shared';
 import { themed } from '../../business.logic';
 
 export default async function post_state_pages_endpoint (

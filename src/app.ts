@@ -1,105 +1,55 @@
-import fastify from 'fastify';
-import router from './router';
-import * as dotenv from 'dotenv';
-// Load common settings first
-dotenv.config({ path: `${__dirname}/../.env`});
-/** Load environment-specific config file */
-// const envFile = process.env.NODE_ENV === 'production' 
-//   ? `${__dirname}/../.env.production`
-//   : `${__dirname}/../.env.development`;
-// dotenv.config({ path: envFile });
-// dotenv.config({ path: `${__dirname}/../.env.app-config` });
-import path from 'node:path';
-import cors from '@fastify/cors';
-import fastifyCookie from '@fastify/cookie';
-import fastifyStatic from '@fastify/static';
-import { setupJWT } from './jwt.config';
-import { TCipheredUser } from './schema/users';
-import qs from 'qs';
+import { join } from 'node:path'
+import AutoLoad, { AutoloadPluginOptions } from '@fastify/autoload'
+import { FastifyPluginAsync, FastifyServerOptions } from 'fastify'
+import fastifyStatic from '@fastify/static'
+import * as dotenv from 'dotenv'
+dotenv.config({ path: `${__dirname}/../.env`})
+import path from 'path'
+import { initializeApp } from './startup'
 
-declare module 'fastify' {
-  interface FastifyRequest {
-    usr: TCipheredUser;
-  }
-};
+export interface AppOptions extends FastifyServerOptions, Partial<AutoloadPluginOptions> {
 
-const server = fastify({
-  logger: false, // Disable logging completely
-  querystringParser: (str) => qs.parse(str, {
-    decoder: (value, defaultDecoder) => {
-      // Try to convert numeric strings to numbers for page parameters
-      if (/^\d+$/.test(value)) {
-        return parseInt(value, 10);
-      }
-      return defaultDecoder(value);
-    }
-  })
-});
-
-// Async setup function
-async function setupServer() {
-  // Middleware: CORS
-  if (process.env.NODE_ENV !== 'production') {
-    await server.register(cors, {
-      origin: [process.env.CLIENT_DOMAIN || 'http://localhost:3000']
-    });
-    if (process.env.CLIENT_DOMAIN) {
-      console.log('[INFO] Client\'s domain:',process.env.CLIENT_DOMAIN);
-    } else {
-      console.log('[ERROR] Client\'s domain is not set in environment variable.');
-      console.log('        http://localhost:3000 will be used by default. ');
-    }
-  }
-
-  // Setup JWT with production key rotation support
-  await setupJWT(server);
-
-  await server.register(fastifyCookie);
-
-  // Static file serving for client app
-  await server.register(fastifyStatic, {
-    root: path.join(__dirname, '../static'),
-    prefix: '/static/', // Serve static files with /static/ prefix
-  });
-
-  const cookieDomain = process.env.DOMAIN ?? '127.0.0.1:8080';
-  console.log(`[INFO] \u{1F36A} Cookie domain: ${cookieDomain}`);
-
-  // Route to set cookie
-  server.get('/cookie', async (request, reply) => {
-    const token = await reply.jwtSign({
-      name: request.usr.name,
-      role: request.usr.role,
-    });
-
-    reply
-      .setCookie('token', token, {
-        domain: cookieDomain,
-        path: '/',
-        secure: false, // send cookie over HTTPS only
-        httpOnly: true,
-        sameSite: true // alternative CSRF protection
-      })
-      .code(200)
-      .send({ token });
-  })
-
-  server.get('/verifycookie', (_request, reply) => {
-    reply.send({ code: 'OK', message: 'it works!' })
-  });
-
-  // Middleware: Router
-  await server.register(router);
-  if (process.env.NODE_ENV === 'development'
-    || process.env.DEBUG === 'true'
-  ) {
-    // Conditionally import the 'router.dev.ts' file as `router_dev`
-    const { default: router_dev } = await import('./router.dev');
-    await server.register(router_dev);
-  }
-
-  return server;
+}
+// Pass --options via CLI arguments in command to enable these options.
+const options: AppOptions = {
 }
 
-// Initialize server
-export default setupServer();
+const app: FastifyPluginAsync<AppOptions> = async (
+  fastify,
+  opts
+): Promise<void> => {
+  // Place here your custom code!
+
+  // Register the static plugin
+  void fastify.register(fastifyStatic, {
+    root: path.join(__dirname, 'public'),
+    prefix: '/' // optional: default '/'
+  })
+
+  // Do not touch the following lines
+
+  // This loads all plugins defined in plugins
+  // those should be support plugins that are reused
+  // through your application
+  // eslint-disable-next-line no-void
+  void fastify.register(AutoLoad, {
+    dir: join(__dirname, 'plugins'),
+    options: opts
+  })
+
+  // This loads all plugins defined in routes
+  // define your routes in one of these
+  // eslint-disable-next-line no-void
+  void fastify.register(AutoLoad, {
+    dir: join(__dirname, 'routes'),
+    options: opts
+  })
+
+  // Startup code - runs after all plugins are loaded
+  fastify.addHook('onReady', async () => {
+    await initializeApp()
+  })
+}
+
+export default app
+export { app, options }

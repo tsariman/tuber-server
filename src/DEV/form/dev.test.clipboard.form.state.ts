@@ -1,4 +1,4 @@
-import { TStateFormItem } from 'src/shared';
+import { TStateFormItem } from '@tuber/shared';
 
 const devFormTestClipboardState: TStateFormItem = {
   'type': 'stack',

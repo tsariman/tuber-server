@@ -9,11 +9,6 @@ import {
   clone_with_descriptors,
   clone_or_default
 } from '../../business.logic';
-import {
-  TJsonapiStateResponse,
-  TStateAllDialogs,
-  TStateDialog
-} from '@tuber/shared';
 import { TThemeMode } from '../../common.types';
 import newRumbleBookmarkDialogState, {
   $8DarkThemeMode
@@ -61,7 +56,7 @@ import { register } from '../../business.logic/registry';
 
 register('state', '6', C.$6_STATE_KEY);
 /** Dialog to create a new YouTube video bookmark @id 6 */
-export const newYoutubeBookmarkDialogState: TStateDialog = {
+export const newYoutubeBookmarkDialogState: C.TStateDialog = {
   '_type': 'form',
   '_id': '6',
   '_key': C.$6_STATE_KEY,
@@ -101,7 +96,7 @@ export const newYoutubeBookmarkDialogState: TStateDialog = {
  * bookmark.
  * @id 6
  */
-export const $6DarkThemeMode: TStateDialog = (() => {
+export const $6DarkThemeMode: C.TStateDialog = (() => {
   const base = clone_with_descriptors(newYoutubeBookmarkDialogState);
   const props = clone_or_default(base.props, {});
   const paperProps = clone_or_default(props, {});
@@ -116,7 +111,7 @@ export const $6DarkThemeMode: TStateDialog = (() => {
 
 register('state', '2', C.$2_STATE_KEY);
 /** Dialog that contains the form to insert the new video url. @id 2 */
-export const newVideoUrlDialogState: TStateDialog = {
+export const newVideoUrlDialogState: C.TStateDialog = {
   '_type': 'form',
   '_id': '2',
   '_key': C.$2_STATE_KEY,
@@ -140,7 +135,7 @@ export const newVideoUrlDialogState: TStateDialog = {
  * Dark theme mode for form state to create a new video url.
  * @id 2
  */
-export const $2DarkThemeMode: TStateDialog = (() => {
+export const $2DarkThemeMode: C.TStateDialog = (() => {
   const base = clone_with_descriptors(newVideoUrlDialogState);
   const props = clone_or_default(base.props, {});
   const paperProps = clone_or_default(props.PaperProps, {});
@@ -155,7 +150,7 @@ export const $2DarkThemeMode: TStateDialog = (() => {
 
 register('state', '7', C.$7_STATE_KEY);
 /** Dialog to edit an existing YouTube video bookmark @id 7 */
-export const editYoutubeBookmarkDialogState: TStateDialog = {
+export const editYoutubeBookmarkDialogState: C.TStateDialog = {
   '_type': 'form',
   '_id': '7',
   '_key': C.$7_STATE_KEY,
@@ -195,7 +190,7 @@ export const editYoutubeBookmarkDialogState: TStateDialog = {
  * bookmark.
  * @id 7
  */
-export const $7DarkThemeMode: TStateDialog = (() => {
+export const $7DarkThemeMode: C.TStateDialog = (() => {
   const base = clone_with_descriptors(editYoutubeBookmarkDialogState);
   const props = clone_or_default(base.props, {});
   const paperProps = clone_or_default(props.PaperProps, {});
@@ -210,7 +205,7 @@ export const $7DarkThemeMode: TStateDialog = (() => {
 
 register('state', '32', C.$32_STATE_KEY);
 /** Sign in dialog state. @id 32 */
-export const signInDialogState: TStateDialog = {
+export const signInDialogState: C.TStateDialog = {
   '_type': 'form',
   '_id': '32',
   '_key': C.$32_STATE_KEY,
@@ -227,14 +222,14 @@ export const signInDialogState: TStateDialog = {
 };
 
 /** Dark theme mode for sign in dialog state. @id 32 */
-export const $32DarkThemeMode: TStateDialog = (() => {
+export const $32DarkThemeMode: C.TStateDialog = (() => {
   const base = clone_with_descriptors(signInDialogState);
   return base;
 })();
 
 register('state', '33', C.$33_STATE_KEY);
 /** Dialog state for registering a new user @id 33 */
-export const registerDialogState: TStateDialog = {
+export const registerDialogState: C.TStateDialog = {
   '_type': 'form',
   '_id': '33',
   '_key': C.$33_STATE_KEY,
@@ -251,14 +246,14 @@ export const registerDialogState: TStateDialog = {
 };
 
 /** Dark theme mode dialog state for registering a new user @id 33 */
-export const $33DarkThemeMode: TStateDialog = (() => {
+export const $33DarkThemeMode: C.TStateDialog = (() => {
   const base = clone_with_descriptors(registerDialogState);
   return base;
 })();
 
 register('state', '34', C.$34_STATE_KEY);
 /** Dialog state to delete a bookmark. @id 34 */
-export const deleteBookmarkDialogState: TStateDialog = {
+export const deleteBookmarkDialogState: C.TStateDialog = {
   '_type': 'alert',
   '_id': '34',
   '_key': C.$34_STATE_KEY,
@@ -290,14 +285,14 @@ export const deleteBookmarkDialogState: TStateDialog = {
 };
 
 /** Dark theme mode dialog state to delete a bookmark. @id 34  */
-export const $34DarkThemeMode: TStateDialog = (() => {
+export const $34DarkThemeMode: C.TStateDialog = (() => {
   const base = clone_with_descriptors(deleteBookmarkDialogState);
   return base;
 })();
 
 register('state', '35', C.$35_STATE_KEY);
 /** Client alert dialog. @id 35 */
-export const clientAlertDialogState: TStateDialog = {
+export const clientAlertDialogState: C.TStateDialog = {
   '_type': 'alert',
   '_id': '35',
   '_key': C.$35_STATE_KEY,
@@ -320,14 +315,14 @@ export const clientAlertDialogState: TStateDialog = {
 };
 
 /** Dark theme mode for client alert dialog. @id 35 */
-export const $35DarkThemeMode: TStateDialog = (() => {
+export const $35DarkThemeMode: C.TStateDialog = (() => {
   const base = clone_with_descriptors(clientAlertDialogState);
   return base;
 })();
 
 register('state', '68', C.$68_STATE_KEY);
 /** Dialog state to confirm logging out. @id 68 */
-export const confirmSignOutDialogState: TStateDialog = {
+export const confirmSignOutDialogState: C.TStateDialog = {
   '_type': 'alert',
   '_id': '68',
   '_key': C.$68_STATE_KEY,
@@ -359,7 +354,7 @@ export const confirmSignOutDialogState: TStateDialog = {
 };
 
 /** Dark theme mode for dialog state to confirm logging out. @id 68 */
-export const $68DarkThemeMode: TStateDialog = (() => {
+export const $68DarkThemeMode: C.TStateDialog = (() => {
   const base = clone_with_descriptors(confirmSignOutDialogState);
   return base;
 })();
@@ -370,7 +365,7 @@ export const $68DarkThemeMode: TStateDialog = (() => {
  * anything else client side.
  * @id 64
  */
-export function defaultDialogAlertState<T=unknown>(content: T): TJsonapiStateResponse {
+export function defaultDialogAlertState<T=unknown>(content: T): C.TJsonapiStateResponse {
   return {
     'state': {
       'dialog': {
@@ -412,7 +407,7 @@ export const alert = defaultDialogAlertState;
  * ```
  * @id 65
  */
-export function dialogAlertState<T=unknown>(content: T): TStateDialog {
+export function dialogAlertState<T=unknown>(content: T): C.TStateDialog {
   return {
     '_type': 'alert',
     '_id': '65',
@@ -444,7 +439,7 @@ export function dialogAlertState<T=unknown>(content: T): TStateDialog {
  * @deprecated
  */
 export function bootstrap_dialogs_light_state() {
-  const dialogs: TStateAllDialogs = {};
+  const dialogs: C.TStateAllDialogs = {};
   set_state_by_key(dialogs, signInDialogState);
   set_state_by_key(dialogs, confirmSignOutDialogState);
   // TODO: Don't forget to insert light mode state for each dialog
@@ -459,7 +454,7 @@ export function bootstrap_dialogs_light_state() {
  * @deprecated
  */
 export function bootstrap_dialogs_dark_state() {
-  const dialogs: TStateAllDialogs = {};
+  const dialogs: C.TStateAllDialogs = {};
   set_state_by_key(dialogs, $32DarkThemeMode);
   set_state_by_key(dialogs, $68DarkThemeMode);
   // TODO: Don't forget to insert dark mode state for each dialog
@@ -506,7 +501,7 @@ function _get_signout_dialog_state (mode?: TThemeMode) {
  * @deprecated
  */
 export function bootstrap_dialogs_state(mode?: TThemeMode) {
-  const dialogs: TStateAllDialogs = {};
+  const dialogs: C.TStateAllDialogs = {};
   dialogs[key(signInDialogState)] = _get_signin_dialog_state(mode);
   dialogs[key(confirmSignOutDialogState)] = _get_signout_dialog_state(mode);
 
@@ -516,7 +511,7 @@ export function bootstrap_dialogs_state(mode?: TThemeMode) {
   return dialogs;
 }
 
-export const STATE_DIALOGS_THEME_DARK: TStateAllDialogs = {
+export const STATE_DIALOGS_THEME_DARK: C.TStateAllDialogs = {
   [C.$2_STATE_KEY]: $2DarkThemeMode,
   [C.$6_STATE_KEY]: $6DarkThemeMode,
   [C.$7_STATE_KEY]: $7DarkThemeMode,
@@ -541,7 +536,7 @@ export const STATE_DIALOGS_THEME_DARK: TStateAllDialogs = {
   [C.$68_STATE_KEY]: $68DarkThemeMode,
 };
 
-export const STATE_DIALOGS: { [key: string]: TStateDialog } = {
+export const STATE_DIALOGS: { [key: string]: C.TStateDialog } = {
   [C.$2_STATE_KEY]: newVideoUrlDialogState,
   [C.$6_STATE_KEY]: newYoutubeBookmarkDialogState,
   [C.$7_STATE_KEY]: editYoutubeBookmarkDialogState,
@@ -566,6 +561,6 @@ export const STATE_DIALOGS: { [key: string]: TStateDialog } = {
   [C.$68_STATE_KEY]: confirmSignOutDialogState,
 };
 
-export default function get_dialog_state(key: string): TStateDialog | undefined {
+export default function get_dialog_state(key: string): C.TStateDialog | undefined {
   return themed_by_key(key, STATE_DIALOGS, STATE_DIALOGS_THEME_DARK);
 }

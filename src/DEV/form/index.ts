@@ -6,7 +6,6 @@ import devInstallFormState, { $47DarkThemeMode } from './dev.install.form.state'
 import devSetAuthorizationKeyFormState, {
   $49DarkThemeMode
 } from './dev.set.authorization.key.form.state';
-import { TStateAllForms } from '@tuber/shared';
 import { TThemeMode } from '../../common.types';
 import devTestRumbleRegexpFormState, {
   $54DarkThemeMode
@@ -33,8 +32,8 @@ function _get_dev_install_form_state(mode?: TThemeMode) {
   );
 }
 
-export function dev_bootstrap_forms_state(mode?: TThemeMode): TStateAllForms {
-  const forms: TStateAllForms = {};
+export function dev_bootstrap_forms_state(mode?: TThemeMode): C.TStateAllForms {
+  const forms: C.TStateAllForms = {};
   forms[key(devInstallFormState)] = _get_dev_install_form_state(mode);
 
   // TODO Insert your new form here if you want it to be load in the
@@ -44,7 +43,7 @@ export function dev_bootstrap_forms_state(mode?: TThemeMode): TStateAllForms {
 }
 
 export function dev_bootstrap_forms_light_state() {
-  const forms: TStateAllForms = {};
+  const forms: C.TStateAllForms = {};
   forms[key(devInstallFormState)] = devInstallFormState;
   
   // TODO: Don't forget to insert light mode version of each form state.
@@ -54,7 +53,7 @@ export function dev_bootstrap_forms_light_state() {
 }
 
 export function dev_bootstrap_forms_dark_state() {
-  const forms: TStateAllForms = {};
+  const forms: C.TStateAllForms = {};
   forms[key(devInstallFormState)] = $47DarkThemeMode;
 
   // TODO: Don't forget to insert dark mode version of each form state.
@@ -63,7 +62,7 @@ export function dev_bootstrap_forms_dark_state() {
 }
 
 /** @deprecated */
-export const DEV_STATE_FORM_THEME_DARK: TStateAllForms = {
+export const DEV_STATE_FORM_THEME_DARK: C.TStateAllForms = {
   [C.$45_STATE_KEY]: $45DarkThemeMode,
   [C.$47_STATE_KEY]: $47DarkThemeMode,
   [C.$49_STATE_KEY]: $49DarkThemeMode,
@@ -75,7 +74,7 @@ export const DEV_STATE_FORM_THEME_DARK: TStateAllForms = {
 };
 
 /** @deprecated */
-const DEV_STATE_FORM: TStateAllForms = {
+const DEV_STATE_FORM: C.TStateAllForms = {
   [C.$45_STATE_KEY]: devTestThumbnailFormState,
   [C.$47_STATE_KEY]: devInstallFormState,
   [C.$49_STATE_KEY]: devSetAuthorizationKeyFormState,

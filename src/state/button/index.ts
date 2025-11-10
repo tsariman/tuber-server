@@ -1,4 +1,4 @@
-import { t } from 'src/business.logic';
+import { t } from '../../business.logic';
 import { TStateFormItem } from '@tuber/shared';
 
 export const dialogDefaultCloseButtonJson: TStateFormItem = {

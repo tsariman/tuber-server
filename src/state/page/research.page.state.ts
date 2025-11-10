@@ -1,9 +1,9 @@
-import { TStatePage } from '@tuber/shared';
 import { register } from '../../business.logic/registry';
 import {
+  TStatePage,
   $40_STATE_KEY,
   $70_STATE_KEY,
-  THEME_LIGHT_APP_BAR_ICON_COLOR as ICON_COLOR,
+  THEME_LIGHT_APP_BAR_ICON_COLOR as ICON_COLOR
 } from '@tuber/shared';
 import researchPageAppbarState, {
   $63DarkThemeMode

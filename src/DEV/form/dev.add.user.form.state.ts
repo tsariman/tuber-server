@@ -1,4 +1,4 @@
-import { TBootstrapState } from 'src/state/_state.common.types';
+import { TBootstrapState } from '../../state/_state.common.types';
 import { TStateForm } from '@tuber/shared';
 
 /** @deprecated */

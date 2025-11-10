@@ -1,5 +1,4 @@
 import { clone_with_descriptors, t } from '../../business.logic';
-import { TStateForm } from '@tuber/shared';
 import { register } from '../../business.logic/registry';
 import * as C from '@tuber/shared';
 
@@ -100,11 +99,11 @@ const newYouTubeBookmarkFormState = {
       ]
     },
   ]
-} as TStateForm;
+} as C.TStateForm;
 
 export default newYouTubeBookmarkFormState;
 
-export const $4DarkThemeMode: TStateForm = (() => {
+export const $4DarkThemeMode: C.TStateForm = (() => {
   const base = clone_with_descriptors(newYouTubeBookmarkFormState);
   return base;
 })();

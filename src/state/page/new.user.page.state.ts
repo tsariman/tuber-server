@@ -1,10 +1,10 @@
 import {
   $74_STATE_KEY,
   $69_STATE_KEY,
-  EP_USERS
+  EP_USERS,
+  TStatePage
 } from '@tuber/shared';
 import { register } from '../../business.logic/registry';
-import { TStatePage } from '@tuber/shared';
 import {
   clone_as_collection,
   clone_with_descriptors,

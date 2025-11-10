@@ -1,4 +1,4 @@
-import { TStateBackground } from 'src/shared';
+import { TStateBackground } from '@tuber/shared';
 import { TBootstrapState } from '../_state.common.types';
 
 const bootstrap_background_state: TBootstrapState<TStateBackground> = {

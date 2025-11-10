@@ -1,5 +1,5 @@
 import { TCipheredUser } from '../schema/users';
-import dev_get_pages_data_state from '../DEV/dev.pages.data.state';
+import dev_get_pages_data_state from '../dev/dev.pages.data.state';
 
 /** @deprecated */
 export default async function bootstrap_pages_data_state (usr?: TCipheredUser) {

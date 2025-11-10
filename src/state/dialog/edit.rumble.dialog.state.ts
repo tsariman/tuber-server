@@ -2,14 +2,14 @@ import {
   $10_STATE_KEY,
   $11_STATE_KEY,
   THEME_DARK_DIALOG_BACKGROUND_COLOR,
-  THEME_LIGHT_PAPER_SX_PROPS
+  THEME_LIGHT_PAPER_SX_PROPS,
+  TStateDialog
 } from '@tuber/shared';
 import {
   t,
   remove_form_suffix,
   clone_with_descriptors
 } from '../../business.logic';
-import { TStateDialog } from '@tuber/shared';
 import { register } from '../../business.logic/registry';
 
 register('state', '11', $11_STATE_KEY);

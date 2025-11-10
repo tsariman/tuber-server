@@ -1,7 +1,7 @@
-import { TStateAllPages } from '@tuber/shared';
 import { TThemeMode } from '../../common.types';
 import { IStateContext, TBootstrapState } from '../_state.common.types';
 import {
+  TStateAllPages,
   $40_STATE_KEY,
   $44_STATE_KEY,
   $51_STATE_KEY,
@@ -19,7 +19,7 @@ import Config from '../../config';
 import { PrepareState } from '../PrepareState';
 import devInstallPageState, {
   $44DarkThemeMode
-} from '../../DEV/page/dev.install.page.state';
+} from '../../dev/page/dev.install.page.state';
 import { $66DarkThemeMode, powerLogoutLinkState } from '../nav.link';
 import {
   clone_as_collection,

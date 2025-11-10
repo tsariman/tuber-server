@@ -6,7 +6,7 @@ import { defaultDialogAlertState as alert } from '../state/dialog';
 import { ISignInCredentials } from '../business.logic/security/permissions';
 import {
   default_500_error_response
-} from 'src/business.logic/builder/JsonapiErrorBuilder';
+} from '../business.logic/builder/JsonapiErrorBuilder';
 
 /**
  * [TODO] #1 In authentication, when the user successfully logs in using their

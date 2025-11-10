@@ -1,4 +1,3 @@
-import { PaginateResult } from 'mongoose';
 import {
   TJsonapiDataLinkage,
   TJsonapiMeta,
@@ -12,6 +11,7 @@ import JsonapiPaginationBuilder, {
   IPaginatedResult,
   get_pagination_options
 } from './JsonapiPaginationBuilder';
+import { PaginateResult } from 'mongoose';
 
 export default class JsonapiResponseBuilder<T = TJsonapiDataAttributes> {
   private _data: TJsonapiResource<T>[] | TJsonapiResource<T> | null = null;

@@ -1,5 +1,4 @@
 import { clone_with_descriptors, t } from '../../business.logic';
-import { TStateForm } from '@tuber/shared';
 import * as C from '@tuber/shared';
 import { register } from '../../business.logic/registry';
 
@@ -95,7 +94,7 @@ const editDailyBookmarkFormState = {
       ]
     },
   ]
-} as TStateForm;
+} as C.TStateForm;
 
 export default editDailyBookmarkFormState;
 

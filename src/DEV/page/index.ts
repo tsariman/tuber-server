@@ -6,7 +6,6 @@ import devInstallPageState, {
   get_44_dark_theme_mode,
   get_dev_install_page_state
 } from './dev.install.page.state';
-import { TStateAllPages, TStatePage } from '@tuber/shared';
 import { TThemeMode } from '../../common.types';
 import devSignedInPageState, {
   $43DarkThemeMode
@@ -21,7 +20,7 @@ import { TCipheredUser } from '../../schema/users';
 
 register('state', '46', C.$46_STATE_KEY);
 /** @id 46 */
-export const devTestThumbnailPageState: TStatePage = {
+export const devTestThumbnailPageState: C.TStatePage = {
   '_id': '46',
   '_key': C.$46_STATE_KEY,
   'appbar': {
@@ -45,14 +44,14 @@ export const devTestThumbnailPageState: TStatePage = {
   'layout': 'layout_centered_no_scroll'
 };
 
-export const $46DarkThemeMode: TStatePage = (() => {
+export const $46DarkThemeMode: C.TStatePage = (() => {
   const base = clone_with_descriptors(devTestThumbnailPageState);
   return base;
 })();
 
 register('state', '56', C.$56_STATE_KEY);
 /** @id 56 */
-export const devTestRumbleRegexpPageState: TStatePage = {
+export const devTestRumbleRegexpPageState: C.TStatePage = {
   '_id': '56',
   '_key': C.$56_STATE_KEY,
   'content': `$form : ${remove_form_suffix(C.$54_STATE_KEY)} : test-rumble-regexp`,
@@ -77,14 +76,14 @@ export const devTestRumbleRegexpPageState: TStatePage = {
   },
 };
 
-export const $56DarkThemeMode: TStatePage = (() => {
+export const $56DarkThemeMode: C.TStatePage = (() => {
   const base = clone_with_descriptors(devTestRumbleRegexpPageState);
   return base;
 })();
 
 register('state', '58', C.$58_STATE_KEY);
 /** @id 58 */
-export const devTestUnknownRegexpPageState: TStatePage = {
+export const devTestUnknownRegexpPageState: C.TStatePage = {
   '_id': '58',
   '_key': C.$58_STATE_KEY,
   'content': `$form : ${remove_form_suffix(C.$57_STATE_KEY)} : test-unknown-regexp`,
@@ -109,14 +108,14 @@ export const devTestUnknownRegexpPageState: TStatePage = {
   },
 };
 
-export const $58DarkThemeMode: TStatePage = (() => {
+export const $58DarkThemeMode: C.TStatePage = (() => {
   const base = clone_with_descriptors(devTestUnknownRegexpPageState);
   return base;
 })();
 
 register('state', '59', C.$59_STATE_KEY);
 /** @id 59 */
-export const devTwitchInputClientIdPageState: TStatePage = {
+export const devTwitchInputClientIdPageState: C.TStatePage = {
   '_id': '59',
   '_key': C.$59_STATE_KEY,
   'content': `$form : ${remove_form_suffix(C.$60_STATE_KEY)} : save-twitch-client-id`,
@@ -141,14 +140,14 @@ export const devTwitchInputClientIdPageState: TStatePage = {
   },
 };
 
-export const $59DarkThemeMode: TStatePage = (() => {
+export const $59DarkThemeMode: C.TStatePage = (() => {
   const base = clone_with_descriptors(devTwitchInputClientIdPageState);
   return base;
 })();
 
 register('state', '61', C.$61_STATE_KEY);
 /** @id 61 */
-export const devSaveConfigValuePageState: TStatePage = {
+export const devSaveConfigValuePageState: C.TStatePage = {
   '_id': '61',
   '_key': C.$61_STATE_KEY,
   'content': `$form : ${remove_form_suffix(C.$62_STATE_KEY)} : ${C.$61_STATE_KEY}`,
@@ -173,14 +172,14 @@ export const devSaveConfigValuePageState: TStatePage = {
   },
 };
 
-export const $61DarkThemeMode: TStatePage = (() => {
+export const $61DarkThemeMode: C.TStatePage = (() => {
   const base = clone_with_descriptors(devSaveConfigValuePageState);
   return base;
 })();
 
 register('state', '48', C.$48_STATE_KEY);
 /** @id 48 */
-export const devResearchErrorsViewPageState: TStatePage = {
+export const devResearchErrorsViewPageState: C.TStatePage = {
   '_id': '48',
   '_key': C.$48_STATE_KEY,
   'content': '$view : default_errors_page_view',
@@ -197,7 +196,7 @@ export const devResearchErrorsViewPageState: TStatePage = {
   }
 };
 
-export const $48DarkThemeMode: TStatePage = (() => {
+export const $48DarkThemeMode: C.TStatePage = (() => {
   const base = clone_with_descriptors(devResearchErrorsViewPageState);
   return base;
 })();
@@ -205,8 +204,8 @@ export const $48DarkThemeMode: TStatePage = (() => {
 /** @deprecated */
 export function dev_bootstrap_pages_light_state(
   usr?: TCipheredUser
-): TStateAllPages {
-  const pages: TStateAllPages = {};
+): C.TStateAllPages {
+  const pages: C.TStateAllPages = {};
   pages[key(devInstallPageState)] = get_dev_install_page_state(usr);
 
   // TODO: Don't forget to insert light mode state for each page
@@ -217,8 +216,8 @@ export function dev_bootstrap_pages_light_state(
 /** @deprecated */
 export function dev_bootstrap_pages_dark_state(
   usr?: TCipheredUser
-): TStateAllPages {
-  const pages: TStateAllPages = {};
+): C.TStateAllPages {
+  const pages: C.TStateAllPages = {};
   pages[key(devInstallPageState)] = get_44_dark_theme_mode(usr);
 
   // TODO: Don't forget to insert dark mode state for each page
@@ -238,8 +237,8 @@ export function dev_bootstrap_pages_dark_state(
 export function dev_bootstrap_pages_state(
   usr?: TCipheredUser,
   mode?: TThemeMode
-): TStateAllPages {
-  const pages: TStateAllPages = {};
+): C.TStateAllPages {
+  const pages: C.TStateAllPages = {};
   const light = get_dev_install_page_state(usr);
   const dark = get_44_dark_theme_mode(usr);
   pages[key(devInstallPageState)] = themed(light, dark, mode);
@@ -247,7 +246,7 @@ export function dev_bootstrap_pages_state(
   return pages;
 }
 
-const DEV_STATE_PAGES: TStateAllPages = {
+const DEV_STATE_PAGES: C.TStateAllPages = {
   [C.$43_STATE_KEY]: devSignedInPageState,
   [C.$44_STATE_KEY]: devInstallPageState,
   [C.$46_STATE_KEY]: devTestThumbnailPageState,
@@ -260,7 +259,7 @@ const DEV_STATE_PAGES: TStateAllPages = {
 
 export default DEV_STATE_PAGES;
 
-export const DEV_STATE_PAGES_THEME_DARK: TStateAllPages = {
+export const DEV_STATE_PAGES_THEME_DARK: C.TStateAllPages = {
   [C.$43_STATE_KEY]: $43DarkThemeMode,
   [C.$44_STATE_KEY]: $44DarkThemeMode,
   [C.$46_STATE_KEY]: $46DarkThemeMode,

@@ -1,6 +1,5 @@
 import { SxProps } from '@mui/material';
-import { $69_STATE_KEY } from '@tuber/shared';
-import { TStateForm } from '@tuber/shared';
+import { $69_STATE_KEY, TStateForm } from '@tuber/shared';
 import { register } from '../../business.logic/registry';
 import { clone_with_descriptors, t } from '../../business.logic';
 import { title_centered } from '../html';
@@ -63,10 +62,12 @@ const newUserFormState: TStateForm = {
           'type': 'text',
           'name': 'email',
           get 'label'() { return t('email', 'Email'); },
-          'props': { 'autoComplete': 'off' },
+          'props': { 'autoComplete': 'email', 'type': 'email' },
           'has': {
             'required': true,
-            get 'requiredMessage'() { return t('no_email', 'Email is required.'); }
+            get 'requiredMessage'() { return t('no_email', 'Email is required.'); },
+            'validationRegex': '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$',
+            get 'validationMessage'() { return t('invalid_email', 'Please enter a valid email address.'); }
           }
         },
         {

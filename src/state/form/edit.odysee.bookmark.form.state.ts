@@ -1,6 +1,5 @@
 import { register } from '../../business.logic/registry';
 import * as C from '@tuber/shared';
-import { TStateForm } from '@tuber/shared';
 import { clone_with_descriptors, t } from '../../business.logic';
 
 register('state', '18', C.$18_STATE_KEY);
@@ -94,7 +93,7 @@ const editOdyseeBookmarkFormState = {
       ]
     },
   ]
-} as TStateForm;
+} as C.TStateForm;
 
 export default editOdyseeBookmarkFormState;
 

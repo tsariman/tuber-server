@@ -1,7 +1,7 @@
 import { PaginateModel, PaginateResult, model } from 'mongoose';
 import slugSchema, {
   IDbSlugDocument
-} from 'src/schema/slugs';
+} from '../../schema/slugs';
 import {DB_PAGINATION_OPTIONS, DB_PAGINATION_QUERY } from '@tuber/shared';
 
 /** mongoose-paginate-v2 query */

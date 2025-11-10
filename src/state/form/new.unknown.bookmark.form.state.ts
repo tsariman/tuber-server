@@ -1,5 +1,4 @@
 import { clone_with_descriptors, t } from '../../business.logic';
-import { TStateForm } from '@tuber/shared';
 import { register } from '../../business.logic/registry';
 import * as C from '@tuber/shared';
 
@@ -91,11 +90,11 @@ const newUnknownBookmarkFormState = {
       ]
     },
   ]
-} as TStateForm;
+} as C.TStateForm;
 
 export default newUnknownBookmarkFormState;
 
-export const $28DarkThemeMode: TStateForm = (() => {
+export const $28DarkThemeMode: C.TStateForm = (() => {
   const base = clone_with_descriptors(newUnknownBookmarkFormState);
   return base;
 })();

@@ -1,52 +1,52 @@
-import NodeCache from 'node-cache';
-import * as dotenv from 'dotenv';
-import { get_ip } from './utility/networking';
-import Config, { IConfiguration } from './utility/configuration';
-import { missing_db_name, missing_db_user } from './utility/logging';
-import { COLLECTION_NAME } from '@tuber/shared';
+import NodeCache from 'node-cache'
+import * as dotenv from 'dotenv'
+import { get_ip } from './utility/networking'
+import Config, { IConfiguration } from './utility/configuration'
+import { missing_db_name, missing_db_user } from './utility/logging'
+import { COLLECTION_NAME } from '@tuber/shared'
 
 // Load environment-specific config file
 const envFile = process.env.NODE_ENV === 'production' 
-  ? `${__dirname}/../.env.production`
-  : `${__dirname}/../.env.development`;
+  ? `${__dirname}/../.env.production.local`
+  : `${__dirname}/../.env.development.local`
 
-dotenv.config({ path: envFile });
+dotenv.config({ path: envFile })
 
 interface IConfig {
-  NODE_ENV: string;
-  DEV: boolean;
-  DEBUG: boolean;
-  DOMAIN: string;
-  CLIENT_DOMAIN: string;
-  DEMO: boolean;
-  FASTIFY_PORT: number;
-  IMAGE_FOLDER: string;
-  DB_REMOTE: boolean;
-  DB_PROTOCOL: string;
-  DB_PROD_NAME: string;
-  DB_DEV_NAME: string;
-  DB_USERNAME: string;
-  DB_PASSWORD: string;
-  DB_HOST: string;
-  DB_PORT: string;
-  DB_URI_QUERYSTRING: string;
-  DB_ATLAS_API_PUBLIC_KEY: string;
-  DB_ATLAS_API_PRIVATE_KEY: string;
-  DB_ATLAS_PROJECT_ID: string;
-  DB_ATLAS_CLUSTER_NAME: string;
-  DB_ATLAS_API_BASE_URL: string;
-  DB_ATLAS_BOOKMARK_SEARCH_INDEX_NAME: string;
-  PWD_SALT_ROUNDS: number;
-  PAGINATION_BOOKMARKS_LIMIT: string;
-  PAGINATION_USERS_LIMIT: string;
-  MAX_LOADED_BOOKMARK_PAGES: string;
-  MAX_LOADED_USER_PAGES: string;
-  DEFAULT_THEME_MODE: 'light' |  'dark';
+  NODE_ENV: string
+  DEV: boolean
+  DEBUG: boolean
+  DOMAIN: string
+  CLIENT_DOMAIN: string
+  DEMO: boolean
+  FASTIFY_PORT: number
+  IMAGE_FOLDER: string
+  DB_REMOTE: boolean
+  DB_PROTOCOL: string
+  DB_PROD_NAME: string
+  DB_DEV_NAME: string
+  DB_USERNAME: string
+  DB_PASSWORD: string
+  DB_HOST: string
+  DB_PORT: string
+  DB_URI_QUERYSTRING: string
+  DB_ATLAS_API_PUBLIC_KEY: string
+  DB_ATLAS_API_PRIVATE_KEY: string
+  DB_ATLAS_PROJECT_ID: string
+  DB_ATLAS_CLUSTER_NAME: string
+  DB_ATLAS_API_BASE_URL: string
+  DB_ATLAS_BOOKMARK_SEARCH_INDEX_NAME: string
+  PWD_SALT_ROUNDS: number
+  PAGINATION_BOOKMARKS_LIMIT: string
+  PAGINATION_USERS_LIMIT: string
+  MAX_LOADED_BOOKMARK_PAGES: string
+  MAX_LOADED_USER_PAGES: string
+  DEFAULT_THEME_MODE: 'light' |  'dark'
 
   // Development properties
 
-  DEV_DEFAULT_DEV_USER_PASSWORD: string;
-};
+  DEV_DEFAULT_DEV_USER_PASSWORD: string
+}
 
 /** App configuration values. */
 const USER_CONFIG: IConfig = {
@@ -135,11 +135,11 @@ const USER_CONFIG: IConfig = {
   DEV_DEFAULT_DEV_USER_PASSWORD: process.env.DEV 
     ? process.env.DEV_DEFAULT_DEV_USER_PASSWORD ?? 'dev'
     : '',
-};
+}
 
-const USER_CACHE = new NodeCache({ stdTTL: Number(process.env.STDTTL) || 900 });
-const SLUG_CACHE = new NodeCache({ stdTTL: Number(process.env.STDTTL) || 900 });
-const READABLE_CACHE = new NodeCache();
+const USER_CACHE = new NodeCache({ stdTTL: Number(process.env.STDTTL) || 900 })
+const SLUG_CACHE = new NodeCache({ stdTTL: Number(process.env.STDTTL) || 900 })
+const READABLE_CACHE = new NodeCache()
 
 /** Get the mongodb database URL substring that contains credentials. */
 const dbGetUrlCredentials = (user?: string, pass?: string): string => {
@@ -147,7 +147,7 @@ const dbGetUrlCredentials = (user?: string, pass?: string): string => {
     return `${user}:${pass}@`
   }
   return ''
-};
+}
 
 const initObj = {
   ...USER_CONFIG,
@@ -226,13 +226,13 @@ const initObj = {
     USER_CONFIG.DB_ATLAS_API_PRIVATE_KEY
   ].join(''),
 
-};
+}
 
-initObj.DB_ATLAS_BOOKMARK_SEARCH_INDEX_NAME ||= `${initObj.DB_NAME}_${COLLECTION_NAME}_search`;
+initObj.DB_ATLAS_BOOKMARK_SEARCH_INDEX_NAME ||= `${initObj.DB_NAME}_${COLLECTION_NAME}_search`
 
-Config.init(initObj);
+Config.init(initObj)
 
 // Makes config object key available in suggestions
-export type TAppConfig = IConfiguration & typeof initObj;
+export type TAppConfig = IConfiguration & typeof initObj
 
-export default Config as TAppConfig;
+export default Config as TAppConfig

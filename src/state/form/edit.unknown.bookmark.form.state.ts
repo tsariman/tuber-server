@@ -1,5 +1,4 @@
 import { clone_with_descriptors, t } from '../../business.logic';
-import { TStateForm } from '@tuber/shared';
 import { register } from '../../business.logic/registry';
 import * as C from '@tuber/shared';
 
@@ -77,7 +76,7 @@ const editUnknownBookmarkFormState = {
       ]
     },
   ]
-} as TStateForm
+} as C.TStateForm
 
 export default editUnknownBookmarkFormState
 

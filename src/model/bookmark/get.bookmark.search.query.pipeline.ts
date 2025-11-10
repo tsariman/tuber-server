@@ -3,7 +3,7 @@ import { PipelineStage } from 'mongoose';
 import { DB_PAGINATION_QUERY } from '@tuber/shared';
 import { TCipheredUser } from '../../schema/users';
 import { can_view_unpublished_bookmarks } from '../../business.logic/security';
-import { IBookmarkSearchQuery } from 'src/schema/bookmarks';
+import { IBookmarkSearchQuery } from '../../schema/bookmarks';
 
 /** MongoDB pipeline to find bookmarks using a search query. */
 export default function get_bookmark_search_query_pipeline(

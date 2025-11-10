@@ -1,7 +1,6 @@
 import { SxProps } from '@mui/material';
-import { TStateForm } from '@tuber/shared';
+import { TStateForm, $41_STATE_KEY } from '@tuber/shared';
 import { register } from '../../business.logic/registry';
-import { $41_STATE_KEY } from '@tuber/shared';
 import { clone_with_descriptors, t } from '../../business.logic';
 
 register('state', '41', $41_STATE_KEY);

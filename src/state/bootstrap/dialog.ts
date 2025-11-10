@@ -1,8 +1,12 @@
-import { TStateAllDialogs } from '@tuber/shared';
+import {
+  $32_STATE_KEY,
+  $68_STATE_KEY,
+  THEME_MODE,
+  TStateAllDialogs
+} from '@tuber/shared';
 import { TThemeMode } from '../../common.types';
 import { IStateContext, TBootstrapState } from '../_state.common.types';
 import Config from '../../config';
-import { $32_STATE_KEY, $68_STATE_KEY, THEME_MODE } from '@tuber/shared';
 import { PrepareState } from '../PrepareState';
 import {
   $32DarkThemeMode,

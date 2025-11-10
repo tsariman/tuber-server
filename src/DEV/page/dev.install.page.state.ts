@@ -6,10 +6,18 @@ import {
   powerSignInLinkState
 } from '../../state/nav.link';
 import { register } from '../../business.logic/registry';
-import { $40_STATE_KEY, $44_STATE_KEY } from '@tuber/shared';
-import { TStateAppbar, TStatePage } from '@tuber/shared';
-import { TCipheredUser } from 'src/schema/users';
-import { clone_empty, clone_or_default, clone_with_descriptors } from 'src/business.logic';
+import {
+  $40_STATE_KEY,
+  $44_STATE_KEY,
+  TStateAppbar,
+  TStatePage
+} from '@tuber/shared';
+import { TCipheredUser } from '../../schema/users';
+import {
+  clone_empty,
+  clone_or_default,
+  clone_with_descriptors
+} from '../../business.logic';
 
 export const appbarLinksState: TStateAppbar['items'] = [
   {

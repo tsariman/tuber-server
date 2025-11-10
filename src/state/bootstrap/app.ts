@@ -1,7 +1,6 @@
-import { TStateApp } from 'src/shared';
 import { IStateContext, TBootstrapState } from '../_state.common.types';
 import Config from '../../config';
-import { $40_STATE_KEY, $44_STATE_KEY } from '@tuber/shared';
+import { TStateApp, $40_STATE_KEY, $44_STATE_KEY } from '@tuber/shared';
 
 const bootstrap_app_state = {
 

@@ -10,7 +10,7 @@ import {
   IMPV2Doc,
   TEndpoint,
   TObj
-} from 'src/common.types';
+} from '../../common.types';
 import { die, has_property } from '../../utility';
 import JsonapiPaginationBuilder, { 
   IMinimalPaginationOptions,

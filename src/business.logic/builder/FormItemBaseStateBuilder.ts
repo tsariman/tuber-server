@@ -2,10 +2,7 @@ import AbstractStateBuilder, {
   AbstractFormItemStateBuilder,
   TTextField
 } from './AbstractStateBuilder';
-import {
-  TStateFormItem,
-  TStateFormItemType
-} from '@tuber/shared';
+import { TStateFormItem, TStateFormItemType } from '@tuber/shared';
 
 type TType = TStateFormItem['_type'];
 

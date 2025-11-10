@@ -1,7 +1,6 @@
 import { clone_with_descriptors, t } from '../../business.logic';
-import { TStateForm, TStateFormItem } from '@tuber/shared';
+import { TStateForm, TStateFormItem, $1_STATE_KEY } from '@tuber/shared';
 import { register } from '../../business.logic/registry';
-import { $1_STATE_KEY } from '@tuber/shared';
 
 register('state', '1', $1_STATE_KEY);
 /** Form to insert a new video URL. @id 1 */

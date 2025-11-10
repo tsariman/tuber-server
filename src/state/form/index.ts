@@ -54,14 +54,13 @@ import signInFormState, {
   $41DarkThemeMode
 } from './sign.in.form.state';
 import Config from '../../config';
-import { TStateAllForms } from '@tuber/shared';
 import { TThemeMode } from '../../common.types';
 import DEV_STATE_FORM, {
   DEV_STATE_FORM_THEME_DARK,
   dev_bootstrap_forms_dark_state,
   dev_bootstrap_forms_light_state,
   dev_bootstrap_forms_state
-} from '../../DEV/form';
+} from '../../dev/form';
 import {
   get_state_key as key,
   set_state_by_key,
@@ -91,8 +90,8 @@ function _get_signin_form_state(mode?: TThemeMode) {
 export function bootstrap_forms_state(
   usr?: TCipheredUser,
   mode?: TThemeMode
-): TStateAllForms {
-  const forms: TStateAllForms = {
+): C.TStateAllForms {
+  const forms: C.TStateAllForms = {
     ...(is_dev(usr) ? dev_bootstrap_forms_state(mode) : {})
   };
   forms[key(signInFormState)] = _get_signin_form_state(mode);
@@ -112,7 +111,7 @@ export function bootstrap_forms_state(
  * @deprecated
  */
 export function bootstrap_forms_light_state(usr?: TCipheredUser) {
-  const forms: TStateAllForms = {
+  const forms: C.TStateAllForms = {
     ...(is_dev(usr) ? dev_bootstrap_forms_light_state() : {})
   };
   set_state_by_key(forms, signInFormState);
@@ -132,7 +131,7 @@ export function bootstrap_forms_light_state(usr?: TCipheredUser) {
  * @deprecated
  */
 export function bootstrap_forms_dark_state(usr?: TCipheredUser) {
-  const forms: TStateAllForms = {
+  const forms: C.TStateAllForms = {
     ...(is_dev(usr) ? dev_bootstrap_forms_dark_state() : {})
   };
   set_state_by_key(forms, $41DarkThemeMode);
@@ -142,7 +141,7 @@ export function bootstrap_forms_dark_state(usr?: TCipheredUser) {
   return forms;
 }
 
-export const STATE_FORMS_THEME_DARK: TStateAllForms = {
+export const STATE_FORMS_THEME_DARK: C.TStateAllForms = {
   [C.$1_STATE_KEY]: $1DarkThemeMode,
   [C.$4_STATE_KEY]: $4DarkThemeMode,
   [C.$5_STATE_KEY]: $5DarkThemeMode,
@@ -165,7 +164,7 @@ export const STATE_FORMS_THEME_DARK: TStateAllForms = {
   ...(Config.DEV ? DEV_STATE_FORM_THEME_DARK : {})
 };
 
-export const STATE_FORMS: TStateAllForms = {
+export const STATE_FORMS: C.TStateAllForms = {
   [C.$1_STATE_KEY]: newVideoUrlFormState,
   [C.$4_STATE_KEY]: newYouTubeBookmarkFormState,
   [C.$5_STATE_KEY]: editYouTubeBookmarkFormState,

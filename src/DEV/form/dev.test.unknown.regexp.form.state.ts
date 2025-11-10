@@ -1,13 +1,13 @@
 import { register } from '../../business.logic/registry';
-import { TStateForm } from '@tuber/shared';
 import {
+  TStateForm,
   $57_STATE_KEY,
   $58_STATE_KEY,
   THEME_DARK_PAPER_COLOR,
   THEME_LIGHT_PAPER_COLOR
 } from '@tuber/shared';
-import { TBootstrapState } from 'src/state/_state.common.types';
-import { clone_with_descriptors } from 'src/business.logic';
+import { TBootstrapState } from '../../state/_state.common.types';
+import { clone_with_descriptors } from '../../business.logic';
 
 register('state', '57', $57_STATE_KEY);
 /**

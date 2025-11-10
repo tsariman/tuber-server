@@ -1,15 +1,17 @@
-import { TStateAllForms } from '@tuber/shared';
 import { TThemeMode } from '../../common.types';
 import { IStateContext, TBootstrapState } from '../_state.common.types';
 import Config from '../../config';
 import {
+  TStateAllForms,
   $41_STATE_KEY,
   $47_STATE_KEY,
   $69_STATE_KEY,
   THEME_MODE
 } from '@tuber/shared';
 import { PrepareState } from '../PrepareState';
-import devInstallFormState, { $47DarkThemeMode } from '../../DEV/form/dev.install.form.state';
+import devInstallFormState, {
+  $47DarkThemeMode
+} from '../../dev/form/dev.install.form.state';
 import signInFormState, { $41DarkThemeMode } from '../form/sign.in.form.state';
 import newUserFormState, { $69DarkThemeMode } from '../form/new.user.form.state';
 

@@ -1,22 +1,14 @@
 import { FastifyInstance } from 'fastify';
 // import { randomBytes } from 'crypto';
-import index_controller from './controller/index.controller';
-import dev_controller from './DEV/dev.controller';
-import prod_install_controller from './INSTALL/prod.controller';
+// import dev_controller from './DEV/dev.controller';
+import prod_install_controller from './install/prod.controller';
 import Config from './config';
-import user_controller from './controller/user.controller';
-import authenticate_controller from './controller/authentication.controller';
-import signout_controller from './controller/signout.controller';
-import bookmark_controller from './controller/bookmark.controller';
-import listing_controller from './controller/listing.controller';
 import platform_controller from './platform/platform.controller';
 import state_controller from './state/state.controller';
 import JsonapiErrorBuilder, {
   default_404_error_response
 } from './business.logic/builder/JsonapiErrorBuilder';
-import * as C from '@tuber/shared';
-import dev_builder_controller from './DEV/dev.builder.controller';
-import bootstrap_1_controller from './controller/bootstrap.1.controller';
+import * as C from '@tuber/shared/dist/constants.server';
 import { log } from './utility/logging';
 
 // Global variable to store the current bootstrap prefix
@@ -76,19 +68,10 @@ export default async function router(fastify: FastifyInstance) {
     done();
   })
 
-  fastify.register(authenticate_controller, { prefix: `/${C.EP_AUTHENTICATE}` });
-  fastify.register(signout_controller, { prefix: `/${C.EP_SIGNOUT}` });
-  fastify.register(index_controller, { prefix: '/' });
   fastify.register(state_controller, { prefix: `/${C.EP_STATE}` });
-  fastify.register(bootstrap_1_controller, { prefix: `/${randomPrefix}` });
-  fastify.register(user_controller, { prefix: `/${C.EP_USERS}` });
-  fastify.register(bookmark_controller, { prefix: `/${C.EP_BOOKMARKS}` });
-  fastify.register(listing_controller, { prefix: `/${C.EP_LISTINGS}` });
 
-  if (Config.DEV) {
-    fastify.register(dev_controller, { prefix: `/${C.EP_DEV}` });
-    fastify.register(dev_builder_controller, { prefix: `/${C.EP_DEV_BUILDER}` });
-  } else { /*[TODO] Add permission here. Administrator and above */
+  if (!Config.DEV) { 
+    /*[TODO] Add permission here. Administrator and above */
     fastify.register(prod_install_controller, { prefix: `/${C.EP_INSTALL}` });
   }
 

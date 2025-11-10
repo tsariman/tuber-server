@@ -1,6 +1,5 @@
-import { TStatePage } from '@tuber/shared';
+import { $51_STATE_KEY, TStatePage } from '@tuber/shared';
 import { register } from '../../business.logic/registry';
-import { $51_STATE_KEY } from '@tuber/shared';
 import { $71DarkThemeMode, listingPageAppbarState } from '../appbar';
 import {
   $66DarkThemeMode,

@@ -1,5 +1,4 @@
 import { clone_with_descriptors, t } from '../../business.logic';
-import { TStateForm } from '@tuber/shared';
 import { register } from '../../business.logic/registry';
 import * as C from '@tuber/shared';
 
@@ -96,11 +95,11 @@ const newRumbleBookmarkFormState = {
       ]
     },
   ]
-} as TStateForm;
+} as C.TStateForm;
 
 export default newRumbleBookmarkFormState;
 
-export const $9DarkThemeMode: TStateForm = (() => {
+export const $9DarkThemeMode: C.TStateForm = (() => {
   const base = clone_with_descriptors(newRumbleBookmarkFormState);
   return base;
 })();

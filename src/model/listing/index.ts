@@ -1,5 +1,5 @@
 import { model, PaginateModel, PaginateResult } from 'mongoose';
-import { TSelect } from 'src/common.types';
+import { TSelect } from '../../common.types';
 import { DB_PAGINATION_OPTIONS, DB_PAGINATION_QUERY } from '@tuber/shared';
 import listingSchema, { IListing, IListingDocument, TListing } from '../../schema/listings';
 

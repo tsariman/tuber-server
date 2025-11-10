@@ -1,19 +1,19 @@
-import Config from 'src/config';
+import Config from '../config'
 import {
   THEME_LIGHT_BACKGROUND_COLOR,
   THEME_DARK_DIALOG_BACKGROUND_COLOR,
   THEME_LIGHT_APP_BAR_COLOR,
   THEME_MODE
-} from '@tuber/shared';
-import { TThemeMode } from '../common.types';
-import { ThemeOptions } from '@mui/material';
+} from '@tuber/shared'
+import { TThemeMode } from '../common.types'
+import { ThemeOptions } from '@mui/material'
 
 // TODO Modify to change the overall appearance of the page
 
 /** Get material-ui theme object. @deprecated */
 export default function get_theme_state (userMode?: string): ThemeOptions {
-  const mode = userMode ?? Config.read<TThemeMode>(THEME_MODE, Config.DEFAULT_THEME_MODE);
-  return mode === 'dark' ? darkThemeState : lightThemeState;
+  const mode = userMode ?? Config.read<TThemeMode>(THEME_MODE, Config.DEFAULT_THEME_MODE)
+  return mode === 'dark' ? darkThemeState : lightThemeState
 }
 
 /** @deprecated */
@@ -77,7 +77,7 @@ export const darkThemeState: ThemeOptions = {
   'typography': {
     'fontFamily': '\'Quicksand\', sans-serif'
   }
-};
+}
 
 /**
  * TODO Default light theme backup. To revert to the unmodified light theme,
@@ -131,4 +131,4 @@ export const lightThemeState: ThemeOptions = {
   'typography': {
     'fontFamily': '\'Quicksand\', sans-serif'
   }
-};
+}

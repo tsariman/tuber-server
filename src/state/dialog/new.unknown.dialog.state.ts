@@ -2,7 +2,8 @@ import {
   $28_STATE_KEY,
   $30_STATE_KEY,
   THEME_DARK_DIALOG_BACKGROUND_COLOR,
-  THEME_LIGHT_PAPER_SX_PROPS
+  THEME_LIGHT_PAPER_SX_PROPS,
+  TStateDialog
 } from '@tuber/shared';
 import {
   t,
@@ -11,7 +12,6 @@ import {
   clone_or_default
 } from '../../business.logic';
 import { register } from '../../business.logic/registry';
-import { TStateDialog } from '@tuber/shared';
 
 register('state', '30', $30_STATE_KEY);
 /** Dialog to create a new Unknown video bookmark @id 30 */

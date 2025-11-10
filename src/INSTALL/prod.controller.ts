@@ -1,5 +1,5 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
-import post_bookmarks_api_setup_search_index_endpoint from '../endpoint/post.bookmark.api.search.index.ep';
+import post_bookmarks_api_setup_search_index_endpoint from '../handlers/post.bookmark.api.search.index.ep';
 
 export default async function prod_install_controller(fastify: FastifyInstance) {
   fastify.post('/setup-collection-index-search/bookmarks',

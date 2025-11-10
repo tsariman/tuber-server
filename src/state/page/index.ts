@@ -9,9 +9,8 @@ import researchPageState, {
 } from './research.page.state';
 import DEV_STATE_PAGES, {
   DEV_STATE_PAGES_THEME_DARK,
-} from '../../DEV/page';
+} from '../../dev/page';
 import adminReadablePageState from '../../ADMIN/page/admin.readable.page.state';
-import { TStateAllPages, TStatePage } from '@tuber/shared';
 import {
   clone_with_descriptors,
   remove_form_suffix,
@@ -22,7 +21,7 @@ $51DarkThemeMode,
 
 register('state', '42', C.$42_STATE_KEY);
 /** Sign in page state @id 42 */
-export const signInPageState: TStatePage = {
+export const signInPageState: C.TStatePage = {
   '_id': '42',
   '_key': C.$42_STATE_KEY,
   'content': `$form : ${remove_form_suffix(C.$41_STATE_KEY)} : ${C.EP_AUTHENTICATE}`,
@@ -43,13 +42,13 @@ export const signInPageState: TStatePage = {
 };
 
 /** Dark theme mode sign in page state @id 42 */
-export const $42DarkThemeMode: TStatePage = (() => {
+export const $42DarkThemeMode: C.TStatePage = (() => {
   const base = clone_with_descriptors(signInPageState);
   return base;
 })();
 
 /** All pages state for dark theme mode. */
-export const STATE_PAGES_THEME_DARK: TStateAllPages = {
+export const STATE_PAGES_THEME_DARK: C.TStateAllPages = {
   [C.$40_STATE_KEY]: $40DarkThemeMode,
   [C.$42_STATE_KEY]: $42DarkThemeMode,
   [C.$51_STATE_KEY]: $51DarkThemeMode,
@@ -61,7 +60,7 @@ export const STATE_PAGES_THEME_DARK: TStateAllPages = {
 };
 
 /** All pages state. */
-export const STATE_PAGES: TStateAllPages = {
+export const STATE_PAGES: C.TStateAllPages = {
   [C.$40_STATE_KEY]: researchPageState,
   [C.$42_STATE_KEY]: signInPageState,
   [C.$51_STATE_KEY]: chippedListingPageState,

@@ -1,5 +1,4 @@
 import { clone_with_descriptors, t } from '../../business.logic';
-import { TStateForm } from '@tuber/shared';
 import { register } from '../../business.logic/registry';
 import * as C from '@tuber/shared';
 
@@ -86,11 +85,11 @@ const newOdyseeBookmarkFormState = {
       ]
     },
   ]
-} as TStateForm;
+} as C.TStateForm;
 
 export default newOdyseeBookmarkFormState;
 
-export const $17DarkThemeMode: TStateForm = (() => {
+export const $17DarkThemeMode: C.TStateForm = (() => {
   const base = clone_with_descriptors(newOdyseeBookmarkFormState);
   return base;
 })();

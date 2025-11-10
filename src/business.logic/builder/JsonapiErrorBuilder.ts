@@ -10,7 +10,7 @@ import {
   TJsonapiErrorStatus
 } from '@tuber/shared';
 import { TOptional } from '../../common.types';
-import { signInDialogState } from 'src/state/dialog';
+import { signInDialogState } from '../../state/dialog';
 
 export type TJsonapiError = TOptional<TIJsonapiError, 'code' | 'title'>;
 

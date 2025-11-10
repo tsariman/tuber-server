@@ -1,7 +1,7 @@
 import { TObj } from '../../common.types';
 import { IStateContext, TBootstrapState } from '../_state.common.types';
 import Config from '../../config';
-import dev_get_pages_data_state from '../../DEV/dev.pages.data.state';
+import dev_get_pages_data_state from '../../dev/dev.pages.data.state';
 
 const bootstrap_pages_data_state: TBootstrapState<Promise<TObj<TObj>>> = {
 

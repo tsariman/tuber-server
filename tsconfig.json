@@ -1,30 +1,9 @@
 {
   "extends": "fastify-tsconfig",
   "compilerOptions": {
-    "lib": ["DOM"],
+    "outDir": "dist",
     "sourceMap": true,
-    "outDir": "./dist",
-    "noImplicitAny": true,
-    "strictNullChecks": true,
-    "strictFunctionTypes": true,
-    "noImplicitThis": true,
-    "noUnusedParameters": true,
-    "noImplicitReturns": true,
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "baseUrl": ".",
-    "paths": {
-      "src/*": ["./src/*"]
-    }
+    "moduleResolution": "node16"
   },
-  "exclude": [
-    "node_modules",
-    "dist",
-    "**/*.spec.ts"
-  ],
-  "include": [
-    "./src/**/*.ts"
-  ],
+  "include": ["src/**/*.ts"]
 }

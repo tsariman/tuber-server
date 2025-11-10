@@ -3,9 +3,12 @@ import JsonapiErrorBuilder, {
   default_500_error_response
 } from '../../business.logic/builder/JsonapiErrorBuilder';
 import  { STATE_DIALOGS, STATE_DIALOGS_THEME_DARK } from '../dialog';
-import { TNetState, TStateAllDialogs } from '@tuber/shared';
+import {
+  MSG_500_ERROR_MESSAGE,
+  TNetState,
+  TStateAllDialogs
+} from '@tuber/shared';
 import { TThemeMode } from '../../common.types';
-import { MSG_500_ERROR_MESSAGE } from '@tuber/shared';
 import { themed } from '../../business.logic';
 import { ler, log, log_err, write } from '../../utility/logging';
 

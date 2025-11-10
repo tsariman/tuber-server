@@ -2,7 +2,8 @@ import {
   $36_STATE_KEY,
   $38_STATE_KEY,
   THEME_DARK_DIALOG_BACKGROUND_COLOR,
-  THEME_LIGHT_PAPER_SX_PROPS
+  THEME_LIGHT_PAPER_SX_PROPS,
+  TStateDialog
 } from '@tuber/shared';
 import {
   t,
@@ -11,7 +12,6 @@ import {
   clone_or_default
 } from '../../business.logic';
 import { register } from '../../business.logic/registry';
-import { TStateDialog } from '@tuber/shared';
 
 register('state', '36', $36_STATE_KEY);
 /** Dialog to create a new Twitch video bookmark @id 36 */

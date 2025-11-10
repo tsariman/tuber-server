@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Config from '../config';
 import { request } from 'urllib';
-import { log, log_err } from 'src/utility/logging';
+import { log, log_err } from '../utility/logging';
 
 interface IIndexInfo { name: string; }
 
