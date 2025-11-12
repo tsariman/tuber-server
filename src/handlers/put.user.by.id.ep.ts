@@ -1,7 +1,8 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { BookmarkModel } from '../model/bookmark';
 import { UserModel } from '../model/user';
-import JsonapiErrorBuilder, { default_500_error_response } from '../business.logic/builder/JsonapiErrorBuilder';
+import JsonapiErrorBuilder from '../business.logic/builder/JsonapiErrorBuilder';
+import { default_500_error_response } from '../business.logic/errors'
 import { ler, log_err } from '../utility/logging';
 import { MSG_500_ERROR_MESSAGE } from '@tuber/shared';
 

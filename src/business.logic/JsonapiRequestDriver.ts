@@ -204,42 +204,6 @@ export default class JsonapiRequestDriver<T = TJsonapiDataAttributes> {
   }
 
   /**
-   * Validate that the request has required fields
-   * @param requiredAttributes Array of required attribute keys
-   * @returns Object with isValid boolean and missing fields array
-   */
-  validate(requiredAttributes: (keyof T)[] = []): { 
-    isValid: boolean; 
-    missing: string[] 
-  } {
-    const missing: string[] = [];
-
-    if (!this.hasData()) {
-      missing.push('data');
-    }
-
-    if (!this.getType()) {
-      missing.push('data.type');
-    }
-
-    const attributes = this.getAttributes();
-    if (!attributes && requiredAttributes.length > 0) {
-      missing.push('data.attributes');
-    } else if (attributes) {
-      for (const key of requiredAttributes) {
-        if (attributes[key] === undefined || attributes[key] === null) {
-          missing.push(`data.attributes.${String(key)}`);
-        }
-      }
-    }
-
-    return {
-      isValid: missing.length === 0,
-      missing
-    };
-  }
-
-  /**
    * Extract all attributes as a plain object, excluding undefined values
    * @returns Object with only defined attributes
    */

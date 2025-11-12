@@ -78,7 +78,7 @@ export const find_session_by_token = async function (
  * @returns The session document
  * @deprecated obsolete.
  */
-export const get_session = async function ({
+export const read_session = async function ({
   user,
   token,
   ip
@@ -108,7 +108,7 @@ interface IGetSessionUser {
  * @param token Session token
  * @returns User document
  */
-export const get_user = async ({
+export const read_user = async ({
   name,
   token
 }: IGetSessionUser): Promise<IUserDocument | null> => {
@@ -142,14 +142,14 @@ export const get_user = async ({
  * @param user 
  * @returns 
  */
-export const get_ciphered_user = function (
+export const read_ciphered_user = function (
   user: IUserDocument
 ): TCipheredUser {
   const { _id, name, jwt_version, role } = user;
   return { _id, name, jwt_version, role };
 };
 
-export const save_user_in_session = async function (
+export const create_user_in_session = async function (
   session: ISessionDocument,
   user: IUserDocument
 ): Promise<ISessionDocument> {

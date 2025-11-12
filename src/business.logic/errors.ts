@@ -1,46 +1,181 @@
-import { TJsonapiError } from "./builder/JsonapiErrorBuilder";
+import { TJsonapiErrorSource } from '@tuber/shared'
+import { signInDialogState } from '../state/dialog'
+import JsonapiErrorBuilder, { TJsonapiError } from './builder/JsonapiErrorBuilder'
 
-export const MONGODB_DUPLICATE_KEY_ERROR = 'E11000';
+export const MONGODB_DUPLICATE_KEY_ERROR = 'E11000'
+
+/**
+ * Default 500 error response to help prevent repetitive code.
+ *
+ * @param e error object from try/catch
+ * @returns `TJsonapiErrorResponse`
+ */
+export const default_500_error_response = (e: unknown) => {
+  return new JsonapiErrorBuilder()
+    .withStatus(500)
+    .withCode('INTERNAL_ERROR')
+    .withTitle((e as Error).message)
+    .withDetail((e as Error).stack)
+    .build()
+}
+
+/**
+ * Default 404 error response to help prevent repetitive code.
+ *
+ * @param error custom error object
+ * @returns `TJsonapiErrorResponse`
+ */
+export const default_404_error_response = (
+  error: { title: string, detail?: string, source?: TJsonapiErrorSource }
+) => {
+  return new JsonapiErrorBuilder()
+    .withStatus(404)
+    .withCode('RESOURCE_NOT_FOUND')
+    .withTitle(error.title)
+    .withDetail(error.detail)
+    .withSource(error.source)
+    .build()
+}
+
+/** Default 401 error response to help prevent repetitive code. */
+export const default_401_error_response = (error: TJsonapiError) => {
+  const { title, detail } = error
+  return new JsonapiErrorBuilder()
+    .withStatus(401)
+    .withCode('AUTHENTICATION_REQUIRED')
+    .withTitle(title)
+    .withDetail(detail)
+    .withState({ 'dialog': signInDialogState })
+    .build()
+}
+
+/**
+ * Default 400 error response to help prevent repetitive code.
+ *
+ * @param error custom error object
+ * @returns `TJsonapiErrorResponse`
+ */
+export const default_400_error_response = (
+  error: { title: string, detail?: string }
+) => {
+  return new JsonapiErrorBuilder()
+    .withStatus(400)
+    .withCode('INVALID_FORMAT')
+    .withTitle(error.title)
+    .withDetail(error.detail)
+    .build()
+}
+
+export class AuthenticationError extends Error {
+  public readonly statusCode: number
+  public readonly code: string
+
+  constructor(message: string, statusCode: number = 401, code: string = 'AUTH_ERROR') {
+    super(message)
+    this.name = 'AuthenticationError'
+    this.statusCode = statusCode
+    this.code = code
+    
+    // Maintains proper stack trace for where our error was thrown
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(this, AuthenticationError)
+    }
+  }
+}
+
+export class DatabaseError extends Error {
+  public readonly statusCode: number
+  public readonly code: string
+  public readonly originalError?: unknown
+
+  constructor(message: string, originalError?: unknown, statusCode: number = 500, code: string = 'DB_ERROR') {
+    super(message)
+    this.name = 'DatabaseError'
+    this.statusCode = statusCode
+    this.code = code
+    this.originalError = originalError
+
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(this, DatabaseError)
+    }
+  }
+}
+
+export class ValidationError extends Error {
+  public readonly statusCode: number
+  public readonly code: string
+  public readonly field?: string
+
+  constructor(message: string, field?: string, statusCode: number = 400, code: string = 'VALIDATION_ERROR') {
+    super(message)
+    this.name = 'ValidationError'
+    this.statusCode = statusCode
+    this.code = code
+    this.field = field
+
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(this, ValidationError)
+    }
+  }
+}
+
+// Types guard
+
+export function isAuthenticationError(error: unknown): error is AuthenticationError {
+  return error instanceof AuthenticationError
+}
+
+export function isDatabaseError(error: unknown): error is DatabaseError {
+  return error instanceof DatabaseError
+}
+
+export function isValidationError(error: unknown): error is ValidationError {
+  return error instanceof ValidationError
+}
+
+export function isCustomError(error: unknown): error is AuthenticationError | DatabaseError | ValidationError {
+  return isAuthenticationError(error) || isDatabaseError(error) || isValidationError(error)
+}
 
 export const $401_MISSING_ACCESS_TOKEN = {
   'status': '401',
   'title': 'Unauthorized',
   'detail': 'Missing access token in authorization header in format \'Bearer <token>\''
-} as TJsonapiError;
+} as TJsonapiError
 
 export const $401_UNAUTHORIZED_ACCESS = {
   'status': '401',
   'title': 'Unauthorized',
   'detail': 'Unauthorized access to resource.'
-} as TJsonapiError;
+} as TJsonapiError
 
 export const $403_ACCESS_TOKEN_FORBIDDEN = {
   'status': '403',
   'title': 'Forbidden token',
   'detail': 'Token does not have the privilege to access the resource.'
-} as TJsonapiError;
+} as TJsonapiError
 
 export const $400_MISSING_PAYLOAD = {
   'status': '400',
   'title': 'Missing payload',
   'detail': 'Although the token was valid, payload was unavailable.'
-} as TJsonapiError;
+} as TJsonapiError
 
 /** Extract error code from a mongodb error message  */
 export const get_mongodb_error = (message: string): {
-  code: string;
+  code: string
   detail: string
 } => {
-  const pieces = message.split(' ');
+  const pieces = message.split(' ')
   const arrayShift = (array: string[]): string[] => {
     if (array.length === 0) {
-      return [];
+      return []
     }
-    array.shift();
-    return array;
-  };
+    array.shift()
+    return array
+  }
   return {
     code: pieces[0],
     detail: arrayShift(pieces).join(' ')
-  };
+  }
 };

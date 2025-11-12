@@ -1,20 +1,24 @@
-import { PaperProps } from '@mui/material';
-import {
+import { PaperProps } from '@mui/material'
+import type {
   TJsonapiStateResponse,
   TStateForm,
   TStateFormItem
-} from '@tuber/shared';
+} from '@tuber/shared'
 import AbstractStateBuilder, {
   AbstractFormItemStateBuilder
-} from './AbstractStateBuilder';
+} from './AbstractStateBuilder'
 
-type TType = TStateForm['_type'];
+type TType = TStateForm['_type']
 
 export default class FormStateBuilder extends AbstractStateBuilder {
-  private _items: TStateFormItem[];
-  constructor(private _state: TStateForm = {}) {
-    super();
-    this._items = [];
+  private _items: TStateFormItem[]
+  private _state: TStateForm
+  private _response?: TJsonapiStateResponse
+  constructor(state: TStateForm = {}) {
+    super()
+    this._state = state
+    this._items = []
+    this._state.items = this._items
   }
   /**
    * Get the form state.
@@ -22,9 +26,9 @@ export default class FormStateBuilder extends AbstractStateBuilder {
    */
   build(): TStateForm {
     if (this._items.length > 0) {
-      this._state.items = this._items;
+      this._state.items = this._items
     }
-    return this._state;
+    return this._state
   }
   /**
    * Add a new form item state.
@@ -32,8 +36,8 @@ export default class FormStateBuilder extends AbstractStateBuilder {
    * @returns this.
    */
   add(instance: AbstractFormItemStateBuilder): this {
-    this._items.push(instance.build() as TStateFormItem);
-    return this;
+    this._items.push(instance.build() as TStateFormItem)
+    return this
   }
   /**
    * Add a new form item state.
@@ -41,7 +45,7 @@ export default class FormStateBuilder extends AbstractStateBuilder {
    * @returns this.
    */
   addItem(instance: AbstractFormItemStateBuilder): this {
-    return this.add(instance);
+    return this.add(instance)
   }
   /**
    * Set a unique id for the form state.
@@ -49,8 +53,8 @@ export default class FormStateBuilder extends AbstractStateBuilder {
    * @returns this.
    */
   with_Id(_id: string): this {
-    this._state._id = _id;
-    return this;
+    this._state._id = _id
+    return this
   }
   /**
    * Set a unique key for the form state.
@@ -58,8 +62,8 @@ export default class FormStateBuilder extends AbstractStateBuilder {
    * @returns this.
    */
   with_Key(_key: string): this {
-    this._state._key = _key;
-    return this;
+    this._state._key = _key
+    return this
   }
   /**
    * Set the form `_type`.
@@ -67,8 +71,8 @@ export default class FormStateBuilder extends AbstractStateBuilder {
    * @returns this.
    */
   with_Type(_type: TType): this {
-    this._state._type = _type;
-    return this;
+    this._state._type = _type
+    return this
   }
   /**
    * Set the form component props.
@@ -76,16 +80,16 @@ export default class FormStateBuilder extends AbstractStateBuilder {
    * @returns this.
    */
   withProps<T extends Record<string, unknown>>(props: T): this {
-    this._state.props = props;
-    return this;
+    this._state.props = props
+    return this
   }
   /**
    * Set whether the form has a paper background.
    * @returns this.
    */
   withPaperBackground(): this {
-    this._state.paperBackground = true;
-    return this;
+    this._state.paperBackground = true
+    return this
   }
   /**
    * Set the form's paper background component props.
@@ -94,10 +98,23 @@ export default class FormStateBuilder extends AbstractStateBuilder {
    * @returns this.
    */
   withPaperProps(props: PaperProps): this {
-    this._state.paperProps = props;
-    return this;
+    this._state.paperProps = props
+    return this
   }
-  configure(): this { return this; }
-  withBootstrapState(): never { return this.bootstrapNotAvailable(); }
-  buildResponse(): TJsonapiStateResponse { return {'state': {}}; }
+  configure(conf: { _key?: string }): this {
+    this._state._key = conf._key
+    return this
+  }
+  withBootstrapState(): this {
+    if (!this._state._key) { throw new Error(' `_key` must be defined first. ')}
+    this._response = {
+      state: {
+        forms: { [this._state._key]: this._state }
+      }
+    }
+    return this
+  }
+  buildResponse(): TJsonapiStateResponse {
+    return this._response ?? this.responseNotDefined()
+  }
 }

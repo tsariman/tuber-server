@@ -1,8 +1,6 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { log } from '../../utility/logging';
-import {
-  default_500_error_response
-} from '../../business.logic/builder/JsonapiErrorBuilder';
+import { default_500_error_response } from '../../business.logic/errors';
 import { MSG_500_ERROR_MESSAGE } from '@tuber/shared';
 import JsonapiResponseBuilder from '../../business.logic/builder/JsonapiResponseBuilder';
 

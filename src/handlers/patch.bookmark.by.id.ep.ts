@@ -1,7 +1,6 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import JsonapiErrorBuilder, {
-  default_500_error_response
-} from '../business.logic/builder/JsonapiErrorBuilder';
+import JsonapiErrorBuilder from '../business.logic/builder/JsonapiErrorBuilder';
+import { default_500_error_response } from '../business.logic/errors'
 import { ler, log, log_err, write as print } from '../utility/logging';
 import { update_bookmark_by_id } from '../model/bookmark';
 import { IBookmarkPatch } from '../schema/bookmarks';

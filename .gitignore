@@ -1,9 +1,9 @@
 # Ignored folders
 
 # compiled app
-dist/*
+dist
 # Compiled binary addons (http://nodejs.org/api/addons.html)
-build/*
+build
 
 # Dependency directories
 node_modules/*
@@ -47,15 +47,16 @@ d1684a88be5c08aed50f565d9c8063ca.txt
 .env.production.example
 .env.app-config
 .env.twitch
-DEV.default.rest
-DEV.builder.rest
-DEV.env.var.rest
-DEV.col.bookmarks.rest
+dev.default.rest
+dev.builder.rest
+dev.env.var.rest
+dev.col.bookmarks.rest
+dev.authentication.rest
 fix-imports.ps1
 
 
 # Logs
-logs/*
+logs
 *.log
 npm-debug.log*
 # pnpm

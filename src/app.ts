@@ -5,6 +5,8 @@ import fastifyStatic from '@fastify/static'
 import * as dotenv from 'dotenv'
 dotenv.config({ path: `${__dirname}/../.env`})
 import path from 'path'
+import { log } from './utility/logging'
+import JsonapiErrorBuilder from './business.logic/builder/JsonapiErrorBuilder'
 import { initializeApp } from './startup'
 
 export interface AppOptions extends FastifyServerOptions, Partial<AutoloadPluginOptions> {
@@ -22,7 +24,7 @@ const app: FastifyPluginAsync<AppOptions> = async (
 
   // Register the static plugin
   void fastify.register(fastifyStatic, {
-    root: path.join(__dirname, 'public'),
+    root: path.join(__dirname, '../public'),
     prefix: '/' // optional: default '/'
   })
 
@@ -43,6 +45,19 @@ const app: FastifyPluginAsync<AppOptions> = async (
   void fastify.register(AutoLoad, {
     dir: join(__dirname, 'routes'),
     options: opts
+  })
+
+  // Set custom error handler for 500 errors
+  fastify.setErrorHandler((error, _req, reply) => {
+    log('[ERROR]', error)
+    const status = error.statusCode ?? 500
+    reply.status(status).send(new JsonapiErrorBuilder()
+      .withStatus(status)
+      .withTitle(error.message)
+      .withDetail(error.stack)
+      .withMeta('error', error)
+      .build()
+    )
   })
 
   // Startup code - runs after all plugins are loaded

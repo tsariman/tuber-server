@@ -13,8 +13,11 @@ const envFile = process.env.NODE_ENV === 'production'
 dotenv.config({ path: envFile })
 
 interface IConfig {
+  /** Get the current development mode. */
   NODE_ENV: string
+  /** The value is `true` if the app is in development mode. */
   DEV: boolean
+  /** The value is `true` if the app is in debug mode. */
   DEBUG: boolean
   DOMAIN: string
   CLIENT_DOMAIN: string

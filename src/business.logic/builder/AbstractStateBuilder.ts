@@ -8,11 +8,7 @@ export default abstract class AbstractStateBuilder {
   /** Get the state. @returns {unknown} state. */
   abstract build(): unknown;
   abstract buildResponse(): TJsonapiStateResponse;
-  /**
-   * Insert an item into array.
-   *
-   * @returns {unknown} this.
-   */
+  /** Insert a new item. @returns {unknown} this. */
   abstract add(instance: unknown): unknown;
   /**
    * Set the id of the state.

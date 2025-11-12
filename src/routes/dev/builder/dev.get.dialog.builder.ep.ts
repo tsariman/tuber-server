@@ -1,11 +1,12 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { log, write as print } from '../../../utility/logging'
 import { MSG_500_ERROR_MESSAGE } from '@tuber/shared'
-import { default_500_error_response } from '../../../business.logic/builder/JsonapiErrorBuilder'
+import { default_500_error_response } from '../../../business.logic/errors'
 import DialogStateBuilder from '../../../business.logic/builder/DialogStateBuilder'
 import FormItemButtonBuilder from '../../../business.logic/builder/FormItemButtonStateBuilder'
 
-export default async function dev_get_dialog_builder_state(
+/** GET /dev/builder/dialog */
+export default async function dev_get_dialog_builder_endpoint(
   _req: FastifyRequest,
   reply: FastifyReply
 ) {
@@ -14,6 +15,7 @@ export default async function dev_get_dialog_builder_state(
     const id = Math.random().toString(36).substring(7)
     reply.code(200).send(new DialogStateBuilder()
       .with_Id(id)
+      .with_Key('builderDialogState')
       .with_Type('alert')
       .withTitle('Dialog Builder Alert State')
       .withContentText('This is the dialog builder alert state.')
@@ -27,7 +29,8 @@ export default async function dev_get_dialog_builder_state(
         .withText('Submit')
         .hasOnclickHandle('tuberCallbacks.devSubmitDialog')
       )
-      .build()
+      .withBootstrapState()
+      .buildResponse()
     )
     log('Done.')
   } catch (e) {

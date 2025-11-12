@@ -1,12 +1,12 @@
-import { RouteShorthandOptions } from 'fastify';
+import { FastifyRequest, RouteShorthandOptions } from 'fastify';
 import { log, ler as err } from '../utility/logging';
 import { UserPaginationModel } from '../model/user';
 import { check_password } from '../business.logic/security';
 import { defaultDialogAlertState as alert } from '../state/dialog';
-import { ISignInCredentials } from '../business.logic/security/permissions';
-import {
-  default_500_error_response
-} from '../business.logic/builder/JsonapiErrorBuilder';
+import { IRequestAuth } from '../business.logic/security/permissions';
+import { default_500_error_response } from '../business.logic/errors';
+import JsonapiRequestDriver from '../business.logic/JsonapiRequestDriver';
+import { ensure } from '../utility';
 
 /**
  * [TODO] #1 In authentication, when the user successfully logs in using their
@@ -37,11 +37,13 @@ const authenticate: RouteShorthandOptions['preValidation'] = async function (
   reply,
   done
 ) {
-  const body = req.body as ISignInCredentials['Body'];
-  const credentials = body?.credentials ?? {};
-  const { username, password } = credentials;
+  const driver = new JsonapiRequestDriver(
+    (req as FastifyRequest<IRequestAuth>).body
+  )
+  const credentials = driver.getAttribute('credentials')
+  const { username, password } = ensure(credentials)
   if (username) {
-    log(`[DEBUG] username: '${username}', password: '${password}'`);
+    log(`username: '${username}', password: '[REDACTED]'`);
     try {
       const user = await UserPaginationModel.findOne({ name: username });
       if (user) {

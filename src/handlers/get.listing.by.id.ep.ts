@@ -1,34 +1,35 @@
-import { FastifyReply, FastifyRequest } from 'fastify';
-import { PipelineStage, Types } from 'mongoose';
-import { ListingModel } from '../model/listing';
-import JsonapiResponseBuilder from '../business.logic/builder/JsonapiResponseBuilder';
-import JsonapiErrorBuilder, { default_500_error_response } from '../business.logic/builder/JsonapiErrorBuilder';
-import { IListingsGet } from '../schema/listings';
-import { MSG_500_ERROR_MESSAGE } from '@tuber/shared';
-import { ler, log, log_err, write as print } from '../utility/logging';
-import { IBookmarkDocument } from '../schema/bookmarks';
+import type { FastifyReply, FastifyRequest } from 'fastify'
+import { type PipelineStage, Types } from 'mongoose'
+import { ListingModel } from '../model/listing'
+import JsonapiResponseBuilder from '../business.logic/builder/JsonapiResponseBuilder'
+import JsonapiErrorBuilder from '../business.logic/builder/JsonapiErrorBuilder'
+import { default_500_error_response } from '../business.logic/errors'
+import { IListingsGet } from '../schema/listings'
+import { MSG_500_ERROR_MESSAGE } from '@tuber/shared'
+import { ler, log, log_err, write as print } from '../utility/logging'
+import { IBookmarkDocument } from '../schema/bookmarks'
 
 export default async function get_listing_by_id_endpoint (
   request: FastifyRequest<IListingsGet>,
   reply: FastifyReply
 ) {
   try {
-    const listingId = request.params.id;
-    print(`[DEBUG] Getting listing with id '${listingId}' with bookmarks... `);
+    const listingId = request.params.id
+    print(`[DEBUG] Getting listing with id '${listingId}' with bookmarks... `)
 
     // Validate and convert listingId to ObjectId if necessary
-    let objectId: Types.ObjectId;
+    let objectId: Types.ObjectId
     try {
-      objectId = new Types.ObjectId(listingId);
+      objectId = new Types.ObjectId(listingId)
     } catch (error) {
-      log('Failed.\n[DEBUG][400] Invalid listing ID format.');
+      log('Failed.\n[DEBUG][400] Invalid listing ID format.')
       reply.code(400).send(new JsonapiErrorBuilder()
         .withStatus(400)
         .withTitle('Bad Request')
         .withDetail(`Invalid listing ID format: '${listingId}'`)
         .build()
-      );
-      return;
+      )
+      return
     }
 
     // Build aggregation pipeline to get listing with populated bookmarks
@@ -159,34 +160,34 @@ export default async function get_listing_by_id_endpoint (
           bookmarks: '$populated_bookmarks'
         }
       }
-    ];
+    ]
 
     // Execute the aggregation pipeline against the ListingModel
     // This returns an array of documents (should be 0 or 1 for a specific ID lookup)
-    const aggregationResult = await ListingModel.aggregate(pipeline);
+    const aggregationResult = await ListingModel.aggregate(pipeline)
     
     // Check if listing was found
     if (!aggregationResult || aggregationResult.length === 0) {
-      log('Failed.\n[DEBUG][404] Listing not found.');
+      log('Failed.\n[DEBUG][404] Listing not found.')
       reply.code(404).send(new JsonapiErrorBuilder()
         .withStatus(404)
         .withTitle('Not Found')
         .withDetail(`Listing with id '${listingId}' not found.`)
         .build()
-      );
-      return;
+      )
+      return
     }
 
     // Extract the listing document and its populated bookmarks
-    const listing = aggregationResult[0];        // Get the first (and only) result
-    const bookmarks = listing.bookmarks || [];   // Extract bookmarks array, default to empty array
+    const listing = aggregationResult[0]        // Get the first (and only) result
+    const bookmarks = listing.bookmarks || []   // Extract bookmarks array, default to empty array
     
-    log('Done.');
+    log('Done.')
 
     // Build JSON:API compliant response with listing as primary data and bookmarks as included resources
     // This follows the JSON:API specification for resource relationships and compound documents
     const responseBuilder = JsonapiResponseBuilder.forSingleResource(listing, 'listings')
-      .withId(listing._id);
+      .withId(listing._id)
 
     // Add bookmark relationships and included resources if bookmarks exist
     if (bookmarks.length > 0) {
@@ -195,29 +196,29 @@ export default async function get_listing_by_id_endpoint (
       const bookmarkRefs = bookmarks.map((bookmark: IBookmarkDocument<string>) => ({
         type: 'bookmarks',     // JSON:API resource type
         id: bookmark._id       // Resource identifier
-      }));
+      }))
       
       // Add the bookmarks relationship to the listing resource
       // This establishes the connection between listing and bookmarks in JSON:API format
-      responseBuilder.addRelationship('bookmarks', bookmarkRefs);
+      responseBuilder.addRelationship('bookmarks', bookmarkRefs)
 
       // Add full bookmark resources to the "included" section of the response
       // This allows clients to access complete bookmark data without additional requests
       bookmarks.forEach((bookmark: IBookmarkDocument<string>) => {
-        const { _id, ...bookmarkAttributes } = bookmark;    // Separate ID from attributes
+        const { _id, ...bookmarkAttributes } = bookmark    // Separate ID from attributes
         responseBuilder.addIncluded({
           type: 'bookmarks',                                 // JSON:API resource type
           id: _id,                                          // Resource identifier
           attributes: bookmarkAttributes                     // All bookmark data except ID
-        });
-      });
+        })
+      })
     }
 
-    reply.code(200).send(responseBuilder.build());
+    reply.code(200).send(responseBuilder.build())
 
   } catch (e) {
-    ler(MSG_500_ERROR_MESSAGE);
-    log_err('GET listing by id with bookmarks', e);
-    reply.code(500).send(default_500_error_response(e));
+    ler(MSG_500_ERROR_MESSAGE)
+    log_err('GET listing by id with bookmarks', e)
+    reply.code(500).send(default_500_error_response(e))
   }
 }

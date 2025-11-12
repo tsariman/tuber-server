@@ -1,8 +1,7 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { ler, log, log_err, write } from '../../utility/logging';
-import JsonapiErrorBuilder, {
-  default_500_error_response
-} from '../../business.logic/builder/JsonapiErrorBuilder';
+import { ler, log_err, task, task_end } from '../../utility/logging';
+import JsonapiErrorBuilder from '../../business.logic/builder/JsonapiErrorBuilder';
+import { default_500_error_response } from '../../business.logic/errors'
 import  { STATE_PAGES, STATE_PAGES_THEME_DARK } from '../page';
 import { MSG_500_ERROR_MESSAGE, TJsonapiStateResponse } from '@tuber/shared';
 import { TThemeMode } from '../../common.types';
@@ -16,7 +15,7 @@ export default async function post_state_pages_endpoint (
     const key = req.body.key;
     const mode = req.body.mode;
     if (!key) {
-      log(`[ERROR] 'key' was not received.`);
+      ler(`'key' was not received.`);
       reply.code(400).send(new JsonapiErrorBuilder()
         .withStatus(400)
         .withCode('MISSING_VALUE')
@@ -25,7 +24,7 @@ export default async function post_state_pages_endpoint (
       return;
     }
     if (!mode) {
-      log(`[ERROR] 'mode' was not received.`);
+      ler(`'mode' was not received.`);
       reply.code(400).send(new JsonapiErrorBuilder()
         .withStatus(400)
         .withCode('MISSING_VALUE')
@@ -33,12 +32,12 @@ export default async function post_state_pages_endpoint (
       );
       return;
     }
-    write(`[DEBUG] Loading '${key}' state... `);
+    task(`Loading '${key}' state... `);
     const light = STATE_PAGES[key];
     const dark = STATE_PAGES_THEME_DARK[key];
     const pageState = themed(light, dark, mode);
     if (pageState) {
-      log('Done.');
+      task_end('Done.');
       reply.code(200).send({
         state: {
           'pages': { [key]: pageState },
@@ -47,7 +46,7 @@ export default async function post_state_pages_endpoint (
         }
       } as TJsonapiStateResponse);
     } else {
-      log('Failed.');
+      task_end('Failed.');
       reply.code(404).send({
         state: {
           'pages': {
@@ -62,7 +61,7 @@ export default async function post_state_pages_endpoint (
       } as TJsonapiStateResponse);
     }
   } catch (e) {
-    ler(MSG_500_ERROR_MESSAGE);
+    task_end(MSG_500_ERROR_MESSAGE);
     log_err('POST state page', e);
     reply.code(500).send(default_500_error_response(e));
   }

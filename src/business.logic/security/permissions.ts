@@ -1,8 +1,9 @@
-import { TThemeMode } from '../../common.types';
+import type { TJsonapiRequest } from '@tuber/shared'
+import type { TThemeMode } from '../../common.types'
 
 export type TRole = 'owner' | 'developer' | 'administrator' | 'moderator'
                     | 'supporter' | 'member' | 'patron' | 'sponsor' | 'investor'
-                    | 'donor' | 'free';
+                    | 'donor' | 'free'
 
 export const ROLE_CLEARANCE_LEVEL: Readonly<Record<TRole, number>> = {
   /** Have ownership and decision making power. ($3000000) */
@@ -30,7 +31,7 @@ export const ROLE_CLEARANCE_LEVEL: Readonly<Record<TRole, number>> = {
   supporter: 2,
   /** Free accounts can create bookmarks but cannot publish them. (FREE) */
   free: 1
-};
+}
 
 /** List of all permissions as keys and values. */
 const PERMISSIONS = {
@@ -149,9 +150,9 @@ const PERMISSIONS = {
   bookmark_patch_publish_known_self: 'bookmark_patch_publish_known_self',
   /** Publish his or her own bookmark with an unknown platform. */
   bookmark_patch_publish_unknown_self: 'bookmark_patch_publish_unknown_self',
-} as const;
+} as const
 
-export type TPermission = keyof typeof PERMISSIONS;
+export type TPermission = keyof typeof PERMISSIONS
 
 /** Required permission level and above. */
 const PERMISSIONS_LEVEL: Readonly<{[key in keyof typeof PERMISSIONS]: number}> = {
@@ -192,22 +193,22 @@ const PERMISSIONS_LEVEL: Readonly<{[key in keyof typeof PERMISSIONS]: number}> =
   bookmark_patch_publish_self: 3,
   bookmark_patch_publish_known_self: 2,
   bookmark_patch_publish_unknown_self: 3
-};
+}
 
-export interface ISignInCredentials {
-  Body: {
+export interface IRequestAuth {
+  Body: TJsonapiRequest<{
     credentials?: {
-      username?: string;
-      password?: string;
-      options?: string[];
-    };
-    route?: string;
-    mode?: TThemeMode;
-    cookie?: string;
-  };
-};
+      username?: string
+      password?: string
+      options?: string[]
+    }
+    route?: string
+    mode?: TThemeMode
+    cookie?: string
+  }>
+}
 
 /** Use to enforce permission based on user role. */
 export const has_permission = (permission: TPermission, role: TRole) => {
-  return PERMISSIONS_LEVEL[permission] <= ROLE_CLEARANCE_LEVEL[role];
-};
+  return PERMISSIONS_LEVEL[permission] <= ROLE_CLEARANCE_LEVEL[role]
+}

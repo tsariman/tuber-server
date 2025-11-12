@@ -1,5 +1,5 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { default_500_error_response } from '../business.logic/builder/JsonapiErrorBuilder';
+import { default_500_error_response } from '../business.logic/errors';
 import JsonapiResponseBuilder from '../business.logic/builder/JsonapiResponseBuilder';
 import Config from '../config';
 import {

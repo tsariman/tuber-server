@@ -1,13 +1,14 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { log, write as print } from '../../../utility/logging';
 import * as C from '@tuber/shared';
-import { default_500_error_response } from '../../../business.logic/builder/JsonapiErrorBuilder';
+import { default_500_error_response } from '../../../business.logic/errors';
 import Form from '../../../business.logic/builder/FormStateBuilder';
 import Group from '../../../business.logic/builder/FormItemGroupStateBuilder';
 import Numberfield from '../../../business.logic/builder/FormItemNumberfieldStateBuilder';
 import Textfield from '../../../business.logic/builder/FormItemTextfieldStateBuilder';
 
-export default async function dev_get_form_builder_state(
+/** GET /dev/builder/form */
+export default async function dev_get_form_builder_endpoint(
   _req: FastifyRequest,
   reply: FastifyReply
 ) {
@@ -80,7 +81,8 @@ export default async function dev_get_form_builder_state(
           .hasMaxLenghtMessage(C.NOTE_MAX_LENGTH_MESSAGE)
         )
       )
-      .build()
+      .withBootstrapState()
+      .buildResponse()
     );
     log('Done.');
   } catch (e) {

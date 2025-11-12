@@ -1,8 +1,7 @@
 import { FastifyReply } from 'fastify';
 import { MONGODB_DUPLICATE_KEY_ERROR, get_mongodb_error } from '../business.logic/errors';
-import JsonapiErrorBuilder, {
-  default_500_error_response
-} from '../business.logic/builder/JsonapiErrorBuilder';
+import JsonapiErrorBuilder from '../business.logic/builder/JsonapiErrorBuilder';
+import { default_500_error_response } from '../business.logic/errors'
 import JsonapiResponseBuilder from '../business.logic/builder/JsonapiResponseBuilder';
 import { create_user } from '../model/user';
 import { TUsersFastifyRequest } from '../schema/users';

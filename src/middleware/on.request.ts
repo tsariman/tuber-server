@@ -1,7 +1,5 @@
 import { RouteShorthandOptions } from 'fastify'
-import {
-  default_401_error_response
-} from '../business.logic/builder/JsonapiErrorBuilder'
+import { default_401_error_response } from '../business.logic/errors'
 import Config from '../config'
 import { log } from '../utility/logging'
 import { TCipheredUser } from '../schema/users'

@@ -1,9 +1,9 @@
-import { SxProps } from '@mui/material';
-import { TStateForm, $41_STATE_KEY } from '@tuber/shared';
-import { register } from '../../business.logic/registry';
-import { clone_with_descriptors, t } from '../../business.logic';
+import { SxProps } from '@mui/material'
+import { TStateForm, $41_STATE_KEY } from '@tuber/shared'
+import { register } from '../../business.logic/registry'
+import { clone_with_descriptors, t } from '../../business.logic'
 
-register('state', '41', $41_STATE_KEY);
+register('state', '41', $41_STATE_KEY)
 /** Form state to sign in. @id 41 */
 const signInFormState: TStateForm = {
   '_type': 'box',
@@ -25,31 +25,31 @@ const signInFormState: TStateForm = {
         {
           'type': 'text',
           'name': 'username',
-          get 'label'() { return t('278', 'Username'); },
+          get 'label'() { return t('278', 'Username') },
           'props': { 'autoComplete': 'off' },
           'has': {
             'required': true,
-            get 'requiredMessage'() { return t('required_username', 'Type-in your username first'); }
+            get 'requiredMessage'() { return t('required_username', 'Type-in your username first') }
           }
         },
         {
           'type': 'password',
-          get 'label'() { return t('277', 'Password'); },
+          get 'label'() { return t('277', 'Password') },
           'name': 'password',
           'has': {
             'required': true,
-            get 'requiredMessage'() { return t('no-password', 'You forgot the password'); }
+            get 'requiredMessage'() { return t('no-password', 'You forgot the password') }
           }
         },
         {
           'type': 'checkboxes',
-          get 'label'() { return t('276', 'Available options'); },
+          get 'label'() { return t('276', 'Available options') },
           'name': 'options',
           'has': {
             'items': [
               {
                 'name': 'keep-signed-in',
-                get 'label'() { return t('274', 'Keep me signed in'); }
+                get 'label'() { return t('274', 'Keep me signed in') }
               }
             ],
           }
@@ -59,19 +59,19 @@ const signInFormState: TStateForm = {
           'has': {
             'icon': 'vpn_key',
             'iconPosition': 'right',
-            get 'title'() { return t('275', 'Sign in'); },
+            get 'title'() { return t('275', 'Sign in') },
             'onclickHandle': 'tuberCallbacks.$41_C_1'
           }
         }
       ]
     }
   ]
-};
+}
 
-export default signInFormState;
+export default signInFormState
 
 /** Dark theme mode form state to sign in. @id 41 */
 export const $41DarkThemeMode: TStateForm = (() => {
-  const base = clone_with_descriptors(signInFormState);
-  return base;
-})();
+  const base = clone_with_descriptors(signInFormState)
+  return base
+})()

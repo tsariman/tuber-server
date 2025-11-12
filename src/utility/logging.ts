@@ -1,39 +1,64 @@
 import { createLogger, format, transports } from 'winston'
-import { DEBUG, ERROR } from '@tuber/shared'
+import { INFO, DEBUG, ERROR } from '@tuber/shared'
+import { sanitize } from './sanitize'
 
-const inDevMode = (process.env.NODE_ENV === 'development')
+const inDebugMode = (process.env.NODE_ENV === 'development'
+  || process.env.DEBUG === 'true'
+)
 
-export const L = {
-  start: (text: string) => {
-    if (inDevMode) { process.stdout.write(`${DEBUG} ${text}`) }
-  },
-  end: (...args: unknown[]) => { if (inDevMode) { console.log(...args) } },
-  er: (...args: unknown[]) => { if (inDevMode) { console.log(...args) } },
-  ug: (...args: unknown[]) => { if (inDevMode) { console.log(...args) } }
+/** Outputs a message to the console on the same line if in debug mode. */
+export const info = (message: string): void => {
+  if (message && inDebugMode) { process.stdout.write(`${INFO} ${message}`) }
+}
+
+/** Debug mode self-documenting log. */
+export const task = (message: string): void => {
+  if (message && inDebugMode) {
+    process.stdout.write(`${DEBUG} ${message}`)
+  }
+  throw new Error('Redundant call to `task()`.')
 }
 
 /** This is the `console.log()` but will only print if app is in debug mode. */
-export function log(...args: unknown[]): void {
-  if (inDevMode) { console.log(...args) }
+export const log = (...args: unknown[]): void => {
+  if (inDebugMode) {
+    args.unshift(DEBUG)
+    console.log(...args)
+  }
+}
+
+/**
+ * Similar to the `log()` function but it should be used in conjunction with
+ * `task()`.
+ */
+export const task_end = (...args: unknown[]): void => {
+  if (inDebugMode) { console.log(...args) }
+}
+
+/** Log with automatic sanitization of sensitive data. */
+export const log_safe = (message: string, data?: any, customSensitiveFields?: string[]): void => {
+  if (inDebugMode) {
+    if (data !== undefined) {
+      const sanitizedData = sanitize(data, customSensitiveFields)
+      console.log(`${DEBUG} ${message}`, sanitizedData)
+    } else {
+      console.log(`${DEBUG} ${message}`)
+    }
+  }
 }
 
 /** Output to console on the same line but only if the app is in debug mode. */
 export function write(text: string): void {
-  if (text && inDevMode) { process.stdout.write(text); return }
+  if (text && inDebugMode) { process.stdout.write(text); return }
   throw new Error('Redundant call to `write()`.')
-}
-
-/** Log an error message to the console if app is in debug mode. */
-export function ler_start(...args: unknown[]) {
-  if (inDevMode) {
-    args.unshift(ERROR)
-    console.error(...args)
-  }
 }
 
 /** This is the `console.error()` but will only print if app is in debug mode. */
 export function ler(...args: unknown[]): void {
-  if (inDevMode) { console.error(...args) }
+  if (inDebugMode) {
+    args.unshift(ERROR)
+    console.error(...args)
+  }
 }
 
 const logger = createLogger({
@@ -59,6 +84,16 @@ export function wstl(level: string, message: string, ...meta: unknown[]): void {
 /** Log errors using winston. */
 export function log_err(message: string, ...meta: unknown[]): void {
   logger.error(message, ...meta)
+}
+
+/** Log errors with automatic sanitization of sensitive data in meta. */
+export function log_err_safe(message: string, meta?: any, customSensitiveFields?: string[]): void {
+  if (meta !== undefined) {
+    const sanitizedMeta = sanitize(meta, customSensitiveFields)
+    logger.error(message, sanitizedMeta)
+  } else {
+    logger.error(message)
+  }
 }
 
 // Exceptions -----------------------------------------------------------------

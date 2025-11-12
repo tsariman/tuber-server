@@ -5,9 +5,8 @@ import prod_install_controller from './install/prod.controller';
 import Config from './config';
 import platform_controller from './platform/platform.controller';
 import state_controller from './state/state.controller';
-import JsonapiErrorBuilder, {
-  default_404_error_response
-} from './business.logic/builder/JsonapiErrorBuilder';
+import JsonapiErrorBuilder from './business.logic/builder/JsonapiErrorBuilder';
+import { default_404_error_response } from './business.logic/errors';
 import * as C from '@tuber/shared/dist/constants.server';
 import { log } from './utility/logging';
 

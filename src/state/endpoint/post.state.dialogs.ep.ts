@@ -1,7 +1,6 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import JsonapiErrorBuilder, {
-  default_500_error_response
-} from '../../business.logic/builder/JsonapiErrorBuilder';
+import JsonapiErrorBuilder from '../../business.logic/builder/JsonapiErrorBuilder';
+import { default_500_error_response } from '../../business.logic/errors'
 import  { STATE_DIALOGS, STATE_DIALOGS_THEME_DARK } from '../dialog';
 import {
   MSG_500_ERROR_MESSAGE,

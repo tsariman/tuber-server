@@ -1,0 +1,106 @@
+/**
+ * Test for JsonapiRequestDriver form state validation
+ */
+
+import JsonapiRequestDriver from '../src/business.logic/JsonapiRequestDriver';
+import signInFormState from '../src/state/form/sign.in.form.state';
+import { TJsonapiRequest } from '@tuber/shared';
+
+// Test data for sign-in request
+interface ISignInAttributes {
+  username: string;
+  password?: string;
+  options?: {
+    'keep-signed-in'?: boolean;
+  };
+}
+
+const validSignInRequest: TJsonapiRequest<ISignInAttributes> = {
+  data: {
+    type: 'signins',
+    attributes: {
+      username: 'testuser',
+      password: 'testpass123',
+      options: {
+        'keep-signed-in': true
+      }
+    }
+  }
+};
+
+const invalidSignInRequest: TJsonapiRequest<ISignInAttributes> = {
+  data: {
+    type: 'signins',
+    attributes: {
+      username: '', // Empty username (required)
+      password: '', // Empty password (required)
+    }
+  }
+};
+
+const partialSignInRequest: TJsonapiRequest<ISignInAttributes> = {
+  data: {
+    type: 'signins',
+    attributes: {
+      username: 'testuser',
+      // Missing password (required)
+    }
+  }
+};
+
+export function testFormStateValidation() {
+  console.log('Testing JsonapiRequestDriver with form state validation...\n');
+
+  // Test 1: Valid request
+  console.log('Test 1: Valid sign-in request');
+  const validDriver = new JsonapiRequestDriver(validSignInRequest, signInFormState);
+  const validValidation = validDriver.validate([], true);
+  console.log('Is valid:', validValidation.isValid);
+  console.log('Has errors:', !!validValidation.errors);
+  console.log('');
+
+  // Test 2: Invalid request (empty required fields)
+  console.log('Test 2: Invalid sign-in request (empty required fields)');
+  const invalidDriver = new JsonapiRequestDriver(invalidSignInRequest, signInFormState);
+  const invalidValidation = invalidDriver.validate([], true);
+  console.log('Is valid:', invalidValidation.isValid);
+  console.log('Has errors:', !!invalidValidation.errors);
+  if (invalidValidation.errors) {
+    console.log('Error count:', invalidValidation.errors.errors.length);
+    invalidValidation.errors.errors.forEach((error, index) => {
+      console.log(`  Error ${index + 1}: ${error.title} (${error.source?.pointer})`);
+    });
+  }
+  console.log('');
+
+  // Test 3: Partial request (missing password)
+  console.log('Test 3: Partial sign-in request (missing password)');
+  const partialDriver = new JsonapiRequestDriver(partialSignInRequest, signInFormState);
+  const partialValidation = partialDriver.validate([], true);
+  console.log('Is valid:', partialValidation.isValid);
+  console.log('Has errors:', !!partialValidation.errors);
+  if (partialValidation.errors) {
+    console.log('Error count:', partialValidation.errors.errors.length);
+    partialValidation.errors.errors.forEach((error, index) => {
+      console.log(`  Error ${index + 1}: ${error.title} (${error.source?.pointer})`);
+    });
+  }
+  console.log('');
+
+  // Test 4: Form state access
+  console.log('Test 4: Form state access');
+  console.log('Has form state:', !!validDriver.getFormState());
+  console.log('Form state ID:', validDriver.getFormState()?._id);
+  console.log('');
+
+  return {
+    validValidation,
+    invalidValidation,
+    partialValidation
+  };
+}
+
+// Run the test if this file is executed directly
+if (require.main === module) {
+  testFormStateValidation();
+}

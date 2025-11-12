@@ -1,7 +1,6 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import JsonapiErrorBuilder, {
-  default_500_error_response
-} from '../../business.logic/builder/JsonapiErrorBuilder';
+import JsonapiErrorBuilder from '../../business.logic/builder/JsonapiErrorBuilder';
+import { default_500_error_response } from '../../business.logic/errors'
 import { log, log_err, write as print } from '../../utility/logging';
 import { get_video_thumbnail_url } from '../all.drivers';
 import { BookmarkModel, read_bookmark_by_id } from '../../model/bookmark';

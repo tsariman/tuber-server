@@ -6,20 +6,17 @@ import {
   TJsonapiLink,
   TNetState,
   TJsonapiMeta,
-  TJsonapiErrorCode,
-  TJsonapiErrorStatus
+  TJsonapiErrorCode
 } from '@tuber/shared';
 import { TOptional } from '../../common.types';
-import { signInDialogState } from '../../state/dialog';
 
 export type TJsonapiError = TOptional<TIJsonapiError, 'code' | 'title'>;
 
-const errorSkeleton: TIJsonapiError = {
-  code: 'NOT_IMPLEMENTED',
-  title: '',
-};
-
 export default class JsonapiErrorBuilder {
+  readonly errorSkeleton: TIJsonapiError = Object.freeze({
+    code: 'INTERNAL_ERROR',
+    title: '',
+  });
   private _response: TJsonapiErrorResponse;
   private _index: number;
 
@@ -27,7 +24,7 @@ export default class JsonapiErrorBuilder {
     this._response = { errors: [] };
     this._index = 0;
     this._response.errors.push({
-      ...errorSkeleton
+      ...this.errorSkeleton
     });
   }
   /**
@@ -45,7 +42,7 @@ export default class JsonapiErrorBuilder {
   /** @deprecated */
   meta = this.withMeta;
   /**
-   * Include arbitrary values in the meta property of the current error object.
+   * Insert arbitrary values in the meta property of the current error object.
    * @param key name of the property 
    * @param val value of the property
    * @returns `this`
@@ -92,7 +89,7 @@ export default class JsonapiErrorBuilder {
   next() {
     this._index++;
     this._response.errors.push({
-      ...errorSkeleton
+      ...this.errorSkeleton
     });
     return this;
   }
@@ -128,9 +125,9 @@ export default class JsonapiErrorBuilder {
   withStatus(val: unknown) {
     if (!val) return this;
     if (typeof val === 'string') {
-      this._response.errors[this._index].status = val as TJsonapiErrorStatus;
+      this._response.errors[this._index].status = val;
     } else if (typeof val === 'number') {
-      this._response.errors[this._index].status = ''+val as TJsonapiErrorStatus;
+      this._response.errors[this._index].status = ''+val;
     }
     return this;
   }
@@ -191,66 +188,3 @@ export default class JsonapiErrorBuilder {
     return this;
   }
 }
-
-/**
- * Default 500 error response to help prevent repetitive code.
- *
- * @param e error object from try/catch
- * @returns `TJsonapiErrorResponse`
- */
-export const default_500_error_response = (e: unknown) => {
-  return new JsonapiErrorBuilder()
-    .withStatus(500)
-    .withCode('INTERNAL_ERROR')
-    .withTitle((e as Error).message)
-    .withDetail((e as Error).stack)
-    .build();
-}
-
-/**
- * Default 404 error response to help prevent repetitive code.
- *
- * @param error custom error object
- * @returns `TJsonapiErrorResponse`
- */
-export const default_404_error_response = (
-  error: { title: string, detail?: string, source?: TJsonapiErrorSource }
-) => {
-  return new JsonapiErrorBuilder()
-    .withStatus(404)
-    .withCode('RESOURCE_NOT_FOUND')
-    .withTitle(error.title)
-    .withDetail(error.detail)
-    .withSource(error.source)
-    .build();
-}
-
-/** Default 401 error response to help prevent repetitive code. */
-export const default_401_error_response = (error: TJsonapiError) => {
-  const { title, detail } = error;
-  return new JsonapiErrorBuilder()
-    .withStatus(401)
-    .withCode('AUTHENTICATION_REQUIRED')
-    .withTitle(title)
-    .withDetail(detail)
-    .withState({ 'dialog': signInDialogState })
-    .build();
-}
-
-/**
- * Default 400 error response to help prevent repetitive code.
- *
- * @param error custom error object
- * @returns `TJsonapiErrorResponse`
- */
-export const default_400_error_response = (
-  error: { title: string, detail?: string }
-) => {
-  return new JsonapiErrorBuilder()
-    .withStatus(400)
-    .withCode('INVALID_FORMAT')
-    .withTitle(error.title)
-    .withDetail(error.detail)
-    .build();
-}
-

@@ -1,7 +1,6 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import JsonapiErrorBuilder, {
-  default_500_error_response
-} from '../../business.logic/builder/JsonapiErrorBuilder';
+import JsonapiErrorBuilder from '../../business.logic/builder/JsonapiErrorBuilder';
+import { default_500_error_response } from '../../business.logic/errors'
 import { ler, log, log_err, write } from '../../utility/logging';
 import { STATE_FORMS, STATE_FORMS_THEME_DARK } from '../form';
 import {  MSG_500_ERROR_MESSAGE, TNetState } from '@tuber/shared';
