@@ -1,4 +1,4 @@
-import * as C from '@tuber/shared';
+import * as C from '@tuber/shared'
 import {
   get_state_key as key,
   t,
@@ -8,59 +8,59 @@ import {
   themed_by_key,
   clone_with_descriptors,
   clone_or_default
-} from '../../business.logic';
-import { TThemeMode } from '../../common.types';
+} from '../../business.logic'
+import { TThemeMode } from '../../common.types'
 import newRumbleBookmarkDialogState, {
   $8DarkThemeMode
-} from './new.rumble.dialog.state';
+} from './new.rumble.dialog.state'
 import editRumbleBookmarkDialogState, {
   $11DarkThemeMode
-} from './edit.rumble.dialog.state';
+} from './edit.rumble.dialog.state'
 import newVimeoBookmarkDialogState, {
   $14DarkThemeMode
-} from './new.vimeo.dialog.state';
+} from './new.vimeo.dialog.state'
 import newOdyseeBookmarkDialogState, {
   $16DarkThemeMode
-} from './new.odysee.dialog.state';
+} from './new.odysee.dialog.state'
 import newDailyBookmarkDialogState, {
   $21DarkThemeMode
-} from './new.daily.dialog.state';
+} from './new.daily.dialog.state'
 import editDailyBookmarkDialogState, {
   $22DarkThemeMode
-} from './edit.daily.dialog.state';
+} from './edit.daily.dialog.state'
 import editVimeoBookmarkDialogState, {
   $15DarkThemeMode
-} from './edit.vimeo.dialog.state';
+} from './edit.vimeo.dialog.state'
 import editOdyseeBookmarkDialogState, {
   $23DarkThemeMode
-} from './edit.odysee.dialog.state';
+} from './edit.odysee.dialog.state'
 import newFacebookBookmarkDialogState, {
   $26DarkThemeMode
-} from './new.facebook.dialog.state';
+} from './new.facebook.dialog.state'
 import editFacebookBookmarkDialogState, {
   $27DarkThemeMode
-} from './edit.facebook.dialog.state';
+} from './edit.facebook.dialog.state'
 import newUnknownBookmarkDialogState, {
   $30DarkThemeMode
-} from './new.unknown.dialog.state';
+} from './new.unknown.dialog.state'
 import editUnknownBookmarkDialogState, {
   $31DarkThemeMode
-} from './edit.unknown.dialog.state';
+} from './edit.unknown.dialog.state'
 import newTwitchBookmarkDialogState, {
   $36DarkThemeMode
-} from './new.twitch.dialog.state';
+} from './new.twitch.dialog.state'
 import editTwitchBookmarkDialogState, {
   $37DarkThemeMode
-} from './edit.twitch.dialog.state';
-import { register } from '../../business.logic/registry';
+} from './edit.twitch.dialog.state'
+import { register } from '../../business.logic/registry'
 
-register('state', '6', C.$6_STATE_KEY);
+register('state', '6', C.$6_STATE_KEY)
 /** Dialog to create a new YouTube video bookmark @id 6 */
 export const newYoutubeBookmarkDialogState: C.TStateDialog = {
   '_type': 'form',
   '_id': '6',
   '_key': C.$6_STATE_KEY,
-  get 'title'() { return t('30', 'Insert New YouTube Bookmark'); },
+  get 'title'() { return t('30', 'Insert New YouTube Bookmark') },
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
@@ -75,7 +75,7 @@ export const newYoutubeBookmarkDialogState: C.TStateDialog = {
       'type': 'state_button',
       'props': { 'color': 'secondary' },
       'has': {
-        get 'text'() { return t('31', 'Cancel'); },
+        get 'text'() { return t('31', 'Cancel') },
         'onclickHandle': 'tuberCallbacks.defaultClose'
       }
     },
@@ -83,13 +83,13 @@ export const newYoutubeBookmarkDialogState: C.TStateDialog = {
       'type': 'state_button',
       'props': { 'color': 'primary' },
       'has': {
-        get 'text'() { return t('32', 'Save'); },
+        get 'text'() { return t('32', 'Save') },
         'onclickHandle': 'tuberCallbacks.$6_C_1'
       }
     }
   ],
   'open': true
-};
+}
 
 /**
  * Dark theme mode for form state to create a new YouTube video
@@ -97,25 +97,25 @@ export const newYoutubeBookmarkDialogState: C.TStateDialog = {
  * @id 6
  */
 export const $6DarkThemeMode: C.TStateDialog = (() => {
-  const base = clone_with_descriptors(newYoutubeBookmarkDialogState);
-  const props = clone_or_default(base.props, {});
-  const paperProps = clone_or_default(props, {});
+  const base = clone_with_descriptors(newYoutubeBookmarkDialogState)
+  const props = clone_or_default(base.props, {})
+  const paperProps = clone_or_default(props, {})
   paperProps.sx = {
     ...paperProps.sx,
     'backgroundColor': C.THEME_DARK_DIALOG_BACKGROUND_COLOR
-  };
-  props.PaperProps = paperProps;
-  base.props = props;
-  return base;
-})();
+  }
+  props.PaperProps = paperProps
+  base.props = props
+  return base
+})()
 
-register('state', '2', C.$2_STATE_KEY);
+register('state', '2', C.$2_STATE_KEY)
 /** Dialog that contains the form to insert the new video url. @id 2 */
 export const newVideoUrlDialogState: C.TStateDialog = {
   '_type': 'form',
   '_id': '2',
   '_key': C.$2_STATE_KEY,
-  get 'title'() { return t('33', 'Insert the URL of Video to be Bookmarked'); },
+  get 'title'() { return t('33', 'Insert the URL of Video to be Bookmarked') },
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
@@ -129,32 +129,32 @@ export const newVideoUrlDialogState: C.TStateDialog = {
   'content': `$form : ${remove_form_suffix(C.$1_STATE_KEY)} : bookmarks`,
   'actions': [],
   'open': true
-};
+}
 
 /**
  * Dark theme mode for form state to create a new video url.
  * @id 2
  */
 export const $2DarkThemeMode: C.TStateDialog = (() => {
-  const base = clone_with_descriptors(newVideoUrlDialogState);
-  const props = clone_or_default(base.props, {});
-  const paperProps = clone_or_default(props.PaperProps, {});
+  const base = clone_with_descriptors(newVideoUrlDialogState)
+  const props = clone_or_default(base.props, {})
+  const paperProps = clone_or_default(props.PaperProps, {})
   paperProps.sx = {
     ...paperProps.sx,
     'backgroundColor': C.THEME_DARK_DIALOG_BACKGROUND_COLOR
-  };
-  props.PaperProps = paperProps;
-  base.props = props;
-  return base;
-})();
+  }
+  props.PaperProps = paperProps
+  base.props = props
+  return base
+})()
 
-register('state', '7', C.$7_STATE_KEY);
+register('state', '7', C.$7_STATE_KEY)
 /** Dialog to edit an existing YouTube video bookmark @id 7 */
 export const editYoutubeBookmarkDialogState: C.TStateDialog = {
   '_type': 'form',
   '_id': '7',
   '_key': C.$7_STATE_KEY,
-  get 'title'() { return t('34', 'Edit YouTube Bookmark'); },
+  get 'title'() { return t('34', 'Edit YouTube Bookmark') },
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
@@ -169,7 +169,7 @@ export const editYoutubeBookmarkDialogState: C.TStateDialog = {
       'type': 'state_button',
       'props': { 'color': 'secondary' },
       'has': {
-        get 'text'() { return t('35', 'Cancel'); },
+        get 'text'() { return t('35', 'Cancel') },
         'onclickHandle': 'tuberCallbacks.defaultClose'
       }
     },
@@ -177,13 +177,13 @@ export const editYoutubeBookmarkDialogState: C.TStateDialog = {
       'type': 'state_button',
       'props': { 'color': 'primary' },
       'has': {
-        get 'text'() { return t('36', 'Save'); },
+        get 'text'() { return t('36', 'Save') },
         'onclickHandle': 'tuberCallbacks.$7_C_1'
       }
     }
   ],
   'open': true
-};
+}
 
 /**
  * Dark theme mode for form state to edit an existing YouTube video
@@ -191,25 +191,25 @@ export const editYoutubeBookmarkDialogState: C.TStateDialog = {
  * @id 7
  */
 export const $7DarkThemeMode: C.TStateDialog = (() => {
-  const base = clone_with_descriptors(editYoutubeBookmarkDialogState);
-  const props = clone_or_default(base.props, {});
-  const paperProps = clone_or_default(props.PaperProps, {});
+  const base = clone_with_descriptors(editYoutubeBookmarkDialogState)
+  const props = clone_or_default(base.props, {})
+  const paperProps = clone_or_default(props.PaperProps, {})
   paperProps.sx = {
     ...paperProps.sx,
     'backgroundColor': C.THEME_DARK_DIALOG_BACKGROUND_COLOR
-  };
-  props.PaperProps = paperProps;
-  base.props = props;
-  return base;
-})();
+  }
+  props.PaperProps = paperProps
+  base.props = props
+  return base
+})()
 
-register('state', '32', C.$32_STATE_KEY);
+register('state', '32', C.$32_STATE_KEY)
 /** Sign in dialog state. @id 32 */
 export const signInDialogState: C.TStateDialog = {
   '_type': 'form',
   '_id': '32',
   '_key': C.$32_STATE_KEY,
-  get 'title'() { return t('37', 'Enter Your Credentials'); },
+  get 'title'() { return t('37', 'Enter Your Credentials') },
   'props': {
     'fullWidth': true,
     'maxWidth': 'xs'
@@ -217,23 +217,23 @@ export const signInDialogState: C.TStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': `$form : ${remove_form_suffix(C.$41_STATE_KEY)} : ${C.EP_AUTHENTICATE}`,
+  'content': `$form : ${remove_form_suffix(C.$41_STATE_KEY)} : ${C.EP_AUTH.IN}`,
   'open': true
-};
+}
 
 /** Dark theme mode for sign in dialog state. @id 32 */
 export const $32DarkThemeMode: C.TStateDialog = (() => {
-  const base = clone_with_descriptors(signInDialogState);
-  return base;
-})();
+  const base = clone_with_descriptors(signInDialogState)
+  return base
+})()
 
-register('state', '33', C.$33_STATE_KEY);
+register('state', '33', C.$33_STATE_KEY)
 /** Dialog state for registering a new user @id 33 */
 export const registerDialogState: C.TStateDialog = {
   '_type': 'form',
   '_id': '33',
   '_key': C.$33_STATE_KEY,
-  get 'title'() { return t('38', 'Register New User'); },
+  get 'title'() { return t('38', 'Register New User') },
   'props': {
     'fullWidth': true,
     'maxWidth': 'xs'
@@ -243,32 +243,32 @@ export const registerDialogState: C.TStateDialog = {
   },
   'content': `$form : ${remove_form_suffix(C.$69_STATE_KEY)} : ${C.EP_USERS}`,
   'open': true
-};
+}
 
 /** Dark theme mode dialog state for registering a new user @id 33 */
 export const $33DarkThemeMode: C.TStateDialog = (() => {
-  const base = clone_with_descriptors(registerDialogState);
-  return base;
-})();
+  const base = clone_with_descriptors(registerDialogState)
+  return base
+})()
 
-register('state', '34', C.$34_STATE_KEY);
+register('state', '34', C.$34_STATE_KEY)
 /** Dialog state to delete a bookmark. @id 34 */
 export const deleteBookmarkDialogState: C.TStateDialog = {
   '_type': 'alert',
   '_id': '34',
   '_key': C.$34_STATE_KEY,
-  get 'title'() { return t('39', 'Delete Bookmark'); },
+  get 'title'() { return t('39', 'Delete Bookmark') },
   'props': { 'fullWidth': true },
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  get 'content'() { return t('40', 'Are you sure you want to delete this bookmark?'); },
+  get 'content'() { return t('40', 'Are you sure you want to delete this bookmark?') },
   'actions': [
     {
       'type': 'state_button',
       'props': { 'color': 'secondary' },
       'has': {
-        get 'text'() { return t('41', 'Cancel'); },
+        get 'text'() { return t('41', 'Cancel') },
         'onclickHandle': 'tuberCallbacks.defaultClose'
       }
     },
@@ -276,27 +276,27 @@ export const deleteBookmarkDialogState: C.TStateDialog = {
       'type': 'state_button',
       'props': { 'color': 'primary' },
       'has': {
-        get 'text'() { return t('42', 'Delete'); },
+        get 'text'() { return t('42', 'Delete') },
         'onclickHandle': 'tuberCallbacks.$34_C_1'
       }
     }
   ],
   'open': true // Careful! Must be set to true
-};
+}
 
 /** Dark theme mode dialog state to delete a bookmark. @id 34  */
 export const $34DarkThemeMode: C.TStateDialog = (() => {
-  const base = clone_with_descriptors(deleteBookmarkDialogState);
-  return base;
-})();
+  const base = clone_with_descriptors(deleteBookmarkDialogState)
+  return base
+})()
 
-register('state', '35', C.$35_STATE_KEY);
+register('state', '35', C.$35_STATE_KEY)
 /** Client alert dialog. @id 35 */
 export const clientAlertDialogState: C.TStateDialog = {
   '_type': 'alert',
   '_id': '35',
   '_key': C.$35_STATE_KEY,
-  get 'title'() { return t('43', 'Feedback'); },
+  get 'title'() { return t('43', 'Feedback') },
   'props': { 'fullWidth': true },
   'titleProps': {
     'sx': { 'textAlign': 'center' }
@@ -307,20 +307,20 @@ export const clientAlertDialogState: C.TStateDialog = {
       'type': 'state_button',
       'props': { 'color': 'secondary' },
       'has': {
-        get 'text'() { return t('44', 'Cancel'); },
+        get 'text'() { return t('44', 'Cancel') },
         'onclickHandle': 'tuberCallbacks.defaultClose'
       }
     }
   ]
-};
+}
 
 /** Dark theme mode for client alert dialog. @id 35 */
 export const $35DarkThemeMode: C.TStateDialog = (() => {
-  const base = clone_with_descriptors(clientAlertDialogState);
-  return base;
-})();
+  const base = clone_with_descriptors(clientAlertDialogState)
+  return base
+})()
 
-register('state', '68', C.$68_STATE_KEY);
+register('state', '68', C.$68_STATE_KEY)
 /** Dialog state to confirm logging out. @id 68 */
 export const confirmSignOutDialogState: C.TStateDialog = {
   '_type': 'alert',
@@ -331,13 +331,13 @@ export const confirmSignOutDialogState: C.TStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  get 'content'() { return t('45', 'Are you sure you want to logout?'); },
+  get 'content'() { return t('45', 'Are you sure you want to sign out?') },
   'actions': [
     {
       'type': 'state_button',
       'props': { 'color': 'secondary' },
       'has': {
-        get 'text'() { return t('46', 'Cancel'); },
+        get 'text'() { return t('46', 'Cancel') },
         'onclickHandle': 'tuberCallbacks.defaultClose'
       }
     },
@@ -345,19 +345,19 @@ export const confirmSignOutDialogState: C.TStateDialog = {
       'type': 'state_button',
       'props': { 'color': 'primary' },
       'has': {
-        get 'text'() { return t('47', 'Logout'); },
+        get 'text'() { return t('47', 'Logout') },
         'onclickHandle': 'tuberCallbacks.$68_C_1'
       }
     }
   ],
   'open': true
-};
+}
 
 /** Dark theme mode for dialog state to confirm logging out. @id 68 */
 export const $68DarkThemeMode: C.TStateDialog = (() => {
-  const base = clone_with_descriptors(confirmSignOutDialogState);
-  return base;
-})();
+  const base = clone_with_descriptors(confirmSignOutDialogState)
+  return base
+})()
 
 /**
  * Default alert dialog.  
@@ -372,7 +372,7 @@ export function defaultDialogAlertState<T=unknown>(content: T): C.TJsonapiStateR
         '_type': 'alert',
         '_id': '64',
         '_key': C.$64_STATE_KEY,
-        get 'title'() { return t('48', 'Server Response'); },
+        get 'title'() { return t('48', 'Server Response') },
         'props': { 'fullWidth': true },
         'titleProps': {
           'sx': { 'textAlign': 'center' }
@@ -383,7 +383,7 @@ export function defaultDialogAlertState<T=unknown>(content: T): C.TJsonapiStateR
             'type': 'state_button',
             'props': { 'color': 'secondary' },
             'has': {
-              get 'text'() { return t('49', 'Close'); },
+              get 'text'() { return t('49', 'Close') },
               'onclickHandle': 'tuberCallbacks.defaultClose'
             }
           }
@@ -391,10 +391,10 @@ export function defaultDialogAlertState<T=unknown>(content: T): C.TJsonapiStateR
         'open': true
       }
     }
-  };
+  }
 }
 
-export const alert = defaultDialogAlertState;
+export const alert = defaultDialogAlertState
 
 /**
  * Simple dialog alert. It must be inserted at `state.dialog` e.g.
@@ -412,7 +412,7 @@ export function dialogAlertState<T=unknown>(content: T): C.TStateDialog {
     '_type': 'alert',
     '_id': '65',
     '_key': C.$65_STATE_KEY,
-    get 'title'() { return t('50', 'Server Response'); },
+    get 'title'() { return t('50', 'Server Response') },
     'props': { 'fullWidth': true },
     'titleProps': {
       'sx': { 'textAlign': 'center' }
@@ -423,13 +423,13 @@ export function dialogAlertState<T=unknown>(content: T): C.TStateDialog {
         'type': 'state_button',
         'props': { 'color': 'secondary' },
         'has': {
-          get 'text'() { return t('51', 'Close'); },
+          get 'text'() { return t('51', 'Close') },
           'onclickHandle': 'tuberCallbacks.defaultClose'
         }
       }
     ],
     'open': true
-  };
+  }
 }
 
 /**
@@ -439,12 +439,12 @@ export function dialogAlertState<T=unknown>(content: T): C.TStateDialog {
  * @deprecated
  */
 export function bootstrap_dialogs_light_state() {
-  const dialogs: C.TStateAllDialogs = {};
-  set_state_by_key(dialogs, signInDialogState);
-  set_state_by_key(dialogs, confirmSignOutDialogState);
+  const dialogs: C.TStateAllDialogs = {}
+  set_state_by_key(dialogs, signInDialogState)
+  set_state_by_key(dialogs, confirmSignOutDialogState)
   // TODO: Don't forget to insert light mode state for each dialog
 
-  return dialogs;
+  return dialogs
 }
 
 /**
@@ -454,12 +454,12 @@ export function bootstrap_dialogs_light_state() {
  * @deprecated
  */
 export function bootstrap_dialogs_dark_state() {
-  const dialogs: C.TStateAllDialogs = {};
-  set_state_by_key(dialogs, $32DarkThemeMode);
-  set_state_by_key(dialogs, $68DarkThemeMode);
+  const dialogs: C.TStateAllDialogs = {}
+  set_state_by_key(dialogs, $32DarkThemeMode)
+  set_state_by_key(dialogs, $68DarkThemeMode)
   // TODO: Don't forget to insert dark mode state for each dialog
 
-  return dialogs;
+  return dialogs
 }
 
 /**
@@ -474,7 +474,7 @@ function _get_signin_dialog_state(mode?: TThemeMode) {
     signInDialogState,
     $32DarkThemeMode,
     mode
-  );
+  )
 }
 
 /**
@@ -489,7 +489,7 @@ function _get_signout_dialog_state (mode?: TThemeMode) {
     confirmSignOutDialogState,
     $68DarkThemeMode,
     mode
-  );
+  )
 }
 
 /**
@@ -501,14 +501,14 @@ function _get_signout_dialog_state (mode?: TThemeMode) {
  * @deprecated
  */
 export function bootstrap_dialogs_state(mode?: TThemeMode) {
-  const dialogs: C.TStateAllDialogs = {};
-  dialogs[key(signInDialogState)] = _get_signin_dialog_state(mode);
-  dialogs[key(confirmSignOutDialogState)] = _get_signout_dialog_state(mode);
+  const dialogs: C.TStateAllDialogs = {}
+  dialogs[key(signInDialogState)] = _get_signin_dialog_state(mode)
+  dialogs[key(confirmSignOutDialogState)] = _get_signout_dialog_state(mode)
 
   // TODO Insert your new dialog here if you want it to be load in the
   //      bootstrapping process.
 
-  return dialogs;
+  return dialogs
 }
 
 export const STATE_DIALOGS_THEME_DARK: C.TStateAllDialogs = {
@@ -534,7 +534,7 @@ export const STATE_DIALOGS_THEME_DARK: C.TStateAllDialogs = {
   [C.$36_STATE_KEY]: $36DarkThemeMode,
   [C.$37_STATE_KEY]: $37DarkThemeMode,
   [C.$68_STATE_KEY]: $68DarkThemeMode,
-};
+}
 
 export const STATE_DIALOGS: { [key: string]: C.TStateDialog } = {
   [C.$2_STATE_KEY]: newVideoUrlDialogState,
@@ -559,8 +559,8 @@ export const STATE_DIALOGS: { [key: string]: C.TStateDialog } = {
   [C.$36_STATE_KEY]: newTwitchBookmarkDialogState,
   [C.$37_STATE_KEY]: editTwitchBookmarkDialogState,
   [C.$68_STATE_KEY]: confirmSignOutDialogState,
-};
+}
 
 export default function get_dialog_state(key: string): C.TStateDialog | undefined {
-  return themed_by_key(key, STATE_DIALOGS, STATE_DIALOGS_THEME_DARK);
+  return themed_by_key(key, STATE_DIALOGS, STATE_DIALOGS_THEME_DARK)
 }

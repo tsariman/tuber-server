@@ -1,8 +1,9 @@
-import { register } from '../../business.logic/registry';
-import { TStatePage, $53_STATE_KEY } from '@tuber/shared';
-import { clone_with_descriptors } from '../../business.logic';
+import { register } from '../../business.logic/registry'
+import { TStatePage, $53_STATE_KEY } from '@tuber/shared'
+import { clone_with_descriptors } from '../../business.logic'
+import { homeLinkState } from '../../state/nav.link'
 
-register('state', '53', $53_STATE_KEY);
+register('state', '53', $53_STATE_KEY)
 /** @id 53 */
 const adminReadablePageState: TStatePage = {
   '_id': '53',
@@ -11,14 +12,7 @@ const adminReadablePageState: TStatePage = {
   'layout': 'layout_md',
   'appbar': {
     'appbarStyle': 'middle_search',
-    'items': [
-      {
-        'has': {
-          'text': 'Home',
-          'route': '/'
-        }
-      }
-    ],
+    'items': [ homeLinkState ],
     'inputBaseProps': {
       'id': 'filter-readable',
       'placeholder': 'Filter readable text ...',
@@ -42,11 +36,11 @@ const adminReadablePageState: TStatePage = {
     }
   },
   'hideDrawer': true
-};
+}
 
-export default adminReadablePageState;
+export default adminReadablePageState
 
 export const $53DarkThemeMode: TStatePage = (() => {
-  const base = clone_with_descriptors(adminReadablePageState);
-  return base;
-})();
+  const base = clone_with_descriptors(adminReadablePageState)
+  return base
+})()

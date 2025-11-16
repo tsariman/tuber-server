@@ -4,6 +4,7 @@
    Create the admin user */
 
 import { FastifyPluginAsync, FastifyReply, FastifyRequest } from 'fastify'
+import { IQueryDirective, IQueryEnvVar, IStatePost } from '../../common.types'
 import dev_post_create_update_dev_user_endpoint from '../../dev/handlers/dev.post.dev.user.ep'
 import dev_post_database_reset_endpoint from '../../dev/handlers/dev.post.database.reset.ep'
 import {
@@ -11,6 +12,7 @@ import {
   dev_post_unload_test_drawer
 } from '../../dev/handlers'
 import { DEV_ROUTE_POTIONS } from '../../middleware/router.option'
+import dev_post_user_endpoint from '../../dev/handlers/dev.post.user.ep'
 import {
   dev_post_bookmarks_populate_endpoint,
   dev_post_users_populate_endpoint
@@ -76,11 +78,6 @@ const dev: FastifyPluginAsync = async (fastify, rootOpts): Promise<void> => {
   if (Config.DEV) {
     const opts = {
       ...rootOpts,
-      // ...DEFAULT_ROUTE_OPTIONS,
-      // TODO Add custom route options here
-    }
-    const devOpts = {
-      ...rootOpts,
       ...DEV_ROUTE_POTIONS
       // TODO Add custom route options here
     }
@@ -100,89 +97,95 @@ const dev: FastifyPluginAsync = async (fastify, rootOpts): Promise<void> => {
       opts,
       dev_get_html_page_endpoint
     )
-    // Creates the default user for development purposes.
+    // POST /dev/user -- Creates the default user for development purposes.
     fastify.post('/user', opts, dev_post_create_update_dev_user_endpoint)
-    // Reset the database for development purposes.
+    // POST /dev/database-reset -- Reset the database for development purposes.
     fastify.post('/database-reset', opts, dev_post_database_reset_endpoint)
-    // Adds the test drawer to client side.
+    // POST /dev/load-test-drawer -- Adds the test drawer to client side.
     fastify.post('/load-test-drawer', opts, dev_post_load_test_drawer)
-    // Removes the test drawer from client side.
+    // POST /dev/unload-test-drawer -- Removes the test drawer from client side.
     fastify.post('/unload-test-drawer', opts, dev_post_unload_test_drawer)
-    // Populates the users collection with random data.
+    // POST /dev/populate/users/:total -- Populates the users collection with
+    // random data.
     fastify.post<IPostPopulate>('/populate/users/:total',
       opts,
       dev_post_users_populate_endpoint
     )
-    // Populates the bookmarks collection with random data.
+    // POST /dev/populate/bookmarks/:total -- Populates the bookmarks
+    // collection with random data.
     fastify.post<IPostPopulate>('/populate/bookmarks/:total',
       opts,
       dev_post_bookmarks_populate_endpoint
     )
-    // No response endpoint for testing purposes.
+    // GET /dev/no-response/:hangTime -- No response endpoint for testing purposes.
     fastify.get<{ Params: { hangTime: string }}>(
       '/no-response/:hangTime',
       opts,
       dev_get_no_response_hangtime_endpoint
     )
-    // Drops a collection from the database.
+    // POST /dev/drop-collection/:collection -- Drops a collection from the database.
     fastify.delete<{ Params: { collection: string }}>(
       '/drop-collection/:collection',
       opts,
       dev_delete_collection_endpoint
     )
-    // Populate a collection with random data.
+    // POST /dev/populate-collection -- Populate a collection with random data.
     fastify.post<{ Body: { collection: string, quantity: string }}>(
       '/populate-collection',
       opts,
       dev_post_populate_collection_endpoint
     )
-    // [TODO] Move these endpoints to the bookmarks controller.
+    // POST /dev/setup-collection-index-search/bookmarks -- [TODO] Move these
+    // endpoints to the bookmarks controller.
     fastify.post('/setup-collection-index-search/bookmarks',
-      devOpts,
+      opts,
       post_bookmarks_api_setup_search_index_endpoint
     )
-    // [TODO] Maybe useless. Remove it.
-    fastify.post<{ Body: { key?: string }}>(
+    // POST /dev/state/pages -- [TODO] Maybe useless. Remove it.
+    fastify.post<IStatePost>(
       '/state/pages',
       opts,
       dev_post_state_pages_endpoint
     )
-    // [TODO] Maybe useless. Remove it.
-    fastify.post<{ Body: { key?: string }}>(
+    // POST /dev/state/forms -- [TODO] Maybe useless. Remove it.
+    fastify.post<IStatePost>(
       '/state/forms',
       opts,
       dev_post_state_forms_endpoint
     )
-    // Use the regexp to extract the data from the HTML page which is fetched from
-    // the URL.
+    // POST /dev/rumble/regexp -- Use the regexp to extract the data from the
+    // HTML page which is fetched from the URL.
     fastify.post<IPostRegexpUrl>(
       '/rumble/regexp',
       opts,
       dev_post_rumble_regexp_endpoint
     )
-    // Use the regexp to extract the data from the HTML page which is fetched from
-    // the URL.
+    // POST /dev/unknown/regexp -- Use the regexp to extract the data from the
+    // HTML page which is fetched from the URL.
     fastify.post<IPostRegexpUrl>(
       '/unknown/regexp',
       opts,
       dev_post_unknown_regexp_endpoint
     )
-    // Get a rumble video thumbnail
+    // GET /dev/rumble/thumbnails -- Get a rumble video thumbnail
     fastify.get<{ Querystring: { slug?: string }}>(
       '/rumble/thumbnails',
       opts,
       dev_get_rumble_thumbnail_endpoint
     )
+    // GET /dev/odysee/thumbnails
     fastify.get<{ Querystring: { slug?: string }}>(
       '/odysee/thumbnails',
       opts,
       dev_get_odysee_thumbnail_endpoint
     )
+    // GET /dev/vimeo/thumbnails
     fastify.get<{ Querystring: { videoid?: string }}>(
       '/vimeo/thumbnails',
       opts,
       dev_get_vimeo_thumbnail_endpoint
     )
+    // GET /dev/twitch/thumbnails
     fastify.get<{ Querystring: { videoid?: string }}>(
       '/twitch/thumbnails',
       opts,
@@ -193,17 +196,22 @@ const dev: FastifyPluginAsync = async (fastify, rootOpts): Promise<void> => {
       opts,
       get_twitch_renew_access_token_endpoint
     )
+    // POST /dev/twitch/client-id
     fastify.post<IPostClient>(
       '/twitch/client-id',
       opts,
       dev_post_twitch_client_id_endpoint
     )
+    // POST /dev/save-config-value
     fastify.post<IPostKeyVal>(
       '/save-config-value',
       opts,
       dev_post_save_config_value_endpoint
     )
-    fastify.get('/environment-variable', dev_get_env_var_enpoint)
+    // GET /dev/environment-variable
+    fastify.get<IQueryEnvVar>('/environment-variable', opts, dev_get_env_var_enpoint)
+    // POST /dev/users -- Creates default user
+    fastify.post<IQueryDirective>('/users', opts, dev_post_user_endpoint)
   }
 }
 

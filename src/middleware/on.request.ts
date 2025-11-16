@@ -1,12 +1,14 @@
-import { RouteShorthandOptions } from 'fastify'
+import { FastifyRequest, onRequestHookHandler } from 'fastify'
 import { default_401_error_response } from '../business.logic/errors'
 import Config from '../config'
-import { log } from '../utility/logging'
+import { dbug } from '../utility/logging'
 import { TCipheredUser } from '../schema/users'
 
 declare module 'fastify' {
   interface FastifyRequest {
-    usr: TCipheredUser
+    token?: string
+    usr?: TCipheredUser
+    cookie?: string
   }
 }
 
@@ -17,22 +19,20 @@ declare module 'fastify' {
  * @param reply 
  * @param done 
  */
-const default_on_request: RouteShorthandOptions['onRequest'] = async (
+const on_request_default: onRequestHookHandler = async (
   req,
   reply,
-  // done
-) => {
+  done
+): Promise<void> => {
+  void done
   try {
-    const payload = await req.jwtVerify()
-    req.usr = payload as TCipheredUser
+    await authorize_request(req)
 
-    // TODO Write more session related logic here
+    // TODO: Write more session-related logic here
 
   } catch (e) {
-    log('[DEBUG] JWT verification failed.', e)
+    dbug('JWT verification failed.', e)
     reply.code(401).send(default_401_error_response({
-      code: 'AUTHENTICATION_REQUIRED',
-      status: '401',
       title: 'JWT verification failed.',
       detail: (e as Error).stack,
       source: {
@@ -43,7 +43,7 @@ const default_on_request: RouteShorthandOptions['onRequest'] = async (
   }
 }
 
-export default default_on_request
+export default on_request_default
 
 /**
  * [TODO] Test this logic to make sure it does not cause a 401 http error code.
@@ -51,28 +51,23 @@ export default default_on_request
  * @param reply
  * @param done
  */
-export const dev_on_request: RouteShorthandOptions['onRequest'] = async (
+export const on_request_dev: onRequestHookHandler = async (
   req,
   reply,
   done
-) => {
+): Promise<void> => {
   try {
-    if (Config.DEBUG) { // Allow access if app is in development mode.
+    await authorize_request(req)
+
+    // TODO: Write more session-related logic here
+
+  } catch (e) {
+    // Allow access if app is in development mode.
+    if (Config.DEV) {
       done()
     } else {
-      // Allow access to the route if user is authenticated just like in
-      // the default behavior.
-      const payload = await req.jwtVerify()
-      req.usr = payload as TCipheredUser
-  
-      // TODO Write more session related logic here
-    }
-  } catch (e) {
-    if (Config.DEBUG) {
-      log('[ERROR] JWT verification failed.', e)
+      dbug('JWT verification failed.', e)
       reply.code(401).send(default_401_error_response({
-        code: 'AUTHENTICATION_REQUIRED',
-        status: '401',
         title: 'JWT verification failed.',
         detail: (e as Error).stack,
         source: {
@@ -82,5 +77,51 @@ export const dev_on_request: RouteShorthandOptions['onRequest'] = async (
       }))
     }
   }
+}
 
+/**
+ * Optional authentication hook for routes that don't require mandatory authentication.
+ * Attempts to authorize the request using JWT verification, but allows the request to proceed
+ * even if authentication fails, by calling the done callback without error.
+ *
+ * @param req - The Fastify request object.
+ * @param reply - The Fastify reply object (unused in this implementation).
+ * @param done - Callback function to signal completion of the hook.
+ */
+export const on_request_optional: onRequestHookHandler = async (
+  req,
+  reply,
+  done
+): Promise<void> => {
+  void reply
+  try {
+    await authorize_request(req)
+  } catch (e) {
+    done()
+  }
+}
+
+/**
+ * Authorizes the incoming request by verifying the JWT token.
+ * 
+ * This function extracts and verifies the JWT from the request, decodes the payload,
+ * and sets the user information and token on the request object for further use.
+ * 
+ * @param req - The Fastify request object containing the JWT in the authorization header.
+ * @throws Will throw an error if JWT verification fails.
+ */
+export const authorize_request = async (req: FastifyRequest): Promise<void> => {
+  const payload = await req.jwtVerify()
+  if (payload) {
+    req.usr = payload as TCipheredUser
+    dbug('Decoded value from token:', req.usr)
+  } else {
+    dbug('Token is missing.')
+  }
+  req.token = req.headers.authorization?.replace('Bearer ', '')
+  req.cookie = req.headers.cookie
+  if (req.headers.cookie) {
+  } else {
+    dbug('No cookie received.')
+  }
 }

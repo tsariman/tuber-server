@@ -1,43 +1,45 @@
-import { FastifyReply, FastifyRequest } from 'fastify';
+import { FastifyReply, FastifyRequest } from 'fastify'
 import {
   default_500_error_response,
   default_400_error_response
-} from '../business.logic/errors';
-import JsonapiResponseBuilder from '../business.logic/builder/JsonapiResponseBuilder';
-import { ler, log, log_err, write as print } from '../utility/logging';
-import { create_bookmark } from '../model/bookmark';
-import { IBookmarkPost } from '../schema/bookmarks';
-import fix_missing_bookmark_data from '../platform/all.drivers';
-import { MSG_500_ERROR_MESSAGE } from '@tuber/shared';
-import JsonapiRequestDriver from '../business.logic/JsonapiRequestDriver';
+} from '../business.logic/errors'
+import JsonapiResponseBuilder from '../business.logic/builder/JsonapiResponseBuilder'
+import { dbug, ler, log_err, task, task_end } from '../utility/logging'
+import { create_bookmark } from '../model/bookmark'
+import { IBookmarkPost } from '../schema/bookmarks'
+import fix_missing_bookmark_data from '../platform/all.drivers'
+import { MSG_500_ERROR_MESSAGE } from '@tuber/shared'
+import JsonapiRequestDriver from '../business.logic/JsonapiRequestDriver'
 
+/** `POST /bookmarks` */
 export default async function post_bookmark_endpoint (
   req: FastifyRequest<IBookmarkPost>,
   reply: FastifyReply
 ) {
   try {
-    const driver = new JsonapiRequestDriver(req.body);
-    const platform = driver.getAttribute('platform');
-    const attr = driver.getAttributes();
-    print(`[DEBUG] Creating [${platform}] bookmark... `);
-    const bookmark = await fix_missing_bookmark_data(attr, req.usr);
+    const driver = new JsonapiRequestDriver(req.body)
+    const platform = driver.getAttribute('platform')
+    const attr = driver.getAttributes()
+    task(`Creating [${platform}] bookmark... `)
+    const bookmark = await fix_missing_bookmark_data(attr, req.usr)
     if (!bookmark) {
-      log('Failed.');
+      task_end('Failed.')
       reply.code(400).send(default_400_error_response({
         title: 'Failed to create bookmark.',
         detail: 'Bookmark is null.'
-      }));
-      return;
+      }))
+      return
     }
-    const dbBookmark = await create_bookmark(bookmark);
-    log('Done.');
-    log('[DEBUG] Sending response...', dbBookmark);
+    const dbBookmark = await create_bookmark(bookmark)
+    task_end('Done.')
+    dbug('Sending response...', dbBookmark)
     reply.code(201).send(
       JsonapiResponseBuilder.forSingleResource(dbBookmark, 'bookmarks').build()
-    );
+    )
+    task_end('Done')
   } catch (e) {
-    ler(MSG_500_ERROR_MESSAGE);
-    log_err('POST bookmark', e);
-    reply.code(500).send(default_500_error_response(e));
+    ler(MSG_500_ERROR_MESSAGE)
+    log_err('POST bookmark', e)
+    reply.code(500).send(default_500_error_response(e))
   }
 }

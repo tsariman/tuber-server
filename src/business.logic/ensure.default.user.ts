@@ -1,7 +1,7 @@
-import { ler, log } from '../utility/logging';
-import Config from '../config';
-import { create_user, read_user_collection_count } from '../model/user';
-import { IUser } from '../schema/users';
+import { info, ler, task, task_end } from '../utility/logging'
+import Config from '../config'
+import { create_user, read_user_collection_count } from '../model/user'
+import { IUser } from '../schema/users'
 
 /**
  * Default user credentials that will be created if no users exist
@@ -13,7 +13,7 @@ const DEFAULT_USER: IUser = {
   role: 'administrator',
   firstname: 'System',
   lastname: 'Administrator'
-};
+}
 
 /**
  * Ensures at least one user exists in the database.
@@ -28,29 +28,29 @@ export async function ensureDefaultUserExists(): Promise<boolean> {
   try {
     // Only create default user in debug mode
     if (!Config.DEBUG) {
-      log('[DEBUG] App not in debug mode. Skipping default user creation.');
-      return false;
+      console.log('App not in debug mode. Skipping default user creation.')
+      return false
     }
 
-    const userCount = await read_user_collection_count();
+    const userCount = await read_user_collection_count()
     
     if (userCount === 0) {
-      log('[INFO] No users found in database. Creating default admin user...');
-      
-      await create_user(DEFAULT_USER);
-      
-      log('[INFO] Default admin user created successfully!');
-      log('[INFO] Username: admin');
-      log('[INFO] Password: admin123 (Please change this immediately!)');
-      log('[INFO] Role: administrator');
-      
-      return true;
+      task('No users found in database. Creating default admin user... ')
+
+      await create_user(DEFAULT_USER)
+
+      task_end('Success!\n')
+      info('Username: admin')
+      info('Password: admin123 (Please change this immediately!)')
+      info('Role: administrator')
+
+      return true
     }
     
-    return false;
+    return false
   } catch (error) {
-    ler('[ERROR] Failed to ensure default user exists:', error);
-    throw error;
+    ler('Failed!', error)
+    throw error
   }
 }
 
@@ -84,7 +84,7 @@ export const DEFAULT_USER_TEMPLATES = {
     firstname: 'Demo',
     lastname: 'User'
   }
-};
+}
 
 /**
  * Creates a default user with custom template
@@ -95,21 +95,21 @@ export const DEFAULT_USER_TEMPLATES = {
 export async function createDefaultUser(template: keyof typeof DEFAULT_USER_TEMPLATES = 'admin') {
   // Only create default user in debug mode
   if (!Config.DEBUG) {
-    throw new Error('Default user creation is only allowed in debug mode');
+    throw new Error('Default user creation is only allowed in debug mode')
   }
 
-  const userTemplate = DEFAULT_USER_TEMPLATES[template];
+  const userTemplate = DEFAULT_USER_TEMPLATES[template]
   
   if (!userTemplate) {
-    throw new Error(`Unknown user template: ${template}`);
+    throw new Error(`Unknown user template: ${template}`)
   }
   
-  const user = await create_user(userTemplate);
+  const user = await create_user(userTemplate)
   
-  log(`[INFO] Default ${template} user created:`);
-  log(`[INFO] Username: ${userTemplate.name}`);
-  log(`[INFO] Password: ${userTemplate.password}`);
-  log(`[INFO] Role: ${userTemplate.role}`);
+  info(`Default ${template} user created:`)
+  info(`Username: ${userTemplate.name}`)
+  info(`Password: ${userTemplate.password}`)
+  info(`Role: ${userTemplate.role}`)
   
-  return user;
+  return user
 }

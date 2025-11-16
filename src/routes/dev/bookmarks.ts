@@ -9,7 +9,7 @@ import {
   IBookmarkPatch,
   IBookmarkDelete
 } from '../../schema/bookmarks'
-import dev_post_bookmarks_endpoint from '../../dev/handlers/dev.post.bookmark.ep'
+import dev_post_bookmark_endpoint from '../../dev/handlers/dev.post.bookmark.ep'
 import get_video_thumbnail_url_endpoint, {
   IBookmarkThumbnailUrlGet
 }  from '../../platform/endpoint/get.video.thumbnail.url.ep'
@@ -28,7 +28,7 @@ const bookmarks: FastifyPluginAsync = async (fastify, rootOpts): Promise<void> =
   // GET /bookmarks/:id/thumbnail-url
   fastify.get<IBookmarkThumbnailUrlGet>('/:id/thumbnail-url', opts, get_video_thumbnail_url_endpoint)
   // POST /bookmarks (create)
-  fastify.post<IBookmarkPost>('/', opts, dev_post_bookmarks_endpoint)
+  fastify.post<IBookmarkPost>('/', opts, dev_post_bookmark_endpoint)
   // PATCH /bookmarks/:id (update)
   fastify.patch<IBookmarkPatch>('/:id', opts, patch_bookmark_by_id_endpoint)
   // DELETE /bookmarks/:id (delete)

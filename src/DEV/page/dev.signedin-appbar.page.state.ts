@@ -1,6 +1,7 @@
 import { $43_STATE_KEY, TStatePage } from '@tuber/shared';
 import { register } from '../../business.logic/registry';
 import { clone_with_descriptors } from '../../business.logic';
+import { homeLinkState } from '../../state/nav.link';
 
 register('state', '43', $43_STATE_KEY);
 /** @id 43 */
@@ -9,12 +10,7 @@ const devSignedInPageState: TStatePage = {
   '_key': $43_STATE_KEY,
   'appbar': {
     'items': [
-      {
-        'has': {
-          'text': 'Home',
-          'route': '/'
-        }
-      },
+      homeLinkState,
 
       // sign in chip
       {

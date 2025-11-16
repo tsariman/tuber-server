@@ -9,6 +9,7 @@ import {
 import { USER_CACHE } from '../business.logic/cache';
 import { TCipheredUser } from '../schema/users';
 import { UserPaginationModel } from '../model/user';
+import { is_token_blacklisted } from '../model/blacklisted-token';
 import { log } from '../utility/logging';
 
 const pre_handler_authenticate: RouteShorthandOptions['preHandler'] = async function(
@@ -27,12 +28,22 @@ const pre_handler_authenticate: RouteShorthandOptions['preHandler'] = async func
     if (err) {
       log(err);
       reply.code(403).send($403_ACCESS_TOKEN_FORBIDDEN);
+      return;
+    }
+
+    // Check if token is blacklisted
+    const isBlacklisted = await is_token_blacklisted(token);
+    if (isBlacklisted) {
+      log('[DEBUG] Authentication: Token is blacklisted');
+      reply.code(401).send($401_UNAUTHORIZED_ACCESS);
+      return;
     }
 
     // This should never happen but just in case
     if (!cUsr) {
       log('[DEBUG] Authentication: User not found');
       reply.code(400).send($400_MISSING_PAYLOAD);
+      return;
     }
 
     const cUsr1 = cUsr as TCipheredUser;
@@ -47,6 +58,7 @@ const pre_handler_authenticate: RouteShorthandOptions['preHandler'] = async func
       if (!dbUser) {
         log('[DEBUG] Authentication: User not found in database.');
         reply.code(401).send($401_UNAUTHORIZED_ACCESS);
+        return;
       } else {
         const newUsr: TCipheredUser = {
           _id: dbUser._id,

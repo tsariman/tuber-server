@@ -4,7 +4,7 @@ import get_bookmark_by_id_endpoint from '../handlers/get.bookmark.by.id.ep'
 import post_bookmark_endpoint from '../handlers/post.bookmark.ep'
 import patch_bookmark_by_id_endpoint from '../handlers/patch.bookmark.by.id.ep'
 import delete_bookmark_by_id_endpoint from '../handlers/delete.bookmark.by.id.ep'
-import { DEFAULT_ROUTE_OPTIONS } from '../middleware/router.option'
+import { DEFAULT_ROUTE_OPTIONS, OPTIONAL_ROUTE_OPTIONS } from '../middleware/router.option'
 import {
   IBookmarkGet,
   IBookmarkPost,
@@ -12,7 +12,7 @@ import {
   IBookmarkDelete
 } from '../schema/bookmarks'
 import Config from '../config'
-import dev_post_bookmarks_endpoint from '../dev/handlers/dev.post.bookmark.ep'
+import dev_post_bookmark_endpoint from '../dev/handlers/dev.post.bookmark.ep'
 import get_video_thumbnail_url_endpoint, {
   IBookmarkThumbnailUrlGet
 }  from '../platform/endpoint/get.video.thumbnail.url.ep'
@@ -22,17 +22,19 @@ const bookmarks: FastifyPluginAsync = async (fastify, rootOpts): Promise<void> =
   const opts = { ...rootOpts, ...DEFAULT_ROUTE_OPTIONS }
 
   const postBookmark = Config.DEV
-    ? dev_post_bookmarks_endpoint
+    ? dev_post_bookmark_endpoint
     : post_bookmark_endpoint
 
-  // GET /bookmarks
+  const bookmarksOpts = { ...rootOpts, ...OPTIONAL_ROUTE_OPTIONS }
+
+  // GET /bookmarks (read)
   fastify.get<IBookmarkGet>(
     '/bookmarks',
-    { ...DEFAULT_ROUTE_OPTIONS, onRequest: undefined },
+    bookmarksOpts,
     get_bookmark_collection_endpoint
   )
 
-  // GET /bookmarks/:id
+  // GET /bookmarks/:id (read)
   fastify.get<IBookmarkGet>('/bookmarks/:id', opts, get_bookmark_by_id_endpoint)
   // GET /bookmarks/:id/thumbnail-url
   fastify.get<IBookmarkThumbnailUrlGet>(

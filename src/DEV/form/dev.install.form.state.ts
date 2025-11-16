@@ -1,13 +1,13 @@
-import { TBootstrapState } from '../../state/_state.common.types';
-import * as C from '@tuber/shared';
-import { register } from '../../business.logic/registry';
-import { clone_with_descriptors } from '../../business.logic';
-import * as ITEM from '../form.item.state';
-import { devFormItemSeparator as __vertical_separator__ } from '../form.item.state';
-import { devHorizontalSeparator as __horizontal_separator__ } from '../form.item.state';
-import devFormTestClipboardState from './dev.test.clipboard.form.state';
+import { TBootstrapState } from '../../state/_state.common.types'
+import * as C from '@tuber/shared'
+import { register } from '../../business.logic/registry'
+import { clone_with_descriptors } from '../../business.logic'
+import * as ITEM from '../dev.form.item.state'
+import { devFormItemSeparator as __vertical_separator__ } from '../dev.form.item.state'
+import { devHorizontalSeparator as __horizontal_separator__ } from '../dev.form.item.state'
+import devFormTestClipboardState from './dev.test.clipboard.form.state'
 
-register('state', '47', C.$47_STATE_KEY);
+register('state', '47', C.$47_STATE_KEY)
 /** Development shortcuts form. @id 47 */
 const devInstallFormState: C.TStateForm = {
   '_type': 'box',
@@ -95,13 +95,13 @@ const devInstallFormState: C.TStateForm = {
       ]
     },
   ]
-};
+}
 
-export default devInstallFormState;
+export default devInstallFormState
 
 /** Dark theme version for the development shortcuts form. @id 47 */
 export const $47DarkThemeMode = (() => {
-  const base = clone_with_descriptors(devInstallFormState);
+  const base = clone_with_descriptors(devInstallFormState)
   const paperProps = {
     ...base.paperProps,
     'elevation': 0,
@@ -109,10 +109,10 @@ export const $47DarkThemeMode = (() => {
       ...base.paperProps?.sx,
       'backgroundColor': C.THEME_DARK_PAPER_COLOR
     }
-  } as typeof base.paperProps;
-  base.paperProps = paperProps;
-  return base;
-})();
+  } as typeof base.paperProps
+  base.paperProps = paperProps
+  return base
+})()
 
 export const dev_install_form_state = {
 
@@ -120,7 +120,7 @@ export const dev_install_form_state = {
 
   // TODO - Insert installation form states here.
 
-} as TBootstrapState<C.TStateForm>;
+} as TBootstrapState<C.TStateForm>
 
 export const dev_install_form_state_dark = {
 
@@ -128,4 +128,4 @@ export const dev_install_form_state_dark = {
 
   // TODO - Insert installation form states (dark themed) here.
 
-} as TBootstrapState<C.TStateForm>;
+} as TBootstrapState<C.TStateForm>

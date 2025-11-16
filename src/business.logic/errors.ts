@@ -1,6 +1,7 @@
 import { TJsonapiErrorSource } from '@tuber/shared'
 import { signInDialogState } from '../state/dialog'
 import JsonapiErrorBuilder, { TJsonapiError } from './builder/JsonapiErrorBuilder'
+import { assure, ensure } from '../utility'
 
 export const MONGODB_DUPLICATE_KEY_ERROR = 'E11000'
 
@@ -14,8 +15,8 @@ export const default_500_error_response = (e: unknown) => {
   return new JsonapiErrorBuilder()
     .withStatus(500)
     .withCode('INTERNAL_ERROR')
-    .withTitle((e as Error).message)
-    .withDetail((e as Error).stack)
+    .withTitle(ensure<Error>(e).message || 'Unknown')
+    .withDetail(ensure<Error>(e).stack)
     .build()
 }
 
@@ -38,14 +39,25 @@ export const default_404_error_response = (
 }
 
 /** Default 401 error response to help prevent repetitive code. */
-export const default_401_error_response = (error: TJsonapiError) => {
-  const { title, detail } = error
+export const default_401_error_response = (error?: TJsonapiError) => {
+  const { title, detail } = assure(error)
   return new JsonapiErrorBuilder()
     .withStatus(401)
     .withCode('AUTHENTICATION_REQUIRED')
-    .withTitle(title)
+    .withTitle(title || 'Unauthorized')
     .withDetail(detail)
     .withState({ 'dialog': signInDialogState })
+    .build()
+}
+
+/** Generic response for an authentication-shielded enpoints. */
+export const shielded_401_error_response = (error?: TJsonapiError) => {
+  const { title, detail } = assure(error)
+  return new JsonapiErrorBuilder()
+    .withStatus(401)
+    .withCode('SERVICE_UNAVAILABLE')
+    .withTitle(title || 'The server is busy.')
+    .withDetail(detail)
     .build()
 }
 

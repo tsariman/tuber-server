@@ -1,17 +1,17 @@
-import Config from '../../config';
-import { PipelineStage } from 'mongoose';
-import { DB_PAGINATION_QUERY } from '@tuber/shared';
-import { TCipheredUser } from '../../schema/users';
-import { can_view_unpublished_bookmarks } from '../../business.logic/security';
-import { IBookmarkSearchQuery } from '../../schema/bookmarks';
+import Config from '../../config'
+import { PipelineStage } from 'mongoose'
+import { DB_PAGINATION_QUERY } from '@tuber/shared'
+import { TCipheredUser } from '../../schema/users'
+import { IBookmarkSearchQuery } from '../../schema/bookmarks'
+import Access from '../../business.logic/security/Access'
 
 /** MongoDB pipeline to find bookmarks using a search query. */
 export default function get_bookmark_search_query_pipeline(
   query: IBookmarkSearchQuery,
-  user?: TCipheredUser
+  usr?: TCipheredUser
 ) {
-  const pipeline: PipelineStage[] = [];
-  const { searchQuery, page, limit } = query;
+  const pipeline: PipelineStage[] = []
+  const { searchQuery, page, limit } = query
   if (searchQuery) {
     pipeline.push({
       $search: {
@@ -22,21 +22,21 @@ export default function get_bookmark_search_query_pipeline(
           fuzzy: {}
         },
       },
-    });
+    })
     
     // Build match condition based on user permissions
     const matchConditions: any[] = [
       { is_published: { $eq: true } } // Published bookmarks visible to all
-    ];
+    ]
     
     // User's own bookmarks (regardless of publish status)
-    if (user?._id) {
-      matchConditions.push({ user_id: user._id });
+    if (usr?._id) {
+      matchConditions.push({ user_id: usr._id })
     }
     
     // Users with clearance level 4+ can see all unpublished bookmarks
-    if (can_view_unpublished_bookmarks(user)) {
-      matchConditions.push({ is_published: { $ne: true } });
+    if (Access.the(usr).can('bookmark.view_unpublished')) {
+      matchConditions.push({ is_published: { $ne: true } })
     }
     
     pipeline.push({
@@ -44,7 +44,7 @@ export default function get_bookmark_search_query_pipeline(
         ...DB_PAGINATION_QUERY,
         $or: matchConditions
       }
-    });
+    })
     pipeline.push({
       $group: {
         _id: null,
@@ -52,7 +52,7 @@ export default function get_bookmark_search_query_pipeline(
         results: { $push: '$$ROOT' } // Store the matched documents in an
                                       // array
       }
-    });
+    })
     pipeline.push({
       $project: {
         _id: 1,
@@ -80,7 +80,7 @@ export default function get_bookmark_search_query_pipeline(
         score: { $meta: 'searchScore' },
         totalItems: 1,
       }
-    });
+    })
   }
-  return pipeline;
+  return pipeline
 }

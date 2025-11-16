@@ -1,4 +1,5 @@
-import { TCipheredUser } from './schema/users';
+import { TJsonapiRequest } from '@tuber/shared'
+import { TCipheredUser } from './schema/users'
 
 // Utility types
 
@@ -9,26 +10,39 @@ export type TAllTypes = 'string'
   |'function'
   |'object'
   |'symbol'
-  |'undefined';
+  |'undefined'
 
-export type TObj<T=unknown> = Record<string, T>;
+export type TObj<T=unknown> = Record<string, T>
 
 /** Make properties required. @see https://stackoverflow.com/a/69328045/1875859 */
-export type WithRequired<T, K extends keyof T> = T & { [P in K]-?: T[P] };
+export type WithRequired<T, K extends keyof T> = T & { [P in K]-?: T[P] }
 
 /** Make properties optional. */
-export type TOptional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>;
+export type TOptional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
 
 /** Type for excluding or including mongodb document fields */
-export type TSelect<T=TObj> = Record<keyof T, 0|1>;
+export type TSelect<T=TObj> = Record<keyof T, 0|1>
 
 /** @deprecated */
-export type TSelectOriginal<T> = { [P in keyof T]: 0|1 };
+export type TSelectOriginal<T> = { [P in keyof T]: 0|1 }
 
-export interface IAggregateDoc { _id: string; __v: number; }
+export interface IAggregateDoc { _id: string; __v: number }
 
 /** Mongoose document interfaces */
-export interface IMPV2Doc<T = unknown> { _doc: T & IAggregateDoc; }
+export interface IMPV2Doc<T = unknown> { _doc: T & IAggregateDoc }
+
+/** Possible user role */
+export type TRole = 'owner'
+  | 'developer'
+  | 'administrator'
+  | 'moderator'
+  | 'supporter'
+  | 'member'
+  | 'patron'
+  | 'sponsor'
+  | 'investor'
+  | 'donor'
+  | 'free'
 
 /** Platform types */
 export type TPlatform = '_blank'
@@ -40,7 +54,7 @@ export type TPlatform = '_blank'
   | 'twitch'
   | 'facebook'
   | 'bitchute'
-  | 'unknown';
+  | 'unknown'
 
 /** Endpoint types */
 export type TEndpoint = 'users'
@@ -48,40 +62,40 @@ export type TEndpoint = 'users'
   | 'bookmarks'
   | 'tags'
   | 'authorizations'
-  | 'listings';
+  | 'listings'
 
 /** State map type */
 export interface IStateMapEntry<T = unknown> {
-  state: T;
-  clearance?: string;
+  state: T
+  clearance?: string
 }
 
 export interface IStateMap {
-  [entry: string]: IStateMapEntry;
+  [entry: string]: IStateMapEntry
 }
 
 /** Theme types */
-export type TThemeMode = 'light' | 'dark';
+export type TThemeMode = 'light' | 'dark'
 
 /** Generic JSON API query string */
 export interface IJsonapiQuerystring {
-  'page[number]'?: string;
-  'page[size]'?: string;
-  'query'?: string;
-  'filter[is_published]'?: string;
-  'filter[is_active]'?: string;
-  'filter[search]'?: string;
+  'page[number]'?: string
+  'page[size]'?: string
+  'query'?: string
+  'filter[is_published]'?: string
+  'filter[is_active]'?: string
+  'filter[search]'?: string
 }
 
 /** Values that may be needed to customize the returned bootstrap state. */
 export interface IStateContext {
-  usr?: TCipheredUser;
-  token?: string;
-  theme?: TThemeMode;
+  usr?: TCipheredUser
+  token?: string
+  theme?: TThemeMode
 }
 
 /** Dedicated to managing requested states from server. */
-export type TBootstrapState<T> = Record<string, T | ((context: IStateContext) => T)>;
+export type TBootstrapState<T> = Record<string, T | ((context: IStateContext) => T)>
 
 /**
  * Type for textfield adornment, e.g.
@@ -104,18 +118,53 @@ export type TBootstrapState<T> = Record<string, T | ((context: IStateContext) =>
  * ```
  */
 export interface IAdornment {
-  position?: 'start' | 'end';
-  type?: 'text' | 'button';
+  position?: 'start' | 'end'
+  type?: 'text' | 'button'
   /** Material-UI icon */
-  icon?: string;
+  icon?: string
   /** Fontawesone icon */
-  faIcon?: string;
-  text?: string;
-  [x: string]: unknown;
+  faIcon?: string
+  text?: string
+  [x: string]: unknown
 }
 
 /** Convert an array to a collection. The `add()` method **must** be implemented. */
 export interface ICollection<T = unknown> {
-  items: T[];
-  add: (element: T) => void;
+  items: T[]
+  add: (element: T) => void
+}
+
+/** [**username**] & [**password**] to login at `POST /signin` endpoint. */
+export interface IRequestAuth {
+  Body: TJsonapiRequest<{
+    credentials?: {
+      username?: string
+      password?: string
+      options?: string[]
+    }
+    route?: string
+    mode?: TThemeMode
+    cookie?: string
+  }>
+}
+
+/** [**variable**] Query string for environment variables endpoint */
+export interface IQueryEnvVar {
+  Querystring: {
+    var?: string
+  }
+}
+
+/**
+ * [**directive**] instruction for testing user endpoint. Query string for 
+ * `POST /dev/users` endpoint
+ */
+export interface IQueryDirective { Querystring: { d?: string } }
+
+/** [**Key**] & [**Mode**] Body data for `POST /state/*` endpoint */
+export interface IStatePost {
+  Body: {
+    key?: string
+    mode?: TThemeMode
+  }
 }

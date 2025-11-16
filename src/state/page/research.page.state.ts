@@ -26,6 +26,7 @@ import {
   create_empty_collection
 } from '../../business.logic';
 import { IBootstrapThemed, IStateContext } from '../_state.common.types';
+import Config from '../../config';
 
 register('state', '40', $40_STATE_KEY);
 /** Page state for research page app. @id 40 */
@@ -78,14 +79,14 @@ export const bs_researchPageState = (
       const base = clone_with_descriptors($40DarkThemeMode);
       const appbar = clone_with_descriptors($63DarkThemeMode);
       const link = create_empty_collection(appbar.items);
-      if (!context.usr) {
-        link.add(createUserLinkState);
-      }
-      if (context.inDev) {
+      if (Config.DEV) {
         link.add(researchAppErrorsViewLinkState);
         link.add(homeLinkState);
       } else if (context.usr) {
         link.add(bookmarkAddFromUrlLinkState);
+      }
+      if (!context.usr) {
+        link.add(createUserLinkState);
       }
       link.add(darkModeLinkState);
       link.add(context.usr ? $66DarkThemeMode : $67DarkThemeMode);
@@ -97,14 +98,14 @@ export const bs_researchPageState = (
       const base = clone_with_descriptors(researchPageState);
       const appbar = clone_with_descriptors(researchPageAppbarState);
       const link = create_empty_collection(appbar.items);
-      if (!context.usr) {
-        link.add(createUserLinkState);
-      }
-      if (context.inDev) {
+      if (Config.DEV) {
         link.add(researchAppErrorsViewLinkState);
         link.add(homeLinkState);
       } else if (context.usr) {
         link.add(bookmarkAddFromUrlLinkState);
+      }
+      if (!context.usr) {
+        link.add(createUserLinkState);
       }
       link.add(lightModeLinkState);
       link.add(context.usr ? powerLogoutLinkState : powerSignInLinkState);
@@ -138,7 +139,7 @@ export const bs_listingPageState = (
       const base = clone_with_descriptors($70DarkThemeMode);
       const appbar = clone_with_descriptors($63DarkThemeMode);
       const link = clone_as_collection(appbar.items);
-      if (context.inDev) {
+      if (Config.DEV) {
         link.add(researchAppErrorsViewLinkState);
         link.add(homeLinkState);
       } else if (context.usr) {
@@ -154,7 +155,7 @@ export const bs_listingPageState = (
       const base = clone_with_descriptors(listingPageState);
       const appbar = clone_with_descriptors(researchPageAppbarState);
       const link = clone_as_collection(appbar.items);
-      if (context.inDev) {
+      if (Config.DEV) {
         link.add(researchAppErrorsViewLinkState);
         link.add(homeLinkState);
       } else if (context.usr) {

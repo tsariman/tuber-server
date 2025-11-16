@@ -1,25 +1,25 @@
-import { model } from 'mongoose';
+import { model } from 'mongoose'
 import sessionSchema, {
   ISession,
   ISessionDocument
-} from '../../schema/sessions';
-import { IUserDocument, TCipheredUser } from '../../schema/users';
-import { read_user_by_name } from '../user';
-import { USER_CACHE } from '../../business.logic/cache';
+} from '../../schema/sessions'
+import { IUserDocument, TCipheredUser } from '../../schema/users'
+import { read_user_by_name } from '../user'
+import { USER_CACHE } from '../../business.logic/cache'
 
-export const SessionModel = model<ISession>('Session', sessionSchema);
+export const SessionModel = model<ISession>('Session', sessionSchema)
 
 interface ICreateSession {
-  token: string;
-  user?: IUserDocument;
-  expiration_date?: number;
-  ip?: string;
+  token: string
+  user?: IUserDocument
+  expiration_date?: number
+  ip?: string
 }
 
 interface IGetSession {
-  user?: IUserDocument;
-  ip?: string;
-  token?: string;
+  user?: IUserDocument
+  ip?: string
+  token?: string
 }
 
 /**
@@ -41,19 +41,19 @@ export const create_session = async function ({
       user,
       token,
       expiration_date,
-    });
-    return dbSession;
+    })
+    return dbSession
   }
   if (token && ip) {
     const dbSession = await SessionModel.create({
       token,
       expiration_date,
       ip
-    });
-    return dbSession;
+    })
+    return dbSession
   }
-  throw new Error('User or token is required');
-};
+  throw new Error('User or token is required')
+}
 
 /**
  * Find a session by its token.
@@ -63,9 +63,9 @@ export const create_session = async function ({
 export const find_session_by_token = async function (
   token?: string
 ): Promise<ISessionDocument|null> {
-  const sessionDoc = SessionModel.findOne({ token });
-  return sessionDoc;
-};
+  const sessionDoc = SessionModel.findOne({ token })
+  return sessionDoc
+}
 
 /**
  * Retrieve the session from the database based on the token. If the session
@@ -83,22 +83,22 @@ export const read_session = async function ({
   token,
   ip
 }: IGetSession): Promise<ISessionDocument> {
-  const sessionDoc = await find_session_by_token(token);
-  if (sessionDoc) { return sessionDoc; }
+  const sessionDoc = await find_session_by_token(token)
+  if (sessionDoc) { return sessionDoc }
   if (user && token) {
-    const sessionDoc = await create_session({ user, token });
-    return sessionDoc;
+    const sessionDoc = await create_session({ user, token })
+    return sessionDoc
   }
   if (token && ip) {
-    const sessionDoc = await create_session({ ip, token });
-    return sessionDoc;
+    const sessionDoc = await create_session({ ip, token })
+    return sessionDoc
   }
-  throw new Error('Session not found');
-};
+  throw new Error('Session not found')
+}
 
 interface IGetSessionUser {
-  name?: string;
-  token?: string;
+  name?: string
+  token?: string
 }
 
 /**
@@ -113,28 +113,28 @@ export const read_user = async ({
   token
 }: IGetSessionUser): Promise<IUserDocument | null> => {
   if (name) {
-    const cUser = USER_CACHE.get(name);
-    if (cUser) { return cUser as IUserDocument; }
+    const cUser = USER_CACHE.get(name)
+    if (cUser) { return cUser as IUserDocument }
   }
   if (token) {
-    const session = await find_session_by_token(token);
+    const session = await find_session_by_token(token)
     if (session) {
-      const sUser = session.user;
+      const sUser = session.user
       if (sUser) {
-        USER_CACHE.set(sUser.name, sUser);
-        return sUser;
+        USER_CACHE.set(sUser.name, sUser)
+        return sUser
       }
     }
   }
   if (name) {
-    const user = await read_user_by_name(name);
+    const user = await read_user_by_name(name)
     if (user) {
-      USER_CACHE.set(user.name, user);
-      return user;
+      USER_CACHE.set(user.name, user)
+      return user
     }
   }
-  return null;
-};
+  return null
+}
 
 /**
  * Get a ciphered user object.
@@ -142,21 +142,21 @@ export const read_user = async ({
  * @param user 
  * @returns 
  */
-export const read_ciphered_user = function (
+export const get_ciphered_user = function (
   user: IUserDocument
 ): TCipheredUser {
-  const { _id, name, jwt_version, role } = user;
-  return { _id, name, jwt_version, role };
-};
+  const { _id, name, jwt_version, role } = user
+  return { _id: _id.toString(), name, jwt_version, role }
+}
 
 export const create_user_in_session = async function (
   session: ISessionDocument,
   user: IUserDocument
 ): Promise<ISessionDocument> {
-  session.user = user;
-  const dbSession = await session.save();
-  return dbSession;
-};
+  session.user = user
+  const dbSession = await session.save()
+  return dbSession
+}
 
 /**
  * Delete a session from the database.
@@ -166,10 +166,10 @@ export const create_user_in_session = async function (
 export const delete_session = async function (
   token: string
 ): Promise<ISessionDocument|null> {
-  const sessionDoc = await SessionModel.findOne({ token });
+  const sessionDoc = await SessionModel.findOne({ token })
   if (sessionDoc) {
-    await sessionDoc.deleteOne();
-    return sessionDoc;
+    await sessionDoc.deleteOne()
+    return sessionDoc
   }
-  return null;
-};
+  return null
+}

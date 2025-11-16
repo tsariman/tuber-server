@@ -1,10 +1,11 @@
-import { FastifyRequest, FastifyReply, FastifyPluginAsync } from 'fastify'
+import { FastifyRequest, FastifyReply, FastifyPluginAsync, RouteOptions } from 'fastify'
 import { check_password } from '../business.logic/security'
 import { defaultDialogAlertState as alert } from '../state/dialog'
-import { IRequestAuth } from '../business.logic/security/permissions'
+import { IRequestAuth } from '../common.types'
 import {
   default_401_error_response,
-  default_500_error_response
+  default_500_error_response,
+  shielded_401_error_response
 } from '../business.logic/errors'
 import {
   TJsonapiStateResponse,
@@ -12,24 +13,19 @@ import {
   MSG_500_ERROR_MESSAGE
 } from '@tuber/shared'
 import get_bootstrap_authenticated_state from '../state/bootstrap'
-import { read_ciphered_user, read_user } from '../model/session'
+import { get_ciphered_user, read_user } from '../model/session'
 import {  get_theme_mode, option } from '../business.logic'
-import { ensureDefaultUserExists } from '../business.logic/ensure.default.user'
 import { USER_CACHE } from '../business.logic/cache'
-import {
-  ler,
-  log,
-  log_safe,
-  log_err_safe,
-  task,
-  task_end
-} from '../utility/logging'
+import { log_safe, log_err_safe, task, task_end, dbug } from '../utility/logging'
 import { TCipheredUser } from '../schema/users'
 import JsonapiRequestDriver from '../business.logic/JsonapiRequestDriver'
-import { ensure } from '../utility'
-import { DEFAULT_ROUTE_OPTIONS } from '../middleware/router.option'
+import { assure } from '../utility'
 import RequestDataValidator from '../business.logic/RequestDataValidator'
 import signInFormState from '../state/form/sign.in.form.state'
+import { blacklist_token } from '../model/blacklisted-token'
+import { MISSING_ACCESS_TOKEN, DEFAULT_AUTH_HEADER } from '@tuber/shared'
+import { authorize_request } from '../middleware/on.request'
+import Config from '../config'
 
 const authentication: FastifyPluginAsync = async (fastify, rootOpts): Promise<void> => {
 
@@ -40,14 +36,14 @@ const authentication: FastifyPluginAsync = async (fastify, rootOpts): Promise<vo
     reply: FastifyReply,
   ) {
     const driver = new JsonapiRequestDriver(req.body)
-    const credentials = ensure(driver.getAttribute('credentials'))
+    const credentials = assure(driver.getAttribute('credentials'))
     const { username, password, options: o } = credentials
     const validator = new RequestDataValidator(credentials, signInFormState)
     log_safe('Authenticating user request:', req.body)
     task('Authenticating user... ')
     const errorResponse = validator.validateAgainstFormState()
     if (errorResponse) {
-      task_end('Failed. Invalid values detected.')
+      task_end('Failed. Malformed request.')
       reply.code(400).send(errorResponse)
       return
     }
@@ -59,15 +55,15 @@ const authentication: FastifyPluginAsync = async (fastify, rootOpts): Promise<vo
             const passwordIsCorrect = await check_password(password, user.password)
             if (passwordIsCorrect) {
               USER_CACHE.set(user.name, user)
-              const usr = read_ciphered_user(user)
-              const expiresIn = option<string>(o)('keep-signed-in', '2mo', '1d')
+              const usr = get_ciphered_user(user)
+              const expiresIn = option<string>(o)('keep-signed-in', '60d', '1d')
               const token = await reply.jwtSign(usr, { expiresIn })
               task_end('Successs! User authenticated.')
-              log('Session expires in', expiresIn === '2mo'
+              dbug('Session expires in', expiresIn === '60d'
                 ? '2 months.'
                 : '24 hours.'
               )
-              const theme = get_theme_mode(driver.getAttribute('cookie')) // get_theme_mode(req.body.cookie)
+              const theme = get_theme_mode(req.cookie) // get_theme_mode(req.body.cookie)
               reply
                 .code(200)
                 .send({
@@ -93,40 +89,58 @@ const authentication: FastifyPluginAsync = async (fastify, rootOpts): Promise<vo
     }
     const title = 'Wrong username or password!'
     task_end(`Failed. ${title}`)
-
-    // Optional: Try to create default user if none exist (useful for empty database scenario)
-    try {
-      const defaultUserCreated = await ensureDefaultUserExists()
-      if (defaultUserCreated) {
-        const additionalMessage = ' A default admin user has been created (admin/admin123).'
-        reply.code(401).send({
-          ...alert(title + additionalMessage),
-          ...default_401_error_response({ title: title + additionalMessage })
-        })
-        return
-      }
-    } catch (e) {
-      ler('Failed to create default user:', e)
-    }
-
     reply.code(401).send({
       ...alert(title),
       ...default_401_error_response({ title })
     })
   })
 
-  const signOutOpts = {
+  const signoutOpts: Partial<RouteOptions> = {
     ...opts,
-    ...DEFAULT_ROUTE_OPTIONS
+    onRequest: async (req, reply, done): Promise<void> => {
+      try {
+        await authorize_request(req)
+      } catch (e) {
+        // Allow access if app is in development mode.
+        if (Config.DEV) {
+          done()
+        } else {
+          reply.code(401).send(shielded_401_error_response())
+        }
+      }
+    }
   }
 
-  fastify.post('/signout', signOutOpts, async function (
+  fastify.post('/signout', signoutOpts, async function (
     req: FastifyRequest,
     reply: FastifyReply
   ) {
-    task('Signing out authenticated user... ')
     try {
       const { name } = req.user as TCipheredUser
+      
+      // Extract the JWT token from the Authorization header
+      const authHeader = req.headers['authorization'] || DEFAULT_AUTH_HEADER
+      const token = authHeader.split(' ')[1]
+      
+      if (token && token !== MISSING_ACCESS_TOKEN) {
+        // Decode the token payload to get expiration time
+        try {
+          const payload = token.split('.')[1]
+          const decodedPayload = JSON.parse(Buffer.from(payload, 'base64').toString())
+          const expiresAt = decodedPayload?.exp ? new Date(decodedPayload.exp * 1000) : new Date(Date.now() + 24 * 60 * 60 * 1000) // fallback to 24 hours
+          
+          // Blacklist the token
+          await blacklist_token(token, expiresAt, 'user_signout')
+          dbug('Token blacklisted for user:', name)
+        } catch (decodeError) {
+          // If decoding fails, use fallback expiration
+          const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000)
+          await blacklist_token(token, expiresAt, 'user_signout')
+          dbug('Token blacklisted with fallback expiration for user:', name)
+        }
+      }
+
+      task('Signing out authenticated user... ')
       USER_CACHE.del(name)
       task_end('Done.')
       reply.code(204).send()

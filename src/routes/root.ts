@@ -3,7 +3,7 @@ import {
   get_bootstrap_key,
   get_client_domain,
   get_server_domain
-} from './bootstrap.state'
+} from '../business.logic/security'
 import { resolve } from 'path'
 import { promises } from 'fs'
 

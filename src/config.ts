@@ -1,7 +1,7 @@
 import NodeCache from 'node-cache'
 import * as dotenv from 'dotenv'
 import { get_ip } from './utility/networking'
-import Config, { IConfiguration } from './utility/configuration'
+import get_config, { IBaseConfiguration } from './business.logic/ServerConfiguration'
 import { missing_db_name, missing_db_user } from './utility/logging'
 import { COLLECTION_NAME } from '@tuber/shared'
 
@@ -12,7 +12,7 @@ const envFile = process.env.NODE_ENV === 'production'
 
 dotenv.config({ path: envFile })
 
-interface IConfig {
+interface IConfiguration {
   /** Get the current development mode. */
   NODE_ENV: string
   /** The value is `true` if the app is in development mode. */
@@ -52,7 +52,7 @@ interface IConfig {
 }
 
 /** App configuration values. */
-const USER_CONFIG: IConfig = {
+const USER_CONFIG: IConfiguration = {
   NODE_ENV: process.env.NODE_ENV ?? 'development',
   DEV: process.env.NODE_ENV === 'development',
 
@@ -60,7 +60,7 @@ const USER_CONFIG: IConfig = {
   DEBUG: process.env.NODE_ENV === 'development'
     || process.env.DEBUG === 'true',
 
-  DOMAIN: process.env.DOMAIN ?? '',
+  DOMAIN: process.env.DOMAIN ?? '127.0.0.1:8080',
   CLIENT_DOMAIN: process.env.CLIENT_DOMAIN ?? 'http://localhost:3000',
   DEMO: process.env.DEMO === 'true',
 
@@ -233,9 +233,10 @@ const initObj = {
 
 initObj.DB_ATLAS_BOOKMARK_SEARCH_INDEX_NAME ||= `${initObj.DB_NAME}_${COLLECTION_NAME}_search`
 
+const Config: IBaseConfiguration = get_config()
 Config.init(initObj)
 
 // Makes config object key available in suggestions
-export type TAppConfig = IConfiguration & typeof initObj
+export type TAppConfig = IBaseConfiguration & typeof initObj
 
 export default Config as TAppConfig

@@ -5,9 +5,12 @@ import fastifyStatic from '@fastify/static'
 import * as dotenv from 'dotenv'
 dotenv.config({ path: `${__dirname}/../.env`})
 import path from 'path'
+import qs from 'qs'
 import { log } from './utility/logging'
 import JsonapiErrorBuilder from './business.logic/builder/JsonapiErrorBuilder'
 import { initializeApp } from './startup'
+import { setupJWT } from './jwt.config'
+import { isCustomError } from './business.logic/errors'
 
 export interface AppOptions extends FastifyServerOptions, Partial<AutoloadPluginOptions> {
 
@@ -21,6 +24,22 @@ const app: FastifyPluginAsync<AppOptions> = async (
   opts
 ): Promise<void> => {
   // Place here your custom code!
+
+  // Custom querystring parser for JSON:API bracket notation
+  fastify.addHook('preHandler', (req, reply, done) => {
+    const url = req.raw.url
+    if (url) {
+      const queryIndex = url.indexOf('?')
+      if (queryIndex !== -1) {
+        const queryString = url.slice(queryIndex + 1)
+        req.query = qs.parse(queryString, { allowPrototypes: true, depth: 10 })
+      }
+    }
+    done()
+  })
+
+  // Setup JWT
+  await setupJWT(fastify)
 
   // Register the static plugin
   void fastify.register(fastifyStatic, {
@@ -48,14 +67,16 @@ const app: FastifyPluginAsync<AppOptions> = async (
   })
 
   // Set custom error handler for 500 errors
-  fastify.setErrorHandler((error, _req, reply) => {
-    log('[ERROR]', error)
-    const status = error.statusCode ?? 500
+  fastify.setErrorHandler((e, req, reply) => {
+    void req
+    log('[ERROR]', e)
+    const error = e instanceof Error ? e : new Error(String(e))
+    const status = isCustomError(e) ? e.statusCode : 500
     reply.status(status).send(new JsonapiErrorBuilder()
       .withStatus(status)
       .withTitle(error.message)
       .withDetail(error.stack)
-      .withMeta('error', error)
+      .withMeta('error', e)
       .build()
     )
   })

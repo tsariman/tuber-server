@@ -17,6 +17,7 @@ import {
   themed
 } from '../../business.logic';
 import { TCipheredUser } from '../../schema/users';
+import { homeLinkState } from '../../state/nav.link';
 
 register('state', '46', C.$46_STATE_KEY);
 /** @id 46 */
@@ -66,12 +67,7 @@ export const devTestRumbleRegexpPageState: C.TStatePage = {
           'route': 'default-errors-view'
         }
       },
-      {
-        'has': {
-          'text': 'Home',
-          'route': '/'
-        }
-      }
+      homeLinkState
     ]
   },
 };
@@ -98,12 +94,7 @@ export const devTestUnknownRegexpPageState: C.TStatePage = {
           'route': 'default-errors-view'
         }
       },
-      {
-        'has': {
-          'text': 'Home',
-          'route': '/'
-        }
-      }
+      homeLinkState
     ]
   },
 };
@@ -130,12 +121,7 @@ export const devTwitchInputClientIdPageState: C.TStatePage = {
           'route': 'default-errors-view'
         }
       },
-      {
-        'has': {
-          'text': 'Home',
-          'route': '/'
-        }
-      }
+      homeLinkState
     ]
   },
 };
@@ -162,12 +148,7 @@ export const devSaveConfigValuePageState: C.TStatePage = {
           'route': 'default-errors-view'
         }
       },
-      {
-        'has': {
-          'text': 'Home',
-          'route': '/'
-        }
-      }
+      homeLinkState
     ]
   },
 };

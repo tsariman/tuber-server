@@ -34,6 +34,72 @@ async function build (t: TestContext) {
   return app
 }
 
+// Mock user data for testing
+export const mockUser = {
+  _id: '507f1f77bcf86cd799439011',
+  name: 'testuser',
+  email: 'test@example.com',
+  password: '$2b$10$YourHashedPasswordHere', // bcrypt hash for 'testpass123'
+  is_active: true,
+  created_at: new Date(),
+  modified_at: new Date()
+}
+
+export const mockCipheredUser = {
+  _id: mockUser._id,
+  name: mockUser.name,
+  email: mockUser.email
+}
+
+// Helper to generate JWT token for authenticated requests
+export async function generateTestToken(app: any, user = mockCipheredUser) {
+  try {
+    return await app.jwt.sign(user, { expiresIn: '1h' })
+  } catch (error) {
+    console.error('Failed to generate test token:', error)
+    return null
+  }
+}
+
+// Helper to create authenticated request headers
+export function getAuthHeaders(token: string) {
+  return {
+    'Authorization': `Bearer ${token}`,
+    'Content-Type': 'application/json'
+  }
+}
+
+// Sample JSONAPI request structure for testing
+export function createJsonapiRequest<T>(type: string, attributes: T) {
+  return {
+    data: {
+      type,
+      attributes
+    }
+  }
+}
+
+// Sample bookmark data for testing
+export const mockBookmark = {
+  title: 'Test Bookmark',
+  platform: 'youtube',
+  videoid: 'dQw4w9WgXcQ',
+  url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  start_seconds: 0,
+  end_seconds: 212,
+  note: 'Test note for bookmark',
+  user_id: mockUser._id,
+  is_private: false,
+  is_active: true
+}
+
+// Sample user data for testing
+export const mockUserData = {
+  name: 'newuser',
+  email: 'newuser@example.com',
+  password: 'newpass123'
+}
+
 export {
   config,
   build

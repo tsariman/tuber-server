@@ -38,7 +38,7 @@ import {
 import { bootstrap_icons_state } from './bootstrap/icon';
 import { get_registry } from '../business.logic/registry';
 
-/** @deprecated */
+/** Not in use. @deprecated */
 export default async function get_bootstrap_authenticated_state(
   context: IStateContext
 ): Promise<TNetState> {

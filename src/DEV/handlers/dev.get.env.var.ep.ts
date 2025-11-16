@@ -3,12 +3,7 @@ import { log } from '../../utility/logging';
 import { default_500_error_response } from '../../business.logic/errors';
 import { MSG_500_ERROR_MESSAGE } from '@tuber/shared';
 import JsonapiResponseBuilder from '../../business.logic/builder/JsonapiResponseBuilder';
-
-interface IQueryEnvVar {
-  Querystring: {
-    var?: string
-  }
-}
+import { IQueryEnvVar } from '../../common.types';
 
 /**
  * Get environment variable(s) value
