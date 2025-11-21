@@ -1,44 +1,45 @@
-import { FastifyPluginAsync, FastifyReply } from 'fastify'
+import { FastifyPluginAsync } from 'fastify'
 import {
   get_bootstrap_key,
   get_client_domain,
   get_server_domain
 } from '../business.logic/security'
-import { resolve } from 'path'
-import { promises } from 'fs'
 
-const { readFile } = promises
+let cachedHtml: string | null = null
 
 const root: FastifyPluginAsync = async (fastify, rootOpts): Promise<void> => {
-
   const opts = { ...rootOpts }
+  const username = 'Tsariman'
+
+  // Build and cache the HTML once
+  if (cachedHtml === null) {
+    cachedHtml = [
+      '<!DOCTYPE html>',
+      '<html lang="en">',
+      '<head>',
+      '  <meta charset="UTF-8">',
+      `  <meta name="bootstrap" content="${get_bootstrap_key()}" />`,
+      `  <meta name="origin" content="${get_server_domain()}" />`,
+      `  <meta name="client-origin" content="${get_client_domain()}" />`,
+      '  <meta name="viewport" content="width=device-width, initial-scale=1.0">',
+      '  <title>INAVID</title>',
+      '</head>',
+      '<body>',
+      `  Hello world! My name is ${username}.`,
+      '  <div id="root"></div>',
+      '  <script src="/app.js"></script>',
+      '</body>',
+      '</html>'
+    ].join('\n')
+  }
 
   fastify.get('/', opts, async function (request, reply) {
-    reply.send({ message: 'Hello world' })
+    void request
+    reply
+      .header('Content-Type', 'text/html; charset=utf-8')
+      .send(cachedHtml)
   })
+
 }
 
 export default root
-
-export const backedup_code = async (reply: FastifyReply) => {
-  const indexHtmlPath = resolve(__dirname, '../../static/index.html')
-  const indexHtmlContent = await readFile(indexHtmlPath, 'utf-8')
-
-  // Inject bootstrap prefix, server domain, and client domain into meta tags
-  const bootstrapKey = get_bootstrap_key()
-  const serverDomain = get_server_domain()
-  const clientDomain = get_client_domain()
-  const bootstrapMetaTag = `<meta name="bootstrap" content="${bootstrapKey}" />`
-  const domainMetaTag = `<meta name="origin" content="${serverDomain}" />`
-  const clientMetaTag = `<meta name="client-origin" content="${clientDomain}" />`
-
-  // Insert all meta tags in the head section
-  const htmlWithMeta = indexHtmlContent.replace(
-    '</head>',
-    `  ${bootstrapMetaTag}\n  ${domainMetaTag}\n  ${clientMetaTag}\n</head>`
-  )
-
-  reply
-    .header('Content-Type', 'text/html; charset=utf-8')
-    .send(htmlWithMeta)
-}

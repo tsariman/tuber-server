@@ -3,7 +3,6 @@ import { check_password } from '../business.logic/security'
 import { defaultDialogAlertState as alert } from '../state/dialog'
 import { IRequestAuth } from '../common.types'
 import {
-  default_401_error_response,
   default_500_error_response,
   shielded_401_error_response
 } from '../business.logic/errors'
@@ -23,9 +22,8 @@ import { assure } from '../utility'
 import RequestDataValidator from '../business.logic/RequestDataValidator'
 import signInFormState from '../state/form/sign.in.form.state'
 import { blacklist_token } from '../model/blacklisted-token'
-import { MISSING_ACCESS_TOKEN, DEFAULT_AUTH_HEADER } from '@tuber/shared'
 import { authorize_request } from '../middleware/on.request'
-import Config from '../config'
+import JsonapiErrorBuilder from '../business.logic/builder/JsonapiErrorBuilder'
 
 const authentication: FastifyPluginAsync = async (fastify, rootOpts): Promise<void> => {
 
@@ -64,6 +62,16 @@ const authentication: FastifyPluginAsync = async (fastify, rootOpts): Promise<vo
                 : '24 hours.'
               )
               const theme = get_theme_mode(req.cookie) // get_theme_mode(req.body.cookie)
+              
+              // Set HTTP-only cookie for token
+              reply.setCookie('token', token, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                sameSite: 'strict',
+                maxAge: expiresIn === '60d' ? 60 * 24 * 60 * 60 * 1000 : 24 * 60 * 60 * 1000,
+                path: '/'
+              })
+              
               reply
                 .code(200)
                 .send({
@@ -91,22 +99,22 @@ const authentication: FastifyPluginAsync = async (fastify, rootOpts): Promise<vo
     task_end(`Failed. ${title}`)
     reply.code(401).send({
       ...alert(title),
-      ...default_401_error_response({ title })
+      ...new JsonapiErrorBuilder()
+        .withStatus(401)
+        .withCode('AUTHENTICATION_REQUIRED')
+        .withTitle(title)
+        .build()
     })
   })
 
   const signoutOpts: Partial<RouteOptions> = {
     ...opts,
     onRequest: async (req, reply, done): Promise<void> => {
+      void done
       try {
         await authorize_request(req)
-      } catch (e) {
-        // Allow access if app is in development mode.
-        if (Config.DEV) {
-          done()
-        } else {
-          reply.code(401).send(shielded_401_error_response())
-        }
+      } catch {
+        reply.code(401).send(shielded_401_error_response())
       }
     }
   }
@@ -117,31 +125,31 @@ const authentication: FastifyPluginAsync = async (fastify, rootOpts): Promise<vo
   ) {
     try {
       const { name } = req.user as TCipheredUser
-      
-      // Extract the JWT token from the Authorization header
-      const authHeader = req.headers['authorization'] || DEFAULT_AUTH_HEADER
-      const token = authHeader.split(' ')[1]
-      
-      if (token && token !== MISSING_ACCESS_TOKEN) {
+
+      if (req.token) {
         // Decode the token payload to get expiration time
         try {
-          const payload = token.split('.')[1]
+          const payload = req.token.split('.')[1]
           const decodedPayload = JSON.parse(Buffer.from(payload, 'base64').toString())
           const expiresAt = decodedPayload?.exp ? new Date(decodedPayload.exp * 1000) : new Date(Date.now() + 24 * 60 * 60 * 1000) // fallback to 24 hours
           
           // Blacklist the token
-          await blacklist_token(token, expiresAt, 'user_signout')
+          await blacklist_token(req.token, expiresAt, 'user_signout')
           dbug('Token blacklisted for user:', name)
         } catch (decodeError) {
           // If decoding fails, use fallback expiration
           const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000)
-          await blacklist_token(token, expiresAt, 'user_signout')
+          await blacklist_token(req.token, expiresAt, 'user_signout')
           dbug('Token blacklisted with fallback expiration for user:', name)
         }
       }
 
       task('Signing out authenticated user... ')
       USER_CACHE.del(name)
+      
+      // Clear the token cookie
+      reply.clearCookie('token', { path: '/' })
+      
       task_end('Done.')
       reply.code(204).send()
       return

@@ -7,7 +7,7 @@ import { find_index_by_name } from './business.logic/network'
 import { readable_get_all } from './model/readable'
 import { create_user } from './model/user'
 import { COLLECTION_NAME } from '@tuber/shared'
-import { log, write as print, ler } from './utility/logging'
+import { log, info, errr, dbug, note } from './utility/logging'
 
 mongoose.set('strictQuery', false)
 
@@ -40,11 +40,11 @@ export async function initializeApp(): Promise<void> {
       console.log('Done.')
     } else {
       console.log('Failed.')
-      print(`Search index, '${Config.DB_ATLAS_BOOKMARK_SEARCH_INDEX_NAME}'`)
+      note(`Search index, '${Config.DB_ATLAS_BOOKMARK_SEARCH_INDEX_NAME}'`)
       log(' not defined for current database.')
-      log(`[DEBUG] Visit endpoint: /dev/setup-collection-index-search/bookmarks`)
-      log('[DEBUG] OR')
-      log(`[DEBUG] Visit endpoint: /install/setup-collection-index-search/bookmarks`)
+      dbug(`Visit endpoint: /dev/setup-collection-index-search/bookmarks`)
+      dbug('OR')
+      dbug(`Visit endpoint: /install/setup-collection-index-search/bookmarks`)
     }
   }
 
@@ -53,11 +53,11 @@ export async function initializeApp(): Promise<void> {
     const devUser = await DEV_USER.findOne({ name: DEV_DEFAULT_USER.name })
     console.log('')
     if (devUser) {
-      log('[DEBUG] "Dev user" is available.\n')
+      dbug('"Dev user" is available.\n')
       Config.write('dev_user_available', true)
     } else {
       Config.write('dev_user_available', false)
-      log('[DEBUG] Dev user is not available.\n')
+      dbug('Dev user is not available.\n')
     }
   }
 
@@ -73,15 +73,15 @@ export async function initializeApp(): Promise<void> {
       try {
         await createDefaultAdminUser()
         console.log('Success!')
-        log('[INFO] Default admin user created with username: "admin"')
-        log('[INFO] Default password: "admin123" (Please change this!)')
+        info('Default admin user created with username: "admin"')
+        info('Default password: "admin123" (Please change this!)')
       } catch (error) {
         console.log('Failed!')
-        ler('[ERROR] Failed to create default admin user:', error)
+        errr('Failed to create default admin user:', error)
       }
     } else {
-      log('[INFO] App not in debug mode. Skipping default user creation.')
-      log('[INFO] To create a default user, enable the dev endpoints.')
+      info('App not in debug mode. Skipping default user creation.')
+      info('To create a default user, enable the dev endpoints.')
     }
   } else {
     console.log(`Found ${userCount} user(s).`)
@@ -135,7 +135,7 @@ function header_printout() {
   // process.stdout.write(`[INFO] 🚀 tuber server running at ${address}\n\n`);
   process.stdout.write(`[INFO] process.env.NODE_ENV = ${process.env.NODE_ENV}\n`);
   log(`[INFO] Config.DEV = ${Config.DEV}`);
-  print('\n -------------------------------- \n');
-  print('\n |     APP IS IN DEBUG MODE     | \n');
-  print('\n -------------------------------- \n');
+  note('\n -------------------------------- \n');
+  note('\n |     APP IS IN DEBUG MODE     | \n');
+  note('\n -------------------------------- \n');
 }

@@ -17,12 +17,18 @@ export const info = (...args: unknown[]): void => {
   }
 }
 
-/** Debug mode documenting log. */
-export const task = (message: string): void => {
-  if (message && inDebugMode) {
-    process.stdout.write(`${DEBUG} ${message}`)
+/** Debug mode documenting log. It adds a prefix and outputs to the same line. */
+export const task = Object.assign(
+  function(message: string): void {
+    if (message && inDebugMode) {
+      process.stdout.write(`${DEBUG} ${message}`)
+    }
+  },
+  {
+    /** A possible outcome of a previous documenting log using `task()` */
+    end: (...args: unknown[]): void => log(args)
   }
-}
+)
 
 /** This is the `console.log()` but will only print if app is in debug mode. */
 export const log = (...args: unknown[]): void => {
@@ -58,12 +64,8 @@ export const log_safe = (message: string, data?: any, customSensitiveFields?: st
   }
 }
 
-/**
- * Output to console on the same line but only if the app is in debug mode.
- * 
- * @deprecated Use info().
- */
-export const write = (text: string): void => {
+/** Output to console on the same line but only if the app is in debug mode. */
+export const note = (text: string): void => {
   if (text && inDebugMode) { process.stdout.write(text) }
 }
 

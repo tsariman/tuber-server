@@ -1,6 +1,6 @@
-import axios from 'axios';
-import { PLATFORM_URL } from '.';
-import { ler, log, log_err, write as print } from '../utility/logging';
+import axios from 'axios'
+import { PLATFORM_URL } from '.'
+import { dbug, errr, log_err, task, task_end } from '../utility/logging'
 
 /**
  * Helper function to make robust HTTP requests to Rumble with anti-bot measures
@@ -29,57 +29,57 @@ async function robust_rumble_get(url: string): Promise<string> {
       },
       validateStatus: (status: number) => status >= 200 && status < 400 || status === 301 || status === 302
     }
-  ];
+  ]
 
   for (let i = 0; i < strategies.length; i++) {
     try {
-      print(`[DEBUG] [Strategy ${i + 1}] fetch for ${url} ... `);
-      const response = await axios.get(url, strategies[i]);
+      task(`[Strategy ${i + 1}] fetch for ${url} ... `)
+      const response = await axios.get(url, strategies[i])
 
       // If we got a redirect response, try to follow it manually
       if (response.status === 301 || response.status === 302) {
-        log('Redirected.')
-        const redirectUrl = response.headers.location;
+        task_end('Redirected.')
+        const redirectUrl = response.headers.location
         if (redirectUrl && i === 1) { // Only try manual redirect on second strategy
-          log('[DEBUG]', `Manual redirect to: ${redirectUrl}`);
+          dbug(`Manual redirect to: ${redirectUrl}`)
           const redirectResponse = await axios.get(redirectUrl, {
             ...strategies[0],
             maxRedirects: 2
-          });
-          return redirectResponse.data;
+          })
+          return redirectResponse.data
         }
-        continue; // Skip this strategy if redirect handling failed
+        continue // Skip this strategy if redirect handling failed
       }
       
       if (response.status === 200) {
-        log(`Success.`);
-        return response.data;
+        task.end(`Success.`)
+        return response.data
       }
       
-      log(`Failed.[INFO][${response.status}] [Strategy ${i + 1}]`);
+      task_end(`Failed.[INFO][${response.status}] [Strategy ${i + 1}]`)
     } catch (e) {
-      const errorMessage = e instanceof Error ? e.message : String(e);
-      log(`Failed.[ERROR][500] [Strategy ${i + 1}] returned error: ${errorMessage}`);
+      const errorMessage = e instanceof Error ? e.message : String(e)
+      task_end(`Failed.[ERROR][500] [Strategy ${i + 1}] returned error: ${errorMessage}`)
 
       // If this is the last strategy, log as error
       if (i === strategies.length - 1) {
-        ler('[ERROR] All strategies failed.');
-        log_err('retrieving Rumble thumbnail', e);
+        errr('All strategies failed.')
+        log_err('retrieving Rumble thumbnail', e)
       }
     }
     
     // Wait between attempts
     if (i < strategies.length - 1) {
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise(resolve => setTimeout(resolve, 1000))
     }
   }
   
-  return '';
+  return ''
 }
 
 export async function rumble_fetch_html_page(url?: string): Promise<string> {
-  if (!url) { return ''; }
-  return await robust_rumble_get(url);
+  if (!url) { return '' }
+  return await robust_rumble_get(url)
 }
 
 /**
@@ -89,29 +89,29 @@ export async function rumble_fetch_html_page(url?: string): Promise<string> {
  * @returns `Promise<string>`
  */
 export async function rumble_fetch_thumbnail_url(slug?: string): Promise<string> {
-  if (!slug) { return ''; }
-  const urlObj = new URL(`${PLATFORM_URL['rumble']}${slug}.html`);
+  if (!slug) { return '' }
+  const urlObj = new URL(`${PLATFORM_URL['rumble']}${slug}.html`)
 
   // Had to get rid of query string because it was causing errors.
-  const compliantUrl = `${urlObj.origin}${urlObj.pathname}`;
+  const compliantUrl = `${urlObj.origin}${urlObj.pathname}`
   
   try {
-    const htmlText = await robust_rumble_get(compliantUrl);
-    if (!htmlText) { return ''; }
+    const htmlText = await robust_rumble_get(compliantUrl)
+    if (!htmlText) { return '' }
     
     const matches = htmlText.match(
       /<meta property=og:image content=(.+?)>/
-    ) ?? [];
-    const [ m2, thumbnail_url ] = matches;
+    ) ?? []
+    const [ m2, thumbnail_url ] = matches
     if (m2 && thumbnail_url) {
-      return thumbnail_url;
+      return thumbnail_url
     }
-    return '';
+    return ''
   } catch (e) {
-    const errorMessage = e instanceof Error ? e.message : String(e);
-    ler('[ERROR]', `Failed to fetch thumbnail for slug ${slug}:`, errorMessage);
-    log_err(`fetching Rumble thumbnail`, e);
-    return '';
+    const errorMessage = e instanceof Error ? e.message : String(e)
+    errr(`Failed to fetch thumbnail for slug ${slug}:`, errorMessage)
+    log_err(`fetching Rumble thumbnail`, e)
+    return ''
   }
 }
 
@@ -124,12 +124,12 @@ export async function rumble_fetch_thumbnail_url(slug?: string): Promise<string>
 export function rumble_parse_thumbnail_url(html: string): string {
   const matches = html.match(
     /<meta property=og:image content=(.+?)>/
-  ) ?? [];
-  const [ m2, thumbnail_url ] = matches;
+  ) ?? []
+  const [ m2, thumbnail_url ] = matches
   if (m2 && thumbnail_url) {
-    return thumbnail_url;
+    return thumbnail_url
   }
-  return '';
+  return ''
 }
 
 /**
@@ -139,28 +139,28 @@ export function rumble_parse_thumbnail_url(html: string): string {
  * @returns `Promise<string>`
  */
 export async function rumble_fetch_videoid(slug: string): Promise<string> {
-  const urlObj = new URL(`${PLATFORM_URL['rumble']}${slug}.html`);
+  const urlObj = new URL(`${PLATFORM_URL['rumble']}${slug}.html`)
 
   // Had to get rid of query string because it was causing errors.
-  const compliantUrl = `${urlObj.origin}${urlObj.pathname}`;
+  const compliantUrl = `${urlObj.origin}${urlObj.pathname}`
 
   try {
-    const htmlText = await robust_rumble_get(compliantUrl);
-    if (!htmlText) { return ''; }
+    const htmlText = await robust_rumble_get(compliantUrl)
+    if (!htmlText) { return '' }
     
     const matches = htmlText.match(
       /"video":"(.*?)"/
-    ) ?? [];
-    const [ m2, videoid ] = matches;
+    ) ?? []
+    const [ m2, videoid ] = matches
     if (m2 && videoid) {
-      return videoid;
+      return videoid
     }
-    return '';
+    return ''
   } catch (e) {
-    const errorMessage = e instanceof Error ? e.message : String(e);
-    ler('[ERROR]', `Failed to fetch videoid for slug ${slug}:`, errorMessage);
-    log_err(`fetching Rumble videoid`, e);
-    return '';
+    const errorMessage = e instanceof Error ? e.message : String(e)
+    errr(`Failed to fetch videoid for slug ${slug}:`, errorMessage)
+    log_err(`fetching Rumble videoid`, e)
+    return ''
   }
 }
 
@@ -173,12 +173,12 @@ export async function rumble_fetch_videoid(slug: string): Promise<string> {
 export function rumble_parse_videoid (html: string): string {
   const matches = html.match(
     /"video":"(.*?)"/
-  ) ?? [];
-  const [ m2, videoid ] = matches;
+  ) ?? []
+  const [ m2, videoid ] = matches
   if (m2 && videoid) {
-    return videoid;
+    return videoid
   }
-  return '';
+  return ''
 }
 
 /**
@@ -192,31 +192,31 @@ export function rumble_parse_videoid (html: string): string {
 export async function rumble_fetch_videoid_thumbnail(
   slug: string
 ): Promise<{ videoid: string, thumbnail_url: string }> {
-  const urlObj = new URL(`${PLATFORM_URL['rumble']}${slug}.html`);
+  const urlObj = new URL(`${PLATFORM_URL['rumble']}${slug}.html`)
 
   // Had to get rid of query string because it was causing errors.
-  const compliantUrl = `${urlObj.origin}${urlObj.pathname}`;
+  const compliantUrl = `${urlObj.origin}${urlObj.pathname}`
 
   try {
-    const htmlText = await robust_rumble_get(compliantUrl);
-    if (!htmlText) { return { videoid: '', thumbnail_url: '' }; }
+    const htmlText = await robust_rumble_get(compliantUrl)
+    if (!htmlText) { return { videoid: '', thumbnail_url: '' } }
     
     const regexp = new RegExp(
       /"video":"(.*?)"|<meta property=og:image content=(.+?)>/,
       'g'
-    );
-    const iterator = htmlText.matchAll(regexp);
-    const matches = [ ...iterator ];
-    const videoid = matches[1]?.[1];
-    const thumbnail_url = matches[0]?.[2];
+    )
+    const iterator = htmlText.matchAll(regexp)
+    const matches = [ ...iterator ]
+    const videoid = matches[1]?.[1]
+    const thumbnail_url = matches[0]?.[2]
     if (videoid && thumbnail_url) {
-      return { videoid, thumbnail_url };
+      return { videoid, thumbnail_url }
     }
-    return { videoid: '', thumbnail_url: '' };
+    return { videoid: '', thumbnail_url: '' }
   } catch (e) {
-    const errorMessage = e instanceof Error ? e.message : String(e);
-    ler('[ERROR]', `Failed to fetch videoid and thumbnail for slug ${slug}:`, errorMessage);
-    log_err(`fetching Rumble videoid`, e);
-    return { videoid: '', thumbnail_url: '' };
+    const errorMessage = e instanceof Error ? e.message : String(e)
+    errr(`Failed to fetch videoid and thumbnail for slug ${slug}:`, errorMessage)
+    log_err(`fetching Rumble videoid`, e)
+    return { videoid: '', thumbnail_url: '' }
   }
 }

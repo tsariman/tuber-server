@@ -1,15 +1,15 @@
-import { PipelineStage } from 'mongoose';
-import { IBookmarkDocument } from '../../schema/bookmarks';
-import { BookmarkModel } from '.';
-import Config from '../../config';
-import { log, log_err, write as print } from '../../utility/logging';
+import { PipelineStage } from 'mongoose'
+import { IBookmarkDocument } from '../../schema/bookmarks'
+import { BookmarkModel } from '.'
+import Config from '../../config'
+import { errr, ler, log_err, task, task_end } from '../../utility/logging'
 
 export default async function get_bookmark_by_slug (
   slug: string
 ): Promise<IBookmarkDocument | null> {
-  print('[DEBUG] Retrieving Rumble bookmark with the same slug... ');
+  task('Retrieving Rumble bookmark with the same slug... ')
   try {
-    const pipeline: PipelineStage[] = [];
+    const pipeline: PipelineStage[] = []
     pipeline.push({
       $search: {
         index: Config.DB_ATLAS_BOOKMARK_SEARCH_INDEX_NAME,
@@ -18,10 +18,10 @@ export default async function get_bookmark_by_slug (
           path: [ 'slug' ]
         },
       },
-    });
+    })
     pipeline.push({
       $match: { slug }
-    });
+    })
     pipeline.push({
       $project: {
         _id: 1,
@@ -43,19 +43,19 @@ export default async function get_bookmark_by_slug (
         rules: 1,
         score: { $meta: 'searchScore' }
       }
-    });
+    })
     pipeline.push({
       $limit: 1
-    });
-    const aggregationResult = await BookmarkModel.aggregate(pipeline);
-    const dbDoc: IBookmarkDocument | null = aggregationResult[0] ?? null;
-    log('Success.');
-    return dbDoc;
+    })
+    const aggregationResult = await BookmarkModel.aggregate(pipeline)
+    const dbDoc: IBookmarkDocument | null = aggregationResult[0] ?? null
+    task_end('Success.')
+    return dbDoc
   } catch (e) {
-    log('Failed.');
-    log('[DEBUG]', (e as Error).message);
-    log_err('GET bookmark by slug failed.', e);
+    ler('Failed.')
+    errr((e as Error).message)
+    log_err('GET bookmark by slug failed.', e)
   }
 
-  return null;
+  return null
 }

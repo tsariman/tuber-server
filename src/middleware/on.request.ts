@@ -3,6 +3,8 @@ import { default_401_error_response } from '../business.logic/errors'
 import Config from '../config'
 import { dbug } from '../utility/logging'
 import { TCipheredUser } from '../schema/users'
+import { is_object } from '../utility'
+import JsonapiRequestDriver from '../business.logic/JsonapiRequestDriver'
 
 declare module 'fastify' {
   interface FastifyRequest {
@@ -63,9 +65,7 @@ export const on_request_dev: onRequestHookHandler = async (
 
   } catch (e) {
     // Allow access if app is in development mode.
-    if (Config.DEV) {
-      done()
-    } else {
+    if (!Config.DEV) {
       dbug('JWT verification failed.', e)
       reply.code(401).send(default_401_error_response({
         title: 'JWT verification failed.',
@@ -94,11 +94,10 @@ export const on_request_optional: onRequestHookHandler = async (
   done
 ): Promise<void> => {
   void reply
+  void done
   try {
     await authorize_request(req)
-  } catch (e) {
-    done()
-  }
+  } catch { }
 }
 
 /**
@@ -107,10 +106,14 @@ export const on_request_optional: onRequestHookHandler = async (
  * This function extracts and verifies the JWT from the request, decodes the payload,
  * and sets the user information and token on the request object for further use.
  * 
- * @param req - The Fastify request object containing the JWT in the authorization header.
+ * @param req - The Fastify request object containing the JWT in the authorization header or cookies.
  * @throws Will throw an error if JWT verification fails.
  */
 export const authorize_request = async (req: FastifyRequest): Promise<void> => {
+  await contextualize_request(req)
+  
+  // The @fastify/jwt plugin with cookie configuration should automatically check both
+  // Authorization header and cookies when jwtVerify() is called
   const payload = await req.jwtVerify()
   if (payload) {
     req.usr = payload as TCipheredUser
@@ -118,10 +121,45 @@ export const authorize_request = async (req: FastifyRequest): Promise<void> => {
   } else {
     dbug('Token is missing.')
   }
+}
+
+/**
+ * Contextualizes the request by extracting and setting authentication-related data.
+ * 
+ * This function:
+ * 1. Extracts JWT token from Authorization header
+ * 2. Extracts cookies from either headers or request body (JSON API format)
+ * 3. Sets the extracted data on the request object for downstream use
+ * 
+ * @param req - The Fastify request object to contextualize
+ */
+export const contextualize_request = async (req: FastifyRequest): Promise<void> => {
+  // Extract JWT token from Authorization header
   req.token = req.headers.authorization?.replace('Bearer ', '')
-  req.cookie = req.headers.cookie
+  if (req.token) {
+    dbug('JWT token extracted from Authorization header')
+  }
+
+  // Extract cookie from headers (standard approach)
   if (req.headers.cookie) {
+    req.cookie = req.headers.cookie
+    dbug('Cookie extracted from request headers')
+  }
+  // Fallback: Extract cookie from JSON API request body
+  else if (is_object(req.body) && Object.keys(req.body).length > 0) {
+    try {
+      const driver = new JsonapiRequestDriver<{ cookie?: string }>(req.body)
+      const cookie = driver.getAttribute('cookie')
+      if (cookie) {
+        req.cookie = cookie
+        dbug('Cookie extracted from request body via JSON API driver')
+      } else {
+        dbug('No cookie found in request body attributes')
+      }
+    } catch (error) {
+      dbug('Error extracting cookie from request body:', error)
+    }
   } else {
-    dbug('No cookie received.')
+    dbug('No cookie received from headers or request body')
   }
 }

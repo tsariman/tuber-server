@@ -1,37 +1,37 @@
-import { FastifyReply, FastifyRequest } from 'fastify';
-import JsonapiErrorBuilder from '../business.logic/builder/JsonapiErrorBuilder';
+import { FastifyReply, FastifyRequest } from 'fastify'
+import JsonapiErrorBuilder from '../business.logic/builder/JsonapiErrorBuilder'
 import { default_500_error_response } from '../business.logic/errors'
-import { ler, log, log_err, write as print } from '../utility/logging';
-import { update_bookmark_by_id } from '../model/bookmark';
-import { IBookmarkPatch } from '../schema/bookmarks';
-import { MSG_500_ERROR_MESSAGE } from '@tuber/shared';
+import { ler, log_err, task, task_end } from '../utility/logging'
+import { update_bookmark_by_id } from '../model/bookmark'
+import { IBookmarkPatch } from '../schema/bookmarks'
+import { MSG_500_ERROR_MESSAGE } from '@tuber/shared'
 
 export default async function patch_bookmark_by_id_endpoint (
   request: FastifyRequest<IBookmarkPatch>,
   reply: FastifyReply
 ) {
   try {
-    print('[DEBUG] Updating bookmark... ');
+    task('Updating bookmark... ')
     // [TODO] Validate request body (request.body.data.attributes)
     //        video_id, platform, start_seconds, title are required
-    const attributes = request.body?.data?.attributes;
+    const attributes = request.body?.data?.attributes
     if (!attributes) {
-      log('Failed.\n[DEBUG][400] Missing attributes.', request.body);
+      task_end('Failed.\n[DEBUG][400] Missing attributes.', request.body)
       reply.code(400).send(new JsonapiErrorBuilder()
         .withStatus(400)
         .withCode('MISSING_VALUE')
         .withTitle('Bad Request')
         .withDetail('Missing attributes')
         .build()
-      );
-      return;
+      )
+      return
     }
-    const bookmark = await update_bookmark_by_id(request.params.id, attributes);
+    const bookmark = await update_bookmark_by_id(request.params.id, attributes)
     if (bookmark) {
-      log('Done.');
-      reply.code(204).send();
+      task_end('Done.')
+      reply.code(204).send()
     } else {
-      log('Failed.\n[DEBUG][404] Bookmark not found.');
+      task_end('Failed.\n[DEBUG][404] Bookmark not found.')
       reply.code(404).send(new JsonapiErrorBuilder()
         .withStatus(404)
         .withCode('RESOURCE_NOT_FOUND')
@@ -39,11 +39,11 @@ export default async function patch_bookmark_by_id_endpoint (
         .withDetail('Bookmark not found')
         .withSource({ parameter: request.params.id })
         .build()
-      );
+      )
     }
   } catch (e) {
-    ler(MSG_500_ERROR_MESSAGE);
-    log_err('PUT user by id', e);
-    reply.code(500).send(default_500_error_response(e));
+    ler(MSG_500_ERROR_MESSAGE)
+    log_err('PUT user by id', e)
+    reply.code(500).send(default_500_error_response(e))
   }
 }

@@ -30,9 +30,11 @@ export default class Access {
     /** Free accounts can create bookmarks but cannot publish them. (FREE) */
     free: 1
   }
-  static LEVEL: Readonly<Record<TAccessKey, number>> = {
+  static GATE: Readonly<Record<TAccessKey, number>> = {
     'dev_install_page.view': Access.CLEARANCE_LEVEL.developer,
     'bookmark.view_unpublished': Access.CLEARANCE_LEVEL.moderator
+
+    // TODO: Add more access actions and their required clearance above
   }
   private _role?: TRole
   constructor(role?: TRole) { this._role = role ?? 'free' }
@@ -48,6 +50,6 @@ export default class Access {
         'Permission role is not specify. Did you call \'.withRole()\'?'
       )
     }
-    return Access.CLEARANCE_LEVEL[this._role] >= Access.LEVEL[key]
+    return Access.CLEARANCE_LEVEL[this._role] >= Access.GATE[key]
   }
 }

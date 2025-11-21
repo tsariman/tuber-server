@@ -1,11 +1,11 @@
-import { FastifyReply, FastifyRequest } from 'fastify';
-import { log, write as print } from '../../../utility/logging';
-import * as C from '@tuber/shared';
-import { default_500_error_response } from '../../../business.logic/errors';
-import Form from '../../../business.logic/builder/FormStateBuilder';
-import Group from '../../../business.logic/builder/FormItemGroupStateBuilder';
-import Numberfield from '../../../business.logic/builder/FormItemNumberfieldStateBuilder';
-import Textfield from '../../../business.logic/builder/FormItemTextfieldStateBuilder';
+import { FastifyReply, FastifyRequest } from 'fastify'
+import { ler, task, task_end } from '../../../utility/logging'
+import * as C from '@tuber/shared'
+import { default_500_error_response } from '../../../business.logic/errors'
+import Form from '../../../business.logic/builder/FormStateBuilder'
+import Group from '../../../business.logic/builder/FormItemGroupStateBuilder'
+import Numberfield from '../../../business.logic/builder/FormItemNumberfieldStateBuilder'
+import Textfield from '../../../business.logic/builder/FormItemTextfieldStateBuilder'
 
 /** GET /dev/builder/form */
 export default async function dev_get_form_builder_endpoint(
@@ -13,7 +13,7 @@ export default async function dev_get_form_builder_endpoint(
   reply: FastifyReply
 ) {
   try {
-    print(`[DEBUG] Testing form builder state... `);
+    task(`Testing form builder state... `)
     reply.code(200).send(new Form()
       .with_Id('4')
       .with_Key('newYoutubeBookmarkFormState')
@@ -83,10 +83,10 @@ export default async function dev_get_form_builder_endpoint(
       )
       .withBootstrapState()
       .buildResponse()
-    );
-    log('Done.');
+    )
+    task_end('Done.')
   } catch (e) {
-    log(C.MSG_500_ERROR_MESSAGE, e);
-    reply.code(500).send(default_500_error_response(e));
+    ler(C.MSG_500_ERROR_MESSAGE, e)
+    reply.code(500).send(default_500_error_response(e))
   }
 }

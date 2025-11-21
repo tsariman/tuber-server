@@ -1,21 +1,21 @@
-import { FastifyRequest, FastifyReply } from 'fastify';
-import JsonapiErrorBuilder from '../../business.logic/builder/JsonapiErrorBuilder';
+import { FastifyRequest, FastifyReply } from 'fastify'
+import JsonapiErrorBuilder from '../../business.logic/builder/JsonapiErrorBuilder'
 import { default_500_error_response } from '../../business.logic/errors'
-import Config from '../../config';
+import Config from '../../config'
 import {
   $60_STATE_KEY,
   CONF_TWITCH_CLIENT_ID,
   CONF_TWITCH_CLIENT_SECRET,
   MSG_500_ERROR_MESSAGE,
   TNetState
-} from '@tuber/shared';
-import { log, write as print } from '../../utility/logging';
+} from '@tuber/shared'
+import { errr, task, task_end } from '../../utility/logging'
 
 interface IPostRequest {
   Body: {
-    client_id?: string;
-    client_secret?: string;
-  };
+    client_id?: string
+    client_secret?: string
+  }
 }
 
 /**
@@ -30,32 +30,32 @@ export default async function dev_post_twitch_client_id_endpoint(
   reply: FastifyReply
 ): Promise<void> {
   try {
-    const clientId = req.body.client_id;
-    const clientSecret = req.body.client_secret;
+    const clientId = req.body.client_id
+    const clientSecret = req.body.client_secret
     if (!clientId || !clientSecret) {
-      log('[ERROR]: Client ID and Secret are required.');
+      errr('Client ID and Secret are required.')
       reply.code(400).send(new JsonapiErrorBuilder()
         .withCode('MISSING_VALUE')
         .withStatus(400)
         .withTitle('Query parameter is required')
         .build()
-      );
-      return;
+      )
+      return
     }
-    print(`[DEBUG] Saving Twitch Client ID and Secret... `);
-    await Config.save(CONF_TWITCH_CLIENT_ID, clientId);
-    await Config.save(CONF_TWITCH_CLIENT_SECRET, clientSecret);
-    log('Success!');
+    task(`Saving Twitch Client ID and Secret... `)
+    await Config.save(CONF_TWITCH_CLIENT_ID, clientId)
+    await Config.save(CONF_TWITCH_CLIENT_SECRET, clientSecret)
+    task_end('Success!')
     reply.code(200).send({
       'state': {
         'formsData': {
           [$60_STATE_KEY]: { client_id: '', client_secret: '' }
         }
       } as TNetState
-    });
+    })
   } catch (e) {
-    log(`${MSG_500_ERROR_MESSAGE} while saving Twitch Client ID`
-      + ` and Secret.`, e);
-    reply.code(500).send(default_500_error_response);
+    errr(`${MSG_500_ERROR_MESSAGE} while saving Twitch Client ID`
+      + ` and Secret.`, e)
+    reply.code(500).send(default_500_error_response)
   }
 }

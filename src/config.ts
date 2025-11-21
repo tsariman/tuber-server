@@ -1,7 +1,7 @@
 import NodeCache from 'node-cache'
 import * as dotenv from 'dotenv'
 import { get_ip } from './utility/networking'
-import get_config, { IBaseConfiguration } from './business.logic/ServerConfiguration'
+import get_config, { IConfigManager } from './business.logic/ServerConfiguration'
 import { missing_db_name, missing_db_user } from './utility/logging'
 import { COLLECTION_NAME } from '@tuber/shared'
 
@@ -233,10 +233,8 @@ const initObj = {
 
 initObj.DB_ATLAS_BOOKMARK_SEARCH_INDEX_NAME ||= `${initObj.DB_NAME}_${COLLECTION_NAME}_search`
 
-const Config: IBaseConfiguration = get_config()
+const Config: IConfigManager = get_config()
 Config.init(initObj)
 
 // Makes config object key available in suggestions
-export type TAppConfig = IBaseConfiguration & typeof initObj
-
-export default Config as TAppConfig
+export default Config as IConfigManager & typeof initObj

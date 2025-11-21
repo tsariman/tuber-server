@@ -2,7 +2,7 @@ import { AbstractConfiguration } from '@tuber/shared'
 import { IDbConfigurationDocument } from '../schema/configurations'
 import { configuration_save } from '../model/configuration'
 
-export interface IBaseConfiguration {
+export interface IConfigManager {
   /**
    * Initialize the configuration object with values.
    * @param data arbitrary object containing key-value pairs.
@@ -111,6 +111,6 @@ export class ServerConfiguration extends AbstractConfiguration {
 let configInstance: ServerConfiguration | null = null
 
 /** Get the configuration instance. */
-export default function get_config(): IBaseConfiguration {
+export default function get_config(): IConfigManager {
   return configInstance ??= new ServerConfiguration({})
 }

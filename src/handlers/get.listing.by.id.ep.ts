@@ -6,7 +6,7 @@ import JsonapiErrorBuilder from '../business.logic/builder/JsonapiErrorBuilder'
 import { default_500_error_response } from '../business.logic/errors'
 import { IListingsGet } from '../schema/listings'
 import { MSG_500_ERROR_MESSAGE } from '@tuber/shared'
-import { ler, log, log_err, write as print } from '../utility/logging'
+import { ler, log_err, task, task_end } from '../utility/logging'
 import { IBookmarkDocument } from '../schema/bookmarks'
 
 export default async function get_listing_by_id_endpoint (
@@ -15,14 +15,14 @@ export default async function get_listing_by_id_endpoint (
 ) {
   try {
     const listingId = request.params.id
-    print(`[DEBUG] Getting listing with id '${listingId}' with bookmarks... `)
+    task(`Getting listing with id '${listingId}' with bookmarks... `)
 
     // Validate and convert listingId to ObjectId if necessary
     let objectId: Types.ObjectId
     try {
       objectId = new Types.ObjectId(listingId)
     } catch (error) {
-      log('Failed.\n[DEBUG][400] Invalid listing ID format.')
+      task_end('Failed.\n[DEBUG][400] Invalid listing ID format.')
       reply.code(400).send(new JsonapiErrorBuilder()
         .withStatus(400)
         .withTitle('Bad Request')
@@ -168,7 +168,7 @@ export default async function get_listing_by_id_endpoint (
     
     // Check if listing was found
     if (!aggregationResult || aggregationResult.length === 0) {
-      log('Failed.\n[DEBUG][404] Listing not found.')
+      task_end('Failed.\n[DEBUG][404] Listing not found.')
       reply.code(404).send(new JsonapiErrorBuilder()
         .withStatus(404)
         .withTitle('Not Found')
@@ -182,7 +182,7 @@ export default async function get_listing_by_id_endpoint (
     const listing = aggregationResult[0]        // Get the first (and only) result
     const bookmarks = listing.bookmarks || []   // Extract bookmarks array, default to empty array
     
-    log('Done.')
+    task_end('Done.')
 
     // Build JSON:API compliant response with listing as primary data and bookmarks as included resources
     // This follows the JSON:API specification for resource relationships and compound documents

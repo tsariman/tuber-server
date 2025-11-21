@@ -1,20 +1,20 @@
-import { FastifyRequest, FastifyReply } from 'fastify';
-import JsonapiErrorBuilder from '../../business.logic/builder/JsonapiErrorBuilder';
+import { FastifyRequest, FastifyReply } from 'fastify'
+import JsonapiErrorBuilder from '../../business.logic/builder/JsonapiErrorBuilder'
 import { default_500_error_response } from '../../business.logic/errors'
-import Config from '../../config';
+import Config from '../../config'
 import {
   $62_STATE_KEY,
   MSG_500_ERROR_MESSAGE
-} from '@tuber/shared';
-import { TJsonapiRequest } from '@tuber/shared';
-import JsonapiRequestDriver from '../../business.logic/JsonapiRequestDriver';
-import { log, write as print } from '../../utility/logging';
+} from '@tuber/shared'
+import { TJsonapiRequest } from '@tuber/shared'
+import JsonapiRequestDriver from '../../business.logic/JsonapiRequestDriver'
+import { log, task, task_end } from '../../utility/logging'
 
 interface IPostRequest {
   Body: TJsonapiRequest<{
-    key?: string;
-    value?: string;
-  }>;
+    key?: string
+    value?: string
+  }>
 }
 
 /**
@@ -29,32 +29,32 @@ export default async function dev_post_save_config_value_endpoint(
   reply: FastifyReply
 ): Promise<void> {
   try {
-    const driver = new JsonapiRequestDriver(req.body);
-    const key = driver.getAttribute('key');
-    const value = driver.getAttribute('value');
+    const driver = new JsonapiRequestDriver(req.body)
+    const key = driver.getAttribute('key')
+    const value = driver.getAttribute('value')
 
     if (!key || !value) {
-      log('[ERROR]: Key and value are required.');
+      log('[ERROR]: Key and value are required.')
       reply.code(400).send(new JsonapiErrorBuilder()
         .withCode('MISSING_VALUE')
         .withStatus(400)
         .withTitle('Query parameter is required')
         .build()
-      );
-      return;
+      )
+      return
     }
-    print(`[DEBUG] Saving configuration value... `);
-    await Config.save(key, value);
-    log('Success!');
+    task(`Saving configuration value... `)
+    await Config.save(key, value)
+    task_end('Success!')
     reply.code(200).send({
       'state': {
         'formsData': {
           [$62_STATE_KEY]: { key: '', value: '' }
         }
       }
-    });
+    })
   } catch (e) {
-    log(`${MSG_500_ERROR_MESSAGE} while saving configuration value.`, e);
-    reply.code(500).send(default_500_error_response);
+    log(`${MSG_500_ERROR_MESSAGE} while saving configuration value.`, e)
+    reply.code(500).send(default_500_error_response)
   }
 }

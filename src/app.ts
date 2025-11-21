@@ -27,6 +27,7 @@ const app: FastifyPluginAsync<AppOptions> = async (
 
   // Custom querystring parser for JSON:API bracket notation
   fastify.addHook('preHandler', (req, reply, done) => {
+    void reply
     const url = req.raw.url
     if (url) {
       const queryIndex = url.indexOf('?')
@@ -38,7 +39,12 @@ const app: FastifyPluginAsync<AppOptions> = async (
     done()
   })
 
-  // Setup JWT
+  // Register cookie support FIRST (JWT plugin needs this)
+  await fastify.register(import('@fastify/cookie'), {
+    secret: process.env.COOKIE_SECRET || 'my-secret-key-change-in-production'
+  })
+
+  // Setup JWT (after cookie support is available)
   await setupJWT(fastify)
 
   // Register the static plugin

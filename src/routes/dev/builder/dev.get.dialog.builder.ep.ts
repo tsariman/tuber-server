@@ -1,5 +1,5 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { log, write as print } from '../../../utility/logging'
+import { ler, task, task_end } from '../../../utility/logging'
 import { MSG_500_ERROR_MESSAGE } from '@tuber/shared'
 import { default_500_error_response } from '../../../business.logic/errors'
 import DialogStateBuilder from '../../../business.logic/builder/DialogStateBuilder'
@@ -11,7 +11,7 @@ export default async function dev_get_dialog_builder_endpoint(
   reply: FastifyReply
 ) {
   try {
-    print(`[DEBUG] Testing dialog builder state... `)
+    task(`[DEBUG] Testing dialog builder state... `)
     const id = Math.random().toString(36).substring(7)
     reply.code(200).send(new DialogStateBuilder()
       .with_Id(id)
@@ -32,9 +32,9 @@ export default async function dev_get_dialog_builder_endpoint(
       .withBootstrapState()
       .buildResponse()
     )
-    log('Done.')
+    task_end('Done.')
   } catch (e) {
-    log(MSG_500_ERROR_MESSAGE, e)
+    ler(MSG_500_ERROR_MESSAGE, e)
     reply.code(500).send(default_500_error_response(e))
   }
 }
