@@ -1,7 +1,7 @@
 import { PaginateModel, PaginateResult, model } from 'mongoose';
 import readableSchema, {
   IReadableDocument
-} from '../../schema/readables';
+} from '../../schema/readable';
 import { DB_PAGINATION_OPTIONS, DB_PAGINATION_QUERY } from '@tuber/shared';
 
 /** mongoose-paginate-v2 query */

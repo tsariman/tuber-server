@@ -1,9 +1,9 @@
 import { FastifyPluginAsync } from 'fastify'
-import get_user_collection_endpoint from '../../handlers/get.user.collection.ep'
-import get_user_by_name_endpoint from '../../handlers/get.user.by.name.ep'
-import post_user_endpoint from '../../handlers/post.user.ep'
-import { IUsersEndpoint } from '../../schema/users'
-import { put_user_vote_by_id_endpoint } from '../../handlers/put.user.by.id.ep'
+import get_user_collection_endpoint from '../users/get.user.collection.ep'
+import get_user_by_name_endpoint from '../users/get.user.by.name.ep'
+import post_user_endpoint from '../users/post.user.ep'
+import { IUsersEndpoint } from '../../schema/user'
+import { put_user_vote_by_id_endpoint } from '../users/put.user.by.id.ep'
 
 const users: FastifyPluginAsync = async (fastify, rootOpts): Promise<void> => {
 

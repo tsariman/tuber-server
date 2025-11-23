@@ -1,7 +1,7 @@
 import { model, PaginateModel, PaginateResult } from 'mongoose';
 import { TSelect } from '../../common.types';
 import { DB_PAGINATION_OPTIONS, DB_PAGINATION_QUERY } from '@tuber/shared';
-import listingSchema, { IListing, IListingDocument, TListing } from '../../schema/listings';
+import listingSchema, { IListing, IListingDocument, TListing } from '../../schema/listing';
 
 /** mongoose-paginate-v2 query */
 const PAGINATION_QUERY = {

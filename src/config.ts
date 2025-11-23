@@ -1,7 +1,7 @@
 import NodeCache from 'node-cache'
 import * as dotenv from 'dotenv'
 import { get_ip } from './utility/networking'
-import get_config, { IConfigManager } from './business.logic/ServerConfiguration'
+import get_config, { IConfigManager } from './business.logic/Configuration'
 import { missing_db_name, missing_db_user } from './utility/logging'
 import { COLLECTION_NAME } from '@tuber/shared'
 

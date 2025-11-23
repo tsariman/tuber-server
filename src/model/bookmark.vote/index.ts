@@ -2,8 +2,8 @@ import { model, PaginateModel, PaginateResult } from 'mongoose'
 import { DB_PAGINATION_OPTIONS, DB_PAGINATION_QUERY } from '@tuber/shared'
 import bookmarkVoteSchema, {
   IBookmarkVoteDocument,
-  TBookmarkVotesFastifyRequest
-} from '../../schema/bookmark.votes'
+  TBookmarkVoteFastifyRequest
+} from '../../schema/bookmark.vote'
 import Config from '../../config'
 
 /** mongoose-paginate-v2 query */
@@ -58,7 +58,7 @@ export const create_bookmark_vote = async (
 }
 
 export const read_bookmark_vote_collection = async (
-  req: TBookmarkVotesFastifyRequest
+  req: TBookmarkVoteFastifyRequest
 ): Promise<PaginateResult<IBookmarkVoteDocument>> => {
   const page = Number(req.query.page?.number ?? 1)
   const limit = Number(req.query.page?.size ?? Config.PAGINATION_BOOKMARK_VOTE_LIMIT)

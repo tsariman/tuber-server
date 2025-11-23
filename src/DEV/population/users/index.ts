@@ -2,7 +2,7 @@
 import get_company from './company.mock';
 import get_lastname from './lastname.mock';
 import get_tld from './domain_names.mock';
-import { TUser } from '../../../schema/users';
+import { TUser } from '../../../schema/user';
 import get_firstname from './firstname_and_gender.mock';
 
 export const get_rnd_separator = () => {

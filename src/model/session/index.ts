@@ -2,8 +2,8 @@ import { model } from 'mongoose'
 import sessionSchema, {
   ISession,
   ISessionDocument
-} from '../../schema/sessions'
-import { IUserDocument, TCipheredUser } from '../../schema/users'
+} from '../../schema/session'
+import { IUserDocument, TCipheredUser } from '../../schema/user'
 import { read_user_by_name } from '../user'
 import { USER_CACHE } from '../../business.logic/cache'
 

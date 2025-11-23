@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 import { model } from 'mongoose';
 import Config from '../config';
-import userSchema, { IUser, IUserDocument } from '../schema/users';
+import userSchema, { IUser, IUserDocument } from '../schema/user';
 
 /**
  * The name of the file in which the id of the default developer user will be

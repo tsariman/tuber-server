@@ -1,4 +1,4 @@
-import { IBookmark } from '../schema/bookmarks';
+import { IBookmark } from '../schema/bookmark';
 import { ler as err, log_err } from '../utility/logging';
 import { TPlatform } from '../common.types';
 import axios from 'axios';

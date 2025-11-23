@@ -1,7 +1,7 @@
 import { info, ler, task, task_end } from '../utility/logging'
 import Config from '../config'
 import { create_user, read_user_collection_count } from '../model/user'
-import { IUser } from '../schema/users'
+import { IUser } from '../schema/user'
 
 /**
  * Default user credentials that will be created if no users exist

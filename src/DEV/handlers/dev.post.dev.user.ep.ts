@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { existsSync } from 'fs';
 import * as fs from 'fs/promises';
-import { IUser } from '../../schema/users';
+import { IUser } from '../../schema/user';
 import { defaultDialogAlertState as alert } from '../../state/dialog';
 import C from '../../config';
 import {

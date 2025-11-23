@@ -1,5 +1,5 @@
 import { FastifyPluginAsync, FastifyReply, FastifyRequest } from 'fastify'
-import post_bookmarks_api_setup_search_index_endpoint from '../handlers/post.bookmark.api.search.index.ep'
+import post_bookmarks_api_setup_search_index_endpoint from './bookmarks/post.bookmark.api.search.index.ep'
 import Config from '../config'
 
 const install: FastifyPluginAsync = async (fastify, rootOpts): Promise<void> => {

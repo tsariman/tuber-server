@@ -1,8 +1,8 @@
 import Config from '../../config'
 import { PipelineStage } from 'mongoose'
 import { DB_PAGINATION_QUERY } from '@tuber/shared'
-import { TCipheredUser } from '../../schema/users'
-import { IBookmarkSearchQuery } from '../../schema/bookmarks'
+import { TCipheredUser } from '../../schema/user'
+import { IBookmarkSearchQuery } from '../../schema/bookmark'
 import Access from '../../business.logic/security/Access'
 
 /** MongoDB pipeline to find bookmarks using a search query. */

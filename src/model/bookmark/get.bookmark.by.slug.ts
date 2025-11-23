@@ -1,5 +1,5 @@
 import { PipelineStage } from 'mongoose'
-import { IBookmarkDocument } from '../../schema/bookmarks'
+import { IBookmarkDocument } from '../../schema/bookmark'
 import { BookmarkModel } from '.'
 import Config from '../../config'
 import { errr, ler, log_err, task, task_end } from '../../utility/logging'

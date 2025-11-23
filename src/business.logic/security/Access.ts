@@ -1,5 +1,5 @@
 import type { TRole } from '../../common.types'
-import { TCipheredUser } from '../../schema/users'
+import { TCipheredUser } from '../../schema/user'
 import { TAccessKey } from './TAccessKey'
 
 export default class Access {

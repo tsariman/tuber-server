@@ -1,4 +1,4 @@
-import { TCipheredUser } from '../schema/users';
+import { TCipheredUser } from '../schema/user';
 import dev_get_pages_data_state from '../dev/dev.pages.data.state';
 
 /** @deprecated */

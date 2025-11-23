@@ -68,7 +68,7 @@ import {
   themed_by_key
 } from '../../business.logic';
 import newUserFormState, { $69DarkThemeMode } from './new.user.form.state';
-import { TCipheredUser } from '../../schema/users';
+import { TCipheredUser } from '../../schema/user';
 import { is_dev } from '../../model/user/access';
 
 /**

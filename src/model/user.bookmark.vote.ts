@@ -1,5 +1,5 @@
-import { IBookmarkDocument } from '../schema/bookmarks';
-import { IUserDocument } from '../schema/users';
+import { IBookmarkDocument } from '../schema/bookmark';
+import { IUserDocument } from '../schema/user';
 
 /**
  * Increment the vote count of a bookmark. Use this function when a user decides

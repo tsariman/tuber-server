@@ -4,7 +4,7 @@ import { default_500_error_response } from '../../business.logic/errors'
 import { dbug, errr, ler, log_err, task, task_end } from '../../utility/logging'
 import { get_video_thumbnail_url } from '../all.drivers'
 import { BookmarkModel, read_bookmark_by_id } from '../../model/bookmark'
-import { IBookmark } from '../../schema/bookmarks'
+import { IBookmark } from '../../schema/bookmark'
 import { TPlatform } from '../../common.types'
 import JsonapiResponseBuilder from '../../business.logic/builder/JsonapiResponseBuilder'
 

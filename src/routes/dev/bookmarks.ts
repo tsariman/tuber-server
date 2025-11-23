@@ -1,14 +1,14 @@
 import { FastifyPluginAsync } from 'fastify'
-import get_bookmark_collection_endpoint from '../../handlers/get.bookmark.collection.ep'
-import get_bookmark_by_id_endpoint from '../../handlers/get.bookmark.by.id.ep'
-import patch_bookmark_by_id_endpoint from '../../handlers/patch.bookmark.by.id.ep'
-import delete_bookmark_by_id_endpoint from '../../handlers/delete.bookmark.by.id.ep'
+import get_bookmark_collection_endpoint from '../bookmarks/get.bookmark.collection.ep'
+import get_bookmark_by_id_endpoint from '../bookmarks/get.bookmark.by.id.ep'
+import patch_bookmark_by_id_endpoint from '../bookmarks/patch.bookmark.by.id.ep'
+import delete_bookmark_by_id_endpoint from '../bookmarks/delete.bookmark.by.id.ep'
 import {
   IBookmarkGet,
   IBookmarkPost,
   IBookmarkPatch,
   IBookmarkDelete
-} from '../../schema/bookmarks'
+} from '../../schema/bookmark'
 import dev_post_bookmark_endpoint from '../../dev/handlers/dev.post.bookmark.ep'
 import get_video_thumbnail_url_endpoint, {
   IBookmarkThumbnailUrlGet

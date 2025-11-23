@@ -16,7 +16,7 @@ import {
   remove_form_suffix,
   themed
 } from '../../business.logic';
-import { TCipheredUser } from '../../schema/users';
+import { TCipheredUser } from '../../schema/user';
 import { homeLinkState } from '../../state/nav.link';
 
 register('state', '46', C.$46_STATE_KEY);

@@ -1,4 +1,4 @@
-import { IBookmark } from '../schema/bookmarks';
+import { IBookmark } from '../schema/bookmark';
 import { BookmarkModel } from '../model/bookmark';
 import { UserModel } from '../model/user';
 import { log } from '../utility/logging';

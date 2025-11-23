@@ -1,5 +1,5 @@
 import Config from '../../config';
-import { TCipheredUser } from '../../schema/users';
+import { TCipheredUser } from '../../schema/user';
 
 /**
  * Check if the user is a developer and the app is in development mode.

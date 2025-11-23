@@ -10,7 +10,7 @@ import userSchema, {
   IUser,
   IUserDocument,
   TUsersFastifyRequest
-} from '../../schema/users';
+} from '../../schema/user';
 import { DB_PAGINATION_OPTIONS, DB_PAGINATION_QUERY } from '@tuber/shared';
 
 /** mongoose-paginate-v2 query */

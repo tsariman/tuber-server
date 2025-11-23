@@ -18,7 +18,7 @@ import {
   dev_post_users_populate_endpoint
 } from '../../dev/handlers/dev.post.populate.collections.ep'
 import post_bookmarks_api_setup_search_index_endpoint
-  from '../../handlers/post.bookmark.api.search.index.ep'
+  from '../bookmarks/post.bookmark.api.search.index.ep'
 import dev_post_populate_collection_endpoint
   from '../../dev/handlers/dev.post.populate.collection.ep'
 import dev_delete_collection_endpoint

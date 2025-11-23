@@ -1,5 +1,5 @@
 import { TJsonapiRequest } from '@tuber/shared'
-import { TCipheredUser } from './schema/users'
+import { TCipheredUser } from './schema/user'
 
 // Utility types
 

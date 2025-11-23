@@ -1,5 +1,5 @@
 import { TThemeMode } from '../common.types'
-import { TCipheredUser } from '../schema/users'
+import { TCipheredUser } from '../schema/user'
 
 /** Values tied to the request which customize the returned state. */
 export interface IStateContext {

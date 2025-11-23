@@ -12,7 +12,7 @@ import {
   TStateAppbar,
   TStatePage
 } from '@tuber/shared';
-import { TCipheredUser } from '../../schema/users';
+import { TCipheredUser } from '../../schema/user';
 import {
   clone_empty,
   clone_or_default,

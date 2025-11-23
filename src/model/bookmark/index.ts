@@ -4,7 +4,7 @@ import bookmarkSchema, {
   IBookmark,
   IBookmarkDocument,
   TBookmark,
-} from '../../schema/bookmarks';
+} from '../../schema/bookmark';
 import {
   DB_PAGINATION_OPTIONS,
   DB_PAGINATION_QUERY,

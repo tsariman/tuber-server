@@ -1,7 +1,7 @@
 import { PaginateModel, PaginateResult, model } from 'mongoose';
 import countrySchema, {
   ICountryDocument
-} from '../../schema/countries';
+} from '../../schema/country';
 import { DB_PAGINATION_OPTIONS, DB_PAGINATION_QUERY } from '@tuber/shared';
 
 /** mongoose-paginate-v2 query */

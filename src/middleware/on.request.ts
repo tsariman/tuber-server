@@ -2,7 +2,7 @@ import { FastifyRequest, onRequestHookHandler } from 'fastify'
 import { default_401_error_response } from '../business.logic/errors'
 import Config from '../config'
 import { dbug } from '../utility/logging'
-import { TCipheredUser } from '../schema/users'
+import { TCipheredUser } from '../schema/user'
 import { is_object } from '../utility'
 import JsonapiRequestDriver from '../business.logic/JsonapiRequestDriver'
 

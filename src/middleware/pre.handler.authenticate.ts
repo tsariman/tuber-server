@@ -7,9 +7,9 @@ import {
   $403_ACCESS_TOKEN_FORBIDDEN
 } from '../business.logic/errors';
 import { USER_CACHE } from '../business.logic/cache';
-import { TCipheredUser } from '../schema/users';
+import { TCipheredUser } from '../schema/user';
 import { UserPaginationModel } from '../model/user';
-import { is_token_blacklisted } from '../model/blacklisted-token';
+import { is_token_blacklisted } from '../model/blacklisted.token';
 import { log } from '../utility/logging';
 
 const pre_handler_authenticate: RouteShorthandOptions['preHandler'] = async function(

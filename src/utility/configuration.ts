@@ -1,4 +1,4 @@
-import { IDbConfigurationDocument } from '../schema/configurations'
+import { IDbConfigurationDocument } from '../schema/configuration'
 import { configuration_save } from '../model/configuration'
 import { TObj } from '../common.types'
 

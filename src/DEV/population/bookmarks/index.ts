@@ -1,4 +1,4 @@
-import { TBookmark } from '../../../schema/bookmarks';
+import { TBookmark } from '../../../schema/bookmark';
 
 export const rnd_platform = () => {
   const platforms = [

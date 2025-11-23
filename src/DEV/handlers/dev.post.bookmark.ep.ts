@@ -3,7 +3,7 @@ import { default_500_error_response } from '../../business.logic/errors'
 import JsonapiResponseBuilder from '../../business.logic/builder/JsonapiResponseBuilder'
 import { task, task_end } from '../../utility/logging'
 import { create_bookmark } from '../../model/bookmark'
-import { IBookmarkPost } from '../../schema/bookmarks'
+import { IBookmarkPost } from '../../schema/bookmark'
 import { gen_random_bookmark_votes } from '..'
 
 import { MSG_500_ERROR_MESSAGE } from '@tuber/shared'

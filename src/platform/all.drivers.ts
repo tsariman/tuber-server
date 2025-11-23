@@ -1,4 +1,4 @@
-import { IBookmark, TBookmarkFrag } from '../schema/bookmarks'
+import { IBookmark, TBookmarkFrag } from '../schema/bookmark'
 import { TPlatform } from '../common.types'
 import {
   rumble_parse_videoid,
@@ -14,7 +14,7 @@ import { PLATFORM_URL } from '.'
 import get_bookmark_by_slug from '../model/bookmark/get.bookmark.by.slug'
 import get_bookmark_by_videoid from '../model/bookmark/get.bookmark.by.videoid'
 import { errr, ler, log, log_err, task, task_end } from '../utility/logging'
-import { TCipheredUser } from '../schema/users'
+import { TCipheredUser } from '../schema/user'
 
 /**
  * Fill-in missing data for a bookmark.

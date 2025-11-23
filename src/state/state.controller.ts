@@ -1,8 +1,8 @@
 import { FastifyInstance } from 'fastify'
 import { DEFAULT_ROUTE_OPTIONS } from '../middleware/router.option'
-import post_state_pages_endpoint from './handlers/post.state.pages.ep'
-import post_state_forms_endpoint from './handlers/post.state.forms.ep'
-import post_state_dialogs_endpoint from './handlers/post.state.dialogs.ep'
+import post_state_pages_endpoint from '../routes/state/post.state.pages.ep'
+import post_state_forms_endpoint from '../routes/state/post.state.forms.ep'
+import post_state_dialogs_endpoint from '../routes/state/post.state.dialogs.ep'
 import { IStatePost } from '../common.types'
 
 const opts = {
