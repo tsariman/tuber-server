@@ -1,6 +1,6 @@
 # Ignored folders
-rest.client/*
-powershell/*
+rest.client
+powershell
 
 # compiled app
 dist

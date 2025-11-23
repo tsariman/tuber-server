@@ -9,6 +9,7 @@ import { MSG_500_ERROR_MESSAGE } from '@tuber/shared'
 import { ler, log_err, task, task_end } from '../utility/logging'
 import { IBookmarkDocument } from '../schema/bookmarks'
 
+/** `GET /listings/:id` */
 export default async function get_listing_by_id_endpoint (
   request: FastifyRequest<IListingsGet>,
   reply: FastifyReply
@@ -57,14 +58,7 @@ export default async function get_listing_by_id_endpoint (
               $map: {
                 input: { $ifNull: ['$bookmarks', []] },    // Use empty array if bookmarks field is null
                 as: 'bookmark',                             // Iterator variable name
-                in: {
-                  // Conditional conversion: if bookmark_id is a string, convert to ObjectId
-                  $cond: {
-                    if: { $type: '$$bookmark.bookmark_id' },    // Check if bookmark_id exists/has type
-                    then: { $toObjectId: '$$bookmark.bookmark_id' }, // Convert string to ObjectId
-                    else: '$$bookmark.bookmark_id'              // Keep as-is if already ObjectId
-                  }
-                }
+                in: { $toObjectId: '$$bookmark.bookmark_id' }, // Convert string to ObjectId
               }
             },
             // Pass the original bookmarks array to preserve listing-specific metadata
@@ -104,14 +98,7 @@ export default async function get_listing_by_id_endpoint (
                               cond: { 
                                 // Match condition: bookmark IDs must be equal
                                 $eq: [
-                                  {
-                                    // Handle type conversion for comparison
-                                    $cond: {
-                                      if: { $type: '$$this.bookmark_id' },
-                                      then: { $toObjectId: '$$this.bookmark_id' },
-                                      else: '$$this.bookmark_id'
-                                    }
-                                  },
+                                  {$toObjectId: '$$this.bookmark_id' },
                                   '$_id'                        // Current bookmark's _id
                                 ]
                               }
