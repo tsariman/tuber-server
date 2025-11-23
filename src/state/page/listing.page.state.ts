@@ -1,13 +1,19 @@
-import { $51_STATE_KEY, TStatePage } from '@tuber/shared'
+import {
+  $51_STATE_KEY,
+  TStatePage,
+  THEME_LIGHT_APP_BAR_ICON_COLOR as ICON_COLOR
+} from '@tuber/shared'
 import { register } from '../../business.logic/registry'
 import { $71DarkThemeMode, listingPageAppbarState } from '../appbar'
 import {
   $66DarkThemeMode,
+  $67DarkThemeMode,
   bookmarkAddFromUrlLinkState,
   darkModeLinkState,
   homeLinkState,
   lightModeLinkState,
   powerLogoutLinkState,
+  powerSignInLinkState,
   researchAppErrorsViewLinkState
 } from '../nav.link'
 import {
@@ -16,10 +22,11 @@ import {
 } from '../../business.logic'
 import { IStateContext, IBootstrapThemed } from '../_state.common.types'
 import Config from '../../config'
+import Access from '../../business.logic/security/Access'
 
 register('state', '51', $51_STATE_KEY)
 /** Page state for listing app. @id 51 */
-const chippedListingPageState = {
+const chippedListingPageState: TStatePage = {
   '_id': '51',
   '_key': $51_STATE_KEY,
   'title': 'Chipped Listing',
@@ -45,7 +52,7 @@ const chippedListingPageState = {
     'searchFieldIcon': {
       'icon': 'public_outline',
       'svgIconProps': {
-        'sx': { 'color': '#fff' }
+        'sx': { 'color': ICON_COLOR }
       }
     },
     'searchFieldIconButton': {
@@ -59,7 +66,7 @@ const chippedListingPageState = {
     }
   },
   'layout': 'layout_none_no_appbar',
-} as TStatePage
+}
 
 export default chippedListingPageState
 
@@ -80,14 +87,16 @@ export const bs_chippedListingPageState = (
       const link = clone_as_collection(appbar.items)
       if (Config.DEV) {
         link.add(researchAppErrorsViewLinkState)
-        link.add(homeLinkState)
+        if (Access.the(context.usr).can('dev_install_page.view')) {
+          link.add(homeLinkState)
+        }
       } else if (context.usr) {
         link.add(bookmarkAddFromUrlLinkState)
       }
       link.add(darkModeLinkState)
-      link.add($66DarkThemeMode)
-      appbar.items = link.items
-      base.appbar = appbar
+      link.add(context.usr ? $66DarkThemeMode : $67DarkThemeMode)
+      appbar['items'] = link['items']
+      base['appbar'] = appbar
       return base
     })(),
     'light': (() => {
@@ -96,14 +105,16 @@ export const bs_chippedListingPageState = (
       const link = clone_as_collection(appbar.items)
       if (Config.DEV) {
         link.add(researchAppErrorsViewLinkState)
-        link.add(homeLinkState)
+        if (Access.the(context.usr).can('dev_install_page.view')) {
+          link.add(homeLinkState)
+        }
       } else if (context.usr) {
         link.add(bookmarkAddFromUrlLinkState)
       }
       link.add(lightModeLinkState)
-      link.add(powerLogoutLinkState)
-      appbar.items = link.items
-      base.appbar = appbar
+      link.add(context.usr ? powerLogoutLinkState : powerSignInLinkState)
+      appbar['items'] = link['items']
+      base['appbar'] = appbar
       return base
     })()
   }

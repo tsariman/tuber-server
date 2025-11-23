@@ -93,8 +93,8 @@ export const bs_researchPageState = (
       }
       link.add(darkModeLinkState)
       link.add(context.usr ? $66DarkThemeMode : $67DarkThemeMode)
-      appbar.items = link.items
-      base.appbar = appbar
+      appbar['items'] = link.items
+      base['appbar'] = appbar
       return base
     })(),
     'light': (() => {
@@ -125,9 +125,9 @@ register('state', '70', $70_STATE_KEY)
 /** Listing (research alias) page state. @id 70 */
 export const listingPageState: TStatePage = (() => {
   const base = clone_with_descriptors(researchPageState)
-  base._id = '70'
-  base._key = $70_STATE_KEY
-  base.title = 'Listing'
+  base['_id'] = '70'
+  base['_key'] = $70_STATE_KEY
+  base['title'] = 'Listing'
   return base
 })()
 /** Dark theme mode for listing (research alias) page state. @id 70 */
@@ -153,9 +153,9 @@ export const bs_listingPageState = (
         link.add(bookmarkAddFromUrlLinkState)
       }
       link.add(darkModeLinkState)
-      link.add($66DarkThemeMode)
-      appbar.items = link.items
-      base.appbar = appbar
+      link.add(context.usr ? $66DarkThemeMode : $67DarkThemeMode)
+      appbar['items'] = link['items']
+      base['appbar'] = appbar
       return base
     })(),
     'light': (() => {
@@ -171,9 +171,9 @@ export const bs_listingPageState = (
         link.add(bookmarkAddFromUrlLinkState)
       }
       link.add(lightModeLinkState)
-      link.add(powerLogoutLinkState)
-      appbar.items = link.items
-      base.appbar = appbar
+      link.add(context.usr ? powerLogoutLinkState : powerSignInLinkState)
+      appbar['items'] = link['items']
+      base['appbar'] = appbar
       return base
     })()
   }

@@ -52,6 +52,20 @@ export interface IUsersEndpoint<K extends keyof TUserParams = keyof TUserParams>
   Querystring: TJsonapiQueryParams
 }
 
+/** @deprecated */
+export interface IUsersVoteEndpoint {
+  Params: { userId?: string }
+  Body: {
+    data: {
+      type: string
+      attributes: {
+        bookmarkId?: string
+        rating?: 1 | -1
+      }
+    }
+  }
+}
+
 export type TUsersFastifyRequest<K extends keyof TUserParams = keyof TUserParams> = FastifyRequest<IUsersEndpoint<K>>
 
 /**

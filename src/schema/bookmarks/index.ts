@@ -1,11 +1,11 @@
-import mongoose, { Schema } from 'mongoose';
-import paginate from 'mongoose-paginate-v2';
+import mongoose, { Schema } from 'mongoose'
+import paginate from 'mongoose-paginate-v2'
 import {
   TJsonapiQueryParams,
   TJsonapiRequest,
   TJsonapiResource,
   TWithRequired
-} from '@tuber/shared';
+} from '@tuber/shared'
 
 /**
  * 'G' - General
@@ -13,7 +13,7 @@ import {
  * 'R' - Restricted
  * 'X' - Adult
  */
-export type TAudience ='G' | 'PG' | 'R' | 'X';
+export type TAudience ='G' | 'PG' | 'R' | 'X'
 
 export type TReportReason = 'hide' 
   | 'broken link'
@@ -21,102 +21,118 @@ export type TReportReason = 'hide'
   | 'rude'
   | 'inappropriate'
   | 'spam'
-  | 'other';
+  | 'other'
 
 export interface IBookmark {
-  is_active?: boolean;
-  is_published?: boolean;
-  created_at?: Date;
-  modified_at?: Date;
-  is_private?: boolean;
-  user_id?: string;
-  author?: string; // used by facebook
-  videoid?: string;
+  is_active?: boolean
+  is_published?: boolean
+  created_at?: Date
+  modified_at?: Date
+  is_private?: boolean
+  user_id?: string
+  author?: string // used by facebook
+  videoid?: string
   /** When the videoid is not enough e.g. Rumble */
-  url?: string;
-  embed_url?: string;
-  slug?: string;
-  platform: string;
-  start_seconds: number;
-  end_seconds?: number;
-  title: string;
-  note?: string;
-  rating?: number;
-  upvotes?: number;
-  downvotes?: number;
-  thumbnail_url?: string;
-  targeted_audience?: TAudience;
+  url?: string
+  embed_url?: string
+  slug?: string
+  platform: string
+  start_seconds: number
+  end_seconds?: number
+  title: string
+  note?: string
+  rating?: number
+  upvotes?: number
+  downvotes?: number
+  thumbnail_url?: string
+  targeted_audience?: TAudience
   /** Number of times this bookmark has been played. */
-  play_count?: number;
+  play_count?: number
   /**
    * Number of times this bookmark has been reported.
    * [TODO] If the report count is greater than 10, the bookmark will be
    *        unpublished.
    */
-  report_count?: number;
+  report_count?: number
   /**
    * [TODO] Users can hide bookmarks they do not like. Hiding will be
    * a report with the reason 'hide'. 
    * [TODO] If a user reports a bookmark, it will be hidden from them.
    */
   reports?: {
-    is_active?: boolean;
-    created_at?: Date;
-    modified_at?: Date;
+    is_active?: boolean
+    created_at?: Date
+    modified_at?: Date
     /** The user who reported this bookmark. */
-    user_id?: string;
+    user_id?: string
     /** The reason why this bookmark was reported. */
-    reason?: string;
-  }[];
-  restrict?: Record<string, string>;
-  rules?: Record<string, string>;
+    reason?: string
+  }[]
+  restrict?: Record<string, string>
+  rules?: Record<string, string>
 }
 
 /** Partial bookmark. Used when working with some properties but not all. */
-export type TBookmarkFrag = Partial<IBookmark>;
+export type TBookmarkFrag = Partial<IBookmark>
 
 /** Available fields for a get request. */
 export interface IBookmarkGet {
-  Body: IBookmark;
+  Body: IBookmark
   Params: {
-    id: string;
-  };
-  Querystring: TJsonapiQueryParams;
+    id: string
+  }
+  Querystring: TJsonapiQueryParams
 }
 
 /** Required field to perform a MongoDB aggregate search. */
 export interface IBookmarkSearchQuery {
-  searchQuery: string;
-  page: number;
-  limit: number;
+  searchQuery: string
+  page: number
+  limit: number
 }
 
 /** Available fields for a post request. */
 export interface IBookmarkPost {
-  Body: TJsonapiRequest<IBookmark>;
+  Body: TJsonapiRequest<IBookmark>
 }
 
 /** Available fields for a put request. */
 export interface IBookmarkPatch {
   Body: {
-    data: TJsonapiResource<IBookmark>;
-  };
+    data: TJsonapiResource<IBookmark>
+  }
   Params: {
-    id: string;
-  };
+    id: string
+  }
 }
 
 export interface IBookmarkDelete {
   Params: {
-    id: string;
-  };
+    id: string
+  }
+}
+
+export interface IBookmarkVotePut {
+  Params: { id?: string }
+  Body: {
+    data: {
+      type: string
+      attributes: {
+        rating?: 1 | -1
+      }
+    }
+  }
+}
+
+export interface IBookmarkVoteGet {
+  Params: { id?: string }
 }
 
 export type TBookmark = TWithRequired<IBookmark,
   'is_active' | 'created_at' | 'modified_at' | 'is_private' | 'user_id'
->;
+>
 
-export interface IBookmarkDocument<T=unknown> extends mongoose.Document<T>, TBookmark {};
+export interface IBookmarkDocument<T=unknown> extends mongoose.Document<T>, TBookmark {}
 
 const bookmarkSchema = new Schema<IBookmarkDocument>({
   is_active: { type: Boolean, default: true },
@@ -136,8 +152,8 @@ const bookmarkSchema = new Schema<IBookmarkDocument>({
   title: String,
   note: String,
   rating: Number,
-  upvotes: Number,
-  downvotes: Number,
+  upvotes: { type: Number, default: 0 },
+  downvotes: { type: Number, default: 0 },
   thumbnail_url: String,
   targeted_audience: String,
   play_count: Number,
@@ -154,10 +170,10 @@ const bookmarkSchema = new Schema<IBookmarkDocument>({
   },
   restrict: { type: Map, of: String, default: undefined },
   rules: { type: Map, of: String, default: undefined }
-}, { versionKey: false });
+}, { versionKey: false })
 
-bookmarkSchema.index({ title: 1, note: 1 });
+bookmarkSchema.index({ title: 1, note: 1 })
 
-bookmarkSchema.plugin(paginate);
+bookmarkSchema.plugin(paginate)
 
-export default bookmarkSchema;
+export default bookmarkSchema

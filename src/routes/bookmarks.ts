@@ -11,19 +11,21 @@ import {
   IBookmarkPatch,
   IBookmarkDelete
 } from '../schema/bookmarks'
-import Config from '../config'
-import dev_post_bookmark_endpoint from '../dev/handlers/dev.post.bookmark.ep'
 import get_video_thumbnail_url_endpoint, {
   IBookmarkThumbnailUrlGet
 }  from '../platform/endpoint/get.video.thumbnail.url.ep'
+import { put_bookmark_vote_by_id_endpoint } from '../handlers/put.bookmark.vote.by.id.ep'
+import { IBookmarkVotePut, IBookmarkVoteGet } from '../schema/bookmarks'
+import { delete_bookmark_vote_by_id_endpoint } from '../handlers/delete.bookmark.vote.by.id.ep'
+import { get_bookmark_vote_by_id_endpoint } from '../handlers/get.bookmark.vote.by.id.ep'
 
 const bookmarks: FastifyPluginAsync = async (fastify, rootOpts): Promise<void> => {
 
   const opts = { ...rootOpts, ...DEFAULT_ROUTE_OPTIONS }
 
-  const postBookmark = Config.DEV
-    ? dev_post_bookmark_endpoint
-    : post_bookmark_endpoint
+  // const postBookmark = Config.DEV
+  //   ? dev_post_bookmark_endpoint
+  //   : post_bookmark_endpoint
 
   const bookmarksOpts = { ...rootOpts, ...OPTIONAL_ROUTE_OPTIONS }
 
@@ -44,13 +46,22 @@ const bookmarks: FastifyPluginAsync = async (fastify, rootOpts): Promise<void> =
   )
 
   // POST /bookmarks (create)
-  fastify.post<IBookmarkPost>('/bookmarks', opts, postBookmark)
+  fastify.post<IBookmarkPost>('/bookmarks', opts, post_bookmark_endpoint)
 
   // PATCH /bookmarks/:id (update)
   fastify.patch<IBookmarkPatch>('/bookmarks/:id', opts, patch_bookmark_by_id_endpoint)
 
+  // PUT /bookmarks/:id/vote (set current user vote)
+  fastify.put<IBookmarkVotePut>('/bookmarks/:id/vote', opts, put_bookmark_vote_by_id_endpoint)
+
+  // GET /bookmarks/:id/vote (current user vote state + counts)
+  fastify.get<IBookmarkVoteGet>('/bookmarks/:id/vote', opts, get_bookmark_vote_by_id_endpoint)
+
   // DELETE /bookmarks/:id (delete)
   fastify.delete<IBookmarkDelete>('/bookmarks/:id', opts, delete_bookmark_by_id_endpoint)
+
+  // DELETE /bookmarks/:id/vote (remove current user vote)
+  fastify.delete<IBookmarkDelete>('/bookmarks/:id/vote', opts, delete_bookmark_vote_by_id_endpoint)
 }
 
 export default bookmarks

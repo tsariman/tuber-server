@@ -1,4 +1,6 @@
 # Ignored folders
+rest.client/*
+powershell/*
 
 # compiled app
 dist
@@ -47,13 +49,7 @@ d1684a88be5c08aed50f565d9c8063ca.txt
 .env.production.example
 .env.app-config
 .env.twitch
-dev.default.rest
-dev.builder.rest
-dev.env.var.rest
-dev.col.bookmarks.rest
-dev.authentication.rest
 fix-imports.ps1
-
 
 # Logs
 logs

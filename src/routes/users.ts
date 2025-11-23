@@ -3,10 +3,11 @@ import get_user_collection_endpoint from '../handlers/get.user.collection.ep'
 import get_user_by_name_endpoint from '../handlers/get.user.by.name.ep'
 import post_user_endpoint from '../handlers/post.user.ep'
 import { DEFAULT_ROUTE_OPTIONS } from '../middleware/router.option'
-import { IUsersEndpoint } from '../schema/users'
+import { IUsersEndpoint, IUsersVoteEndpoint } from '../schema/users'
 import Config from '../config'
 import post_demo_user_endpoint from '../handlers/post.user.demo.ep'
 import get_user_collection_demo_endpoint from '../handlers/get.user.collection.demo.ep'
+import { put_user_vote_by_id_endpoint } from '../handlers/put.user.by.id.ep'
 
 const get_user_endpoint_switch = Config.DEMO
   ? get_user_collection_demo_endpoint
@@ -31,6 +32,8 @@ const users: FastifyPluginAsync = async (fastify, defaultOpts): Promise<void> =>
   fastify.post<IUsersEndpoint>('/users', opts, post_user_enpoint_switch)
 
   // PUT /users/:id (update)
+  // PUT /users/:userId/vote (upvote/downvote)
+  fastify.put<IUsersVoteEndpoint>('/users/:userId/vote', opts, put_user_vote_by_id_endpoint)
 
   // DELETE /users/:id (delete)
 }

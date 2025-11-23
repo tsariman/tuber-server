@@ -1,14 +1,11 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
-import {
-  default_500_error_response,
-  default_400_error_response
-} from '../business.logic/errors'
+import { default_500_error_response } from '../business.logic/errors'
 import JsonapiResponseBuilder from '../business.logic/builder/JsonapiResponseBuilder'
 import { dbug, ler, log_err, task, task_end } from '../utility/logging'
 import { create_bookmark } from '../model/bookmark'
 import { IBookmarkPost } from '../schema/bookmarks'
-import fix_missing_bookmark_data from '../platform/all.drivers'
 import { MSG_500_ERROR_MESSAGE } from '@tuber/shared'
+import fix_missing_bookmark_data from '../platform/all.drivers'
 import JsonapiRequestDriver from '../business.logic/JsonapiRequestDriver'
 
 /** `POST /bookmarks` */
@@ -24,7 +21,7 @@ export default async function post_bookmark_endpoint (
     const bookmark = await fix_missing_bookmark_data(attr, req.usr)
     if (!bookmark) {
       task_end('Failed.')
-      reply.code(400).send(default_400_error_response({
+      reply.code(500).send(default_500_error_response({
         title: 'Failed to create bookmark.',
         detail: 'Bookmark is null.'
       }))
