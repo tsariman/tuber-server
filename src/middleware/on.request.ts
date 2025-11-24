@@ -11,6 +11,7 @@ declare module 'fastify' {
     token?: string
     usr?: TCipheredUser
     cookie?: string
+    isFromBrowser?: boolean
   }
 }
 
@@ -41,7 +42,7 @@ const on_request_default: onRequestHookHandler = async (
         pointer: '/src/middleware/on.request.ts',
         parameter: req.url
       }
-    }))
+    }, req.isFromBrowser))
   }
 }
 
@@ -74,7 +75,7 @@ export const on_request_dev: onRequestHookHandler = async (
           pointer: '/src/middleware/on.request.ts',
           parameter: req.url
         }
-      }))
+      }, req.isFromBrowser))
     }
   }
 }
@@ -134,6 +135,7 @@ export const authorize_request = async (req: FastifyRequest): Promise<void> => {
  * @param req - The Fastify request object to contextualize
  */
 export const contextualize_request = async (req: FastifyRequest): Promise<void> => {
+  req.isFromBrowser = is_browser_request(req)
   // Extract JWT token from Authorization header
   req.token = req.headers.authorization?.replace('Bearer ', '')
   if (req.token) {
@@ -162,4 +164,35 @@ export const contextualize_request = async (req: FastifyRequest): Promise<void> 
   } else {
     dbug('No cookie received from headers or request body')
   }
+}
+
+/**
+ * Check if the request came from a browser. Returns `true` if it is.
+ *
+ * @param req 
+ * @returns 
+ */
+const is_browser_request = (req: FastifyRequest): boolean => {
+  const userAgent = req.headers['user-agent'] || ''
+  
+  // Common browser indicators
+  const browserPatterns = [
+    /mozilla/i,
+    /chrome/i,
+    /safari/i,
+    /firefox/i,
+    /edge/i,
+    /opera/i,
+    /msie/i,
+    /trident/i // IE11
+  ];
+  
+  // Check if any browser pattern matches
+  const hasBrowserUA = browserPatterns.some(pattern => pattern.test(userAgent))
+  
+  // Additional check: browsers typically send 'Accept' header with 'text/html'
+  const accept = req.headers['accept'] || ''
+  const acceptsHtml = accept.includes('text/html')
+  
+  return hasBrowserUA && acceptsHtml
 }

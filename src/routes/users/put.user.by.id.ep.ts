@@ -1,5 +1,6 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { BookmarkModel } from '../../model/bookmark'
+import { BookmarkVoteModel } from '../../model/bookmark.vote'
 import { UserModel } from '../../model/user'
 import JsonapiErrorBuilder from '../../business.logic/builder/JsonapiErrorBuilder'
 import { default_500_error_response } from '../../business.logic/errors'
@@ -76,22 +77,18 @@ async function _update_user_vote(
     return 'User not found'
   }
 
-  // Check if the user has already voted on the bookmark
-  user.votes = user.votes || []
-  const voteIndex = user.votes.findIndex(v => v.bookmark_id === bookmarkId)
-  const previousRating: 1 | -1 | 0 = voteIndex === -1 ? 0 : (user.votes[voteIndex].rating as 1 | -1)
-  if (voteIndex === -1) {
-    // First time voting on this bookmark
-    user.votes.push({ bookmark_id: bookmarkId, rating })
-  } else if (previousRating !== rating) {
-    // Switching vote
-    user.votes[voteIndex].rating = rating
-  } else {
+  // Collection-based vote upsert/toggle replaces legacy array persistence
+  const existingVote = await BookmarkVoteModel.findOne({ user_id: String(user._id), bookmark_id: String(bookmarkId) })
+  let previousRating: 1 | -1 | 0 = 0
+  if (!existingVote) {
+    await BookmarkVoteModel.create({ user_id: String(user._id), bookmark_id: String(bookmarkId), rating })
+  } else if (existingVote.rating === rating) {
     return 'User has already voted on this bookmark'
+  } else {
+    previousRating = existingVote.rating as 1 | -1
+    existingVote.rating = rating
+    await existingVote.save()
   }
-
-  // Persist user vote change
-  await user.save()
 
   // Atomic update on bookmark counters using $inc
   const bookmarkExists = await BookmarkModel.exists({ _id: bookmarkId })
@@ -99,9 +96,9 @@ async function _update_user_vote(
     return 'Bookmark or rating not found'
   }
   const inc: Record<string, number> = {}
-  if (previousRating === 0) {
-    if (rating === 1) inc.upvotes = 1
-    else inc.downvotes = 1
+  if (!existingVote) {
+    // New vote
+    if (rating === 1) inc.upvotes = 1; else inc.downvotes = 1
   } else if (previousRating === 1 && rating === -1) {
     inc.upvotes = -1; inc.downvotes = 1
   } else if (previousRating === -1 && rating === 1) {

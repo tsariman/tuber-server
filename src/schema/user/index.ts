@@ -28,10 +28,11 @@ export interface IUser {
   jwt_version?: number
   avatar?: string
   votes?: {
-    is_active?: boolean
+    is_active: boolean
     bookmark_id: string
-    rating: 1 | -1 // 1 = upvote, -1 = downvote
-    created_at?: Date
+    /** 1 = upvote, -1 = downvote */
+    rating: 1 | -1
+    created_at: Date
     modified_at?: Date
   }[]
   last_accessed?: Date

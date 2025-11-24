@@ -85,7 +85,7 @@ export interface IBookmarkGet {
 }
 
 /** Required field to perform a MongoDB aggregate search. */
-export interface IBookmarkSearchQuery {
+export interface IBookmarkQuerySearch {
   searchQuery: string
   page: number
   limit: number

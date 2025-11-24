@@ -49,12 +49,57 @@ export const read_bookmark_vote_by_id = async (
 export const create_bookmark_vote = async (
   userId: string,
   bookmarkId: string,
-  rating: -1 | 1
+  rating: 1 | -1
 ): Promise<IBookmarkVoteDocument | null> => {
-  void userId
-  void bookmarkId
-  void rating
-  throw new Error('Not yet implemented.')
+  const vote = await BookmarkVoteModel.create({
+    user_id: String(userId),
+    bookmark_id: String(bookmarkId),
+    rating
+  })
+  return vote
+}
+
+/**
+ * Upsert / toggle a bookmark vote for a user.
+ * Behavior:
+ *  - If no existing vote: create one with provided rating.
+ *  - If existing vote has different rating: update rating.
+ *  - If existing vote has same rating: remove (toggle off).
+ * Returns previous rating (1 | -1 | 0), current rating (1 | -1 | null), and removal flag.
+ */
+export const upsert_toggle_bookmark_vote = async (
+  userId: string,
+  bookmarkId: string,
+  rating: 1 | -1
+): Promise<{ previousRating: 1 | -1 | 0; currentRating: 1 | -1 | null; removal: boolean }> => {
+  const existing = await BookmarkVoteModel.findOne({ user_id: String(userId), bookmark_id: String(bookmarkId) })
+  if (!existing) {
+    // Create new vote
+    await BookmarkVoteModel.create({ user_id: String(userId), bookmark_id: String(bookmarkId), rating })
+    return { previousRating: 0, currentRating: rating, removal: false }
+  }
+  if (existing.rating === rating) {
+    // Toggle off
+    await BookmarkVoteModel.deleteOne({ _id: existing._id })
+    return { previousRating: rating, currentRating: null, removal: true }
+  }
+  // Switch rating
+  const prev = existing.rating
+  existing.rating = rating
+  await existing.save()
+  return { previousRating: prev, currentRating: rating, removal: false }
+}
+
+/** Delete a bookmark vote and return its previous rating or null if not found */
+export const delete_bookmark_vote = async (
+  userId: string,
+  bookmarkId: string
+): Promise<1 | -1 | null> => {
+  const existing = await BookmarkVoteModel.findOne({ user_id: String(userId), bookmark_id: String(bookmarkId) })
+  if (!existing) return null
+  const prev = existing.rating
+  await BookmarkVoteModel.deleteOne({ _id: existing._id })
+  return prev
 }
 
 export const read_bookmark_vote_collection = async (

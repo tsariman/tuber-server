@@ -8,7 +8,7 @@ const listings: FastifyPluginAsync = async (fastify, rootOpts): Promise<void> =>
   const opts = { ...rootOpts, ...DEFAULT_ROUTE_OPTIONS }
 
   // GET /listings/:id
-  fastify.get<IListingsGet>('/listings/:id', opts, get_listing_by_id_endpoint)
+  fastify.get<IListingsGet>('/:id', opts, get_listing_by_id_endpoint)
 }
 
 export default listings

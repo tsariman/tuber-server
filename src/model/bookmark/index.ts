@@ -11,6 +11,7 @@ import {
   EP_BOOKMARKS,
   IJsonapiResource
 } from '@tuber/shared';
+import { TCipheredUser } from '../../schema/user';
 
 /** mongoose-paginate-v2 query */
 const PAGINATION_QUERY = {
@@ -129,14 +130,79 @@ export const exclude_bookmark_id = (bookmarkDoc: IBookmarkDocument): IBookmark =
   return bookmark;
 }
 
-/** Converts bookmarks from MongoDB documents to JSON:API resources. */
+/**
+ * Get user votes for a list of bookmark IDs
+ * @param userId The user's ID
+ * @param bookmarkIds Array of bookmark IDs to look up votes for
+ * @returns Map of bookmark IDs to vote ratings (1 or -1)
+ */
+export const get_user_votes_for_bookmarks = (
+  user: TCipheredUser | null | undefined,
+  bookmarkIds: string[]
+): Map<string, { rating: 1 | -1; bookmark_id: string }> => {
+  const voteMap = new Map<string, { rating: 1 | -1; bookmark_id: string }>();
+  
+  if (!user || !user._id) {
+    return voteMap;
+  }
+  
+  // This will need to read from the user.votes array
+  // Since we don't have the full user document here, this function
+  // will be called with the votes already looked up
+  return voteMap;
+};
+
+/**
+ * Converts bookmarks from MongoDB documents to JSON:API resources.
+ * Optionally includes user votes as relationships and included documents.
+ * @param documents Array of bookmark documents
+ * @param userVotes Optional map of bookmark IDs to vote data
+ * @returns Object containing resources and optional included votes
+ */
 export const to_jsonapi_bookmark_resources = (
-  documents: IBookmarkDocument<Types.ObjectId>[]
-) => {
-  const resources: IJsonapiResource<IBookmark>[] = documents.map(bookmark => ({
-    type: EP_BOOKMARKS,
-    id: bookmark._id?.toString() ?? '',
-    attributes: exclude_bookmark_id(bookmark)
-  }));
-  return resources;
-}
+  documents: IBookmarkDocument<Types.ObjectId>[],
+  userVotes?: Map<string, { rating: 1 | -1; bookmark_id: string }>
+): { 
+  resources: IJsonapiResource<IBookmark>[]; 
+  included: IJsonapiResource[] 
+} => {
+  const included: IJsonapiResource[] = [];
+  
+  const resources: IJsonapiResource<IBookmark>[] = documents.map(bookmark => {
+    const bookmarkId = bookmark._id?.toString() ?? '';
+    const resource: IJsonapiResource<IBookmark> = {
+      type: EP_BOOKMARKS,
+      id: bookmarkId,
+      attributes: exclude_bookmark_id(bookmark)
+    };
+    
+    // Add user vote relationship if available
+    if (userVotes && userVotes.has(bookmarkId)) {
+      const vote = userVotes.get(bookmarkId)!;
+      
+      // Add relationship to the bookmark
+      resource.relationships = {
+        'user-vote': {
+          data: {
+            type: 'user-votes',
+            id: `${bookmarkId}`
+          }
+        }
+      };
+      
+      // Add the vote to included documents
+      included.push({
+        type: 'user-votes',
+        id: `${bookmarkId}`,
+        attributes: {
+          bookmark_id: vote.bookmark_id,
+          rating: vote.rating
+        }
+      });
+    }
+    
+    return resource;
+  });
+  
+  return { resources, included };
+};

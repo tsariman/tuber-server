@@ -7,7 +7,8 @@ export interface IBookmarkVote {
   is_active: boolean
   user_id: string
   bookmark_id: string
-  rating: 0 | 1 | -1 // 1 = upvote, -1 = downvote
+  /** 1 = upvote, -1 = downvote */
+  rating: 1 | -1
   created_at: Date
   modified_at?: Date
 }
@@ -32,11 +33,14 @@ export interface IBookmarkVoteDocument extends mongoose.Document<string>, IBookm
 const bookmarkVoteSchema = new Schema<IBookmarkVoteDocument>({
   is_active: {type: Boolean, default: true },
   user_id: { type: String, required: true },
-  bookmark_id: { type: String, require: true },
-  rating: { type: Number, default: 0 },
+  bookmark_id: { type: String, required: true },
+  rating: { type: Number, required: true },
   created_at: { type: Date, default: Date.now },
   modified_at: Date,
 }, { versionKey: false })
+
+// Ensure one vote per user per bookmark.
+bookmarkVoteSchema.index({ user_id: 1, bookmark_id: 1 }, { unique: true })
 
 bookmarkVoteSchema.plugin(paginate)
 

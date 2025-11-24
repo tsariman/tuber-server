@@ -1,5 +1,5 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
-import devTestDrawer from '../dev.test.drawer.state'
+import devTestDrawer from '../../dev/dev.test.drawer.state'
 import { NET_STATE_PATCH_DELETE } from '../../state'
 import { TNetState } from '@tuber/shared'
 

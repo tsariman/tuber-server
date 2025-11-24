@@ -12,6 +12,7 @@ import { MSG_500_ERROR_MESSAGE } from '@tuber/shared'
 import { get_raw_query } from './_bookmarks.common.logic'
 import { log_err, ler, dbug, task, task_end } from '../../utility/logging'
 import get_bookmark_search_query_pipeline from '../../model/bookmark/get.bookmark.search.query.pipeline'
+import { BookmarkVoteModel } from '../../model/bookmark.vote'
 
 /** `GET /dev/bookmarks` */
 export default async function get_bookmark_collection_endpoint (
@@ -23,6 +24,10 @@ export default async function get_bookmark_collection_endpoint (
     dbug('req.query =', req.query)
     const page = Math.max(1, req.query.page?.number ?? 1)
     const limit = Math.max(1, Math.min(100, req.query.page?.size ?? parseInt(Config.PAGINATION_BOOKMARKS_LIMIT)))
+    
+    // userVotes will be populated after bookmarks are fetched from dedicated collection
+    let userVotes: Map<string, { rating: 1 | -1; bookmark_id: string }> | undefined
+    
     if (searchQuery) {
       dbug('Running search query:', searchQuery)
       task(`Getting bookmarks collection with search (page ${page}, limit ${limit})... `)
@@ -39,46 +44,66 @@ export default async function get_bookmark_collection_endpoint (
       
       const filter = `filter[search]=${encodeURIComponent(searchQuery)}`
       
-      // Convert results to JSON:API resources
-      const resources = to_jsonapi_bookmark_resources(results)
+      // Build user votes map for current user limited to fetched bookmarks
+      if (req.usr?._id) {
+        const bookmarkIds = results.map((b: any) => b._id)
+        const votes = await BookmarkVoteModel.find({ user_id: String(req.usr._id), bookmark_id: { $in: bookmarkIds.map((id: any) => String(id)) } }, { bookmark_id: 1, rating: 1 })
+        userVotes = new Map(votes.map(v => [v.bookmark_id, { rating: v.rating as 1 | -1, bookmark_id: v.bookmark_id }]))
+      }
+      // Convert results to JSON:API resources with user votes
+      const { resources, included } = to_jsonapi_bookmark_resources(results, userVotes)
 
-      reply.code(200).send(
-        JsonapiResponseBuilder.forCollection<IBookmark>()
-          .withCollection(resources)
-          .withCollectionPagination(totalItems, page, limit, filter)
-          .withMeta({
-            max_loaded_pages: Config.MAX_LOADED_BOOKMARK_PAGES,
-            search: get_raw_query(req)
-          })
-          .buildCollection()
-      )
+      const builder = JsonapiResponseBuilder.forCollection<IBookmark>()
+        .withCollection(resources)
+        .withCollectionPagination(totalItems, page, limit, filter)
+        .withMeta({
+          max_loaded_pages: Config.MAX_LOADED_BOOKMARK_PAGES,
+          search: get_raw_query(req)
+        })
+      
+      // Add included documents if there are any user votes
+      if (included.length > 0) {
+        included.forEach(inc => builder.addIncluded(inc))
+      }
+
+      reply.code(200).send(builder.buildCollection())
     } else {
       task(`Getting bookmarks collection (page ${page}, limit ${limit})... `)
       const result = await read_bookmark_collection(page, limit)
       task_end('Done.')
       
-      // Convert mongoose documents to JSON:API resources
-      const resources = to_jsonapi_bookmark_resources(result.docs)
+      // Build user votes map for current user limited to fetched bookmarks
+      if (req.usr?._id) {
+        const bookmarkIds = result.docs.map((b: any) => b._id)
+        const votes = await BookmarkVoteModel.find({ user_id: String(req.usr._id), bookmark_id: { $in: bookmarkIds.map((id: any) => String(id)) } }, { bookmark_id: 1, rating: 1 })
+        userVotes = new Map(votes.map(v => [v.bookmark_id, { rating: v.rating as 1 | -1, bookmark_id: v.bookmark_id }]))
+      }
+      // Convert mongoose documents to JSON:API resources with user votes
+      const { resources, included } = to_jsonapi_bookmark_resources(result.docs, userVotes)
 
-      reply.code(200).send(
-        JsonapiResponseBuilder.forCollection<IBookmark>()
-          .withCollection(resources)
-          .withPaginationLinks({
-            totalDocs: result.totalDocs,
-            limit: result.limit,
-            page: result.page,
-            totalPages: result.totalPages,
-            nextPage: result.nextPage,
-            hasNextPage: result.hasNextPage,
-            prevPage: result.prevPage,
-            hasPrevPage: result.hasPrevPage,
-            pagingCounter: result.pagingCounter
-          })
-          .withMeta({
-            max_loaded_pages: Config.MAX_LOADED_BOOKMARK_PAGES
-          })
-          .buildCollection()
-      )
+      const builder = JsonapiResponseBuilder.forCollection<IBookmark>()
+        .withCollection(resources)
+        .withPaginationLinks({
+          totalDocs: result.totalDocs,
+          limit: result.limit,
+          page: result.page,
+          totalPages: result.totalPages,
+          nextPage: result.nextPage,
+          hasNextPage: result.hasNextPage,
+          prevPage: result.prevPage,
+          hasPrevPage: result.hasPrevPage,
+          pagingCounter: result.pagingCounter
+        })
+        .withMeta({
+          max_loaded_pages: Config.MAX_LOADED_BOOKMARK_PAGES
+        })
+      
+      // Add included documents if there are any user votes
+      if (included.length > 0) {
+        included.forEach(inc => builder.addIncluded(inc))
+      }
+
+      reply.code(200).send(builder.buildCollection())
     }
   } catch (e) {
     ler(MSG_500_ERROR_MESSAGE)

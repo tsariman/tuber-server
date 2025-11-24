@@ -5,47 +5,59 @@
 
 import { FastifyPluginAsync, FastifyReply, FastifyRequest } from 'fastify'
 import { IQueryDirective, IQueryEnvVar, IStatePost } from '../../common.types'
-import dev_post_create_update_dev_user_endpoint from '../../dev/handlers/dev.post.dev.user.ep'
-import dev_post_database_reset_endpoint from '../../dev/handlers/dev.post.database.reset.ep'
+import dev_post_create_update_dev_user_endpoint from './dev.post.dev.user.ep'
+import dev_post_database_reset_endpoint from './dev.post.database.reset.ep'
 import {
   dev_post_load_test_drawer,
   dev_post_unload_test_drawer
-} from '../../dev/handlers'
+} from './dev.post.test.drawer.ep'
 import { DEV_ROUTE_POTIONS } from '../../middleware/router.option'
-import dev_post_user_endpoint from '../../dev/handlers/dev.post.user.ep'
+import dev_post_user_endpoint from './dev.post.user.ep'
 import {
   dev_post_bookmarks_populate_endpoint,
   dev_post_users_populate_endpoint
-} from '../../dev/handlers/dev.post.populate.collections.ep'
+} from './dev.post.populate.collections.ep'
 import post_bookmarks_api_setup_search_index_endpoint
   from '../bookmarks/post.bookmark.api.search.index.ep'
 import dev_post_populate_collection_endpoint
-  from '../../dev/handlers/dev.post.populate.collection.ep'
+  from './dev.post.populate.collection.ep'
 import dev_delete_collection_endpoint
-  from '../../dev/handlers/dev.delete.collection.ep'
+  from './dev.delete.collection.ep'
 import dev_get_no_response_hangtime_endpoint
-  from '../../dev/handlers/dev.get.no.response.hangtime.ep'
-import dev_get_html_page_endpoint from '../../dev/handlers/dev.get.html.page.ep'
+  from './dev.get.no.response.hangtime.ep'
+import dev_get_html_page_endpoint from './dev.get.html.page.ep'
 import dev_get_rumble_thumbnail_endpoint
-  from '../../dev/handlers/dev.get.rumble.thumbnail.ep'
-import dev_get_odysee_thumbnail_endpoint from '../../dev/handlers/dev.get.odysee.thumbnail.ep'
-import dev_get_vimeo_thumbnail_endpoint from '../../dev/handlers/dev.get.vimeo.thumbnail.ep'
-import dev_get_twitch_thumbnail_endpoint from '../../dev/handlers/dev.get.twitch.thumbnail.ep'
+  from './dev.get.rumble.thumbnail.ep'
+import dev_get_odysee_thumbnail_endpoint from './dev.get.odysee.thumbnail.ep'
+import dev_get_vimeo_thumbnail_endpoint from './dev.get.vimeo.thumbnail.ep'
+import dev_get_twitch_thumbnail_endpoint from './dev.get.twitch.thumbnail.ep'
 import {
   get_twitch_renew_access_token_endpoint
 } from '../../platform/endpoint/get.twitch.renew.access.token.ep'
-import dev_post_state_pages_endpoint from '../../dev/handlers/dev.post.state.pages.ep'
-import dev_post_state_forms_endpoint from '../../dev/handlers/dev.post.state.forms.ep'
-import dev_post_rumble_regexp_endpoint from '../../dev/handlers/dev.post.rumble.regexp.ep'
-import dev_post_unknown_regexp_endpoint from '../../dev/handlers/dev.post.unknown.regexp.ep'
+import dev_post_state_pages_endpoint from './dev.post.state.pages.ep'
+import dev_post_state_forms_endpoint from './dev.post.state.forms.ep'
+import dev_post_rumble_regexp_endpoint from './dev.post.rumble.regexp.ep'
+import dev_post_unknown_regexp_endpoint from './dev.post.unknown.regexp.ep'
 import dev_post_twitch_client_id_endpoint
-  from '../../dev/handlers/dev.post.twitch.client.id.ep'
+  from './dev.post.twitch.client.id.ep'
 import dev_post_save_config_value_endpoint
-  from '../../dev/handlers/dev.post.save.config.value.ep'
+  from './dev.post.save.config.value.ep'
 import { TJsonapiRequest } from '@tuber/shared'
-import dev_get_env_var_enpoint from '../../dev/handlers/dev.get.env.var.ep'
+import dev_get_env_var_enpoint from './dev.get.env.var.ep'
 import JsonapiErrorBuilder from '../../business.logic/builder/JsonapiErrorBuilder'
 import Config from '../../config'
+import { IBookmarkDelete, IBookmarkGet, IBookmarkPatch, IBookmarkPost } from '../../schema/bookmark'
+import get_video_thumbnail_url_endpoint, { IBookmarkThumbnailUrlGet } from '../../platform/endpoint/get.video.thumbnail.url.ep'
+import get_bookmark_collection_endpoint from '../bookmarks/get.bookmark.collection.ep'
+import get_bookmark_by_id_endpoint from '../bookmarks/get.bookmark.by.id.ep'
+import dev_post_bookmark_endpoint from './dev.post.bookmark.ep'
+import patch_bookmark_by_id_endpoint from '../bookmarks/patch.bookmark.by.id.ep'
+import delete_bookmark_by_id_endpoint from '../bookmarks/delete.bookmark.by.id.ep'
+import dev_post_generate_token_endpoint from './dev.post.generate.token.ep'
+import { IUsersEndpoint, IUsersVoteEndpoint } from '../../schema/user'
+import get_user_collection_endpoint from '../users/get.user.collection.ep'
+import get_user_by_name_endpoint from '../users/get.user.by.name.ep'
+import { put_user_vote_by_id_endpoint } from '../users/put.user.by.id.ep'
 
 interface IPostPopulate {
   Params: {
@@ -81,6 +93,7 @@ const dev: FastifyPluginAsync = async (fastify, rootOpts): Promise<void> => {
       ...DEV_ROUTE_POTIONS
       // TODO Add custom route options here
     }
+
     // GET /dev
     fastify.get('/', {}, async function (
       req: FastifyRequest,
@@ -212,6 +225,40 @@ const dev: FastifyPluginAsync = async (fastify, rootOpts): Promise<void> => {
     fastify.get<IQueryEnvVar>('/environment-variable', opts, dev_get_env_var_enpoint)
     // POST /dev/users -- Creates default user
     fastify.post<IQueryDirective>('/users', opts, dev_post_user_endpoint)
+    // POST /dev/generate-token -- Generate JWT token for testing
+    fastify.post<{ Body: { username?: string, expiresIn?: string }}>(
+      '/generate-token',
+      opts,
+      dev_post_generate_token_endpoint
+    )
+
+    // bookmarks routes
+
+    // GET /dev/bookmarks
+    fastify.get<IBookmarkGet>('/bookmarks', opts, get_bookmark_collection_endpoint)
+    // GET /dev/bookmarks/:id
+    fastify.get<IBookmarkGet>('/bookmarks/:id', opts, get_bookmark_by_id_endpoint)
+    // GET /dev/bookmarks/:id/thumbnail-url
+    fastify.get<IBookmarkThumbnailUrlGet>('/bookmarks/:id/thumbnail-url', opts, get_video_thumbnail_url_endpoint)
+    // POST /dev/bookmarks (create)
+    fastify.post<IBookmarkPost>('/bookmarks/', opts, dev_post_bookmark_endpoint)
+    // PATCH /dev/bookmarks/:id (update)
+    fastify.patch<IBookmarkPatch>('/bookmarks/:id', opts, patch_bookmark_by_id_endpoint)
+    // DELETE /dev/bookmarks/:id (delete)
+    fastify.delete<IBookmarkDelete>('/bookmarks/:id', opts, delete_bookmark_by_id_endpoint)
+
+    // users routes
+
+    // GET /dev/users
+    fastify.get<IUsersEndpoint>('/users', opts, get_user_collection_endpoint)
+    // GET /dev/users/:name
+    fastify.get<IUsersEndpoint>('/users/:name', opts, get_user_by_name_endpoint)
+  
+    // PUT /users/:id (update)
+    // PUT /dev/users/:userId/vote (upvote/downvote)
+    fastify.put<IUsersVoteEndpoint>('/users/:userId/vote', opts, put_user_vote_by_id_endpoint)
+  
+    // DELETE /users/:id (delete)
   }
 }
 

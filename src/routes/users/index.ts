@@ -25,15 +25,15 @@ const users: FastifyPluginAsync = async (fastify, defaultOpts): Promise<void> =>
   }
 
   // GET /users
-  fastify.get<IUsersEndpoint>('/users', opts, get_user_endpoint_switch)
+  fastify.get<IUsersEndpoint>('/', opts, get_user_endpoint_switch)
   // GET /users/:name
-  fastify.get<IUsersEndpoint>('/users/:name', opts, get_user_by_name_endpoint)
+  fastify.get<IUsersEndpoint>('/:name', opts, get_user_by_name_endpoint)
   // POST /users
-  fastify.post<IUsersEndpoint>('/users', opts, post_user_enpoint_switch)
+  fastify.post<IUsersEndpoint>('/', opts, post_user_enpoint_switch)
 
   // PUT /users/:id (update)
   // PUT /users/:userId/vote (upvote/downvote)
-  fastify.put<IUsersVoteEndpoint>('/users/:userId/vote', opts, put_user_vote_by_id_endpoint)
+  fastify.put<IUsersVoteEndpoint>('/:userId/vote', opts, put_user_vote_by_id_endpoint)
 
   // DELETE /users/:id (delete)
 }

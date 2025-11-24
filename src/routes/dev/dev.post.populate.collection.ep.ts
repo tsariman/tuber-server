@@ -2,9 +2,9 @@ import { FastifyReply, FastifyRequest } from 'fastify';
 import Config from '../../config';
 import { limit_array } from '../../business.logic';
 import { UserPaginationModel } from '../../model/user';
-import gen_random_users from '../population/users';
+import gen_random_users from '../../dev/population/users';
 import { BookmarkPaginationModel } from '../../model/bookmark';
-import gen_random_bookmarks from '../population/bookmarks';
+import gen_random_bookmarks from '../../dev/population/bookmarks';
 import {
   defaultDialogAlertState as alert,
   dialogAlertState as dialogAlert

@@ -1,5 +1,6 @@
 import { IBookmarkDocument } from '../schema/bookmark';
 import { IUserDocument } from '../schema/user';
+import { upsert_toggle_bookmark_vote } from './bookmark.vote';
 
 /**
  * Increment the vote count of a bookmark. Use this function when a user decides
@@ -41,25 +42,16 @@ export const decrement_bookmark_vote_count = async function (
  * @param vote The vote to save
  * @returns The user document
  */
+/**
+ * @deprecated Legacy array-based user vote persistence. Use upsert_toggle_bookmark_vote instead.
+ * Provided for backward compatibility; writes to user.votes are no longer required.
+ */
 export const save_user_vote = async function (
   user: IUserDocument,
   bookmark: IBookmarkDocument,
   vote: 'upvotes' | 'downvotes'
 ): Promise<IUserDocument> {
-  user.votes = user.votes ?? [];
-  // Check if user has already voted on this bookmark
-  const existingVote = user.votes.find(v => v.bookmark_id === String(bookmark._id));
-  if (existingVote) {
-    // If the user has already voted on this bookmark, then update the vote
-    // rating
-    existingVote.rating = vote === 'upvotes' ? 1 : -1;
-    const dbUser = await user.save();
-    return dbUser;
-  }
-  user.votes.push({
-    bookmark_id: String(bookmark._id),
-    rating: vote === 'upvotes' ? 1 : -1
-  });
-  const dbUser = await user.save();
-  return dbUser;
+  const rating = vote === 'upvotes' ? 1 : -1;
+  await upsert_toggle_bookmark_vote(String(user._id), String(bookmark._id), rating);
+  return user; // user document unchanged (legacy field not maintained)
 }

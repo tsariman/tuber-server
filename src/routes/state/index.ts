@@ -6,25 +6,22 @@ import post_state_dialogs_endpoint from './post.state.dialogs.ep'
 import { get_bootstrap_key } from '../../business.logic/security'
 import post_bootstrap_1_state_endpoint from './post.bootstrap.1.state.ep'
 import { OPTIONAL_ROUTE_OPTIONS } from '../../middleware/router.option'
+import { info } from '../../utility/logging'
+
 
 const state: FastifyPluginAsync = async (fastify, rootOpts): Promise<void> => {
-
   const opts = { ...rootOpts, ...OPTIONAL_ROUTE_OPTIONS }
-
-  const randomPrefix = get_bootstrap_key()
-  
-  // Log the bootstrap prefix for debugging (remove in production)
-  console.log('[INFO] Bootstrap prefix generated:', randomPrefix)
+  const randomParam = get_bootstrap_key()
+  info('Bootstrap prefix generated:', randomParam)
 
   // POST /<randomPrefix>
-  fastify.post(`/${randomPrefix}`, opts, post_bootstrap_1_state_endpoint)
-
+  fastify.post(`/${randomParam}`, opts, post_bootstrap_1_state_endpoint)
   /** POST /state/pages */
-  fastify.post<IStatePost>('/state/pages', opts, post_state_pages_endpoint)
+  fastify.post<IStatePost>(`/${randomParam}/pages`, opts, post_state_pages_endpoint)
   /** POST /state/forms */
-  fastify.post<IStatePost>('/state/forms', opts, post_state_forms_endpoint)
+  fastify.post<IStatePost>(`/${randomParam}/forms`, opts, post_state_forms_endpoint)
   /** POST /state/dialogs */
-  fastify.post<IStatePost>('/state/dialogs', opts, post_state_dialogs_endpoint)
+  fastify.post<IStatePost>(`/${randomParam}/dialogs`, opts, post_state_dialogs_endpoint)
 }
 
 export default state

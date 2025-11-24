@@ -38,16 +38,23 @@ export const default_404_error_response = (
     .build()
 }
 
-/** Default 401 error response to help prevent repetitive code. */
-export const default_401_error_response = (error?: TJsonapiError) => {
+/**
+ * Default 401 error response to help prevent repetitive code.
+ * 
+ * @param error
+ * @param isBrowserReq Set to `true` if request is from a browser.
+ */
+export const default_401_error_response = (error?: TJsonapiError, isBrowserReq = false) => {
   const { title, detail } = assure(error)
-  return new JsonapiErrorBuilder()
+  const builder = new JsonapiErrorBuilder()
     .withStatus(401)
     .withCode('AUTHENTICATION_REQUIRED')
     .withTitle(title || 'Unauthorized')
     .withDetail(detail)
-    .withState({ 'dialog': signInDialogState })
-    .build()
+  if (isBrowserReq) {
+    builder.withState({ 'dialog': signInDialogState })
+  }
+  return builder.build()
 }
 
 /** Generic response for an authentication-shielded enpoints. */

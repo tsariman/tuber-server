@@ -5,6 +5,7 @@ import { assure } from '../../utility'
 import JsonapiErrorBuilder from '../../business.logic/builder/JsonapiErrorBuilder'
 import { BookmarkModel } from '../../model/bookmark'
 import { UserModel } from '../../model/user'
+import { upsert_toggle_bookmark_vote } from '../../model/bookmark.vote'
 import { default_500_error_response } from '../../business.logic/errors'
 import { log_err } from '../../utility/logging'
 
@@ -73,24 +74,8 @@ export async function put_bookmark_vote_by_id_endpoint(
       return
     }
 
-    user.votes = user.votes || []
-    const voteIndex = user.votes.findIndex(v => v.bookmark_id === String(bookmarkId))
-    const previousRating: 1 | -1 | 0 = voteIndex === -1 ? 0 : (user.votes[voteIndex].rating as 1 | -1)
-
-    let removal = false
-    if (voteIndex === -1) {
-      // First time voting
-      user.votes.push({ bookmark_id: String(bookmarkId), rating })
-    } else if (previousRating !== rating) {
-      // Switching vote
-      user.votes[voteIndex].rating = rating
-    } else {
-      // Same vote cast again -> remove vote (toggle off)
-      user.votes.splice(voteIndex, 1)
-      removal = true
-    }
-
-    await user.save()
+    // New collection based vote logic (user.votes array retained for legacy data only)
+    const { previousRating, currentRating: toggledRating, removal } = await upsert_toggle_bookmark_vote(String(cUsr._id), String(bookmarkId), rating)
 
     const inc: Record<string, number> = {}
     if (removal) {
@@ -123,7 +108,7 @@ export async function put_bookmark_vote_by_id_endpoint(
     }
 
     if (updatedBookmark) {
-      const currentRating: 1 | -1 | null = removal ? null : rating
+      const finalRating: 1 | -1 | null = removal ? null : toggledRating
       reply.code(200).send({
         data: {
           type: 'bookmark-vote',
@@ -131,7 +116,7 @@ export async function put_bookmark_vote_by_id_endpoint(
           attributes: {
             upvotes: updatedBookmark.upvotes || 0,
             downvotes: updatedBookmark.downvotes || 0,
-            rating: currentRating
+            rating: finalRating
           }
         }
       })

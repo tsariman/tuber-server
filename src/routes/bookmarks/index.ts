@@ -31,37 +31,37 @@ const bookmarks: FastifyPluginAsync = async (fastify, rootOpts): Promise<void> =
 
   // GET /bookmarks (read)
   fastify.get<IBookmarkGet>(
-    '/bookmarks',
+    '/',
     bookmarksOpts,
     get_bookmark_collection_endpoint
   )
 
   // GET /bookmarks/:id (read)
-  fastify.get<IBookmarkGet>('/bookmarks/:id', opts, get_bookmark_by_id_endpoint)
+  fastify.get<IBookmarkGet>('/:id', opts, get_bookmark_by_id_endpoint)
   // GET /bookmarks/:id/thumbnail-url
   fastify.get<IBookmarkThumbnailUrlGet>(
-    '/bookmarks/:id/thumbnail-url',
+    '/:id/thumbnail-url',
     opts,
     get_video_thumbnail_url_endpoint
   )
 
   // POST /bookmarks (create)
-  fastify.post<IBookmarkPost>('/bookmarks', opts, post_bookmark_endpoint)
+  fastify.post<IBookmarkPost>('/', opts, post_bookmark_endpoint)
 
   // PATCH /bookmarks/:id (update)
-  fastify.patch<IBookmarkPatch>('/bookmarks/:id', opts, patch_bookmark_by_id_endpoint)
+  fastify.patch<IBookmarkPatch>('/:id', opts, patch_bookmark_by_id_endpoint)
 
   // PUT /bookmarks/:id/vote (set current user vote)
-  fastify.put<IBookmarkVotePut>('/bookmarks/:id/vote', opts, put_bookmark_vote_by_id_endpoint)
+  fastify.put<IBookmarkVotePut>('/:id/vote', opts, put_bookmark_vote_by_id_endpoint)
 
   // GET /bookmarks/:id/vote (current user vote state + counts)
-  fastify.get<IBookmarkVoteGet>('/bookmarks/:id/vote', opts, get_bookmark_vote_by_id_endpoint)
+  fastify.get<IBookmarkVoteGet>('/:id/vote', opts, get_bookmark_vote_by_id_endpoint)
 
   // DELETE /bookmarks/:id (delete)
-  fastify.delete<IBookmarkDelete>('/bookmarks/:id', opts, delete_bookmark_by_id_endpoint)
+  fastify.delete<IBookmarkDelete>('/:id', opts, delete_bookmark_by_id_endpoint)
 
   // DELETE /bookmarks/:id/vote (remove current user vote)
-  fastify.delete<IBookmarkDelete>('/bookmarks/:id/vote', opts, delete_bookmark_vote_by_id_endpoint)
+  fastify.delete<IBookmarkDelete>('/:id/vote', opts, delete_bookmark_vote_by_id_endpoint)
 }
 
 export default bookmarks

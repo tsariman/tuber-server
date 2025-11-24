@@ -1,6 +1,7 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { BookmarkModel } from '../../model/bookmark'
 import { UserModel } from '../../model/user'
+import { delete_bookmark_vote } from '../../model/bookmark.vote'
 import JsonapiErrorBuilder from '../../business.logic/builder/JsonapiErrorBuilder'
 import { default_500_error_response } from '../../business.logic/errors'
 
@@ -64,10 +65,8 @@ export async function delete_bookmark_vote_by_id_endpoint(
       return
     }
 
-    user.votes = user.votes || []
-    const voteIndex = user.votes.findIndex(v => v.bookmark_id === String(bookmarkId))
-    if (voteIndex === -1) {
-      // No vote to remove
+    const previousRating = await delete_bookmark_vote(String(cUsr._id), String(bookmarkId))
+    if (previousRating === null) {
       reply.code(404).send(new JsonapiErrorBuilder()
         .withStatus(404)
         .withCode('RESOURCE_NOT_FOUND')
@@ -77,11 +76,6 @@ export async function delete_bookmark_vote_by_id_endpoint(
       )
       return
     }
-
-    const previousRating = user.votes[voteIndex].rating as 1 | -1
-    // Remove vote record
-    user.votes.splice(voteIndex, 1)
-    await user.save()
 
     // Decrement appropriate counter atomically
     const inc = previousRating === 1

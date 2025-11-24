@@ -29,6 +29,7 @@ src/examples/*
 
 # Ignored development files
 tuberdb-test.annotations.json
+dev.user.current.token.json
 
 # Ignored documentation files
 NOTES.md

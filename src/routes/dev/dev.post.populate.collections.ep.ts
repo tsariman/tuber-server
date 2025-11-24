@@ -1,9 +1,9 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { transform_user_doc, UserPaginationModel } from '../../model/user';
-import gen_random_users from '../population/users';
+import gen_random_users from '../../dev/population/users';
 import JsonapiResponseBuilder from '../../business.logic/builder/JsonapiResponseBuilder';
 import Config from '../../config';
-import gen_random_bookmarks from '../population/bookmarks';
+import gen_random_bookmarks from '../../dev/population/bookmarks';
 import { BookmarkPaginationModel, transform_bookmark_doc } from '../../model/bookmark';
 import { limit_array } from '../../business.logic';
 

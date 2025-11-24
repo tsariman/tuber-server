@@ -3,7 +3,7 @@ import * as fs from 'fs/promises';
 import { existsSync } from 'fs';
 import { defaultDialogAlertState as alert } from '../../state/dialog';
 import mongoose from 'mongoose';
-import { DEV_USER_FILENAME } from '../dev.install.common';
+import { DEV_USER_FILENAME } from '../../dev/dev.install.common';
 import { log, ler } from '../../utility/logging';
 
 export default async function dev_post_database_reset_endpoint (

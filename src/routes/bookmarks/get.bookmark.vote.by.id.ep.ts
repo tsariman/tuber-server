@@ -2,7 +2,7 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import { IBookmarkVoteGet } from '../../schema/bookmark'
 import JsonapiErrorBuilder from '../../business.logic/builder/JsonapiErrorBuilder'
 import { BookmarkModel } from '../../model/bookmark'
-import { UserModel } from '../../model/user'
+import { BookmarkVoteModel } from '../../model/bookmark.vote'
 import { default_500_error_response } from '../../business.logic/errors'
 
 /** `GET /bookmarks/:id/vote` */
@@ -48,20 +48,8 @@ export async function get_bookmark_vote_by_id_endpoint(
       return
     }
 
-    const user = await UserModel.findById(cUsr._id)
-    if (!user) {
-      reply.code(404).send(new JsonapiErrorBuilder()
-        .withStatus(404)
-        .withCode('RESOURCE_NOT_FOUND')
-        .withTitle('User not found')
-        .withDetail('Authenticated user not found')
-        .build()
-      )
-      return
-    }
-
-    const voteIndex = (user.votes || []).findIndex(v => v.bookmark_id === String(bookmarkId))
-    const currentRating: 1 | -1 | null = voteIndex === -1 ? null : user.votes![voteIndex].rating as 1 | -1
+    const voteDoc = await BookmarkVoteModel.findOne({ user_id: String(cUsr._id), bookmark_id: String(bookmarkId) }, { rating: 1 })
+    const currentRating: 1 | -1 | null = voteDoc ? (voteDoc.rating as 1 | -1) : null
 
     reply.code(200).send({
       data: {

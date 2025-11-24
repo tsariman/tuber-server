@@ -4,7 +4,7 @@ import JsonapiResponseBuilder from '../../business.logic/builder/JsonapiResponse
 import { task, task_end } from '../../utility/logging'
 import { create_bookmark } from '../../model/bookmark'
 import { IBookmarkPost } from '../../schema/bookmark'
-import { gen_random_bookmark_votes } from '..'
+import { gen_random_bookmark_votes } from '../../dev'
 
 import { MSG_500_ERROR_MESSAGE } from '@tuber/shared'
 import fix_missing_bookmark_data from '../../platform/all.drivers'

@@ -10,7 +10,7 @@ import {
   DEV_USER,
   DEV_USER_FILENAME,
   devGetHashedDefaultUsrPwd
-} from '../dev.install.common';
+} from '../../dev/dev.install.common';
 import { ler, log } from '../../utility/logging';
 
 export default async function dev_post_create_update_dev_user_endpoint (
