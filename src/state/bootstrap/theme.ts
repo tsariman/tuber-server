@@ -1,9 +1,9 @@
-import { TThemeMode } from '../../common.types';
-import { IStateContext, TBootstrapState } from '../_state.common.types';
-import { PrepareState } from '../PrepareState';
-import { THEME_MODE } from '@tuber/shared';
-import Config from '../../config';
-import { ThemeOptions } from '@mui/material';
+import { TThemeMode } from '../../common.types'
+import { IStateContext, TBootstrapState } from '../_state.common.types'
+import { PrepareState } from '../PrepareState'
+import { THEME_MODE } from '@tuber/shared'
+import Config from '../../config'
+import { ThemeOptions } from '@mui/material'
 
 const bootstrap_theme_light_state: TBootstrapState<ThemeOptions> = {
 
@@ -19,6 +19,7 @@ const bootstrap_theme_light_state: TBootstrapState<ThemeOptions> = {
         },
       },
       'MuiAppBar': {
+        'defaultProps': { 'elevation': 0 },
         'styleOverrides': {
           'colorPrimary': {
             'color': '#4c4c4c',
@@ -72,6 +73,7 @@ const bootstrap_theme_dark_state: TBootstrapState<ThemeOptions> = {
         },
       },
       'MuiAppBar': {
+        'defaultProps': { 'elevation': 0 },
         'styleOverrides': {
           'colorPrimary': {
             'color': 'inherit',
@@ -131,28 +133,28 @@ const bootstrap_theme_state: TBootstrapState<ThemeOptions> = {
     const mode = context.theme ?? Config.read<TThemeMode>(
       THEME_MODE,
       Config.DEFAULT_THEME_MODE
-    );
+    )
 
     switch (mode) {
       case 'dark':
         return new PrepareState<ThemeOptions>(
           context
-        ).process(bootstrap_theme_dark_state).get();
+        ).process(bootstrap_theme_dark_state).get()
       default:
       case 'light':
         return new PrepareState<ThemeOptions>(
           context
-        ).process(bootstrap_theme_light_state).get();
+        ).process(bootstrap_theme_light_state).get()
     }
   }
 
   // TODO - Insert more theme states here.
-};
+}
 
 export {
   bootstrap_theme_state,
   bootstrap_theme_light_state,
   bootstrap_theme_dark_state,
-};
+}
 
-export default bootstrap_theme_state;
+export default bootstrap_theme_state

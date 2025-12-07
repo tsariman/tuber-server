@@ -4,21 +4,21 @@ import {
   THEME_DARK_DIALOG_BACKGROUND_COLOR,
   THEME_LIGHT_PAPER_SX_PROPS,
   TStateDialog
-} from '@tuber/shared';
+} from '@tuber/shared'
 import {
   t,
   remove_form_suffix,
   clone_with_descriptors
-} from '../../business.logic';
-import { register } from '../../business.logic/registry';
+} from '../../business.logic'
+import { register } from '../../business.logic/registry'
 
-register('state', '31', $31_STATE_KEY);
+register('state', '31', $31_STATE_KEY)
 /** Dialog to edit an unknown video platform bookmark @id 31 */
 const editUnknownBookmarkDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '31',
   '_key': $31_STATE_KEY,
-  get 'title'() { return t('24', 'Edit Unknown Bookmark'); },
+  get 'title'() { return t('24', 'Edit Unknown Bookmark') },
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
@@ -33,8 +33,8 @@ const editUnknownBookmarkDialogState: TStateDialog = {
       'type': 'state_button',
       'props': { 'color': 'secondary' },
       'has': {
-        get 'text'() { return t('25', 'Cancel'); },
-        'onclickHandle': 'tuberCallbacks.defaultClose'
+        get 'text'() { return t('25', 'Cancel') },
+        'onclickHandler': 'tuberCallbacks.defaultClose'
       }
     },
     {
@@ -42,15 +42,15 @@ const editUnknownBookmarkDialogState: TStateDialog = {
       'props': { 'color': 'primary' },
       'has': {
         'disableOnError': true,
-        get 'text'() { return t('26', 'Save'); },
-        'onclickHandle': 'tuberCallbacks.$31_C_1'
+        get 'text'() { return t('26', 'Save') },
+        'onclickHandler': 'tuberCallbacks.$31_C_1'
       }
     }
   ],
   'open': true
-};
+}
 
-export default editUnknownBookmarkDialogState;
+export default editUnknownBookmarkDialogState
 
 /**
  * Dark theme mode for form state to edit an existing unknown video
@@ -58,15 +58,15 @@ export default editUnknownBookmarkDialogState;
  * @id 31
  */
 export const $31DarkThemeMode: TStateDialog = (() => {
-  const base = clone_with_descriptors(editUnknownBookmarkDialogState);
-  const props = clone_with_descriptors(base.props ?? {});
-  const paperProps = clone_with_descriptors(props.PaperProps ?? {});
+  const base = clone_with_descriptors(editUnknownBookmarkDialogState)
+  const props = clone_with_descriptors(base.props ?? {})
+  const paperProps = clone_with_descriptors(props.PaperProps ?? {})
   const sx: typeof paperProps['sx'] = {
     ...paperProps.sx,
     'backgroundColor': THEME_DARK_DIALOG_BACKGROUND_COLOR
-  };
-  paperProps.sx = sx;
-  props.PaperProps = paperProps;
-  base.props = props;
-  return base;
-})();
+  }
+  paperProps.sx = sx
+  props.PaperProps = paperProps
+  base.props = props
+  return base
+})()

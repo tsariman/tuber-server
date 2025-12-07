@@ -48,7 +48,7 @@ const researchPageAppbarState: TStateAppbar = {
   'searchFieldIconButton': {
     'has': {
       'icon': 'search_outline',
-      'onclickHandle': 'tuberCallbacks.$63_C_1',
+      'onclickHandler': 'tuberCallbacks.$63_C_1',
     }
   },
   'searchFieldIconButtonProps': {
@@ -77,7 +77,7 @@ export const listingPageAppbarState: TStateAppbar = (() => {
   base['searchFieldIconButton'] = {
     'has': {
       'icon': 'filter_list_outline',
-      'onclickHandle': 'tuberCallbacks.$71_C_1',
+      'onclickHandler': 'tuberCallbacks.$71_C_1',
     }
   }
   return base

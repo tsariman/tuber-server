@@ -46,7 +46,7 @@ const chippedListingPageState: TStatePage = {
         'label': 'Default',
         'color': 'primary',
         'variant': 'filled',
-        'ondeleteHandle': 'tuberCallbacks.$51_C_1'
+        'ondeleteHandler': 'tuberCallbacks.$51_C_1'
       }
     ],
     'searchFieldIcon': {
@@ -58,7 +58,7 @@ const chippedListingPageState: TStatePage = {
     'searchFieldIconButton': {
       'has': {
         'icon': 'filter_list_outline',
-        'onclickHandle': 'tuberCallbacks.appbarFilterBookmarks'
+        'onclickHandler': 'tuberCallbacks.appbarFilterBookmarks'
       }
     },
     'searchFieldIconButtonProps': {

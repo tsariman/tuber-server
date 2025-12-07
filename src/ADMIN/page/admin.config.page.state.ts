@@ -1,8 +1,8 @@
-import { clone_with_descriptors, t } from '../../business.logic';
-import { register } from '../../business.logic/registry';
-import { TStatePage, $55_STATE_KEY } from '@tuber/shared';
+import { clone_with_descriptors, t } from '../../business.logic'
+import { register } from '../../business.logic/registry'
+import { TStatePage, $55_STATE_KEY } from '@tuber/shared'
 
-register('state', '55', $55_STATE_KEY);
+register('state', '55', $55_STATE_KEY)
 /** @id 55 */
 const adminConfigPageState: TStatePage = {
   '_id': '55',
@@ -25,7 +25,7 @@ const adminConfigPageState: TStatePage = {
     'searchFieldIconButton': {
       'has': {
         'icon': 'search_outline',
-        'onclickHandle': 'tuberCallbacks.$55_C_1'
+        'onclickHandler': 'tuberCallbacks.$55_C_1'
       }
     },
     'searchFieldIconButtonProps': {
@@ -36,11 +36,11 @@ const adminConfigPageState: TStatePage = {
   'meta': {
     'endpoint': 'bookmarks'
   }
-};
+}
 
-export default adminConfigPageState;
+export default adminConfigPageState
 
 export const $55DarkThemeMode: TStatePage = (() => {
-  const base = clone_with_descriptors(adminConfigPageState);
-  return base;
-})();
+  const base = clone_with_descriptors(adminConfigPageState)
+  return base
+})()

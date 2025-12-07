@@ -76,7 +76,7 @@ export const newYoutubeBookmarkDialogState: C.TStateDialog = {
       'props': { 'color': 'secondary' },
       'has': {
         get 'text'() { return t('31', 'Cancel') },
-        'onclickHandle': 'tuberCallbacks.defaultClose'
+        'onclickHandler': 'tuberCallbacks.defaultClose'
       }
     },
     {
@@ -84,7 +84,7 @@ export const newYoutubeBookmarkDialogState: C.TStateDialog = {
       'props': { 'color': 'primary' },
       'has': {
         get 'text'() { return t('32', 'Save') },
-        'onclickHandle': 'tuberCallbacks.$6_C_1'
+        'onclickHandler': 'tuberCallbacks.$6_C_1'
       }
     }
   ],
@@ -170,7 +170,7 @@ export const editYoutubeBookmarkDialogState: C.TStateDialog = {
       'props': { 'color': 'secondary' },
       'has': {
         get 'text'() { return t('35', 'Cancel') },
-        'onclickHandle': 'tuberCallbacks.defaultClose'
+        'onclickHandler': 'tuberCallbacks.defaultClose'
       }
     },
     {
@@ -178,7 +178,7 @@ export const editYoutubeBookmarkDialogState: C.TStateDialog = {
       'props': { 'color': 'primary' },
       'has': {
         get 'text'() { return t('36', 'Save') },
-        'onclickHandle': 'tuberCallbacks.$7_C_1'
+        'onclickHandler': 'tuberCallbacks.$7_C_1'
       }
     }
   ],
@@ -269,7 +269,7 @@ export const deleteBookmarkDialogState: C.TStateDialog = {
       'props': { 'color': 'secondary' },
       'has': {
         get 'text'() { return t('41', 'Cancel') },
-        'onclickHandle': 'tuberCallbacks.defaultClose'
+        'onclickHandler': 'tuberCallbacks.defaultClose'
       }
     },
     {
@@ -277,7 +277,7 @@ export const deleteBookmarkDialogState: C.TStateDialog = {
       'props': { 'color': 'primary' },
       'has': {
         get 'text'() { return t('42', 'Delete') },
-        'onclickHandle': 'tuberCallbacks.$34_C_1'
+        'onclickHandler': 'tuberCallbacks.$34_C_1'
       }
     }
   ],
@@ -308,7 +308,7 @@ export const clientAlertDialogState: C.TStateDialog = {
       'props': { 'color': 'secondary' },
       'has': {
         get 'text'() { return t('44', 'Cancel') },
-        'onclickHandle': 'tuberCallbacks.defaultClose'
+        'onclickHandler': 'tuberCallbacks.defaultClose'
       }
     }
   ]
@@ -338,7 +338,7 @@ export const confirmSignOutDialogState: C.TStateDialog = {
       'props': { 'color': 'secondary' },
       'has': {
         get 'text'() { return t('46', 'Cancel') },
-        'onclickHandle': 'tuberCallbacks.defaultClose'
+        'onclickHandler': 'tuberCallbacks.defaultClose'
       }
     },
     {
@@ -346,7 +346,7 @@ export const confirmSignOutDialogState: C.TStateDialog = {
       'props': { 'color': 'primary' },
       'has': {
         get 'text'() { return t('47', 'Logout') },
-        'onclickHandle': 'tuberCallbacks.$68_C_1'
+        'onclickHandler': 'tuberCallbacks.$68_C_1'
       }
     }
   ],
@@ -384,7 +384,7 @@ export function defaultDialogAlertState<T=unknown>(content: T): C.TJsonapiStateR
             'props': { 'color': 'secondary' },
             'has': {
               get 'text'() { return t('49', 'Close') },
-              'onclickHandle': 'tuberCallbacks.defaultClose'
+              'onclickHandler': 'tuberCallbacks.defaultClose'
             }
           }
         ],
@@ -424,7 +424,7 @@ export function dialogAlertState<T=unknown>(content: T): C.TStateDialog {
         'props': { 'color': 'secondary' },
         'has': {
           get 'text'() { return t('51', 'Close') },
-          'onclickHandle': 'tuberCallbacks.defaultClose'
+          'onclickHandler': 'tuberCallbacks.defaultClose'
         }
       }
     ],

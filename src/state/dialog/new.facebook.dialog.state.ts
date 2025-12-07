@@ -4,22 +4,22 @@ import {
   THEME_DARK_DIALOG_BACKGROUND_COLOR,
   THEME_LIGHT_PAPER_SX_PROPS,
   TStateDialog
-} from '@tuber/shared';
+} from '@tuber/shared'
 import {
   t,
   remove_form_suffix,
   clone_with_descriptors,
   clone_or_default
-} from '../../business.logic';
-import { register } from '../../business.logic/registry';
+} from '../../business.logic'
+import { register } from '../../business.logic/registry'
 
-register('state', '26', $26_STATE_KEY);
+register('state', '26', $26_STATE_KEY)
 /** Dialog to create a new Facebook video bookmark @id 26 */
 const newFacebookBookmarkDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '26',
   '_key': $26_STATE_KEY,
-  get 'title'() { return t('55', 'Insert new Facebook Bookmark'); },
+  get 'title'() { return t('55', 'Insert new Facebook Bookmark') },
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
@@ -34,8 +34,8 @@ const newFacebookBookmarkDialogState: TStateDialog = {
       'type': 'state_button',
       'props': { 'color': 'secondary' },
       'has': {
-        get 'text'() { return t('56', 'Cancel'); },
-        'onclickHandle': 'tuberCallbacks.defaultClose'
+        get 'text'() { return t('56', 'Cancel') },
+        'onclickHandler': 'tuberCallbacks.defaultClose'
       }
     },
     {
@@ -43,29 +43,29 @@ const newFacebookBookmarkDialogState: TStateDialog = {
       'props': { 'color': 'primary' },
       'has': {
         'disableOnError': true,
-        get 'text'() { return t('57', 'Save'); },
-        'onclickHandle': 'tuberCallbacks.$26_C_1'
+        get 'text'() { return t('57', 'Save') },
+        'onclickHandler': 'tuberCallbacks.$26_C_1'
       }
     }
   ],
   'open': true
-};
+}
 
-export default newFacebookBookmarkDialogState;
+export default newFacebookBookmarkDialogState
 
 /**
  * Dark theme mode for form state to create a new Facebook video bookmark.
  * @id 26
  */
 export const $26DarkThemeMode: TStateDialog = (() => {
-  const base = clone_with_descriptors(newFacebookBookmarkDialogState);
-  const props = clone_or_default(base.props, {});
-  const paperProps = clone_or_default(props.PaperProps, {});
+  const base = clone_with_descriptors(newFacebookBookmarkDialogState)
+  const props = clone_or_default(base.props, {})
+  const paperProps = clone_or_default(props.PaperProps, {})
   paperProps.sx = {
     ...paperProps.sx,
     'backgroundColor': THEME_DARK_DIALOG_BACKGROUND_COLOR
-  };
-  props.PaperProps = paperProps;
-  base.props = props;
-  return base;
-})();
+  }
+  props.PaperProps = paperProps
+  base.props = props
+  return base
+})()

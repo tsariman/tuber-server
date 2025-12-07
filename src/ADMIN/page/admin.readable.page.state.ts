@@ -28,7 +28,7 @@ const adminReadablePageState: TStatePage = {
     'searchFieldIconButton': {
       'has': {
         'icon': 'search_outline',
-        'onclickHandle': 'tuberCallbacks.$53_C_1'
+        'onclickHandler': 'tuberCallbacks.$53_C_1'
       }
     },
     'searchFieldIconButtonProps': {

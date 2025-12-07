@@ -40,7 +40,7 @@ export default async function post_state_forms_endpoint (
     if (formState) {
       task_end('Done.')
       reply.code(200).send({
-        state: {
+        'state': {
           'forms': { [key]: formState },
           'formsLight': { [key]: STATE_FORMS[key] },
           'formsDark': { [key]: STATE_FORMS_THEME_DARK[key] },
@@ -49,7 +49,7 @@ export default async function post_state_forms_endpoint (
     } else {
       task_end('Failed.')
       reply.code(404).send({
-        state: {
+        'state': {
           'forms': {
             [key]: { 'items': [] }
           }

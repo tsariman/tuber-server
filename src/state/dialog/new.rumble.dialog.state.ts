@@ -4,22 +4,22 @@ import {
   THEME_DARK_DIALOG_BACKGROUND_COLOR,
   THEME_LIGHT_PAPER_SX_PROPS,
   TStateDialog
-} from '@tuber/shared';
+} from '@tuber/shared'
 import {
   t,
   remove_form_suffix,
   clone_with_descriptors,
   clone_or_default
-} from '../../business.logic';
-import { register } from '../../business.logic/registry';
+} from '../../business.logic'
+import { register } from '../../business.logic/registry'
 
-register('state', '8', $8_STATE_KEY);
+register('state', '8', $8_STATE_KEY)
 /** Dialog to create a new Rumble video bookmark @id 8 */
 const newRumbleBookmarkDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '8',
   '_key': $8_STATE_KEY,
-  get 'title'() { return t('61', 'Insert new Rumble Bookmark'); },
+  get 'title'() { return t('61', 'Insert new Rumble Bookmark') },
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
@@ -34,8 +34,8 @@ const newRumbleBookmarkDialogState: TStateDialog = {
       'type': 'state_button',
       'props': { 'color': 'secondary' },
       'has': {
-        get 'text'() { return t('62', 'Cancel'); },
-        'onclickHandle': 'tuberCallbacks.defaultClose'
+        get 'text'() { return t('62', 'Cancel') },
+        'onclickHandler': 'tuberCallbacks.defaultClose'
       }
     },
     {
@@ -43,29 +43,29 @@ const newRumbleBookmarkDialogState: TStateDialog = {
       'props': { 'color': 'primary' },
       'has': {
         'disableOnError': true,
-        get 'text'() { return t('63', 'Save'); },
-        'onclickHandle': 'tuberCallbacks.$8_C_1'
+        get 'text'() { return t('63', 'Save') },
+        'onclickHandler': 'tuberCallbacks.$8_C_1'
       }
     }
   ],
   'open': true
-};
+}
 
-export default newRumbleBookmarkDialogState;
+export default newRumbleBookmarkDialogState
 
 /**
  * Dark theme mode for form state to create a new Rumble video bookmark.
  * @id 8
  */
 export const $8DarkThemeMode: TStateDialog = (() => {
-  const base = clone_with_descriptors(newRumbleBookmarkDialogState);
-  const props = clone_or_default(base.props, {});
-  const paperProps = clone_or_default(props.PaperProps, {});
+  const base = clone_with_descriptors(newRumbleBookmarkDialogState)
+  const props = clone_or_default(base.props, {})
+  const paperProps = clone_or_default(props.PaperProps, {})
   paperProps.sx = {
     ...paperProps.sx,
     'backgroundColor': THEME_DARK_DIALOG_BACKGROUND_COLOR
-  };
-  props.PaperProps = paperProps;
-  base.props = props;
-  return base;
-})();
+  }
+  props.PaperProps = paperProps
+  base.props = props
+  return base
+})()

@@ -1,14 +1,14 @@
-import { clone_with_descriptors } from '../../business.logic';
-import { register } from '../../business.logic/registry';
+import { clone_with_descriptors } from '../../business.logic'
+import { register } from '../../business.logic/registry'
 import {
   $50_STATE_KEY,
   THEME_DARK_PAPER_COLOR,
   THEME_LIGHT_PAPER_COLOR,
   TStateForm
-} from '@tuber/shared';
-import { TBootstrapState } from '../../state/_state.common.types';
+} from '@tuber/shared'
+import { TBootstrapState } from '../../state/_state.common.types'
 
-register('state', '50', $50_STATE_KEY);
+register('state', '50', $50_STATE_KEY)
 /** Form to set the authorization URL for a platform. @id 50 */
 const devSetAuthorizationUrlFormState: TStateForm = {
   '_id': '50',
@@ -68,24 +68,24 @@ const devSetAuthorizationUrlFormState: TStateForm = {
       },
       'has': {
         'label': 'Set Authorization URL',
-        'onclickHandle': 'tuberCallbacks.$50_C_1'
+        'onclickHandler': 'tuberCallbacks.$50_C_1'
       }
     },
   ]
-};
+}
 
-export default devSetAuthorizationUrlFormState;
+export default devSetAuthorizationUrlFormState
 
 export const $50DarkThemeMode: TStateForm = (() => {
-  const base = clone_with_descriptors(devSetAuthorizationUrlFormState);
-  const paperProps = clone_with_descriptors(base.paperProps ?? {});
+  const base = clone_with_descriptors(devSetAuthorizationUrlFormState)
+  const paperProps = clone_with_descriptors(base.paperProps ?? {})
   paperProps.sx = {
     ...paperProps.sx,
     'backgroundColor': THEME_DARK_PAPER_COLOR
-  };
-  base.paperProps = paperProps;
-  return base;
-})();
+  }
+  base.paperProps = paperProps
+  return base
+})()
 
 export const dev_set_authorization_url_form_state = {
 
@@ -93,7 +93,7 @@ export const dev_set_authorization_url_form_state = {
 
   // TODO - Insert more form states here.
 
-} as TBootstrapState<TStateForm>;
+} as TBootstrapState<TStateForm>
 
 export const dev_set_authorization_url_form_state_dark = {
 
@@ -101,4 +101,4 @@ export const dev_set_authorization_url_form_state_dark = {
 
   // TODO - Insert more form states (dark themed) here.
 
-} as TBootstrapState<TStateForm>;
+} as TBootstrapState<TStateForm>

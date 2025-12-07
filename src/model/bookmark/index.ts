@@ -1,24 +1,25 @@
-import { model, PaginateModel, PaginateResult, Types } from 'mongoose';
-import { IMPV2Doc, TSelect } from '../../common.types';
+import { model, PaginateModel, PaginateResult, Types } from 'mongoose'
+import { IMPV2Doc, TSelect } from '../../common.types'
 import bookmarkSchema, {
   IBookmark,
   IBookmarkDocument,
   TBookmark,
-} from '../../schema/bookmark';
+} from '../../schema/bookmark'
 import {
   DB_PAGINATION_OPTIONS,
   DB_PAGINATION_QUERY,
   EP_BOOKMARKS,
-  IJsonapiResource
-} from '@tuber/shared';
-import { TCipheredUser } from '../../schema/user';
+  IJsonapiResource,
+  IJsonapiResponseResource
+} from '@tuber/shared'
+import { TCipheredUser } from '../../schema/user'
 
 /** mongoose-paginate-v2 query */
 const PAGINATION_QUERY = {
   ...DB_PAGINATION_QUERY,
 
   // TODO Add custom pagination query here
-};
+}
 
 /** mongoose-paginate-v2 options */
 const PAGINATION_OPTIONS = {
@@ -31,14 +32,14 @@ const PAGINATION_OPTIONS = {
     // 'password': 0,
   } as TSelect<IBookmarkDocument>
   // TODO Add custom pagination options here
-};
+}
 
 export const BookmarkPaginationModel = model<
   IBookmarkDocument,
   PaginateModel<IBookmarkDocument>
->('bookmarks', bookmarkSchema);
+>('bookmarks', bookmarkSchema)
 
-export const BookmarkModel = model<TBookmark>('bookmarks', bookmarkSchema);
+export const BookmarkModel = model<TBookmark>('bookmarks', bookmarkSchema)
 
 /** Exclude fields from the bookmark document. @deprecated */
 export const exclude_bookmark_fields_IMPV2Doc = (
@@ -54,22 +55,22 @@ export const exclude_bookmark_fields_IMPV2Doc = (
       __v,
       ...bookmarkDoc
     }
-  } = bookmark;
-  return bookmarkDoc;
-};
+  } = bookmark
+  return bookmarkDoc
+}
 
 /** Excludes sensitive fields from the bookmark document. */
 export const transform_bookmark_doc = (bookmark: IBookmarkDocument) => {
-  const { _id, is_active, is_private, restrict, rules, ...bookmarkDoc } = bookmark;
-  return bookmarkDoc;
+  const { _id, is_active, is_private, restrict, rules, ...bookmarkDoc } = bookmark
+  return bookmarkDoc
 }
 
 export const read_bookmark_by_id = async function (
   id: string
 ): Promise<IBookmarkDocument | null> {
-  const bookmarkDoc = await BookmarkPaginationModel.findById(id);
-  return bookmarkDoc;
-};
+  const bookmarkDoc = await BookmarkPaginationModel.findById(id)
+  return bookmarkDoc
+}
 
 export const update_bookmark_by_id = async function (
   id: string,
@@ -79,8 +80,8 @@ export const update_bookmark_by_id = async function (
     id,
     { ...attributes, modified_at: new Date() },
     { new: true }
-  );
-  return bookmark;
+  )
+  return bookmark
 }
 
 export const delete_bookmark_by_id = async function (
@@ -90,20 +91,20 @@ export const delete_bookmark_by_id = async function (
     id,
     { is_active: false },
     { new: true }
-  );
-  return bookmark;
+  )
+  return bookmark
 }
 
 export const create_bookmark = async function (
   bookmarkInfo?: IBookmark
 ): Promise<IBookmarkDocument> {
   if (!bookmarkInfo) {
-    throw new Error('Bookmark info is required');
+    throw new Error('Bookmark info is required')
   }
-  const bookmarkModel = await BookmarkPaginationModel.create(bookmarkInfo);
-  const bookmark = await bookmarkModel.save();
-  return bookmark;
-};
+  const bookmarkModel = await BookmarkPaginationModel.create(bookmarkInfo)
+  const bookmark = await bookmarkModel.save()
+  return bookmark
+}
 
 export const read_bookmark_collection = async function (
   page: number,
@@ -113,21 +114,21 @@ export const read_bookmark_collection = async function (
     ...PAGINATION_OPTIONS,
     page,
     limit
-  });
-  return result as PaginateResult<IBookmarkDocument<Types.ObjectId>>;
-};
+  })
+  return result as PaginateResult<IBookmarkDocument<Types.ObjectId>>
+}
 
 export const read_bookmark_document_count = async function (): Promise<number> {
   const count = await BookmarkModel.countDocuments()
-  return count;
-};
+  return count
+}
 
 /** Excludes _id from the bookmark document. */
 export const exclude_bookmark_id = (bookmarkDoc: IBookmarkDocument): IBookmark => {
   const { _id, __v, ...bookmark } = typeof bookmarkDoc.toObject === 'function'
     ? bookmarkDoc.toObject()
-    : bookmarkDoc;
-  return bookmark;
+    : bookmarkDoc
+  return bookmark
 }
 
 /**
@@ -140,17 +141,17 @@ export const get_user_votes_for_bookmarks = (
   user: TCipheredUser | null | undefined,
   bookmarkIds: string[]
 ): Map<string, { rating: 1 | -1; bookmark_id: string }> => {
-  const voteMap = new Map<string, { rating: 1 | -1; bookmark_id: string }>();
+  const voteMap = new Map<string, { rating: 1 | -1; bookmark_id: string }>()
   
   if (!user || !user._id) {
-    return voteMap;
+    return voteMap
   }
   
   // This will need to read from the user.votes array
   // Since we don't have the full user document here, this function
   // will be called with the votes already looked up
-  return voteMap;
-};
+  return voteMap
+}
 
 /**
  * Converts bookmarks from MongoDB documents to JSON:API resources.
@@ -163,22 +164,22 @@ export const to_jsonapi_bookmark_resources = (
   documents: IBookmarkDocument<Types.ObjectId>[],
   userVotes?: Map<string, { rating: 1 | -1; bookmark_id: string }>
 ): { 
-  resources: IJsonapiResource<IBookmark>[]; 
-  included: IJsonapiResource[] 
+  resources: IJsonapiResource<IBookmark>[] 
+  included: IJsonapiResponseResource[] 
 } => {
-  const included: IJsonapiResource[] = [];
+  const included: IJsonapiResponseResource[] = []
   
   const resources: IJsonapiResource<IBookmark>[] = documents.map(bookmark => {
-    const bookmarkId = bookmark._id?.toString() ?? '';
+    const bookmarkId = bookmark._id?.toString() ?? ''
     const resource: IJsonapiResource<IBookmark> = {
       type: EP_BOOKMARKS,
       id: bookmarkId,
       attributes: exclude_bookmark_id(bookmark)
-    };
+    }
     
     // Add user vote relationship if available
     if (userVotes && userVotes.has(bookmarkId)) {
-      const vote = userVotes.get(bookmarkId)!;
+      const vote = userVotes.get(bookmarkId)!
       
       // Add relationship to the bookmark
       resource.relationships = {
@@ -188,7 +189,7 @@ export const to_jsonapi_bookmark_resources = (
             id: `${bookmarkId}`
           }
         }
-      };
+      }
       
       // Add the vote to included documents
       included.push({
@@ -198,11 +199,11 @@ export const to_jsonapi_bookmark_resources = (
           bookmark_id: vote.bookmark_id,
           rating: vote.rating
         }
-      });
+      })
     }
     
-    return resource;
-  });
+    return resource
+  })
   
-  return { resources, included };
-};
+  return { resources, included }
+}

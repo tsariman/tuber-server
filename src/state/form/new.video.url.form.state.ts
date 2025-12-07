@@ -1,8 +1,8 @@
-import { clone_with_descriptors, t } from '../../business.logic';
-import { TStateForm, TStateFormItem, $1_STATE_KEY } from '@tuber/shared';
-import { register } from '../../business.logic/registry';
+import { clone_with_descriptors, t } from '../../business.logic'
+import { TStateForm, TStateFormItem, $1_STATE_KEY } from '@tuber/shared'
+import { register } from '../../business.logic/registry'
 
-register('state', '1', $1_STATE_KEY);
+register('state', '1', $1_STATE_KEY)
 /** Form to insert a new video URL. @id 1 */
 const newVideoUrlFormState: TStateForm = {
   '_id': '1',
@@ -35,7 +35,7 @@ const newVideoUrlFormState: TStateForm = {
         {
           'type': 'text',
           'name': 'url',
-          get 'label'() { return t('250', 'Paste Video URL Here ...'); },
+          get 'label'() { return t('250', 'Paste Video URL Here ...') },
           'props': { 'fullWidth': true },
           'inputProps': {
             'end': {
@@ -43,25 +43,25 @@ const newVideoUrlFormState: TStateForm = {
                 'type': 'icon',
                 'has': {
                   'icon': 'arrow_forward_ios_outline',
-                  'onclickHandle': `tuberCallbacks.$1_C_1`,
+                  'onclickHandler': `tuberCallbacks.$1_C_1`,
                 }
               }
             }
           },
           'has': {
-            'onkeydownHandle': `tuberCallbacks.$1_C_2`,
+            'onkeydownHandler': `tuberCallbacks.$1_C_2`,
             'required': true,
-            get 'requiredMessage'() { return t('251', 'You forgot the URL of the video'); }
+            get 'requiredMessage'() { return t('251', 'You forgot the URL of the video') }
           }
         },
       ] as TStateFormItem[]
     }
   ]
-};
+}
 
-export default newVideoUrlFormState;
+export default newVideoUrlFormState
 
 export const $1DarkThemeMode: TStateForm = (() => {
-  const base = clone_with_descriptors(newVideoUrlFormState);
-  return base;
-})();
+  const base = clone_with_descriptors(newVideoUrlFormState)
+  return base
+})()

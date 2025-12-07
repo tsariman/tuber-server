@@ -53,7 +53,7 @@ const researchPageState: TStatePage = {
     'searchFieldIconButton': {
       'has': {
         'icon': 'search_outline',
-        'onclickHandle': 'tuberCallbacks.appbarSearchBookmarks'
+        'onclickHandler': 'tuberCallbacks.appbarSearchBookmarks'
       }
     },
     'searchFieldIconButtonProps': {

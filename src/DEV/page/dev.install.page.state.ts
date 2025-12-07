@@ -4,20 +4,20 @@ import {
   authenticatedLinkState,
   powerLogoutLinkState,
   powerSignInLinkState
-} from '../../state/nav.link';
-import { register } from '../../business.logic/registry';
+} from '../../state/nav.link'
+import { register } from '../../business.logic/registry'
 import {
   $40_STATE_KEY,
   $44_STATE_KEY,
   TStateAppbar,
   TStatePage
-} from '@tuber/shared';
-import { TCipheredUser } from '../../schema/user';
+} from '@tuber/shared'
+import { TCipheredUser } from '../../schema/user'
 import {
   clone_empty,
   clone_or_default,
   clone_with_descriptors
-} from '../../business.logic';
+} from '../../business.logic'
 
 export const appbarLinksState: TStateAppbar['items'] = [
   {
@@ -39,7 +39,7 @@ export const appbarLinksState: TStateAppbar['items'] = [
     },
   },
   powerSignInLinkState
-];
+]
 
 export const authAppBarLinksState: TStateAppbar['items'] = [
   {
@@ -61,9 +61,9 @@ export const authAppBarLinksState: TStateAppbar['items'] = [
     },
   },
   authenticatedLinkState
-];
+]
 
-register('state', '44', $44_STATE_KEY);
+register('state', '44', $44_STATE_KEY)
 /** Page state for development installation form. @id 44 */
 const devInstallPageState: TStatePage = {
   '_id': '44',
@@ -94,49 +94,49 @@ const devInstallPageState: TStatePage = {
         'type': 'icon',
         'has': {
           'icon': 'dark_mode_outline',
-          'onclickHandle': `tuberCallbacks.$44_C_1`,
+          'onclickHandler': `tuberCallbacks.$44_C_1`,
         }
       }
     ],
   },
-};
+}
 
-export default devInstallPageState;
+export default devInstallPageState
 
 /** Dark theme mode state page for development installation. @id 44 */
 export const $44DarkThemeMode: TStatePage = (() => {
-  const base = clone_with_descriptors(devInstallPageState);
-  const appbar = clone_or_default(base.appbar, {});
-  const items = clone_empty(appbar.items);
+  const base = clone_with_descriptors(devInstallPageState)
+  const appbar = clone_or_default(base.appbar, {})
+  const items = clone_empty(appbar.items)
   items.push({
     'has': {
       'text': 'Research',
       'route':  $40_STATE_KEY,
     }
-  });
+  })
   items.push({
     'has': {
       'text': 'Client errors',
       'route': 'default-errors-view'
     }
-  });
+  })
   items.push({
     'has': {
       'text': 'Help',
       'route': 'help-dev-install'
     }
-  });
+  })
   items.push({
     'type': 'icon',
     'has': {
       'icon': 'wb_sunny_outline',
-      'onclickHandle': `tuberCallbacks.$44_C_1`,
+      'onclickHandler': `tuberCallbacks.$44_C_1`,
     }
-  });
-  appbar.items = items;
-  base.appbar = appbar;
-  return base;
-})();
+  })
+  appbar.items = items
+  base.appbar = appbar
+  return base
+})()
 
 /**
  * Get the page state development, testing, and installation.
@@ -147,13 +147,13 @@ export const $44DarkThemeMode: TStatePage = (() => {
  * @id 44
  */
 export function get_dev_install_page_state(usr?: TCipheredUser): TStatePage {
-  const clone = clone_with_descriptors(devInstallPageState);
-  const appbar = clone_with_descriptors(devInstallPageState.appbar ?? {});
-  const items = clone_with_descriptors(appbar.items ?? []);
-  items.push(usr ? powerLogoutLinkState : powerSignInLinkState);
-  appbar.items = items;
-  clone.appbar = appbar;
-  return clone;
+  const clone = clone_with_descriptors(devInstallPageState)
+  const appbar = clone_with_descriptors(devInstallPageState.appbar ?? {})
+  const items = clone_with_descriptors(appbar.items ?? [])
+  items.push(usr ? powerLogoutLinkState : powerSignInLinkState)
+  appbar.items = items
+  clone.appbar = appbar
+  return clone
 }
 
 /**
@@ -164,11 +164,11 @@ export function get_dev_install_page_state(usr?: TCipheredUser): TStatePage {
  * @id 44
  */
 export function get_44_dark_theme_mode (usr?: TCipheredUser): TStatePage {
-  const clone = clone_with_descriptors($44DarkThemeMode);
-  const appbar = clone_with_descriptors($44DarkThemeMode.appbar ?? {});
-  const items = clone_with_descriptors(appbar.items ?? []);
-  items.push(usr ? $66DarkThemeMode : $67DarkThemeMode);
-  appbar.items = items;
-  clone.appbar = appbar;
-  return clone;
+  const clone = clone_with_descriptors($44DarkThemeMode)
+  const appbar = clone_with_descriptors($44DarkThemeMode.appbar ?? {})
+  const items = clone_with_descriptors(appbar.items ?? [])
+  items.push(usr ? $66DarkThemeMode : $67DarkThemeMode)
+  appbar.items = items
+  clone.appbar = appbar
+  return clone
 }

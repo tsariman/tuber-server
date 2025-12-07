@@ -3,12 +3,12 @@ import {
   THEME_DARK_PAPER_COLOR,
   THEME_LIGHT_PAPER_COLOR,
   TStateForm
-} from '@tuber/shared';
-import { register } from '../../business.logic/registry';
-import { TBootstrapState } from '../../state/_state.common.types';
-import { clone_or_default, clone_with_descriptors } from '../../business.logic';
+} from '@tuber/shared'
+import { register } from '../../business.logic/registry'
+import { TBootstrapState } from '../../state/_state.common.types'
+import { clone_or_default, clone_with_descriptors } from '../../business.logic'
 
-register('state', '49', $49_STATE_KEY);
+register('state', '49', $49_STATE_KEY)
 /** @id 49 */
 const devSetAuthorizationKeyFormState: TStateForm = {
   '_id': '49',
@@ -77,24 +77,24 @@ const devSetAuthorizationKeyFormState: TStateForm = {
       },
       'has': {
         'label': 'Set Authorization Key',
-        'onclickHandle': 'tuberCallbacks.$49_C_1'
+        'onclickHandler': 'tuberCallbacks.$49_C_1'
       }
     },
   ]
-};
+}
 
-export default devSetAuthorizationKeyFormState;
+export default devSetAuthorizationKeyFormState
 
 export const $49DarkThemeMode: TStateForm = (() => {
-  const base = clone_with_descriptors(devSetAuthorizationKeyFormState);
-  const paperProps = clone_or_default(base.paperProps, {});
+  const base = clone_with_descriptors(devSetAuthorizationKeyFormState)
+  const paperProps = clone_or_default(base.paperProps, {})
   paperProps.sx = {
     ...paperProps.sx,
     'backgroundColor': THEME_DARK_PAPER_COLOR
-  };
-  base.paperProps = paperProps;
-  return base;
-})();
+  }
+  base.paperProps = paperProps
+  return base
+})()
 
 export const dev_set_authorization_key_form_state = {
 
@@ -102,7 +102,7 @@ export const dev_set_authorization_key_form_state = {
 
   // TODO - Insert more form states here.
 
-} as TBootstrapState<TStateForm>;
+} as TBootstrapState<TStateForm>
 
 export const dev_set_authorization_key_form_state_dark = {
 
@@ -110,4 +110,4 @@ export const dev_set_authorization_key_form_state_dark = {
 
   // TODO - Insert more form states (dark themed) here.
 
-} as TBootstrapState<TStateForm>;
+} as TBootstrapState<TStateForm>

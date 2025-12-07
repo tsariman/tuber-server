@@ -15,8 +15,8 @@ mongoose.set('strictQuery', false)
  * Initializes the application after all plugins are loaded.
  * This includes database connection, user setup, configuration loading, etc.
  */
-export async function initializeApp(): Promise<void> {
-  header_printout();
+export async function initialize_app(): Promise<void> {
+  header_printout()
   const DB_URI = Config.DB_REMOTE ? Config.DB_URI_REMOTE : Config.DB_URI_LOCAL
   console.log('\n[INFO] Database URI:', DB_URI)
 
@@ -25,9 +25,15 @@ export async function initializeApp(): Promise<void> {
     : 'Mongodb'
   process.stdout.write(`\n[INFO] Connecting to ${database}... `)
 
-  // Note: Use '127.0.0.1' instead of 'localhost' if connecting locally.
-  await mongoose.connect(DB_URI)
-  console.log('Success!')
+  try {
+    // Note: Use '127.0.0.1' instead of 'localhost' if connecting locally.
+    await mongoose.connect(DB_URI)
+  } catch {
+    console.log('Failed.')
+    process.exit(1)
+  }
+
+  console.log('Success.')
 
   // If using Mongodb Atlas,
   if (database === 'Atlas') {

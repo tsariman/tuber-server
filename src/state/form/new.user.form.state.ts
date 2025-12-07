@@ -1,10 +1,10 @@
-import { SxProps } from '@mui/material';
-import { $69_STATE_KEY, TStateForm } from '@tuber/shared';
-import { register } from '../../business.logic/registry';
-import { clone_with_descriptors, t } from '../../business.logic';
-import { title_centered } from '../html';
+import { SxProps } from '@mui/material'
+import { $69_STATE_KEY, TStateForm } from '@tuber/shared'
+import { register } from '../../business.logic/registry'
+import { clone_with_descriptors, t } from '../../business.logic'
+import { title_centered } from '../html'
 
-register('state', '69', $69_STATE_KEY);
+register('state', '69', $69_STATE_KEY)
 /** Form state to create a new user account. @id 69 */
 const newUserFormState: TStateForm = {
   '_id': '69',
@@ -31,61 +31,61 @@ const newUserFormState: TStateForm = {
         {
           'type': 'text',
           'name': 'username',
-          get 'label'() { return t('username', 'Username'); },
+          get 'label'() { return t('username', 'Username') },
           'props': { 'autoComplete': 'off' },
           'has': {
             'required': true,
-            get 'requiredMessage'() { return t('no_username', 'A username is required.'); }
+            get 'requiredMessage'() { return t('no_username', 'A username is required.') }
           }
         },
         {
           'type': 'text',
           'name': 'firstname',
-          get 'label'() { return t('firstname', 'First Name'); },
+          get 'label'() { return t('firstname', 'First Name') },
           'props': { 'autoComplete': 'off' },
           'has': {
             'required': true,
-            get 'requiredMessage'() { return t('no_firstname', 'Your first name is required.'); }
+            get 'requiredMessage'() { return t('no_firstname', 'Your first name is required.') }
           }
         },
         {
           'type': 'text',
           'name': 'lastname',
-          get 'label'() { return t('last_name', 'Last Name'); },
+          get 'label'() { return t('last_name', 'Last Name') },
           'props': { 'autoComplete': 'off' },
           'has': {
             'required': true,
-            get 'requiredMessage'() { return t('no_lastname', 'Your last name is required.'); }
+            get 'requiredMessage'() { return t('no_lastname', 'Your last name is required.') }
           }
         },
         {
           'type': 'text',
           'name': 'email',
-          get 'label'() { return t('email', 'Email'); },
+          get 'label'() { return t('email', 'Email') },
           'props': { 'autoComplete': 'email', 'type': 'email' },
           'has': {
             'required': true,
-            get 'requiredMessage'() { return t('no_email', 'Email is required.'); },
+            get 'requiredMessage'() { return t('no_email', 'Email is required.') },
             'validationRegex': '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$',
-            get 'validationMessage'() { return t('invalid_email', 'Please enter a valid email address.'); }
+            get 'validationMessage'() { return t('invalid_email', 'Please enter a valid email address.') }
           }
         },
         {
           'type': 'password',
           'name': 'password',
-          get 'label'() { return t('password', 'Password'); },
+          get 'label'() { return t('password', 'Password') },
           'has': {
             'required': true,
-            get 'requiredMessage'() { return t('no_password', 'You forgot the password.'); }
+            get 'requiredMessage'() { return t('no_password', 'You forgot the password.') }
           }
         },
         {
           'type': 'password',
           'name': 're_entered_password',
-          get 'label'() { return t('password', 'Re-enter Password'); },
+          get 'label'() { return t('password', 'Re-enter Password') },
           'has': {
             'required': true,
-            get 'requiredMessage'() { return t('no_password', 'You forgot the password.'); }
+            get 'requiredMessage'() { return t('no_password', 'You forgot the password.') }
           }
         },
         // {
@@ -104,8 +104,8 @@ const newUserFormState: TStateForm = {
           'has': {
             'icon': 'vpn_key',
             'iconPosition': 'right',
-            get 'title'() { return t('signup', 'Sign up'); },
-            'onclickHandleDirective': {
+            get 'title'() { return t('signup', 'Sign up') },
+            'onclickHandlerDirective': {
               'type': '$form',
               'formName': $69_STATE_KEY,
               'endpoint': 'users',
@@ -116,12 +116,12 @@ const newUserFormState: TStateForm = {
       ]
     }
   ]
-};
+}
 
-export default newUserFormState;
+export default newUserFormState
 
 /** Dark theme mode form state to register a new user. @id 69 */
 export const $69DarkThemeMode: TStateForm = (() => {
-  const base = clone_with_descriptors(newUserFormState);
-  return base;
-})();
+  const base = clone_with_descriptors(newUserFormState)
+  return base
+})()

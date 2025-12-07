@@ -40,6 +40,7 @@ JWT-TOKEN-LIFESPAN.md
 src/endpoint/INTEGRATION_TEST.listing.by.id.ep.md
 src/endpoint/README.listing.by.id.ep.md
 JSON_API_COMPLIANCE_ANALYSIS.md
+Fastify-CLI.md
 
 # Ignored files
 d1684a88be5c08aed50f565d9c8063ca.txt

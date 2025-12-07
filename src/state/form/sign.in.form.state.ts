@@ -60,7 +60,7 @@ const signInFormState: TStateForm = {
             'icon': 'vpn_key',
             'iconPosition': 'right',
             get 'title'() { return t('275', 'Sign in') },
-            'onclickHandle': 'tuberCallbacks.$41_C_1'
+            'onclickHandler': 'tuberCallbacks.$41_C_1'
           }
         }
       ]

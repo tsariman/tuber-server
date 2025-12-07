@@ -1,15 +1,15 @@
-import { TBootstrapState } from '../../state/_state.common.types';
-import { register } from '../../business.logic/registry';
+import { TBootstrapState } from '../../state/_state.common.types'
+import { register } from '../../business.logic/registry'
 import {
   TStateForm,
   $45_STATE_KEY,
   $46_STATE_KEY,
   THEME_DARK_PAPER_COLOR,
   THEME_LIGHT_PAPER_COLOR
-} from '@tuber/shared';
-import { clone_with_descriptors } from '../../business.logic';
+} from '@tuber/shared'
+import { clone_with_descriptors } from '../../business.logic'
 
-register('state', '45', $45_STATE_KEY);
+register('state', '45', $45_STATE_KEY)
 /** @id 45 */
 const devTestThumbnailFormState: TStateForm = {
   '_type': 'box',
@@ -40,7 +40,7 @@ const devTestThumbnailFormState: TStateForm = {
       },
       'has': {
         'label': 'Get Thumbnail',
-        'onclickHandle': 'tuberCallbacks.$45_C_1'
+        'onclickHandler': 'tuberCallbacks.$45_C_1'
       }
     },
     {
@@ -60,21 +60,21 @@ const devTestThumbnailFormState: TStateForm = {
       }
     }
   ]
-};
+}
 
-export default devTestThumbnailFormState;
+export default devTestThumbnailFormState
 
 /** @id 45 */
 export const $45DarkThemeMode: TStateForm = (() => {
-  const base = clone_with_descriptors(devTestThumbnailFormState);
-  const paperProps = clone_with_descriptors(base.paperProps ?? {});
+  const base = clone_with_descriptors(devTestThumbnailFormState)
+  const paperProps = clone_with_descriptors(base.paperProps ?? {})
   paperProps.sx = {
     ...paperProps.sx,
     'backgroundColor': THEME_DARK_PAPER_COLOR
-  };
-  base.paperProps = paperProps;
-  return base;
-})();
+  }
+  base.paperProps = paperProps
+  return base
+})()
 
 export const dev_test_thumbnail_form_state = {
 
@@ -82,7 +82,7 @@ export const dev_test_thumbnail_form_state = {
 
   // TODO - Insert more form states here.
 
-} as TBootstrapState<TStateForm>;
+} as TBootstrapState<TStateForm>
 
 export const dev_test_thumbnail_form_state_dark = {
 
@@ -90,4 +90,4 @@ export const dev_test_thumbnail_form_state_dark = {
 
   // TODO - Insert more form states (dark themed) here.
 
-} as TBootstrapState<TStateForm>;
+} as TBootstrapState<TStateForm>

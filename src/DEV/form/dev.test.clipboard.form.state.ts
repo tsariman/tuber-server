@@ -1,4 +1,4 @@
-import { TStateFormItem } from '@tuber/shared';
+import { TStateFormItem } from '@tuber/shared'
 
 const devFormTestClipboardState: TStateFormItem = {
   'type': 'stack',
@@ -23,7 +23,7 @@ const devFormTestClipboardState: TStateFormItem = {
       'type': 'state_button',
       'has': {
         'text': 'Test Clipboard',
-        'onclickHandle': 'tuberCallbacks.devClipboardTest'
+        'onclickHandler': 'tuberCallbacks.devClipboardTest'
       },
       'props': {
         'variant': 'contained',
@@ -32,6 +32,6 @@ const devFormTestClipboardState: TStateFormItem = {
       }
     }
   ]
-};
+}
 
-export default devFormTestClipboardState;
+export default devFormTestClipboardState

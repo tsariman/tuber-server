@@ -8,7 +8,7 @@ import path from 'path'
 import qs from 'qs'
 import { log } from './utility/logging'
 import JsonapiErrorBuilder from './business.logic/builder/JsonapiErrorBuilder'
-import { initializeApp } from './startup'
+import { initialize_app } from './startup'
 import { setupJWT } from './jwt.config'
 import { isCustomError } from './business.logic/errors'
 
@@ -89,7 +89,7 @@ const app: FastifyPluginAsync<AppOptions> = async (
 
   // Startup code - runs after all plugins are loaded
   fastify.addHook('onReady', async () => {
-    await initializeApp()
+    await initialize_app()
   })
 }
 

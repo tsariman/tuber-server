@@ -4,21 +4,21 @@ import {
   THEME_DARK_DIALOG_BACKGROUND_COLOR,
   THEME_LIGHT_PAPER_SX_PROPS,
   TStateDialog
-} from '@tuber/shared';
+} from '@tuber/shared'
 import {
   t,
   remove_form_suffix,
   clone_with_descriptors
-} from '../../business.logic';
-import { register } from '../../business.logic/registry';
+} from '../../business.logic'
+import { register } from '../../business.logic/registry'
 
-register('state', '23', $23_STATE_KEY);
+register('state', '23', $23_STATE_KEY)
 /** Dialog to create a edit Odysee video bookmark @id 23 */
 const editOdyseeBookmarkDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '23',
   '_key': $23_STATE_KEY,
-  get 'title'() { return t('15', 'Edit Odysee Bookmark'); },
+  get 'title'() { return t('15', 'Edit Odysee Bookmark') },
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
@@ -33,8 +33,8 @@ const editOdyseeBookmarkDialogState: TStateDialog = {
       'type': 'state_button',
       'props': { 'color': 'secondary' },
       'has': {
-        get 'text'() { return t('16', 'Cancel'); },
-        'onclickHandle': 'tuberCallbacks.defaultClose'
+        get 'text'() { return t('16', 'Cancel') },
+        'onclickHandler': 'tuberCallbacks.defaultClose'
       }
     },
     {
@@ -42,31 +42,31 @@ const editOdyseeBookmarkDialogState: TStateDialog = {
       'props': { 'color': 'primary' },
       'has': {
         'disableOnError': true,
-        get 'text'() { return t('17', 'Save'); },
-        'onclickHandle': 'tuberCallbacks.$23_C_1'
+        get 'text'() { return t('17', 'Save') },
+        'onclickHandler': 'tuberCallbacks.$23_C_1'
       }
     }
   ],
   'open': true
-};
+}
 
-export default editOdyseeBookmarkDialogState;
+export default editOdyseeBookmarkDialogState
 
 /**
  * Dark theme mode for form state to edit an existing odysee video bookmark.
  * @id 23
  */
 export const $23DarkThemeMode: TStateDialog = (() => {
-  const base = clone_with_descriptors(editOdyseeBookmarkDialogState);
-  const props = clone_with_descriptors(base.props ?? {});
-  const paperProps = clone_with_descriptors(props.PaperProps ?? {});
+  const base = clone_with_descriptors(editOdyseeBookmarkDialogState)
+  const props = clone_with_descriptors(base.props ?? {})
+  const paperProps = clone_with_descriptors(props.PaperProps ?? {})
   const sx: typeof paperProps['sx'] = {
     ...paperProps.sx,
     'backgroundColor': THEME_DARK_DIALOG_BACKGROUND_COLOR
-  };
-  paperProps.sx = sx;
-  props.PaperProps = paperProps;
-  base.props = props;
+  }
+  paperProps.sx = sx
+  props.PaperProps = paperProps
+  base.props = props
 
-  return base;
-})();
+  return base
+})()

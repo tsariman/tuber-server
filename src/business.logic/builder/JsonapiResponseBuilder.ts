@@ -5,6 +5,7 @@ import {
   TJsonapiPaginationLinks,
   TJsonapiResource,
   TJsonapiResponse,
+  TJsonapiResponseResource,
 } from '@tuber/shared';
 import JsonapiPaginationBuilder, { 
   IMinimalPaginationOptions,
@@ -17,7 +18,7 @@ export default class JsonapiResponseBuilder<T = TJsonapiDataAttributes> {
   private _data: TJsonapiResource<T>[] | TJsonapiResource<T> | null = null;
   private _meta?: TJsonapiMeta;
   private _links?: TJsonapiPaginationLinks;
-  private _included?: TJsonapiResource[];
+  private _included?: TJsonapiResponseResource[];
 
   private constructor() {
     // Private constructor - use factory methods instead
@@ -217,7 +218,7 @@ export default class JsonapiResponseBuilder<T = TJsonapiDataAttributes> {
     return this;
   }
 
-  addIncluded(resource: TJsonapiResource): this {
+  addIncluded(resource: TJsonapiResponseResource): this {
     this._included ??= [];
     this._included.push(resource);
     return this;

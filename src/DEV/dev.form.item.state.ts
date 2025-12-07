@@ -1,127 +1,127 @@
-import * as C from '@tuber/shared';
+import * as C from '@tuber/shared'
 
 export const devFormItemSeparator: C.TStateFormItem = {
   'type': 'html_tag',
   'has': { 'content': '|' }
-};
+}
 export const devCreateDevUserStateButton: C.TStateFormItem = {
   'type': 'state_button',
   'has': {
     'label': 'Create dev user',
-    // 'onclickHandle': 'tuberCallbacks.devCreateUser',
-    'onclickHandleDirective': { 'type': '$form_none', 'endpoint': 'dev/user' }
+    // 'onclickHandler': 'tuberCallbacks.devCreateUser',
+    'onclickHandlerDirective': { 'type': '$form_none', 'endpoint': 'dev/user' }
   },
-};
+}
 export const devResetDatabaseStateButton: C.TStateFormItem = {
   'type': 'state_button',
   'has': {
     'label': 'Reset database',
-    // 'onclickHandle': 'tuberCallbacks.devResetDatabase',
-    'onclickHandleDirective': {
+    // 'onclickHandler': 'tuberCallbacks.devResetDatabase',
+    'onclickHandlerDirective': {
       'type': '$form_none',
       'endpoint': 'dev/database-reset'
     }
   }
-};
+}
 export const devTestDrawerStateButton: C.TStateFormItem = {
   'type': 'state_button',
   'has': {
     'label': 'Test Drawer',
-    // 'onclickHandle': 'tuberCallbacks.devLoadDrawer',
-    'onclickHandleDirective': {
+    // 'onclickHandler': 'tuberCallbacks.devLoadDrawer',
+    'onclickHandlerDirective': {
       'type': '$form_none',
       'endpoint': 'dev/load-test-drawer'
     }
   }
-};
+}
 export const devRemoveDrawerStateButton: C.TStateFormItem = {
   'type': 'state_button',
   'has': {
     'label': 'Remove Drawer',
-    // 'onclickHandle': 'tuberCallbacks.devUnloadDrawer',
-    'onclickHandleDirective': {
+    // 'onclickHandler': 'tuberCallbacks.devUnloadDrawer',
+    'onclickHandlerDirective': {
       'type': '$form_none',
       'endpoint': 'dev/unload-test-drawer'
     }
   }
-};
+}
 export const devLinkTestAddNewBookmarkState: C.TStateFormItem = {
   'type': 'a',
   'has': {
     'label': 'Test Add New bookmark',
-    'onclickHandle': 'tuberCallbacks.bookmarkAdd'
+    'onclickHandler': 'tuberCallbacks.bookmarkAdd'
   }
-};
+}
 export const devCreateNewUserLinkState: C.TStateFormItem = {
   'type': 'a',
   'has': {
     'label': 'Create new user',
-    'onclickHandle': 'tuberCallbacks.devUserAdd'
+    'onclickHandler': 'tuberCallbacks.devUserAdd'
   }
-};
+}
 export const devPopulateUserCollection: C.TStateFormItem = {
   'type': 'state_button',
   'has': {
     'label': 'Populate user collection',
-    'onclickHandle': 'tuberCallbacks.devUserPopulate'
+    'onclickHandler': 'tuberCallbacks.devUserPopulate'
   }
-};
+}
 export const devGetBookmarkCollectionTest: C.TStateFormItem = {
   'type': 'state_button',
   'has': {
     'label': 'Get bookmarks collection test',
-    'onclickHandle': 'tuberCallbacks.devGetBookmarks'
+    'onclickHandler': 'tuberCallbacks.devGetBookmarks'
   }
-};
+}
 export const devTestSpinner: C.TStateFormItem = {
   'type': 'state_button',
   'has': {
     'label': 'Test spinner',
-    'onclickHandle': 'tuberCallbacks.devNoResponse'
+    'onclickHandler': 'tuberCallbacks.devNoResponse'
   }
-};
+}
 export const devGetPlatformThumbnailTest: C.TStateFormItem = {
   'type': 'a',
   'has': {
     'label': ' Test getting platform thumbnails ',
     'route': C.$46_STATE_KEY
   }
-};
+}
 export const devSaveConfigValue: C.TStateFormItem = {
   'type': 'a',
   'has': {
     'label': ' Save config value ',
     'route': C.$61_STATE_KEY
   }
-};
+}
 export const devEnterTwitchClientId: C.TStateFormItem = {
   'type': 'a',
   'has': {
     'label': ' Enter Twitch Client ID ',
     'route': C.$59_STATE_KEY
   }
-};
+}
 export const devRumbleRegexpTest: C.TStateFormItem = {
   'type': 'a',
   'has': {
     'label': ' Test rumble regexp ',
     'route': C.$56_STATE_KEY
   }
-};
+}
 export const devUnknownRegexpTest: C.TStateFormItem = {
   'type': 'a',
   'has': {
     'label': ' Test unknown regexp ',
     'route': C.$58_STATE_KEY
   }
-};
+}
 export const devFakePageTest: C.TStateFormItem = {
   'type': 'a',
   'has': {
     'label': ' Fake page test ',
     'route': 'i-lead-to-nowhere'
   }
-};
+}
 export const devDropCollectionSelect: C.TStateFormItem = {
   'type': 'state_select',
   'name': 'drop-collection',
@@ -142,19 +142,19 @@ export const devDropCollectionSelect: C.TStateFormItem = {
       { 'label': 'Users', 'value': 'users' }
     ]
   }
-};
+}
 export const devDropCollectionButton: C.TStateFormItem = {
   'type': 'state_button',
   'has': {
     'label': 'Drop Collection',
-    'onclickHandle': 'tuberCallbacks.devDropCollection'
+    'onclickHandler': 'tuberCallbacks.devDropCollection'
   },
   'props': {
     'variant': 'contained',
     'size': 'small',
     'disableElevation': true
   }
-};
+}
 export const devPopulateCollectionSelect: C.TStateFormItem = {
   'type': 'state_select',
   'name': 'populate-collection',
@@ -175,7 +175,7 @@ export const devPopulateCollectionSelect: C.TStateFormItem = {
       { 'label': 'Users', 'value': 'users' }
     ]
   }
-};
+}
 export const devPopulationQuantity: C.TStateFormItem = {
   'type': 'state_select',
   'name': 'population-quantity',
@@ -201,29 +201,29 @@ export const devPopulationQuantity: C.TStateFormItem = {
       { 'label': '500000', 'value': '500000' }
     ]
   }
-};
+}
 export const devPopulateCollectionButton: C.TStateFormItem = {
   'type': 'state_button',
   'has': {
     'label': 'Populate Collection',
-    'onclickHandle': 'tuberCallbacks.devPopulateCollection'
+    'onclickHandler': 'tuberCallbacks.devPopulateCollection'
   },
   'props': {
     'variant': 'contained',
     'size': 'small',
     'disableElevation': true
   }
-};
+}
 export const devCreateBookmarkSearchIndex: C.TStateFormItem = {
   'type': 'state_button',
   'has': {
     'label': 'Create Bookmark Search Index',
-    'onclickHandle': 'tuberCallbacks.devCreateBookmarkSearchIndex'
+    'onclickHandler': 'tuberCallbacks.devCreateBookmarkSearchIndex'
   },
   'props': {
     'variant': 'contained',
     'size': 'small',
     'disableElevation': true
   }
-};
-export const devHorizontalSeparator: C.TStateFormItem = { 'type': 'hr' };
+}
+export const devHorizontalSeparator: C.TStateFormItem = { 'type': 'hr' }
