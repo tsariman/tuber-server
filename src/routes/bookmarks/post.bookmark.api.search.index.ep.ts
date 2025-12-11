@@ -8,7 +8,7 @@ import { log, log_err } from '../../utility/logging';
 
 /**
  * Setup atlas search index for the bookmarks collection.  
- * [TODO] Don't forget to set permission for this endpoint. `Dev` and above.
+ * TODO - Don't forget to set permission for this endpoint. `Dev` and above.
  */
 export default async function post_bookmarks_api_setup_search_index_endpoint (
   _req: FastifyRequest,

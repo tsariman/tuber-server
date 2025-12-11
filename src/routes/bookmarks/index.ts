@@ -4,7 +4,10 @@ import get_bookmark_by_id_endpoint from './get.bookmark.by.id.ep'
 import post_bookmark_endpoint from './post.bookmark.ep'
 import patch_bookmark_by_id_endpoint from './patch.bookmark.by.id.ep'
 import delete_bookmark_by_id_endpoint from './delete.bookmark.by.id.ep'
-import { DEFAULT_ROUTE_OPTIONS, OPTIONAL_ROUTE_OPTIONS } from '../../middleware/router.option'
+import {
+  DEFAULT_ROUTE_OPTIONS,
+  PUBLIC_ROUTE_OPTIONS
+} from '../../middleware/router.option'
 import {
   IBookmarkGet,
   IBookmarkPost,
@@ -27,12 +30,12 @@ const bookmarks: FastifyPluginAsync = async (fastify, rootOpts): Promise<void> =
   //   ? dev_post_bookmark_endpoint
   //   : post_bookmark_endpoint
 
-  const bookmarksOpts = { ...rootOpts, ...OPTIONAL_ROUTE_OPTIONS }
+  const $public = { ...rootOpts, ...PUBLIC_ROUTE_OPTIONS }
 
   // GET /bookmarks (read)
   fastify.get<IBookmarkGet>(
     '/',
-    bookmarksOpts,
+    $public,
     get_bookmark_collection_endpoint
   )
 

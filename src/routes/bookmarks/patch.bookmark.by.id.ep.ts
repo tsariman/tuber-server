@@ -6,6 +6,7 @@ import { update_bookmark_by_id } from '../../model/bookmark'
 import { IBookmarkPatch } from '../../schema/bookmark'
 import { MSG_500_ERROR_MESSAGE } from '@tuber/shared'
 
+/** `PATCH /bookmarks/:id` endpoint handler */
 export default async function patch_bookmark_by_id_endpoint (
   request: FastifyRequest<IBookmarkPatch>,
   reply: FastifyReply

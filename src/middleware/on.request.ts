@@ -82,23 +82,15 @@ export const on_request_dev: onRequestHookHandler = async (
 
 /**
  * Optional authentication hook for routes that don't require mandatory authentication.
- * Attempts to authorize the request using JWT verification, but allows the request to proceed
- * even if authentication fails, by calling the done callback without error.
  *
  * @param req - The Fastify request object.
  * @param reply - The Fastify reply object (unused in this implementation).
  * @param done - Callback function to signal completion of the hook.
  */
-export const on_request_optional: onRequestHookHandler = async (
-  req,
-  reply,
-  done
-): Promise<void> => {
-  void reply
-  void done
+export const on_request_optional: onRequestHookHandler = async (req): Promise<void> => {
   try {
     await authorize_request(req)
-  } catch { }
+  } catch {}
 }
 
 /**

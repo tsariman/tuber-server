@@ -24,7 +24,7 @@ const SENSITIVE_FIELDS = new Set([
   'private_key',
   'secret_key',
   'encryption_key'
-]);
+])
 
 /**
  * Sanitizes an object by redacting sensitive fields
@@ -33,39 +33,39 @@ const SENSITIVE_FIELDS = new Set([
  * @param redactValue - The value to replace sensitive data with (default: '[REDACTED]')
  * @returns A sanitized copy of the object
  */
-export function sanitize<T extends Record<string, any>>(
+export function sanitize<T>(
   obj: T,
   customSensitiveFields: string[] = [],
-  redactValue: string = '[REDACTED]'
+  redactValue = '[REDACTED]'
 ): T {
   if (obj === null || obj === undefined) {
-    return obj;
+    return obj
   }
 
   if (typeof obj !== 'object') {
-    return obj;
+    return obj
   }
 
   if (Array.isArray(obj)) {
-    return obj.map(item => sanitize(item, customSensitiveFields, redactValue)) as unknown as T;
+    return obj.map(item => sanitize(item, customSensitiveFields, redactValue)) as T
   }
 
-  const sanitized: Record<string, any> = {};
-  const allSensitiveFields = new Set([...SENSITIVE_FIELDS, ...customSensitiveFields.map(f => f.toLowerCase())]);
+  const sanitized: Record<string, unknown> = {}
+  const allSensitiveFields = new Set([...SENSITIVE_FIELDS, ...customSensitiveFields.map(f => f.toLowerCase())])
 
   for (const [key, value] of Object.entries(obj)) {
-    const lowerKey = key.toLowerCase();
+    const lowerKey = key.toLowerCase()
 
     if (allSensitiveFields.has(lowerKey)) {
-      sanitized[key] = redactValue;
+      sanitized[key] = redactValue
     } else if (typeof value === 'object' && value !== null) {
-      sanitized[key] = sanitize(value, customSensitiveFields, redactValue);
+      sanitized[key] = sanitize(value, customSensitiveFields, redactValue)
     } else {
-      sanitized[key] = value;
+      sanitized[key] = value
     }
   }
 
-  return sanitized as T;
+  return sanitized as T
 }
 
 /**
@@ -73,8 +73,8 @@ export function sanitize<T extends Record<string, any>>(
  * @param body - The request body to sanitize
  * @returns Sanitized body safe for logging
  */
-export function sanitizeAuthBody(body: any): any {
-  return sanitize(body, ['password', 'token', 'credentials'], '[REDACTED]');
+export function sanitizeAuthBody(body: unknown): unknown {
+  return sanitize(body, ['password', 'token', 'credentials'], '[REDACTED]')
 }
 
 /**
@@ -84,33 +84,33 @@ export function sanitizeAuthBody(body: any): any {
  * @param sensitiveFields - Fields to redact
  * @returns Object with only specified fields, sensitive data redacted
  */
-export function sanitizeForLogging<T extends Record<string, any>>(
+export function sanitizeForLogging<T extends Record<string, unknown>>(
   obj: T,
   fieldsToKeep: (keyof T)[] = [],
   sensitiveFields: string[] = []
 ): Partial<T> {
   if (!obj || typeof obj !== 'object') {
-    return obj;
+    return obj
   }
 
-  const result: Partial<T> = {};
-  const allSensitiveFields = new Set([...SENSITIVE_FIELDS, ...sensitiveFields.map(f => f.toLowerCase())]);
+  const result: Record<string, unknown> = {}
+  const allSensitiveFields = new Set([...SENSITIVE_FIELDS, ...sensitiveFields.map(f => f.toLowerCase())])
 
   // If fieldsToKeep is specified, only include those fields
-  const fieldsToProcess = fieldsToKeep.length > 0 ? fieldsToKeep : Object.keys(obj) as (keyof T)[];
+  const fieldsToProcess = (fieldsToKeep.length > 0 ? fieldsToKeep : Object.keys(obj)) as string[]
 
   for (const key of fieldsToProcess) {
-    const value = obj[key];
-    const lowerKey = String(key).toLowerCase();
+    const value = obj[key]
+    const lowerKey = String(key).toLowerCase()
 
     if (allSensitiveFields.has(lowerKey)) {
-      result[key] = '[REDACTED]' as any;
+      result[key] = '[REDACTED]'
     } else if (typeof value === 'object' && value !== null) {
-      result[key] = sanitize(value, sensitiveFields, '[REDACTED]') as any;
+      result[key] = sanitize(value, sensitiveFields, '[REDACTED]')
     } else {
-      result[key] = value;
+      result[key] = value
     }
   }
 
-  return result;
+  return result as Partial<T>
 }

@@ -33,7 +33,7 @@ export interface IListing {
     html_tag?: string;
     bookmark_id?: string;
   }[];
-  restrict?: Record<string, string>;
+  restrictions?: Record<string, string>;
   rules?: Record<string, string>;
 }
 
@@ -74,7 +74,7 @@ const listingSchema = new mongoose.Schema<IListingDocument>({
     html_tag: String,
     bookmark_id: { type: String, required: true }
   }],
-  restrict: { type: Map, of: String, default: undefined },
+  restrictions: { type: Map, of: String, default: undefined },
   rules: { type: Map, of: String, default: undefined }
 });
 

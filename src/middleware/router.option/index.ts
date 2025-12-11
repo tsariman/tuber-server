@@ -14,6 +14,6 @@ export const DEV_ROUTE_POTIONS: RouteShorthandOptions = {
 }
 
 /** Use on routes where authentication is not required. */
-export const OPTIONAL_ROUTE_OPTIONS: RouteShorthandOptions = {
+export const PUBLIC_ROUTE_OPTIONS: RouteShorthandOptions = {
   onRequest: on_request_optional
 }

@@ -5,7 +5,7 @@ import { BookmarkModel } from '../../model/bookmark'
 import { BookmarkVoteModel } from '../../model/bookmark.vote'
 import { default_500_error_response } from '../../business.logic/errors'
 
-/** `GET /bookmarks/:id/vote` */
+/** `GET /bookmarks/:id/vote` endpoint handler */
 export async function get_bookmark_vote_by_id_endpoint(
   req: FastifyRequest<IBookmarkVoteGet>,
   reply: FastifyReply

@@ -198,3 +198,21 @@ export const get_mongodb_error = (message: string): {
     detail: arrayShift(pieces).join(' ')
   }
 };
+
+/**
+ * Converts an unknown value to an Error instance.
+ * If the value is already an Error, returns it unchanged.
+ * If it's a string, creates a new Error with that string as the message.
+ * If it's an object with a 'message' property that's a string, uses that as the message.
+ * Otherwise, creates a new Error with the string representation of the value.
+ * @param e The value to convert to an Error.
+ * @returns An Error instance.
+ */
+export const as_Error = (e: unknown): Error => {
+  if (e instanceof Error) return e
+  if (typeof e === 'string') return new Error(e)
+  if (e && typeof e === 'object' && 'message' in e && typeof (e as any).message === 'string') {
+    return new Error((e as any).message)
+  }
+  return new Error(String(e))
+}

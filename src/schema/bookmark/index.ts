@@ -68,7 +68,7 @@ export interface IBookmark {
     /** The reason why this bookmark was reported. */
     reason?: string
   }[]
-  restrict?: Record<string, string>
+  restrictions?: Record<string, string>
   rules?: Record<string, string>
 }
 
@@ -168,7 +168,7 @@ const bookmarkSchema = new Schema<IBookmarkDocument>({
     }],
     default: undefined
   },
-  restrict: { type: Map, of: String, default: undefined },
+  restrictions: { type: Map, of: String, default: undefined },
   rules: { type: Map, of: String, default: undefined }
 }, { versionKey: false })
 

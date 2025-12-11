@@ -7,7 +7,7 @@ import { read_bookmark_by_id } from '../../model/bookmark'
 import { IBookmarkGet } from '../../schema/bookmark'
 import { MSG_500_ERROR_MESSAGE } from '@tuber/shared'
 
-/** `GET /bookmarks/:id` */
+/** `GET /bookmarks/:id` endpoint handler */
 export default async function get_bookmark_by_id_endpoint (
   request: FastifyRequest<IBookmarkGet>,
   reply: FastifyReply

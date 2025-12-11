@@ -53,7 +53,7 @@ export const dbug = (...args: unknown[]): void => {
 export const task_end = (...args: unknown[]): void => log(args)
 
 /** Log with automatic sanitization of sensitive data. */
-export const log_safe = (message: string, data?: any, customSensitiveFields?: string[]): void => {
+export const log_safe = (message: string, data?: unknown, customSensitiveFields?: string[]): void => {
   if (inDebugMode) {
     if (data !== undefined) {
       const sanitizedData = sanitize(data, customSensitiveFields)
@@ -124,7 +124,7 @@ export const log_err = (message: string, ...meta: unknown[]): void => {
 
 /** Log errors with automatic sanitization of sensitive data in meta. */
 export const log_err_safe = (message: string,
-  meta?: any,
+  meta?: unknown,
   customSensitiveFields?: string[]
 ): void => {
   if (meta !== undefined) {

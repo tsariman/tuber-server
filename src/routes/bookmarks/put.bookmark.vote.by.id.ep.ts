@@ -16,7 +16,7 @@ interface IBookmarkVoteUpdate {
 
 type TBookmarkVoteUpdateDoc = IBookmarkVoteUpdate | null
 
-/** `PUT /bookmarks/:id/vote` */
+/** `PUT /bookmarks/:id/vote` endpoint handler */
 export async function put_bookmark_vote_by_id_endpoint(
   req: FastifyRequest<IBookmarkVotePut>,
   reply: FastifyReply

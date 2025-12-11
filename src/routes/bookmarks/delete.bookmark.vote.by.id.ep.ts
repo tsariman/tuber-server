@@ -9,7 +9,7 @@ interface IBookmarkVoteDelete {
   Params: { id?: string }
 }
 
-/** `DELETE /bookmarks/:id/vote` */
+/** `DELETE /bookmarks/:id/vote` endpoint handler */
 export async function delete_bookmark_vote_by_id_endpoint(
   req: FastifyRequest<IBookmarkVoteDelete>,
   reply: FastifyReply

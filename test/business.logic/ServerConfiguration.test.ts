@@ -1,13 +1,13 @@
 import { describe, it, beforeEach } from 'node:test'
 import assert from 'node:assert'
-import { ServerConfiguration } from '../../src/business.logic/ServerConfiguration'
-import { IDbConfigurationDocument } from '../../src/schema/configurations'
+import { Configuration } from '../../src/business.logic/Configuration'
+import { IDbConfigurationDocument } from '../../src/schema/configuration'
 
 describe('ServerConfig', () => {
-  let config: ServerConfiguration
+  let config: Configuration
 
   beforeEach(() => {
-    config = new ServerConfiguration()
+    config = new Configuration()
   })
 
   describe('set, read, write', () => {

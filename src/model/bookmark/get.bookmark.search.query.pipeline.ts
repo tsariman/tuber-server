@@ -70,7 +70,7 @@ export default function get_bookmark_search_query_pipeline(
         downvotes: 1,
         url: 1,
         thumbnail_url: 1,
-        restrict: 1,
+        restrictions: 1,
         rules: 1,
         author: 1,
         is_published: 1,

@@ -6,7 +6,7 @@ import { BookmarkModel } from '../../model/bookmark'
 import { IBookmarkDelete } from '../../schema/bookmark'
 import { MSG_500_ERROR_MESSAGE } from '@tuber/shared'
 
-/** `DELETE /bookmarks/:id` */
+/** `DELETE /bookmarks/:id` endpoint handler */
 export default async function delete_bookmark_by_id_endpoint (
   req: FastifyRequest<IBookmarkDelete>,
   reply: FastifyReply

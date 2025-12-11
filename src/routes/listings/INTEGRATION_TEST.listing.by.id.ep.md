@@ -285,6 +285,6 @@ service.getListingWithBookmarks('64abc123def456789012345')
 
 - The aggregation pipeline is optimized to minimize database queries
 - Only active listings and bookmarks are returned
-- Sensitive fields (restrict, rules, reports) are excluded from responses
+- Sensitive fields (restrictions, rules, reports) are excluded from responses
 - ObjectId validation prevents unnecessary database queries for invalid IDs
 - The lookup operation uses indexes on _id fields for optimal performance

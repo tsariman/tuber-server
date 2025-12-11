@@ -20,6 +20,7 @@ const jsonapi_400_reply = () => new JsonapiErrorBuilder()
   .withTitle('Missing required information')
   .build()
 
+/** `GET /bookmarks/:id/thumbnail-url` endpoint handler */
 export default async function get_video_thumbnail_url_endpoint (
   req: FastifyRequest<IBookmarkThumbnailUrlGet>,
   reply: FastifyReply

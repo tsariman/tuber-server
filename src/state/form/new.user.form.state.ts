@@ -30,12 +30,14 @@ const newUserFormState: TStateForm = {
         },
         {
           'type': 'text',
-          'name': 'username',
+          'name': 'name',
           get 'label'() { return t('username', 'Username') },
           'props': { 'autoComplete': 'off' },
           'has': {
             'required': true,
-            get 'requiredMessage'() { return t('no_username', 'A username is required.') }
+            get 'requiredMessage'() { return t('no_username', 'A username is required.') },
+            'validationRegex': '^[a-zA-Z0-9_-]{3,}$',
+            get 'validationMessage'() { return t('invalid_username', 'Username must be at least 3 characters long and contain only letters, numbers, underscores, and hyphens.') },
           }
         },
         {
@@ -45,7 +47,9 @@ const newUserFormState: TStateForm = {
           'props': { 'autoComplete': 'off' },
           'has': {
             'required': true,
-            get 'requiredMessage'() { return t('no_firstname', 'Your first name is required.') }
+            get 'requiredMessage'() { return t('no_firstname', 'Your first name is required.') },
+            'validationRegex': '^[a-zA-Z\\s\\-\']+$',
+            get 'validationMessage'() { return t('invalid_firstname', 'First name must contain only letters, spaces, hyphens, and apostrophes.') }
           }
         },
         {
@@ -55,7 +59,9 @@ const newUserFormState: TStateForm = {
           'props': { 'autoComplete': 'off' },
           'has': {
             'required': true,
-            get 'requiredMessage'() { return t('no_lastname', 'Your last name is required.') }
+            get 'requiredMessage'() { return t('no_lastname', 'Your last name is required.') },
+            'validationRegex': '^[a-zA-Z\\s\\-\']+$',
+            get 'validationMessage'() { return t('invalid_lastname', 'Last name must contain only letters, spaces, hyphens, and apostrophes.') }
           }
         },
         {
@@ -76,7 +82,9 @@ const newUserFormState: TStateForm = {
           get 'label'() { return t('password', 'Password') },
           'has': {
             'required': true,
-            get 'requiredMessage'() { return t('no_password', 'You forgot the password.') }
+            get 'requiredMessage'() { return t('no_password', 'You forgot the password.') },
+            'mustMatch': 're_entered_password',
+            get 'mustMatchMessage'() { return t('password_mismatch', 'Passwords do not match.') }
           }
         },
         {
@@ -85,7 +93,9 @@ const newUserFormState: TStateForm = {
           get 'label'() { return t('password', 'Re-enter Password') },
           'has': {
             'required': true,
-            get 'requiredMessage'() { return t('no_password', 'You forgot the password.') }
+            get 'requiredMessage'() { return t('no_password', 'You forgot the password.') },
+            'mustMatch': 'password',
+            get 'mustMatchMessage'() { return t('password_mismatch', 'Passwords do not match.') }
           }
         },
         // {

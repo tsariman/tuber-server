@@ -8,7 +8,7 @@ import { MSG_500_ERROR_MESSAGE } from '@tuber/shared'
 import fix_missing_bookmark_data from '../../platform/all.drivers'
 import JsonapiRequestDriver from '../../business.logic/JsonapiRequestDriver'
 
-/** `POST /bookmarks` */
+/** `POST /bookmarks` endpoint handler */
 export default async function post_bookmark_endpoint (
   req: FastifyRequest<IBookmarkPost>,
   reply: FastifyReply

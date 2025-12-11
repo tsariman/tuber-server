@@ -2,14 +2,17 @@ import { FastifyPluginAsync } from 'fastify'
 import get_user_collection_endpoint from './get.user.collection.ep'
 import get_user_by_name_endpoint from './get.user.by.name.ep'
 import post_user_endpoint from './post.user.ep'
-import { DEFAULT_ROUTE_OPTIONS } from '../../middleware/router.option'
+import {
+  DEFAULT_ROUTE_OPTIONS,
+  PUBLIC_ROUTE_OPTIONS
+} from '../../middleware/router.option'
 import { IUsersEndpoint, IUsersVoteEndpoint } from '../../schema/user'
 import { put_user_vote_by_id_endpoint } from './put.user.by.id.ep'
 
-const users: FastifyPluginAsync = async (fastify, defaultOpts): Promise<void> => {
+const users: FastifyPluginAsync = async (fastify, rootOpts): Promise<void> => {
 
   const opts = {
-    ...defaultOpts,
+    ...rootOpts,
     ...DEFAULT_ROUTE_OPTIONS,
   }
 
@@ -17,8 +20,12 @@ const users: FastifyPluginAsync = async (fastify, defaultOpts): Promise<void> =>
   fastify.get<IUsersEndpoint>('/', opts, get_user_collection_endpoint)
   // GET /users/:name
   fastify.get<IUsersEndpoint>('/:name', opts, get_user_by_name_endpoint)
+
   // POST /users
-  fastify.post<IUsersEndpoint>('/', opts, post_user_endpoint)
+  fastify.post<IUsersEndpoint>('/', {
+    ...rootOpts,
+    ...PUBLIC_ROUTE_OPTIONS
+  }, post_user_endpoint)
 
   // PUT /users/:id (update)
   // PUT /users/:userId/vote (upvote/downvote)

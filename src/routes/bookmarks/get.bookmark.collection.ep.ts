@@ -7,7 +7,7 @@ import {
   read_bookmark_collection,
   to_jsonapi_bookmark_resources
 } from '../../model/bookmark'
-import { IBookmark, IBookmarkGet } from '../../schema/bookmark'
+import { IBookmark, IBookmarkDocument, IBookmarkGet } from '../../schema/bookmark'
 import { MSG_500_ERROR_MESSAGE } from '@tuber/shared'
 import { get_raw_query } from './_bookmarks.common.logic'
 import { log_err, ler, dbug, task, task_end } from '../../utility/logging'
@@ -46,8 +46,8 @@ export default async function get_bookmark_collection_endpoint (
       
       // Build user votes map for current user limited to fetched bookmarks
       if (req.usr?._id) {
-        const bookmarkIds = results.map((b: any) => b._id)
-        const votes = await BookmarkVoteModel.find({ user_id: String(req.usr._id), bookmark_id: { $in: bookmarkIds.map((id: any) => String(id)) } }, { bookmark_id: 1, rating: 1 })
+        const bookmarkIds = results.map((b: IBookmarkDocument) => b._id)
+        const votes = await BookmarkVoteModel.find({ user_id: String(req.usr._id), bookmark_id: { $in: bookmarkIds.map((id: unknown) => String(id)) } }, { bookmark_id: 1, rating: 1 })
         userVotes = new Map(votes.map(v => [v.bookmark_id, { rating: v.rating as 1 | -1, bookmark_id: v.bookmark_id }]))
       }
       // Convert results to JSON:API resources with user votes
@@ -74,8 +74,8 @@ export default async function get_bookmark_collection_endpoint (
       
       // Build user votes map for current user limited to fetched bookmarks
       if (req.usr?._id) {
-        const bookmarkIds = result.docs.map((b: any) => b._id)
-        const votes = await BookmarkVoteModel.find({ user_id: String(req.usr._id), bookmark_id: { $in: bookmarkIds.map((id: any) => String(id)) } }, { bookmark_id: 1, rating: 1 })
+        const bookmarkIds = result.docs.map((b: IBookmarkDocument) => b._id)
+        const votes = await BookmarkVoteModel.find({ user_id: String(req.usr._id), bookmark_id: { $in: bookmarkIds.map((id: unknown) => String(id)) } }, { bookmark_id: 1, rating: 1 })
         userVotes = new Map(votes.map(v => [v.bookmark_id, { rating: v.rating as 1 | -1, bookmark_id: v.bookmark_id }]))
       }
       // Convert mongoose documents to JSON:API resources with user votes

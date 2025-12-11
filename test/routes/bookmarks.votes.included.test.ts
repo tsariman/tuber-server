@@ -51,11 +51,15 @@ test('GET /bookmarks should include user votes in relationships and included', a
   user.votes = [
     {
       bookmark_id: String(bookmark1._id),
-      rating: 1 // upvote
+      rating: 1, // upvote
+      is_active: true,
+      created_at: new Date()
     },
     {
       bookmark_id: String(bookmark2._id),
-      rating: -1 // downvote
+      rating: -1, // downvote
+      is_active: true,
+      created_at: new Date()
     }
   ]
   await user.save()

@@ -50,7 +50,7 @@ export const exclude_bookmark_fields_IMPV2Doc = (
       _id,
       is_active,
       is_private,
-      restrict,
+      restrictions,
       rules,
       __v,
       ...bookmarkDoc
@@ -61,7 +61,7 @@ export const exclude_bookmark_fields_IMPV2Doc = (
 
 /** Excludes sensitive fields from the bookmark document. */
 export const transform_bookmark_doc = (bookmark: IBookmarkDocument) => {
-  const { _id, is_active, is_private, restrict, rules, ...bookmarkDoc } = bookmark
+  const { _id, is_active, is_private, restrictions, rules, ...bookmarkDoc } = bookmark
   return bookmarkDoc
 }
 

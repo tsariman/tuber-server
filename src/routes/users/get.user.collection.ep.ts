@@ -6,6 +6,7 @@ import { TUsersFastifyRequest } from '../../schema/user';
 import { ler, log_err } from '../../utility/logging';
 import { MSG_500_ERROR_MESSAGE } from '@tuber/shared';
 
+/** `GET /users` endpoint handler */
 export default async function get_user_collection_endpoint (
   req: TUsersFastifyRequest,
   reply: FastifyReply

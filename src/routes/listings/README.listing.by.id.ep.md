@@ -82,7 +82,7 @@ The endpoint uses a sophisticated aggregation pipeline that:
 - Matches the specific listing by ID
 - Looks up associated bookmarks from the bookmarks collection
 - Enriches bookmarks with listing-specific metadata (html_tag, privacy settings)
-- Excludes sensitive fields (restrict, rules, reports)
+- Excludes sensitive fields (restrictions, rules, reports)
 - Handles ObjectId conversion for proper bookmark matching
 
 ### 2. JSON:API Compliance

@@ -124,7 +124,7 @@ export default async function get_listing_by_id_endpoint (
             // Exclude fields that should not be exposed in the API response
             {
               $project: {
-                restrict: 0,        // Remove access restriction rules
+                restrictions: 0,    // Remove access restriction rules
                 rules: 0,           // Remove business logic rules
                 reports: 0,         // Remove moderation/reporting data
                 __v: 0              // Remove Mongoose version key
@@ -139,7 +139,7 @@ export default async function get_listing_by_id_endpoint (
       // Shape the output document by including/excluding specific fields
       {
         $project: {
-          restrict: 0,                       // Remove listing access restrictions
+          restrictions: 0,                   // Remove listing access restrictions
           rules: 0,                          // Remove listing business rules
           __v: 0,                            // Remove Mongoose version key
           // Replace the original bookmarks array (which contained references) 

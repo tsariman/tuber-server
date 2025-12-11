@@ -35,7 +35,7 @@ export const BookmarkVoteModel = model<IBookmarkVoteDocument>('BookmarkVote', bo
 /** Excludes sensitive fields from the user document. */
 export const transform_bookmark_vote_doc = (bookmarkVote: IBookmarkVoteDocument) => {
   const plainBookmarkVote = bookmarkVote.toObject()
-  const { jwt_version, is_active, password, restrict, rules, _id, __v, ...bookmarkVoteDoc } = plainBookmarkVote
+  const { jwt_version, is_active, password, restrictions, rules, _id, __v, ...bookmarkVoteDoc } = plainBookmarkVote
   return bookmarkVoteDoc
 }
 

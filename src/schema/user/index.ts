@@ -1,6 +1,5 @@
 import mongoose, { Schema } from 'mongoose'
-import { WithRequired } from '../../common.types'
-import { TRole } from '../../common.types'
+import { TRole, WithRequired } from '../../common.types'
 import { FastifyRequest } from 'fastify'
 import paginate from 'mongoose-paginate-v2'
 import { TJsonapiQueryParams } from '@tuber/shared'
@@ -35,10 +34,10 @@ export interface IUser {
     created_at: Date
     modified_at?: Date
   }[]
-  last_accessed?: Date
+  last_signin?: Date
   modified_at?: Date
   created_at?: Date
-  restrict?: Record<string, string>
+  restrictions?: Record<string, string>
   rules?: Record<string, string>
 }
 
@@ -48,7 +47,12 @@ export type TUserParams = {
 }
 
 export interface IUsersEndpoint<K extends keyof TUserParams = keyof TUserParams> {
-  Body: IUser
+  Body: {
+    data: {
+      type: string
+      attributes: IUser
+    }
+  }
   Params: Pick<TUserParams, K>
   Querystring: TJsonapiQueryParams
 }
@@ -102,14 +106,17 @@ const userSchema = new Schema<IUserDocument>({
   dob: Date,
   jwt_version: { type: Number, default: 0 },
   avatar: String,
-  votes: [{
-    is_active: { type: Boolean, default: true },
-    bookmark_id: String,
-    rating: Number,
-    created_at: { type: Date, default: Date.now },
-    modified_at: Date
-  }],
-  last_accessed:  Date,
+  votes: {
+    type: [{
+      is_active: { type: Boolean, default: true },
+      bookmark_id: String,
+      rating: Number,
+      created_at: { type: Date, default: Date.now },
+      modified_at: Date
+    }],
+    default: undefined
+  },
+  last_signin: Date,
   modified_at: Date,
   created_at: { type: Date, default: Date.now },
   /**
@@ -118,7 +125,7 @@ const userSchema = new Schema<IUserDocument>({
    * cases.
    * [PRIORITY - LOW]
    */
-  restrict: { type: Map, of: String, default: undefined },
+  restrictions: { type: Map, of: String, default: undefined },
   /**
    * Cron job rules to be applied in special cases. e.g. At a certain date
    * and/or time, the document will automatically be modified via a scheduled

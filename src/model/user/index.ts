@@ -47,7 +47,7 @@ export const exclude_user_fields_IMPV2Doc = (user: IMPV2Doc<IUserDocument>) => {
       jwt_version,
       is_active,
       password,
-      restrict,
+      restrictions,
       rules,
       __v,
       ...userDoc
@@ -60,14 +60,14 @@ export const exclude_user_fields_IMPV2Doc = (user: IMPV2Doc<IUserDocument>) => {
 /** Excludes sensitive fields from the user document. */
 export const transform_user_doc = (user: IUserDocument) => {
   const plainUser = user.toObject();
-  const { jwt_version, is_active, password, restrict, rules, _id, __v, ...userDoc } = plainUser;
+  const { jwt_version, is_active, password, restrictions, rules, _id, __v, ...userDoc } = plainUser;
   return userDoc;
 };
 
 export const read_user_by_id = async (
   id: string
 ): Promise<IUserDocument | null> => {
-  const userDoc = await UserModel.findById(id).select('-password -jwt_version -restrict -rules');
+  const userDoc = await UserModel.findById(id).select('-password -jwt_version -restrictions -rules');
   return userDoc;
 }
 

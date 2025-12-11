@@ -13,7 +13,7 @@ export interface ISession {
   // with a session active, this field needs to be updated also.
   user: IUserDocument;
   ip?: string;
-  restrict?: Record<string, string>;
+  restrictions?: Record<string, string>;
   rules?: Record<string, string>;
 }
 
@@ -27,7 +27,7 @@ const sessionSchema = new Schema<ISessionDocument>({
   token: String,
   user: userSchema,
   ip: String,
-  restrict: { type: Map, of: String, default: undefined },
+  restrictions: { type: Map, of: String, default: undefined },
   rules: { type: Map, of: String, default: undefined }
 });
 
