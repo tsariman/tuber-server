@@ -68,7 +68,10 @@ export const transform_bookmark_doc = (bookmark: IBookmarkDocument) => {
 export const read_bookmark_by_id = async function (
   id: string
 ): Promise<IBookmarkDocument | null> {
-  const bookmarkDoc = await BookmarkPaginationModel.findById(id)
+  const bookmarkDoc = await BookmarkModel.findById(id)
+  if (bookmarkDoc && !bookmarkDoc.is_active) {
+    return null
+  }
   return bookmarkDoc
 }
 

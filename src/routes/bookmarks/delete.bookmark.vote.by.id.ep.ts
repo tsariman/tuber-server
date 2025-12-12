@@ -18,7 +18,7 @@ export async function delete_bookmark_vote_by_id_endpoint(
 
   try {
     // Authenticated user required
-    const cUsr = (req as any).usr
+    const cUsr = req.usr
     if (!cUsr?._id) {
       reply.code(401).send(new JsonapiErrorBuilder()
         .withStatus(401)
@@ -91,7 +91,7 @@ export async function delete_bookmark_vote_by_id_endpoint(
     if (!updatedBookmark) {
       reply.code(500).send(new JsonapiErrorBuilder()
         .withStatus(500)
-        .withCode('VOTE_UPDATE_FAILED')
+        .withCode('RESOURCE_DELETE_FAILED')
         .withTitle('Vote removal failed')
         .withDetail('Bookmark counters not updated during vote removal')
         .build()

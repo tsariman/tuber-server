@@ -186,16 +186,32 @@ export default class RequestDataValidator<T = Record<string, unknown>> {
           }
 
           // Check mustMatch validation (compare with another field)
-          if (validationRules.mustMatch && typeof fieldValue === 'string') {
-            const matchValue = attributes[validationRules.mustMatch]
-            if (matchValue !== undefined && fieldValue !== matchValue) {
+          if (validationRules.mustMatch) {
+            const otherFieldName = validationRules.mustMatch
+            const matchValue = attributes[otherFieldName]
+            // If the target field is undefined but current has value, it's a mismatch
+            if (matchValue === undefined) {
               if (errorIndex > 0) {
                 errorBuilder.next()
               }
               errorBuilder
                 .withStatus(400)
                 .withCode('VALIDATION_ERROR')
-                .withTitle(validationRules.mustMatchMessage || `${fieldName} must match ${validationRules.mustMatch}`)
+                .withTitle(validationRules.mustMatchMessage || `${fieldName} must match ${otherFieldName}`)
+                .withSource({ pointer: `/${fieldPath}` })
+              hasErrors = true
+              errorIndex++
+              continue
+            }
+            // Compare values (supports string, number, boolean, etc.)
+            if (fieldValue !== matchValue) {
+              if (errorIndex > 0) {
+                errorBuilder.next()
+              }
+              errorBuilder
+                .withStatus(400)
+                .withCode('VALIDATION_ERROR')
+                .withTitle(validationRules.mustMatchMessage || `${fieldName} must match ${otherFieldName}`)
                 .withSource({ pointer: `/${fieldPath}` })
               hasErrors = true
               errorIndex++

@@ -24,7 +24,7 @@ export async function get_bookmark_vote_by_id_endpoint(
   }
 
   try {
-    const cUsr = (req as any).usr
+    const cUsr = req.usr
     if (!cUsr?._id) {
       reply.code(401).send(new JsonapiErrorBuilder()
         .withStatus(401)

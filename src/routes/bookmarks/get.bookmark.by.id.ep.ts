@@ -6,6 +6,7 @@ import { ler, log_err, task, task_end } from '../../utility/logging'
 import { read_bookmark_by_id } from '../../model/bookmark'
 import { IBookmarkGet } from '../../schema/bookmark'
 import { MSG_500_ERROR_MESSAGE } from '@tuber/shared'
+import Access from '../../business.logic/security/Access'
 
 /** `GET /bookmarks/:id` endpoint handler */
 export default async function get_bookmark_by_id_endpoint (
@@ -13,13 +14,24 @@ export default async function get_bookmark_by_id_endpoint (
   reply: FastifyReply
 ) {
   try {
-    task(`[DEBUG] Getting bookmark with id '${request.params.id}'... `)
+    task(`Getting bookmark with id '${request.params.id}'... `)
     const bookmark = await read_bookmark_by_id(request.params.id)
     if (bookmark) {
-      task_end('Done.')
-      reply.code(200).send(
-        JsonapiResponseBuilder.forSingleResource(bookmark, 'bookmarks').build()
-      )
+      // Check access control
+      if (bookmark.is_published || Access.the(request.usr).canRead(bookmark)) {
+        task_end('Done.')
+        reply.code(200).send(
+          JsonapiResponseBuilder.forSingleResource(bookmark, 'bookmarks').build()
+        )
+      } else {
+        task_end('Access denied.')
+        reply.code(404).send(new JsonapiErrorBuilder()
+          .withStatus(404)
+          .withTitle('Not Found')
+          .withDetail(`Bookmark with id '${request.params.id}' not found.`)
+          .build()
+        )
+      }
     } else {
       task_end('Failed.\n[DEBUG][404] Bookmark not found.')
       reply.code(404).send(new JsonapiErrorBuilder()

@@ -3,7 +3,6 @@ import paginate from 'mongoose-paginate-v2'
 import {
   TJsonapiQueryParams,
   TJsonapiRequest,
-  TJsonapiResource,
   TWithRequired
 } from '@tuber/shared'
 
@@ -98,9 +97,7 @@ export interface IBookmarkPost {
 
 /** Available fields for a put request. */
 export interface IBookmarkPatch {
-  Body: {
-    data: TJsonapiResource<IBookmark>
-  }
+  Body: TJsonapiRequest<IBookmark>
   Params: {
     id: string
   }

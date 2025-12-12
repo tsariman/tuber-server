@@ -107,7 +107,7 @@ export class DatabaseError extends Error {
   public readonly code: string
   public readonly originalError?: unknown
 
-  constructor(message: string, originalError?: unknown, statusCode: number = 500, code: string = 'DB_ERROR') {
+  constructor(message: string, originalError?: unknown, statusCode: number = 500, code: string = 'DATABASE_ERROR') {
     super(message)
     this.name = 'DatabaseError'
     this.statusCode = statusCode

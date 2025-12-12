@@ -133,7 +133,7 @@ export async function put_bookmark_vote_by_id_endpoint(
       })
       reply.code(500).send(new JsonapiErrorBuilder()
         .withStatus(500)
-        .withCode('VOTE_UPDATE_FAILED')
+        .withCode('RESOURCE_UPDATE_FAILED')
         .withTitle('Vote update failed')
         .withDetail('Bookmark counters not retrieved after update.')
         .withMeta('bookmarkId', bookmarkId)

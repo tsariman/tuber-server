@@ -35,7 +35,7 @@ export default function get_bookmark_search_query_pipeline(
     }
     
     // Users with clearance level 4+ can see all unpublished bookmarks
-    if (Access.the(usr).can('bookmark.view_unpublished')) {
+    if (Access.the(usr).can('read.unpublished.bookmark')) {
       matchConditions.push({ is_published: { $ne: true } })
     }
     

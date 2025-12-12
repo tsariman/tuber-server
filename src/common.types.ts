@@ -28,6 +28,14 @@ export type TSelectOriginal<T> = { [P in keyof T]: 0|1 }
 
 export interface IAggregateDoc { _id: string; __v: number }
 
+export interface IResource {
+  user_id?: string
+}
+
+export interface IResourceSensitive {
+  _id?: string
+}
+
 /** Mongoose document interfaces */
 export interface IMPV2Doc<T = unknown> { _doc: T & IAggregateDoc }
 

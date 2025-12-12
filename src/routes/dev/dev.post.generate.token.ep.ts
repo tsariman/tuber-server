@@ -58,7 +58,7 @@ export default async function dev_post_generate_token_endpoint(
     reply.code(500).send(
       new JsonapiErrorBuilder()
         .withStatus(500)
-        .withCode('AUTH_ERROR')
+        .withCode('AUTHENTICATION_ERROR')
         .withTitle('Failed to generate token')
         .withDetail((e as Error).message)
         .build()

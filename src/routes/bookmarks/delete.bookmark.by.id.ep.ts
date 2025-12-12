@@ -5,6 +5,7 @@ import { ler, log_err, task, task_end } from '../../utility/logging'
 import { BookmarkModel } from '../../model/bookmark'
 import { IBookmarkDelete } from '../../schema/bookmark'
 import { MSG_500_ERROR_MESSAGE } from '@tuber/shared'
+import Access from '../../business.logic/security/Access'
 
 /** `DELETE /bookmarks/:id` endpoint handler */
 export default async function delete_bookmark_by_id_endpoint (
@@ -12,17 +13,49 @@ export default async function delete_bookmark_by_id_endpoint (
   reply: FastifyReply
 ) {
   try {
-    task('Disabling bookmark... ')
-    const bookmark = await BookmarkModel.findByIdAndUpdate(
-      req.params.id,
-      { is_active: false },
-      { new: true }
-    )
-    if (bookmark) {
-      task_end('Done.')
-      reply.code(204).send()
+    task('Retrieving bookmark from database... ')
+    const bookmark = await BookmarkModel.findById(req.params.id)
+    
+    if (!bookmark) {
+      task_end('Not found.')
+      reply.code(404).send(new JsonapiErrorBuilder()
+        .withStatus(404)
+        .withCode('RESOURCE_NOT_FOUND')
+        .withTitle('Not Found')
+        .withDetail(`Bookmark with id ${req.params.id} not found`)
+        .build()
+      )
+      return
+    }
+    task_end('Done.')
+    
+    // Check access control
+    if (Access.the(req.usr).canDelete(bookmark)) {
+      // If already inactive, no need to update
+      if (!bookmark.is_active) {
+        reply.code(204).send()
+        return
+      }
+      task('Disabling bookmark... ')
+      const updatedBookmark = await BookmarkModel.findByIdAndUpdate(
+        req.params.id,
+        { is_active: false },
+        { new: true }
+      )
+      if (updatedBookmark) {
+        task_end('Done.')
+        reply.code(204).send()
+      } else {
+        task_end('Failed.')
+        reply.code(500).send(new JsonapiErrorBuilder()
+          .withStatus(500)
+          .withCode('DATABASE_ERROR')
+          .withTitle('Internal Server Error')
+          .withDetail('Failed to update the bookmark.')
+          .build()
+        )
+      }
     } else {
-      task_end('Failed.')
       reply.code(404).send(new JsonapiErrorBuilder()
         .withStatus(404)
         .withCode('RESOURCE_NOT_FOUND')

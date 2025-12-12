@@ -5,7 +5,7 @@ import {
   TTJsonapiDataLinkage,
   TJsonapiRelationship,
   TJsonapiDataRelationships
-} from '@tuber/shared';
+} from '@tuber/shared'
 
 /**
  * A utility class for accessing values in JSON:API formatted requests.
@@ -13,10 +13,10 @@ import {
  * and meta information from JSON:API request payloads.
  */
 export default class JsonapiRequestDriver<T = TJsonapiDataAttributes> {
-  private _request: TJsonapiRequest<T>;
+  private _request: TJsonapiRequest<T>
 
   constructor(request: TJsonapiRequest<T>) {
-    this._request = request ?? {};
+    this._request = request ?? {}
   }
 
   /**
@@ -24,7 +24,7 @@ export default class JsonapiRequestDriver<T = TJsonapiDataAttributes> {
    * @returns The original JSON:API request object
    */
   getRequest(): TJsonapiRequest<T> {
-    return this._request;
+    return this._request
   }
 
   /**
@@ -32,7 +32,7 @@ export default class JsonapiRequestDriver<T = TJsonapiDataAttributes> {
    * @returns true if request contains data, false otherwise
    */
   hasData(): boolean {
-    return !!this._request.data;
+    return !!this._request.data
   }
 
   /**
@@ -40,7 +40,7 @@ export default class JsonapiRequestDriver<T = TJsonapiDataAttributes> {
    * @returns The data object or undefined if not present
    */
   getData(): TJsonapiResource<T> | TJsonapiResource<T>[] | undefined {
-    return this._request.data;
+    return this._request.data
   }
 
   /**
@@ -49,11 +49,11 @@ export default class JsonapiRequestDriver<T = TJsonapiDataAttributes> {
    */
   getFirstData(): TJsonapiResource<T> | undefined {
     if (!this._request.data) {
-      return undefined;
+      return undefined
     }
     return Array.isArray(this._request.data) 
       ? this._request.data[0] 
-      : this._request.data;
+      : this._request.data
   }
 
   /**
@@ -62,11 +62,11 @@ export default class JsonapiRequestDriver<T = TJsonapiDataAttributes> {
    */
   getDataAsArray(): TJsonapiResource<T>[] {
     if (!this._request.data) {
-      return [];
+      return []
     }
     return Array.isArray(this._request.data) 
       ? this._request.data 
-      : [this._request.data];
+      : [this._request.data]
   }
 
   /**
@@ -74,8 +74,8 @@ export default class JsonapiRequestDriver<T = TJsonapiDataAttributes> {
    * @returns The type string or undefined if no data
    */
   getType(): string | undefined {
-    const firstData = this.getFirstData();
-    return firstData?.type;
+    const firstData = this.getFirstData()
+    return firstData?.type
   }
 
   /**
@@ -83,8 +83,8 @@ export default class JsonapiRequestDriver<T = TJsonapiDataAttributes> {
    * @returns The ID string or undefined if no data/ID
    */
   getId(): string | undefined {
-    const firstData = this.getFirstData();
-    return firstData?.id;
+    const firstData = this.getFirstData()
+    return firstData?.id
   }
 
   /**
@@ -92,8 +92,8 @@ export default class JsonapiRequestDriver<T = TJsonapiDataAttributes> {
    * @returns The attributes object or undefined if not present
    */
   getAttributes(): T | undefined {
-    const firstData = this.getFirstData();
-    return firstData?.attributes;
+    const firstData = this.getFirstData()
+    return firstData?.attributes
   }
 
   /**
@@ -102,8 +102,8 @@ export default class JsonapiRequestDriver<T = TJsonapiDataAttributes> {
    * @returns The attribute value or undefined if not found
    */
   getAttribute<K extends keyof T>(key: K): T[K] | undefined {
-    const attributes = this.getAttributes();
-    return attributes?.[key];
+    const attributes = this.getAttributes()
+    return attributes?.[key]
   }
 
   /**
@@ -113,8 +113,8 @@ export default class JsonapiRequestDriver<T = TJsonapiDataAttributes> {
    * @returns The attribute value or the default value
    */
   getAttributeOrDefault<K extends keyof T>(key: K, defaultValue: T[K]): T[K] {
-    const value = this.getAttribute(key);
-    return value !== undefined ? value : defaultValue;
+    const value = this.getAttribute(key)
+    return value !== undefined ? value : defaultValue
   }
 
   /**
@@ -123,8 +123,8 @@ export default class JsonapiRequestDriver<T = TJsonapiDataAttributes> {
    * @returns true if attribute exists and is truthy, false otherwise
    */
   hasAttribute<K extends keyof T>(key: K): boolean {
-    const value = this.getAttribute(key);
-    return !!value;
+    const value = this.getAttribute(key)
+    return !!value
   }
 
   /**
@@ -132,8 +132,8 @@ export default class JsonapiRequestDriver<T = TJsonapiDataAttributes> {
    * @returns The relationships object or undefined if not present
    */
   getRelationships(): TJsonapiDataRelationships | undefined {
-    const firstData = this.getFirstData();
-    return firstData?.relationships;
+    const firstData = this.getFirstData()
+    return firstData?.relationships
   }
 
   /**
@@ -142,8 +142,8 @@ export default class JsonapiRequestDriver<T = TJsonapiDataAttributes> {
    * @returns The relationship object or undefined if not found
    */
   getRelationship(key: string): TJsonapiRelationship | undefined {
-    const relationships = this.getRelationships();
-    return relationships?.[key];
+    const relationships = this.getRelationships()
+    return relationships?.[key]
   }
 
   /**
@@ -152,8 +152,8 @@ export default class JsonapiRequestDriver<T = TJsonapiDataAttributes> {
    * @returns The relationship data or undefined if not found
    */
   getRelationshipData(key: string): TTJsonapiDataLinkage | undefined {
-    const relationship = this.getRelationship(key);
-    return relationship?.data;
+    const relationship = this.getRelationship(key)
+    return relationship?.data
   }
 
   /**
@@ -161,7 +161,7 @@ export default class JsonapiRequestDriver<T = TJsonapiDataAttributes> {
    * @returns The meta object or undefined if not present
    */
   getMeta<T=Record<string, unknown>>(): T | undefined {
-    return this._request.meta as T;
+    return this._request.meta as T
   }
 
   /**
@@ -169,9 +169,9 @@ export default class JsonapiRequestDriver<T = TJsonapiDataAttributes> {
    * @param key The meta key to retrieve
    * @returns The meta value or undefined if not found
    */
-  getMetaValues(key: string): unknown {
-    const meta = this.getMeta();
-    return meta?.[key];
+  getMetaValues<T>(key: string): T {
+    const meta = this.getMeta()
+    return meta?.[key] as T
   }
 
   /**
@@ -179,7 +179,7 @@ export default class JsonapiRequestDriver<T = TJsonapiDataAttributes> {
    * @returns Array of included resources or empty array if none
    */
   getIncluded(): TJsonapiResource[] {
-    return this._request.included || [];
+    return this._request.included || []
   }
 
   /**
@@ -191,7 +191,7 @@ export default class JsonapiRequestDriver<T = TJsonapiDataAttributes> {
   findIncluded(type: string, id: string): TJsonapiResource | undefined {
     return this.getIncluded().find(resource => 
       resource.type === type && resource.id === id
-    );
+    )
   }
 
   /**
@@ -200,7 +200,7 @@ export default class JsonapiRequestDriver<T = TJsonapiDataAttributes> {
    * @returns Array of matching resources
    */
   findIncludedByType(type: string): TJsonapiResource[] {
-    return this.getIncluded().filter(resource => resource.type === type);
+    return this.getIncluded().filter(resource => resource.type === type)
   }
 
   /**
@@ -208,21 +208,21 @@ export default class JsonapiRequestDriver<T = TJsonapiDataAttributes> {
    * @returns Object with only defined attributes
    */
   getCleanAttributes(): Partial<T> {
-    const attributes = this.getAttributes();
+    const attributes = this.getAttributes()
     if (!attributes) {
-      return {};
+      return {}
     }
 
-    const clean = {} as Partial<T>;
+    const clean = {} as Partial<T>
     for (const key in attributes) {
       if (attributes.hasOwnProperty(key)) {
-        const value = attributes[key];
+        const value = attributes[key]
         if (value !== undefined && value !== null) {
-          (clean as Record<string, unknown>)[key] = value;
+          (clean as Record<string, unknown>)[key] = value
         }
       }
     }
-    return clean;
+    return clean
   }
 
   /**
@@ -230,7 +230,7 @@ export default class JsonapiRequestDriver<T = TJsonapiDataAttributes> {
    * @returns true if data is an array, false otherwise
    */
   isMultipleData(): boolean {
-    return Array.isArray(this._request.data);
+    return Array.isArray(this._request.data)
   }
 
   /**
@@ -239,10 +239,10 @@ export default class JsonapiRequestDriver<T = TJsonapiDataAttributes> {
    */
   getDataCount(): number {
     if (!this._request.data) {
-      return 0;
+      return 0
     }
     return Array.isArray(this._request.data) 
       ? this._request.data.length 
-      : 1;
+      : 1
   }
 }

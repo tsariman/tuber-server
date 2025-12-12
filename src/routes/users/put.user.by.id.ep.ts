@@ -18,7 +18,6 @@ export async function put_user_vote_by_id_endpoint(
   const { userId } = req.params
   const driver = new JsonapiRequestDriver(req.body)
   const { bookmarkId, rating } = assure(driver.getAttributes())
-
   try {
     const msg = await _update_user_vote(userId, bookmarkId, rating)
     if (msg === 'OK') {
