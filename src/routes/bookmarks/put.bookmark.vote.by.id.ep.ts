@@ -28,7 +28,7 @@ export async function put_bookmark_vote_by_id_endpoint(
   if (!bookmarkId || !rating) {
     reply.code(400).send(new JsonapiErrorBuilder()
       .withStatus(400)
-      .withCode('MISSING_VALUE')
+      .withCode('MISSING_DATA')
       .withTitle('Bad Request')
       .withDetail('Missing bookmark id or rating')
       .build()
@@ -54,7 +54,7 @@ export async function put_bookmark_vote_by_id_endpoint(
     if (!user) {
       reply.code(404).send(new JsonapiErrorBuilder()
         .withStatus(404)
-        .withCode('RESOURCE_NOT_FOUND')
+        .withCode('NOT_FOUND')
         .withTitle('User not found')
         .withDetail('Authenticated user not found')
         .build()
@@ -66,7 +66,7 @@ export async function put_bookmark_vote_by_id_endpoint(
     if (!bookmarkExists) {
       reply.code(404).send(new JsonapiErrorBuilder()
         .withStatus(404)
-        .withCode('RESOURCE_NOT_FOUND')
+        .withCode('NOT_FOUND')
         .withTitle('Bookmark not found')
         .withDetail('The bookmark you are trying to vote on does not exist')
         .build()
@@ -133,7 +133,7 @@ export async function put_bookmark_vote_by_id_endpoint(
       })
       reply.code(500).send(new JsonapiErrorBuilder()
         .withStatus(500)
-        .withCode('RESOURCE_UPDATE_FAILED')
+        .withCode('UPDATE_FAILED')
         .withTitle('Vote update failed')
         .withDetail('Bookmark counters not retrieved after update.')
         .withMeta('bookmarkId', bookmarkId)

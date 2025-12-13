@@ -31,7 +31,7 @@ export default async function dev_post_generate_token_endpoint(
       reply.code(404).send(
         new JsonapiErrorBuilder()
           .withStatus(404)
-          .withCode('RESOURCE_NOT_FOUND')
+          .withCode('NOT_FOUND')
           .withTitle('User not found')
           .withDetail(`No user found with username: ${username}`)
           .build()

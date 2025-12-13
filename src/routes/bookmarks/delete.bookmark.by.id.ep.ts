@@ -20,7 +20,7 @@ export default async function delete_bookmark_by_id_endpoint (
       task_end('Not found.')
       reply.code(404).send(new JsonapiErrorBuilder()
         .withStatus(404)
-        .withCode('RESOURCE_NOT_FOUND')
+        .withCode('NOT_FOUND')
         .withTitle('Not Found')
         .withDetail(`Bookmark with id ${req.params.id} not found`)
         .build()
@@ -58,7 +58,7 @@ export default async function delete_bookmark_by_id_endpoint (
     } else {
       reply.code(404).send(new JsonapiErrorBuilder()
         .withStatus(404)
-        .withCode('RESOURCE_NOT_FOUND')
+        .withCode('NOT_FOUND')
         .withTitle('Not Found')
         .withDetail(`Bookmark with id ${req.params.id} not found`)
         .build()

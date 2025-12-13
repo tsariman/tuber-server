@@ -12,7 +12,7 @@ export default async function dev_get_twitch_thumbnail_endpoint(
   const videoid = req.query.videoid;
   if (!videoid) {
     reply.code(400).send(new JsonapiErrorBuilder()
-      .withCode('MISSING_VALUE')
+      .withCode('MISSING_DATA')
       .withStatus(400)
       .withTitle('Query parameter is required')
       .build()
@@ -31,7 +31,7 @@ export default async function dev_get_twitch_thumbnail_endpoint(
       });
     } else {
       reply.code(404).send(new JsonapiErrorBuilder()
-        .withCode('RESOURCE_NOT_FOUND')
+        .withCode('NOT_FOUND')
         .withStatus(404)
         .withTitle('not found')
         .withDetail('Check the video ID and try again.')

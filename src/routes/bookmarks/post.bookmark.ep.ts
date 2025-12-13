@@ -31,7 +31,7 @@ export default async function post_bookmark_endpoint (
     if (!platform) {
       reply.code(400).send(new JsonapiErrorBuilder()
         .withStatus(400)
-        .withCode('MISSING_VALUE')
+        .withCode('MISSING_DATA')
         .withTitle('Missing "platform" value')
         .build()
       )

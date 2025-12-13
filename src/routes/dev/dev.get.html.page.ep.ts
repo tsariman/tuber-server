@@ -12,7 +12,7 @@ export default async function dev_get_html_page_endpoint(
   const url = req.query.url;
   if (!url) {
     reply.code(400).send(new JsonapiErrorBuilder()
-      .withCode('MISSING_VALUE')
+      .withCode('MISSING_DATA')
       .withStatus(400)
       .withTitle('url query parameter is required')
       .withDetail('url query parameter is required')

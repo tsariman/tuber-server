@@ -33,7 +33,7 @@ export default async function dev_post_rumble_regexp_endpoint(
   if (!regexp || !url) {
     log('[ERROR]: URL and regexp are required.');
     reply.code(400).send(new JsonapiErrorBuilder()
-      .withCode('MISSING_VALUE')
+      .withCode('MISSING_DATA')
       .withStatus(400)
       .withTitle('Query parameter is required')
       .build()
@@ -72,7 +72,7 @@ export default async function dev_post_rumble_regexp_endpoint(
     } else {
       log('Failed.');
       reply.code(404).send(new JsonapiErrorBuilder()
-        .withCode('RESOURCE_NOT_FOUND')
+        .withCode('NOT_FOUND')
         .withStatus(404)
         .withTitle('Invalid Rumble URL')
         .build()

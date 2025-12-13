@@ -35,7 +35,7 @@ export default async function dev_post_twitch_client_id_endpoint(
     if (!clientId || !clientSecret) {
       errr('Client ID and Secret are required.')
       reply.code(400).send(new JsonapiErrorBuilder()
-        .withCode('MISSING_VALUE')
+        .withCode('MISSING_DATA')
         .withStatus(400)
         .withTitle('Query parameter is required')
         .build()

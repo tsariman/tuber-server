@@ -15,7 +15,7 @@ export async function get_bookmark_vote_by_id_endpoint(
   if (!bookmarkId) {
     reply.code(400).send(new JsonapiErrorBuilder()
       .withStatus(400)
-      .withCode('MISSING_VALUE')
+      .withCode('MISSING_DATA')
       .withTitle('Bad Request')
       .withDetail('Missing bookmark id')
       .build()
@@ -40,7 +40,7 @@ export async function get_bookmark_vote_by_id_endpoint(
     if (!bookmark) {
       reply.code(404).send(new JsonapiErrorBuilder()
         .withStatus(404)
-        .withCode('RESOURCE_NOT_FOUND')
+        .withCode('NOT_FOUND')
         .withTitle('Bookmark not found')
         .withDetail('Cannot read vote state for a non-existent bookmark')
         .build()

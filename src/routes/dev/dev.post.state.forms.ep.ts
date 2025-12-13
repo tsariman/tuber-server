@@ -15,7 +15,7 @@ export default async function dev_post_state_forms_endpoint(
       errr(`'key' was not received.`)
       reply.code(400).send(new JsonapiErrorBuilder()
         .withStatus(400)
-        .withCode('MISSING_VALUE')
+        .withCode('MISSING_DATA')
         .withTitle('Missing information')
       )
       return
@@ -34,7 +34,7 @@ export default async function dev_post_state_forms_endpoint(
       reply.code(404).send({
         ...new JsonapiErrorBuilder()
           .withStatus(404)
-          .withCode('RESOURCE_NOT_FOUND')
+          .withCode('NOT_FOUND')
           .withTitle(`Form ${key} Not found`)
           .build(),
         state: {

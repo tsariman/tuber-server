@@ -33,7 +33,7 @@ export async function delete_bookmark_vote_by_id_endpoint(
     if (!bookmarkId) {
       reply.code(400).send(new JsonapiErrorBuilder()
         .withStatus(400)
-        .withCode('MISSING_VALUE')
+        .withCode('MISSING_DATA')
         .withTitle('Bad Request')
         .withDetail('Missing bookmark id')
         .build()
@@ -45,7 +45,7 @@ export async function delete_bookmark_vote_by_id_endpoint(
     if (!bookmarkExists) {
       reply.code(404).send(new JsonapiErrorBuilder()
         .withStatus(404)
-        .withCode('RESOURCE_NOT_FOUND')
+        .withCode('NOT_FOUND')
         .withTitle('Bookmark not found')
         .withDetail('Cannot remove vote from a non-existent bookmark')
         .build()
@@ -57,7 +57,7 @@ export async function delete_bookmark_vote_by_id_endpoint(
     if (!user) {
       reply.code(404).send(new JsonapiErrorBuilder()
         .withStatus(404)
-        .withCode('RESOURCE_NOT_FOUND')
+        .withCode('NOT_FOUND')
         .withTitle('User not found')
         .withDetail('Authenticated user not found')
         .build()
@@ -69,7 +69,7 @@ export async function delete_bookmark_vote_by_id_endpoint(
     if (previousRating === null) {
       reply.code(404).send(new JsonapiErrorBuilder()
         .withStatus(404)
-        .withCode('RESOURCE_NOT_FOUND')
+        .withCode('NOT_FOUND')
         .withTitle('Vote not found')
         .withDetail('User has not voted on this bookmark')
         .build()
@@ -91,7 +91,7 @@ export async function delete_bookmark_vote_by_id_endpoint(
     if (!updatedBookmark) {
       reply.code(500).send(new JsonapiErrorBuilder()
         .withStatus(500)
-        .withCode('RESOURCE_DELETE_FAILED')
+        .withCode('DELETE_FAILED')
         .withTitle('Vote removal failed')
         .withDetail('Bookmark counters not updated during vote removal')
         .build()

@@ -31,7 +31,7 @@ export const default_404_error_response = (
 ) => {
   return new JsonapiErrorBuilder()
     .withStatus(404)
-    .withCode('RESOURCE_NOT_FOUND')
+    .withCode('NOT_FOUND')
     .withTitle(error.title)
     .withDetail(error.detail)
     .withSource(error.source)

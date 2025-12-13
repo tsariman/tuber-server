@@ -19,7 +19,7 @@ export default async function post_state_pages_endpoint (
       errr(`'key' was not received.`)
       reply.code(400).send(new JsonapiErrorBuilder()
         .withStatus(400)
-        .withCode('MISSING_VALUE')
+        .withCode('MISSING_DATA')
         .withTitle('Missing information')
       )
       return
@@ -28,7 +28,7 @@ export default async function post_state_pages_endpoint (
       errr(`'mode' was not received.`)
       reply.code(400).send(new JsonapiErrorBuilder()
         .withStatus(400)
-        .withCode('MISSING_VALUE')
+        .withCode('MISSING_DATA')
         .withTitle('Missing information')
       )
       return

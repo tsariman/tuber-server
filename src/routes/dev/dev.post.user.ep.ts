@@ -22,7 +22,7 @@ const dev_post_user_endpoint = async (
         }
         reply.code(409).send(new JsonapiErrorBuilder()
           .withStatus(409)
-          .withCode('OPERATION_NOT_ALLOWED')
+          .withCode('NOT_ALLOWED')
           .build()
         )
         return

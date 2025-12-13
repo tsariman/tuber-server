@@ -24,7 +24,7 @@ export async function put_user_vote_by_id_endpoint(
       reply.code(204).send()
     } else if (msg === 'User not found') {
       reply.code(404).send(new JsonapiErrorBuilder()
-        .withCode('RESOURCE_NOT_FOUND')
+        .withCode('NOT_FOUND')
         .withStatus(404)
         .withTitle('User not found')
         .withDetail('The user you are trying to vote as does not exist.')
@@ -40,7 +40,7 @@ export async function put_user_vote_by_id_endpoint(
       )
     } else if (msg === 'Bookmark or rating not found') {
       reply.code(404).send(new JsonapiErrorBuilder()
-        .withCode('RESOURCE_NOT_FOUND')
+        .withCode('NOT_FOUND')
         .withStatus(404)
         .withTitle('Bookmark not found')
         .withDetail('The bookmark you are trying to vote on does not exist.')

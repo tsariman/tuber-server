@@ -36,7 +36,7 @@ export default async function dev_post_save_config_value_endpoint(
     if (!key || !value) {
       log('[ERROR]: Key and value are required.')
       reply.code(400).send(new JsonapiErrorBuilder()
-        .withCode('MISSING_VALUE')
+        .withCode('MISSING_DATA')
         .withStatus(400)
         .withTitle('Query parameter is required')
         .build()
