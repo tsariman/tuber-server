@@ -1,6 +1,5 @@
 import { FastifyRequest } from 'fastify'
 import { IBookmark } from '../../schema/bookmark'
-import { TPlatform } from '../../common.types'
 import RequestDataValidator from '../../business.logic/RequestDataValidator'
 import editDailyBookmarkFormState from '../../state/form/edit.daily.bookmark.form.state'
 import editFacebookBookmarkFormState from '../../state/form/edit.facebook.bookmark.form.state'
@@ -10,6 +9,7 @@ import editTwitchBookmarkFormState from '../../state/form/edit.twitch.bookmark.f
 import editUnknownBookmarkFormState from '../../state/form/edit.unknown.bookmark.form.state'
 import editVimeoBookmarkFormState from '../../state/form/edit.vimeo.bookmark.form.state'
 import editYouTubeBookmarkFormState from '../../state/form/edit.youtube.bookmark.form.state'
+import { TPlatform } from '../../common.types'
 
 /**
  * Get a query parameter from a request.
@@ -24,10 +24,10 @@ export function get_raw_query(req: FastifyRequest, includeQm = false): string {
   return includeQm ? `?${query}` : query
 }
 
-export const get_platform_specific_validator = (bookmark: IBookmark,
-  platform: TPlatform
+export const get_platform_specific_validator = (
+  bookmark: IBookmark
 ): RequestDataValidator<IBookmark> | null => {
-  switch (platform) {
+  switch (bookmark.platform as TPlatform | undefined) {
     case '_blank':
     case 'bitchute':
     default:

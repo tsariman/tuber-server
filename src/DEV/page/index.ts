@@ -16,7 +16,7 @@ import {
   remove_form_suffix,
   themed
 } from '../../business.logic';
-import { TCipheredUser } from '../../schema/user';
+import { TContextualUser } from '../../schema/user';
 import { homeLinkState } from '../../state/nav.link';
 
 register('state', '46', C.$46_STATE_KEY);
@@ -184,7 +184,7 @@ export const $48DarkThemeMode: C.TStatePage = (() => {
 
 /** @deprecated */
 export function dev_bootstrap_pages_light_state(
-  usr?: TCipheredUser
+  usr?: TContextualUser
 ): C.TStateAllPages {
   const pages: C.TStateAllPages = {};
   pages[key(devInstallPageState)] = get_dev_install_page_state(usr);
@@ -196,7 +196,7 @@ export function dev_bootstrap_pages_light_state(
 
 /** @deprecated */
 export function dev_bootstrap_pages_dark_state(
-  usr?: TCipheredUser
+  usr?: TContextualUser
 ): C.TStateAllPages {
   const pages: C.TStateAllPages = {};
   pages[key(devInstallPageState)] = get_44_dark_theme_mode(usr);
@@ -216,7 +216,7 @@ export function dev_bootstrap_pages_dark_state(
  * @deprecated
  */
 export function dev_bootstrap_pages_state(
-  usr?: TCipheredUser,
+  usr?: TContextualUser,
   mode?: TThemeMode
 ): C.TStateAllPages {
   const pages: C.TStateAllPages = {};

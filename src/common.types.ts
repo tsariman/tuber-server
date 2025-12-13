@@ -1,5 +1,5 @@
 import { TJsonapiRequest } from '@tuber/shared'
-import { TCipheredUser } from './schema/user'
+import { TContextualUser } from './schema/user'
 
 // Utility types
 
@@ -51,6 +51,7 @@ export type TRole = 'owner'
   | 'investor'
   | 'donor'
   | 'free'
+  | 'guest'
 
 /** Platform types */
 export type TPlatform = '_blank'
@@ -97,7 +98,7 @@ export interface IJsonapiQuerystring {
 
 /** Values that may be needed to customize the returned bootstrap state. */
 export interface IStateContext {
-  usr?: TCipheredUser
+  usr?: TContextualUser
   token?: string
   theme?: TThemeMode
 }

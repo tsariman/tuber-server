@@ -14,7 +14,7 @@ import { PLATFORM_URL } from '.'
 import get_bookmark_by_slug from '../model/bookmark/get.bookmark.by.slug'
 import get_bookmark_by_videoid from '../model/bookmark/get.bookmark.by.videoid'
 import { errr, ler, log, log_err, task, task_end } from '../utility/logging'
-import { TCipheredUser } from '../schema/user'
+import { TContextualUser } from '../schema/user'
 
 /**
  * Fill-in missing data for a bookmark.
@@ -23,7 +23,7 @@ import { TCipheredUser } from '../schema/user'
  */
 export default async function fix_missing_bookmark_data (
   attributes?: IBookmark,
-  usr?: TCipheredUser
+  usr?: TContextualUser
 ): Promise<IBookmark|null> {
   if (!attributes) { return null }
   const map: Record<TPlatform, () => Promise<IBookmark|null>> = {
@@ -38,7 +38,7 @@ export default async function fix_missing_bookmark_data (
     twitch: async () => _twitch_data(attributes, usr),
     unknown: async () => _unknown_data(attributes, usr),
   }
-  return map[attributes.platform as TPlatform]()
+  return map[attributes.platform]()
 }
 
 /**
@@ -61,12 +61,15 @@ export function get_video_thumbnail_url (body: TBookmarkFrag) {
     twitch: async () => await twitch_fetch_thumbnail_url(body.videoid),
     unknown: async () => await unknown_fetch_thumbnail_url(body.url)
   }
-  return map[body.platform as TPlatform]()
+  if (body.platform) {
+    return map[body.platform]()
+  }
+  throw new Error('get_video_thumbnail_url(): Undefined bookmark platform')
 }
 
 async function _youtube_data(
   attr: IBookmark,
-  usr?: TCipheredUser
+  usr?: TContextualUser
 ): Promise<IBookmark|null> {
   if (attr.user_id) { return attr }
   const { videoid } = attr
@@ -77,7 +80,7 @@ async function _youtube_data(
 
 async function _dailymotion_data(
   attr: IBookmark,
-  usr?: TCipheredUser
+  usr?: TContextualUser
 ): Promise<IBookmark|null> {
   if (attr.user_id) { return attr }
   const { videoid } = attr
@@ -88,7 +91,7 @@ async function _dailymotion_data(
 
 async function _rumble_data(
   attr: IBookmark,
-  usr?: TCipheredUser
+  usr?: TContextualUser
 ): Promise<IBookmark|null> {
   const { slug } = attr
   if (!slug || !usr || !usr._id) { return null }
@@ -147,7 +150,7 @@ async function _rumble_data(
 
 async function _twitch_data(
   attr: IBookmark,
-  usr?: TCipheredUser
+  usr?: TContextualUser
 ): Promise<IBookmark|null> {
   const { videoid } = attr
   if (!videoid || !usr || !usr._id) { return null }
@@ -171,7 +174,7 @@ async function _twitch_data(
 
 async function _vimeo_data(
   attr: IBookmark,
-  usr?: TCipheredUser
+  usr?: TContextualUser
 ): Promise<IBookmark|null> {
   const { videoid } = attr
   if (!videoid || !usr || !usr._id) { return null }
@@ -195,7 +198,7 @@ async function _vimeo_data(
 
 async function _odysee_data(
   attr: IBookmark,
-  usr?: TCipheredUser
+  usr?: TContextualUser
 ): Promise<IBookmark|null> {
   const { slug } = attr
   if (!slug || !usr || !usr._id) { return null }
@@ -219,7 +222,7 @@ async function _odysee_data(
 
 async function _unknown_data(
   attr: IBookmark,
-  usr?: TCipheredUser
+  usr?: TContextualUser
 ): Promise<IBookmark|null> {
   const { url } = attr
   if (!url || !usr || !usr._id) { return null }
@@ -237,7 +240,7 @@ async function _unknown_data(
 
 async function _facebook_data(
   attr: IBookmark,
-  usr?: TCipheredUser
+  usr?: TContextualUser
 ): Promise<IBookmark|null> {
   const { url } = attr
   if (!url || !usr || !usr._id) { return null }

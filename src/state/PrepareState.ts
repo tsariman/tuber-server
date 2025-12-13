@@ -1,4 +1,4 @@
-import { TCipheredUser } from '../schema/user';
+import { TContextualUser } from '../schema/user';
 import { TBootstrapState, IStateContext } from './_state.common.types';
 import { TThemeMode } from '../common.types';
 import { ensure_context } from './_state.common.logic';
@@ -14,7 +14,7 @@ export class PrepareState<T> {
     this._state = {} as T;
   }
 
-  setUser(usr: TCipheredUser) {
+  setUser(usr: TContextualUser) {
     this._context.usr = usr;
 
     return this;

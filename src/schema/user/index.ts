@@ -83,8 +83,8 @@ export type TUser = WithRequired<IUser,
 
 export interface IUserDocument extends TUser, mongoose.Document<string> {}
 
-export type TCipheredUser = Pick<IUserDocument, '_id' | 'name' | 'jwt_version' | 'role'>
-export type TUsr = TCipheredUser | null
+export type TContextualUser = Pick<IUserDocument, '_id' | 'name' | 'jwt_version' | 'role'>
+export type TUsr = TContextualUser | null
 
 const userSchema = new Schema<IUserDocument>({
   is_active: {type: Boolean, default: true },

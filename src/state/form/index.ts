@@ -68,7 +68,7 @@ import {
   themed_by_key
 } from '../../business.logic';
 import newUserFormState, { $69DarkThemeMode } from './new.user.form.state';
-import { TCipheredUser } from '../../schema/user';
+import { TContextualUser } from '../../schema/user';
 import { is_dev } from '../../model/user/access';
 
 /**
@@ -88,7 +88,7 @@ function _get_signin_form_state(mode?: TThemeMode) {
 
 /** @deprecated */
 export function bootstrap_forms_state(
-  usr?: TCipheredUser,
+  usr?: TContextualUser,
   mode?: TThemeMode
 ): C.TStateAllForms {
   const forms: C.TStateAllForms = {
@@ -110,7 +110,7 @@ export function bootstrap_forms_state(
  *
  * @deprecated
  */
-export function bootstrap_forms_light_state(usr?: TCipheredUser) {
+export function bootstrap_forms_light_state(usr?: TContextualUser) {
   const forms: C.TStateAllForms = {
     ...(is_dev(usr) ? dev_bootstrap_forms_light_state() : {})
   };
@@ -130,7 +130,7 @@ export function bootstrap_forms_light_state(usr?: TCipheredUser) {
  * 
  * @deprecated
  */
-export function bootstrap_forms_dark_state(usr?: TCipheredUser) {
+export function bootstrap_forms_dark_state(usr?: TContextualUser) {
   const forms: C.TStateAllForms = {
     ...(is_dev(usr) ? dev_bootstrap_forms_dark_state() : {})
   };

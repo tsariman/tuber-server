@@ -2,14 +2,14 @@ import { FastifyRequest, onRequestHookHandler } from 'fastify'
 import { default_401_error_response } from '../business.logic/errors'
 import Config from '../config'
 import { dbug } from '../utility/logging'
-import { TCipheredUser } from '../schema/user'
+import { TContextualUser } from '../schema/user'
 import { is_object } from '../utility'
 import JsonapiRequestDriver from '../business.logic/JsonapiRequestDriver'
 
 declare module 'fastify' {
   interface FastifyRequest {
     token?: string
-    usr?: TCipheredUser
+    usr?: TContextualUser
     cookie?: string
     isFromBrowser?: boolean
   }
@@ -109,7 +109,7 @@ export const authorize_request = async (req: FastifyRequest): Promise<void> => {
   // Authorization header and cookies when jwtVerify() is called
   const payload = await req.jwtVerify()
   if (payload) {
-    req.usr = payload as TCipheredUser
+    req.usr = payload as TContextualUser
     dbug('Decoded value from token:', req.usr)
   } else {
     dbug('Token is missing.')

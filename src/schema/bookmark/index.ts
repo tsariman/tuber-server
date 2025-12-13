@@ -5,6 +5,7 @@ import {
   TJsonapiRequest,
   TWithRequired
 } from '@tuber/shared'
+import { TPlatform } from '../../common.types'
 
 /**
  * 'G' - General
@@ -35,7 +36,7 @@ export interface IBookmark {
   url?: string
   embed_url?: string
   slug?: string
-  platform: string
+  platform: TPlatform
   start_seconds: number
   end_seconds?: number
   title: string
@@ -73,6 +74,7 @@ export interface IBookmark {
 
 /** Partial bookmark. Used when working with some properties but not all. */
 export type TBookmarkFrag = Partial<IBookmark>
+/** Incoming request bookmark resource type */
 
 /** Available fields for a get request. */
 export interface IBookmarkGet {

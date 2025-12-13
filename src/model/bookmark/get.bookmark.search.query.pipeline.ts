@@ -1,14 +1,14 @@
 import Config from '../../config'
 import { PipelineStage } from 'mongoose'
 import { DB_PAGINATION_QUERY } from '@tuber/shared'
-import { TCipheredUser } from '../../schema/user'
+import { TContextualUser } from '../../schema/user'
 import { IBookmarkQuerySearch } from '../../schema/bookmark'
 import Access from '../../business.logic/security/Access'
 
 /** MongoDB pipeline to find bookmarks using a search query. */
 export default function get_bookmark_search_query_pipeline(
   query: IBookmarkQuerySearch,
-  usr?: TCipheredUser
+  usr?: TContextualUser
 ) {
   const pipeline: PipelineStage[] = []
   const { searchQuery, page, limit } = query

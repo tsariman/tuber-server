@@ -12,7 +12,7 @@ import {
   TStateAppbar,
   TStatePage
 } from '@tuber/shared'
-import { TCipheredUser } from '../../schema/user'
+import { TContextualUser } from '../../schema/user'
 import {
   clone_empty,
   clone_or_default,
@@ -146,7 +146,7 @@ export const $44DarkThemeMode: TStatePage = (() => {
  * @returns page state
  * @id 44
  */
-export function get_dev_install_page_state(usr?: TCipheredUser): TStatePage {
+export function get_dev_install_page_state(usr?: TContextualUser): TStatePage {
   const clone = clone_with_descriptors(devInstallPageState)
   const appbar = clone_with_descriptors(devInstallPageState.appbar ?? {})
   const items = clone_with_descriptors(appbar.items ?? [])
@@ -163,7 +163,7 @@ export function get_dev_install_page_state(usr?: TCipheredUser): TStatePage {
  * @returns page state
  * @id 44
  */
-export function get_44_dark_theme_mode (usr?: TCipheredUser): TStatePage {
+export function get_44_dark_theme_mode (usr?: TContextualUser): TStatePage {
   const clone = clone_with_descriptors($44DarkThemeMode)
   const appbar = clone_with_descriptors($44DarkThemeMode.appbar ?? {})
   const items = clone_with_descriptors(appbar.items ?? [])

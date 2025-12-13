@@ -16,7 +16,7 @@ import { get_ciphered_user, read_user } from '../model/session'
 import {  get_theme_mode, option } from '../business.logic'
 import { USER_CACHE } from '../business.logic/cache'
 import { log_safe, log_err_safe, task, task_end, dbug } from '../utility/logging'
-import { TCipheredUser } from '../schema/user'
+import { TContextualUser } from '../schema/user'
 import JsonapiRequestDriver from '../business.logic/JsonapiRequestDriver'
 import { assure } from '../utility'
 import RequestDataValidator from '../business.logic/RequestDataValidator'
@@ -124,7 +124,7 @@ const authentication: FastifyPluginAsync = async (fastify, rootOpts): Promise<vo
     reply: FastifyReply
   ) {
     try {
-      const { name } = req.user as TCipheredUser
+      const { name } = req.user as TContextualUser
 
       if (req.token) {
         // Decode the token payload to get expiration time

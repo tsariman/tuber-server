@@ -9,7 +9,7 @@ import fix_missing_bookmark_data from '../../platform/all.drivers'
 import JsonapiRequestDriver from '../../business.logic/JsonapiRequestDriver'
 import { get_platform_specific_validator } from './_bookmarks.common.logic'
 import JsonapiErrorBuilder from '../../business.logic/builder/JsonapiErrorBuilder'
-import { TPlatform } from '../../common.types'
+import Access from '../../business.logic/security/Access'
 
 /** `POST /bookmarks` endpoint handler */
 export default async function post_bookmark_endpoint (
@@ -17,53 +17,68 @@ export default async function post_bookmark_endpoint (
   reply: FastifyReply
 ) {
   try {
+    if (Access.the(req.usr).cannot('create.bookmark')) {
+      reply.code(403).send(new JsonapiErrorBuilder()
+        .withStatus(403)
+        .withTitle('Forbidden')
+        .withDetail('You do not have permission to create bookmarks')
+        .build())
+      return
+    }
+
+    task('Checking bookmark data... ')
     const driver = new JsonapiRequestDriver(req.body)
     const newBookmarkData = driver.getAttributes()
     if (!newBookmarkData) {
+      task_end(`Faild.\n[DEBUG][400] Missing Request attributes`)
       reply.code(400).send(new JsonapiErrorBuilder()
         .withStatus(400)
-        .withCode('INVALID_FORMAT')
+        .withCode('MALFORMED_REQUEST')
         .withTitle('The request format is invalid')
-      )
-      return
-    }
-    const platform = driver.getAttribute('platform') as TPlatform
-    if (!platform) {
-      reply.code(400).send(new JsonapiErrorBuilder()
-        .withStatus(400)
-        .withCode('MISSING_DATA')
-        .withTitle('Missing "platform" value')
-        .build()
-      )
+        .build())
       return
     }
     
-    const validator = get_platform_specific_validator(newBookmarkData, platform)
+    const validator = get_platform_specific_validator(newBookmarkData)
     if (validator) {
       const errorResponse = validator.validateAgainstFormState()
       if (errorResponse) {
+        task_end('Failed.\n[DEBUG][400] Validation error.')
         reply.code(400).send(errorResponse)
         return
       }
+    } else {
+      const message = 'Platform is likely invalid'
+      task_end(`Failed.\n[DEBUG][400] ${message}.`)
+      reply.code(400).send(new JsonapiErrorBuilder()
+        .withStatus(400)
+        .withCode('MISSING_DATA')
+        .withTitle(message)
+        .build())
+      return
     }
 
-    task(`Creating [${platform}] bookmark... `)
-    const bookmark = await fix_missing_bookmark_data(newBookmarkData, req.usr)
-    if (!bookmark) {
-      task_end('Failed.')
+    task_end('Ok.')
+
+    task(`Creating [${newBookmarkData.platform}] bookmark... `)
+    const fixedBookmarkData = await fix_missing_bookmark_data(
+      newBookmarkData,
+      req.usr
+    )
+    if (!fixedBookmarkData) {
+      task_end('Failed.\n[ERROR][500] in bookmark data-fixing-processes.')
       reply.code(500).send(default_500_error_response({
-        title: 'Failed to create bookmark.',
+        title: 'Failed to fix bookmark missing data',
         detail: 'Bookmark is null.'
       }))
       return
     }
-    const dbBookmark = await create_bookmark(bookmark)
+    const dbBookmark = await create_bookmark(fixedBookmarkData)
     task_end('Done.')
     dbug('Sending response...', dbBookmark)
     reply.code(201).send(
       JsonapiResponseBuilder.forSingleResource(dbBookmark, 'bookmarks').build()
     )
-    task_end('Done.')
   } catch (e) {
     ler(MSG_500_ERROR_MESSAGE)
     log_err('POST bookmark', e)

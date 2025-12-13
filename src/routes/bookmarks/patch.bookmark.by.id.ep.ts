@@ -7,7 +7,6 @@ import { IBookmarkPatch } from '../../schema/bookmark'
 import { MSG_500_ERROR_MESSAGE } from '@tuber/shared'
 import Access from '../../business.logic/security/Access'
 import JsonapiRequestDriver from '../../business.logic/JsonapiRequestDriver'
-import { TPlatform } from '../../common.types'
 import { get_platform_specific_validator } from './_bookmarks.common.logic'
 
 /** `PATCH /bookmarks/:id` endpoint handler */
@@ -18,20 +17,18 @@ export default async function patch_bookmark_by_id_endpoint (
   try {
     task('Checking request bookmark data... ')
     const driver = new JsonapiRequestDriver(request.body)
-    const platform = driver.getMetaValues<TPlatform>('platform')
     const attributes = driver.getAttributes()
     if (!attributes) {
       task_end('Failed.\n[DEBUG][400] Missing attributes.', request.body)
       reply.code(400).send(new JsonapiErrorBuilder()
         .withStatus(400)
-        .withCode('MISSING_DATA')
-        .withTitle('Bad Request')
-        .withDetail('Missing attributes')
+        .withCode('MALFORMED_REQUEST')
+        .withTitle('Failed to acquire the `attributes` member')
         .build()
       )
       return
     }
-    const validator = get_platform_specific_validator(attributes, platform)
+    const validator = get_platform_specific_validator(attributes)
 
     if (validator) {
       const errorResponse = validator.validateAgainstFormState()
@@ -41,11 +38,12 @@ export default async function patch_bookmark_by_id_endpoint (
         return
       }
     } else {
-      task_end('Failed.\n[DEBUG][422] Platform meta is missing or invalid.')
+      const message = 'Platform is likely invalid'
+      task_end(`Failed.\n[DEBUG][422] ${message}.`)
       reply.code(422).send(new JsonapiErrorBuilder()
         .withStatus(422)
         .withCode('MISSING_DATA')
-        .withTitle('Platform meta value is required')
+        .withTitle(message)
         .build()
       )
       return

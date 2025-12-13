@@ -12,7 +12,7 @@ import {
   IJsonapiResource,
   IJsonapiResponseResource
 } from '@tuber/shared'
-import { TCipheredUser } from '../../schema/user'
+import { TContextualUser } from '../../schema/user'
 
 /** mongoose-paginate-v2 query */
 const PAGINATION_QUERY = {
@@ -141,7 +141,7 @@ export const exclude_bookmark_id = (bookmarkDoc: IBookmarkDocument): IBookmark =
  * @returns Map of bookmark IDs to vote ratings (1 or -1)
  */
 export const get_user_votes_for_bookmarks = (
-  user: TCipheredUser | null | undefined,
+  user: TContextualUser | null | undefined,
   bookmarkIds: string[]
 ): Map<string, { rating: 1 | -1; bookmark_id: string }> => {
   const voteMap = new Map<string, { rating: 1 | -1; bookmark_id: string }>()

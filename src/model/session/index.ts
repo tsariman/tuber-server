@@ -3,7 +3,7 @@ import sessionSchema, {
   ISession,
   ISessionDocument
 } from '../../schema/session'
-import { IUserDocument, TCipheredUser } from '../../schema/user'
+import { IUserDocument, TContextualUser } from '../../schema/user'
 import { read_user_by_name } from '../user'
 import { USER_CACHE } from '../../business.logic/cache'
 
@@ -144,7 +144,7 @@ export const read_user = async ({
  */
 export const get_ciphered_user = function (
   user: IUserDocument
-): TCipheredUser {
+): TContextualUser {
   const { _id, name, jwt_version, role } = user
   return { _id: _id.toString(), name, jwt_version, role }
 }

@@ -1,5 +1,5 @@
 import type { IResource, IResourceSensitive, TRole } from '../../common.types'
-import { TCipheredUser } from '../../schema/user'
+import { TContextualUser } from '../../schema/user'
 import { TAccessKey } from './TAccessKey'
 
 export default class Access {
@@ -31,9 +31,12 @@ export default class Access {
      */
     supporter: 2,
     /** Free accounts can create bookmarks but cannot publish them. (FREE) */
-    free: 1
+    free: 1,
+    /** Unauthenticated user */
+    guest: 0
   }
   static GATE: Readonly<Record<TAccessKey, number>> = {
+    'create.bookmark': Access.CLEARANCE_LEVEL.free,
     'read.unpublished.bookmark': Access.CLEARANCE_LEVEL.moderator,
     'read.user.collection': Access.CLEARANCE_LEVEL.moderator,
     'get.user': Access.CLEARANCE_LEVEL.moderator,
@@ -46,13 +49,13 @@ export default class Access {
     // TODO: Add more access actions and their required clearance above
     
   }
-  private get _role(): TRole { return this._usr?.role ?? 'free' }
+  private get _role(): TRole { return this._usr?.role ?? 'guest' }
   /** Contextual user */
-  private _usr?: TCipheredUser
+  private _usr?: TContextualUser
   // constructor(role?: TRole) { this._role = role ?? 'free' }
-  constructor(usr?: TCipheredUser) { this._usr = usr }
+  constructor(usr?: TContextualUser) { this._usr = usr }
   // static withRole = (role?: TRole) => new Access(role)
-  static the = (usr?: TCipheredUser) => new Access(usr)
+  static the = (usr?: TContextualUser) => new Access(usr)
   /** @returns `true` if the contextual user **can** perform the following action */
   can = (key: TAccessKey) => {
     return Access.CLEARANCE_LEVEL[this._role] >= Access.GATE[key]

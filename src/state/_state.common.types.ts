@@ -1,9 +1,9 @@
 import { TThemeMode } from '../common.types'
-import { TCipheredUser } from '../schema/user'
+import { TContextualUser } from '../schema/user'
 
 /** Values tied to the request which customize the returned state. */
 export interface IStateContext {
-  usr?: TCipheredUser
+  usr?: TContextualUser
   token?: string
   theme?: TThemeMode
 }

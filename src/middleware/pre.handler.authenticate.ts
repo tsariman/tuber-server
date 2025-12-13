@@ -7,7 +7,7 @@ import {
   $403_ACCESS_TOKEN_FORBIDDEN
 } from '../business.logic/errors';
 import { USER_CACHE } from '../business.logic/cache';
-import { TCipheredUser } from '../schema/user';
+import { TContextualUser } from '../schema/user';
 import { UserPaginationModel } from '../model/user';
 import { is_token_blacklisted } from '../model/blacklisted.token';
 import { log } from '../utility/logging';
@@ -46,8 +46,8 @@ const pre_handler_authenticate: RouteShorthandOptions['preHandler'] = async func
       return;
     }
 
-    const cUsr1 = cUsr as TCipheredUser;
-    const cachedUsr = USER_CACHE.get(cUsr1.name) as TCipheredUser;
+    const cUsr1 = cUsr as TContextualUser;
+    const cachedUsr = USER_CACHE.get(cUsr1.name) as TContextualUser;
 
     // User not found in cache
     if (!cachedUsr) {
@@ -60,7 +60,7 @@ const pre_handler_authenticate: RouteShorthandOptions['preHandler'] = async func
         reply.code(401).send($401_UNAUTHORIZED_ACCESS);
         return;
       } else {
-        const newUsr: TCipheredUser = {
+        const newUsr: TContextualUser = {
           _id: dbUser._id,
           name: dbUser.name,
           role: dbUser.role,
