@@ -20,16 +20,13 @@ export default async function get_user_collection_endpoint (
         .withCode('INSUFFICIENT_PERMISSION')
         .withTitle('Forbidden')
         .withDetail('You do not have permission to access the user collection')
-        .build()
-      )
+        .build())
       return
     }
     const result = await read_user_collection(req)
-    reply.code(200).send(
-      JsonapiResponseBuilder.forCollection()
-        .withMongoosePaginatedResult(result, 'users', transform_user_doc)
-        .build()
-    )
+    reply.code(200).send(JsonapiResponseBuilder.forCollection()
+      .withMongoosePaginatedResult(result, 'users', transform_user_doc)
+      .build())
   } catch (e) {
     ler(MSG_500_ERROR_MESSAGE)
     log_err('GET user collection', e)

@@ -28,24 +28,21 @@ export async function put_user_vote_by_id_endpoint(
         .withStatus(404)
         .withTitle('User not found')
         .withDetail('The user you are trying to vote as does not exist.')
-        .build()
-      )
+        .build())
     } else if (msg === 'User has already voted on this bookmark') {
       reply.code(409).send(new JsonapiErrorBuilder()
         .withCode('DUPLICATE_RESOURCE')
         .withStatus(409)
         .withTitle('User has already voted on this bookmark')
         .withDetail('The user you are trying to vote as has already voted on this bookmark.')
-        .build()
-      )
+        .build())
     } else if (msg === 'Bookmark or rating not found') {
       reply.code(404).send(new JsonapiErrorBuilder()
         .withCode('NOT_FOUND')
         .withStatus(404)
         .withTitle('Bookmark not found')
         .withDetail('The bookmark you are trying to vote on does not exist.')
-        .build()
-      )
+        .build())
     }
   } catch (e) {
     ler(MSG_500_ERROR_MESSAGE)

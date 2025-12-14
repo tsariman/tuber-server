@@ -1,15 +1,15 @@
-import { FastifyReply } from 'fastify';
+import { FastifyReply } from 'fastify'
 import {
   MONGODB_DUPLICATE_KEY_ERROR,
   get_mongodb_error
-} from '../../business.logic/errors';
-import JsonapiErrorBuilder from '../../business.logic/builder/JsonapiErrorBuilder';
+} from '../../business.logic/errors'
+import JsonapiErrorBuilder from '../../business.logic/builder/JsonapiErrorBuilder'
 import { default_500_error_response } from '../../business.logic/errors'
-import JsonapiResponseBuilder from '../../business.logic/builder/JsonapiResponseBuilder';
+import JsonapiResponseBuilder from '../../business.logic/builder/JsonapiResponseBuilder'
 // import { create_user } from '../model/user'
-import { TUsersFastifyRequest } from '../../schema/user';
-import { log } from '../../utility/logging';
-import { MSG_500_ERROR_MESSAGE } from '@tuber/shared';
+import { TUsersFastifyRequest } from '../../schema/user'
+import { log } from '../../utility/logging'
+import { MSG_500_ERROR_MESSAGE } from '@tuber/shared'
 
 /**
  * Creating a user is disabled, for now.  
@@ -26,20 +26,19 @@ export default async function post_demo_user_endpoint (
     // const user = await create_user(req.body)
     reply.code(201).send(
       JsonapiResponseBuilder.forSingleResource(req.body, 'users').build()
-    );
+    )
   } catch (e) {
-    const mongoDbError = get_mongodb_error((e as Error).message);
+    const mongoDbError = get_mongodb_error((e as Error).message)
     if (mongoDbError.code === MONGODB_DUPLICATE_KEY_ERROR) {
       reply.code(409).send(new JsonapiErrorBuilder()
         .withCode('DUPLICATE_RESOURCE')
         .withStatus(409)
         .withTitle('Conflict')
         .withDetail(mongoDbError.detail)
-        .build()
-      );
+        .build())
     } else {
-      log(MSG_500_ERROR_MESSAGE, e);
-      reply.code(500).send(default_500_error_response(e));
+      log(MSG_500_ERROR_MESSAGE, e)
+      reply.code(500).send(default_500_error_response(e))
     }
   }
 }
