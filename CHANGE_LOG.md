@@ -1,3 +1,13 @@
+## `202512152026` feat: Implement email verification process for new users
+
+- Added email verification code generation and expiration handling during user registration.
+- Created a new endpoint `/users/email/verify` to handle email verification requests.
+- Updated user schema to include fields for email verification code and expiration.
+- Enhanced user creation logic to send verification emails asynchronously.
+- Introduced rate limiting for user signup and signin attempts.
+- Updated authentication flow to include last signin timestamp updates.
+- Refactored user-related functions and improved JWT version handling to invalidate old tokens.
+- Added tests for email verification process and JWT version invalidation.
 
 ## `202512121503` Refactor error handling and access control in bookmark routes
 
