@@ -30,10 +30,12 @@ export interface IAggregateDoc { _id: string; __v: number }
 
 export interface IResource {
   user_id?: string
+  inception_clearance?: number
 }
 
 export interface IResourceSensitive {
   _id?: string
+  inception_clearance?: number
 }
 
 /** Mongoose document interfaces */

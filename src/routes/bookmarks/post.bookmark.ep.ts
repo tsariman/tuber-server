@@ -4,7 +4,7 @@ import JsonapiResponseBuilder from '../../business.logic/builder/JsonapiResponse
 import { dbug, ler, log_err, task, task_end } from '../../utility/logging'
 import { create_bookmark } from '../../model/bookmark'
 import { IBookmarkPost } from '../../schema/bookmark'
-import { MSG_500_ERROR_MESSAGE } from '@tuber/shared'
+import { CLEARANCE_LEVEL, MSG_500_ERROR_MESSAGE } from '@tuber/shared'
 import fix_missing_bookmark_data from '../../platform/all.drivers'
 import JsonapiRequestDriver from '../../business.logic/JsonapiRequestDriver'
 import { get_platform_specific_validator } from './_bookmarks.common.logic'
@@ -73,6 +73,8 @@ export default async function post_bookmark_endpoint (
       }))
       return
     }
+    const access = Access.the(req.usr)
+    fixedBookmarkData.inception_clearance = CLEARANCE_LEVEL[access.role]
     const dbBookmark = await create_bookmark(fixedBookmarkData)
     task_end('Done.')
     dbug('Sending response...', dbBookmark)

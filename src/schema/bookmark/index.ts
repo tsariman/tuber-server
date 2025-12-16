@@ -30,6 +30,12 @@ export interface IBookmark {
   modified_at?: Date
   is_private?: boolean
   user_id?: string
+  /**
+   * Clearance level of the user who created the bookmark. To edit or delete
+   * the bookmark, another user must have a higher clearance level.
+   */
+  inception_clearance?: number
+  /** Original author of the video. */
   author?: string // used by facebook
   videoid?: string
   /** When the videoid is not enough e.g. Rumble */
@@ -140,6 +146,7 @@ const bookmarkSchema = new Schema<IBookmarkDocument>({
   is_private: { type: Boolean, default: false },
   is_published: Boolean,
   user_id: { type: String, required: true },
+  inception_clearance: { type: Number , default: 0 },
   author: String,
   videoid: String,
   url: String,
