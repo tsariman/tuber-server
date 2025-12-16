@@ -78,14 +78,20 @@ export const transform_user_doc = (user: IUserDocument) => {
 export const read_user_by_id = async (
   id: string
 ): Promise<IUserDocument | null> => {
-  const userDoc = await UserModel.findById(id).select('-password -jwt_version -restrictions -rules')
+  const userDoc = await UserModel.findOne({ 
+    _id: id, 
+    is_active: { $ne: false } 
+  }).select('-password -jwt_version -restrictions -rules')
   return userDoc
 }
 
 export const read_user_by_name = async (
   name: string
 ): Promise<IUserDocument | null> => {
-  const userDoc = await UserModel.findOne({ name: name.trim().toLowerCase() })
+  const userDoc = await UserModel.findOne({ 
+    name: name.trim().toLowerCase(),
+    is_active: { $ne: false }
+  }).select('-password -jwt_version -restrictions -rules')
   return userDoc
 }
 
@@ -127,12 +133,15 @@ export const read_user_collection = async (
 export const read_user_by_email = async (
   email: string
 ): Promise<IUserDocument | null> => {
-  const userDoc = await UserModel.findOne({ email: email.trim().toLowerCase() })
+  const userDoc = await UserModel.findOne({ 
+    email: email.trim().toLowerCase(),
+    is_active: { $ne: false }
+  }).select('-password -jwt_version -restrictions -rules')
   return userDoc
 }
 
 /** Return total number of documents in the users collection */
 export const read_user_collection_count = async (): Promise<number> => {
-  const count = await UserModel.countDocuments()
+  const count = await UserModel.countDocuments({ is_active: { $ne: false } })
   return count
 }
