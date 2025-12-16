@@ -1,4 +1,5 @@
 import { model } from 'mongoose';
+import crypto from 'crypto';
 import blacklistedTokenSchema, {
   IBlacklistedToken,
   IBlacklistedTokenDocument
@@ -12,7 +13,13 @@ export const BlacklistedTokenModel = model<IBlacklistedToken>('BlacklistedToken'
  * @returns true if the token is blacklisted, false otherwise
  */
 export const is_token_blacklisted = async function (token: string): Promise<boolean> {
-  const blacklistedToken = await BlacklistedTokenModel.findOne({ token });
+  const hash = crypto.createHash('sha256').update(token).digest('hex');
+  const blacklistedToken = await BlacklistedTokenModel.findOne({
+    $or: [
+      { token_hash: hash },
+      { token } // fallback for legacy entries without token_hash
+    ]
+  });
   return !!blacklistedToken;
 };
 
@@ -28,8 +35,10 @@ export const blacklist_token = async function (
   expiresAt: Date,
   reason: string = 'signout'
 ): Promise<IBlacklistedTokenDocument> {
+  const token_hash = crypto.createHash('sha256').update(token).digest('hex');
   const blacklistedToken = await BlacklistedTokenModel.create({
     token,
+    token_hash,
     expires_at: expiresAt,
     reason
   });

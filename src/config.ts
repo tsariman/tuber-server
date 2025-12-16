@@ -58,6 +58,7 @@ interface IConfiguration {
   SMTP_PASS: string
   SMTP_FROM: string
   APP_BASE_URL: string
+  ENABLE_TOKEN_BLACKLIST: boolean
 }
 
 /** App configuration values. */
@@ -156,6 +157,7 @@ const USER_CONFIG: IConfiguration = {
   SMTP_PASS: process.env.SMTP_PASS ?? '',
   SMTP_FROM: process.env.SMTP_FROM ?? 'no-reply@localhost',
   APP_BASE_URL: process.env.APP_BASE_URL ?? 'http://localhost:8080',
+  ENABLE_TOKEN_BLACKLIST: (process.env.ENABLE_TOKEN_BLACKLIST ?? 'false') === 'true',
 }
 
 const USER_CACHE = new NodeCache({ stdTTL: Number(process.env.STDTTL) || 900 })

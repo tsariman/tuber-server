@@ -20,7 +20,6 @@ import { blacklist_token } from '../model/blacklisted.token'
 import { authorize_request } from '../middleware/on.request'
 import JsonapiErrorBuilder from '../business.logic/builder/JsonapiErrorBuilder'
 import { UserModel } from '../model/user'
-// Config not used here; fallback limiter does not depend on it
 
 // Lightweight rate limiter for signin (fallback if plugin not used)
 const signinAttempts: Map<string, { count: number; resetAt: number }> = new Map()
@@ -42,25 +41,25 @@ const authentication: FastifyPluginAsync = async (fastify, rootOpts): Promise<vo
     // Bypass during tests when TEST env is set
     const skipRateLimit = IS_TEST === true
     if (!skipRateLimit) {
-    const ip = (req.ip || req.headers['x-forwarded-for'] as string || 'unknown').toString()
-    const now = Date.now()
-    const entry = signinAttempts.get(ip)
-    if (!entry || now > entry.resetAt) {
-      signinAttempts.set(ip, { count: 1, resetAt: now + SIGNIN_WINDOW_MS })
-    } else {
-      entry.count += 1
-      if (entry.count > SIGNIN_MAX_ATTEMPTS) {
-        task_end('Faild. ❌ ')
-        dbug('Rate limit exceeded for signin from IP:', ip)
-        reply.code(429).send(new JsonapiErrorBuilder()
-          .withStatus(429)
-          .withCode('RATE_LIMITED')
-          .withTitle('Too Many Requests')
-          .withDetail('Please wait a minute before trying again.')
-          .build())
-        return
+      const ip = (req.ip || req.headers['x-forwarded-for'] as string || 'unknown').toString()
+      const now = Date.now()
+      const entry = signinAttempts.get(ip)
+      if (!entry || now > entry.resetAt) {
+        signinAttempts.set(ip, { count: 1, resetAt: now + SIGNIN_WINDOW_MS })
+      } else {
+        entry.count += 1
+        if (entry.count > SIGNIN_MAX_ATTEMPTS) {
+          task_end('Faild. ❌ ')
+          dbug('Rate limit exceeded for signin from IP:', ip)
+          reply.code(429).send(new JsonapiErrorBuilder()
+            .withStatus(429)
+            .withCode('RATE_LIMITED')
+            .withTitle('Too Many Requests')
+            .withDetail('Please wait a minute before trying again.')
+            .build())
+          return
+        }
       }
-    }
     }
     const driver = new JsonapiRequestDriver(req.body)
     const credentials = assure(driver.getAttribute('credentials'))
@@ -168,7 +167,7 @@ const authentication: FastifyPluginAsync = async (fastify, rootOpts): Promise<vo
         return
       }
       const { name } = req.usr
-      if (req.token) {
+      if (req.token && process.env.ENABLE_TOKEN_BLACKLIST === 'true') {
         // Decode the token payload to get expiration time
         try {
           const payload = req.token.split('.')[1]
@@ -186,8 +185,9 @@ const authentication: FastifyPluginAsync = async (fastify, rootOpts): Promise<vo
         }
       }
 
-      task('Signing out authenticated user... ')
+      // Remove user from cache
       USER_CACHE.del(name)
+      task_end('Ok. ✔️ ')
       dbug('User removed from cache:', name)
       
       // Clear the token cookie
@@ -206,9 +206,9 @@ const authentication: FastifyPluginAsync = async (fastify, rootOpts): Promise<vo
       } catch (verErr) {
         dbug('Failed to increment jwt_version on signout:', verErr)
       }
-      
-      task_end('Ok. ✔️ ')
+      task('Signing out authenticated user... ')
       reply.code(204).send()
+      task_end('Ok. ✔️ ')
       return
     } catch (e) {
       task_end(MSG_500_ERROR_MESSAGE)

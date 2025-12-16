@@ -3,6 +3,8 @@ import mongoose, { Schema } from 'mongoose';
 export interface IBlacklistedToken {
   /** The JWT token that has been blacklisted */
   token: string;
+  /** SHA-256 hash of the JWT token (preferred for lookups) */
+  token_hash?: string;
   /** When the token was blacklisted */
   blacklisted_at: Date;
   /** When the original token expires (for cleanup) */
@@ -15,6 +17,7 @@ export interface IBlacklistedTokenDocument extends mongoose.Document, IBlacklist
 
 const blacklistedTokenSchema = new Schema<IBlacklistedTokenDocument>({
   token: { type: String, required: true, unique: true },
+  token_hash: { type: String, required: false, unique: true, index: true },
   blacklisted_at: { type: Date, default: Date.now },
   expires_at: { type: Date, required: true },
   reason: { type: String, default: 'signout' }

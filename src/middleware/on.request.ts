@@ -5,6 +5,7 @@ import { dbug } from '../utility/logging'
 import { TContextualUser } from '../schema/user'
 import { read_user_by_name } from '../model/user'
 import { USER_CACHE } from '../business.logic/cache'
+import { is_token_blacklisted } from '../model/blacklisted.token'
 import { is_object } from '../utility'
 import JsonapiRequestDriver from '../business.logic/JsonapiRequestDriver'
 
@@ -110,6 +111,14 @@ export const authorize_request = async (req: FastifyRequest): Promise<void> => {
   if (payload) {
     req.usr = payload as TContextualUser
     dbug('Decoded value from token:', req.usr)
+
+    // Optional blacklist enforcement (toggle via config/env)
+    if (req.token && process.env.ENABLE_TOKEN_BLACKLIST === 'true') {
+      const blacklisted = await is_token_blacklisted(req.token)
+      if (blacklisted) {
+        throw new Error('Token has been revoked.')
+      }
+    }
 
     // Enforce JWT version matching against current user document
     if (req.usr?.name) {
