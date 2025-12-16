@@ -12,7 +12,7 @@ export default class L {
       console.log(...args)
     }
   }
-  static og = (...args: unknown[]): void => {
+  static dbug = (...args: unknown[]): void => {
     if (inDebugMode) {
       args.unshift(DEBUG)
       console.log(...args)
@@ -24,7 +24,7 @@ export default class L {
       console.warn(...args)
     }
   }
-  static er = (...args: unknown[]): void => {
+  static errr = (...args: unknown[]): void => {
     if (inDebugMode) {
       args.unshift(ERROR)
       console.error(...args)
@@ -38,7 +38,7 @@ export default class L {
     },
     {
       /** A possible outcome of a previous documenting log using `task()` */
-      end: (...args: unknown[]): void => this.og(args)
+      end: (...args: unknown[]): void => L.dbug(...args)
     }
   )
   static note = (text: string): void => {
