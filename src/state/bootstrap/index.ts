@@ -98,7 +98,7 @@ export default async function get_bootstrap_authenticated_state(
       'name': context.usr.name,
       'role': context.usr.role,
       'token': context.token,
-      'jwt_version': context.usr.jwt_version
+      '_id': context.usr._id.toString(),
     }}),
   };
 }

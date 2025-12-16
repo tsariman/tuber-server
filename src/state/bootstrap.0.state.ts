@@ -1,4 +1,4 @@
-import { ThemeOptions } from '@mui/material';
+import { ThemeOptions } from '@mui/material'
 import {
   TNetState,
   TStateApp,
@@ -8,35 +8,35 @@ import {
   TStateBackground,
   TStateAllForms,
   TStateAllDialogs
-} from '@tuber/shared';
-import { TObj } from '../common.types';
+} from '@tuber/shared'
+import { TObj } from '../common.types'
 import {
   bootstrap_pages_dark_state,
   bootstrap_pages_light_state,
   bootstrap_pages_state
-} from './bootstrap/page';
-import { PrepareState } from './PrepareState';
-import { IStateContext } from './_state.common.types';
-import { bootstrap_app_state } from './bootstrap/app';
+} from './bootstrap/page'
+import { PrepareState } from './PrepareState'
+import { IStateContext } from './_state.common.types'
+import { bootstrap_app_state } from './bootstrap/app'
 import bootstrap_theme_state, {
   bootstrap_theme_dark_state,
   bootstrap_theme_light_state
-} from './bootstrap/theme';
-import { bootstrap_appbar_state } from './bootstrap/appbar';
-import { bootstrap_pages_data_state } from './bootstrap/page.data';
-import { bootstrap_background_state } from './bootstrap/background';
+} from './bootstrap/theme'
+import { bootstrap_appbar_state } from './bootstrap/appbar'
+import { bootstrap_pages_data_state } from './bootstrap/page.data'
+import { bootstrap_background_state } from './bootstrap/background'
 import {
   bootstrap_forms_dark_state,
   bootstrap_forms_light_state,
   bootstrap_forms_state
-} from './bootstrap/form';
+} from './bootstrap/form'
 import {
   bootstrap_dialogs_dark_state,
   bootstrap_dialogs_light_state,
   bootstrap_dialogs_state
-} from './bootstrap/dialog';
-import { bootstrap_icons_state } from './bootstrap/icon';
-import { get_registry } from '../business.logic/registry';
+} from './bootstrap/dialog'
+import { bootstrap_icons_state } from './bootstrap/icon'
+import { get_registry } from '../business.logic/registry'
 
 /** Not in use. @deprecated */
 export default async function get_bootstrap_authenticated_state(
@@ -115,7 +115,7 @@ export default async function get_bootstrap_authenticated_state(
       'name': context.usr.name,
       'role': context.usr.role,
       'token': context.token,
-      'jwt_version': context.usr.jwt_version
+      '_id': context.usr._id,
     }}),
-  };
+  }
 }

@@ -101,7 +101,7 @@ const post_bootstrap_1_state_endpoint = async (
           'name': usr.name,
           'role': usr.role,
           'token': token,
-          'jwt_version': usr.jwt_version
+          '_id': usr._id.toString(),
         }} : {
           // Originally, session was null but it crashed the app
           'net': undefined,
