@@ -142,7 +142,7 @@ export const read_user = async ({
  * @param user 
  * @returns 
  */
-export const get_ciphered_user = function (
+export const get_contextual_user = function (
   user: IUserDocument
 ): TContextualUser {
   const { _id, name, jwt_version, role } = user

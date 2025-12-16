@@ -34,7 +34,7 @@ export interface IUser {
     created_at: Date
     modified_at?: Date
   }[]
-  last_signin?: Date
+  last_signin_at?: Date
   modified_at?: Date
   created_at?: Date
   restrictions?: Record<string, string>
@@ -88,8 +88,8 @@ export type TUsr = TContextualUser | null
 
 const userSchema = new Schema<IUserDocument>({
   is_active: {type: Boolean, default: true },
-  name: {type: String, unique: true},
-  email: {type: String, unique: true},
+  name: {type: String, unique: true, trim: true, lowercase: true},
+  email: {type: String, unique: true, trim: true, lowercase: true},
   email_verified: { type: Boolean, default: false },
   email_verification_code: String,
   email_verification_code_expires: Date,
@@ -116,7 +116,7 @@ const userSchema = new Schema<IUserDocument>({
     }],
     default: undefined
   },
-  last_signin: Date,
+  last_signin_at: Date,
   modified_at: Date,
   created_at: { type: Date, default: Date.now },
   /**
@@ -135,6 +135,8 @@ const userSchema = new Schema<IUserDocument>({
   rules: { type: Map, of: String, default: undefined }
 }, { versionKey: false })
 
+// Ensure case-insensitive comparisons for the collection
+userSchema.set('collation', { locale: 'en', strength: 2 })
 userSchema.plugin(paginate)
 
 export default userSchema

@@ -1,5 +1,5 @@
 import { FastifyRequest, FastifyReply } from 'fastify'
-import { get_ciphered_user, read_user } from '../../model/session'
+import { get_contextual_user, read_user } from '../../model/session'
 import { log_safe, task, task_end } from '../../utility/logging'
 import JsonapiErrorBuilder from '../../business.logic/builder/JsonapiErrorBuilder'
 
@@ -39,7 +39,7 @@ export default async function dev_post_generate_token_endpoint(
       return
     }
 
-    const usr = get_ciphered_user(user)
+    const usr = get_contextual_user(user)
     const token = await reply.jwtSign(usr, { expiresIn })
     
     task_end('Success!')

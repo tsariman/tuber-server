@@ -37,7 +37,7 @@ export const log = (...args: unknown[]): void => {
 
 /**
  * This is the `console.log()` except that a prefix is included and will only
- * output in debug mod.
+ * output in debug mode.
  */
 export const dbug = (...args: unknown[]): void => {
   if (inDebugMode) {

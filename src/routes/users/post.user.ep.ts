@@ -3,13 +3,22 @@ import { MONGODB_DUPLICATE_KEY_ERROR, get_mongodb_error } from '../../business.l
 import JsonapiErrorBuilder from '../../business.logic/builder/JsonapiErrorBuilder'
 import { default_500_error_response } from '../../business.logic/errors'
 import JsonapiResponseBuilder from '../../business.logic/builder/JsonapiResponseBuilder'
-import { create_user } from '../../model/user'
+import { create_user, transform_user_doc } from '../../model/user'
 import { TUsersFastifyRequest } from '../../schema/user'
 import { ler, log_err } from '../../utility/logging'
 import { MSG_500_ERROR_MESSAGE } from '@tuber/shared'
 import JsonapiRequestDriver from '../../business.logic/JsonapiRequestDriver'
 import RequestDataValidator from '../../business.logic/RequestDataValidator'
 import newUserFormState from '../../state/form/new.user.form.state'
+import crypto from 'crypto'
+import { sendVerificationEmail } from '../../utility/mailer'
+import Config from '../../config'
+const IS_TEST = process.env.TEST === 'true'
+// duplicate import removed
+// Lightweight development rate limiter (per-IP)
+const signupAttempts: Map<string, { count: number; resetAt: number }> = new Map()
+const SIGNUP_WINDOW_MS = 60 * 1000
+const SIGNUP_MAX_ATTEMPTS = 5
 
 /** `POST /users` endpoint handler */
 export default async function post_user_endpoint (
@@ -17,6 +26,27 @@ export default async function post_user_endpoint (
   reply: FastifyReply
 ) {
   try {
+    // Basic rate limit: 5 attempts per minute per IP (dev only)
+    // Bypass during tests when TEST env is set
+    if (Config.DEV && !IS_TEST) {
+      const ip = (req.ip || req.headers['x-forwarded-for'] as string || 'unknown').toString()
+      const now = Date.now()
+      const entry = signupAttempts.get(ip)
+      if (!entry || now > entry.resetAt) {
+        signupAttempts.set(ip, { count: 1, resetAt: now + SIGNUP_WINDOW_MS })
+      } else {
+        entry.count += 1
+        if (entry.count > SIGNUP_MAX_ATTEMPTS) {
+          reply.code(429).send(new JsonapiErrorBuilder()
+            .withStatus(429)
+            .withCode('RATE_LIMITED')
+            .withTitle('Too Many Requests')
+            .withDetail('Please wait a minute before trying again.')
+            .build())
+          return
+        }
+      }
+    }
     const newUserResource = new JsonapiRequestDriver(req.body).getAttributes()
     if (newUserResource) {
       const validator = new RequestDataValidator(newUserResource, newUserFormState)
@@ -25,15 +55,52 @@ export default async function post_user_endpoint (
         reply.code(400).send(errorResponse)
         return
       }
-      const user = await create_user(newUserResource)
+
+      // Additional server-side password strength validation
+      if (!Config.DEV) {
+        const password = validator.getAttribute('password')
+        if (!password || password.length < 12
+          || !/[A-Z]/.test(password)
+          || !/[a-z]/.test(password)
+          || !/[0-9]/.test(password)
+          || !/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(password)) {
+          reply.code(400).send(new JsonapiErrorBuilder()
+            .withStatus(400)
+            .withCode('VALIDATION_ERROR')
+            .withTitle('Password is too weak')
+            .withDetail('Password must be at least 12 characters and include uppercase, lowercase, numbers, and symbols.')
+            .build())
+          return
+        }
+      }
+
+      // Generate email verification code valid for 24 hours
+      const code = crypto.randomBytes(24).toString('hex')
+      const expires = new Date(Date.now() + 24 * 60 * 60 * 1000)
+
+      const user = await create_user({
+        ...newUserResource,
+        email_verified: false,
+        email_verification_code: code,
+        email_verification_code_expires: expires,
+      })
+
+      // Fire-and-forget email send (do not block response)
+      if (user.email) {
+        sendVerificationEmail(user.email, code).catch(err => {
+          log_err('Email send (verification) failed', err)
+        })
+      }
       reply.code(201).send(
-        JsonapiResponseBuilder.forSingleResource(user, 'users')
+        JsonapiResponseBuilder.forSingleResource(transform_user_doc(user), 'users')
           .withState({
             'app': {
               'route': 'default-success',
             },
             'tmp': {
-              'default-success': `User ${user.name} successfully created!`
+              'default-success': {
+                'message': `User <strong>${user.name}</strong> successfully created!`
+              }
             }
           })
           .build()
@@ -48,8 +115,7 @@ export default async function post_user_endpoint (
         .withStatus(409)
         .withTitle('Conflict')
         .withDetail(mongoDbError.detail)
-        .build()
-      );
+        .build());
     } else {
       ler(MSG_500_ERROR_MESSAGE)
       log_err('POST user', e)

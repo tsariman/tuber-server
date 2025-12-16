@@ -2,7 +2,7 @@ import { FastifyReply } from 'fastify'
 import JsonapiErrorBuilder from '../../business.logic/builder/JsonapiErrorBuilder'
 import { default_500_error_response } from '../../business.logic/errors'
 import JsonapiResponseBuilder from '../../business.logic/builder/JsonapiResponseBuilder'
-import { read_user_by_id } from '../../model/user'
+import { read_user_by_id, transform_user_doc } from '../../model/user'
 import { TUsersFastifyRequest } from '../../schema/user'
 import { ler, log_err } from '../../utility/logging'
 import { MSG_500_ERROR_MESSAGE } from '@tuber/shared'
@@ -20,22 +20,19 @@ export default async function get_user_by_id_endpoint (
           .withStatus(403)
           .withTitle('Forbidden')
           .withDetail('You do not have permission to view this user\'s sensitive information.')
-          .build()
-        )
+          .build())
         return
       }
       reply.code(200).send(
-        JsonapiResponseBuilder.forSingleResource(user, 'users')
+        JsonapiResponseBuilder.forSingleResource(transform_user_doc(user), 'users')
           .withId(user._id)
-          .build()
-      )
+          .build())
     } else {
       reply.code(404).send(new JsonapiErrorBuilder()
         .withStatus(404)
         .withTitle('Not Found')
         .withDetail(`User with id '${req.params.id}' not found.`)
-        .build()
-      )
+        .build())
     }
   } catch (e) {
     ler(MSG_500_ERROR_MESSAGE)

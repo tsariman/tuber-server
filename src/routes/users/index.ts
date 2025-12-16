@@ -2,6 +2,7 @@ import { FastifyPluginAsync } from 'fastify'
 import get_user_collection_endpoint from './get.user.collection.ep'
 import get_user_by_name_endpoint from './get.user.by.name.ep'
 import post_user_endpoint from './post.user.ep'
+import post_user_verify_email_endpoint from './post.user.verify.email.ep'
 import {
   DEFAULT_ROUTE_OPTIONS,
   PUBLIC_ROUTE_OPTIONS
@@ -26,6 +27,12 @@ const users: FastifyPluginAsync = async (fastify, rootOpts): Promise<void> => {
     ...rootOpts,
     ...PUBLIC_ROUTE_OPTIONS
   }, post_user_endpoint)
+
+  // POST /users/email/verify
+  fastify.post<IUsersEndpoint>('/email/verify', {
+    ...rootOpts,
+    ...PUBLIC_ROUTE_OPTIONS
+  }, post_user_verify_email_endpoint)
 
   // PUT /users/:id (update)
   // PUT /users/:userId/vote (upvote/downvote)

@@ -10,7 +10,7 @@ test('RequestDataValidator - valid data', () => {
   const validData = {
     username: 'testuser',
     password: 'testpass123',
-    options: { 'keep-signed-in': true }
+    options: [ 'keep-signed-in' ]
   }
 
   const validator = new RequestDataValidator(validData, signInFormState)
@@ -185,7 +185,7 @@ test('POST /signin - valid credentials (admin/admin123)', async (t) => {
       credentials: {
         username: 'admin',
         password: 'admin123',
-        options: { 'keep-signed-in': false }
+        options: [ 'keep-signed-in' ]
       }
     })
   })
@@ -209,7 +209,7 @@ test('POST /signin - with keep-signed-in option', async (t) => {
       credentials: {
         username: 'admin',
         password: 'admin123',
-        options: { 'keep-signed-in': true }
+        options: [ 'keep-signed-in' ]
       }
     })
   })

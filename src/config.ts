@@ -15,9 +15,9 @@ dotenv.config({ path: envFile })
 interface IConfiguration {
   /** Get the current development mode. */
   NODE_ENV: string
-  /** The value is `true` if the app is in development mode. */
+  /** Is `true` if the app is in development mode. */
   DEV: boolean
-  /** The value is `true` if the app is in debug mode. */
+  /** Is `true` if the app is in debug mode. */
   DEBUG: boolean
   DOMAIN: string
   CLIENT_DOMAIN: string
@@ -49,6 +49,15 @@ interface IConfiguration {
   // Development properties
 
   DEV_DEFAULT_DEV_USER_PASSWORD: string
+
+  // SMTP / Email
+  SMTP_HOST: string
+  SMTP_PORT: number
+  SMTP_SECURE: boolean
+  SMTP_USER: string
+  SMTP_PASS: string
+  SMTP_FROM: string
+  APP_BASE_URL: string
 }
 
 /** App configuration values. */
@@ -138,6 +147,15 @@ const USER_CONFIG: IConfiguration = {
   DEV_DEFAULT_DEV_USER_PASSWORD: process.env.DEV 
     ? process.env.DEV_DEFAULT_DEV_USER_PASSWORD ?? 'dev'
     : '',
+
+  // Email / SMTP configuration
+  SMTP_HOST: process.env.SMTP_HOST ?? '',
+  SMTP_PORT: Number(process.env.SMTP_PORT ?? 0),
+  SMTP_SECURE: (process.env.SMTP_SECURE ?? 'false') === 'true',
+  SMTP_USER: process.env.SMTP_USER ?? '',
+  SMTP_PASS: process.env.SMTP_PASS ?? '',
+  SMTP_FROM: process.env.SMTP_FROM ?? 'no-reply@localhost',
+  APP_BASE_URL: process.env.APP_BASE_URL ?? 'http://localhost:8080',
 }
 
 const USER_CACHE = new NodeCache({ stdTTL: Number(process.env.STDTTL) || 900 })

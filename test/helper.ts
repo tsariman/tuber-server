@@ -1,6 +1,7 @@
 // This file contains code that we reuse between our tests.
 import * as path from 'node:path'
 import * as test from 'node:test'
+import { UserModel } from '../src/model/user'
 const helper = require('fastify-cli/helper.js')
 
 export type TestContext = {
@@ -54,7 +55,15 @@ export const mockCipheredUser = {
 // Helper to generate JWT token for authenticated requests
 export async function generateTestToken(app: any, user = mockCipheredUser) {
   try {
-    return await app.jwt.sign(user, { expiresIn: '1h' })
+    // Ensure jwt_version is present in payload by fetching current user
+    const dbUser = await UserModel.findOne({ name: user.name })
+    const payload = dbUser ? {
+      _id: dbUser._id.toString(),
+      name: dbUser.name,
+      jwt_version: dbUser.jwt_version ?? 0,
+      role: dbUser.role,
+    } : user
+    return await app.jwt.sign(payload, { expiresIn: '1h' })
   } catch (error) {
     console.error('Failed to generate test token:', error)
     return null

@@ -1,7 +1,7 @@
 import { TJsonapiErrorSource } from '@tuber/shared'
 import { signInDialogState } from '../state/dialog'
 import JsonapiErrorBuilder, { TJsonapiError } from './builder/JsonapiErrorBuilder'
-import { assure, ensure } from '../utility'
+import { assure } from '../utility'
 
 export const MONGODB_DUPLICATE_KEY_ERROR = 'E11000'
 
@@ -12,11 +12,13 @@ export const MONGODB_DUPLICATE_KEY_ERROR = 'E11000'
  * @returns `TJsonapiErrorResponse`
  */
 export const default_500_error_response = (e: unknown) => {
+  const message = e instanceof Error ? e.message : String(e)
+  const stack = e instanceof Error ? e.stack : undefined
   return new JsonapiErrorBuilder()
     .withStatus(500)
     .withCode('INTERNAL_ERROR')
-    .withTitle(ensure<Error>(e).message || 'Unknown')
-    .withDetail(ensure<Error>(e).stack)
+    .withTitle(message)
+    .withDetail(stack)
     .build()
 }
 

@@ -1,7 +1,7 @@
 import { FastifyReply } from 'fastify'
 import JsonapiErrorBuilder from '../../business.logic/builder/JsonapiErrorBuilder'
 import JsonapiResponseBuilder from '../../business.logic/builder/JsonapiResponseBuilder'
-import { read_user_by_name } from '../../model/user'
+import { read_user_by_name, transform_user_doc } from '../../model/user'
 import { TUsersFastifyRequest } from '../../schema/user'
 import Access from '../../business.logic/security/Access'
 import { default_500_error_response } from '../../business.logic/errors'
@@ -21,20 +21,19 @@ export default async function get_user_by_name_endpoint (
           .withStatus(403)
           .withTitle('Forbidden')
           .withDetail('You do not have permission to view this user\'s sensitive information.')
-          .build()
-        )
+          .build())
         return
       }
       reply.code(200).send(
-        JsonapiResponseBuilder.forSingleResource(user, 'users').build()
+        JsonapiResponseBuilder.forSingleResource(transform_user_doc(user), 'users').build()
       )
+      return
     }
     reply.code(404).send(new JsonapiErrorBuilder()
       .withStatus(404)
       .withTitle('Not Found')
       .withDetail(`User '${request.params.name}' not found.`)
-      .build()
-    )
+      .build())
   } catch (e) {
     ler(MSG_500_ERROR_MESSAGE)
     log_err('GET user by name', e)

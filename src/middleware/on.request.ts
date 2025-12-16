@@ -3,6 +3,8 @@ import { default_401_error_response } from '../business.logic/errors'
 import Config from '../config'
 import { dbug } from '../utility/logging'
 import { TContextualUser } from '../schema/user'
+import { read_user_by_name } from '../model/user'
+import { USER_CACHE } from '../business.logic/cache'
 import { is_object } from '../utility'
 import JsonapiRequestDriver from '../business.logic/JsonapiRequestDriver'
 
@@ -24,10 +26,8 @@ declare module 'fastify' {
  */
 const on_request_default: onRequestHookHandler = async (
   req,
-  reply,
-  done
+  reply
 ): Promise<void> => {
-  void done
   try {
     await authorize_request(req)
 
@@ -56,8 +56,7 @@ export default on_request_default
  */
 export const on_request_dev: onRequestHookHandler = async (
   req,
-  reply,
-  done
+  reply
 ): Promise<void> => {
   try {
     await authorize_request(req)
@@ -111,6 +110,24 @@ export const authorize_request = async (req: FastifyRequest): Promise<void> => {
   if (payload) {
     req.usr = payload as TContextualUser
     dbug('Decoded value from token:', req.usr)
+
+    // Enforce JWT version matching against current user document
+    if (req.usr?.name) {
+      // Try cache first
+      const cached = USER_CACHE.get(req.usr.name) as { jwt_version?: number } | undefined
+      let currentVersion = cached?.jwt_version
+      if (typeof currentVersion !== 'number') {
+        const user = await read_user_by_name(req.usr.name)
+        currentVersion = user?.jwt_version
+        if (user) {
+          USER_CACHE.set(user.name, user)
+        }
+      }
+      const tokenVersion = req.usr.jwt_version ?? 0
+      if (typeof currentVersion === 'number' && tokenVersion !== currentVersion) {
+        throw new Error('Outdated token. Please sign in again.')
+      }
+    }
   } else {
     dbug('Token is missing.')
   }

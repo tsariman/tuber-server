@@ -3,6 +3,7 @@ import { $69_STATE_KEY, TStateForm } from '@tuber/shared'
 import { register } from '../../business.logic/registry'
 import { clone_with_descriptors, t } from '../../business.logic'
 import { title_centered } from '../html'
+import Config from '../../config'
 
 register('state', '69', $69_STATE_KEY)
 /** Form state to create a new user account. @id 69 */
@@ -83,6 +84,9 @@ const newUserFormState: TStateForm = {
           'has': {
             'required': true,
             get 'requiredMessage'() { return t('no_password', 'You forgot the password.') },
+            // At least 12 chars, with upper, lower, number, and symbol
+            'validationRegex': Config.DEV ? undefined : '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*()_+\\-\\[\\]{};:\\"\\|,.<>/?]).{12,}$',
+            get 'validationMessage'() { return t('weak_password', 'Password must be at least 12 characters and include uppercase, lowercase, numbers, and symbols.') },
             'mustMatch': 're_entered_password',
             get 'mustMatchMessage'() { return t('password_mismatch', 'Passwords do not match.') }
           }

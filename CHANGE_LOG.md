@@ -9,3 +9,7 @@
 - Added platform-specific validation for bookmark data in POST and PATCH endpoints.
 - Introduced `RequestDataValidator` tests to ensure validation logic for matching fields.
 - Adjusted comments and documentation for clarity and consistency.
+
+## Security question for AI
+
+- What are the common pitfalls, edge-cases, and exploits when a user account is created?

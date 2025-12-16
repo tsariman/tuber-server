@@ -11,6 +11,7 @@ import JsonapiErrorBuilder from './business.logic/builder/JsonapiErrorBuilder'
 import { initialize_app } from './startup'
 import { setupJWT } from './jwt.config'
 import { isCustomError } from './business.logic/errors'
+import Config from './config'
 
 export interface AppOptions extends FastifyServerOptions, Partial<AutoloadPluginOptions> {
 
@@ -46,6 +47,22 @@ const app: FastifyPluginAsync<AppOptions> = async (
 
   // Setup JWT (after cookie support is available)
   await setupJWT(fastify)
+
+  // Optional production rate limiting (prefer plugin in prod)
+  // To enable, install @fastify/rate-limit and remove the guard.
+  if (!Config.DEV) {
+    try {
+      const rateLimit = (await import('@fastify/rate-limit')).default
+      await fastify.register(rateLimit, {
+        max: 100,
+        timeWindow: '1 minute',
+        skipOnError: true,
+      })
+    } catch (e) {
+      // Plugin not installed or failed to load; continue without blocking startup
+      log('[WARN] Rate limit plugin not active:', e instanceof Error ? e.message : String(e))
+    }
+  }
 
   // Register the static plugin
   void fastify.register(fastifyStatic, {
