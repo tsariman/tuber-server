@@ -4,6 +4,7 @@ import { DB_PAGINATION_QUERY } from '@tuber/shared'
 import { TContextualUser } from '../../schema/user'
 import { IBookmarkQuerySearch } from '../../schema/bookmark'
 import Access from '../../business.logic/security/Access'
+import CLEARANCE_LEVEL from '../../business.logic/security/clearance.level'
 
 /** MongoDB pipeline to find bookmarks using a search query. */
 export default function get_bookmark_search_query_pipeline(
@@ -34,9 +35,12 @@ export default function get_bookmark_search_query_pipeline(
       matchConditions.push({ user_id: usr._id })
     }
     
-    // Users with clearance level 4+ can see all unpublished bookmarks
-    if (Access.the(usr).can('read.unpublished.bookmark')) {
-      matchConditions.push({ is_published: { $ne: true } })
+    // Users can see unpublished bookmarks where their clearance is greater than the bookmark's inception_clearance
+    if (usr && Access.the(usr).can('read.unpublished.bookmark')) {
+      matchConditions.push({
+        is_published: { $ne: true },
+        inception_clearance: { $lt: CLEARANCE_LEVEL[usr.role] }
+      })
     }
     
     pipeline.push({
@@ -60,6 +64,7 @@ export default function get_bookmark_search_query_pipeline(
         created_at: 1,
         modified_at: 1,
         user_id: 1,
+        inception_clearance: 1,
         videoid: 1,
         platform: 1,
         start_seconds: 1,

@@ -9,9 +9,6 @@ import {
   CONF_TWITCH_REFRESH_TOKEN,
   CONF_TWITCH_DISABLE_THUMBNAIL_RETRIEVAL
 } from '@tuber/shared';
-import {
-  get_twitch_renew_access_token_endpoint
-} from './endpoint/get.twitch.renew.access.token.ep';
 import { TObj } from '../common.types';
 import { log } from '../utility/logging';
 
@@ -99,6 +96,10 @@ export async function twitch_fetch_thumbnail_url(videoid?: string): Promise<stri
   if (!videoid
     || Config.read<boolean>(CONF_TWITCH_DISABLE_THUMBNAIL_RETRIEVAL, false)
   ) { return '' }
+  const clientId = twitch_get_api_client_id();
+  if (!clientId) { return '' }
+  const accessToken = twitch_get_api_access_token();
+  if (!accessToken) { return '' }
   const url = `${TWITCH_API_URL}?id=${videoid}`;
   let response: TObj = {};
   let thumbnailUrlTemplate = '';
@@ -113,14 +114,14 @@ export async function twitch_fetch_thumbnail_url(videoid?: string): Promise<stri
       response = await axios.get(url, {
         headers: {
           // 'Accept': 'application/vnd.twitchtv.v5+json',
-          'Client-Id': twitch_get_api_client_id(),
-          'Authorization': `Bearer ${twitch_get_api_access_token()}`
+          'Client-Id': clientId,
+          'Authorization': `Bearer ${accessToken}`
         }
       });
     } catch (e) {
       // [TODO] That's wrong. You should set a flag here that can be read in 
       //        another part of the code to renew the twitch access token.
-      await get_twitch_renew_access_token_endpoint();
+      // await get_twitch_renew_access_token_endpoint();
       continue;
     }
 

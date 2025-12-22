@@ -1,3 +1,18 @@
+
+# Development Log
+
+## `202512221825` Miscellaneous improvements and fixes
+
+- feat(security): add clearance levels for user roles
+- feat(bookmarks): update bookmark search query to include inception clearance check
+- fix(bookmarks): improve error handling and validation for bookmark ID parameters
+- refactor(bookmarks): rename user-vote relationships to bookmark-vote for consistency
+- fix(authentication): include password in user retrieval for authentication
+- fix(twitch): enhance error handling for Twitch thumbnail fetching
+- fix(state): improve error handling and validation for state pages endpoint
+- chore(logging): enhance logging messages for better debugging
+- test(bookmarks): update tests to reflect changes in bookmark-vote relationships
+
 ## `202512152026` feat: Implement email verification process for new users
 
 - Added email verification code generation and expiration handling during user registration.

@@ -90,16 +90,16 @@ test('GET /bookmarks should include user votes in relationships and included', a
   if (bookmark1Response) {
     assert.ok(bookmark1Response.relationships, 'Bookmark 1 should have relationships')
     assert.ok(
-      bookmark1Response.relationships['user-vote'],
-      'Bookmark 1 should have user-vote relationship'
+      bookmark1Response.relationships['bookmark-vote'],
+      'Bookmark 1 should have bookmark-vote relationship'
     )
     assert.strictEqual(
-      bookmark1Response.relationships['user-vote'].data.type,
-      'user-votes',
-      'Relationship type should be user-votes'
+      bookmark1Response.relationships['bookmark-vote'].data.type,
+      'bookmark-votes',
+      'Relationship type should be bookmark-votes'
     )
     assert.strictEqual(
-      bookmark1Response.relationships['user-vote'].data.id,
+      bookmark1Response.relationships['bookmark-vote'].data.id,
       String(bookmark1._id),
       'Relationship id should match bookmark id'
     )
@@ -108,8 +108,8 @@ test('GET /bookmarks should include user votes in relationships and included', a
   if (bookmark2Response) {
     assert.ok(bookmark2Response.relationships, 'Bookmark 2 should have relationships')
     assert.ok(
-      bookmark2Response.relationships['user-vote'],
-      'Bookmark 2 should have user-vote relationship'
+      bookmark2Response.relationships['bookmark-vote'],
+      'Bookmark 2 should have bookmark-vote relationship'
     )
   }
   
@@ -118,10 +118,10 @@ test('GET /bookmarks should include user votes in relationships and included', a
     assert.ok(Array.isArray(body.included), 'Included should be an array')
     
     const vote1Included = body.included.find(
-      (inc: any) => inc.type === 'user-votes' && inc.id === String(bookmark1._id)
+      (inc: any) => inc.type === 'bookmark-votes' && inc.id === String(bookmark1._id)
     )
     const vote2Included = body.included.find(
-      (inc: any) => inc.type === 'user-votes' && inc.id === String(bookmark2._id)
+      (inc: any) => inc.type === 'bookmark-votes' && inc.id === String(bookmark2._id)
     )
     
     if (vote1Included) {
@@ -160,13 +160,13 @@ test('GET /bookmarks without authentication should not include user votes', asyn
   // Verify the response structure
   assert.ok(body.data, 'Response should have data')
   
-  // Bookmarks should not have user-vote relationships when not authenticated
+  // Bookmarks should not have bookmark-vote relationships when not authenticated
   if (Array.isArray(body.data) && body.data.length > 0) {
     body.data.forEach((bookmark: any) => {
       if (bookmark.relationships) {
         assert.ok(
-          !bookmark.relationships['user-vote'],
-          'Unauthenticated requests should not have user-vote relationships'
+          !bookmark.relationships['bookmark-vote'],
+          'Unauthenticated requests should not have bookmark-vote relationships'
         )
       }
     })
@@ -174,7 +174,7 @@ test('GET /bookmarks without authentication should not include user votes', asyn
   
   // Should not have included votes
   if (body.included) {
-    const userVotes = body.included.filter((inc: any) => inc.type === 'user-votes')
-    assert.strictEqual(userVotes.length, 0, 'Should not include user votes when not authenticated')
+    const bookmarkVotes = body.included.filter((inc: any) => inc.type === 'bookmark-votes')
+    assert.strictEqual(bookmarkVotes.length, 0, 'Should not include bookmark votes when not authenticated')
   }
 })

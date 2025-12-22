@@ -4,7 +4,7 @@ import sessionSchema, {
   ISessionDocument
 } from '../../schema/session'
 import { IUserDocument, TContextualUser } from '../../schema/user'
-import { read_user_by_name } from '../user'
+import { read_user_by_name, UserModel } from '../user'
 import { USER_CACHE } from '../../business.logic/cache'
 
 export const SessionModel = model<ISession>('Session', sessionSchema)
@@ -99,6 +99,8 @@ export const read_session = async function ({
 interface IGetSessionUser {
   name?: string
   token?: string
+  /** When true, fetch directly from DB including password and skip cache */
+  includePassword?: boolean
 }
 
 /**
@@ -110,8 +112,18 @@ interface IGetSessionUser {
  */
 export const read_user = async ({
   name,
-  token
+  token,
+  includePassword
 }: IGetSessionUser): Promise<IUserDocument | null> => {
+  // If password is needed, skip cache and fetch full doc from DB
+  if (includePassword && name) {
+    const user = await UserModel.findOne({
+      name: name.trim().toLowerCase(),
+      is_active: { $ne: false }
+    })
+    return user
+  }
+
   if (name) {
     const cUser = USER_CACHE.get(name)
     if (cUser) { return cUser as IUserDocument }

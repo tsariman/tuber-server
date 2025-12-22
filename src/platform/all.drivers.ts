@@ -154,22 +154,30 @@ async function _twitch_data(
 ): Promise<IBookmark|null> {
   const { videoid } = attr
   if (!videoid || !usr || !usr._id) { return null }
-  const fixedBookmark = { ...attr, user_id: usr._id } as IBookmark
 
-  if (!fixedBookmark.thumbnail_url) {
-    const existingBookmark = await get_bookmark_by_videoid(videoid)
-    if (existingBookmark && existingBookmark.thumbnail_url) {
-      fixedBookmark.thumbnail_url = existingBookmark.thumbnail_url
-    } else {
-      task(`Fetching Twitch thumbnail URL for video with ID '${videoid}'... `)
-      fixedBookmark.thumbnail_url = await twitch_fetch_thumbnail_url(videoid)
+  try {
+    const fixedBookmark = { ...attr, user_id: usr._id } as IBookmark
+  
+    if (!fixedBookmark.thumbnail_url) {
+      const existingBookmark = await get_bookmark_by_videoid(videoid)
+      if (existingBookmark && existingBookmark.thumbnail_url) {
+        fixedBookmark.thumbnail_url = existingBookmark.thumbnail_url
+      } else {
+        task(`Fetching Twitch thumbnail URL for video with ID '${videoid}'... `)
+        fixedBookmark.thumbnail_url = await twitch_fetch_thumbnail_url(videoid)
+        task_end('Done.')
+      }
     }
+  
+    if (fixedBookmark.thumbnail_url) {
+      return fixedBookmark
+    }
+    return null
+  } catch (e) {
+    ler(`[ERROR] Error processing Twitch bookmark with videoid '${videoid}'`)
+    log_err(`processing Twitch bookmark`, e)
+    return null
   }
-
-  if (fixedBookmark.thumbnail_url) {
-    return fixedBookmark
-  }
-  return null
 }
 
 async function _vimeo_data(

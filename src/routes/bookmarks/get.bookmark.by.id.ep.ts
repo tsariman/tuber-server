@@ -1,4 +1,5 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
+import { Types } from 'mongoose'
 import JsonapiErrorBuilder from '../../business.logic/builder/JsonapiErrorBuilder'
 import { default_500_error_response } from '../../business.logic/errors'
 import JsonapiResponseBuilder from '../../business.logic/builder/JsonapiResponseBuilder'
@@ -14,8 +15,23 @@ export default async function get_bookmark_by_id_endpoint (
   reply: FastifyReply
 ) {
   try {
-    task(`Getting bookmark with id '${request.params.id}'... `)
-    const bookmark = await read_bookmark_by_id(request.params.id)
+    task('Validating id parameter... ')
+    const id = request.params?.id
+    if (!id || id === 'undefined' || !Types.ObjectId.isValid(id)) {
+      task_end('Failed.\n[DEBUG][400] Invalid id parameter.')
+      reply.code(400).send(new JsonapiErrorBuilder()
+        .withStatus(400)
+        .withCode('BAD_VALUE')
+        .withTitle('Invalid ID')
+        .withDetail('The provided bookmark id is invalid.')
+        .withSource({ parameter: 'id' })
+        .build()
+      )
+      return
+    }
+    task_end('OK')
+    task(`Getting bookmark with id '${id}'... `)
+    const bookmark = await read_bookmark_by_id(id)
     if (bookmark) {
       // Check access control
       if (bookmark.is_published || Access.the(request.usr).canRead(bookmark)) {
@@ -28,7 +44,7 @@ export default async function get_bookmark_by_id_endpoint (
         reply.code(404).send(new JsonapiErrorBuilder()
           .withStatus(404)
           .withTitle('Not Found')
-          .withDetail(`Bookmark with id '${request.params.id}' not found.`)
+          .withDetail(`Bookmark with id '${id}' not found.`)
           .build()
         )
       }
@@ -36,7 +52,7 @@ export default async function get_bookmark_by_id_endpoint (
       task_end('Failed.\n[DEBUG][404] Bookmark not found.')
       reply.code(404).send(new JsonapiErrorBuilder()
         .withStatus(404)
-        .withTitle('Not Found')
+          .withDetail(`Bookmark with id '${id}' not found.`)
         .withDetail(`Bookmark with id '${request.params.id}' not found.`)
         .build()
       )

@@ -25,8 +25,8 @@ export default async function get_bookmark_collection_endpoint (
     const page = Math.max(1, req.query.page?.number ?? 1)
     const limit = Math.max(1, Math.min(100, req.query.page?.size ?? parseInt(Config.PAGINATION_BOOKMARKS_LIMIT)))
     
-    // userVotes will be populated after bookmarks are fetched from dedicated collection
-    let userVotes: Map<string, { rating: 1 | -1; bookmark_id: string }> | undefined
+    // bookmarkVotes will be populated after bookmarks are fetched from dedicated collection
+    let bookmarkVotes: Map<string, { rating: 1 | -1; bookmark_id: string }> | undefined
     
     if (searchQuery) {
       dbug('Running search query:', searchQuery)
@@ -37,7 +37,7 @@ export default async function get_bookmark_collection_endpoint (
         limit
       }, req.usr)
       const aggregationResult = await BookmarkModel.aggregate(pipeline)
-      task_end('Done.')
+      task_end('OK', '✔️')
 
       // Handle empty results - return 200 with empty data
       const { totalItems = 0, results = [] } = aggregationResult[0] || {}
@@ -48,10 +48,10 @@ export default async function get_bookmark_collection_endpoint (
       if (req.usr?._id) {
         const bookmarkIds = results.map((b: IBookmarkDocument) => b._id)
         const votes = await BookmarkVoteModel.find({ user_id: String(req.usr._id), bookmark_id: { $in: bookmarkIds.map((id: unknown) => String(id)) } }, { bookmark_id: 1, rating: 1 })
-        userVotes = new Map(votes.map(v => [v.bookmark_id, { rating: v.rating as 1 | -1, bookmark_id: v.bookmark_id }]))
+        bookmarkVotes = new Map(votes.map(v => [v.bookmark_id, { rating: v.rating as 1 | -1, bookmark_id: v.bookmark_id }]))
       }
       // Convert results to JSON:API resources with user votes
-      const { resources, included } = to_jsonapi_bookmark_resources(results, userVotes)
+      const { resources, included } = to_jsonapi_bookmark_resources(results, bookmarkVotes)
 
       const builder = JsonapiResponseBuilder.forCollection<IBookmark>()
         .withCollection(resources)
@@ -63,7 +63,7 @@ export default async function get_bookmark_collection_endpoint (
       
       // Add included documents if there are any user votes
       if (included.length > 0) {
-        included.forEach(inc => builder.addIncluded(inc))
+        builder.withIncluded(included)
       }
 
       reply.code(200).send(builder.buildCollection())
@@ -76,10 +76,10 @@ export default async function get_bookmark_collection_endpoint (
       if (req.usr?._id) {
         const bookmarkIds = result.docs.map((b: IBookmarkDocument) => b._id)
         const votes = await BookmarkVoteModel.find({ user_id: String(req.usr._id), bookmark_id: { $in: bookmarkIds.map((id: unknown) => String(id)) } }, { bookmark_id: 1, rating: 1 })
-        userVotes = new Map(votes.map(v => [v.bookmark_id, { rating: v.rating as 1 | -1, bookmark_id: v.bookmark_id }]))
+        bookmarkVotes = new Map(votes.map(v => [v.bookmark_id, { rating: v.rating as 1 | -1, bookmark_id: v.bookmark_id }]))
       }
       // Convert mongoose documents to JSON:API resources with user votes
-      const { resources, included } = to_jsonapi_bookmark_resources(result.docs, userVotes)
+      const { resources, included } = to_jsonapi_bookmark_resources(result.docs, bookmarkVotes)
 
       const builder = JsonapiResponseBuilder.forCollection<IBookmark>()
         .withCollection(resources)
@@ -100,7 +100,7 @@ export default async function get_bookmark_collection_endpoint (
       
       // Add included documents if there are any user votes
       if (included.length > 0) {
-        included.forEach(inc => builder.addIncluded(inc))
+        builder.withIncluded(included)
       }
 
       reply.code(200).send(builder.buildCollection())

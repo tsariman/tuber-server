@@ -1,7 +1,8 @@
-import { CLEARANCE_LEVEL, TRole } from '@tuber/shared'
+import { TRole } from '@tuber/shared'
 import type { IResource, IResourceSensitive } from '../../common.types'
 import { TContextualUser } from '../../schema/user'
 import { TAccessKey } from './TAccessKey'
+import CLEARANCE_LEVEL from './clearance.level'
 
 export default class Access {
   static GATE: Readonly<Record<TAccessKey, number>> = {

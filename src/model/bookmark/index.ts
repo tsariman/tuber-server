@@ -68,6 +68,9 @@ export const transform_bookmark_doc = (bookmark: IBookmarkDocument) => {
 export const read_bookmark_by_id = async function (
   id: string
 ): Promise<IBookmarkDocument | null> {
+  if (!id || id === 'undefined' || !Types.ObjectId.isValid(id)) {
+    return null
+  }
   const bookmarkDoc = await BookmarkModel.findById(id)
   if (bookmarkDoc && !bookmarkDoc.is_active) {
     return null
@@ -126,9 +129,11 @@ export const read_bookmark_document_count = async function (): Promise<number> {
   return count
 }
 
-/** Excludes _id from the bookmark document. */
-export const exclude_bookmark_id = (bookmarkDoc: IBookmarkDocument): IBookmark => {
-  const { _id, __v, ...bookmark } = typeof bookmarkDoc.toObject === 'function'
+/** Excludes sensitive fields from the bookmark document. */
+export const exclude_bookmark_sensitive_fields = (
+  bookmarkDoc: IBookmarkDocument
+): IBookmark => {
+  const { _id, __v, is_active, ...bookmark } = typeof bookmarkDoc.toObject === 'function'
     ? bookmarkDoc.toObject()
     : bookmarkDoc
   return bookmark
@@ -160,13 +165,13 @@ export const get_user_votes_for_bookmarks = (
  * Converts bookmarks from MongoDB documents to JSON:API resources.
  * Optionally includes user votes as relationships and included documents.
  * @param documents Array of bookmark documents
- * @param userVotes Optional map of bookmark IDs to vote data
+ * @param votes Optional map of bookmark IDs to vote data
  * @returns Object containing resources and optional included votes
  */
 export const to_jsonapi_bookmark_resources = (
   documents: IBookmarkDocument<Types.ObjectId>[],
-  userVotes?: Map<string, { rating: 1 | -1; bookmark_id: string }>
-): { 
+  votes?: Map<string, { rating: 1 | -1; bookmark_id: string }>
+): {
   resources: IJsonapiResource<IBookmark>[] 
   included: IJsonapiResponseResource[] 
 } => {
@@ -177,18 +182,18 @@ export const to_jsonapi_bookmark_resources = (
     const resource: IJsonapiResource<IBookmark> = {
       type: EP_BOOKMARKS,
       id: bookmarkId,
-      attributes: exclude_bookmark_id(bookmark)
+      attributes: exclude_bookmark_sensitive_fields(bookmark)
     }
     
     // Add user vote relationship if available
-    if (userVotes && userVotes.has(bookmarkId)) {
-      const vote = userVotes.get(bookmarkId)!
+    if (votes && votes.has(bookmarkId)) {
+      const vote = votes.get(bookmarkId)!
       
       // Add relationship to the bookmark
       resource.relationships = {
-        'user-vote': {
+        'bookmark-vote': {
           data: {
-            type: 'user-votes',
+            type: 'bookmark-votes',
             id: `${bookmarkId}`
           }
         }
@@ -196,7 +201,7 @@ export const to_jsonapi_bookmark_resources = (
       
       // Add the vote to included documents
       included.push({
-        type: 'user-votes',
+        type: 'bookmark-votes',
         id: `${bookmarkId}`,
         attributes: {
           bookmark_id: vote.bookmark_id,

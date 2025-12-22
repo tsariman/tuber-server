@@ -11,7 +11,7 @@ const bootstrap_app_state = {
         'fetchingStateAllowed': true,
         'inDebugMode': inDev,
         'inDevelMode': inDev,
-        'logoUri': '../tuber.png',
+        // 'logoUri': '../tuber.png', // TODO Uncomment when logo is ready
         // 'logoWidth': 212,
         // 'logoHeight': 35,
         'title': Config.DEV ? `[DEV] Tuberesearcher` : `Tuberesearcher`,

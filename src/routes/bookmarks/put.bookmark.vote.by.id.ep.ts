@@ -38,7 +38,7 @@ export async function put_bookmark_vote_by_id_endpoint(
 
   try {
     // Authenticated user (from preHandler cache); fallback not allowed
-    const cUsr = (req as any).usr
+    const cUsr = req.usr
     if (!cUsr?._id) {
       reply.code(401).send(new JsonapiErrorBuilder()
         .withStatus(401)
@@ -111,7 +111,7 @@ export async function put_bookmark_vote_by_id_endpoint(
       const finalRating: 1 | -1 | null = removal ? null : toggledRating
       reply.code(200).send({
         data: {
-          type: 'bookmark-vote',
+          type: 'bookmark-votes',
           id: String(bookmarkId),
           attributes: {
             upvotes: updatedBookmark.upvotes || 0,

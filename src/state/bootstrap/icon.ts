@@ -1,5 +1,5 @@
-import { TStateAllIcons } from '@tuber/shared';
-import { TBootstrapState } from '../_state.common.types';
+import { TStateAllIcons } from '@tuber/shared'
+import { TBootstrapState } from '../_state.common.types'
 
 /**
  * @see https://fonts.google.com/icons?selected=Material+Icons+Outlined:light_mode:&icon.size=24&icon.color=%23e3e3e3&icon.style=Outlined
@@ -420,12 +420,12 @@ export const bootstrap_icons_state: TBootstrapState<TStateAllIcons> = {
         ]
       }
 
-    };
+    }
 
-    return icons;
+    return icons
   }
 
   // TODO - If you want to use an icon, insert its state here.
   //        It will then be available client-side.
 
-};
+}

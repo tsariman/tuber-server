@@ -1,4 +1,5 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
+import { Types } from 'mongoose'
 import JsonapiErrorBuilder from '../../business.logic/builder/JsonapiErrorBuilder'
 import { default_500_error_response } from '../../business.logic/errors'
 import { ler, log_err, task, task_end } from '../../utility/logging'
@@ -13,8 +14,23 @@ export default async function delete_bookmark_by_id_endpoint (
   reply: FastifyReply
 ) {
   try {
+    task('Validating id parameter... ')
+    const id = req.params?.id
+    if (!id || id === 'undefined' || !Types.ObjectId.isValid(id)) {
+      task_end('Failed.')
+      reply.code(400).send(new JsonapiErrorBuilder()
+        .withStatus(400)
+        .withCode('BAD_VALUE')
+        .withTitle('Invalid ID')
+        .withDetail('The provided bookmark id is invalid.')
+        .withSource({ parameter: 'id' })
+        .build()
+      )
+      return
+    }
+    task_end('OK')
     task('Retrieving bookmark from database... ')
-    const bookmark = await BookmarkModel.findById(req.params.id)
+    const bookmark = await BookmarkModel.findById(id)
     
     if (!bookmark) {
       task_end('Not found.')
@@ -22,7 +38,7 @@ export default async function delete_bookmark_by_id_endpoint (
         .withStatus(404)
         .withCode('NOT_FOUND')
         .withTitle('Not Found')
-        .withDetail(`Bookmark with id ${req.params.id} not found`)
+        .withDetail(`Bookmark with id ${id} not found`)
         .build()
       )
       return
@@ -38,7 +54,7 @@ export default async function delete_bookmark_by_id_endpoint (
       }
       task('Disabling bookmark... ')
       const updatedBookmark = await BookmarkModel.findByIdAndUpdate(
-        req.params.id,
+        id,
         { is_active: false },
         { new: true }
       )
@@ -60,7 +76,7 @@ export default async function delete_bookmark_by_id_endpoint (
         .withStatus(404)
         .withCode('NOT_FOUND')
         .withTitle('Not Found')
-        .withDetail(`Bookmark with id ${req.params.id} not found`)
+        .withDetail(`Bookmark with id ${id} not found`)
         .build()
       )
     }

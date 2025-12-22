@@ -225,6 +225,11 @@ export default class JsonapiResponseBuilder<T = TJsonapiDataAttributes> {
     return this
   }
 
+  withIncluded(resources: TJsonapiResponseResource[]): this {
+    this._included = resources
+    return this
+  }
+
   addIncluded(resource: TJsonapiResponseResource): this {
     this._included ??= []
     this._included.push(resource)

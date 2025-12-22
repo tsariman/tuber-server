@@ -4,12 +4,13 @@ import JsonapiResponseBuilder from '../../business.logic/builder/JsonapiResponse
 import { dbug, ler, log_err, task, task_end } from '../../utility/logging'
 import { create_bookmark } from '../../model/bookmark'
 import { IBookmarkPost } from '../../schema/bookmark'
-import { CLEARANCE_LEVEL, MSG_500_ERROR_MESSAGE } from '@tuber/shared'
+import { MSG_500_ERROR_MESSAGE } from '@tuber/shared'
 import fix_missing_bookmark_data from '../../platform/all.drivers'
 import JsonapiRequestDriver from '../../business.logic/JsonapiRequestDriver'
 import { get_platform_specific_validator } from './_bookmarks.common.logic'
 import JsonapiErrorBuilder from '../../business.logic/builder/JsonapiErrorBuilder'
 import Access from '../../business.logic/security/Access'
+import CLEARANCE_LEVEL from '../../business.logic/security/clearance.level'
 
 /** `POST /bookmarks` endpoint handler */
 export default async function post_bookmark_endpoint (
@@ -17,7 +18,8 @@ export default async function post_bookmark_endpoint (
   reply: FastifyReply
 ) {
   try {
-    if (Access.the(req.usr).cannot('create.bookmark')) {
+    const accessingUser = Access.the(req.usr)
+    if (accessingUser.cannot('create.bookmark')) {
       reply.code(403).send(new JsonapiErrorBuilder()
         .withStatus(403)
         .withTitle('Forbidden')
@@ -73,8 +75,7 @@ export default async function post_bookmark_endpoint (
       }))
       return
     }
-    const access = Access.the(req.usr)
-    fixedBookmarkData.inception_clearance = CLEARANCE_LEVEL[access.role]
+    fixedBookmarkData.inception_clearance = CLEARANCE_LEVEL[accessingUser.role]
     const dbBookmark = await create_bookmark(fixedBookmarkData)
     task_end('Done.')
     dbug('Sending response...', dbBookmark)
