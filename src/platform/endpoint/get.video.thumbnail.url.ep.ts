@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import JsonapiErrorBuilder from '../../business.logic/builder/JsonapiErrorBuilder'
-import { default_500_error_response } from '../../business.logic/errors'
+import { error_id } from '../../business.logic/errors'
 import { dbug, errr, ler, log_err, task, task_end } from '../../utility/logging'
 import { get_video_thumbnail_url } from '../all.drivers'
 import { BookmarkModel, read_bookmark_by_id } from '../../model/bookmark'
@@ -65,7 +65,7 @@ export default async function get_video_thumbnail_url_endpoint (
     if (!videoid && (platform === 'twitch' || platform === 'vimeo')) {
       errr('[500] get platform video thumbnail url')
       ler('             Invalid bookmark. Video id is missing. (bookmark.videoid)')
-      reply.code(500).send(default_500_error_response({
+      reply.code(500).send(error_id(5001).default_500_error_response({
         message: 'Failed to retrieve thumbnail url.',
         stack: 'Existing bookmark is missing required information.'
       }))
@@ -74,7 +74,7 @@ export default async function get_video_thumbnail_url_endpoint (
     if (!slug && (platform === 'rumble' || platform === 'odysee')) {
       errr('[500] get platform video thumbnail url')
       ler('             Invalid bookmark. Slug is missing. (bookmark.slug)')
-      reply.code(500).send(default_500_error_response({
+      reply.code(500).send(error_id(5002).default_500_error_response({
         message: 'Failed to retrieve thumbnail url.',
         stack: 'Existing bookmark is missing required information.'
       }))
@@ -89,7 +89,7 @@ export default async function get_video_thumbnail_url_endpoint (
     })
     if (!thumbnail_url) {
       task_end(`Failed.`)
-      reply.code(500).send(default_500_error_response({
+      reply.code(500).send(error_id(5003).default_500_error_response({
         message: `Failed to retrieve video's thumbnail url.`,
         stack: `Failed to retrieve video's thumbnail url.`
       }))
@@ -122,6 +122,6 @@ export default async function get_video_thumbnail_url_endpoint (
   } catch (e) {
     ler(`Failed.\n[DEBUG][500] Internal Server Error - Getting platform video thumbnail url`)
     log_err(`GET platform video thumbnail url`, e)
-    reply.code(500).send(default_500_error_response(e))
+    reply.code(500).send(error_id(5004).default_500_error_response(e))
   }
 }

@@ -1,5 +1,5 @@
 import { FastifyReply } from 'fastify'
-import { default_500_error_response } from '../../business.logic/errors'
+import { error_id } from '../../business.logic/errors'
 import JsonapiResponseBuilder from '../../business.logic/builder/JsonapiResponseBuilder'
 import JsonapiErrorBuilder from '../../business.logic/builder/JsonapiErrorBuilder'
 import { read_user_collection, transform_user_doc } from '../../model/user'
@@ -28,8 +28,8 @@ export default async function get_user_collection_endpoint (
       .withMongoosePaginatedResult(result, 'users', transform_user_doc)
       .build())
   } catch (e) {
-    ler(MSG_500_ERROR_MESSAGE)
-    log_err('GET user collection', e)
-    reply.code(500).send(default_500_error_response(e))
+    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[5044]'))
+    log_err('[5044] GET user collection', e)
+    reply.code(500).send(error_id(5044).default_500_error_response(e))
   }
 }

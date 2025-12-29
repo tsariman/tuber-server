@@ -1,8 +1,8 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { Types } from 'mongoose'
 import JsonapiErrorBuilder from '../../business.logic/builder/JsonapiErrorBuilder'
-import { default_500_error_response } from '../../business.logic/errors'
-import { dbug, ler, log_err, task, task_end } from '../../utility/logging'
+import { error_id } from '../../business.logic/errors'
+import { dbug, errr, ler, log_err, task } from '../../utility/logging'
 import { update_bookmark_by_id, read_bookmark_by_id } from '../../model/bookmark'
 import { IBookmarkPatch } from '../../schema/bookmark'
 import { MSG_500_ERROR_MESSAGE } from '@tuber/shared'
@@ -17,11 +17,12 @@ export default async function patch_bookmark_by_id_endpoint (
 ) {
   try {
     dbug('request.body:', request.body)
-    task('Checking request bookmark data... ')
+    task('Checking request bookmark data ')
     const driver = new JsonapiRequestDriver(request.body)
     const attributes = driver.getAttributes()
     if (!attributes) {
-      task_end('Failed', '❌', '\n[DEBUG][400] Missing attributes.', request.body)
+      task.end('[❌]')
+      errr('[400] Missing attributes in request body')
       reply.code(400).send(new JsonapiErrorBuilder()
         .withStatus(400)
         .withCode('MALFORMED_REQUEST')
@@ -30,11 +31,12 @@ export default async function patch_bookmark_by_id_endpoint (
       )
       return
     }
-    task_end('OK', '✔️')
-    task('Validating id parameter... ')
+    task.end('[✔️]')
+    task('Validating id parameter ')
     const id = request.params?.id
     if (!id || id === 'undefined' || !Types.ObjectId.isValid(id)) {
-      task_end('Failed', '❌', `\n[DEBUG][400] Invalid id parameter: ${id}`)
+      task.end('[❌]')
+      errr(`[400] Invalid id parameter: ${id}`)
       reply.code(400).send(new JsonapiErrorBuilder()
         .withStatus(400)
         .withCode('BAD_VALUE')
@@ -45,22 +47,24 @@ export default async function patch_bookmark_by_id_endpoint (
       )
       return
     }
-    task_end('OK', '✔️')
-    task('Acquiring platform specific validator... ')
+    task.end('[✔️]')
+    task('Acquiring platform specific validator ')
     const validator = get_platform_specific_validator(attributes)
 
     if (validator) {
-      task_end('OK', '✔️')
-      task('Running validation... ')
+      task.end('[✔️]')
+      task('Running validation ')
       const errorResponse = validator.validateAgainstFormState()
       if (errorResponse) {
-        task_end(`Failed`, `❌`, `\n[DEBUG][400] Validation error.`)
+        task.end('[❌]')
+        errr('[400] Validation error in request body')
         reply.code(400).send(errorResponse)
         return
       }
     } else {
       const message = 'Platform is likely invalid'
-      task_end(`Failed`, `❌`, `\n[DEBUG][422] ${message}.`)
+      task.end('[❌]')
+      errr(`[422] ${message}`)
       reply.code(422).send(new JsonapiErrorBuilder()
         .withStatus(422)
         .withCode('MISSING_DATA')
@@ -69,12 +73,13 @@ export default async function patch_bookmark_by_id_endpoint (
       )
       return
     }
-    task_end('OK', '✔️')
-    task('Retrieving bookmark from database... ')
+    task.end('[✔️]')
+    task('Retrieving bookmark from database ')
     const bookmark = await read_bookmark_by_id(id)
     
     if (!bookmark) {
-      task_end('Failed', '❌', `\n[DEBUG][404] Bookmark not found with id: ${request.params.id}`)
+      task.end('[❌]')
+      errr(`[404] Bookmark not found with id: ${request.params.id}`)
       reply.code(404).send(new JsonapiErrorBuilder()
         .withStatus(404)
         .withCode('NOT_FOUND')
@@ -85,18 +90,19 @@ export default async function patch_bookmark_by_id_endpoint (
       )
       return
     }
-    task_end('OK', '✔️')
-    task('Checking access control... ')
+    task.end('[✔️]')
+    task('Checking access control ')
     // Check access control
     if (Access.the(request.usr).canEdit(bookmark)) {
-      task_end('OK', '✔️')
-      task('Applying update... ')
+      task.end('[✔️]')
+      task('Applying update to bookmark ')
       const updatedBookmark = await update_bookmark_by_id(id, attributes)
       if (updatedBookmark) {
-        task_end('OK', '✔️')
+        task.end('[✔️]')
         reply.code(204).send()
       } else {
-        task_end('Failed', '❌', '\n[ERROR][500] Failed to update the bookmark.')
+        task.end('[❌]')
+        errr('[500] Failed to update the bookmark')
         reply.code(500).send(new JsonapiErrorBuilder()
           .withStatus(500)
           .withCode('DATABASE_ERROR')
@@ -106,19 +112,19 @@ export default async function patch_bookmark_by_id_endpoint (
         )
       }
     } else {
-      task_end('Access denied', '❌', '\n[DEBUG][404] Bookmark not found.')
+      task.end('[❌]')
+      errr('[404] Access denied to bookmark')
       reply.code(404).send(new JsonapiErrorBuilder()
         .withStatus(404)
         .withCode('NOT_FOUND')
         .withTitle('Not Found')
         .withDetail('Bookmark not found')
         .withSource({ parameter: request.params.id })
-        .build()
-      )
+        .build())
     }
   } catch (e) {
-    ler(MSG_500_ERROR_MESSAGE)
-    log_err('PATCH bookmark by id', e)
-    reply.code(500).send(default_500_error_response(e))
+    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[5013]'))
+    log_err('[5013] PATCH bookmark by id error', e)
+    reply.code(500).send(error_id(5013).default_500_error_response(e))
   }
 }

@@ -11,6 +11,7 @@ import researchPageAppbarState, {
 import {
   $66DarkThemeMode,
   $67DarkThemeMode,
+  account_link_state,
   bookmarkAddFromUrlLinkState,
   createUserLinkState,
   darkModeLinkState,
@@ -88,10 +89,12 @@ export const bs_researchPageState = (
       } else if (context.usr) {
         link.add(bookmarkAddFromUrlLinkState)
       }
-      if (!context.usr) {
+      link.add(darkModeLinkState)
+      if (context.usr) {
+        link.add(account_link_state(context.usr))
+      } else {
         link.add(createUserLinkState)
       }
-      link.add(darkModeLinkState)
       link.add(context.usr ? $66DarkThemeMode : $67DarkThemeMode)
       appbar['items'] = link.items
       base['appbar'] = appbar
@@ -109,10 +112,12 @@ export const bs_researchPageState = (
       } else if (context.usr) {
         link.add(bookmarkAddFromUrlLinkState)
       }
-      if (!context.usr) {
+      link.add(lightModeLinkState)
+      if (context.usr) {
+        link.add(account_link_state(context.usr))
+      } else {
         link.add(createUserLinkState)
       }
-      link.add(lightModeLinkState)
       link.add(context.usr ? powerLogoutLinkState : powerSignInLinkState)
       appbar.items = link.items
       base.appbar = appbar

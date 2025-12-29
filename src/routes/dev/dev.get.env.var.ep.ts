@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { log } from '../../utility/logging'
-import { default_500_error_response } from '../../business.logic/errors'
+import { ler, log_err, task } from '../../utility/logging'
+import { error_id } from '../../business.logic/errors'
 import { MSG_500_ERROR_MESSAGE } from '@tuber/shared'
 import JsonapiResponseBuilder from '../../business.logic/builder/JsonapiResponseBuilder'
 import { IQueryEnvVar } from '../../common.types'
@@ -21,19 +21,23 @@ export default function dev_get_env_var_enpoint (
     process.stdout.write('\n |     ENVIRONMENT VARIABLES     | \n')
     process.stdout.write('\n --------------------------------- \n')
     console.log('\n')
+    task('Fetching environment variable(s) ')
     const variable = req.query.var
     if (variable) {
+      task.end('[✔️]')
       console.log(`${variable} =`, process.env[variable])
       reply.code(200).send(JsonapiResponseBuilder.forSingleResource<typeof process.env>()
         .addAttribute(variable, process.env[variable])
         .build()
       )
     } else {
+      task.end('[✔️]')
       console.log(process.env)
     }
     console.log('\n')
   } catch (e) {
-    log(MSG_500_ERROR_MESSAGE, e)
-    reply.code(500).send(default_500_error_response(e))
+    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[5017]'))
+    log_err('[5017] DEV GET ENV VAR ERROR', e)
+    reply.code(500).send(error_id(5017).default_500_error_response(e))
   }
 }

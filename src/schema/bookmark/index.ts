@@ -143,7 +143,7 @@ const bookmarkSchema = new Schema<IBookmarkDocument>({
   is_active: { type: Boolean, default: true },
   created_at: { type: Date, default: Date.now },
   modified_at: Date,
-  is_private: { type: Boolean, default: false },
+  is_private: Boolean,
   is_published: Boolean,
   user_id: { type: String, required: true },
   inception_clearance: { type: Number , default: 0 },

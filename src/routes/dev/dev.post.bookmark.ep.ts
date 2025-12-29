@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { default_500_error_response } from '../../business.logic/errors'
+import { error_id } from '../../business.logic/errors'
 import JsonapiResponseBuilder from '../../business.logic/builder/JsonapiResponseBuilder'
-import { task, task_end } from '../../utility/logging'
+import { ler, log_err, task } from '../../utility/logging'
 import { create_bookmark } from '../../model/bookmark'
 import { IBookmarkPost } from '../../schema/bookmark'
 import { gen_random_bookmark_votes } from '../../dev'
@@ -23,20 +23,21 @@ export default async function dev_post_bookmark_endpoint (
     const bookmark = await fix_missing_bookmark_data(attrWithVotes, req.usr)
 
     if (!bookmark) {
-      task_end('Failed.')
-      reply.code(500).send(default_500_error_response({
+      task.end('[❌]')
+      reply.code(500).send(error_id(5023).default_500_error_response({
         title: 'Failed to create bookmark.',
         detail: 'Bookmark is null.'
       }))
       return
     }
     const dbBookmark = await create_bookmark(bookmark)
-    task_end('Done.')
+    task.end('[✔️]')
     reply.code(201).send(
       JsonapiResponseBuilder.forSingleResource(dbBookmark, 'bookmarks').build()
     )
   } catch (e) {
-    task_end(MSG_500_ERROR_MESSAGE, e)
-    reply.code(500).send(default_500_error_response(e))
+    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[5024]'))
+    log_err('[5024] DEV POST BOOKMARK ERROR', e)
+    reply.code(500).send(error_id(5024).default_500_error_response(e))
   }
 }

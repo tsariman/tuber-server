@@ -4,7 +4,7 @@ import { UserPaginationModel } from '../model/user'
 import { check_password } from '../business.logic/security'
 import { defaultDialogAlertState as alert } from '../state/dialog'
 import { IRequestAuth } from '../common.types'
-import { default_500_error_response } from '../business.logic/errors'
+import { error_id } from '../business.logic/errors'
 import JsonapiRequestDriver from '../business.logic/JsonapiRequestDriver'
 import { assure } from '../utility'
 
@@ -60,7 +60,7 @@ const authenticate: RouteShorthandOptions['preValidation'] = async function (
       }
     } catch (e) {
       err(`[ERROR] ${(e as Error).message}`)
-      reply.code(500).send(default_500_error_response(e))
+      reply.code(500).send(error_id(5006).default_500_error_response(e))
     }
   }
   reply.send(alert('Wrong username or password!'))

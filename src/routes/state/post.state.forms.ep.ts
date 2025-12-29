@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import JsonapiErrorBuilder from '../../business.logic/builder/JsonapiErrorBuilder'
-import { default_500_error_response } from '../../business.logic/errors'
-import { errr, ler, log_err, task, task_end } from '../../utility/logging'
+import { error_id } from '../../business.logic/errors'
+import { errr, ler, log_err, task } from '../../utility/logging'
 import { STATE_FORMS, STATE_FORMS_THEME_DARK } from '../../state/form'
 import {  MSG_500_ERROR_MESSAGE, TJsonapiStateResponse } from '@tuber/shared'
 import { IStatePost } from '../../common.types'
@@ -33,12 +33,12 @@ export default async function post_state_forms_endpoint (
       )
       return
     }
-    task(`Loading '${key}' state... `)
+    task(`Loading '${key}' state `)
     const light = STATE_FORMS[key]
     const dark = STATE_FORMS_THEME_DARK[key]
     const formState = themed(light, dark, mode)
     if (formState) {
-      task_end('Done.')
+      task.end('[✔️]')
       reply.code(200).send({
         'state': {
           'forms': { [key]: formState },
@@ -47,7 +47,7 @@ export default async function post_state_forms_endpoint (
         }
       } as TJsonapiStateResponse)
     } else {
-      task_end('Failed.')
+      task.end('[❌]')
       reply.code(404).send({
         'state': {
           'forms': {
@@ -62,8 +62,8 @@ export default async function post_state_forms_endpoint (
       } as TJsonapiStateResponse)
     }
   } catch (e) {
-    ler(MSG_500_ERROR_MESSAGE, e)
-    log_err('POST state form', e)
-    reply.code(500).send(default_500_error_response(e))
+    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[5039]'))
+    log_err('[5039] POST state forms', e)
+    reply.code(500).send(error_id(5039).default_500_error_response(e))
   }
 }

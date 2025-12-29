@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { ler, task, task_end } from '../../../utility/logging'
+import { ler, log_err, task } from '../../../utility/logging'
 import { MSG_500_ERROR_MESSAGE } from '@tuber/shared'
-import { default_500_error_response } from '../../../business.logic/errors'
+import { error_id } from '../../../business.logic/errors'
 import DialogStateBuilder from '../../../business.logic/builder/DialogStateBuilder'
 import FormItemButtonBuilder from '../../../business.logic/builder/FormItemButtonStateBuilder'
 
@@ -11,7 +11,7 @@ export default async function dev_get_dialog_builder_endpoint(
   reply: FastifyReply
 ) {
   try {
-    task(`[DEBUG] Testing dialog builder state... `)
+    task(`Testing dialog builder state... `)
     const id = Math.random().toString(36).substring(7)
     reply.code(200).send(new DialogStateBuilder()
       .with_Id(id)
@@ -32,9 +32,10 @@ export default async function dev_get_dialog_builder_endpoint(
       .withBootstrapState()
       .buildResponse()
     )
-    task_end('Done.')
+    task.end('[✔️]')
   } catch (e) {
-    ler(MSG_500_ERROR_MESSAGE, e)
-    reply.code(500).send(default_500_error_response(e))
+    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[5032]'))
+    log_err('[5032] DEV GET DIALOG BUILDER ERROR', e)
+    reply.code(500).send(error_id(5032).default_500_error_response(e))
   }
 }

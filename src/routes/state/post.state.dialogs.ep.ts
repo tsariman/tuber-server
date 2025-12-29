@@ -1,10 +1,10 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import JsonapiErrorBuilder from '../../business.logic/builder/JsonapiErrorBuilder'
-import { default_500_error_response } from '../../business.logic/errors'
+import { error_id } from '../../business.logic/errors'
 import  { STATE_DIALOGS, STATE_DIALOGS_THEME_DARK } from '../../state/dialog'
 import { MSG_500_ERROR_MESSAGE, TJsonapiStateResponse } from '@tuber/shared'
 import { themed } from '../../business.logic'
-import { errr, ler, log_err, task, task_end } from '../../utility/logging'
+import { errr, ler, log_err, task } from '../../utility/logging'
 import { IStatePost } from '../../common.types'
 
 /** `POST /state/dialogs` endpoint handler */
@@ -33,12 +33,12 @@ export default async function post_state_dialogs_endpoint (
       )
       return
     }
-    task(`Loading '${key}' state... `)
+    task(`Loading '${key}' state `)
     const light = STATE_DIALOGS[key]
     const dark = STATE_DIALOGS_THEME_DARK[key]
     const dialogState = themed(light, dark, mode)
     if (dialogState) {
-      task_end('Done.')
+      task.end('[✔️]')
       reply.code(200).send({
         state: {
           'dialogs': { [key]: dialogState },
@@ -47,7 +47,7 @@ export default async function post_state_dialogs_endpoint (
         }
       } as TJsonapiStateResponse)
     } else {
-      task_end('Failed.')
+      task.end('[❌]')
       reply.code(404).send({
         state: {
           'dialogs': {
@@ -66,8 +66,8 @@ export default async function post_state_dialogs_endpoint (
       } as TJsonapiStateResponse)
     }
   } catch (e) {
-    ler(MSG_500_ERROR_MESSAGE)
-    log_err('POST state dialog', e)
-    reply.code(500).send(default_500_error_response(e))
+    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[5038]'))
+    log_err('[5038] POST state dialogs', e)
+    reply.code(500).send(error_id(5038).default_500_error_response(e))
   }
 }

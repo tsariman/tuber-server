@@ -4,7 +4,7 @@ import JsonapiResponseBuilder from '../../business.logic/builder/JsonapiResponse
 import { read_user_by_name, transform_user_doc } from '../../model/user'
 import { TUsersFastifyRequest } from '../../schema/user'
 import Access from '../../business.logic/security/Access'
-import { default_500_error_response } from '../../business.logic/errors'
+import { error_id } from '../../business.logic/errors'
 import { ler, log_err } from '../../utility/logging'
 import { MSG_500_ERROR_MESSAGE } from '@tuber/shared'
 
@@ -35,8 +35,8 @@ export default async function get_user_by_name_endpoint (
       .withDetail(`User '${request.params.name}' not found.`)
       .build())
   } catch (e) {
-    ler(MSG_500_ERROR_MESSAGE)
-    log_err('GET user by name', e)
-    reply.code(500).send(default_500_error_response(e))
+    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[5042]'))
+    log_err('[5042] GET user by name', e)
+    reply.code(500).send(error_id(5042).default_500_error_response(e))
   }
 }

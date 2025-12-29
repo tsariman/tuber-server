@@ -59,7 +59,7 @@ async function robust_rumble_get(url: string): Promise<string> {
       task_end(`Failed.[INFO][${response.status}] [Strategy ${i + 1}]`)
     } catch (e) {
       const errorMessage = e instanceof Error ? e.message : String(e)
-      task_end(`Failed.[ERROR][500] [Strategy ${i + 1}] returned error: ${errorMessage}`)
+      task_end(`Failed.\n[ERROR][500] [Strategy ${i + 1}] returned error: ${errorMessage}`)
 
       // If this is the last strategy, log as error
       if (i === strategies.length - 1) {
@@ -90,7 +90,7 @@ export async function rumble_fetch_html_page(url?: string): Promise<string> {
  */
 export async function rumble_fetch_thumbnail_url(slug?: string): Promise<string> {
   if (!slug) { return '' }
-  const urlObj = new URL(`${PLATFORM_URL['rumble']}${slug}.html`)
+  const urlObj = new URL(`${PLATFORM_URL['rumble']}/${slug}.html`)
 
   // Had to get rid of query string because it was causing errors.
   const compliantUrl = `${urlObj.origin}${urlObj.pathname}`
@@ -139,7 +139,7 @@ export function rumble_parse_thumbnail_url(html: string): string {
  * @returns `Promise<string>`
  */
 export async function rumble_fetch_videoid(slug: string): Promise<string> {
-  const urlObj = new URL(`${PLATFORM_URL['rumble']}${slug}.html`)
+  const urlObj = new URL(`${PLATFORM_URL['rumble']}/${slug}.html`)
 
   // Had to get rid of query string because it was causing errors.
   const compliantUrl = `${urlObj.origin}${urlObj.pathname}`
@@ -192,7 +192,7 @@ export function rumble_parse_videoid (html: string): string {
 export async function rumble_fetch_videoid_thumbnail(
   slug: string
 ): Promise<{ videoid: string, thumbnail_url: string }> {
-  const urlObj = new URL(`${PLATFORM_URL['rumble']}${slug}.html`)
+  const urlObj = new URL(`${PLATFORM_URL['rumble']}/${slug}.html`)
 
   // Had to get rid of query string because it was causing errors.
   const compliantUrl = `${urlObj.origin}${urlObj.pathname}`
@@ -217,6 +217,48 @@ export async function rumble_fetch_videoid_thumbnail(
     const errorMessage = e instanceof Error ? e.message : String(e)
     errr(`Failed to fetch videoid and thumbnail for slug ${slug}:`, errorMessage)
     log_err(`fetching Rumble videoid`, e)
+    return { videoid: '', thumbnail_url: '' }
+  }
+}
+
+/**
+ * Fetches video data using Rumble's oEmbed API (more efficient than scraping HTML).
+ *
+ * @param slug The slug of the Rumble video URL.
+ * @returns `Promise<{ videoid: string, thumbnail_url: string }>`
+ */
+export async function rumble_fetch_oembed_data(slug: string): Promise<{ videoid: string, thumbnail_url: string }> {
+  if (!slug) { return { videoid: '', thumbnail_url: '' } }
+
+  const oembedUrl = `https://rumble.com/api/Media/oEmbed.json?url=https://rumble.com/${slug}.html`
+
+  try {
+    task(`Fetching oEmbed data for Rumble slug '${slug}'... `)
+    const response = await axios.get(oembedUrl, {
+      timeout: 10000,
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+      }
+    })
+    const data = response.data
+    // #1 data is serialized JSON
+    // #2 data does not have 'html' and 'thumbnail_url' fields
+    // #3 The serialized JSON contains the "error" property:
+    //    "error":{"msg":"You must be signed in to perform this action"}}
+    const thumbnail_url = data.thumbnail_url || ''
+
+    // Extract videoid from the embed URL in the HTML field
+    const html = data.html || ''
+    const embedMatch = html.match(/rumble\.com\/embed\/([^\/]+)\//)
+    const videoid = embedMatch ? embedMatch[1] : ''
+
+    task_end('Done ✔️')
+    return { videoid, thumbnail_url }
+  } catch (e) {
+    task_end('Failed ❌')
+    const errorMessage = e instanceof Error ? e.message : String(e)
+    errr(`Failed to fetch oEmbed data for slug ${slug}: ${errorMessage}`)
+    log_err(`fetching Rumble oEmbed`, e)
     return { videoid: '', thumbnail_url: '' }
   }
 }

@@ -25,8 +25,10 @@ export const task = Object.assign(
     }
   },
   {
-    /** A possible outcome of a previous documenting log using `task()` */
-    end: (...args: unknown[]): void => log(args)
+    /** Indicates the end of the task. */
+    end: (...args: unknown[]): void => log(...args),
+    log: (...args: unknown[]): void => dbug(...args),
+    err: (...args: unknown[]): void => errr(...args),
   }
 )
 
@@ -50,7 +52,7 @@ export const dbug = (...args: unknown[]): void => {
  * Alias for the `log()` function but it should be used in conjunction with
  * `task()` for clarity.
  */
-export const task_end = (...args: unknown[]): void => log(args)
+export const task_end = (...args: unknown[]): void => log(...args)
 
 /** Log with automatic sanitization of sensitive data. */
 export const log_safe = (message: string, data?: unknown, customSensitiveFields?: string[]): void => {

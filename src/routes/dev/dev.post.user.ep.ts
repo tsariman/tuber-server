@@ -1,10 +1,11 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import JsonapiErrorBuilder from '../../business.logic/builder/JsonapiErrorBuilder'
-import { default_500_error_response } from '../../business.logic/errors'
-import { errr } from '../../utility/logging'
+import { error_id } from '../../business.logic/errors'
+import { ler, log_err } from '../../utility/logging'
 import { ensureDefaultUserExists } from '../../business.logic/ensure.default.user'
 import { defaultDialogAlertState as alert } from '../../state/dialog'
 import type { IQueryDirective } from '../../common.types'
+import { MSG_500_ERROR_MESSAGE } from '@tuber/shared'
 
 /** `POST /dev/users` */
 const dev_post_user_endpoint = async (
@@ -39,8 +40,9 @@ const dev_post_user_endpoint = async (
         return
     }
   } catch (e) {
-    errr(e)
-    reply.code(500).send(default_500_error_response(e))
+    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[5031]'))
+    log_err('[5031] DEV POST user endpoint', e)
+    reply.code(500).send(error_id(5031).default_500_error_response(e))
   }
 }
 

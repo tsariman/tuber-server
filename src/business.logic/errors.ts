@@ -5,6 +5,8 @@ import { assure } from '../utility'
 
 export const MONGODB_DUPLICATE_KEY_ERROR = 'E11000'
 
+let errorId = 0
+
 /**
  * Default 500 error response to help prevent repetitive code.
  *
@@ -12,9 +14,11 @@ export const MONGODB_DUPLICATE_KEY_ERROR = 'E11000'
  * @returns `TJsonapiErrorResponse`
  */
 export const default_500_error_response = (e: unknown) => {
+  const id = errorId ? errorId.toString() : undefined
   const message = e instanceof Error ? e.message : String(e)
   const stack = e instanceof Error ? e.stack : undefined
   return new JsonapiErrorBuilder()
+    .withId(id)
     .withStatus(500)
     .withCode('INTERNAL_ERROR')
     .withTitle(message)
@@ -31,7 +35,9 @@ export const default_500_error_response = (e: unknown) => {
 export const default_404_error_response = (
   error: { title: string, detail?: string, source?: TJsonapiErrorSource }
 ) => {
+  const id = errorId ? errorId.toString() : undefined
   return new JsonapiErrorBuilder()
+    .withId(id)
     .withStatus(404)
     .withCode('NOT_FOUND')
     .withTitle(error.title)
@@ -47,8 +53,10 @@ export const default_404_error_response = (
  * @param isBrowserReq Set to `true` if request is from a browser.
  */
 export const default_401_error_response = (error?: TJsonapiError, isBrowserReq = false) => {
+  const id = errorId ? errorId.toString() : undefined
   const { title, detail } = assure(error)
   const builder = new JsonapiErrorBuilder()
+    .withId(id)
     .withStatus(401)
     .withCode('AUTHENTICATION_REQUIRED')
     .withTitle(title || 'Unauthorized')
@@ -61,8 +69,10 @@ export const default_401_error_response = (error?: TJsonapiError, isBrowserReq =
 
 /** Generic response for an authentication-shielded enpoints. */
 export const shielded_401_error_response = (error?: TJsonapiError) => {
+  const id = errorId ? errorId.toString() : undefined
   const { title, detail } = assure(error)
   return new JsonapiErrorBuilder()
+    .withId(id)
     .withStatus(401)
     .withCode('SERVICE_UNAVAILABLE')
     .withTitle(title || 'The server is busy.')
@@ -79,7 +89,9 @@ export const shielded_401_error_response = (error?: TJsonapiError) => {
 export const default_400_error_response = (
   error: { title: string, detail?: string }
 ) => {
+  const id = errorId ? errorId.toString() : undefined
   return new JsonapiErrorBuilder()
+    .withId(id)
     .withStatus(400)
     .withCode('INVALID_FORMAT')
     .withTitle(error.title)
@@ -217,4 +229,20 @@ export const as_Error = (e: unknown): Error => {
     return new Error((e as any).message)
   }
   return new Error(String(e))
+}
+
+/**
+ * Give all error responses a specific ID.
+ * @param id 
+ * @returns 
+ */
+export const error_id = (id: number) => {
+  errorId = id
+  return {
+    default_500_error_response,
+    default_404_error_response,
+    default_401_error_response,
+    shielded_401_error_response,
+    default_400_error_response
+  }
 }

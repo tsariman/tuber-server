@@ -1,6 +1,6 @@
 import { FastifyReply } from 'fastify'
 import JsonapiErrorBuilder from '../../business.logic/builder/JsonapiErrorBuilder'
-import { default_500_error_response } from '../../business.logic/errors'
+import { error_id } from '../../business.logic/errors'
 import JsonapiResponseBuilder from '../../business.logic/builder/JsonapiResponseBuilder'
 import { read_user_by_id, transform_user_doc } from '../../model/user'
 import { TUsersFastifyRequest } from '../../schema/user'
@@ -35,8 +35,8 @@ export default async function get_user_by_id_endpoint (
         .build())
     }
   } catch (e) {
-    ler(MSG_500_ERROR_MESSAGE)
-    log_err('GET user by id', e)
-    reply.code(500).send(default_500_error_response(e))
+    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[5041]'))
+    log_err('[5041] GET user by id', e)
+    reply.code(500).send(error_id(5041).default_500_error_response(e))
   }
 }

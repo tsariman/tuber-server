@@ -3,7 +3,7 @@ import { type PipelineStage, Types } from 'mongoose'
 import { ListingModel } from '../../model/listing'
 import JsonapiResponseBuilder from '../../business.logic/builder/JsonapiResponseBuilder'
 import JsonapiErrorBuilder from '../../business.logic/builder/JsonapiErrorBuilder'
-import { default_500_error_response } from '../../business.logic/errors'
+import { error_id } from '../../business.logic/errors'
 import { IListingsGet } from '../../schema/listing'
 import { MSG_500_ERROR_MESSAGE } from '@tuber/shared'
 import { ler, log_err, task, task_end } from '../../utility/logging'
@@ -202,10 +202,9 @@ export default async function get_listing_by_id_endpoint (
     }
 
     reply.code(200).send(responseBuilder.build())
-
   } catch (e) {
-    ler(MSG_500_ERROR_MESSAGE)
-    log_err('GET listing by id with bookmarks', e)
-    reply.code(500).send(default_500_error_response(e))
+    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[5035]'))
+    log_err('[5035] GET listing by id with bookmarks', e)
+    reply.code(500).send(error_id(5035).default_500_error_response(e))
   }
 }

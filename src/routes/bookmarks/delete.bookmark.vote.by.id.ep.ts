@@ -3,7 +3,9 @@ import { BookmarkModel } from '../../model/bookmark'
 import { UserModel } from '../../model/user'
 import { delete_bookmark_vote } from '../../model/bookmark.vote'
 import JsonapiErrorBuilder from '../../business.logic/builder/JsonapiErrorBuilder'
-import { default_500_error_response } from '../../business.logic/errors'
+import { error_id } from '../../business.logic/errors'
+import { errr, ler, log_err, task } from '../../utility/logging'
+import { MSG_500_ERROR_MESSAGE } from '@tuber/shared'
 
 interface IBookmarkVoteDelete {
   Params: { id?: string }
@@ -14,12 +16,14 @@ export async function delete_bookmark_vote_by_id_endpoint(
   req: FastifyRequest<IBookmarkVoteDelete>,
   reply: FastifyReply
 ) {
-  const { id: bookmarkId } = req.params
-
+  task('Processing bookmark vote removal ')
   try {
+    const { id: bookmarkId } = req.params
     // Authenticated user required
     const cUsr = req.usr
     if (!cUsr?._id) {
+      task.end('[❌]')
+      errr('Authentication required to remove vote')
       reply.code(401).send(new JsonapiErrorBuilder()
         .withStatus(401)
         .withCode('AUTHENTICATION_REQUIRED')
@@ -29,8 +33,11 @@ export async function delete_bookmark_vote_by_id_endpoint(
       )
       return
     }
-
+    task.end('[✔️]')
+    task('Verifying bookmark existence ')
     if (!bookmarkId) {
+      task.end('[❌]')
+      errr('Missing bookmark id in vote removal request')
       reply.code(400).send(new JsonapiErrorBuilder()
         .withStatus(400)
         .withCode('MISSING_DATA')
@@ -40,9 +47,12 @@ export async function delete_bookmark_vote_by_id_endpoint(
       )
       return
     }
-
+    task.end('[✔️]')
+    task('Verifying bookmark existence in the database ')
     const bookmarkExists = await BookmarkModel.exists({ _id: bookmarkId })
     if (!bookmarkExists) {
+      task.end('[❌]')
+      errr('Bookmark not found to remove vote')
       reply.code(404).send(new JsonapiErrorBuilder()
         .withStatus(404)
         .withCode('NOT_FOUND')
@@ -52,9 +62,12 @@ export async function delete_bookmark_vote_by_id_endpoint(
       )
       return
     }
-
+    task.end('[✔️]')
+    task('Verifying authenticated user existence in the database ')
     const user = await UserModel.findById(cUsr._id)
     if (!user) {
+      task.end('[❌]')
+      errr('Authenticated user not found in database')
       reply.code(404).send(new JsonapiErrorBuilder()
         .withStatus(404)
         .withCode('NOT_FOUND')
@@ -64,9 +77,12 @@ export async function delete_bookmark_vote_by_id_endpoint(
       )
       return
     }
-
+    task.end('[✔️]')
+    task('Removing bookmark vote ')
     const previousRating = await delete_bookmark_vote(String(cUsr._id), String(bookmarkId))
     if (previousRating === null) {
+      task.end('[❌]')
+      errr('Vote not found to remove')
       reply.code(404).send(new JsonapiErrorBuilder()
         .withStatus(404)
         .withCode('NOT_FOUND')
@@ -76,7 +92,8 @@ export async function delete_bookmark_vote_by_id_endpoint(
       )
       return
     }
-
+    task.end('[✔️]')
+    task('Updating bookmark vote counters ')
     // Decrement appropriate counter atomically
     const inc = previousRating === 1
       ? { upvotes: -1 }
@@ -89,6 +106,8 @@ export async function delete_bookmark_vote_by_id_endpoint(
     )
 
     if (!updatedBookmark) {
+      task.end('[❌]')
+      errr('Failed to update bookmark counters during vote removal')
       reply.code(500).send(new JsonapiErrorBuilder()
         .withStatus(500)
         .withCode('DELETE_FAILED')
@@ -98,7 +117,7 @@ export async function delete_bookmark_vote_by_id_endpoint(
       )
       return
     }
-
+    task.end('[✔️]')
     reply.code(200).send({
       data: {
         type: 'bookmark-vote',
@@ -111,6 +130,8 @@ export async function delete_bookmark_vote_by_id_endpoint(
       }
     })
   } catch (e) {
-    reply.code(500).send(default_500_error_response(e))
+    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[5009]'))
+    log_err('[5009] DELETE bookmark vote by id', e)
+    reply.code(500).send(error_id(5009).default_500_error_response(e))
   }
 }

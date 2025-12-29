@@ -6,8 +6,9 @@ import JsonapiErrorBuilder from '../../business.logic/builder/JsonapiErrorBuilde
 import { BookmarkModel } from '../../model/bookmark'
 import { UserModel } from '../../model/user'
 import { upsert_toggle_bookmark_vote } from '../../model/bookmark.vote'
-import { default_500_error_response } from '../../business.logic/errors'
-import { log_err } from '../../utility/logging'
+import { error_id } from '../../business.logic/errors'
+import { errr, ler, log_err, task } from '../../utility/logging'
+import { MSG_500_ERROR_MESSAGE } from '@tuber/shared'
 
 interface IBookmarkVoteUpdate {
   upvotes?: number
@@ -21,25 +22,31 @@ export async function put_bookmark_vote_by_id_endpoint(
   req: FastifyRequest<IBookmarkVotePut>,
   reply: FastifyReply
 ) {
-  const { id: bookmarkId } = req.params
-  const driver = new JsonapiRequestDriver(req.body)
-  const { rating } = assure(driver.getAttributes())
-
-  if (!bookmarkId || !rating) {
-    reply.code(400).send(new JsonapiErrorBuilder()
-      .withStatus(400)
-      .withCode('MISSING_DATA')
-      .withTitle('Bad Request')
-      .withDetail('Missing bookmark id or rating')
-      .build()
-    )
-    return
-  }
-
+  task('Processing bookmark vote ')
   try {
+    const { id: bookmarkId } = req.params
+    const driver = new JsonapiRequestDriver(req.body)
+    const { rating } = assure(driver.getAttributes())
+  
+    if (!bookmarkId || !rating) {
+      task.end('[❌]')
+      errr('Missing bookmark id or rating in vote request')
+      reply.code(400).send(new JsonapiErrorBuilder()
+        .withStatus(400)
+        .withCode('MISSING_DATA')
+        .withTitle('Bad Request')
+        .withDetail('Missing bookmark id or rating')
+        .build()
+      )
+      return
+    }
+    task.end('[✔️]')
     // Authenticated user (from preHandler cache); fallback not allowed
+    task('Verifying authenticated user ')
     const cUsr = req.usr
     if (!cUsr?._id) {
+      task.end('[❌]')
+      errr('Authentication required to vote')
       reply.code(401).send(new JsonapiErrorBuilder()
         .withStatus(401)
         .withCode('AUTHENTICATION_REQUIRED')
@@ -49,9 +56,12 @@ export async function put_bookmark_vote_by_id_endpoint(
       )
       return
     }
-
+    task.end('[✔️]')
+    task('Verifying user exist in the database ')
     const user = await UserModel.findById(cUsr._id)
     if (!user) {
+      task.end('[❌]')
+      errr('Authenticated user not found in database')
       reply.code(404).send(new JsonapiErrorBuilder()
         .withStatus(404)
         .withCode('NOT_FOUND')
@@ -61,9 +71,12 @@ export async function put_bookmark_vote_by_id_endpoint(
       )
       return
     }
-
+    task.end('[✔️]')
+    task('Verifying bookmark existence ')
     const bookmarkExists = await BookmarkModel.exists({ _id: bookmarkId })
     if (!bookmarkExists) {
+      task.end('[❌]')
+      errr('Bookmark not found')
       reply.code(404).send(new JsonapiErrorBuilder()
         .withStatus(404)
         .withCode('NOT_FOUND')
@@ -73,7 +86,8 @@ export async function put_bookmark_vote_by_id_endpoint(
       )
       return
     }
-
+    task.end('[✔️]')
+    task('Applying vote update ')
     // New collection based vote logic (user.votes array retained for legacy data only)
     const { previousRating, currentRating: toggledRating, removal } = await upsert_toggle_bookmark_vote(String(cUsr._id), String(bookmarkId), rating)
 
@@ -93,7 +107,8 @@ export async function put_bookmark_vote_by_id_endpoint(
       // Switch from downvote to upvote
       inc.downvotes = -1; inc.upvotes = 1
     }
-
+    task.end('[✔️]')
+    task('Updating bookmark vote counters ')
     // Apply atomic increments and fetch updated counts
     let updatedBookmark: TBookmarkVoteUpdateDoc = null
     if (Object.keys(inc).length) {
@@ -106,8 +121,10 @@ export async function put_bookmark_vote_by_id_endpoint(
       // No counter change (should only happen if logic missed a branch)
       updatedBookmark = await BookmarkModel.findById(bookmarkId, { upvotes: 1, downvotes: 1 }) as TBookmarkVoteUpdateDoc
     }
-
+    task.end('[✔️]')
+    task('Sending response ')
     if (updatedBookmark) {
+      task.end('[✔️]')
       const finalRating: 1 | -1 | null = removal ? null : toggledRating
       reply.code(200).send({
         data: {
@@ -125,6 +142,7 @@ export async function put_bookmark_vote_by_id_endpoint(
       // Provide a descriptive error message to aid debugging and monitoring.
       // throw new Error('Vote update failed: updated bookmark document not retrieved after atomic increment.')
     } else {
+      task.end('[❌]')
       log_err('Vote update invariant failed', {
         bookmarkId,
         userId: cUsr._id,
@@ -142,6 +160,8 @@ export async function put_bookmark_vote_by_id_endpoint(
       return
     }
   } catch (e) {
-    reply.code(500).send(default_500_error_response(e))
+    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[5016]'))
+    log_err('[5016] PUT bookmark vote by id', e)
+    reply.code(500).send(error_id(5016).default_500_error_response(e))
   }
 }

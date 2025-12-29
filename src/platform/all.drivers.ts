@@ -10,11 +10,11 @@ import { twitch_fetch_thumbnail_url } from './twitch'
 import { vimeo_fetch_thumbnail_url } from './vimeo'
 import { odysee_fetch_thumbnail_url } from './odysee'
 import { unknown_fetch_thumbnail_url } from './unknown'
-import { PLATFORM_URL } from '.'
 import get_bookmark_by_slug from '../model/bookmark/get.bookmark.by.slug'
 import get_bookmark_by_videoid from '../model/bookmark/get.bookmark.by.videoid'
-import { errr, ler, log, log_err, task, task_end } from '../utility/logging'
+import { errr, log_err, task, task_end, warn } from '../utility/logging'
 import { TContextualUser } from '../schema/user'
+import { PLATFORM_URL } from '.'
 
 /**
  * Fill-in missing data for a bookmark.
@@ -68,38 +68,35 @@ export function get_video_thumbnail_url (body: TBookmarkFrag) {
 }
 
 async function _youtube_data(
-  attr: IBookmark,
+  attributes: IBookmark,
   usr?: TContextualUser
 ): Promise<IBookmark|null> {
-  if (attr.user_id) { return attr }
-  const { videoid } = attr
-  if (!videoid || !usr || !usr._id) { return null }
-  const fixedBookmark = { ...attr, user_id: usr?._id } as IBookmark
+  if (!attributes.videoid || !usr || !usr._id) { return null }
+  if (attributes.user_id) { return attributes }
+  const fixedBookmark = { ...attributes, user_id: usr._id } as IBookmark
   return fixedBookmark
 }
 
 async function _dailymotion_data(
-  attr: IBookmark,
+  attributes: IBookmark,
   usr?: TContextualUser
 ): Promise<IBookmark|null> {
-  if (attr.user_id) { return attr }
-  const { videoid } = attr
-  if (!videoid || !usr || !usr._id) { return null }
-  const fixedBookmark = { ...attr, user_id: usr?._id } as IBookmark
+  if (!attributes.videoid || !usr || !usr._id) { return null }
+  if (attributes.user_id) { return attributes }
+  const fixedBookmark = { ...attributes, user_id: usr._id } as IBookmark
   return fixedBookmark
 }
 
 async function _rumble_data(
-  attr: IBookmark,
+  attributes: IBookmark,
   usr?: TContextualUser
 ): Promise<IBookmark|null> {
-  const { slug } = attr
+  const { platform, slug } = attributes
   if (!slug || !usr || !usr._id) { return null }
-  
-  try {
-    const urlObj = new URL(`${PLATFORM_URL['rumble']}${slug}.html`)
-    const fixedBookmark = { ...attr, user_id: usr._id } as IBookmark
 
+  try {
+    const urlObj = new URL(`${PLATFORM_URL['rumble']}/${slug}.html`)
+    const fixedBookmark = { ...attributes, user_id: usr._id } as IBookmark
     if (!fixedBookmark.thumbnail_url) {
       // Search database for a bookmark with the same slug then get the videoid and
       // thumbnail_url from it.
@@ -139,128 +136,142 @@ async function _rumble_data(
       return fixedBookmark
     }
     
-    log(`[WARNING] Could not fetch required data for Rumble bookmark with slug: ${slug}`)
-    return null
+    warn(`Could not fetch required data for [${platform}] bookmark with slug: ${slug}`)
   } catch (e) {
-    ler(`[ERROR] Error processing Rumble bookmark with slug '${slug}'`)
-    log_err(`processing Rumble bookmark`, e)
-    return null
+    errr(`Processing [${platform}] bookmark with slug '${slug}'`)
+    log_err(`Processing [${platform}] bookmark`, e)
   }
+  return null
 }
 
 async function _twitch_data(
-  attr: IBookmark,
+  attributes: IBookmark,
   usr?: TContextualUser
 ): Promise<IBookmark|null> {
-  const { videoid } = attr
+  const { platform, videoid } = attributes
   if (!videoid || !usr || !usr._id) { return null }
 
   try {
-    const fixedBookmark = { ...attr, user_id: usr._id } as IBookmark
-  
+    const fixedBookmark = { ...attributes, user_id: usr._id } as IBookmark
     if (!fixedBookmark.thumbnail_url) {
       const existingBookmark = await get_bookmark_by_videoid(videoid)
       if (existingBookmark && existingBookmark.thumbnail_url) {
         fixedBookmark.thumbnail_url = existingBookmark.thumbnail_url
       } else {
-        task(`Fetching Twitch thumbnail URL for video with ID '${videoid}'... `)
+        task(`Fetching [${platform}] thumbnail URL for video with ID '${videoid}'... `)
         fixedBookmark.thumbnail_url = await twitch_fetch_thumbnail_url(videoid)
         task_end('Done.')
       }
     }
-  
     if (fixedBookmark.thumbnail_url) {
       return fixedBookmark
     }
-    return null
   } catch (e) {
-    ler(`[ERROR] Error processing Twitch bookmark with videoid '${videoid}'`)
-    log_err(`processing Twitch bookmark`, e)
-    return null
+    errr(`Processing [${platform}] bookmark with videoid '${videoid}'`)
+    log_err(`Processing [${platform}] bookmark`, e)
   }
+  return null
 }
 
 async function _vimeo_data(
-  attr: IBookmark,
+  attributes: IBookmark,
   usr?: TContextualUser
 ): Promise<IBookmark|null> {
-  const { videoid } = attr
+  const { platform, videoid } = attributes
   if (!videoid || !usr || !usr._id) { return null }
-  const fixedBookmark = { ...attr, user_id: usr._id } as IBookmark
-
-  if (!fixedBookmark.thumbnail_url) {
-    const existingBookmark = await get_bookmark_by_videoid(videoid)
-    if (existingBookmark && existingBookmark.thumbnail_url) {
-      fixedBookmark.thumbnail_url = existingBookmark.thumbnail_url
-    } else {
-      task(`Fetching vimeo thumbnail url for '${videoid}' video ID... `)
-      fixedBookmark.thumbnail_url = await vimeo_fetch_thumbnail_url(videoid)
+  try {
+    const fixedBookmark = { ...attributes, user_id: usr._id } as IBookmark
+    if (!fixedBookmark.thumbnail_url) {
+      const existingBookmark = await get_bookmark_by_videoid(videoid)
+      if (existingBookmark && existingBookmark.thumbnail_url) {
+        fixedBookmark.thumbnail_url = existingBookmark.thumbnail_url
+      } else {
+        task(`Fetching [${platform}] thumbnail url for '${videoid}' video ID... `)
+        fixedBookmark.thumbnail_url = await vimeo_fetch_thumbnail_url(videoid)
+      }
     }
-  }
-
-  if (fixedBookmark.thumbnail_url) {
-    return fixedBookmark
+    if (fixedBookmark.thumbnail_url) {
+      return fixedBookmark
+    }
+  } catch (e) {
+    errr(`Processing [${platform}] bookmark with videoid '${videoid}'`)
+    log_err(`Processing [${platform}] bookmark`, e)
   }
   return null
 }
 
 async function _odysee_data(
-  attr: IBookmark,
+  attributes: IBookmark,
   usr?: TContextualUser
 ): Promise<IBookmark|null> {
-  const { slug } = attr
+  const { platform, slug } = attributes
   if (!slug || !usr || !usr._id) { return null }
-  const fixedBookmark = { ...attr, user_id: usr._id } as IBookmark
-
-  if (!fixedBookmark.thumbnail_url) {
-    const existingBookmark = await get_bookmark_by_slug(slug)
-    if (existingBookmark && existingBookmark.thumbnail_url) {
-      fixedBookmark.thumbnail_url = existingBookmark.thumbnail_url
-    } else {
-      task(`Fetching Odysee thumbnail url for '${slug}' slug... `)
-      fixedBookmark.thumbnail_url = await odysee_fetch_thumbnail_url(slug)
+  const fixedBookmark = { ...attributes, user_id: usr._id } as IBookmark
+  try {
+    if (!fixedBookmark.thumbnail_url) {
+      const existingBookmark = await get_bookmark_by_slug(slug)
+      if (existingBookmark && existingBookmark.thumbnail_url) {
+        fixedBookmark.thumbnail_url = existingBookmark.thumbnail_url
+      } else {
+        task(`Fetching Odysee thumbnail url for '${slug}' slug... `)
+        fixedBookmark.thumbnail_url = await odysee_fetch_thumbnail_url(slug)
+      }
     }
-  }
-
-  if (fixedBookmark.thumbnail_url) {
-    return fixedBookmark
+    if (fixedBookmark.thumbnail_url) {
+      return fixedBookmark
+    }
+  } catch (e) {
+    errr(`Processing [${platform}] bookmark with slug '${slug}'`)
+    log_err(`Processing [${platform}] bookmark`, e)
   }
   return null
 }
 
 async function _unknown_data(
-  attr: IBookmark,
+  attributes: IBookmark,
   usr?: TContextualUser
 ): Promise<IBookmark|null> {
-  const { url } = attr
+  const { platform, url } = attributes
   if (!url || !usr || !usr._id) { return null }
-  const fixedBookmark = {
-    ...attr,
-    user_id: usr._id,
-    is_published: undefined // Enforces the policy that unknown bookmarks cannot be published.
-  } as IBookmark
-  if (!fixedBookmark.thumbnail_url) {
-    task(`Fetching thumbnail url for '${url}' URL... `)
-    fixedBookmark.thumbnail_url = await unknown_fetch_thumbnail_url(url)
+  try {
+    const fixedBookmark = {
+      ...attributes,
+      user_id: usr._id,
+      is_published: undefined // Enforces the policy that unknown bookmarks cannot be published.
+    } as IBookmark
+    if (!fixedBookmark.thumbnail_url) {
+      task(`Fetching thumbnail url for '${url}' URL... `)
+      fixedBookmark.thumbnail_url = await unknown_fetch_thumbnail_url(url)
+    }
+    return fixedBookmark
+  } catch (e) {
+    errr(`Processing [${platform}] bookmark with URL '${url}'`)
+    log_err(`Processing [${platform}] bookmark`, e)
   }
-  return fixedBookmark
+  return null
 }
 
 async function _facebook_data(
-  attr: IBookmark,
+  attributes: IBookmark,
   usr?: TContextualUser
 ): Promise<IBookmark|null> {
-  const { url } = attr
+  const { platform, url } = attributes
   if (!url || !usr || !usr._id) { return null }
-  const fixedBookmark = { ...attr, user_id: usr._id } as IBookmark
-  if (!fixedBookmark.thumbnail_url) {
-    task(`Fetching thumbnail url for '${url}' URL... `)
-    fixedBookmark.thumbnail_url = await unknown_fetch_thumbnail_url(url)
-    if (fixedBookmark.thumbnail_url) {
-      task_end(`Done. Got '${fixedBookmark.thumbnail_url}'.`)
-    } else {
-      task_end(`Failed.`)
+  try {
+    const fixedBookmark = { ...attributes, user_id: usr._id } as IBookmark
+    if (!fixedBookmark.thumbnail_url) {
+      task(`Fetching thumbnail url for '${url}' URL... `)
+      fixedBookmark.thumbnail_url = await unknown_fetch_thumbnail_url(url)
+      if (fixedBookmark.thumbnail_url) {
+        task_end(`Done ✔️.\nGot '${fixedBookmark.thumbnail_url}'.`)
+      } else {
+        task_end(`Failed ❌`)
+      }
     }
+    return fixedBookmark
+  } catch (e) {
+    errr(`Processing [${platform}] bookmark with URL '${url}'`)
+    log_err(`Processing [${platform}] bookmark`, e)
   }
-  return fixedBookmark
+  return null
 }

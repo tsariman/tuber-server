@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import {
-  default_500_error_response,
-  default_400_error_response
+  default_400_error_response,
+  error_id
 } from '../../business.logic/errors'
 import JsonapiResponseBuilder from '../../business.logic/builder/JsonapiResponseBuilder'
 import { dbug, ler, log_err, task, task_end } from '../../utility/logging'
@@ -104,8 +104,8 @@ export default async function post_listing_endpoint (
       return
     }
 
-    ler(MSG_500_ERROR_MESSAGE)
-    log_err('POST listing', e)
-    reply.code(500).send(default_500_error_response(e))
+    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[5036]'))
+    log_err('[5036] POST listing', e)
+    reply.code(500).send(error_id(5036).default_500_error_response(e))
   }
 }

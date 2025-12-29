@@ -1,18 +1,20 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import JsonapiErrorBuilder from '../../business.logic/builder/JsonapiErrorBuilder'
-import { default_500_error_response } from '../../business.logic/errors'
-import { errr, ler, task, task_end } from '../../utility/logging'
+import { error_id } from '../../business.logic/errors'
+import { errr, ler, log_err, task, task_end } from '../../utility/logging'
 import DEV_STATE_PAGES, { DEV_STATE_PAGES_THEME_DARK } from '../../dev/page'
-import { TNetState, MSG_500_ERROR_MESSAGE } from '@tuber/shared'
+import { MSG_500_ERROR_MESSAGE, TJsonapiStateResponse } from '@tuber/shared'
 import { themed_by_key } from '../../business.logic'
 
 export default async function dev_post_state_pages_endpoint(
   req: FastifyRequest<{ Body: { key?: string }}>,
   reply: FastifyReply
 ) {
+  task('Validating request body ')
   try {
     const key = req.body.key
     if (!key) {
+      task_end('[❌]')
       errr(`'key' was not received.`)
       reply.code(400).send(new JsonapiErrorBuilder()
         .withStatus(400)
@@ -21,25 +23,26 @@ export default async function dev_post_state_pages_endpoint(
       )
       return
     }
-    task(`Loading '${key}' state... `)
+    task_end('[✔️]')
+    task(`Loading '${key}' state `)
     const pageState = themed_by_key(
       key,
       DEV_STATE_PAGES,
       DEV_STATE_PAGES_THEME_DARK
     )
     if (pageState) {
-      task_end('Done.')
+      task.end('[✔️]')
       reply.code(200).send({
-        state: {
+        'state': {
           'pages': { [key]: pageState },
           'pagesLight': { [key]: DEV_STATE_PAGES[key] },
           'pagesDark': { [key]: DEV_STATE_PAGES_THEME_DARK[key] },
-        } as TNetState
-      })
+        }
+      } as TJsonapiStateResponse)
     } else {
-      task_end('Failed.')
+      task.end('[❌]')
       reply.code(404).send({
-        state: {
+        'state': {
           'pages': {
             [key]: {
               'appbarInherited': 'default-notfound',
@@ -48,11 +51,12 @@ export default async function dev_post_state_pages_endpoint(
               'data': { 'message': `Page not found!` },
             }
           }
-        } as TNetState
-      })
+        }
+      } as TJsonapiStateResponse)
     }
   } catch (e) {
-    ler(MSG_500_ERROR_MESSAGE, e)
-    reply.code(500).send(default_500_error_response(e))
+    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[5028]'))
+    log_err('[5028] DEV POST STATE PAGES ERROR', e)
+    reply.code(500).send(error_id(5028).default_500_error_response(e))
   }
 }

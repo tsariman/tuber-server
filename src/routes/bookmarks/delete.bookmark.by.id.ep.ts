@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { Types } from 'mongoose'
 import JsonapiErrorBuilder from '../../business.logic/builder/JsonapiErrorBuilder'
-import { default_500_error_response } from '../../business.logic/errors'
+import { error_id } from '../../business.logic/errors'
 import { ler, log_err, task, task_end } from '../../utility/logging'
 import { BookmarkModel } from '../../model/bookmark'
 import { IBookmarkDelete } from '../../schema/bookmark'
@@ -81,8 +81,8 @@ export default async function delete_bookmark_by_id_endpoint (
       )
     }
   } catch (e) {
-    ler(MSG_500_ERROR_MESSAGE)
-    log_err('DELETE bookmark by id', e)
-    reply.code(500).send(default_500_error_response(e))
+    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[5008]'))
+    log_err('[5008] DELETE bookmark by id', e)
+    reply.code(500).send(error_id(5008).default_500_error_response(e))
   }
 }

@@ -7,7 +7,7 @@ import { errr, ler, log_err, task, task_end } from '../../utility/logging'
 export default async function get_bookmark_by_slug (
   slug: string
 ): Promise<IBookmarkDocument | null> {
-  task('Retrieving Rumble bookmark with the same slug... ')
+  task('Retrieving bookmark with the same slug... ')
   try {
     const pipeline: PipelineStage[] = []
     pipeline.push({
@@ -49,10 +49,12 @@ export default async function get_bookmark_by_slug (
     })
     const aggregationResult = await BookmarkModel.aggregate(pipeline)
     const dbDoc: IBookmarkDocument | null = aggregationResult[0] ?? null
-    task_end('Success.')
+    if (Config.DEV && dbDoc) {
+      task_end('Success ✔️')
+    } else if (Config.DEV && !dbDoc) {task_end('Failed ❌')}
     return dbDoc
   } catch (e) {
-    ler('Failed.')
+    ler('Failed ❌')
     errr((e as Error).message)
     log_err('GET bookmark by slug failed.', e)
   }

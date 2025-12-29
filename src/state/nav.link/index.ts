@@ -9,6 +9,7 @@ import {
 } from '@tuber/shared'
 import { clone_with_descriptors, t } from '../../business.logic'
 import { register } from '../../business.logic/registry'
+import { TContextualUser } from '../../schema/user'
 
 export const homeLinkState: TStateLink = {
   'has': {
@@ -164,3 +165,11 @@ export const userLinkState: TStateLink = {
     'route': $75_STATE_KEY
   }
 }
+export const account_link_state = (usr?: TContextualUser): TStateLink => ({
+  'type': 'hybrid',
+  'has': {
+    'icon': 'user',
+    'text': usr?.name ?? t('account', 'Account'),
+    'route': 'account'
+  }
+})

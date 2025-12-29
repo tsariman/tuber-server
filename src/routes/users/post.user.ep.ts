@@ -1,7 +1,6 @@
 import { FastifyReply } from 'fastify'
-import { MONGODB_DUPLICATE_KEY_ERROR, get_mongodb_error } from '../../business.logic/errors'
+import { MONGODB_DUPLICATE_KEY_ERROR, error_id, get_mongodb_error } from '../../business.logic/errors'
 import JsonapiErrorBuilder from '../../business.logic/builder/JsonapiErrorBuilder'
-import { default_500_error_response } from '../../business.logic/errors'
 import JsonapiResponseBuilder from '../../business.logic/builder/JsonapiResponseBuilder'
 import { create_user, transform_user_doc } from '../../model/user'
 import { TUsersFastifyRequest } from '../../schema/user'
@@ -117,9 +116,9 @@ export default async function post_user_endpoint (
         .withDetail(mongoDbError.detail)
         .build());
     } else {
-      ler(MSG_500_ERROR_MESSAGE)
-      log_err('POST user', e)
-      reply.code(500).send(default_500_error_response(e))
+      ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[5047]'))
+      log_err('[5047] POST user', e)
+      reply.code(500).send(error_id(5047).default_500_error_response(e))
     }
   }
 }

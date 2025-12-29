@@ -8,21 +8,21 @@ import axios from 'axios';
  */
 export const PLATFORM_URL: {[key in TPlatform]: string} = {
   _blank: '',
-  youtube: 'https://www.youtube.com/',
-  rumble: 'https://rumble.com/',
-  odysee: 'https://odysee.com/',
-  vimeo: 'https://vimeo.com/',
-  dailymotion: 'https://www.dailymotion.com/',
-  facebook: 'https://www.facebook.com/',
-  bitchute: 'https://www.bitchute.com/',
-  twitch: 'https://www.twitch.tv/',
+  youtube: 'https://www.youtube.com',
+  rumble: 'https://rumble.com',
+  odysee: 'https://odysee.com',
+  vimeo: 'https://vimeo.com',
+  dailymotion: 'https://www.dailymotion.com',
+  facebook: 'https://www.facebook.com',
+  bitchute: 'https://www.bitchute.com',
+  twitch: 'https://www.twitch.tv',
   unknown: ''
 };
 
 export async function rumble_fix_missing_data(bookmark: IBookmark): Promise<IBookmark|false> {
   // Get rumble video id
   if (bookmark.slug) {
-    const url = new URL(`${PLATFORM_URL['rumble']}${bookmark.slug}.html`);
+    const url = new URL(`${PLATFORM_URL['rumble']}/${bookmark.slug}.html`);
 
     // Had to get rid of query string because it was causing errors.
     const compliantUrl = url.origin + url.pathname;

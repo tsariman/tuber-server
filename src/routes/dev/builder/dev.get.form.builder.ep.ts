@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { ler, task, task_end } from '../../../utility/logging'
+import { ler, log_err, task, task_end } from '../../../utility/logging'
 import * as C from '@tuber/shared'
-import { default_500_error_response } from '../../../business.logic/errors'
+import { error_id } from '../../../business.logic/errors'
 import Form from '../../../business.logic/builder/FormStateBuilder'
 import Group from '../../../business.logic/builder/FormItemGroupStateBuilder'
 import Numberfield from '../../../business.logic/builder/FormItemNumberfieldStateBuilder'
@@ -86,7 +86,8 @@ export default async function dev_get_form_builder_endpoint(
     )
     task_end('Done.')
   } catch (e) {
-    ler(C.MSG_500_ERROR_MESSAGE, e)
-    reply.code(500).send(default_500_error_response(e))
+    ler(C.MSG_500_ERROR_MESSAGE.replace('[500]', '[5033]'))
+    log_err('[5033] DEV GET FORM BUILDER ERROR', e)
+    reply.code(500).send(error_id(5033).default_500_error_response(e))
   }
 }

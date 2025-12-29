@@ -1,6 +1,19 @@
 
 # Development Log
 
+## `202512291732` Refactor error handling and logging across multiple endpoints
+
+- Updated error handling to use a consistent error ID format for better traceability.
+- Replaced default error responses with specific error ID responses in various endpoints.
+- Enhanced logging to include error IDs and improved task logging for better debugging.
+- Adjusted response structures to align with TJsonapiStateResponse for consistency.
+- Modified state management and response handling in user and state-related endpoints.
+- Cleaned up imports and removed unused error response imports.
+- Improved task logging messages for clarity and consistency.
+- Updated bookmark schema to simplify the is_private field.
+- Refactored bootstrap app state to improve readability and maintainability.
+- Added account link state functionality to nav link state management.
+
 ## `202512221825` Miscellaneous improvements and fixes
 
 - feat(security): add clearance levels for user roles

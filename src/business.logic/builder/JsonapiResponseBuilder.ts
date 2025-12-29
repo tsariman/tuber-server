@@ -59,18 +59,28 @@ export default class JsonapiResponseBuilder<T = TJsonapiDataAttributes> {
     return new JsonapiResponseBuilder<T>()
   }
 
+  /** Set the ID of the resource */
   withId(id: unknown): this {
     if (!this._data || Array.isArray(this._data)) {
       throw new Error('Cannot set ID on null data or collection. Use setData() first.')
     }
     
-    switch (typeof id) {
-      case 'string':
-        this._data.id = id
-        break
-      case 'number':
-        this._data.id = id.toString()
-        break
+    if (id !== null && id !== undefined) {
+      // Accept strings, numbers, Mongo ObjectIds, and other types by coercion
+      // Mongo ObjectId has a stable toString(); fallback to String(id)
+      try {
+        const coerced = typeof id === 'string'
+          ? id
+          : typeof id === 'number'
+            ? id.toString()
+            : (id as { toString?: () => string }).toString
+              ? (id as { toString: () => string }).toString()
+              : String(id)
+        this._data.id = coerced
+      } catch {
+        // As a last resort, avoid throwing here; set a safe string
+        this._data.id = String(id)
+      }
     }
     return this
   }
@@ -288,7 +298,7 @@ export default class JsonapiResponseBuilder<T = TJsonapiDataAttributes> {
   ): this {
     // Convert documents to JSON:API resources
     this.withDocuments(result.docs, resourceType, transform)
-    
+
     // Build pagination links
     this._links = new JsonapiPaginationBuilder({
       totalDocs: result.totalDocs,

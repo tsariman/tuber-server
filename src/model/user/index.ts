@@ -81,7 +81,7 @@ export const read_user_by_id = async (
   const userDoc = await UserModel.findOne({ 
     _id: id, 
     is_active: { $ne: false } 
-  }).select('-password -jwt_version -restrictions -rules')
+  }).select('-password -restrictions -rules')
   return userDoc
 }
 
@@ -91,7 +91,7 @@ export const read_user_by_name = async (
   const userDoc = await UserModel.findOne({ 
     name: name.trim().toLowerCase(),
     is_active: { $ne: false }
-  }).select('-password -jwt_version -restrictions -rules')
+  }).select('-password -restrictions -rules')
   return userDoc
 }
 

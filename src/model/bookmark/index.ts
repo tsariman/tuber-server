@@ -61,7 +61,30 @@ export const exclude_bookmark_fields_IMPV2Doc = (
 
 /** Excludes sensitive fields from the bookmark document. */
 export const transform_bookmark_doc = (bookmark: IBookmarkDocument) => {
-  const { _id, is_active, is_private, restrictions, rules, ...bookmarkDoc } = bookmark
+  const {
+    _id,
+    is_active,
+    is_private,
+    restrictions,
+    rules,
+    ...bookmarkDoc
+  } = bookmark
+  return bookmarkDoc
+}
+
+/**
+ * Transforms a bookmark document to a plain IBookmark object while excluding
+ * sensitive fields.
+ */
+export const transform_to_bookmark = (bookmark: IBookmarkDocument): IBookmark => {
+  const {
+    _id,
+    is_active,
+    is_private,
+    restrictions,
+    rules,
+    ...bookmarkDoc
+  } = bookmark.toObject<IBookmark>()
   return bookmarkDoc
 }
 
@@ -102,13 +125,12 @@ export const delete_bookmark_by_id = async function (
 }
 
 export const create_bookmark = async function (
-  bookmarkInfo?: IBookmark
+  bookmarkData?: IBookmark
 ): Promise<IBookmarkDocument> {
-  if (!bookmarkInfo) {
-    throw new Error('Bookmark info is required')
+  if (!bookmarkData) {
+    throw new Error('Bookmark data is required')
   }
-  const bookmarkModel = await BookmarkPaginationModel.create(bookmarkInfo)
-  const bookmark = await bookmarkModel.save()
+  const bookmark = await BookmarkModel.create(bookmarkData)
   return bookmark
 }
 

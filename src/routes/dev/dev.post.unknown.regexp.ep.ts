@@ -1,12 +1,12 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import JsonapiErrorBuilder from '../../business.logic/builder/JsonapiErrorBuilder'
-import { default_500_error_response } from '../../business.logic/errors'
-import { errr, ler, task, task_end } from '../../utility/logging'
+import { error_id } from '../../business.logic/errors'
+import { dbug, ler, log_err, task } from '../../utility/logging'
 import {
   $57_STATE_KEY,
   $58_STATE_KEY,
   MSG_500_ERROR_MESSAGE,
-  TNetState
+  TJsonapiStateResponse,
 } from '@tuber/shared'
 import axios from 'axios'
 
@@ -29,10 +29,12 @@ export default async function dev_post_unknown_regexp_endpoint(
   req: FastifyRequest<IPostRequest>,
   reply: FastifyReply
 ): Promise<void> {
+  task('Validating request body ')
   const regexp = req.body.regexp
   const url = req.body.url
   if (!regexp || !url) {
-    errr('URL and regexp are required.')
+    task.end('[❌]')
+    dbug('URL and regexp are required.')
     reply.code(400).send(new JsonapiErrorBuilder()
       .withCode('MISSING_DATA')
       .withStatus(400)
@@ -41,7 +43,8 @@ export default async function dev_post_unknown_regexp_endpoint(
     )
     return
   }
-  task(`Parsing ${url} with ${regexp}... `)
+  task.end('[✔️]')
+  task(`Parsing ${url} with ${regexp} `)
   try {
     const response = await axios.get(url, {
       maxRedirects: 5,
@@ -56,7 +59,7 @@ export default async function dev_post_unknown_regexp_endpoint(
     const iterator = html.matchAll(re)
     const matches = [ ...iterator ]
     if (matches) {
-      task_end('Success!')
+      task.end('[✔️]')
       const thumbnailUrl = matches[0][1]
       reply.code(200).send({
         'state': {
@@ -67,9 +70,10 @@ export default async function dev_post_unknown_regexp_endpoint(
             [$58_STATE_KEY]: { matches, thumbnailUrl }
           }
         }
-      } as TNetState)
+      } as TJsonapiStateResponse)
     } else {
-      task_end('Failed.')
+      task.end('[❌]')
+      dbug('No matches found.')
       reply.code(404).send(new JsonapiErrorBuilder()
         .withCode('NOT_FOUND')
         .withStatus(404)
@@ -78,7 +82,8 @@ export default async function dev_post_unknown_regexp_endpoint(
       )
     }
   } catch (e) {
-    ler(MSG_500_ERROR_MESSAGE, e)
-    reply.code(500).send(default_500_error_response(e))
+    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[5030]'))
+    log_err('[5030] DEV POST unknown regexp endpoint', e)
+    reply.code(500).send(error_id(5030).default_500_error_response(e))
   }
 }

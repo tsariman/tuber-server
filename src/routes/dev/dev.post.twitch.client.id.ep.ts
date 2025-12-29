@@ -1,15 +1,15 @@
 import { FastifyRequest, FastifyReply } from 'fastify'
 import JsonapiErrorBuilder from '../../business.logic/builder/JsonapiErrorBuilder'
-import { default_500_error_response } from '../../business.logic/errors'
+import { error_id } from '../../business.logic/errors'
 import Config from '../../config'
 import {
   $60_STATE_KEY,
   CONF_TWITCH_CLIENT_ID,
   CONF_TWITCH_CLIENT_SECRET,
   MSG_500_ERROR_MESSAGE,
-  TNetState
+  TJsonapiStateResponse,
 } from '@tuber/shared'
-import { errr, task, task_end } from '../../utility/logging'
+import { errr, ler, log_err, task } from '../../utility/logging'
 
 interface IPostRequest {
   Body: {
@@ -29,10 +29,12 @@ export default async function dev_post_twitch_client_id_endpoint(
   req: FastifyRequest<IPostRequest>,
   reply: FastifyReply
 ): Promise<void> {
+  task('Validating request body ')
   try {
     const clientId = req.body.client_id
     const clientSecret = req.body.client_secret
     if (!clientId || !clientSecret) {
+      task.end('[❌]')
       errr('Client ID and Secret are required.')
       reply.code(400).send(new JsonapiErrorBuilder()
         .withCode('MISSING_DATA')
@@ -42,20 +44,21 @@ export default async function dev_post_twitch_client_id_endpoint(
       )
       return
     }
-    task(`Saving Twitch Client ID and Secret... `)
+    task.end('[✔️]')
+    task(`Saving Twitch Client ID and Secret `)
     await Config.save(CONF_TWITCH_CLIENT_ID, clientId)
     await Config.save(CONF_TWITCH_CLIENT_SECRET, clientSecret)
-    task_end('Success!')
+    task.end('[✔️]')
     reply.code(200).send({
       'state': {
         'formsData': {
           [$60_STATE_KEY]: { client_id: '', client_secret: '' }
         }
-      } as TNetState
-    })
+      }
+    } as TJsonapiStateResponse)
   } catch (e) {
-    errr(`${MSG_500_ERROR_MESSAGE} while saving Twitch Client ID`
-      + ` and Secret.`, e)
-    reply.code(500).send(default_500_error_response)
+    ler(`${MSG_500_ERROR_MESSAGE.replace('[500]', '[5029]')} while saving Twitch Client ID and Secret.`)
+    log_err('[5029] DEV POST Twitch Client ID endpoint', e)
+    reply.code(500).send(error_id(5029).default_500_error_response(e))
   }
 }

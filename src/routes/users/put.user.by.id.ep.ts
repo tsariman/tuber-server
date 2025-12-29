@@ -3,12 +3,12 @@ import { BookmarkModel } from '../../model/bookmark'
 import { BookmarkVoteModel } from '../../model/bookmark.vote'
 import { UserModel } from '../../model/user'
 import JsonapiErrorBuilder from '../../business.logic/builder/JsonapiErrorBuilder'
-import { default_500_error_response } from '../../business.logic/errors'
 import { ler, log_err } from '../../utility/logging'
 import { MSG_500_ERROR_MESSAGE } from '@tuber/shared'
 import { IUsersVoteEndpoint } from '../../schema/user'
 import JsonapiRequestDriver from '../../business.logic/JsonapiRequestDriver'
 import { assure } from '../../utility'
+import { error_id } from '../../business.logic/errors'
 
 /** @deprecated */
 export async function put_user_vote_by_id_endpoint(
@@ -45,9 +45,9 @@ export async function put_user_vote_by_id_endpoint(
         .build())
     }
   } catch (e) {
-    ler(MSG_500_ERROR_MESSAGE)
-    log_err('PUT user vote by id', e)
-    reply.code(500).send(default_500_error_response(e))
+    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[5048]'))
+    log_err('[5048] PUT user vote by id', e)
+    reply.code(500).send(error_id(5048).default_500_error_response(e))
   }
 
 }

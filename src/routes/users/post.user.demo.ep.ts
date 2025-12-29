@@ -1,14 +1,14 @@
 import { FastifyReply } from 'fastify'
 import {
   MONGODB_DUPLICATE_KEY_ERROR,
+  error_id,
   get_mongodb_error
 } from '../../business.logic/errors'
 import JsonapiErrorBuilder from '../../business.logic/builder/JsonapiErrorBuilder'
-import { default_500_error_response } from '../../business.logic/errors'
 import JsonapiResponseBuilder from '../../business.logic/builder/JsonapiResponseBuilder'
 // import { create_user } from '../model/user'
 import { TUsersFastifyRequest } from '../../schema/user'
-import { log } from '../../utility/logging'
+import { ler, log_err } from '../../utility/logging'
 import { MSG_500_ERROR_MESSAGE } from '@tuber/shared'
 
 /**
@@ -37,8 +37,9 @@ export default async function post_demo_user_endpoint (
         .withDetail(mongoDbError.detail)
         .build())
     } else {
-      log(MSG_500_ERROR_MESSAGE, e)
-      reply.code(500).send(default_500_error_response(e))
+      ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[5046]'))
+      log_err('[5046] POST demo user', e)
+      reply.code(500).send(error_id(5046).default_500_error_response(e))
     }
   }
 }

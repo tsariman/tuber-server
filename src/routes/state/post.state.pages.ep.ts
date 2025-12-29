@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { log_err, task, task_end } from '../../utility/logging'
+import { dbug, log_err, task, ler } from '../../utility/logging'
 import JsonapiErrorBuilder from '../../business.logic/builder/JsonapiErrorBuilder'
-import { default_500_error_response } from '../../business.logic/errors'
+import { error_id } from '../../business.logic/errors'
 import  { STATE_PAGES, STATE_PAGES_THEME_DARK } from '../../state/page'
 import { MSG_500_ERROR_MESSAGE, type TJsonapiStateResponse } from '@tuber/shared'
 import type { IStatePost } from '../../common.types'
@@ -13,9 +13,10 @@ export default async function post_state_pages_endpoint (
   reply: FastifyReply
 ) {
   try {
-    task('Validating request body... ')
+    task('Validating request body ')
     if (!req.body.key || !req.body.mode) {
-      task_end('Failed', '❌', '\n[DEBUG][400] Malformed request received.', req.body)
+      task.end('[❌]')
+      dbug('[400] Malformed request received.', req.body)
       reply.code(400).send(new JsonapiErrorBuilder()
         .withStatus(400)
         .withCode('MALFORMED_REQUEST')
@@ -24,25 +25,26 @@ export default async function post_state_pages_endpoint (
         .build())
       return
     }
+    task.end('[✔️]')
     const { key, mode } = req.body
-
-    task(`Loading '${key}' state... `)
+    task(`Loading '${key}' state `)
     const light = STATE_PAGES[key]
     const dark = STATE_PAGES_THEME_DARK[key]
     const pageState = themed(light, dark, mode)
     if (pageState) {
-      task_end('OK', '✔️')
+      task.end('[✔️]')
       reply.code(200).send({
-        state: {
+        'state': {
           'pages': { [key]: pageState },
           'pagesLight': { [key]: STATE_PAGES[key] },
           'pagesDark': { [key]: STATE_PAGES_THEME_DARK[key] },
         }
       } as TJsonapiStateResponse)
     } else {
-      task_end('Failed.', '❌', `\n[DEBUG][404] Page state for key '${key}' not found.`)
+      task.end('[❌]')
+      dbug(`[404] Page state for key '${key}' not found.`)
       reply.code(404).send({
-        state: {
+        'state': {
           'pages': {
             [key]: {
               'appbarInherited': 'default-notfound',
@@ -55,8 +57,8 @@ export default async function post_state_pages_endpoint (
       } as TJsonapiStateResponse)
     }
   } catch (e) {
-    task_end(MSG_500_ERROR_MESSAGE)
-    log_err('POST state page', e)
-    reply.code(500).send(default_500_error_response(e))
+    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[5040]'))
+    log_err('[5040] POST state pages', e)
+    reply.code(500).send(error_id(5040).default_500_error_response(e))
   }
 }

@@ -1,5 +1,5 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { default_500_error_response } from '../../business.logic/errors'
+import { error_id } from '../../business.logic/errors'
 import JsonapiResponseBuilder from '../../business.logic/builder/JsonapiResponseBuilder'
 import Config from '../../config'
 import {
@@ -10,7 +10,7 @@ import {
 import { IBookmark, IBookmarkDocument, IBookmarkGet } from '../../schema/bookmark'
 import { MSG_500_ERROR_MESSAGE } from '@tuber/shared'
 import { get_raw_query } from './_bookmarks.common.logic'
-import { log_err, ler, dbug, task, task_end } from '../../utility/logging'
+import { log_err, ler, dbug } from '../../utility/logging'
 import get_bookmark_search_query_pipeline from '../../model/bookmark/get.bookmark.search.query.pipeline'
 import { BookmarkVoteModel } from '../../model/bookmark.vote'
 
@@ -30,14 +30,13 @@ export default async function get_bookmark_collection_endpoint (
     
     if (searchQuery) {
       dbug('Running search query:', searchQuery)
-      task(`Getting bookmarks collection with search (page ${page}, limit ${limit})... `)
+      dbug(`Getting bookmarks collection with search (page ${page}, limit ${limit}) `)
       const pipeline = get_bookmark_search_query_pipeline({
         searchQuery,
         page,
         limit
       }, req.usr)
       const aggregationResult = await BookmarkModel.aggregate(pipeline)
-      task_end('OK', '✔️')
 
       // Handle empty results - return 200 with empty data
       const { totalItems = 0, results = [] } = aggregationResult[0] || {}
@@ -68,9 +67,8 @@ export default async function get_bookmark_collection_endpoint (
 
       reply.code(200).send(builder.buildCollection())
     } else {
-      task(`Getting bookmarks collection (page ${page}, limit ${limit})... `)
+      dbug(`Getting bookmarks collection (page ${page}, limit ${limit}) `)
       const result = await read_bookmark_collection(page, limit)
-      task_end('Done.')
       
       // Build user votes map for current user limited to fetched bookmarks
       if (req.usr?._id) {
@@ -106,8 +104,8 @@ export default async function get_bookmark_collection_endpoint (
       reply.code(200).send(builder.buildCollection())
     }
   } catch (e) {
-    ler(MSG_500_ERROR_MESSAGE)
-    log_err('GET bookmark collection', e)
-    reply.code(500).send(default_500_error_response(e))
+    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[5011]'))
+    log_err('[5011] GET bookmark collection error', e)
+    reply.code(500).send(error_id(5011).default_500_error_response(e))
   }
 }
