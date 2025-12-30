@@ -12,7 +12,7 @@ import { odysee_fetch_thumbnail_url } from './odysee'
 import { unknown_fetch_thumbnail_url } from './unknown'
 import get_bookmark_by_slug from '../model/bookmark/get.bookmark.by.slug'
 import get_bookmark_by_videoid from '../model/bookmark/get.bookmark.by.videoid'
-import { errr, log_err, task, task_end, warn } from '../utility/logging'
+import { errr, log_err, task, warn } from '../utility/logging'
 import { TContextualUser } from '../schema/user'
 import { PLATFORM_URL } from '.'
 
@@ -160,7 +160,7 @@ async function _twitch_data(
       } else {
         task(`Fetching [${platform}] thumbnail URL for video with ID '${videoid}'... `)
         fixedBookmark.thumbnail_url = await twitch_fetch_thumbnail_url(videoid)
-        task_end('Done.')
+        fixedBookmark.thumbnail_url ? task.end('[✔️]') : task.end('[❌]')
       }
     }
     if (fixedBookmark.thumbnail_url) {
@@ -186,8 +186,9 @@ async function _vimeo_data(
       if (existingBookmark && existingBookmark.thumbnail_url) {
         fixedBookmark.thumbnail_url = existingBookmark.thumbnail_url
       } else {
-        task(`Fetching [${platform}] thumbnail url for '${videoid}' video ID... `)
+        task(`Fetching [${platform}] thumbnail url for '${videoid}' video ID `)
         fixedBookmark.thumbnail_url = await vimeo_fetch_thumbnail_url(videoid)
+        fixedBookmark.thumbnail_url ? task.end('[✔️]') : task.end('[❌]')
       }
     }
     if (fixedBookmark.thumbnail_url) {
@@ -213,16 +214,17 @@ async function _odysee_data(
       if (existingBookmark && existingBookmark.thumbnail_url) {
         fixedBookmark.thumbnail_url = existingBookmark.thumbnail_url
       } else {
-        task(`Fetching Odysee thumbnail url for '${slug}' slug... `)
+        task(`Fetching Odysee thumbnail url for '${slug}' slug `)
         fixedBookmark.thumbnail_url = await odysee_fetch_thumbnail_url(slug)
+        fixedBookmark.thumbnail_url ? task.end('[✔️]') : task.end('[❌]')
       }
     }
     if (fixedBookmark.thumbnail_url) {
       return fixedBookmark
     }
   } catch (e) {
-    errr(`Processing [${platform}] bookmark with slug '${slug}'`)
-    log_err(`Processing [${platform}] bookmark`, e)
+    errr(`[5050] Processing [${platform}] bookmark with slug '${slug}'`)
+    log_err(`[5050] Processing [${platform}] bookmark`, e)
   }
   return null
 }
@@ -240,8 +242,9 @@ async function _unknown_data(
       is_published: undefined // Enforces the policy that unknown bookmarks cannot be published.
     } as IBookmark
     if (!fixedBookmark.thumbnail_url) {
-      task(`Fetching thumbnail url for '${url}' URL... `)
+      task(`Fetching thumbnail url for '${url}' URL `)
       fixedBookmark.thumbnail_url = await unknown_fetch_thumbnail_url(url)
+      fixedBookmark.thumbnail_url ? task.end('[✔️]') : task.end('[❌]')
     }
     return fixedBookmark
   } catch (e) {
@@ -260,13 +263,9 @@ async function _facebook_data(
   try {
     const fixedBookmark = { ...attributes, user_id: usr._id } as IBookmark
     if (!fixedBookmark.thumbnail_url) {
-      task(`Fetching thumbnail url for '${url}' URL... `)
+      task(`Fetching thumbnail url for '${url}' URL`)
       fixedBookmark.thumbnail_url = await unknown_fetch_thumbnail_url(url)
-      if (fixedBookmark.thumbnail_url) {
-        task_end(`Done ✔️.\nGot '${fixedBookmark.thumbnail_url}'.`)
-      } else {
-        task_end(`Failed ❌`)
-      }
+      fixedBookmark.thumbnail_url ? task.end('[✔️]') : task.end('[❌]')
     }
     return fixedBookmark
   } catch (e) {

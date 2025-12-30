@@ -6,6 +6,7 @@ import  { STATE_PAGES, STATE_PAGES_THEME_DARK } from '../../state/page'
 import { MSG_500_ERROR_MESSAGE, type TJsonapiStateResponse } from '@tuber/shared'
 import type { IStatePost } from '../../common.types'
 import { themed } from '../../business.logic'
+import { normalize_key } from '../../utility'
 
 /** `POST /state/pages` endpoint handler */
 export default async function post_state_pages_endpoint (
@@ -28,16 +29,19 @@ export default async function post_state_pages_endpoint (
     task.end('[✔️]')
     const { key, mode } = req.body
     task(`Loading '${key}' state `)
-    const light = STATE_PAGES[key]
-    const dark = STATE_PAGES_THEME_DARK[key]
+    const normalizedKey = normalize_key(key)
+    const light = STATE_PAGES[normalizedKey]
+    const dark = STATE_PAGES_THEME_DARK[normalizedKey]
     const pageState = themed(light, dark, mode)
     if (pageState) {
       task.end('[✔️]')
       reply.code(200).send({
         'state': {
-          'pages': { [key]: pageState },
-          'pagesLight': { [key]: STATE_PAGES[key] },
-          'pagesDark': { [key]: STATE_PAGES_THEME_DARK[key] },
+          'pages': { [normalizedKey]: pageState },
+          'pagesLight': { [normalizedKey]: STATE_PAGES[normalizedKey] },
+          'pagesDark': {
+            [normalizedKey]: STATE_PAGES_THEME_DARK[normalizedKey]
+          },
         }
       } as TJsonapiStateResponse)
     } else {
@@ -46,7 +50,7 @@ export default async function post_state_pages_endpoint (
       reply.code(404).send({
         'state': {
           'pages': {
-            [key]: {
+            [normalizedKey]: {
               'appbarInherited': 'default-notfound',
               'contentInherited': 'default-notfound',
               'layout': 'layout_centered',

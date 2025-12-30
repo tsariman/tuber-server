@@ -2,12 +2,13 @@ import { PipelineStage } from 'mongoose'
 import { IBookmarkDocument } from '../../schema/bookmark'
 import { BookmarkModel } from '.'
 import Config from '../../config'
-import { errr, ler, log_err, task, task_end } from '../../utility/logging'
+import { errr, ler, log_err, task } from '../../utility/logging'
+import { MSG_500_ERROR_MESSAGE } from '@tuber/shared'
 
 export default async function get_bookmark_by_slug (
   slug: string
 ): Promise<IBookmarkDocument | null> {
-  task('Retrieving bookmark with the same slug... ')
+  task('Retrieving bookmark with the same slug from the database ')
   try {
     const pipeline: PipelineStage[] = []
     pipeline.push({
@@ -49,15 +50,12 @@ export default async function get_bookmark_by_slug (
     })
     const aggregationResult = await BookmarkModel.aggregate(pipeline)
     const dbDoc: IBookmarkDocument | null = aggregationResult[0] ?? null
-    if (Config.DEV && dbDoc) {
-      task_end('Success ✔️')
-    } else if (Config.DEV && !dbDoc) {task_end('Failed ❌')}
+    dbDoc ? task.end('[✔️]') : task.end('[❌]')
     return dbDoc
   } catch (e) {
-    ler('Failed ❌')
-    errr((e as Error).message)
-    log_err('GET bookmark by slug failed.', e)
+    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[5049]'))
+    log_err('[5049] GET bookmark by slug failed.', e)
   }
-
+  errr('Failed to get bookmark with slug:', slug)
   return null
 }

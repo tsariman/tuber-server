@@ -69,3 +69,8 @@ export function parse_cookie(cookieString?: string) {
 
   return cookies
 }
+
+/** Normalize a key by removing leading slash if present. */
+export const normalize_key = (key: string): string => {
+  return key.charAt(0) === '/' ? key.substring(1) : key
+}
