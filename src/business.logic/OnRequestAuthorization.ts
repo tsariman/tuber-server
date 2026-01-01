@@ -16,7 +16,7 @@ interface ICookie {
 
 interface IValidationResult {
   authorized: boolean
-  reason?: 'token_revoked' | 'jwt_version_mismatch' | 'user_not_found'
+  reason?: 'token_revoked' | 'jwt_version_mismatch' | 'user_not_found' | 'token_expired'
 }
 
 export default class OnRequestAuthorization {

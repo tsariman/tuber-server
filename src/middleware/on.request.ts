@@ -32,7 +32,7 @@ const on_request_default: onRequestHookHandler = async (
     const auth = new OnRequestAuthorization(req)
     const result = await auth.authorizeRequest()
     if (!result.authorized) {
-      const builder = new JsonapiErrorBuilder()
+      reply.code(401).send(new JsonapiErrorBuilder()
         .withStatus(401)
         .withCode('AUTHENTICATION_REQUIRED')
         .withTitle('Authorization failed.')
@@ -40,11 +40,7 @@ const on_request_default: onRequestHookHandler = async (
         .withSource({
           pointer: '/src/middleware/on.request.ts',
           parameter: req.url
-        })
-      if (req.isFromBrowser) {
-        builder.withState({ 'dialog': signInDialogState })
-      }
-      reply.code(401).send(builder.build())
+        }).build())
     }
   } catch (e) {
     dbug('JWT verification failed.', e)
@@ -57,7 +53,7 @@ const on_request_default: onRequestHookHandler = async (
         pointer: '/src/middleware/on.request.ts',
         parameter: req.url
       })
-    if (req.isFromBrowser) {
+    if (req.token && req.isFromBrowser) {
       builder.withState({ 'dialog': signInDialogState })
     }
     reply.code(401).send(builder.build())
@@ -81,7 +77,7 @@ export const on_request_dev: onRequestHookHandler = async (
     const result = await auth.authorizeRequest()
     if (!result.authorized) {
       if (!Config.DEV) {
-        const builder = new JsonapiErrorBuilder()
+        reply.code(401).send(new JsonapiErrorBuilder()
           .withStatus(401)
           .withCode('AUTHENTICATION_REQUIRED')
           .withTitle('Authorization failed.')
@@ -89,11 +85,7 @@ export const on_request_dev: onRequestHookHandler = async (
           .withSource({
             pointer: '/src/middleware/on.request.ts',
             parameter: req.url
-          })
-        if (req.isFromBrowser) {
-          builder.withState({ 'dialog': signInDialogState })
-        }
-        reply.code(401).send(builder.build())
+          }).build())
       }
     }
   } catch (e) {
@@ -109,7 +101,7 @@ export const on_request_dev: onRequestHookHandler = async (
           pointer: '/src/middleware/on.request.ts',
           parameter: req.url
         })
-      if (req.isFromBrowser) {
+      if (req.token && req.isFromBrowser) {
         builder.withState({ 'dialog': signInDialogState })
       }
       reply.code(401).send(builder.build())

@@ -50,9 +50,9 @@ export const default_404_error_response = (
  * Default 401 error response to help prevent repetitive code.
  * 
  * @param error
- * @param isBrowserReq Set to `true` if request is from a browser.
+ * @param requestSignIn Set to `true` if it's appropriate to request sign-in.
  */
-export const default_401_error_response = (error?: TJsonapiError, isBrowserReq = false) => {
+export const default_401_error_response = (error?: TJsonapiError, requestSignIn = false) => {
   const id = errorId ? errorId.toString() : undefined
   const { title, detail } = assure(error)
   const builder = new JsonapiErrorBuilder()
@@ -61,7 +61,7 @@ export const default_401_error_response = (error?: TJsonapiError, isBrowserReq =
     .withCode('AUTHENTICATION_REQUIRED')
     .withTitle(title || 'Unauthorized')
     .withDetail(detail)
-  if (isBrowserReq) {
+  if (requestSignIn) {
     builder.withState({ 'dialog': signInDialogState })
   }
   return builder.build()
