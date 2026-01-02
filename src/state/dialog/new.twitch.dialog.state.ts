@@ -2,7 +2,6 @@ import {
   $36_STATE_KEY,
   $38_STATE_KEY,
   THEME_DARK_DIALOG_BACKGROUND_COLOR,
-  THEME_LIGHT_PAPER_SX_PROPS,
   TStateDialog
 } from '@tuber/shared'
 import {
@@ -12,6 +11,7 @@ import {
   clone_or_default
 } from '../../business.logic'
 import { register } from '../../business.logic/registry'
+import { THEME_LIGHT_PAPER_SX_PROPS } from '../theme.state'
 
 register('state', '36', $36_STATE_KEY)
 /** Dialog to create a new Twitch video bookmark @id 36 */
@@ -23,7 +23,8 @@ const newTwitchBookmarkDialogState: TStateDialog = {
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
-    'PaperProps': { 'sx': { ...THEME_LIGHT_PAPER_SX_PROPS } }
+    'PaperProps': { 'sx': { ...THEME_LIGHT_PAPER_SX_PROPS } },
+    'sx': { 'overflowX': 'hidden' }
   },
   'titleProps': {
     'sx': { 'textAlign': 'center' }

@@ -6,7 +6,11 @@ import {
   THEME_MODE
 } from '@tuber/shared'
 import { TThemeMode } from '../common.types'
-import { ThemeOptions } from '@mui/material'
+import { SxProps, ThemeOptions } from '@mui/material'
+
+export const THEME_LIGHT_PAPER_SX_PROPS = {
+  'backgroundColor': THEME_LIGHT_BACKGROUND_COLOR,
+} as SxProps
 
 // TODO Modify to change the overall appearance of the page
 

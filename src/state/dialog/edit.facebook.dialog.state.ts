@@ -2,7 +2,6 @@ import {
   $25_STATE_KEY,
   $27_STATE_KEY,
   THEME_DARK_DIALOG_BACKGROUND_COLOR,
-  THEME_LIGHT_PAPER_SX_PROPS,
   TStateDialog
 } from '@tuber/shared'
 import {
@@ -11,6 +10,7 @@ import {
   clone_with_descriptors
 } from '../../business.logic'
 import { register } from '../../business.logic/registry'
+import { THEME_LIGHT_PAPER_SX_PROPS } from '../theme.state'
 
 register('state', '27', $27_STATE_KEY)
 /** Dialog to edit a Facebook video bookmark @id 27 */
@@ -22,7 +22,8 @@ const editFacebookBookmarkDialogState: TStateDialog = {
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
-    'PaperProps': { 'sx': { ...THEME_LIGHT_PAPER_SX_PROPS } }
+    'PaperProps': { 'sx': { ...THEME_LIGHT_PAPER_SX_PROPS } },
+    'sx': { 'overflowX': 'hidden' }
   },
   'titleProps': {
     'sx': { 'textAlign': 'center' }

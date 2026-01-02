@@ -53,6 +53,8 @@ import editTwitchBookmarkDialogState, {
   $37DarkThemeMode
 } from './edit.twitch.dialog.state'
 import { register } from '../../business.logic/registry'
+import { THEME_LIGHT_PAPER_SX_PROPS } from '../theme.state'
+
 
 register('state', '6', C.$6_STATE_KEY)
 /** Dialog to create a new YouTube video bookmark @id 6 */
@@ -64,7 +66,8 @@ export const newYoutubeBookmarkDialogState: C.TStateDialog = {
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
-    'PaperProps': { 'sx': { ...C.THEME_LIGHT_PAPER_SX_PROPS } }
+    'PaperProps': { 'sx': { ...THEME_LIGHT_PAPER_SX_PROPS } },
+    'sx': { 'overflowX': 'hidden' }
   },
   'titleProps': {
     'sx': { 'textAlign': 'center' }
@@ -158,7 +161,8 @@ export const editYoutubeBookmarkDialogState: C.TStateDialog = {
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
-    'PaperProps': { 'sx': { ...C.THEME_LIGHT_PAPER_SX_PROPS } }
+    'PaperProps': { 'sx': { ...THEME_LIGHT_PAPER_SX_PROPS } },
+    'sx': { 'overflowX': 'hidden' }
   },
   'titleProps': {
     'sx': { 'textAlign': 'center' }
