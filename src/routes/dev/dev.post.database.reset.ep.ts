@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import * as fs from 'fs/promises';
 import { existsSync } from 'fs';
-import { defaultDialogAlertState as alert } from '../../state/dialog';
+import { alertResponse as alert } from '../../state/dialog';
 import mongoose from 'mongoose';
 import { DEV_USER_FILENAME } from '../../dev/dev.install.common';
 import { log, ler } from '../../utility/logging';

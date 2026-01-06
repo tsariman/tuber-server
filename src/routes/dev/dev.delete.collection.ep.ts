@@ -1,28 +1,43 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { task, task_end } from '../../utility/logging'
+import { ler, task } from '../../utility/logging'
 import mongoose from 'mongoose'
-import { BookmarkPaginationModel } from '../../model/bookmark'
-import { UserPaginationModel } from '../../model/user'
-import { dialogAlertState as dialogAlert } from '../../state/dialog'
+import { BookmarkModel } from '../../model/bookmark'
+import { UserModel } from '../../model/user'
+import { alertDialogState as dialogAlert } from '../../state/dialog'
+import { MSG_500_ERROR_MESSAGE, TJsonapiStateResponse } from '@tuber/shared'
+import { error_id } from '../../business.logic/errors'
+import { to_error_object } from '../../utility'
 
 export default async function dev_delete_collection_endpoint (
-  req: FastifyRequest<{ Params: { collection: string }}>,
+  req: FastifyRequest<{ Params: { collection?: string }}>,
   reply: FastifyReply
 ) {
-  const { collection } = req.params
-  task(`Dropping '${collection}' collection... `)
-  await mongoose.connection.db?.dropCollection(collection)
-  task_end('Done.')
-  const devInstallForm = {
-    'bookmarkCount': await BookmarkPaginationModel.countDocuments(),
-    'userCount': await UserPaginationModel.countDocuments()
-  }
-  reply.send({
-    'state': {
-      'dialog': dialogAlert(`Dropped '${collection}' collection!`),
-      'pagesData': {
-        'devInstallForm': devInstallForm
-      }
+  try {
+    task('Checking collection name ')
+    const { collection } = req.params
+    if (!collection) {
+      task.end('[❌]')
+      throw new Error('No collection specified')
     }
-  })
+    task.end('[✔️]')
+    task(`Dropping '${collection}' collection `)
+    const dropResult = await mongoose.connection.db?.dropCollection(collection)
+    if (!dropResult) {
+      throw new Error(`Failed to drop collection: ${collection}`)
+    }
+    task.end('[✔️]')
+    const bookmarkCount = await BookmarkModel.countDocuments()
+    const userCount = await UserModel.countDocuments()
+    const devInstallForm = { bookmarkCount, userCount }
+    reply.send({
+      'state': {
+        'dialog': dialogAlert(`Dropped '${collection}' collection!`),
+        'pagesData': { devInstallForm }
+      }
+    } as TJsonapiStateResponse)
+  } catch (e) {
+    const error = to_error_object(e)
+    ler(`${MSG_500_ERROR_MESSAGE} - ${error.message}`)
+    error_id(5051).default_500_error_response(e)
+  }
 }

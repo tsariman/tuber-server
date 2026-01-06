@@ -134,7 +134,7 @@ export interface IBookmarkVoteGet {
 }
 
 export type TBookmark = TWithRequired<IBookmark,
-  'is_active' | 'created_at' | 'modified_at' | 'is_private' | 'user_id'
+  'is_active' | 'created_at' | 'user_id'
 >
 
 export interface IBookmarkDocument<T=unknown> extends mongoose.Document<T>, TBookmark {}

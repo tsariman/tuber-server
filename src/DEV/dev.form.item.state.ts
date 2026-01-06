@@ -1,10 +1,17 @@
-import * as C from '@tuber/shared'
+import {
+  $46_STATE_KEY,
+  $56_STATE_KEY,
+  $58_STATE_KEY,
+  $59_STATE_KEY,
+  $61_STATE_KEY,
+  TStateFormItem
+} from '@tuber/shared'
 
-export const devFormItemSeparator: C.TStateFormItem = {
+export const devFormItemSeparator: TStateFormItem = {
   'type': 'html_tag',
   'has': { 'content': '|' }
 }
-export const devCreateDevUserStateButton: C.TStateFormItem = {
+export const devCreateDevUserStateButton: TStateFormItem = {
   'type': 'state_button',
   'has': {
     'label': 'Create dev user',
@@ -12,7 +19,7 @@ export const devCreateDevUserStateButton: C.TStateFormItem = {
     'onclickHandlerDirective': { 'type': '$form_none', 'endpoint': 'dev/user' }
   },
 }
-export const devResetDatabaseStateButton: C.TStateFormItem = {
+export const devResetDatabaseStateButton: TStateFormItem = {
   'type': 'state_button',
   'has': {
     'label': 'Reset database',
@@ -23,7 +30,7 @@ export const devResetDatabaseStateButton: C.TStateFormItem = {
     }
   }
 }
-export const devTestDrawerStateButton: C.TStateFormItem = {
+export const devTestDrawerStateButton: TStateFormItem = {
   'type': 'state_button',
   'has': {
     'label': 'Test Drawer',
@@ -34,7 +41,7 @@ export const devTestDrawerStateButton: C.TStateFormItem = {
     }
   }
 }
-export const devRemoveDrawerStateButton: C.TStateFormItem = {
+export const devRemoveDrawerStateButton: TStateFormItem = {
   'type': 'state_button',
   'has': {
     'label': 'Remove Drawer',
@@ -45,84 +52,84 @@ export const devRemoveDrawerStateButton: C.TStateFormItem = {
     }
   }
 }
-export const devLinkTestAddNewBookmarkState: C.TStateFormItem = {
+export const devLinkTestAddNewBookmarkState: TStateFormItem = {
   'type': 'a',
   'has': {
     'label': 'Test Add New bookmark',
     'onclickHandler': 'tuberCallbacks.bookmarkAdd'
   }
 }
-export const devCreateNewUserLinkState: C.TStateFormItem = {
+export const devCreateNewUserLinkState: TStateFormItem = {
   'type': 'a',
   'has': {
     'label': 'Create new user',
     'onclickHandler': 'tuberCallbacks.devUserAdd'
   }
 }
-export const devPopulateUserCollection: C.TStateFormItem = {
+export const devPopulateUserCollection: TStateFormItem = {
   'type': 'state_button',
   'has': {
     'label': 'Populate user collection',
     'onclickHandler': 'tuberCallbacks.devUserPopulate'
   }
 }
-export const devGetBookmarkCollectionTest: C.TStateFormItem = {
+export const devGetBookmarkCollectionTest: TStateFormItem = {
   'type': 'state_button',
   'has': {
     'label': 'Get bookmarks collection test',
     'onclickHandler': 'tuberCallbacks.devGetBookmarks'
   }
 }
-export const devTestSpinner: C.TStateFormItem = {
+export const devTestSpinner: TStateFormItem = {
   'type': 'state_button',
   'has': {
     'label': 'Test spinner',
     'onclickHandler': 'tuberCallbacks.devNoResponse'
   }
 }
-export const devGetPlatformThumbnailTest: C.TStateFormItem = {
+export const devGetPlatformThumbnailTest: TStateFormItem = {
   'type': 'a',
   'has': {
     'label': ' Test getting platform thumbnails ',
-    'route': C.$46_STATE_KEY
+    'route': $46_STATE_KEY
   }
 }
-export const devSaveConfigValue: C.TStateFormItem = {
+export const devSaveConfigValue: TStateFormItem = {
   'type': 'a',
   'has': {
     'label': ' Save config value ',
-    'route': C.$61_STATE_KEY
+    'route': $61_STATE_KEY
   }
 }
-export const devEnterTwitchClientId: C.TStateFormItem = {
+export const devEnterTwitchClientId: TStateFormItem = {
   'type': 'a',
   'has': {
     'label': ' Enter Twitch Client ID ',
-    'route': C.$59_STATE_KEY
+    'route': $59_STATE_KEY
   }
 }
-export const devRumbleRegexpTest: C.TStateFormItem = {
+export const devRumbleRegexpTest: TStateFormItem = {
   'type': 'a',
   'has': {
     'label': ' Test rumble regexp ',
-    'route': C.$56_STATE_KEY
+    'route': $56_STATE_KEY
   }
 }
-export const devUnknownRegexpTest: C.TStateFormItem = {
+export const devUnknownRegexpTest: TStateFormItem = {
   'type': 'a',
   'has': {
     'label': ' Test unknown regexp ',
-    'route': C.$58_STATE_KEY
+    'route': $58_STATE_KEY
   }
 }
-export const devFakePageTest: C.TStateFormItem = {
+export const devFakePageTest: TStateFormItem = {
   'type': 'a',
   'has': {
     'label': ' Fake page test ',
     'route': 'i-lead-to-nowhere'
   }
 }
-export const devDropCollectionSelect: C.TStateFormItem = {
+export const devDropCollectionSelect: TStateFormItem = {
   'type': 'state_select',
   'name': 'drop-collection',
   'label': 'Drop Collection',
@@ -143,7 +150,7 @@ export const devDropCollectionSelect: C.TStateFormItem = {
     ]
   }
 }
-export const devDropCollectionButton: C.TStateFormItem = {
+export const devDropCollectionButton: TStateFormItem = {
   'type': 'state_button',
   'has': {
     'label': 'Drop Collection',
@@ -155,7 +162,7 @@ export const devDropCollectionButton: C.TStateFormItem = {
     'disableElevation': true
   }
 }
-export const devPopulateCollectionSelect: C.TStateFormItem = {
+export const devPopulateCollectionSelect: TStateFormItem = {
   'type': 'state_select',
   'name': 'populate-collection',
   'label': 'Populate Collection',
@@ -176,7 +183,7 @@ export const devPopulateCollectionSelect: C.TStateFormItem = {
     ]
   }
 }
-export const devPopulationQuantity: C.TStateFormItem = {
+export const devPopulationQuantity: TStateFormItem = {
   'type': 'state_select',
   'name': 'population-quantity',
   'label': 'Population Quantity',
@@ -202,7 +209,7 @@ export const devPopulationQuantity: C.TStateFormItem = {
     ]
   }
 }
-export const devPopulateCollectionButton: C.TStateFormItem = {
+export const devPopulateCollectionButton: TStateFormItem = {
   'type': 'state_button',
   'has': {
     'label': 'Populate Collection',
@@ -214,7 +221,7 @@ export const devPopulateCollectionButton: C.TStateFormItem = {
     'disableElevation': true
   }
 }
-export const devCreateBookmarkSearchIndex: C.TStateFormItem = {
+export const devCreateBookmarkSearchIndex: TStateFormItem = {
   'type': 'state_button',
   'has': {
     'label': 'Create Bookmark Search Index',
@@ -226,4 +233,4 @@ export const devCreateBookmarkSearchIndex: C.TStateFormItem = {
     'disableElevation': true
   }
 }
-export const devHorizontalSeparator: C.TStateFormItem = { 'type': 'hr' }
+export const devHorizontalSeparator: TStateFormItem = { 'type': 'hr' }

@@ -364,12 +364,11 @@ export const $68DarkThemeMode: C.TStateDialog = (() => {
 })()
 
 /**
- * Default alert dialog.  
- * Use it as the response to show a dialog containing a message or
- * anything else client side.
+ * Use as the response to show a dialog containing a message or anything else 
+ * client side.
  * @id 64
  */
-export function defaultDialogAlertState<T=unknown>(content: T): C.TJsonapiStateResponse {
+export function alertResponse<T=unknown>(content: T): C.TJsonapiStateResponse {
   return {
     'state': {
       'dialog': {
@@ -398,20 +397,12 @@ export function defaultDialogAlertState<T=unknown>(content: T): C.TJsonapiStateR
   }
 }
 
-export const alert = defaultDialogAlertState
-
 /**
- * Simple dialog alert. It must be inserted at `state.dialog` e.g.
- * ```ts
- * reply.send({
- *  'state': {
- *   'dialog': dialogAlertState('Hello World')
- *  }
- * })
- * ```
+ * Use as a dialog portion of a state to show a dialog client side
+ * @param content
  * @id 65
  */
-export function dialogAlertState<T=unknown>(content: T): C.TStateDialog {
+export function alertDialogState<T=unknown>(content: T): C.TStateDialog {
   return {
     '_type': 'alert',
     '_id': '65',
@@ -435,6 +426,15 @@ export function dialogAlertState<T=unknown>(content: T): C.TStateDialog {
     'open': true
   }
 }
+
+/**
+ * Use as a state portion of a response to show a dialog client side
+ * @param string 
+ * @returns 
+ */
+export const alertState = <T = unknown>(string: T): C.TNetState => ({
+  'dialog': alertDialogState(string) // Empty content by default
+})
 
 /**
  * Bootstrap state for dialogs light theme mode.

@@ -2,8 +2,6 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import JsonapiErrorBuilder from '../../business.logic/builder/JsonapiErrorBuilder'
 import { error_id } from '../../business.logic/errors'
 import { ler, log_err } from '../../utility/logging'
-import { ensureDefaultUserExists } from '../../business.logic/ensure.default.user'
-import { defaultDialogAlertState as alert } from '../../state/dialog'
 import type { IQueryDirective } from '../../common.types'
 import { MSG_500_ERROR_MESSAGE } from '@tuber/shared'
 
@@ -15,17 +13,6 @@ const dev_post_user_endpoint = async (
   try {
     switch (req.query.d) {
       case 'create-default-user': // Optional: Try to create default user if none exist (useful for empty database scenario)
-        const defaultUserCreated = await ensureDefaultUserExists()
-        if (defaultUserCreated) {
-          const message = 'A default admin user has been created (admin/admin123).'
-          reply.code(200).send(alert(message))
-          return
-        }
-        reply.code(409).send(new JsonapiErrorBuilder()
-          .withStatus(409)
-          .withCode('NOT_ALLOWED')
-          .build()
-        )
         return
       
       // TODO - Add more cases here

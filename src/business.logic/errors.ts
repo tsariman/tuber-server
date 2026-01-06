@@ -1,33 +1,32 @@
 import { TJsonapiErrorSource } from '@tuber/shared'
 import { signInDialogState } from '../state/dialog'
 import JsonapiErrorBuilder, { TJsonapiError } from './builder/JsonapiErrorBuilder'
-import { assure } from '../utility'
+import { assure, to_error_object } from '../utility'
 
 export const MONGODB_DUPLICATE_KEY_ERROR = 'E11000'
 
 let errorId = 0
 
 /**
- * Default 500 error response to help prevent repetitive code.
+ * Default 500 error response to help prevent repetitive code
  *
  * @param e error object from try/catch
  * @returns `TJsonapiErrorResponse`
  */
 export const default_500_error_response = (e: unknown) => {
   const id = errorId ? errorId.toString() : undefined
-  const message = e instanceof Error ? e.message : String(e)
-  const stack = e instanceof Error ? e.stack : undefined
+  const error = to_error_object(e)
   return new JsonapiErrorBuilder()
     .withId(id)
     .withStatus(500)
     .withCode('INTERNAL_ERROR')
-    .withTitle(message)
-    .withDetail(stack)
+    .withTitle(error.message)
+    .withDetail(error.stack)
     .build()
 }
 
 /**
- * Default 404 error response to help prevent repetitive code.
+ * Default 404 error response to help prevent repetitive code
  *
  * @param error custom error object
  * @returns `TJsonapiErrorResponse`
@@ -47,10 +46,10 @@ export const default_404_error_response = (
 }
 
 /**
- * Default 401 error response to help prevent repetitive code.
+ * Default 401 error response to help prevent repetitive code
  * 
  * @param error
- * @param requestSignIn Set to `true` if it's appropriate to request sign-in.
+ * @param requestSignIn Set to `true` if it's appropriate to request sign-in
  */
 export const default_401_error_response = (error?: TJsonapiError, requestSignIn = false) => {
   const id = errorId ? errorId.toString() : undefined
@@ -67,7 +66,7 @@ export const default_401_error_response = (error?: TJsonapiError, requestSignIn 
   return builder.build()
 }
 
-/** Generic response for an authentication-shielded enpoints. */
+/** Generic response for an authentication-shielded enpoints */
 export const shielded_401_error_response = (error?: TJsonapiError) => {
   const id = errorId ? errorId.toString() : undefined
   const { title, detail } = assure(error)
@@ -81,7 +80,7 @@ export const shielded_401_error_response = (error?: TJsonapiError) => {
 }
 
 /**
- * Default 400 error response to help prevent repetitive code.
+ * Default 400 error response to help prevent repetitive code
  *
  * @param error custom error object
  * @returns `TJsonapiErrorResponse`
@@ -214,25 +213,7 @@ export const get_mongodb_error = (message: string): {
 };
 
 /**
- * Converts an unknown value to an Error instance.
- * If the value is already an Error, returns it unchanged.
- * If it's a string, creates a new Error with that string as the message.
- * If it's an object with a 'message' property that's a string, uses that as the message.
- * Otherwise, creates a new Error with the string representation of the value.
- * @param e The value to convert to an Error.
- * @returns An Error instance.
- */
-export const as_Error = (e: unknown): Error => {
-  if (e instanceof Error) return e
-  if (typeof e === 'string') return new Error(e)
-  if (e && typeof e === 'object' && 'message' in e && typeof (e as any).message === 'string') {
-    return new Error((e as any).message)
-  }
-  return new Error(String(e))
-}
-
-/**
- * Give all error responses a specific ID.
+ * Give all error responses a specific ID
  * @param id 
  * @returns 
  */

@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { PLATFORM_URL } from '.'
 import { dbug, errr, log_err, task, task_end } from '../utility/logging'
+import { to_error_object } from '../utility'
 
 /**
  * Helper function to make robust HTTP requests to Rumble with anti-bot measures
@@ -58,13 +59,13 @@ async function robust_rumble_get(url: string): Promise<string> {
       
       task_end(`Failed.[INFO][${response.status}] [Strategy ${i + 1}]`)
     } catch (e) {
-      const errorMessage = e instanceof Error ? e.message : String(e)
-      task_end(`Failed.\n[ERROR][500] [Strategy ${i + 1}] returned error: ${errorMessage}`)
+      const error = to_error_object(e)
+      task_end(`Failed.\n[ERROR][500] [Strategy ${i + 1}] returned error: ${error.message}`)
 
       // If this is the last strategy, log as error
       if (i === strategies.length - 1) {
         errr('All strategies failed.')
-        log_err('retrieving Rumble thumbnail', e)
+        log_err('retrieving Rumble thumbnail', error)
       }
     }
     
@@ -108,9 +109,9 @@ export async function rumble_fetch_thumbnail_url(slug?: string): Promise<string>
     }
     return ''
   } catch (e) {
-    const errorMessage = e instanceof Error ? e.message : String(e)
-    errr(`Failed to fetch thumbnail for slug ${slug}:`, errorMessage)
-    log_err(`fetching Rumble thumbnail`, e)
+    const error = to_error_object(e)
+    errr(`Failed to fetch thumbnail for slug ${slug}:`, error.message)
+    log_err(`fetching Rumble thumbnail`, error)
     return ''
   }
 }
@@ -157,9 +158,9 @@ export async function rumble_fetch_videoid(slug: string): Promise<string> {
     }
     return ''
   } catch (e) {
-    const errorMessage = e instanceof Error ? e.message : String(e)
-    errr(`Failed to fetch videoid for slug ${slug}:`, errorMessage)
-    log_err(`fetching Rumble videoid`, e)
+    const error = to_error_object(e)
+    errr(`Failed to fetch videoid for slug ${slug}:`, error.message)
+    log_err(`fetching Rumble videoid`, error)
     return ''
   }
 }
@@ -214,9 +215,9 @@ export async function rumble_fetch_videoid_thumbnail(
     }
     return { videoid: '', thumbnail_url: '' }
   } catch (e) {
-    const errorMessage = e instanceof Error ? e.message : String(e)
-    errr(`Failed to fetch videoid and thumbnail for slug ${slug}:`, errorMessage)
-    log_err(`fetching Rumble videoid`, e)
+    const error = to_error_object(e)
+    errr(`Failed to fetch videoid and thumbnail for slug ${slug}:`, error.message)
+    log_err(`fetching Rumble videoid`, error)
     return { videoid: '', thumbnail_url: '' }
   }
 }
@@ -256,9 +257,9 @@ export async function rumble_fetch_oembed_data(slug: string): Promise<{ videoid:
     return { videoid, thumbnail_url }
   } catch (e) {
     task_end('Failed ❌')
-    const errorMessage = e instanceof Error ? e.message : String(e)
-    errr(`Failed to fetch oEmbed data for slug ${slug}: ${errorMessage}`)
-    log_err(`fetching Rumble oEmbed`, e)
+    const error = to_error_object(e)
+    errr(`Failed to fetch oEmbed data for slug ${slug}: ${error.message}`)
+    log_err(`fetching Rumble oEmbed`, error)
     return { videoid: '', thumbnail_url: '' }
   }
 }

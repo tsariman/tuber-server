@@ -1,6 +1,6 @@
 import { FastifyRequest, FastifyReply, FastifyPluginAsync, RouteOptions } from 'fastify'
 import { check_password } from '../business.logic/security'
-import { defaultDialogAlertState as alert } from '../state/dialog'
+import { alertResponse as alert } from '../state/dialog'
 import { IRequestAuth } from '../common.types'
 import {
   error_id,
@@ -9,7 +9,7 @@ import {
 import { TJsonapiStateResponse, MSG_500_ERROR_MESSAGE } from '@tuber/shared'
 import get_bootstrap_authenticated_state from '../state/bootstrap'
 import { get_contextual_user, read_user } from '../model/session'
-import {  get_theme_mode, option } from '../business.logic'
+import { option } from '../business.logic'
 import { USER_CACHE } from '../business.logic/cache'
 import { log_safe, log_err_safe, task, errr, dbug } from '../utility/logging'
 import JsonapiRequestDriver from '../business.logic/JsonapiRequestDriver'
@@ -119,7 +119,7 @@ const authentication: FastifyPluginAsync = async (fastify, rootOpts): Promise<vo
                   ? '2 months.'
                   : '24 hours.')
               task('Setting authentication cookie ')
-              const theme = get_theme_mode(req.cookie) // get_theme_mode(req.body.cookie)
+              const theme = req.themeMode // get_theme_mode(req.body.cookie)
               
               // Set HTTP-only cookie for token
               reply.setCookie('token', token, {

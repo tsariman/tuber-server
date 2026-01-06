@@ -6,12 +6,13 @@ import * as dotenv from 'dotenv'
 dotenv.config({ path: `${__dirname}/../.env`})
 import path from 'path'
 import qs from 'qs'
+import { to_error_object } from './utility'
 import { log } from './utility/logging'
 import JsonapiErrorBuilder from './business.logic/builder/JsonapiErrorBuilder'
 import { initialize_app } from './startup'
 import { setupJWT } from './jwt.config'
-import { isCustomError } from './business.logic/errors'
 import Config from './config'
+import { alertState as alert } from './state/dialog'
 
 export interface AppOptions extends FastifyServerOptions, Partial<AutoloadPluginOptions> {
 
@@ -60,7 +61,7 @@ const app: FastifyPluginAsync<AppOptions> = async (
       })
     } catch (e) {
       // Plugin not installed or failed to load; continue without blocking startup
-      log('[WARN] Rate limit plugin not active:', e instanceof Error ? e.message : String(e))
+      log('[WARN] Rate limit plugin not active:', to_error_object(e).message)
     }
   }
 
@@ -92,16 +93,18 @@ const app: FastifyPluginAsync<AppOptions> = async (
   // Set custom error handler for 500 errors
   fastify.setErrorHandler((e, req, reply) => {
     void req
-    log('[ERROR]', e)
-    const error = e instanceof Error ? e : new Error(String(e))
-    const status = isCustomError(e) ? e.statusCode : 500
-    reply.status(status).send(new JsonapiErrorBuilder()
-      .withStatus(status)
+    const error = to_error_object(e)
+    log('[ERROR]', error.message)
+    const builder = new JsonapiErrorBuilder()
+      .withCode('FASTIFY_ERROR')
+      .withStatus(500)
       .withTitle(error.message)
       .withDetail(error.stack)
-      .withMeta('error', e)
-      .build()
-    )
+      .withMeta('error', error)
+    if (Config.DEV) {
+      builder.withState(alert(`An error occurred: ${error.message}`))
+    }
+    reply.status(500).send(builder.build())
   })
 
   // Startup code - runs after all plugins are loaded

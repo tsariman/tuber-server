@@ -1,13 +1,13 @@
 import mongoose from 'mongoose'
 import Config from './config'
-import { DEV_DEFAULT_USER, DEV_USER } from './dev/dev.install.common'
+import { DEV_DEFAULT_USER } from './dev/dev.install.common'
 // import start_cron_jobs from './cron.jobs'
 import {  configuration_get_all } from './model/configuration'
 import { find_index_by_name } from './business.logic/network'
 import { readable_get_all } from './model/readable'
-import { create_user } from './model/user'
 import { COLLECTION_NAME } from '@tuber/shared'
-import { log, info, errr, dbug, note } from './utility/logging'
+import { log, dbug, note } from './utility/logging'
+import { UserModel } from './model/user'
 
 mongoose.set('strictQuery', false)
 
@@ -56,7 +56,7 @@ export async function initialize_app(): Promise<void> {
 
   // Check if dev user exists
   if (Config.DEV) {
-    const devUser = await DEV_USER.findOne({ name: DEV_DEFAULT_USER.name })
+    const devUser = await UserModel.findOne({ name: DEV_DEFAULT_USER.name })
     console.log('')
     if (devUser) {
       dbug('"Dev user" is available.\n')
@@ -65,32 +65,6 @@ export async function initialize_app(): Promise<void> {
       Config.write('dev_user_available', false)
       dbug('Dev user is not available.\n')
     }
-  }
-
-  // Check if any users exist and create default admin if none found
-  process.stdout.write('[INFO] Checking for existing users... ')
-  const userCount = await DEV_USER.countDocuments()
-  if (userCount === 0) {
-    console.log('None found.')
-
-    // Only create default user in debug mode
-    if (Config.DEBUG) {
-      process.stdout.write('[INFO] Creating default admin user... ')
-      try {
-        await createDefaultAdminUser()
-        console.log('Success!')
-        info('Default admin user created with username: "admin"')
-        info('Default password: "admin123" (Please change this!)')
-      } catch (error) {
-        console.log('Failed!')
-        errr('Failed to create default admin user:', error)
-      }
-    } else {
-      info('App not in debug mode. Skipping default user creation.')
-      info('To create a default user, enable the dev endpoints.')
-    }
-  } else {
-    console.log(`Found ${userCount} user(s).`)
   }
 
   // Load configuration values from database in Config object.
@@ -117,24 +91,6 @@ export async function initialize_app(): Promise<void> {
   // process.stdout.write('Setting up cron jobs... ')
   // start_cron_jobs()
   // console.log('Done.')
-}
-
-/**
- * Creates a default admin user when no users exist in the database.
- * This ensures there's always a way to access the system.
- */
-async function createDefaultAdminUser() {
-  const defaultAdmin = {
-    name: 'admin',
-    email: 'admin@tuberesearcher.local',
-    password: 'admin123', // This will be hashed by create_user
-    role: 'administrator' as const,
-    firstname: 'System',
-    lastname: 'Administrator'
-  }
-
-  const user = await create_user(defaultAdmin)
-  return user
 }
 
 function header_printout() {

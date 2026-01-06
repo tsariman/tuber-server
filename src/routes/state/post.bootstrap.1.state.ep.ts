@@ -1,6 +1,5 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { IStateContext } from '../../state/_state.common.types'
-import { get_theme_mode } from '../../business.logic'
 import { PrepareState } from '../../state/PrepareState'
 import { bootstrap_app_state } from '../../state/bootstrap/app'
 import bootstrap_theme_state, {
@@ -36,12 +35,8 @@ const post_bootstrap_1_state_endpoint = async (
   req: FastifyRequest,
   reply: FastifyReply
 ) => {
-  const { usr, token, cookie } = req
-  const context: IStateContext = {
-    usr,
-    token,
-    theme: get_theme_mode(cookie),
-  }
+  const { usr, token, themeMode: theme } = req
+  const context: IStateContext = { usr, token, theme }
   try {
     reply.send({
       'state': {

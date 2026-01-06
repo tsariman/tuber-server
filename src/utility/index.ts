@@ -3,6 +3,9 @@
 
 type TObj = Record<string, unknown>
 
+/** Basic error interface */
+export interface IError { name: string; message: string; stack?: string }
+
 export const die = (message: string): void => {
   if (process.env.NODE_ENV === 'development') {
     throw new Error(message)
@@ -73,4 +76,22 @@ export function parse_cookie(cookieString?: string) {
 /** Normalize a key by removing leading slash if present. */
 export const normalize_key = (key: string): string => {
   return key.charAt(0) === '/' ? key.substring(1) : key
+}
+
+
+/**
+ * Converts an Error object to a plain object for easier serialization/logging
+ * @param e The try-catch error to convert
+ * @param name The name to assign if e is not an Error
+ * @returns An object with name, message, and stack properties
+ */
+export const to_error_object = (e: unknown, name = 'UnknownError'): IError => {
+  if (!(e instanceof Error)) {
+    return {
+      name,
+      message: String(e),
+      stack: undefined
+    }
+  }
+  return { name: e.name, message: e.message, stack: e.stack }
 }

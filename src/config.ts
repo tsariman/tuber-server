@@ -140,7 +140,7 @@ const USER_CONFIG: IConfiguration = {
   MAX_LOADED_BOOKMARK_PAGES: process.env.MAX_LOADED_BOOKMARK_PAGES || '4',
   /** Max number of users pages to load in memory client-side */
   MAX_LOADED_USER_PAGES: process.env.MAX_LOADED_USER_PAGES || '4',
-  /** Current theme mode */
+  /** Default theme mode */
   DEFAULT_THEME_MODE: 'dark',
 
   // Development values

@@ -84,13 +84,13 @@ const devInstallFormState: C.TStateForm = {
         'spacing': 1
       },
       'items': [
-        // ITEM.devDropCollectionSelect,
-        // ITEM.devDropCollectionButton,
-        // __vertical_separator__,
-        // ITEM.devPopulateCollectionSelect,
-        // ITEM.devPopulationQuantity,
-        // ITEM.devPopulateCollectionButton,
-        // __vertical_separator__,
+        ITEM.devDropCollectionSelect,
+        ITEM.devDropCollectionButton,
+        __vertical_separator__,
+        ITEM.devPopulateCollectionSelect,
+        ITEM.devPopulationQuantity,
+        ITEM.devPopulateCollectionButton,
+        __vertical_separator__,
         ITEM.devCreateBookmarkSearchIndex,
       ]
     },

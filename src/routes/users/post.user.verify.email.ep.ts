@@ -3,6 +3,7 @@ import { TUsersFastifyRequest } from '../../schema/user'
 import JsonapiErrorBuilder from '../../business.logic/builder/JsonapiErrorBuilder'
 import JsonapiResponseBuilder from '../../business.logic/builder/JsonapiResponseBuilder'
 import { UserModel, transform_user_doc } from '../../model/user'
+import { to_error_object } from '../../utility'
 
 /** `POST /users/email/verify` endpoint handler */
 export default async function post_user_verify_email_endpoint (
@@ -66,10 +67,11 @@ export default async function post_user_verify_email_endpoint (
         .build()
     )
   } catch (e) {
+    const error = to_error_object(e)
     reply.code(500).send(new JsonapiErrorBuilder()
       .withStatus(500)
       .withTitle('Server Error')
-      .withDetail(e instanceof Error ? e.message : String(e))
+      .withDetail(error.message)
       .build())
   }
 }

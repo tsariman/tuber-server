@@ -73,10 +73,10 @@ export const on_request_dev: onRequestHookHandler = async (
   reply
 ): Promise<void> => {
   try {
-    const auth = new OnRequestAuthorization(req)
-    const result = await auth.authorizeRequest()
-    if (!result.authorized) {
-      if (!Config.DEV) {
+    if (Config.DEV) {
+      const auth = new OnRequestAuthorization(req)
+      const result = await auth.authorizeRequest()
+      if (!result.authorized) {
         reply.code(401).send(new JsonapiErrorBuilder()
           .withStatus(401)
           .withCode('AUTHENTICATION_REQUIRED')
@@ -87,25 +87,23 @@ export const on_request_dev: onRequestHookHandler = async (
             parameter: req.url
           }).build())
       }
+    } else {
+      reply.code(404).send(new JsonapiErrorBuilder()
+        .withStatus(404)
+        .withCode('NOT_FOUND')
+        .withTitle('This endpoint does not exist')
+        .build())
     }
   } catch (e) {
-    // Allow access if app is in development mode.
-    if (!Config.DEV) {
-      dbug('JWT verification failed.', e)
-      const builder = new JsonapiErrorBuilder()
-        .withStatus(401)
-        .withCode('AUTHENTICATION_REQUIRED')
-        .withTitle('JWT verification failed.')
-        .withDetail((e as Error).stack)
-        .withSource({
-          pointer: '/src/middleware/on.request.ts',
-          parameter: req.url
-        })
-      if (req.token && req.isFromBrowser) {
-        builder.withState({ 'dialog': signInDialogState })
-      }
-      reply.code(401).send(builder.build())
+    dbug('JWT verification failed.', e)
+    const builder = new JsonapiErrorBuilder()
+      .withStatus(401)
+      .withCode('AUTHENTICATION_REQUIRED')
+      .withTitle('JWT verification failed.')
+    if (req.token && req.isFromBrowser) {
+      builder.withState({ 'dialog': signInDialogState })
     }
+    reply.code(401).send(builder.build())
   }
 }
 

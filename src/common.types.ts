@@ -1,5 +1,5 @@
-import { TJsonapiRequest } from '@tuber/shared'
-import { TContextualUser } from './schema/user'
+import type { TJsonapiRequest } from '@tuber/shared'
+import type { TContextualUser } from './schema/user'
 
 // Utility types
 

@@ -12,6 +12,7 @@ import newUserFormState from '../../state/form/new.user.form.state'
 import crypto from 'crypto'
 import { sendVerificationEmail } from '../../utility/mailer'
 import Config from '../../config'
+import { to_error_object } from '../../utility'
 const IS_TEST = process.env.TEST === 'true'
 // duplicate import removed
 // Lightweight development rate limiter (per-IP)
@@ -106,19 +107,19 @@ export default async function post_user_endpoint (
       )
     }
   } catch (e) {
-    const errorMessage = e instanceof Error ? e.message : String(e)
-    const mongoDbError = get_mongodb_error(errorMessage)
+    const error = to_error_object(e)
+    const mongoDbError = get_mongodb_error(error.message)
     if (mongoDbError.code === MONGODB_DUPLICATE_KEY_ERROR) {
       reply.code(409).send(new JsonapiErrorBuilder()
         .withCode('DUPLICATE_RESOURCE')
         .withStatus(409)
         .withTitle('Conflict')
         .withDetail(mongoDbError.detail)
-        .build());
+        .build())
     } else {
       ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[5047]'))
-      log_err('[5047] POST user', e)
-      reply.code(500).send(error_id(5047).default_500_error_response(e))
+      log_err('[5047] POST user', error)
+      reply.code(500).send(error_id(5047).default_500_error_response(error))
     }
   }
 }
