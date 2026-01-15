@@ -53,7 +53,13 @@ const researchPageAppbarState: TStateAppbar = {
   },
   'searchFieldIconButtonProps': {
     get 'aria-label'() { return t('4', 'submit search query') }
-  }
+  },
+  'startAdornmentButton': {
+    'has': {
+      'icon': 'public_outline',
+      'onclickHandler': 'tuberCallbacks.toggleSearchScope',
+    }
+  },
 }
 
 export default researchPageAppbarState

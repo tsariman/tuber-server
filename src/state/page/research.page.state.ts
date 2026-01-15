@@ -42,7 +42,7 @@ const researchPageState: TStatePage = {
     'items': [ ],
     'inputBaseProps': {
       'id': 'video-url',
-      'placeholder': 'Search ...',
+      'placeholder': 'Search public bookmarks…',
       'inputProps': { 'aria-label': 'Search Bookmarks' },
     },
     'searchFieldIcon': {
@@ -59,7 +59,7 @@ const researchPageState: TStatePage = {
     },
     'searchFieldIconButtonProps': {
       'aria-label': 'submit search query'
-    }
+    },
   },
   'layout': 'layout_none_no_appbar',
 }

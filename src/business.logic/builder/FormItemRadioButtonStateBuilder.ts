@@ -3,7 +3,7 @@ import { AbstractFormItemStateBuilder } from './AbstractStateBuilder';
 import {
   TJsonapiStateResponse,
   TStateFormItemRadioButton,
-  TStateFormITemCustomColor,
+  TStateFormItemCustomColor,
   TFormChoices
 } from '@tuber/shared';
 
@@ -106,7 +106,7 @@ export default class FormItemRadioButtonStateBuilder
    * @param props 
    * @returns this.
    */
-  hasColor(color: TStateFormITemCustomColor): this {
+  hasColor(color: TStateFormItemCustomColor): this {
     this._state.has ??= {};
     this._state.has.color = color;
     return this;

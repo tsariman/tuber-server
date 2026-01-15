@@ -1,7 +1,8 @@
-import { TObj } from '../../common.types';
-import { IStateContext, TBootstrapState } from '../_state.common.types';
-import Config from '../../config';
-import dev_get_pages_data_state from '../../dev/dev.pages.data.state';
+import { TObj } from '../../common.types'
+import { IStateContext, TBootstrapState } from '../_state.common.types'
+import Config from '../../config'
+import dev_get_pages_data_state from '../../dev/dev.pages.data.state'
+import { $40_STATE_KEY } from '@tuber/shared'
 
 const bootstrap_pages_data_state: TBootstrapState<Promise<TObj<TObj>>> = {
 
@@ -14,6 +15,11 @@ const bootstrap_pages_data_state: TBootstrapState<Promise<TObj<TObj>>> = {
         'playerOpen': false,
         'showThumbnail': true,
         'bookmarkToPlay': undefined
+      },
+      [$40_STATE_KEY]: {
+        'searchMode': 'public',
+        'icon': 'public_outline',
+        'placeholder': 'Search public bookmarks…'
       },
 
       ...(inDev ? await dev_get_pages_data_state() : {})

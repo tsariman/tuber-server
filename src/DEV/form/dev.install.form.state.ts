@@ -1,5 +1,6 @@
 import { TBootstrapState } from '../../state/_state.common.types'
-import * as C from '@tuber/shared'
+import * as C from '@tuber/shared/dist/constants.server'
+import type { TStateForm } from '@tuber/shared'
 import { register } from '../../business.logic/registry'
 import { clone_with_descriptors } from '../../business.logic'
 import * as ITEM from '../dev.form.item.state'
@@ -9,7 +10,7 @@ import devFormTestClipboardState from './dev.test.clipboard.form.state'
 
 register('state', '47', C.$47_STATE_KEY)
 /** Development shortcuts form. @id 47 */
-const devInstallFormState: C.TStateForm = {
+const devInstallFormState: TStateForm = {
   '_type': 'box',
   '_id': '47',
   '_key': C.$47_STATE_KEY,
@@ -77,6 +78,8 @@ const devInstallFormState: C.TStateForm = {
     __vertical_separator__,
     ITEM.devFakePageTest,
     __vertical_separator__,
+    ITEM.devSnackbarTest,
+    __horizontal_separator__,
     {
       'type': 'stack',
       'props': {
@@ -120,7 +123,7 @@ export const dev_install_form_state = {
 
   // TODO - Insert installation form states here.
 
-} as TBootstrapState<C.TStateForm>
+} as TBootstrapState<TStateForm>
 
 export const dev_install_form_state_dark = {
 
@@ -128,4 +131,4 @@ export const dev_install_form_state_dark = {
 
   // TODO - Insert installation form states (dark themed) here.
 
-} as TBootstrapState<C.TStateForm>
+} as TBootstrapState<TStateForm>

@@ -129,6 +129,19 @@ export const devFakePageTest: TStateFormItem = {
     'route': 'i-lead-to-nowhere'
   }
 }
+export const devSnackbarTest: TStateFormItem = {
+  'type': 'a',
+  'has': {
+    'label': ' Test Snackbar ',
+    'onclickHandlerDirective': {
+      'type': '$redux_actions',
+      'actions': [{
+        'type': 'snackbar/snackbarWriteSuccess',
+        'payload': 'This is a success snackbar from dev form!'
+      }]
+    }
+  }
+}
 export const devDropCollectionSelect: TStateFormItem = {
   'type': 'state_select',
   'name': 'drop-collection',
