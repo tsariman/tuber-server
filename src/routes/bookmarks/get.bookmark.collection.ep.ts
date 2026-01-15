@@ -13,6 +13,7 @@ import { get_raw_query } from './_bookmarks.common.logic'
 import { log_err, ler, dbug } from '../../utility/logging'
 import get_bookmark_search_query_pipeline from '../../model/bookmark/get.bookmark.search.query.pipeline'
 import { BookmarkVoteModel } from '../../model/bookmark.vote'
+import { TSearchMode } from '../../common.types'
 
 /** `GET /dev/bookmarks` */
 export default async function get_bookmark_collection_endpoint (
@@ -21,6 +22,7 @@ export default async function get_bookmark_collection_endpoint (
 ) {
   try {
     const searchQuery = req.query.filter?.search
+    const searchMode = req.query.filter?.mode as TSearchMode | undefined
     dbug('req.query =', req.query)
     const page = Math.max(1, req.query.page?.number ?? 1)
     const limit = Math.max(1, Math.min(100, req.query.page?.size ?? parseInt(Config.PAGINATION_BOOKMARKS_LIMIT)))
@@ -34,7 +36,8 @@ export default async function get_bookmark_collection_endpoint (
       const pipeline = get_bookmark_search_query_pipeline({
         searchQuery,
         page,
-        limit
+        limit,
+        searchMode
       }, req.usr)
       const aggregationResult = await BookmarkModel.aggregate(pipeline)
 

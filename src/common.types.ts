@@ -179,3 +179,12 @@ export interface IStatePost {
     mode?: TThemeMode
   }
 }
+
+/**
+ * Search mode for bookmark searches
+ * 'public' - search only published bookmarks, excluding user's published bookmarks
+ * 'private' - search only user's bookmarks, whether they're published or not
+ * 'all' - search published bookmarks and user's own bookmarks, regardless of
+ *         publication status
+ */
+export type TSearchMode = 'public' | 'private' | 'all'

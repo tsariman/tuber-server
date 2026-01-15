@@ -5,7 +5,7 @@ import {
   TJsonapiRequest,
   TWithRequired
 } from '@tuber/shared'
-import { TPlatform } from '../../common.types'
+import { TPlatform, TSearchMode } from '../../common.types'
 
 /**
  * 'G' - General
@@ -96,6 +96,7 @@ export interface IBookmarkQuerySearch {
   searchQuery: string
   page: number
   limit: number
+  searchMode?: TSearchMode
 }
 
 /** Available fields for a post request. */

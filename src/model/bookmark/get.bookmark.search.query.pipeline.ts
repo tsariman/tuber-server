@@ -5,6 +5,7 @@ import { TContextualUser } from '../../schema/user'
 import { IBookmarkQuerySearch } from '../../schema/bookmark'
 import Access from '../../business.logic/security/Access'
 import CLEARANCE_LEVEL from '../../business.logic/security/clearance.level'
+import { TSearchMode } from '../../common.types'
 
 /** MongoDB pipeline to find bookmarks using a search query. */
 export default function get_bookmark_search_query_pipeline(
@@ -12,7 +13,9 @@ export default function get_bookmark_search_query_pipeline(
   usr?: TContextualUser
 ) {
   const pipeline: PipelineStage[] = []
-  const { searchQuery, page, limit } = query
+
+  const { searchQuery, page, limit, searchMode } = query
+
   if (searchQuery) {
     pipeline.push({
       $search: {
@@ -25,23 +28,12 @@ export default function get_bookmark_search_query_pipeline(
       },
     })
     
-    // Build match condition based on user permissions
-    const matchConditions: any[] = [
-      { is_published: { $eq: true } } // Published bookmarks visible to all
-    ]
-    
-    // User's own bookmarks (regardless of publish status)
-    if (usr?._id) {
-      matchConditions.push({ user_id: usr._id })
-    }
-    
-    // Users can see unpublished bookmarks where their clearance is greater than the bookmark's inception_clearance
-    if (usr && Access.the(usr).can('read.unpublished.bookmark')) {
-      matchConditions.push({
-        is_published: { $ne: true },
-        inception_clearance: { $lt: CLEARANCE_LEVEL[usr.role] }
-      })
-    }
+    // Build match condition based on searchMode and user permissions
+    // 'public' - search only published bookmarks, excluding user's published bookmarks
+    // 'private' - search only user's bookmarks, whether they're published or not
+    // 'all' - search published bookmarks and user's own bookmarks, regardless of
+    //         publication status
+    const matchConditions: any[] = buildMatchConditions(searchMode, usr)
     
     pipeline.push({
       $match: {
@@ -88,4 +80,59 @@ export default function get_bookmark_search_query_pipeline(
     })
   }
   return pipeline
+}
+
+/**
+ * Build match conditions based on searchMode and user permissions.
+ * @param searchMode - 'public' | 'private' | 'all' | undefined
+ * @param usr - The contextual user making the request
+ */
+function buildMatchConditions(
+  searchMode: TSearchMode | undefined,
+  usr?: TContextualUser
+): any[] {
+  const matchConditions: any[] = []
+
+  switch (searchMode) {
+    case 'private':
+      // Search only user's bookmarks (published or not)
+      if (usr?._id) {
+        matchConditions.push({ user_id: usr._id })
+      }
+      break
+
+    case 'public':
+      // Search only published bookmarks, excluding user's published bookmarks
+      if (usr?._id) {
+        matchConditions.push({
+          is_published: { $eq: true },
+          user_id: { $ne: usr._id }
+        })
+      } else {
+        matchConditions.push({ is_published: { $eq: true } })
+      }
+      break
+
+    case 'all':
+    default:
+      // Search published bookmarks and user's own bookmarks
+      matchConditions.push({ is_published: { $eq: true } })
+
+      // User's own bookmarks (regardless of publish status)
+      if (usr?._id) {
+        matchConditions.push({ user_id: usr._id })
+      }
+
+      // Users can see unpublished bookmarks where their clearance is greater
+      // than the bookmark's inception_clearance
+      if (usr && Access.the(usr).can('read.unpublished.bookmark')) {
+        matchConditions.push({
+          is_published: { $ne: true },
+          inception_clearance: { $lt: CLEARANCE_LEVEL[usr.role] }
+        })
+      }
+      break
+  }
+
+  return matchConditions
 }
