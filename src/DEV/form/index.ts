@@ -24,17 +24,17 @@ import devSaveConfigValueFormState, {
 } from './dev.save.config.value.form.state';
 import { get_state_key as key, themed } from '../../business.logic';
 
-function _get_dev_install_form_state(mode?: TThemeMode) {
+function _get_dev_install_form_state(themeMode?: TThemeMode) {
   return themed(
     devInstallFormState,
     $47DarkThemeMode,
-    mode
+    themeMode
   );
 }
 
-export function dev_bootstrap_forms_state(mode?: TThemeMode): C.TStateAllForms {
+export function dev_bootstrap_forms_state(themeMode?: TThemeMode): C.TStateAllForms {
   const forms: C.TStateAllForms = {};
-  forms[key(devInstallFormState)] = _get_dev_install_form_state(mode);
+  forms[key(devInstallFormState)] = _get_dev_install_form_state(themeMode);
 
   // TODO Insert your new form here if you want it to be load in the
   //      bootstrapping process.
@@ -46,8 +46,8 @@ export function dev_bootstrap_forms_light_state() {
   const forms: C.TStateAllForms = {};
   forms[key(devInstallFormState)] = devInstallFormState;
   
-  // TODO: Don't forget to insert light mode version of each form state.
-  //       Note: The light mode is the original version.
+  // TODO: Don't forget to insert light theme mode version of each form state.
+  //       Note: The light theme mode is the original version.
 
   return forms;
 }
@@ -56,7 +56,7 @@ export function dev_bootstrap_forms_dark_state() {
   const forms: C.TStateAllForms = {};
   forms[key(devInstallFormState)] = $47DarkThemeMode;
 
-  // TODO: Don't forget to insert dark mode version of each form state.
+  // TODO: Don't forget to insert dark theme mode version of each form state.
 
   return forms;
 }

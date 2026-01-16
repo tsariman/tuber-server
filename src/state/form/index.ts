@@ -75,26 +75,26 @@ import { is_dev } from '../../model/user/access';
  * Get the sign in form state.
  *
  * @param list of all forms
- * @param mode theme mode
+ * @param themeMode theme mode
  * @returns void
  */
-function _get_signin_form_state(mode?: TThemeMode) {
+function _get_signin_form_state(themeMode?: TThemeMode) {
   return themed(
     signInFormState,
     $41DarkThemeMode,
-    mode
+    themeMode
   );
 }
 
 /** @deprecated */
 export function bootstrap_forms_state(
   usr?: TContextualUser,
-  mode?: TThemeMode
+  themeMode?: TThemeMode
 ): C.TStateAllForms {
   const forms: C.TStateAllForms = {
-    ...(is_dev(usr) ? dev_bootstrap_forms_state(mode) : {})
+    ...(is_dev(usr) ? dev_bootstrap_forms_state(themeMode) : {})
   };
-  forms[key(signInFormState)] = _get_signin_form_state(mode);
+  forms[key(signInFormState)] = _get_signin_form_state(themeMode);
 
   // TODO Insert your new form here if you want it to be load in the
   //      bootstrapping process.

@@ -1,6 +1,8 @@
 
 # Development Log
 
+## `202601152124` [Refactor] Rename 'mode' to 'themeMode' for consistency across theme handling
+
 ## `202601151634` [Feature] Add search mode for bookmark queries and update related endpoints
 
 ## `202601151100` Refactor: Update settings, add snackbar test, and improve dialog state types

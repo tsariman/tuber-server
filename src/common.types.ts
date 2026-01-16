@@ -154,7 +154,7 @@ export interface IRequestAuth {
       options?: string[]
     }
     route?: string
-    mode?: TThemeMode
+    theme_mode?: TThemeMode
     cookie?: string
   }>
 }
@@ -176,7 +176,7 @@ export interface IQueryDirective { Querystring: { d?: string } }
 export interface IStatePost {
   Body: {
     key?: string
-    mode?: TThemeMode
+    theme_mode?: TThemeMode
   }
 }
 

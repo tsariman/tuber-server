@@ -5,7 +5,7 @@ import { TStateApp, $40_STATE_KEY, $44_STATE_KEY } from '@tuber/shared'
 const bootstrap_app_state = {
 
     DEFAULT: (context: IStateContext) => {
-      const { usr, theme: mode } = context;
+      const { usr, theme: themeMode } = context;
       const inDev = Config.DEV && !!usr && usr.role === 'developer';
       const app: TStateApp = {
         'fetchingStateAllowed': true,
@@ -16,7 +16,7 @@ const bootstrap_app_state = {
         // 'logoHeight': 35,
         'title': Config.DEV ? `[DEV] TubeResearch` : `TubeResearch`,
         'homepage': inDev ? $44_STATE_KEY : $40_STATE_KEY, // gives developers a different homepage
-        'themeMode': mode,
+        'themeMode': themeMode,
         'isBootstrapped': true
       }
 

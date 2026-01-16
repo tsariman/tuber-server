@@ -14,7 +14,7 @@ export default async function post_state_forms_endpoint (
 ) {
   try {
     const key = req.body.key
-    const mode = req.body.mode
+    const themeMode = req.body.theme_mode
     if (!key) {
       errr(`'key' was not received.`)
       reply.code(400).send(new JsonapiErrorBuilder()
@@ -24,8 +24,8 @@ export default async function post_state_forms_endpoint (
       )
       return
     }
-    if (!mode) {
-      errr(`'mode' was not received.`)
+    if (!themeMode) {
+      errr(`'theme_mode' was not received.`)
       reply.code(400).send(new JsonapiErrorBuilder()
         .withStatus(400)
         .withCode('MISSING_DATA')
@@ -33,10 +33,10 @@ export default async function post_state_forms_endpoint (
       )
       return
     }
-    task(`Loading '${key}' state `)
+    task(`Loading '${key}' state with theme mode '${themeMode}' `)
     const light = STATE_FORMS[key]
     const dark = STATE_FORMS_THEME_DARK[key]
-    const formState = themed(light, dark, mode)
+    const formState = themed(light, dark, themeMode)
     if (formState) {
       task.end('[✔️]')
       reply.code(200).send({

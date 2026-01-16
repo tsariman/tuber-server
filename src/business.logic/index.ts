@@ -122,11 +122,11 @@ export function themed_by_key<T = unknown>(
   LIGHT: TObj<T>,
   DARK: TObj<T>
 ): T {
-  const mode = Config.read<TThemeMode>(
+  const themeMode = Config.read<TThemeMode>(
     THEME_MODE,
     Config.DEFAULT_THEME_MODE
   );
-  return mode === 'dark' ? DARK[key] : LIGHT[key];
+  return themeMode === 'dark' ? DARK[key] : LIGHT[key];
 }
 
 /**
@@ -137,27 +137,27 @@ export function themed_by_key<T = unknown>(
  * @returns state based on theme mode.
  */
 export function sys_themed<T=unknown>(light: T, dark: T): T {
-  const mode = Config.read<TThemeMode>(
+  const themeMode = Config.read<TThemeMode>(
     THEME_MODE,
     Config.DEFAULT_THEME_MODE
   );
-  return mode === 'dark' ? dark : light;
+  return themeMode === 'dark' ? dark : light;
 }
 
 /**
  * __`[user theme]`__ Chooses the version of the state to return based on the
  * current theme mode.
- * @param mode theme mode
+ * @param themeMode theme mode
  * @param light state for light theme
  * @param dark state for dark theme
  * @returns state based on theme mode.
  */
-export function themed<T=unknown>(light: T, dark: T, mode?: TThemeMode): T {
-  mode = mode ?? Config.read<TThemeMode>(
+export function themed<T=unknown>(light: T, dark: T, themeMode?: TThemeMode): T {
+  themeMode = themeMode ?? Config.read<TThemeMode>(
     THEME_MODE,
     Config.DEFAULT_THEME_MODE
   );
-  return mode === 'dark' ? dark : light;
+  return themeMode === 'dark' ? dark : light;
 }
 
 /** Get request query string value */
@@ -260,16 +260,16 @@ export function has_cookie(req: FastifyRequest<{ Body: { cookie?: string } }>): 
  * @returns theme mode
  */
 export function get_theme_mode(cookieString?: string): TThemeMode {
-  const userMode = parse_cookie(cookieString).mode as TThemeMode;
+  const userMode = parse_cookie(cookieString).theme_mode as TThemeMode;
   if (userMode) {
     Config.write(THEME_MODE, userMode);
     return userMode;
   }
-  const mode = Config.read<TThemeMode>(
+  const themeMode = Config.read<TThemeMode>(
     THEME_MODE,
     Config.DEFAULT_THEME_MODE
   )
-  return mode;
+  return themeMode;
 }
 
 /**

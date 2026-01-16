@@ -142,7 +142,6 @@ export const $44DarkThemeMode: TStatePage = (() => {
  * Get the page state development, testing, and installation.
  *
  * @param usr user retrieved from the decode JWT token.
- * @param mode theme mode
  * @returns page state
  * @id 44
  */

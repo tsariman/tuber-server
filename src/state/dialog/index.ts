@@ -476,14 +476,14 @@ export function bootstrap_dialogs_dark_state() {
  * Get the dialog state to sign in.
  *
  * @param list of all dialogs
- * @param mode theme mode
+ * @param themeMode theme mode
  * @returns void
  */
-function _get_signin_dialog_state(mode?: TThemeMode) {
+function _get_signin_dialog_state(themeMode?: TThemeMode) {
   return themed(
     signInDialogState,
     $32DarkThemeMode,
-    mode
+    themeMode
   )
 }
 
@@ -491,29 +491,29 @@ function _get_signin_dialog_state(mode?: TThemeMode) {
  * Sign out dialog state.
  *
  * @param list of all dialogs
- * @param mode theme mode
+ * @param themeMode theme mode
  * @returns void
  */
-function _get_signout_dialog_state (mode?: TThemeMode) {
+function _get_signout_dialog_state (themeMode?: TThemeMode) {
   return themed(
     confirmSignOutDialogState,
     $68DarkThemeMode,
-    mode
+    themeMode
   )
 }
 
 /**
  * Bootstrap state for dialogs.
  *
- * @param mode 
+ * @param themeMode 
  * @returns object of all dialogs.
  *
  * @deprecated
  */
-export function bootstrap_dialogs_state(mode?: TThemeMode) {
+export function bootstrap_dialogs_state(themeMode?: TThemeMode) {
   const dialogs: TStateAllDialogs = {}
-  dialogs[key(signInDialogState)] = _get_signin_dialog_state(mode)
-  dialogs[key(confirmSignOutDialogState)] = _get_signout_dialog_state(mode)
+  dialogs[key(signInDialogState)] = _get_signin_dialog_state(themeMode)
+  dialogs[key(confirmSignOutDialogState)] = _get_signout_dialog_state(themeMode)
 
   // TODO Insert your new dialog here if you want it to be load in the
   //      bootstrapping process.

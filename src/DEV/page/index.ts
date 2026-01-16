@@ -189,7 +189,7 @@ export function dev_bootstrap_pages_light_state(
   const pages: C.TStateAllPages = {};
   pages[key(devInstallPageState)] = get_dev_install_page_state(usr);
 
-  // TODO: Don't forget to insert light mode state for each page
+  // TODO: Don't forget to insert light theme mode state for each page
 
   return pages;
 }
@@ -201,7 +201,7 @@ export function dev_bootstrap_pages_dark_state(
   const pages: C.TStateAllPages = {};
   pages[key(devInstallPageState)] = get_44_dark_theme_mode(usr);
 
-  // TODO: Don't forget to insert dark mode state for each page
+  // TODO: Don't forget to insert dark theme mode state for each page
 
   return pages;
 }
@@ -210,19 +210,19 @@ export function dev_bootstrap_pages_dark_state(
  * Get the page state for development, testing, and installation.
  *
  * @param list of all pages
- * @param mode theme mode
+ * @param themeMode theme mode
  * @returns void
  *
  * @deprecated
  */
 export function dev_bootstrap_pages_state(
   usr?: TContextualUser,
-  mode?: TThemeMode
+  themeMode?: TThemeMode
 ): C.TStateAllPages {
   const pages: C.TStateAllPages = {};
   const light = get_dev_install_page_state(usr);
   const dark = get_44_dark_theme_mode(usr);
-  pages[key(devInstallPageState)] = themed(light, dark, mode);
+  pages[key(devInstallPageState)] = themed(light, dark, themeMode);
 
   return pages;
 }

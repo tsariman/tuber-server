@@ -18,9 +18,9 @@ import {
 const bootstrap_dialogs_state: TBootstrapState<TStateAllDialogs> = {
 
   DEFAULT: (context: IStateContext): TStateAllDialogs => {
-    const mode = context.theme ?? Config.read<TThemeMode>(THEME_MODE, Config.DEFAULT_THEME_MODE);
+    const themeMode = context.theme ?? Config.read<TThemeMode>(THEME_MODE, Config.DEFAULT_THEME_MODE);
 
-    switch (mode) {
+    switch (themeMode) {
       case 'dark':
         return new PrepareState<TStateAllDialogs>(context)
                     .process(bootstrap_dialogs_dark_state)

@@ -18,9 +18,9 @@ import newUserFormState, { $69DarkThemeMode } from '../form/new.user.form.state'
 const bootstrap_forms_state: TBootstrapState<TStateAllForms> = {
 
   DEFAULT: (context: IStateContext): TStateAllForms => {
-    const mode = context.theme ?? Config.read<TThemeMode>(THEME_MODE, Config.DEFAULT_THEME_MODE);
+    const themeMode = context.theme ?? Config.read<TThemeMode>(THEME_MODE, Config.DEFAULT_THEME_MODE);
 
-    switch (mode) {
+    switch (themeMode) {
       case 'dark':
         return new PrepareState<TStateAllForms>(context)
                     .process(bootstrap_forms_dark_state)

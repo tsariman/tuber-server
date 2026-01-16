@@ -15,9 +15,9 @@ export const THEME_LIGHT_PAPER_SX_PROPS = {
 // TODO Modify to change the overall appearance of the page
 
 /** Get material-ui theme object. @deprecated */
-export default function get_theme_state (userMode?: string): ThemeOptions {
-  const mode = userMode ?? Config.read<TThemeMode>(THEME_MODE, Config.DEFAULT_THEME_MODE)
-  return mode === 'dark' ? darkThemeState : lightThemeState
+export default function get_theme_state (userThemeMode?: string): ThemeOptions {
+  const themeMode = userThemeMode ?? Config.read<TThemeMode>(THEME_MODE, Config.DEFAULT_THEME_MODE)
+  return themeMode === 'dark' ? darkThemeState : lightThemeState
 }
 
 /** @deprecated */

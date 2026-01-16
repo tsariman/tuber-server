@@ -31,8 +31,8 @@ import Access from '../../business.logic/security/Access'
 const bootstrap_pages_state: TBootstrapState<TStateAllPages> = {
 
   DEFAULT: (context: IStateContext): TStateAllPages => {
-    const mode = context.theme ?? Config.read<TThemeMode>(THEME_MODE, Config.DEFAULT_THEME_MODE)
-    switch (mode) {
+    const themeMode = context.theme ?? Config.read<TThemeMode>(THEME_MODE, Config.DEFAULT_THEME_MODE)
+    switch (themeMode) {
       case 'dark':
         return new PrepareState<TStateAllPages>(context)
                     .process(bootstrap_pages_dark_state)

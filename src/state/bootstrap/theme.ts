@@ -130,12 +130,12 @@ const bootstrap_theme_dark_state: TBootstrapState<ThemeOptions> = {
 const bootstrap_theme_state: TBootstrapState<ThemeOptions> = {
 
   DEFAULT: (context: IStateContext): ThemeOptions => {
-    const mode = context.theme ?? Config.read<TThemeMode>(
+    const themeMode = context.theme ?? Config.read<TThemeMode>(
       THEME_MODE,
       Config.DEFAULT_THEME_MODE
     )
 
-    switch (mode) {
+    switch (themeMode) {
       case 'dark':
         return new PrepareState<ThemeOptions>(
           context

@@ -15,24 +15,24 @@ export default async function post_state_pages_endpoint (
 ) {
   try {
     task('Validating request body ')
-    if (!req.body.key || !req.body.mode) {
+    if (!req.body.key || !req.body.theme_mode) {
       task.end('[❌]')
       dbug('[400] Malformed request received.', req.body)
       reply.code(400).send(new JsonapiErrorBuilder()
         .withStatus(400)
         .withCode('MALFORMED_REQUEST')
         .withTitle('Malformed request received.')
-        .withDetail('Both \'key\' and \'mode\' are required in the request body.')
+        .withDetail('Both \'key\' and \'theme_mode\' are required in the request body.')
         .build())
       return
     }
     task.end('[✔️]')
-    const { key, mode } = req.body
-    task(`Loading '${key}' state `)
+    const { key, theme_mode: themeMode } = req.body
+    task(`Loading '${key}' state with theme mode '${themeMode}' `)
     const normalizedKey = normalize_key(key)
     const light = STATE_PAGES[normalizedKey]
     const dark = STATE_PAGES_THEME_DARK[normalizedKey]
-    const pageState = themed(light, dark, mode)
+    const pageState = themed(light, dark, themeMode)
     if (pageState) {
       task.end('[✔️]')
       reply.code(200).send({

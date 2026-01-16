@@ -43,11 +43,11 @@ export default async function get_bootstrap_authenticated_state(
   context: IStateContext
 ): Promise<TNetState> {
   return {
-    // 'app': _get_default_app_info(usr, mode),
+    // 'app': _get_default_app_info(usr, themeMode),
     'app': new PrepareState<TStateApp>(context)
                 .process(bootstrap_app_state)
                 .get(),
-    // 'theme': get_theme_state(mode),
+    // 'theme': get_theme_state(themeMode),
     'theme': new PrepareState<ThemeOptions>(context)
                   .process(bootstrap_theme_state)
                   .get(),
@@ -66,7 +66,7 @@ export default async function get_bootstrap_authenticated_state(
     'icons': new PrepareState<TStateAllIcons>(context)
               .process(bootstrap_icons_state)
               .get(),
-    // 'pages': bootstrap_pages_state(usr, mode),
+    // 'pages': bootstrap_pages_state(usr, themeMode),
     'pages': new PrepareState<TStateAllPages>(context)
                   .process(bootstrap_pages_state)
                   .get(),
@@ -86,7 +86,7 @@ export default async function get_bootstrap_authenticated_state(
     'background': new PrepareState<TStateBackground>(context)
                         .process(bootstrap_background_state)
                         .get(),
-    // 'forms': bootstrap_forms_state(usr, mode),
+    // 'forms': bootstrap_forms_state(usr, themeMode),
     'forms': new PrepareState<TStateAllForms>(context)
                   .process(bootstrap_forms_state)
                   .get(),
@@ -98,7 +98,7 @@ export default async function get_bootstrap_authenticated_state(
     'formsDark': new PrepareState<TStateAllForms>(context)
                       .process(bootstrap_forms_dark_state)
                       .get(),
-    // 'dialogs': bootstrap_dialogs_state(mode),
+    // 'dialogs': bootstrap_dialogs_state(themeMode),
     'dialogs': new PrepareState<TStateAllDialogs>(context)
                     .process(bootstrap_dialogs_state)
                     .get(),

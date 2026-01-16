@@ -11,7 +11,7 @@ import { is_token_blacklisted } from '../model/blacklisted.token'
 
 interface ICookie {
   token?: string
-  mode?: TThemeMode
+  theme_mode?: TThemeMode
 }
 
 interface IValidationResult {
@@ -40,7 +40,7 @@ export default class OnRequestAuthorization {
     this._request = request
     this._parsedCookie = request.headers.cookie 
       ? parse_cookie(request.headers.cookie)
-      : { token: '' }
+      : { token: '', theme_mode: Config.DEFAULT_THEME_MODE }
     this._blacklistEnabled = true
   }
 
@@ -50,7 +50,7 @@ export default class OnRequestAuthorization {
    * @returns void
    */
   private _setThemeMode(): void {
-    this._request.themeMode = this._parsedCookie.mode || Config.DEFAULT_THEME_MODE
+    this._request.themeMode = this._parsedCookie.theme_mode || Config.DEFAULT_THEME_MODE
   }
   
   /**
