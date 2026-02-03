@@ -99,7 +99,7 @@ function buildMatchConditions(
     case 'private':
       // Search only user's bookmarks (published or not)
       if (usr?._id) {
-        matchConditions.push({ user_id: usr._id })
+        matchConditions.push({ user_id: String(usr._id) })
       } else {
         // Non-authenticated users cannot search private bookmarks
         matchConditions.push({ _id: null }) // Match nothing
@@ -107,25 +107,19 @@ function buildMatchConditions(
       break
 
     case 'public':
-      // Search only published bookmarks, excluding user's published bookmarks
-      if (usr?._id) {
-        matchConditions.push({
-          is_published: { $eq: true },
-          user_id: { $ne: usr._id }
-        })
-      } else {
-        matchConditions.push({ is_published: { $eq: true } })
-      }
+      // Search only published bookmarks (all users can see all published bookmarks)
+      matchConditions.push({ is_published: { $eq: true } })
       break
 
     case 'all':
     default:
       // Search published bookmarks and user's own bookmarks
       if (usr?._id) {
+        // Published bookmarks are visible to everyone
         matchConditions.push({ is_published: { $eq: true } })
 
         // User's own bookmarks (regardless of publish status)
-        matchConditions.push({ user_id: usr._id })
+        matchConditions.push({ user_id: String(usr._id) })
 
         // Users can see unpublished bookmarks where their clearance is greater
         // than the bookmark's inception_clearance
@@ -136,8 +130,8 @@ function buildMatchConditions(
           })
         }
       } else {
-        // Non-authenticated users cannot search 'all' mode
-        matchConditions.push({ _id: null }) // Match nothing
+        // Non-authenticated users can only see published bookmarks
+        matchConditions.push({ is_published: { $eq: true } })
       }
       break
   }
