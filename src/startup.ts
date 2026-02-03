@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 import Config from './config'
 import { DEV_DEFAULT_USER } from './dev/dev.install.common'
-// import start_cron_jobs from './cron.jobs'
+import start_cron_jobs from './cron.jobs'
 import {  configuration_get_all } from './model/configuration'
 import { find_index_by_name } from './business.logic/network'
 import { readable_get_all } from './model/readable'
@@ -87,17 +87,19 @@ export async function initialize_app(): Promise<void> {
     console.log('Done.')
   }
 
-  // TODO - Uncomment this to start cron jobs.
-  // process.stdout.write('Setting up cron jobs... ')
-  // start_cron_jobs()
-  // console.log('Done.')
+  // Start cron jobs for scheduled tasks (e.g., Twitch token renewal)
+  process.stdout.write('[INFO] Setting up cron jobs... ')
+  start_cron_jobs()
+  console.log('Done.')
 }
 
 function header_printout() {
-  // process.stdout.write(`[INFO] 🚀 tuber server running at ${address}\n\n`);
-  process.stdout.write(`[INFO] process.env.NODE_ENV = ${process.env.NODE_ENV}\n`);
-  log(`[INFO] Config.DEV = ${Config.DEV}`);
-  note('\n -------------------------------- \n');
-  note('\n |     APP IS IN DEBUG MODE     | \n');
-  note('\n -------------------------------- \n');
+  if (Config.DEV) {
+    // process.stdout.write(`[INFO] 🚀 tuber server running at ${address}\n\n`)
+    process.stdout.write(`[INFO] process.env.NODE_ENV = ${process.env.NODE_ENV}\n`)
+    log(`[INFO] Config.DEV = ${Config.DEV}`)
+    note('\n -------------------------------- \n')
+    note('\n |     APP IS IN DEBUG MODE     | \n')
+    note('\n -------------------------------- \n')
+  }
 }

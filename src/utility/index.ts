@@ -1,11 +1,21 @@
 // WARNING Do not import anything. If you have to import, it doesn't belong
 //         here.
 
-type TObj = Record<string, unknown>
+type TO = Record<string, unknown>
 
 /** Basic error interface */
 export interface IError { name: string; message: string; stack?: string }
+export interface INetError<T = unknown> extends IError {
+  response: T
+}
+/** Basic JSON:API response interface */
+export interface IJsonapiResponse {
+  data: TO | TO[]
+  errors?: TO[]
+  meta?: TO
+}
 
+/** Throws an error in development mode. Does nothing in production. */
 export const die = (message: string): void => {
   if (process.env.NODE_ENV === 'development') {
     throw new Error(message)
@@ -33,7 +43,7 @@ export const is_struct = <T>(obj: T): obj is T => {
 }
 
 /** Get a guaranteed `object` even if argument is undefined. */
-export const assure = <T = TObj>(obj: T | undefined): T => {
+export const assure = <T = TO>(obj: T | undefined): T => {
   return (obj ?? {}) as T
 }
 
@@ -94,4 +104,22 @@ export const to_error_object = (e: unknown, name = 'UnknownError'): IError => {
     }
   }
   return { name: e.name, message: e.message, stack: e.stack }
+}
+
+/**
+ * Converts a network-related error to an INetError object
+ * @param e The try-catch error to convert
+ * @returns An INetError object with response property if available
+ */
+export const to_net_error_object = <T = IJsonapiResponse>(e: unknown): INetError<T> => {
+  const error = to_error_object(e)
+  if (has_property(error, 'response')) {
+    return {
+      name: error.name,
+      message: error.message,
+      stack: error.stack,
+      response: error.response as T
+    }
+  }
+  return { ...error, response: undefined as T }
 }

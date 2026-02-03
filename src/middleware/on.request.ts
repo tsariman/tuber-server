@@ -1,21 +1,9 @@
 import { onRequestHookHandler } from 'fastify'
 import Config from '../config'
 import { dbug } from '../utility/logging'
-import { TContextualUser } from '../schema/user'
-import { TThemeMode } from '@tuber/shared'
 import OnRequestAuthorization from '../business.logic/OnRequestAuthorization'
 import JsonapiErrorBuilder from '../business.logic/builder/JsonapiErrorBuilder'
 import { signInDialogState } from '../state/dialog'
-
-declare module 'fastify' {
-  interface FastifyRequest {
-    token?: string
-    usr?: TContextualUser
-    cookie?: string
-    isFromBrowser?: boolean
-    themeMode?: TThemeMode
-  }
-}
 
 /**
  * Supplies authentication check for all routes.

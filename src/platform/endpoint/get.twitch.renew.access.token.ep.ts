@@ -8,9 +8,11 @@ import {
   CONF_TWITCH_ACCESS_TOKEN,
   CONF_TWITCH_DISABLE_THUMBNAIL_RETRIEVAL,
   CONF_TWITCH_DISABLE_TOKEN_RENEWAL,
-  CONF_TWITCH_TOKEN_EXPIRATION
+  CONF_TWITCH_TOKEN_EXPIRATION,
+  CONF_TWITCH_TOKEN_EXPIRATION_TIMESTAMP
 } from '@tuber/shared'
 import Config from '../../config'
+import { to_net_error_object } from '../../utility'
 
 /**
  * Endpoint is meant to be called by the server to renew the access token.  
@@ -36,13 +38,15 @@ export async function get_twitch_renew_access_token_endpoint() {
     }).toString(), {
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
     })
-  } catch (error: any) {
+  } catch (e) {
+    const error = to_net_error_object(e)
     console.log('[Error] failed to renew Twitch access token', error?.response?.data ?? error?.message ?? error)
     process.stdout.write('[Error] clearing all Twitch authorization keys... ')
     await Config.save(CONF_TWITCH_DISABLE_TOKEN_RENEWAL, true)
     await Config.save(CONF_TWITCH_DISABLE_THUMBNAIL_RETRIEVAL, true)
     await Config.save(CONF_TWITCH_ACCESS_TOKEN, '')
     await Config.save(CONF_TWITCH_TOKEN_EXPIRATION, '')
+    await Config.save(CONF_TWITCH_TOKEN_EXPIRATION_TIMESTAMP, 0)
     console.log('Done.')
     console.log('Manually visit endpoint: /dev/twitch/renew-access-token')
     console.log('OR')
@@ -57,6 +61,7 @@ export async function get_twitch_renew_access_token_endpoint() {
     await Config.save(CONF_TWITCH_DISABLE_THUMBNAIL_RETRIEVAL, true)
     await Config.save(CONF_TWITCH_ACCESS_TOKEN, '')
     await Config.save(CONF_TWITCH_TOKEN_EXPIRATION, '')
+    await Config.save(CONF_TWITCH_TOKEN_EXPIRATION_TIMESTAMP, 0)
     console.log('Done.')
     console.log('Manually visit endpoint: /dev/twitch/renew-access-token')
     console.log('OR')
@@ -65,8 +70,15 @@ export async function get_twitch_renew_access_token_endpoint() {
   }
 
   const json = response.data
+  const expirationTimestamp = Date.now() + (json.expires_in * 1000)
   await Config.save(CONF_TWITCH_ACCESS_TOKEN, json.access_token)
   await Config.save(CONF_TWITCH_TOKEN_EXPIRATION, json.expires_in)
+  await Config.save(CONF_TWITCH_TOKEN_EXPIRATION_TIMESTAMP, expirationTimestamp)
+
+  // Schedule the next token renewal cron job
+  // Using dynamic import to avoid circular dependency
+  const { schedule_twitch_token_renewal } = await import('../../cron.jobs.js')
+  schedule_twitch_token_renewal(expirationTimestamp)
 }
 
 /*
