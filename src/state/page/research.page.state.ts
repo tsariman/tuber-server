@@ -3,7 +3,8 @@ import {
   TStatePage,
   $40_STATE_KEY,
   $70_STATE_KEY,
-  THEME_LIGHT_APP_BAR_ICON_COLOR as ICON_COLOR
+  THEME_LIGHT_APP_BAR_ICON_COLOR as ICON_COLOR,
+  TStateAppbar
 } from '@tuber/shared'
 import researchPageAppbarState, {
   $63DarkThemeMode
@@ -23,12 +24,14 @@ import {
 } from '../nav.link'
 import {
   clone_as_collection,
+  clone_or_default,
   clone_with_descriptors,
   create_empty_collection
 } from '../../business.logic'
 import { IBootstrapThemed, IStateContext } from '../_state.common.types'
 import Config from '../../config'
 import Access from '../../business.logic/security/Access'
+import { TContextualUser } from '../../schema/user'
 
 register('state', '40', $40_STATE_KEY)
 /** Page state for research page app. @id 40 */
@@ -80,6 +83,7 @@ export const bs_researchPageState = (
     'dark': (() => {
       const base = clone_with_descriptors($40DarkThemeMode)
       const appbar = clone_with_descriptors($63DarkThemeMode)
+      _enable_search_scope(appbar, context.usr)
       const link = create_empty_collection(appbar.items)
       if (Config.DEV) {
         link.add(researchAppErrorsViewLinkState)
@@ -103,6 +107,7 @@ export const bs_researchPageState = (
     'light': (() => {
       const base = clone_with_descriptors(researchPageState)
       const appbar = clone_with_descriptors(researchPageAppbarState)
+      _enable_search_scope(appbar, context.usr)
       const link = create_empty_collection(appbar.items)
       if (Config.DEV) {
         link.add(researchAppErrorsViewLinkState)
@@ -148,6 +153,7 @@ export const bs_listingPageState = (
     'dark': (() => {
       const base = clone_with_descriptors($70DarkThemeMode)
       const appbar = clone_with_descriptors($63DarkThemeMode)
+      _enable_search_scope(appbar, context.usr)
       const link = clone_as_collection(appbar.items)
       if (Config.DEV) {
         link.add(researchAppErrorsViewLinkState)
@@ -167,6 +173,7 @@ export const bs_listingPageState = (
       const base = clone_with_descriptors(listingPageState)
       const appbar = clone_with_descriptors(researchPageAppbarState)
       const link = clone_as_collection(appbar.items)
+      _enable_search_scope(appbar, context.usr)
       if (Config.DEV) {
         link.add(researchAppErrorsViewLinkState)
         if (Access.the(context.usr).can('dev_install_page.view')) {
@@ -182,4 +189,27 @@ export const bs_listingPageState = (
       return base
     })()
   }
+}
+
+/**
+ * Configure the search scope button based on user access.
+ * If the user is not authenticated, the search scope button in the search
+ * field is disabled.
+ * @id CREF1
+ */
+const _enable_search_scope = (appbar: TStateAppbar, usr?: TContextualUser) => {
+  const buttonState = clone_or_default(appbar.startAdornmentButton, {})
+  // Placeholder for search scope activation logic
+  if (Access.the(usr).can('toggle.search.scope')) {
+    // Activate user-specific search scope
+    buttonState.has ??= {}
+    buttonState.has.onclickHandler = 'tuberCallbacks.toggleSearchScope'
+  } else {
+    // Disable search scope for unauthenticated users
+    buttonState.has ??= {}
+    buttonState.has.onclickHandler = undefined
+    buttonState.props ??= {}
+    buttonState.props.disabled = true
+  }
+  appbar.startAdornmentButton = buttonState
 }

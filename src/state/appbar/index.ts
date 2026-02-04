@@ -57,7 +57,8 @@ const researchPageAppbarState: TStateAppbar = {
   'startAdornmentButton': {
     'has': {
       'icon': 'public_outline',
-      'onclickHandler': 'tuberCallbacks.toggleSearchScope',
+      // The following is commented out because handler is dynamically set. Search CREF1
+      // 'onclickHandler': 'tuberCallbacks.toggleSearchScope',
     }
   },
 }

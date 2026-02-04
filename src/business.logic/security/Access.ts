@@ -16,6 +16,7 @@ export default class Access {
     'user.admin': CLEARANCE_LEVEL.administrator,
     'user.get': CLEARANCE_LEVEL.moderator,
     'system.developer': CLEARANCE_LEVEL.developer,
+    'toggle.search.scope': CLEARANCE_LEVEL.free,
     // TODO: Add more access actions and their required clearance above
   }
   /** Contextual user's role */

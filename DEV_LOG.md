@@ -1,6 +1,8 @@
 
 # Development Log
 
+## `202602031859` [Feature] Implement search scope toggle based on user access
+
 ## `202602031857` [Feature] Implement Twitch token renewal scheduling and related functionality
 
 ## `202602030941` [Fix] Update match conditions for 'private' and 'all' search modes to handle user IDs as strings and ensure non-authenticated users can only see published bookmarks

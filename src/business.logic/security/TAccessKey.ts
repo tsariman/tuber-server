@@ -9,5 +9,6 @@ export type TAccessKey = 'dev_install_page.view'
   | 'bookmark.moderate'
   | 'user.admin'
   | 'system.developer'
+  | 'toggle.search.scope'
 
   // TODO: Add more actions are their required clearance here.
