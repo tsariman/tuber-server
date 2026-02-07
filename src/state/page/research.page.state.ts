@@ -3,8 +3,10 @@ import {
   TStatePage,
   $40_STATE_KEY,
   $70_STATE_KEY,
+  $76_STATE_KEY,
   THEME_LIGHT_APP_BAR_ICON_COLOR as ICON_COLOR,
-  TStateAppbar
+  TStateAppbar,
+  TStateDialog
 } from '@tuber/shared'
 import researchPageAppbarState, {
   $63DarkThemeMode
@@ -26,7 +28,8 @@ import {
   clone_as_collection,
   clone_or_default,
   clone_with_descriptors,
-  create_empty_collection
+  create_empty_collection,
+  t
 } from '../../business.logic'
 import { IBootstrapThemed, IStateContext } from '../_state.common.types'
 import Config from '../../config'
@@ -203,13 +206,36 @@ const _enable_search_scope = (appbar: TStateAppbar, usr?: TContextualUser) => {
   if (Access.the(usr).can('toggle.search.scope')) {
     // Activate user-specific search scope
     buttonState.has ??= {}
+    buttonState.has.onclickHandlerDirective = { __delete: true }
     buttonState.has.onclickHandler = 'tuberCallbacks.toggleSearchScope'
+    buttonState.props ??= {}
+    // buttonState.props.disabled = false
   } else {
     // Disable search scope for unauthenticated users
     buttonState.has ??= {}
     buttonState.has.onclickHandler = undefined
+    buttonState.has.onclickHandlerDirective = {
+      'type': '$redux_actions',
+      'actions': [{
+        'type': 'dialog/dialogOpenOrMount',
+        'payload': {
+          '_id': '76',
+          '_key': $76_STATE_KEY,
+          'title': 'Search Mode Unavailable',
+          'content': 'To use the search mode feature, please sign in to your account.',
+          'actions': [{
+            'label': 'Close',
+            'has': {
+              get 'text'() { return t('49', 'Close') },
+              'onclickHandler': 'tuberCallbacks.defaultClose'
+            }
+          }],
+          'open': true
+        } as TStateDialog
+      }]
+    }
     buttonState.props ??= {}
-    buttonState.props.disabled = true
+    // buttonState.props.disabled = true
   }
   appbar.startAdornmentButton = buttonState
 }

@@ -1,7 +1,7 @@
 import { TStateAppbar, TStateBackground } from '@tuber/shared';
 
 /** Directive used to remove states client-side. */
-export const NET_STATE_PATCH_DELETE = '<#DEL>';
+export const NET_STATE_PATCH_DELETE = '__DELETE__';
 
 /** Gray background for page @deprecated */
 export const backgroundState: TStateBackground = {
