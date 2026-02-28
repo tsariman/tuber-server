@@ -1,6 +1,8 @@
 
 # Development Log
 
+## `202602281343` [Feature] Signing with [Enter] key implemented
+
 ## `202602061923` [Feature] New state deletion
 
 ## `202602031859` [Feature] Implement search scope toggle based on user access

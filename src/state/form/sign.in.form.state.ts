@@ -63,7 +63,11 @@ const signInFormState: TStateForm = {
             'onclickHandler': 'tuberCallbacks.$41_C_1'
           }
         }
-      ]
+      ],
+      'eventPropagationEnabled': true,
+      'has': {
+        'onkeydownHandler': 'tuberCallbacks.$41_C_2'
+      }
     }
   ]
 }

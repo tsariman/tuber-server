@@ -195,21 +195,23 @@ export default class OnRequestAuthorization {
    */
   async authorizeRequest(): Promise<IValidationResult> {
     this._setToken()
+    this._setThemeMode()
+    this._setIsFromBrowser()
     if (this._blacklistEnabled && await this._tokenIsBlacklisted()) {
       this._request.usr = undefined
       this._request.token = undefined
       dbug('Token is blacklisted. Access revoked.')
       return { authorized: false, reason: 'token_revoked' }
     }
+    // JWT Throws an exception on following line if authentication fails ======
     await this._setContextualUser()
+    // If an exception was thrown, following code will not execute ============
     const result = await this._validateRequest()
     if (!result.authorized) {
       this._request.usr = undefined
       this._request.token = undefined
       return result
     }
-    this._setThemeMode()
-    this._setIsFromBrowser()
     return { authorized: true  }
   }
 
