@@ -123,3 +123,33 @@ export const to_net_error_object = <T = IJsonapiResponse>(e: unknown): INetError
   }
   return { ...error, response: undefined as T }
 }
+
+/**
+ * Resolves a dot-separated path within a nested object.
+ * @param obj - The root value to traverse
+ * @param path - A dot-separated string of property names (e.g. `"a.b.c"`)
+ * @returns An object containing the resolved `value` and its immediate `parent`
+ */
+export const resolve = (obj: unknown, path: string): { parent: unknown; value: unknown } => {
+  const keys = path.split('.')
+  let parent: unknown = undefined
+  let current: unknown = obj
+
+  for (const key of keys) {
+    if (Array.isArray(current)) {
+      const index = Number(key)
+      if (!Number.isInteger(index) || index < 0) {
+        return { parent, value: undefined }
+      }
+      parent = current
+      current = current[index]
+    } else if (is_record(current)) {
+      parent = current
+      current = current[key]
+    } else {
+      return { parent, value: undefined }
+    }
+  }
+
+  return { parent, value: current }
+}

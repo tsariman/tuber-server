@@ -1,7 +1,7 @@
 import { FastifyRequest } from 'fastify'
 import { IBookmark } from '../../schema/bookmark'
 import RequestDataValidator from '../../business.logic/RequestDataValidator'
-import editDailyBookmarkFormState from '../../state/form/edit.daily.bookmark.form.state'
+import EditDailyBookmarkFormState from '../../state/form/edit.daily.bookmark.form.state'
 import editFacebookBookmarkFormState from '../../state/form/edit.facebook.bookmark.form.state'
 import editOdyseeBookmarkFormState from '../../state/form/edit.odysee.bookmark.form.state'
 import editRumbleBookmarkFormState from '../../state/form/edit.rumble.bookmark.form.state'
@@ -32,7 +32,7 @@ export const get_platform_specific_validator = (
     default:
       return null
     case 'dailymotion':
-      return new RequestDataValidator(bookmark, editDailyBookmarkFormState)
+      return new RequestDataValidator(bookmark, new EditDailyBookmarkFormState().light)
     case 'facebook':
       return new RequestDataValidator(bookmark, editFacebookBookmarkFormState)
     case 'odysee':

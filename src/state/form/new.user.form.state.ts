@@ -7,7 +7,7 @@ import Config from '../../config'
 
 register('state', '69', $69_STATE_KEY)
 /** Form state to create a new user account. @id 69 */
-const newUserFormState: TStateForm = {
+export const newUserFormState: TStateForm = {
   '_id': '69',
   '_key': $69_STATE_KEY,
   '_type': 'box',

@@ -1,6 +1,11 @@
 
 # Development Log
 
+## `202603092114` Add tests for EditDailyBookmarkFormState and utility functions
+
+- Implement comprehensive tests for the EditDailyBookmarkFormState, covering both light and dark themes, user roles, and immutability.
+- Introduce utility tests for various helper functions including die, is_object, is_record, is_instance, is_struct, assure, ensure, has_property, parse_cookie, normalize_key, to_error_object, to_net_error_object, and resolve.
+
 ## `202602281343` [Feature] Signing with [Enter] key implemented
 
 ## `202602061923` [Feature] New state deletion

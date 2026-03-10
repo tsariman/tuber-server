@@ -50,7 +50,8 @@ import newUnknownBookmarkDialogState, {
   $30DarkThemeMode
 } from './new.unknown.dialog.state'
 import editUnknownBookmarkDialogState, {
-  $31DarkThemeMode
+  $31DarkThemeMode,
+  EditUnknownBookmarkDialogState
 } from './edit.unknown.dialog.state'
 import newTwitchBookmarkDialogState, {
   $36DarkThemeMode
@@ -60,6 +61,7 @@ import editTwitchBookmarkDialogState, {
 } from './edit.twitch.dialog.state'
 import { register } from '../../business.logic/registry'
 import { THEME_LIGHT_PAPER_SX_PROPS } from '../theme.state'
+import { TContextualUser } from '../../schema/user'
 
 
 register('state', '6', C.$6_STATE_KEY)
@@ -521,6 +523,7 @@ export function bootstrap_dialogs_state(themeMode?: TThemeMode) {
   return dialogs
 }
 
+/** @deprecated */
 export const STATE_DIALOGS_THEME_DARK: TStateAllDialogs = {
   [C.$2_STATE_KEY]: $2DarkThemeMode,
   [C.$6_STATE_KEY]: $6DarkThemeMode,
@@ -546,6 +549,7 @@ export const STATE_DIALOGS_THEME_DARK: TStateAllDialogs = {
   [C.$68_STATE_KEY]: $68DarkThemeMode,
 }
 
+/** @deprecated */
 export const STATE_DIALOGS: { [key: string]: TStateDialog } = {
   [C.$2_STATE_KEY]: newVideoUrlDialogState,
   [C.$6_STATE_KEY]: newYoutubeBookmarkDialogState,
@@ -569,6 +573,18 @@ export const STATE_DIALOGS: { [key: string]: TStateDialog } = {
   [C.$36_STATE_KEY]: newTwitchBookmarkDialogState,
   [C.$37_STATE_KEY]: editTwitchBookmarkDialogState,
   [C.$68_STATE_KEY]: confirmSignOutDialogState,
+}
+
+export const get_contextualized_dialog_state = (key: string, usr?: TContextualUser) => {
+  const base = clone_with_descriptors(STATE_DIALOGS)
+  base[C.$31_STATE_KEY] = EditUnknownBookmarkDialogState.withContext(usr).light
+  return base[key]
+}
+
+export const get_contextualized_dialog_state_dark = (key: string, usr?: TContextualUser) => {
+  const base = clone_with_descriptors(STATE_DIALOGS_THEME_DARK)
+  base[C.$31_STATE_KEY] = EditUnknownBookmarkDialogState.withContext(usr).dark
+  return base[key]
 }
 
 export default function get_dialog_state(key: string): TStateDialog | undefined {

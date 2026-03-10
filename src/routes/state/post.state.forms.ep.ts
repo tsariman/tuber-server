@@ -2,7 +2,10 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import JsonapiErrorBuilder from '../../business.logic/builder/JsonapiErrorBuilder'
 import { error_id } from '../../business.logic/errors'
 import { errr, ler, log_err, task } from '../../utility/logging'
-import { STATE_FORMS, STATE_FORMS_THEME_DARK } from '../../state/form'
+import {
+  get_contextualized_state_forms,
+  get_contextualized_state_forms_dark
+} from '../../state/form'
 import {  MSG_500_ERROR_MESSAGE, TJsonapiStateResponse } from '@tuber/shared'
 import { IStatePost } from '../../common.types'
 import { themed } from '../../business.logic'
@@ -13,8 +16,7 @@ export default async function post_state_forms_endpoint (
   reply: FastifyReply
 ) {
   try {
-    const key = req.body.key
-    const themeMode = req.body.theme_mode
+    const { body: { key, theme_mode: themeMode }, usr } = req
     if (!key) {
       errr(`'key' was not received.`)
       reply.code(400).send(new JsonapiErrorBuilder()
@@ -34,16 +36,16 @@ export default async function post_state_forms_endpoint (
       return
     }
     task(`Loading '${key}' state with theme mode '${themeMode}' `)
-    const light = STATE_FORMS[key]
-    const dark = STATE_FORMS_THEME_DARK[key]
+    const light = get_contextualized_state_forms(key, usr)
+    const dark = get_contextualized_state_forms_dark(key, usr)
     const formState = themed(light, dark, themeMode)
     if (formState) {
       task.end('[✔️]')
       reply.code(200).send({
         'state': {
           'forms': { [key]: formState },
-          'formsLight': { [key]: STATE_FORMS[key] },
-          'formsDark': { [key]: STATE_FORMS_THEME_DARK[key] },
+          'formsLight': { [key]: light },
+          'formsDark': { [key]: dark },
         }
       } as TJsonapiStateResponse)
     } else {

@@ -5,7 +5,7 @@ import { clone_with_descriptors, t } from '../../business.logic'
 
 register('state', '41', $41_STATE_KEY)
 /** Form state to sign in. @id 41 */
-const signInFormState: TStateForm = {
+export const signInFormState: TStateForm = {
   '_type': 'box',
   '_id': '41',
   '_key': $41_STATE_KEY,

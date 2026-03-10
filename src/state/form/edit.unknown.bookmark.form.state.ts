@@ -1,10 +1,100 @@
-import { clone_with_descriptors, t } from '../../business.logic';
-import { register } from '../../business.logic/registry';
-import * as C from '@tuber/shared';
+import { clone_with_descriptors, t } from '../../business.logic'
+import { register } from '../../business.logic/registry'
+import * as C from '@tuber/shared'
+import { TContextualUser } from '../../schema/user'
+import AbstractState from '../AbstractState'
 
-register('state', '29', C.$29_STATE_KEY);
+register('state', '29', C.$29_STATE_KEY)
 /** Form for editing an existing unknown platform video bookmark @id 29 */
-const editUnknownBookmarkFormState = {
+export class EditUnknownBookmarkFormState extends AbstractState<C.TStateForm> {
+  constructor(usr?: TContextualUser) { super(usr) }
+  static withContext(usr?: TContextualUser) {
+    const instance = new EditUnknownBookmarkFormState(usr)
+    return instance
+  }
+  get light(): C.TStateForm {
+    return {
+      '_id': '29',
+      '_key': C.$29_STATE_KEY,
+      'items': [
+        {
+          'type': 'stack',
+          'props': { 'spacing': 2 },
+          'items': [
+            {
+              'type': 'textfield',
+              'name': 'url',
+              get 'label'() { return t('146', 'Video URL') },
+              'props': {
+                'fullWidth': true,
+                'variant': 'filled'
+              },
+              'inputProps': { 'readOnly': true }
+            },
+            {
+              'type': 'textfield',
+              'name': 'embed_url',
+              get 'label'() { return t('147', 'Embed IFRAME URL') },
+              'props': {
+                'fullWidth': true,
+                'variant': 'filled'
+              },
+              'inputProps': { 'readOnly': true }
+            },
+            {
+              'type': 'textfield',
+              'name': 'thumbnail_url',
+              get 'label'() { return t('148', 'Thumbnail URL') },
+              'props': {
+                'fullWidth': true,
+                // 'variant': 'filled'
+              },
+              // 'inputProps': { 'readOnly': true },
+              'has': {
+                'required': true,
+                get 'requiredMessage'() { return t('149', 'Where did that thumbnail URL go?') },
+              }
+            },
+            {
+              'type': 'textfield',
+              'name': 'title',
+              get 'label'() { return t('150', 'Title') },
+              'props': {
+                'fullWidth': true
+              },
+              'has': {
+                'required': true,
+                get 'requiredMessage'() { return t('151', C.TITLE_REQUIRED_MESSAGE) },
+                'maxLength': C.TITLE_MAX_LENGTH,
+                get 'maxLengthMessage'() { return t('153', C.TITLE_MAX_LENGTH_MESSAGE) }
+              }
+            },
+            {
+              'type': 'textarea',
+              'name': 'note',
+              get 'label'() { return t('154', 'Note') },
+              'props': {
+                'multiline': true,
+                'rows': C.NOTE_FIELD_ROWS
+              },
+              'has': {
+                'maxLength': C.NOTE_MAX_LENGTH,
+                get 'maxLengthMessage'() { return t('157', C.NOTE_MAX_LENGTH_MESSAGE) }
+              }
+            }
+          ]
+        },
+      ]
+    }
+  }
+  get dark(): C.TStateForm {
+    const base = clone_with_descriptors(this.light)
+    return base
+  }
+}
+
+/** Form for editing an existing unknown platform video bookmark @id 29 @deprecated */
+export const editUnknownBookmarkFormState = {
   '_id': '29',
   '_key': C.$29_STATE_KEY,
   'items': [
@@ -15,7 +105,7 @@ const editUnknownBookmarkFormState = {
         {
           'type': 'textfield',
           'name': 'url',
-          get 'label'() { return t('146', 'Video URL'); },
+          get 'label'() { return t('146', 'Video URL') },
           'props': {
             'fullWidth': true,
             'variant': 'filled'
@@ -25,7 +115,7 @@ const editUnknownBookmarkFormState = {
         {
           'type': 'textfield',
           'name': 'embed_url',
-          get 'label'() { return t('147', 'Embed IFRAME URL'); },
+          get 'label'() { return t('147', 'Embed IFRAME URL') },
           'props': {
             'fullWidth': true,
             'variant': 'filled'
@@ -35,7 +125,7 @@ const editUnknownBookmarkFormState = {
         {
           'type': 'textfield',
           'name': 'thumbnail_url',
-          get 'label'() { return t('148', 'Thumbnail URL'); },
+          get 'label'() { return t('148', 'Thumbnail URL') },
           'props': {
             'fullWidth': true,
             // 'variant': 'filled'
@@ -43,34 +133,34 @@ const editUnknownBookmarkFormState = {
           // 'inputProps': { 'readOnly': true },
           'has': {
             'required': true,
-            get 'requiredMessage'() { return t('149', 'Where did that thumbnail URL go?'); },
+            get 'requiredMessage'() { return t('149', 'Where did that thumbnail URL go?') },
           }
         },
         {
           'type': 'textfield',
           'name': 'title',
-          get 'label'() { return t('150', 'Title'); },
+          get 'label'() { return t('150', 'Title') },
           'props': {
             'fullWidth': true
           },
           'has': {
             'required': true,
-            get 'requiredMessage'() { return t('151', C.TITLE_REQUIRED_MESSAGE); },
+            get 'requiredMessage'() { return t('151', C.TITLE_REQUIRED_MESSAGE) },
             'maxLength': C.TITLE_MAX_LENGTH,
-            get 'maxLengthMessage'() { return t('153', C.TITLE_MAX_LENGTH_MESSAGE); }
+            get 'maxLengthMessage'() { return t('153', C.TITLE_MAX_LENGTH_MESSAGE) }
           }
         },
         {
           'type': 'textarea',
           'name': 'note',
-          get 'label'() { return t('154', 'Note'); },
+          get 'label'() { return t('154', 'Note') },
           'props': {
             'multiline': true,
             'rows': C.NOTE_FIELD_ROWS
           },
           'has': {
             'maxLength': C.NOTE_MAX_LENGTH,
-            get 'maxLengthMessage'() { return t('157', C.NOTE_MAX_LENGTH_MESSAGE); }
+            get 'maxLengthMessage'() { return t('157', C.NOTE_MAX_LENGTH_MESSAGE) }
           }
         }
       ]
@@ -80,7 +170,8 @@ const editUnknownBookmarkFormState = {
 
 export default editUnknownBookmarkFormState
 
+/** Dark theme variant of the form for editing an existing unknown platform video bookmark @id 29 @deprecated */
 export const $29DarkThemeMode = (() => {
-  const base = clone_with_descriptors(editUnknownBookmarkFormState);
-  return base;
-})();
+  const base = clone_with_descriptors(editUnknownBookmarkFormState)
+  return base
+})()

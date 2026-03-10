@@ -15,7 +15,7 @@ import get_bookmark_search_query_pipeline from '../../model/bookmark/get.bookmar
 import { BookmarkVoteModel } from '../../model/bookmark.vote'
 import { TSearchMode } from '../../common.types'
 
-/** `GET /dev/bookmarks` */
+/** `GET /bookmarks` */
 export default async function get_bookmark_collection_endpoint (
   req: FastifyRequest<IBookmarkGet>,
   reply: FastifyReply
@@ -44,7 +44,11 @@ export default async function get_bookmark_collection_endpoint (
       // Handle empty results - return 200 with empty data
       const { totalItems = 0, results = [] } = aggregationResult[0] || {}
       
-      const filter = `filter[search]=${encodeURIComponent(searchQuery)}`
+      const filterParts = [`filter[search]=${encodeURIComponent(searchQuery)}`]
+      if (searchMode) {
+        filterParts.push(`filter[mode]=${encodeURIComponent(searchMode)}`)
+      }
+      const filter = filterParts.join('&')
       
       // Build user votes map for current user limited to fetched bookmarks
       if (req.usr?._id) {

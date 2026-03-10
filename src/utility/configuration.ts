@@ -2,7 +2,7 @@ import { IDbConfigurationDocument } from '../schema/configuration'
 import { configuration_save } from '../model/configuration'
 import { TObj } from '../common.types'
 
-/** Reserved methods/keys of the configuration object. */
+/** Reserved methods/keys of the configuration object. @deprecated */
 export interface IConfigMethods {
   readonly init: (data?: Record<string, unknown>) => void
   /**
@@ -55,6 +55,7 @@ type TReservedKeys = keyof IConfigMethods
  * However, if you absolutely need to, make sure to add that method name to the
  * `invalidKeys` array below.
  * You've been warned.
+ * @deprecated
  */
 export interface IConfiguration extends IConfigMethods {
   [key: string]: unknown
@@ -138,6 +139,7 @@ const resolve = <T=unknown,K=TObj<T>>(obj: K, path: string, val?: T): T => {
   throw new Error('[ERROR] resolve() failed.')
 }
 
+/** @deprecated */
 const config: IConfiguration = {
 
   init: (data?: Record<string, unknown>): void => {

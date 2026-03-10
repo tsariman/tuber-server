@@ -163,7 +163,7 @@ export const STATIC_DATE_PICKER = 'static_date_picker'
 /** @deprecated */
 export const SUBMIT = 'submit'
 /** @deprecated */
-export const SINGLE_SWITCH = 'single_switch'
+export const SWITCH_SINGLE = 'switch_single'
 /** @deprecated */
 export const SWITCH = 'switch'
 /** @deprecated */

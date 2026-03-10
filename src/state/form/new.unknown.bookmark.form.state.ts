@@ -1,10 +1,10 @@
-import { clone_with_descriptors, t } from '../../business.logic';
-import { register } from '../../business.logic/registry';
-import * as C from '@tuber/shared';
+import { clone_with_descriptors, t } from '../../business.logic'
+import { register } from '../../business.logic/registry'
+import * as C from '@tuber/shared'
 
-register('state', '28', C.$28_STATE_KEY);
+register('state', '28', C.$28_STATE_KEY)
 /** Form for creating a new unknown video bookmark @id 28 */
-const newUnknownBookmarkFormState = {
+export const newUnknownBookmarkFormState = {
   '_id': '28',
   '_key': C.$28_STATE_KEY,
   'items': [
@@ -15,7 +15,7 @@ const newUnknownBookmarkFormState = {
         {
           'type': 'textfield',
           'name': 'url',
-          get 'label'() { return t('240', 'Video URL'); },
+          get 'label'() { return t('240', 'Video URL') },
           'props': {
             'fullWidth': true,
             'variant': 'filled'
@@ -23,19 +23,19 @@ const newUnknownBookmarkFormState = {
           'inputProps': { 'readOnly': true },
           'has': {
             'required': true, // [TODO] make a configuration.
-            get 'requiredMessage'() { return t('241', 'Where did that URL go?'); },
+            get 'requiredMessage'() { return t('241', 'Where did that URL go?') },
           }
         },
         {
           'type': 'textfield',
           'name': 'embed_url',
-          get 'label'() { return t('242', 'Embed IFRAME URL'); },
+          get 'label'() { return t('242', 'Embed IFRAME URL') },
           'props': {
             'fullWidth': true,
           },
           'has': {
             'required': true,
-            get 'requiredMessage'() { return t('243', C.EMBED_URL_MESSAGE); },
+            get 'requiredMessage'() { return t('243', C.EMBED_URL_MESSAGE) },
           }
         },
         {
@@ -53,7 +53,7 @@ const newUnknownBookmarkFormState = {
         {
           'type': 'textfield',
           'name': 'thumbnail_url',
-          get 'label'() { return t('245', 'Thumbnail URL'); },
+          get 'label'() { return t('245', 'Thumbnail URL') },
           'props': {
             'fullWidth': true,
             // 'variant': 'filled'
@@ -63,38 +63,38 @@ const newUnknownBookmarkFormState = {
         {
           'type': 'textfield',
           'name': 'title',
-          get 'label'() { return t('246', 'Title'); },
+          get 'label'() { return t('246', 'Title') },
           'props': {
             'fullWidth': true
           },
           'has': {
             'required': true,
-            get 'requiredMessage'() { return t('246', C.TITLE_REQUIRED_MESSAGE); },
+            get 'requiredMessage'() { return t('246', C.TITLE_REQUIRED_MESSAGE) },
             'maxLength': C.TITLE_MAX_LENGTH, // [TODO] make a configuration.
-            get 'maxLengthMessage'() { return t('247', C.TITLE_MAX_LENGTH_MESSAGE); },
+            get 'maxLengthMessage'() { return t('247', C.TITLE_MAX_LENGTH_MESSAGE) },
           }
         },
         {
           'type': 'textarea',
           'name': 'note',
-          get 'label'() { return t('248', 'Note'); },
+          get 'label'() { return t('248', 'Note') },
           'props': {
             'multiline': true,
             'rows': C.NOTE_FIELD_ROWS // [TODO] Make a configuration.
           },
           'has': {
             'maxLength': C.NOTE_MAX_LENGTH,
-            get 'maxLengthMessage'() { return t('249', C.NOTE_MAX_LENGTH_MESSAGE); }
+            get 'maxLengthMessage'() { return t('249', C.NOTE_MAX_LENGTH_MESSAGE) }
           }
         }
       ]
     },
   ]
-} as C.TStateForm;
+} as C.TStateForm
 
-export default newUnknownBookmarkFormState;
+export default newUnknownBookmarkFormState
 
 export const $28DarkThemeMode: C.TStateForm = (() => {
-  const base = clone_with_descriptors(newUnknownBookmarkFormState);
-  return base;
-})();
+  const base = clone_with_descriptors(newUnknownBookmarkFormState)
+  return base
+})()

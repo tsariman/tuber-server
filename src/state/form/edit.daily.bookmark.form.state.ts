@@ -1,10 +1,122 @@
-import { clone_with_descriptors, t } from '../../business.logic';
-import * as C from '@tuber/shared';
-import { register } from '../../business.logic/registry';
+import { clone_with_descriptors, t } from '../../business.logic'
+import * as C from '@tuber/shared'
+import { register } from '../../business.logic/registry'
+import { TContextualUser } from '../../schema/user'
+import Access from '../../business.logic/security/Access'
+import {
+  get_bookmark_switch_publish,
+  get_bookmark_switch_publish_dummy
+} from '../form.item.state'
+import AbstractState from '../AbstractState'
 
-register('state', '20', C.$20_STATE_KEY);
+register('state', '20', C.$20_STATE_KEY)
 /** Form for editing an existing Dailymotion bookmark. @id 20 */
-const editDailyBookmarkFormState = {
+export default class EditDailyBookmarkFormState
+  extends AbstractState<C.TStateForm>
+{
+  constructor(usr?: TContextualUser) { super(usr) }
+  static withContext(usr?: TContextualUser) {
+    const instance = new EditDailyBookmarkFormState(usr)
+    return instance
+  }
+  get light() {
+    return {
+      '_id': '20',
+      '_key': C.$20_STATE_KEY,
+      'items': [
+        {
+          'type': 'stack',
+          'props': { 'spacing': 2 },
+          'items': [
+            {
+              'type': 'stack',
+              'props': {
+                'direction': 'row',
+                'spacing': 1
+              },
+              'items': [
+                {
+                  'type': 'number',
+                  'name': 'start_seconds',
+                  get 'label'() { return t('73', 'Start') },
+                  'props': {
+                    'sx': { 'width': 240, },
+                    get 'helperText'() { return t('74', 'time in second(s)') },
+                    'variant': 'filled'
+                  },
+                  'inputProps': { 'readOnly': true },
+                  'has': {
+                    'required': true,
+                    get 'requiredMessage'() { return t('93', C.START_SECONDS_REQUIRED_MESSAGE) },
+                  }
+                },
+                {
+                  'type': 'textfield',
+                  'name': 'videoid',
+                  get 'label'() { return t('75', 'Video ID') },
+                  'props': {
+                    'fullWidth': true,
+                    'variant': 'filled'
+                  },
+                  'inputProps': { 'readOnly': true }
+                },
+                {
+                  'type': 'textfield',
+                  'name': 'platform',
+                  get 'label'() { return t('76', 'Platform') },
+                  'props': {
+                    'sx': { 'width': 240 },
+                    'variant': 'filled'
+                  },
+                  'inputProps': { 'readOnly': true }
+                },
+              ]
+            },
+            {
+              'type': 'textfield',
+              'name': 'title',
+              get 'label'() { return t('77', 'Title') },
+              'props': {
+                'fullWidth': true
+              },
+              'has': {
+                'required': true,
+                get 'requiredMessage'() { return t('94', C.TITLE_REQUIRED_MESSAGE) },
+                'maxLength': C.TITLE_MAX_LENGTH,
+                get 'maxLengthMessage'() { return t('96', C.TITLE_MAX_LENGTH_MESSAGE) },
+              }
+            },
+            {
+              'type': 'textarea',
+              'name': 'note',
+              get 'label'() { return t('78', 'Note') },
+              'props': {
+                'multiline': true,
+                'rows': C.NOTE_FIELD_ROWS
+              },
+              'has': {
+                'maxLength': C.NOTE_MAX_LENGTH,
+                get 'maxLengthMessage'() { return t('99', C.NOTE_MAX_LENGTH_MESSAGE) }
+              }
+            },
+            Access.the(this.usr).hasClearance('supporter').decide<C.TStateFormItem>(
+              get_bookmark_switch_publish(),
+              get_bookmark_switch_publish_dummy()
+            )
+          ]
+        },
+      ]
+    } as C.TStateForm
+  }
+
+  get dark() {
+    const base = clone_with_descriptors(this.light)
+    return base
+  }
+}
+
+/** Form for editing an existing Dailymotion bookmark. @id 20 @deprecated */
+export const editDailyBookmarkFormState = {
   '_id': '20',
   '_key': C.$20_STATE_KEY,
   'items': [
@@ -22,22 +134,22 @@ const editDailyBookmarkFormState = {
             {
               'type': 'number',
               'name': 'start_seconds',
-              get 'label'() { return t('73', 'Start'); },
+              get 'label'() { return t('73', 'Start') },
               'props': {
                 'sx': { 'width': 240, },
-                get 'helperText'() { return t('74', 'time in second(s)'); },
+                get 'helperText'() { return t('74', 'time in second(s)') },
                 'variant': 'filled'
               },
               'inputProps': { 'readOnly': true },
               'has': {
                 'required': true,
-                get 'requiredMessage'() { return t('93', C.START_SECONDS_REQUIRED_MESSAGE); },
+                get 'requiredMessage'() { return t('93', C.START_SECONDS_REQUIRED_MESSAGE) },
               }
             },
             {
               'type': 'textfield',
               'name': 'videoid',
-              get 'label'() { return t('75', 'Video ID'); },
+              get 'label'() { return t('75', 'Video ID') },
               'props': {
                 'fullWidth': true,
                 'variant': 'filled'
@@ -47,7 +159,7 @@ const editDailyBookmarkFormState = {
             {
               'type': 'textfield',
               'name': 'platform',
-              get 'label'() { return t('76', 'Platform'); },
+              get 'label'() { return t('76', 'Platform') },
               'props': {
                 'sx': { 'width': 240 },
                 'variant': 'filled'
@@ -59,46 +171,45 @@ const editDailyBookmarkFormState = {
         {
           'type': 'textfield',
           'name': 'title',
-          get 'label'() { return t('77', 'Title'); },
+          get 'label'() { return t('77', 'Title') },
           'props': {
             'fullWidth': true
           },
           'has': {
             'required': true,
-            get 'requiredMessage'() { return t('94', C.TITLE_REQUIRED_MESSAGE); },
+            get 'requiredMessage'() { return t('94', C.TITLE_REQUIRED_MESSAGE) },
             'maxLength': C.TITLE_MAX_LENGTH,
-            get 'maxLengthMessage'() { return t('96', C.TITLE_MAX_LENGTH_MESSAGE); },
+            get 'maxLengthMessage'() { return t('96', C.TITLE_MAX_LENGTH_MESSAGE) },
           }
         },
         {
           'type': 'textarea',
           'name': 'note',
-          get 'label'() { return t('78', 'Note'); },
+          get 'label'() { return t('78', 'Note') },
           'props': {
             'multiline': true,
             'rows': C.NOTE_FIELD_ROWS
           },
           'has': {
             'maxLength': C.NOTE_MAX_LENGTH,
-            get 'maxLengthMessage'() { return t('99', C.NOTE_MAX_LENGTH_MESSAGE); }
+            get 'maxLengthMessage'() { return t('99', C.NOTE_MAX_LENGTH_MESSAGE) }
           }
         },
         {
-          'type': 'single_switch',
+          'type': 'switch_single',
           'name': 'is_published',
-          get 'label'() { return t('79', 'Published'); },
+          get 'label'() { return t('79', 'Published') },
           'has': {
-            get 'helperText'() { return t('100', C.PUBLISHED_HELPER_TEXT); }
+            get 'helperText'() { return t('100', C.PUBLISHED_HELPER_TEXT) }
           }
         }
       ]
     },
   ]
-} as C.TStateForm;
+} as C.TStateForm
 
-export default editDailyBookmarkFormState;
-
+/** Dark theme mode of form to edit a Dailymotion bookmark @id 20 @deprecated */
 export const $20DarkThemeMode = (() => {
-  const base = clone_with_descriptors(editDailyBookmarkFormState);
-  return base;
-})();
+  const base = clone_with_descriptors(editDailyBookmarkFormState)
+  return base
+})()

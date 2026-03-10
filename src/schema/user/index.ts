@@ -83,6 +83,7 @@ export type TUser = WithRequired<IUser,
 
 export interface IUserDocument extends TUser, mongoose.Document<string> {}
 
+/** User object decoded from JWT token */
 export type TContextualUser = Pick<IUserDocument, '_id' | 'name' | 'jwt_version' | 'role'>
 export type TUsr = TContextualUser | null
 

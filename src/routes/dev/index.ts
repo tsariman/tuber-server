@@ -204,7 +204,7 @@ const dev: FastifyPluginAsync = async (fastify, rootOpts): Promise<void> => {
       opts,
       dev_get_twitch_thumbnail_endpoint
     )
-    // [TODO] Does not belong here. Move it to apporiate controller.
+    // [TODO] Does not belong here. Move it to appropriate controller.
     fastify.get('/twitch/renew-access-token',
       opts,
       get_twitch_renew_access_token_endpoint
@@ -234,6 +234,11 @@ const dev: FastifyPluginAsync = async (fastify, rootOpts): Promise<void> => {
 
     // bookmarks routes
 
+    // TODO This is the wrong endpoint handler for this route but it allows us
+    //      to test the bookmark collection endpoint logic without affecting
+    //      the main /bookmarks endpoint. We should create dedicated endpoints
+    //      for testing purposes in the dev controller instead of using the
+    //      main ones.
     // GET /dev/bookmarks
     fastify.get<IBookmarkGet>('/bookmarks', opts, get_bookmark_collection_endpoint)
     // GET /dev/bookmarks/:id

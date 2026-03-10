@@ -1,7 +1,10 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import JsonapiErrorBuilder from '../../business.logic/builder/JsonapiErrorBuilder'
 import { error_id } from '../../business.logic/errors'
-import  { STATE_DIALOGS, STATE_DIALOGS_THEME_DARK } from '../../state/dialog'
+import  {
+  get_contextualized_dialog_state,
+  get_contextualized_dialog_state_dark
+} from '../../state/dialog'
 import { MSG_500_ERROR_MESSAGE, TJsonapiStateResponse } from '@tuber/shared'
 import { themed } from '../../business.logic'
 import { errr, ler, log_err, task } from '../../utility/logging'
@@ -13,8 +16,7 @@ export default async function post_state_dialogs_endpoint (
   reply: FastifyReply
 ) {
   try {
-    const key = req.body.key
-    const themeMode = req.body.theme_mode
+    const { body: { key, theme_mode: themeMode }, usr } = req
     if (!key) {
       errr(`'key' was not received.`)
       reply.code(400).send(new JsonapiErrorBuilder()
@@ -34,8 +36,8 @@ export default async function post_state_dialogs_endpoint (
       return
     }
     task(`Loading '${key}' state with theme mode '${themeMode}' `)
-    const light = STATE_DIALOGS[key]
-    const dark = STATE_DIALOGS_THEME_DARK[key]
+    const light = get_contextualized_dialog_state(key, usr)
+    const dark = get_contextualized_dialog_state_dark(key, usr)
     const dialogState = themed(light, dark, themeMode)
     if (dialogState) {
       task.end('[✔️]')

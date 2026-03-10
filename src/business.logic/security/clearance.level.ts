@@ -33,4 +33,8 @@ const CLEARANCE_LEVEL: Readonly<Record<TRole, number>> = {
   guest: 0
 }
 
+/** Sentinel value that denies every role, including owners. Use as the default
+ *  required clearance when no explicit level has been set (fail-secure). */
+export const DENY_ALL = 8
+
 export default CLEARANCE_LEVEL
