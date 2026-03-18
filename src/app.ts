@@ -1,4 +1,5 @@
 import { join } from 'node:path'
+import { existsSync } from 'node:fs'
 import AutoLoad, { AutoloadPluginOptions } from '@fastify/autoload'
 import { FastifyPluginAsync, FastifyServerOptions } from 'fastify'
 import fastifyStatic from '@fastify/static'
@@ -19,6 +20,8 @@ export interface AppOptions extends FastifyServerOptions, Partial<AutoloadPlugin
 }
 // Pass --options via CLI arguments in command to enable these options.
 const options: AppOptions = {
+  // Atlas and other remote services can take longer than Fastify's default 10s.
+  pluginTimeout: Number(process.env.FASTIFY_PLUGIN_TIMEOUT_MS ?? 60000),
 }
 
 const app: FastifyPluginAsync<AppOptions> = async (
@@ -65,11 +68,17 @@ const app: FastifyPluginAsync<AppOptions> = async (
     }
   }
 
-  // Register the static plugin
-  void fastify.register(fastifyStatic, {
-    root: path.join(__dirname, '../public'),
-    prefix: '/' // optional: default '/'
-  })
+  // Serve compiled client files (production SPA) when available.
+  const staticRoot = path.join(__dirname, '../client')
+  if (existsSync(staticRoot)) {
+    void fastify.register(fastifyStatic, {
+      root: staticRoot,
+      prefix: '/',
+      wildcard: false // let route handlers take priority over static files
+    })
+  } else {
+    log(`[WARN] Static root not found, skipping static plugin: ${staticRoot}`)
+  }
 
   // Do not touch the following lines
 
@@ -105,6 +114,18 @@ const app: FastifyPluginAsync<AppOptions> = async (
       builder.withState(alert(`An error occurred: ${error.message}`))
     }
     reply.status(500).send(builder.build())
+  })
+
+  // SPA fallback: serve client index.html for unmatched GET requests
+  fastify.setNotFoundHandler(async (request, reply) => {
+    if (request.method === 'GET') {
+      const { getClientHtml } = await import('./routes/root.js')
+      const html = getClientHtml()
+      if (html) {
+        return reply.header('Content-Type', 'text/html; charset=utf-8').send(html)
+      }
+    }
+    reply.status(404).send({ error: 'Not Found' })
   })
 
   // Startup code - runs after all plugins are loaded

@@ -26,10 +26,24 @@ export async function initialize_app(): Promise<void> {
   process.stdout.write(`\n[INFO] Connecting to ${database}... `)
 
   try {
+    // Keep this below Fastify's default plugin timeout (10s) so we can handle
+    // Atlas connection errors ourselves and log a friendly message.
+    const connectTimeoutMs = Number(process.env.MONGOOSE_CONNECT_TIMEOUT_MS ?? 8000)
     // Note: Use '127.0.0.1' instead of 'localhost' if connecting locally.
-    await mongoose.connect(DB_URI)
-  } catch {
-    console.log('Failed.')
+    await mongoose.connect(DB_URI, {
+      serverSelectionTimeoutMS: connectTimeoutMs,
+    })
+  } catch (e) {
+    const message = to_error_message(e)
+    console.log('Failed')
+    if (database === 'Atlas') {
+      log('[INFO] Is the current IP address whitelisted on Atlas?')
+      if (!is_likely_atlas_ip_access_error(message)) {
+        log(`[INFO] Atlas connection details: ${message}`)
+      }
+    } else {
+      log(`[ERROR] Database connection failed: ${message}`)
+    }
     process.exit(1)
   }
 
@@ -91,6 +105,20 @@ export async function initialize_app(): Promise<void> {
   process.stdout.write('[INFO] Setting up cron jobs... ')
   start_cron_jobs()
   console.log('Done.')
+}
+
+function to_error_message(e: unknown): string {
+  if (e instanceof Error) {
+    return e.message
+  }
+  return String(e)
+}
+
+function is_likely_atlas_ip_access_error(message: string): boolean {
+  const lower = message.toLowerCase()
+  return lower.includes('not in your atlas project')
+    || lower.includes('access list')
+    || lower.includes('whitelist')
 }
 
 function header_printout() {

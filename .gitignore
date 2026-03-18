@@ -4,6 +4,9 @@ powershell
 
 # compiled app
 dist
+
+# compiled client
+client
 # Compiled binary addons (http://nodejs.org/api/addons.html)
 build
 
@@ -45,6 +48,7 @@ Fastify-CLI.md
 
 # Ignored files
 d1684a88be5c08aed50f565d9c8063ca.txt
+shell.printout.last.md
 
 .env
 .env.development.local

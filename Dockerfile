@@ -1,29 +1,52 @@
-# Use Node.js 18 LTS
+# ============================================================
+# Full-stack Dockerfile
+# Build context must be the PARENT directory of all 3 projects:
+#   docker build -f tuber-server/Dockerfile -t tuber-app .
+# ============================================================
+
+# Stage 1: Build the client
+FROM node:18-alpine AS client-build
+
+RUN corepack enable && corepack prepare pnpm@10.31.0 --activate
+
+WORKDIR /build
+
+# Copy and install shared package (dependency of client)
+COPY tuber-shared/ ./tuber-shared/
+WORKDIR /build/tuber-shared
+RUN pnpm install --frozen-lockfile
+
+# Install and build client
+COPY tuber-client/package.json tuber-client/pnpm-lock.yaml /build/tuber-client/
+WORKDIR /build/tuber-client
+RUN pnpm install --frozen-lockfile
+COPY tuber-client/ ./
+RUN pnpm run build
+
+# Stage 2: Build and run the server
 FROM node:18-alpine
 
-# Install pnpm
-RUN corepack enable && corepack prepare pnpm@latest --activate
+RUN corepack enable && corepack prepare pnpm@10.31.0 --activate
 
-# Set working directory
+# Copy and install shared package at expected relative location
+COPY tuber-shared/ /tuber-shared/
+WORKDIR /tuber-shared
+RUN pnpm install --frozen-lockfile
+
+# Install server dependencies
 WORKDIR /app
-
-# Copy package files
-COPY package.json pnpm-lock.yaml ./
-
-# Install dependencies
+COPY tuber-server/package.json tuber-server/pnpm-lock.yaml ./
 RUN pnpm install --frozen-lockfile --prod=false
 
-# Copy source code
-COPY . .
+# Copy server source and build
+COPY tuber-server/ ./
+RUN pnpm run build:ts
 
-# Build the application
-RUN pnpm build
+# Copy compiled client from stage 1
+COPY --from=client-build /build/tuber-client/dist ./client/
 
-# Expose port
 EXPOSE 8080
 
-# Set environment
 ENV NODE_ENV=production
 
-# Start the application
 CMD ["pnpm", "start"]
