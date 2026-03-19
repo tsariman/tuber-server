@@ -1,6 +1,7 @@
 // This file contains code that we reuse between our tests.
 import * as path from 'node:path'
 import * as test from 'node:test'
+import mongoose from 'mongoose'
 import { UserModel } from '../src/model/user'
 const helper = require('fastify-cli/helper.js')
 
@@ -22,6 +23,8 @@ function config () {
 async function build (t: TestContext) {
   // you can set all the options supported by the fastify CLI command
   const argv = [AppPath]
+  const previousTestEnv = process.env.TEST
+  process.env.TEST = 'true'
 
   // fastify-plugin ensures that all decorators
   // are exposed for testing purposes, this is
@@ -30,7 +33,13 @@ async function build (t: TestContext) {
 
   // Tear down our app after we are done
   // eslint-disable-next-line no-void
-  t.after(() => void app.close())
+  t.after(async () => {
+    process.env.TEST = previousTestEnv
+    await app.close()
+    if (mongoose.connection.readyState !== 0) {
+      await mongoose.disconnect()
+    }
+  })
 
   return app
 }
@@ -55,14 +64,28 @@ export const mockCipheredUser = {
 // Helper to generate JWT token for authenticated requests
 export async function generateTestToken(app: any, user = mockCipheredUser) {
   try {
-    // Ensure jwt_version is present in payload by fetching current user
-    const dbUser = await UserModel.findOne({ name: user.name })
-    const payload = dbUser ? {
+    // Ensure jwt_version is present in payload by fetching/creating a real DB user.
+    let dbUser = await UserModel.findOne({
+      name: user.name,
+      is_active: { $ne: false }
+    })
+    if (!dbUser) {
+      dbUser = await UserModel.findOne({ is_active: { $ne: false } })
+    }
+    if (!dbUser) {
+      const suffix = Date.now().toString(36)
+      dbUser = await UserModel.create({
+        name: `testauth${suffix}`,
+        email: `testauth.${suffix}@example.com`,
+        role: 'free',
+      })
+    }
+    const payload = {
       _id: dbUser._id.toString(),
       name: dbUser.name,
       jwt_version: dbUser.jwt_version ?? 0,
       role: dbUser.role,
-    } : user
+    }
     return await app.jwt.sign(payload, { expiresIn: '1h' })
   } catch (error) {
     console.error('Failed to generate test token:', error)
