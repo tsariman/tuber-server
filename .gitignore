@@ -48,7 +48,7 @@ Fastify-CLI.md
 
 # Ignored files
 d1684a88be5c08aed50f565d9c8063ca.txt
-shell.printout.last.md
+shell.output.last.md
 
 .env
 .env.development.local

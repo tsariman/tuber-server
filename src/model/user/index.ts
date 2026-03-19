@@ -6,6 +6,7 @@ import {
 import { IMPV2Doc } from '../../common.types'
 import { get_hashed_password } from '../../business.logic/security'
 import Config from '../../config'
+import { USER_CACHE } from '../../business.logic/cache'
 import userSchema, {
   IUser,
   IUserDocument,
@@ -144,4 +145,123 @@ export const read_user_by_email = async (
 export const read_user_collection_count = async (): Promise<number> => {
   const count = await UserModel.countDocuments({ is_active: { $ne: false } })
   return count
+}
+
+export interface IPatreonSupporterSyncInput {
+  patreonUserId?: string
+  membershipId?: string
+  email?: string
+  event?: string
+  isActive: boolean
+}
+
+export interface IPatreonSupporterSyncResult {
+  status: 'updated' | 'noop' | 'not_found'
+  reason?: string
+  userId?: string
+  userName?: string
+  roleBefore?: IUserDocument['role']
+  roleAfter?: IUserDocument['role']
+}
+
+/**
+ * Synchronize user role based on Patreon subscription status.
+ *
+ * - Active Patreon subscription upgrades `free -> supporter`.
+ * - Inactive/cancelled subscription downgrades `supporter -> free` only when
+ *   the supporter role came from Patreon automation.
+ */
+export const sync_user_supporter_role_from_patreon = async (
+  input: IPatreonSupporterSyncInput
+): Promise<IPatreonSupporterSyncResult> => {
+  const patreonUserId = input.patreonUserId?.trim()
+  const email = input.email?.trim().toLowerCase()
+  const membershipId = input.membershipId?.trim()
+
+  if (!patreonUserId && !email) {
+    return {
+      status: 'not_found',
+      reason: 'missing_identity',
+    }
+  }
+
+  const identityFilter = [] as Array<Record<string, string>>
+  if (patreonUserId) {
+    identityFilter.push({ patreon_user_id: patreonUserId })
+  }
+  if (email) {
+    identityFilter.push({ email })
+  }
+
+  const user = await UserModel.findOne({
+    is_active: { $ne: false },
+    $or: identityFilter,
+  })
+
+  if (!user) {
+    return {
+      status: 'not_found',
+      reason: 'user_not_found',
+    }
+  }
+
+  const roleBefore = user.role
+  let changed = false
+
+  if (patreonUserId && user.patreon_user_id !== patreonUserId) {
+    user.patreon_user_id = patreonUserId
+    changed = true
+  }
+
+  if (membershipId && user.patreon_membership_id !== membershipId) {
+    user.patreon_membership_id = membershipId
+    changed = true
+  }
+
+  const nextSubscriptionStatus = input.isActive ? 'active' : 'inactive'
+  if (user.patreon_subscription_status !== nextSubscriptionStatus) {
+    user.patreon_subscription_status = nextSubscriptionStatus
+    changed = true
+  }
+
+  if (input.event && user.patreon_last_event !== input.event) {
+    user.patreon_last_event = input.event
+    changed = true
+  }
+
+  if (input.isActive && user.role === 'free') {
+    user.role = 'supporter'
+    user.supporter_source = 'patreon'
+    user.jwt_version = (user.jwt_version ?? 0) + 1
+    changed = true
+  }
+
+  if (!input.isActive && user.role === 'supporter' && user.supporter_source === 'patreon') {
+    user.role = 'free'
+    user.supporter_source = undefined
+    user.jwt_version = (user.jwt_version ?? 0) + 1
+    changed = true
+  }
+
+  if (!changed) {
+    return {
+      status: 'noop',
+      reason: 'no_changes',
+      userId: user._id.toString(),
+      userName: user.name,
+      roleBefore,
+      roleAfter: user.role,
+    }
+  }
+
+  await user.save()
+  USER_CACHE.del(user.name)
+
+  return {
+    status: 'updated',
+    userId: user._id.toString(),
+    userName: user.name,
+    roleBefore,
+    roleAfter: user.role,
+  }
 }

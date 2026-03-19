@@ -5,7 +5,7 @@ import {
   get_bootstrap_key,
   get_client_domain,
   get_server_domain
-} from '../business.logic/security/index.js'
+} from '../business.logic/security'
 
 let cachedHtml: string | null = null
 

@@ -11,6 +11,8 @@ import { UserModel } from './model/user'
 
 mongoose.set('strictQuery', false)
 
+const IS_TEST = process.env.TEST === 'true'
+
 /**
  * Initializes the application after all plugins are loaded.
  * This includes database connection, user setup, configuration loading, etc.
@@ -103,8 +105,12 @@ export async function initialize_app(): Promise<void> {
 
   // Start cron jobs for scheduled tasks (e.g., Twitch token renewal)
   process.stdout.write('[INFO] Setting up cron jobs... ')
-  start_cron_jobs()
-  console.log('Done.')
+  if (IS_TEST) {
+    console.log('Skipped in test mode.')
+  } else {
+    start_cron_jobs()
+    console.log('Done.')
+  }
 }
 
 function to_error_message(e: unknown): string {

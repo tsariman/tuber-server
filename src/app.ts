@@ -119,7 +119,7 @@ const app: FastifyPluginAsync<AppOptions> = async (
   // SPA fallback: serve client index.html for unmatched GET requests
   fastify.setNotFoundHandler(async (request, reply) => {
     if (request.method === 'GET') {
-      const { getClientHtml } = await import('./routes/root.js')
+      const { getClientHtml } = require('./routes/root') as typeof import('./routes/root')
       const html = getClientHtml()
       if (html) {
         return reply.header('Content-Type', 'text/html; charset=utf-8').send(html)
