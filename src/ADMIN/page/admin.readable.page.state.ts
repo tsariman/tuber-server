@@ -1,13 +1,16 @@
 import { register } from '../../business.logic/registry'
-import { TStatePage, $53_STATE_KEY } from '@tuber/shared'
+import { TStatePage } from '@tuber/shared'
 import { clone_with_descriptors } from '../../business.logic'
 import { homeLinkState } from '../../state/nav.link'
+import STATE_KEY from '../../business.logic/state.key'
 
-register('state', '53', $53_STATE_KEY)
+const $53 = STATE_KEY['53']
+
+register('state', '53', $53)
 /** @id 53 */
 const adminReadablePageState: TStatePage = {
   '_id': '53',
-  '_key': $53_STATE_KEY,
+  '_key': $53,
   'content': '$webapp : adminReadable',
   'layout': 'layout_md',
   'appbar': {

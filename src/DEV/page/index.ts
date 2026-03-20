@@ -1,29 +1,45 @@
-import { register } from '../../business.logic/registry';
-import * as C from '@tuber/shared';
-import { defaultAppBarState } from '../../state/default.content';
+import { register } from '../../business.logic/registry'
+import STATE_KEY from '../../business.logic/state.key'
+import type { TStateAllPages, TStatePage } from '@tuber/shared'
+import { defaultAppBarState } from '../../state/default.content'
 import devInstallPageState, {
   $44DarkThemeMode,
   get_44_dark_theme_mode,
   get_dev_install_page_state
-} from './dev.install.page.state';
-import { TThemeMode } from '../../common.types';
+} from './dev.install.page.state'
+import { TThemeMode } from '../../common.types'
 import devSignedInPageState, {
   $43DarkThemeMode
-} from './dev.signedin-appbar.page.state';
+} from './dev.signedin-appbar.page.state'
 import {
   clone_with_descriptors,
   get_state_key as key,
   remove_form_suffix,
   themed
-} from '../../business.logic';
-import { TContextualUser } from '../../schema/user';
-import { homeLinkState } from '../../state/nav.link';
+} from '../../business.logic'
+import { TContextualUser } from '../../schema/user'
+import { homeLinkState } from '../../state/nav.link'
 
-register('state', '46', C.$46_STATE_KEY);
+const $40 = STATE_KEY['40']
+const $43 = STATE_KEY['43']
+const $44 = STATE_KEY['44']
+const $45 = STATE_KEY['45']
+const $46 = STATE_KEY['46']
+const $48 = STATE_KEY['48']
+const $54 = STATE_KEY['54']
+const $56 = STATE_KEY['56']
+const $57 = STATE_KEY['57']
+const $58 = STATE_KEY['58']
+const $59 = STATE_KEY['59']
+const $60 = STATE_KEY['60']
+const $61 = STATE_KEY['61']
+const $62 = STATE_KEY['62']
+
+register('state', '46', $46)
 /** @id 46 */
-export const devTestThumbnailPageState: C.TStatePage = {
+export const devTestThumbnailPageState: TStatePage = {
   '_id': '46',
-  '_key': C.$46_STATE_KEY,
+  '_key': $46,
   'appbar': {
     'items': [
       {
@@ -35,27 +51,27 @@ export const devTestThumbnailPageState: C.TStatePage = {
       {
         'has': {
           'text': 'Back',
-          'route': C.$44_STATE_KEY
+          'route': $44
         }
       }
     ],
     'toolbarProps': { 'variant': 'dense' }
   },
-  'content': `$form : ${remove_form_suffix(C.$45_STATE_KEY)}`,
+  'content': `$form : ${remove_form_suffix($45)}`,
   'layout': 'layout_centered_no_scroll'
-};
+}
 
-export const $46DarkThemeMode: C.TStatePage = (() => {
-  const base = clone_with_descriptors(devTestThumbnailPageState);
-  return base;
-})();
+export const $46DarkThemeMode: TStatePage = (() => {
+  const base = clone_with_descriptors(devTestThumbnailPageState)
+  return base
+})()
 
-register('state', '56', C.$56_STATE_KEY);
+register('state', '56', $56)
 /** @id 56 */
-export const devTestRumbleRegexpPageState: C.TStatePage = {
+export const devTestRumbleRegexpPageState: TStatePage = {
   '_id': '56',
-  '_key': C.$56_STATE_KEY,
-  'content': `$form : ${remove_form_suffix(C.$54_STATE_KEY)} : test-rumble-regexp`,
+  '_key': $56,
+  'content': `$form : ${remove_form_suffix($54)} : test-rumble-regexp`,
   'layout': 'layout_centered_no_scroll',
   'appbar': {
     'appbarStyle': 'mini',
@@ -70,19 +86,19 @@ export const devTestRumbleRegexpPageState: C.TStatePage = {
       homeLinkState
     ]
   },
-};
+}
 
-export const $56DarkThemeMode: C.TStatePage = (() => {
-  const base = clone_with_descriptors(devTestRumbleRegexpPageState);
-  return base;
-})();
+export const $56DarkThemeMode: TStatePage = (() => {
+  const base = clone_with_descriptors(devTestRumbleRegexpPageState)
+  return base
+})()
 
-register('state', '58', C.$58_STATE_KEY);
+register('state', '58', $58)
 /** @id 58 */
-export const devTestUnknownRegexpPageState: C.TStatePage = {
+export const devTestUnknownRegexpPageState: TStatePage = {
   '_id': '58',
-  '_key': C.$58_STATE_KEY,
-  'content': `$form : ${remove_form_suffix(C.$57_STATE_KEY)} : test-unknown-regexp`,
+  '_key': $58,
+  'content': `$form : ${remove_form_suffix($57)} : test-unknown-regexp`,
   'layout': 'layout_centered_no_scroll',
   'appbar': {
     'appbarStyle': 'mini',
@@ -97,19 +113,19 @@ export const devTestUnknownRegexpPageState: C.TStatePage = {
       homeLinkState
     ]
   },
-};
+}
 
-export const $58DarkThemeMode: C.TStatePage = (() => {
-  const base = clone_with_descriptors(devTestUnknownRegexpPageState);
-  return base;
-})();
+export const $58DarkThemeMode: TStatePage = (() => {
+  const base = clone_with_descriptors(devTestUnknownRegexpPageState)
+  return base
+})()
 
-register('state', '59', C.$59_STATE_KEY);
+register('state', '59', $59)
 /** @id 59 */
-export const devTwitchInputClientIdPageState: C.TStatePage = {
+export const devTwitchInputClientIdPageState: TStatePage = {
   '_id': '59',
-  '_key': C.$59_STATE_KEY,
-  'content': `$form : ${remove_form_suffix(C.$60_STATE_KEY)} : save-twitch-client-id`,
+  '_key': $59,
+  'content': `$form : ${remove_form_suffix($60)} : save-twitch-client-id`,
   'layout': 'layout_centered_no_scroll',
   'appbar': {
     'appbarStyle': 'mini',
@@ -124,19 +140,19 @@ export const devTwitchInputClientIdPageState: C.TStatePage = {
       homeLinkState
     ]
   },
-};
+}
 
-export const $59DarkThemeMode: C.TStatePage = (() => {
-  const base = clone_with_descriptors(devTwitchInputClientIdPageState);
-  return base;
-})();
+export const $59DarkThemeMode: TStatePage = (() => {
+  const base = clone_with_descriptors(devTwitchInputClientIdPageState)
+  return base
+})()
 
-register('state', '61', C.$61_STATE_KEY);
+register('state', '61', $61)
 /** @id 61 */
-export const devSaveConfigValuePageState: C.TStatePage = {
+export const devSaveConfigValuePageState: TStatePage = {
   '_id': '61',
-  '_key': C.$61_STATE_KEY,
-  'content': `$form : ${remove_form_suffix(C.$62_STATE_KEY)} : ${C.$61_STATE_KEY}`,
+  '_key': $61,
+  'content': `$form : ${remove_form_suffix($62)} : ${$61}`,
   'layout': 'layout_centered_no_scroll',
   'appbar': {
     'appbarStyle': 'mini',
@@ -151,18 +167,18 @@ export const devSaveConfigValuePageState: C.TStatePage = {
       homeLinkState
     ]
   },
-};
+}
 
-export const $61DarkThemeMode: C.TStatePage = (() => {
-  const base = clone_with_descriptors(devSaveConfigValuePageState);
-  return base;
-})();
+export const $61DarkThemeMode: TStatePage = (() => {
+  const base = clone_with_descriptors(devSaveConfigValuePageState)
+  return base
+})()
 
-register('state', '48', C.$48_STATE_KEY);
+register('state', '48', $48)
 /** @id 48 */
-export const devResearchErrorsViewPageState: C.TStatePage = {
+export const devResearchErrorsViewPageState: TStatePage = {
   '_id': '48',
-  '_key': C.$48_STATE_KEY,
+  '_key': $48,
   'content': '$view : default_errors_page_view',
   'layout': 'layout_none_no_appbar',
   'appbar': {
@@ -170,40 +186,40 @@ export const devResearchErrorsViewPageState: C.TStatePage = {
       {
         'has': {
           'text': 'Back',
-          'route': C.$40_STATE_KEY
+          'route': $40
         }
       }
     ]
   }
-};
+}
 
-export const $48DarkThemeMode: C.TStatePage = (() => {
-  const base = clone_with_descriptors(devResearchErrorsViewPageState);
-  return base;
-})();
+export const $48DarkThemeMode: TStatePage = (() => {
+  const base = clone_with_descriptors(devResearchErrorsViewPageState)
+  return base
+})()
 
 /** @deprecated */
 export function dev_bootstrap_pages_light_state(
   usr?: TContextualUser
-): C.TStateAllPages {
-  const pages: C.TStateAllPages = {};
-  pages[key(devInstallPageState)] = get_dev_install_page_state(usr);
+): TStateAllPages {
+  const pages: TStateAllPages = {}
+  pages[key(devInstallPageState)] = get_dev_install_page_state(usr)
 
   // TODO: Don't forget to insert light theme mode state for each page
 
-  return pages;
+  return pages
 }
 
 /** @deprecated */
 export function dev_bootstrap_pages_dark_state(
   usr?: TContextualUser
-): C.TStateAllPages {
-  const pages: C.TStateAllPages = {};
-  pages[key(devInstallPageState)] = get_44_dark_theme_mode(usr);
+): TStateAllPages {
+  const pages: TStateAllPages = {}
+  pages[key(devInstallPageState)] = get_44_dark_theme_mode(usr)
 
   // TODO: Don't forget to insert dark theme mode state for each page
 
-  return pages;
+  return pages
 }
 
 /**
@@ -218,35 +234,35 @@ export function dev_bootstrap_pages_dark_state(
 export function dev_bootstrap_pages_state(
   usr?: TContextualUser,
   themeMode?: TThemeMode
-): C.TStateAllPages {
-  const pages: C.TStateAllPages = {};
-  const light = get_dev_install_page_state(usr);
-  const dark = get_44_dark_theme_mode(usr);
-  pages[key(devInstallPageState)] = themed(light, dark, themeMode);
+): TStateAllPages {
+  const pages: TStateAllPages = {}
+  const light = get_dev_install_page_state(usr)
+  const dark = get_44_dark_theme_mode(usr)
+  pages[key(devInstallPageState)] = themed(light, dark, themeMode)
 
-  return pages;
+  return pages
 }
 
-const DEV_STATE_PAGES: C.TStateAllPages = {
-  [C.$43_STATE_KEY]: devSignedInPageState,
-  [C.$44_STATE_KEY]: devInstallPageState,
-  [C.$46_STATE_KEY]: devTestThumbnailPageState,
-  [C.$48_STATE_KEY]: devResearchErrorsViewPageState,
-  [C.$56_STATE_KEY]: devTestRumbleRegexpPageState,
-  [C.$58_STATE_KEY]: devTestUnknownRegexpPageState,
-  [C.$59_STATE_KEY]: devTwitchInputClientIdPageState,
-  [C.$61_STATE_KEY]: devSaveConfigValuePageState,
-};
+const DEV_STATE_PAGES: TStateAllPages = {
+  [$43]: devSignedInPageState,
+  [$44]: devInstallPageState,
+  [$46]: devTestThumbnailPageState,
+  [$48]: devResearchErrorsViewPageState,
+  [$56]: devTestRumbleRegexpPageState,
+  [$58]: devTestUnknownRegexpPageState,
+  [$59]: devTwitchInputClientIdPageState,
+  [$61]: devSaveConfigValuePageState,
+}
 
-export default DEV_STATE_PAGES;
+export default DEV_STATE_PAGES
 
-export const DEV_STATE_PAGES_THEME_DARK: C.TStateAllPages = {
-  [C.$43_STATE_KEY]: $43DarkThemeMode,
-  [C.$44_STATE_KEY]: $44DarkThemeMode,
-  [C.$46_STATE_KEY]: $46DarkThemeMode,
-  [C.$48_STATE_KEY]: $48DarkThemeMode,
-  [C.$56_STATE_KEY]: $56DarkThemeMode,
-  [C.$58_STATE_KEY]: $58DarkThemeMode,
-  [C.$59_STATE_KEY]: $59DarkThemeMode,
-  [C.$61_STATE_KEY]: $61DarkThemeMode,
-};
+export const DEV_STATE_PAGES_THEME_DARK: TStateAllPages = {
+  [$43]: $43DarkThemeMode,
+  [$44]: $44DarkThemeMode,
+  [$46]: $46DarkThemeMode,
+  [$48]: $48DarkThemeMode,
+  [$56]: $56DarkThemeMode,
+  [$58]: $58DarkThemeMode,
+  [$59]: $59DarkThemeMode,
+  [$61]: $61DarkThemeMode,
+}

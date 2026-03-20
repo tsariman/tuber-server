@@ -1,6 +1,4 @@
 import {
-  $25_STATE_KEY,
-  $27_STATE_KEY,
   THEME_DARK_DIALOG_BACKGROUND_COLOR,
   TStateDialog
 } from '@tuber/shared'
@@ -11,13 +9,17 @@ import {
 } from '../../business.logic'
 import { register } from '../../business.logic/registry'
 import { THEME_LIGHT_PAPER_SX_PROPS } from '../theme.state'
+import STATE_KEY from '../../business.logic/state.key'
 
-register('state', '27', $27_STATE_KEY)
+const $25 = STATE_KEY['25']
+const $27 = STATE_KEY['27']
+
+register('state', '27', $27)
 /** Dialog to edit a Facebook video bookmark @id 27 */
 const editFacebookBookmarkDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '27',
-  '_key': $27_STATE_KEY,
+  '_key': $27,
   get 'title'() { return t('12', 'Edit Facebook Bookmark') },
   'props': {
     'fullWidth': true,
@@ -28,7 +30,7 @@ const editFacebookBookmarkDialogState: TStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': `$form : ${remove_form_suffix($25_STATE_KEY)} : bookmarks`,
+  'content': `$form : ${remove_form_suffix($25)} : bookmarks`,
   'actions': [
     {
       'type': 'state_button',

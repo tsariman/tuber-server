@@ -3,13 +3,15 @@ import JsonapiErrorBuilder from '../../business.logic/builder/JsonapiErrorBuilde
 import { error_id } from '../../business.logic/errors'
 import Config from '../../config'
 import {
-  $60_STATE_KEY,
   CONF_TWITCH_CLIENT_ID,
   CONF_TWITCH_CLIENT_SECRET,
   MSG_500_ERROR_MESSAGE,
   TJsonapiStateResponse,
 } from '@tuber/shared'
 import { errr, ler, log_err, task } from '../../utility/logging'
+import STATE_KEY from '../../business.logic/state.key'
+
+const $60 = STATE_KEY['60']
 
 interface IPostRequest {
   Body: {
@@ -52,7 +54,7 @@ export default async function dev_post_twitch_client_id_endpoint(
     reply.code(200).send({
       'state': {
         'formsData': {
-          [$60_STATE_KEY]: { client_id: '', client_secret: '' }
+          [$60]: { client_id: '', client_secret: '' }
         }
       }
     } as TJsonapiStateResponse)

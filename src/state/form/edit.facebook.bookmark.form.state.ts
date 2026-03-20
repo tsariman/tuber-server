@@ -1,23 +1,40 @@
+import {
+  NOTE_FIELD_ROWS,
+  NOTE_MAX_LENGTH,
+  NOTE_MAX_LENGTH_MESSAGE,
+  PUBLISHED_HELPER_TEXT,
+  START_SECONDS_REQUIRED_MESSAGE,
+  TITLE_MAX_LENGTH,
+  TITLE_MAX_LENGTH_MESSAGE,
+  TITLE_REQUIRED_MESSAGE,
+  TStateForm,
+  TStateFormItem
+} from '@tuber/shared'
 import { clone_with_descriptors, t } from '../../business.logic'
-import * as C from '@tuber/shared'
 import { register } from '../../business.logic/registry'
 import AbstractState from '../AbstractState'
 import { TContextualUser } from '../../schema/user'
 import Access from '../../business.logic/security/Access'
-import { get_bookmark_switch_publish, get_bookmark_switch_publish_dummy } from '../form.item.state'
+import {
+  get_bookmark_switch_publish,
+  get_bookmark_switch_publish_dummy
+} from '../form.item.state'
+import STATE_KEY from '../../business.logic/state.key'
 
-register('state', '25', C.$25_STATE_KEY)
+const $25 = STATE_KEY['25']
+
+register('state', '25', $25)
 /** Form for editing an existing Facebook video bookmark @id 25 */
-export class EditFacebookBookmarkFormState extends AbstractState<C.TStateForm> {
+export class EditFacebookBookmarkFormState extends AbstractState<TStateForm> {
   constructor(usr?: TContextualUser) { super(usr) }
   static withContext(usr?: TContextualUser) {
     const instance = new EditFacebookBookmarkFormState(usr)
     return instance
   }
-  get light(): C.TStateForm {
+  get light(): TStateForm {
     return {
       '_id': '25',
-      '_key': C.$25_STATE_KEY,
+      '_key': $25,
       'items': [
         {
           'type': 'stack',
@@ -41,7 +58,7 @@ export class EditFacebookBookmarkFormState extends AbstractState<C.TStateForm> {
                   'inputProps': { 'readOnly': true },
                   'has': {
                     'required': true,
-                    get 'requiredMessage'() { return t('101', C.START_SECONDS_REQUIRED_MESSAGE) },
+                    get 'requiredMessage'() { return t('101', START_SECONDS_REQUIRED_MESSAGE) },
                   }
                 },
                 {
@@ -85,9 +102,9 @@ export class EditFacebookBookmarkFormState extends AbstractState<C.TStateForm> {
               },
               'has': {
                 'required': true,
-                get 'requiredMessage'() { return t('102', C.TITLE_REQUIRED_MESSAGE) },
-                'maxLength': C.TITLE_MAX_LENGTH,
-                get 'maxLengthMessage'() { return t('104', C.TITLE_MAX_LENGTH_MESSAGE) },
+                get 'requiredMessage'() { return t('102', TITLE_REQUIRED_MESSAGE) },
+                'maxLength': TITLE_MAX_LENGTH,
+                get 'maxLengthMessage'() { return t('104', TITLE_MAX_LENGTH_MESSAGE) },
               }
             },
             {
@@ -96,14 +113,14 @@ export class EditFacebookBookmarkFormState extends AbstractState<C.TStateForm> {
               get 'label'() { return t('85', 'Note') },
               'props': {
                 'multiline': true,
-                'rows': C.NOTE_FIELD_ROWS
+                'rows': NOTE_FIELD_ROWS
               },
               'has': {
-                'maxLength': C.NOTE_MAX_LENGTH,
-                get 'maxLengthMessage'() {return t('107', C.NOTE_MAX_LENGTH_MESSAGE) }
+                'maxLength': NOTE_MAX_LENGTH,
+                get 'maxLengthMessage'() {return t('107', NOTE_MAX_LENGTH_MESSAGE) }
               }
             },
-            Access.the(this.usr).hasClearance('supporter').decide<C.TStateFormItem>(
+            Access.the(this.usr).hasClearance('supporter').decide<TStateFormItem>(
               get_bookmark_switch_publish(),
               get_bookmark_switch_publish_dummy()
             )
@@ -112,7 +129,7 @@ export class EditFacebookBookmarkFormState extends AbstractState<C.TStateForm> {
       ]
     }
   }
-  get dark(): C.TStateForm {
+  get dark(): TStateForm {
     const base = clone_with_descriptors(this.light)
     return base
   }
@@ -121,7 +138,7 @@ export class EditFacebookBookmarkFormState extends AbstractState<C.TStateForm> {
 /** Form for editing an existing Facebook bookmark. @id 25 @deprecated */
 export const editFacebookBookmarkFormState = {
   '_id': '25',
-  '_key': C.$25_STATE_KEY,
+  '_key': $25,
   'items': [
     {
       'type': 'stack',
@@ -145,7 +162,7 @@ export const editFacebookBookmarkFormState = {
               'inputProps': { 'readOnly': true },
               'has': {
                 'required': true,
-                get 'requiredMessage'() { return t('101', C.START_SECONDS_REQUIRED_MESSAGE) },
+                get 'requiredMessage'() { return t('101', START_SECONDS_REQUIRED_MESSAGE) },
               }
             },
             {
@@ -189,9 +206,9 @@ export const editFacebookBookmarkFormState = {
           },
           'has': {
             'required': true,
-            get 'requiredMessage'() { return t('102', C.TITLE_REQUIRED_MESSAGE) },
-            'maxLength': C.TITLE_MAX_LENGTH,
-            get 'maxLengthMessage'() { return t('104', C.TITLE_MAX_LENGTH_MESSAGE) },
+            get 'requiredMessage'() { return t('102', TITLE_REQUIRED_MESSAGE) },
+            'maxLength': TITLE_MAX_LENGTH,
+            get 'maxLengthMessage'() { return t('104', TITLE_MAX_LENGTH_MESSAGE) },
           }
         },
         {
@@ -200,11 +217,11 @@ export const editFacebookBookmarkFormState = {
           get 'label'() { return t('85', 'Note') },
           'props': {
             'multiline': true,
-            'rows': C.NOTE_FIELD_ROWS
+            'rows': NOTE_FIELD_ROWS
           },
           'has': {
-            'maxLength': C.NOTE_MAX_LENGTH,
-            get 'maxLengthMessage'() {return t('107', C.NOTE_MAX_LENGTH_MESSAGE) }
+            'maxLength': NOTE_MAX_LENGTH,
+            get 'maxLengthMessage'() {return t('107', NOTE_MAX_LENGTH_MESSAGE) }
           }
         },
         {
@@ -212,13 +229,13 @@ export const editFacebookBookmarkFormState = {
           'name': 'is_published',
           get 'label'() { return t('86', 'Published') },
           'has': {
-            get 'helperText'() { return t('108', C.PUBLISHED_HELPER_TEXT) }
+            get 'helperText'() { return t('108', PUBLISHED_HELPER_TEXT) }
           }
         }
       ]
     },
   ]
-} as C.TStateForm
+} as TStateForm
 
 export default editFacebookBookmarkFormState
 

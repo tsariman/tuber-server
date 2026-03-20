@@ -1,19 +1,21 @@
 import {
-  $63_STATE_KEY,
-  $71_STATE_KEY,
-  $73_STATE_KEY,
   THEME_LIGHT_APP_BAR_ICON_COLOR as ICON_COLOR,
   TStateAppbar
 } from '@tuber/shared'
 import { register } from '../../business.logic/registry'
 import { powerSignInLinkState } from '../nav.link'
 import { clone_with_descriptors, t } from '../../business.logic'
+import STATE_KEY from '../../business.logic/state.key'
 
-register('state', '73', $73_STATE_KEY)
+const $63 = STATE_KEY['63']
+const $71 = STATE_KEY['71']
+const $73 = STATE_KEY['73']
+
+register('state', '73', $73)
 /** A provided default app bar as starting point for any page */
 export const defaultPageAppbarState: TStateAppbar = {
   '_id': '73',
-  '_key': $73_STATE_KEY,
+  '_key': $73,
   'appbarStyle': 'mini',
   'items': [ powerSignInLinkState ],
 }
@@ -24,11 +26,11 @@ export const $73DarkThemeMode: TStateAppbar = (() => {
   return base
 })()
 
-register('state', '63', $63_STATE_KEY)
+register('state', '63', $63)
 /** State for research page app bar. @id 63 */
 const researchPageAppbarState: TStateAppbar = {
   '_id': '63',
-  '_key': $63_STATE_KEY,
+  '_key': $63,
   'appbarStyle': 'middle_search',
   'items': [ ],
   'searchContainerProps': {
@@ -75,7 +77,7 @@ export const $63DarkThemeMode: TStateAppbar = (() => {
 export const listingPageAppbarState: TStateAppbar = (() => {
   const base = clone_with_descriptors(researchPageAppbarState)
   base['_id'] = '71'
-  base['_key'] = $71_STATE_KEY
+  base['_key'] = $71
   base['inputBaseProps'] = {
     get 'id'() { return t('5', 'filter-query') },
     get 'placeholder'() { return t('6', 'Filter ...') },

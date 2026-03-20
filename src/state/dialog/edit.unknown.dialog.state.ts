@@ -1,6 +1,4 @@
 import {
-  $29_STATE_KEY,
-  $31_STATE_KEY,
   THEME_DARK_DIALOG_BACKGROUND_COLOR,
   TStateDialog
 } from '@tuber/shared'
@@ -14,8 +12,12 @@ import { THEME_LIGHT_PAPER_SX_PROPS } from '../theme.state'
 import AbstractState from '../AbstractState'
 import { TContextualUser } from '../../schema/user'
 import Access from '../../business.logic/security/Access'
+import STATE_KEY from '../../business.logic/state.key'
 
-register('state', '31', $31_STATE_KEY)
+const $29 = STATE_KEY['29']
+const $31 = STATE_KEY['31']
+
+register('state', '31', $31)
 /** Dialog to edit an unknown video platform bookmark @id 31 */
 export class EditUnknownBookmarkDialogState extends AbstractState<TStateDialog> {
   constructor(usr?: TContextualUser) { super(usr) }
@@ -28,7 +30,7 @@ export class EditUnknownBookmarkDialogState extends AbstractState<TStateDialog> 
     const state: TStateDialog = {
       '_type': 'form',
       '_id': '31',
-      '_key': $31_STATE_KEY,
+      '_key': $31,
       get 'title'() { return t('24', 'Edit Unknown Bookmark') },
       'props': {
         'fullWidth': true,
@@ -39,7 +41,7 @@ export class EditUnknownBookmarkDialogState extends AbstractState<TStateDialog> 
       'titleProps': {
         'sx': { 'textAlign': 'center' }
       },
-      'content': `$form : ${remove_form_suffix($29_STATE_KEY)} : bookmarks`,
+      'content': `$form : ${remove_form_suffix($29)} : bookmarks`,
       'actions': [
         {
           'type': 'state_button',
@@ -95,7 +97,7 @@ export class EditUnknownBookmarkDialogState extends AbstractState<TStateDialog> 
 const editUnknownBookmarkDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '31',
-  '_key': $31_STATE_KEY,
+  '_key': $31,
   get 'title'() { return t('24', 'Edit Unknown Bookmark') },
   'props': {
     'fullWidth': true,
@@ -106,7 +108,7 @@ const editUnknownBookmarkDialogState: TStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': `$form : ${remove_form_suffix($29_STATE_KEY)} : bookmarks`,
+  'content': `$form : ${remove_form_suffix($29)} : bookmarks`,
   'actions': [
     {
       'type': 'switch_single',

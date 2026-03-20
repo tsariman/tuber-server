@@ -1,6 +1,13 @@
 
 # Development Log
 
+## `202603201804` Refactor state management to use centralized STATE_KEY mapping
+
+- Updated various form states to replace legacy state key constants with a centralized STATE_KEY object.
+- Refactored imports to use named exports for state keys, improving code clarity and maintainability.
+- Ensured all form states, including bookmarks and user forms, correctly reference their respective keys from the STATE_KEY.
+- Added unit tests to verify the integrity of the STATE_KEY mapping and ensure alignment with legacy constants.
+
 ## `202603182011` [Update] Enhance test assertions to handle additional HTTP status codes and improve test reliability
 
 ## `202603182009` [Feature] Implement Patreon webhook handling and user role synchronization

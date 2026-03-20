@@ -1,23 +1,40 @@
+import {
+  NOTE_FIELD_ROWS,
+  NOTE_MAX_LENGTH,
+  NOTE_MAX_LENGTH_MESSAGE,
+  PUBLISHED_HELPER_TEXT,
+  START_SECONDS_REQUIRED_MESSAGE,
+  TITLE_MAX_LENGTH,
+  TITLE_MAX_LENGTH_MESSAGE,
+  TITLE_REQUIRED_MESSAGE,
+  TStateForm,
+  TStateFormItem
+} from '@tuber/shared'
 import { register } from '../../business.logic/registry'
-import * as C from '@tuber/shared'
 import { clone_with_descriptors, t } from '../../business.logic'
 import AbstractState from '../AbstractState'
 import { TContextualUser } from '../../schema/user'
 import Access from '../../business.logic/security/Access'
-import { get_bookmark_switch_publish, get_bookmark_switch_publish_dummy } from '../form.item.state'
+import {
+  get_bookmark_switch_publish,
+  get_bookmark_switch_publish_dummy
+} from '../form.item.state'
+import STATE_KEY from '../../business.logic/state.key'
 
-register('state', '18', C.$18_STATE_KEY)
+const $18 = STATE_KEY['18']
+
+register('state', '18', $18)
 /** Form for editing an existing Odysee video bookmark @id 18 */
-export class EditOdyseeBookmarkFormState extends AbstractState<C.TStateForm> {
+export class EditOdyseeBookmarkFormState extends AbstractState<TStateForm> {
   constructor(usr?: TContextualUser) { super(usr) }
   static withContext(usr?: TContextualUser) {
     const instance = new EditOdyseeBookmarkFormState(usr)
     return instance
   }
-  get light(): C.TStateForm {
+  get light(): TStateForm {
     return {
       '_id': '18',
-      '_key': C.$18_STATE_KEY,
+      '_key': $18,
       'items': [
         {
           'type': 'stack',
@@ -41,7 +58,7 @@ export class EditOdyseeBookmarkFormState extends AbstractState<C.TStateForm> {
                   'inputProps': { 'readOnly': true },
                   'has': {
                     'required': true,
-                    get 'requiredMessage'() { return t('109', C.START_SECONDS_REQUIRED_MESSAGE) },
+                    get 'requiredMessage'() { return t('109', START_SECONDS_REQUIRED_MESSAGE) },
                   }
                 },
                 {
@@ -75,9 +92,9 @@ export class EditOdyseeBookmarkFormState extends AbstractState<C.TStateForm> {
               },
               'has': {
                 'required': true,
-                get 'requiredMessage'() { return t('110', C.TITLE_REQUIRED_MESSAGE) },
-                'maxLength': C.TITLE_MAX_LENGTH,
-                get 'maxLengthMessage'() { return t('112', C.TITLE_MAX_LENGTH_MESSAGE) }
+                get 'requiredMessage'() { return t('110', TITLE_REQUIRED_MESSAGE) },
+                'maxLength': TITLE_MAX_LENGTH,
+                get 'maxLengthMessage'() { return t('112', TITLE_MAX_LENGTH_MESSAGE) }
               }
             },
             {
@@ -86,14 +103,14 @@ export class EditOdyseeBookmarkFormState extends AbstractState<C.TStateForm> {
               get 'label'() { return t('91', 'Note') },
               'props': {
                 'multiline': true,
-                'rows': C.NOTE_FIELD_ROWS
+                'rows': NOTE_FIELD_ROWS
               },
               'has': {
-                'maxLength': C.NOTE_MAX_LENGTH,
-                get 'maxLengthMessage'() { return t('115', C.NOTE_MAX_LENGTH_MESSAGE) }
+                'maxLength': NOTE_MAX_LENGTH,
+                get 'maxLengthMessage'() { return t('115', NOTE_MAX_LENGTH_MESSAGE) }
               }
             },
-            Access.the(this.usr).hasClearance('supporter').decide<C.TStateFormItem>(
+            Access.the(this.usr).hasClearance('supporter').decide<TStateFormItem>(
               get_bookmark_switch_publish(),
               get_bookmark_switch_publish_dummy()
             )
@@ -102,7 +119,7 @@ export class EditOdyseeBookmarkFormState extends AbstractState<C.TStateForm> {
       ]
     }
   }
-  get dark(): C.TStateForm {
+  get dark(): TStateForm {
     const base = clone_with_descriptors(this.light)
     return base
   }
@@ -111,7 +128,7 @@ export class EditOdyseeBookmarkFormState extends AbstractState<C.TStateForm> {
 /** Form for editing an existing Odysee video bookmark @id 18 @deprecated */
 export const editOdyseeBookmarkFormState = {
   '_id': '18',
-  '_key': C.$18_STATE_KEY,
+  '_key': $18,
   'items': [
     {
       'type': 'stack',
@@ -135,7 +152,7 @@ export const editOdyseeBookmarkFormState = {
               'inputProps': { 'readOnly': true },
               'has': {
                 'required': true,
-                get 'requiredMessage'() { return t('109', C.START_SECONDS_REQUIRED_MESSAGE) },
+                get 'requiredMessage'() { return t('109', START_SECONDS_REQUIRED_MESSAGE) },
               }
             },
             {
@@ -169,9 +186,9 @@ export const editOdyseeBookmarkFormState = {
           },
           'has': {
             'required': true,
-            get 'requiredMessage'() { return t('110', C.TITLE_REQUIRED_MESSAGE) },
-            'maxLength': C.TITLE_MAX_LENGTH,
-            get 'maxLengthMessage'() { return t('112', C.TITLE_MAX_LENGTH_MESSAGE) }
+            get 'requiredMessage'() { return t('110', TITLE_REQUIRED_MESSAGE) },
+            'maxLength': TITLE_MAX_LENGTH,
+            get 'maxLengthMessage'() { return t('112', TITLE_MAX_LENGTH_MESSAGE) }
           }
         },
         {
@@ -180,11 +197,11 @@ export const editOdyseeBookmarkFormState = {
           get 'label'() { return t('91', 'Note') },
           'props': {
             'multiline': true,
-            'rows': C.NOTE_FIELD_ROWS
+            'rows': NOTE_FIELD_ROWS
           },
           'has': {
-            'maxLength': C.NOTE_MAX_LENGTH,
-            get 'maxLengthMessage'() { return t('115', C.NOTE_MAX_LENGTH_MESSAGE) }
+            'maxLength': NOTE_MAX_LENGTH,
+            get 'maxLengthMessage'() { return t('115', NOTE_MAX_LENGTH_MESSAGE) }
           }
         },
         {
@@ -192,13 +209,13 @@ export const editOdyseeBookmarkFormState = {
           'name': 'is_published',
           get 'label'() { return t('92', 'Published') },
           'has': {
-            get 'helperText'() { return t('116', C.PUBLISHED_HELPER_TEXT) }
+            get 'helperText'() { return t('116', PUBLISHED_HELPER_TEXT) }
           }
         }
       ]
     },
   ]
-} as C.TStateForm
+} as TStateForm
 
 export default editOdyseeBookmarkFormState
 

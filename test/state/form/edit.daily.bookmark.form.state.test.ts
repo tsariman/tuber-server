@@ -3,7 +3,10 @@ import assert from 'node:assert'
 import EditDailyBookmarkFormState from '../../../src/state/form/edit.daily.bookmark.form.state'
 import { $77OnchangeHandlerDirective } from '../../../src/state/form/_state.form.common.logic'
 import { TContextualUser } from '../../../src/schema/user'
-import { $20_STATE_KEY, TStateForm } from '@tuber/shared'
+import type { TStateForm } from '@tuber/shared'
+import STATE_KEY from '../../../src/business.logic/state.key'
+
+const $20 = STATE_KEY['20']
 
 // Helper to create mock contextual user
 function createMockUser(role: TContextualUser['role'], id = '507f1f77bcf86cd799439011'): TContextualUser {
@@ -34,7 +37,7 @@ describe('edit.daily.bookmark.form.state', () => {
 
       it('should have correct _key', () => {
         const formState = EditDailyBookmarkFormState.withContext().light
-        assert.strictEqual(formState._key, $20_STATE_KEY)
+        assert.strictEqual(formState._key, $20)
       })
 
       it('should have a stack as the first item', () => {
@@ -221,7 +224,7 @@ describe('edit.daily.bookmark.form.state', () => {
 
       it('should have correct _key', () => {
         const formState = EditDailyBookmarkFormState.withContext().dark
-        assert.strictEqual(formState._key, $20_STATE_KEY)
+        assert.strictEqual(formState._key, $20)
       })
 
       it('should have a stack as the first item', () => {

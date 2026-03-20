@@ -1,6 +1,10 @@
 import { IStateContext, TBootstrapState } from '../_state.common.types'
 import Config from '../../config'
-import { TStateApp, $40_STATE_KEY, $44_STATE_KEY } from '@tuber/shared'
+import { TStateApp } from '@tuber/shared'
+import STATE_KEY from '../../business.logic/state.key'
+
+const $40 = STATE_KEY['40']
+const $44 = STATE_KEY['44']
 
 const bootstrap_app_state = {
 
@@ -15,7 +19,7 @@ const bootstrap_app_state = {
         // 'logoWidth': 212,
         // 'logoHeight': 35,
         'title': Config.DEV ? `[DEV] TubeResearch` : `TubeResearch`,
-        'homepage': inDev ? $44_STATE_KEY : $40_STATE_KEY, // gives developers a different homepage
+        'homepage': inDev ? $44 : $40, // gives developers a different homepage
         'themeMode': themeMode,
         'isBootstrapped': true
       }

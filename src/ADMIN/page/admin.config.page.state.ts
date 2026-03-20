@@ -1,12 +1,15 @@
 import { clone_with_descriptors, t } from '../../business.logic'
 import { register } from '../../business.logic/registry'
-import { TStatePage, $55_STATE_KEY } from '@tuber/shared'
+import { TStatePage } from '@tuber/shared'
+import STATE_KEY from '../../business.logic/state.key'
 
-register('state', '55', $55_STATE_KEY)
+const $55 = STATE_KEY['55']
+
+register('state', '55', $55)
 /** @id 55 */
 const adminConfigPageState: TStatePage = {
   '_id': '55',
-  '_key': $55_STATE_KEY,
+  '_key': $55,
   'content': '$webapp : config',
   'appbar': {
     'appbarStyle': 'middle_search',

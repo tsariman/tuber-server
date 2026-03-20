@@ -1,12 +1,24 @@
 import { clone_with_descriptors, t } from '../../business.logic'
 import { register } from '../../business.logic/registry'
-import * as C from '@tuber/shared'
+import {
+  NOTE_FIELD_ROWS,
+  NOTE_MAX_LENGTH,
+  NOTE_MAX_LENGTH_MESSAGE,
+  START_SECONDS_REQUIRED_MESSAGE,
+  TITLE_MAX_LENGTH,
+  TITLE_MAX_LENGTH_MESSAGE,
+  TITLE_REQUIRED_MESSAGE,
+  type TStateForm
+} from '@tuber/shared'
+import STATE_KEY from '../../business.logic/state.key'
 
-register('state', '12', C.$12_STATE_KEY)
+const $12 = STATE_KEY['12']
+
+register('state', '12', $12)
 /** Form for creating a new Vimeo video bookmark @id 12 */
 export const newVimeoBookmarkFormState = {
   '_id': '12',
-  '_key': C.$12_STATE_KEY,
+  '_key': $12,
   'items': [
     {
       'type': 'stack',
@@ -30,7 +42,7 @@ export const newVimeoBookmarkFormState = {
               'inputProps': { 'readOnly': true },
               'has': {
                 'required': true,
-                get 'requiredMessage'() { return t('253', C.START_SECONDS_REQUIRED_MESSAGE) },
+                get 'requiredMessage'() { return t('253', START_SECONDS_REQUIRED_MESSAGE) },
               }
             },
             {
@@ -64,9 +76,9 @@ export const newVimeoBookmarkFormState = {
           },
           'has': {
             'required': true,
-            get 'requiredMessage'() { return t('257', C.TITLE_REQUIRED_MESSAGE) },
-            'maxLength': C.TITLE_MAX_LENGTH,
-            get 'maxLengthMessage'() { return t('258', C.TITLE_MAX_LENGTH_MESSAGE) },
+            get 'requiredMessage'() { return t('257', TITLE_REQUIRED_MESSAGE) },
+            'maxLength': TITLE_MAX_LENGTH,
+            get 'maxLengthMessage'() { return t('258', TITLE_MAX_LENGTH_MESSAGE) },
           }
         },
         {
@@ -75,21 +87,21 @@ export const newVimeoBookmarkFormState = {
           get 'label'() { return t('259', 'Note') },
           'props': {
             'multiline': true,
-            'rows': C.NOTE_FIELD_ROWS
+            'rows': NOTE_FIELD_ROWS
           },
           'has': {
-            'maxLength': C.NOTE_MAX_LENGTH,
-            get 'maxLengthMessage'() { return t('260', C.NOTE_MAX_LENGTH_MESSAGE) },
+            'maxLength': NOTE_MAX_LENGTH,
+            get 'maxLengthMessage'() { return t('260', NOTE_MAX_LENGTH_MESSAGE) },
           }
         }
       ]
     },
   ]
-} as C.TStateForm
+} as TStateForm
 
 export default newVimeoBookmarkFormState
 
-export const $12DarkThemeMode: C.TStateForm = (() => {
+export const $12DarkThemeMode: TStateForm = (() => {
   const base = clone_with_descriptors(newVimeoBookmarkFormState)
   return base
 })()

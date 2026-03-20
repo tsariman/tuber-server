@@ -1,11 +1,11 @@
-import {
-  $46_STATE_KEY,
-  $56_STATE_KEY,
-  $58_STATE_KEY,
-  $59_STATE_KEY,
-  $61_STATE_KEY,
-  TStateFormItem
-} from '@tuber/shared'
+import { TStateFormItem } from '@tuber/shared'
+import STATE_KEY from '../business.logic/state.key'
+
+const $46 = STATE_KEY['46']
+const $61 = STATE_KEY['61']
+const $59 = STATE_KEY['59']
+const $56 = STATE_KEY['56']
+const $58 = STATE_KEY['58']
 
 export const devFormItemSeparator: TStateFormItem = {
   'type': 'html_tag',
@@ -91,35 +91,35 @@ export const devGetPlatformThumbnailTest: TStateFormItem = {
   'type': 'a',
   'has': {
     'label': ' Test getting platform thumbnails ',
-    'route': $46_STATE_KEY
+    'route': $46
   }
 }
 export const devSaveConfigValue: TStateFormItem = {
   'type': 'a',
   'has': {
     'label': ' Save config value ',
-    'route': $61_STATE_KEY
+    'route': $61
   }
 }
 export const devEnterTwitchClientId: TStateFormItem = {
   'type': 'a',
   'has': {
     'label': ' Enter Twitch Client ID ',
-    'route': $59_STATE_KEY
+    'route': $59
   }
 }
 export const devRumbleRegexpTest: TStateFormItem = {
   'type': 'a',
   'has': {
     'label': ' Test rumble regexp ',
-    'route': $56_STATE_KEY
+    'route': $56
   }
 }
 export const devUnknownRegexpTest: TStateFormItem = {
   'type': 'a',
   'has': {
     'label': ' Test unknown regexp ',
-    'route': $58_STATE_KEY
+    'route': $58
   }
 }
 export const devFakePageTest: TStateFormItem = {

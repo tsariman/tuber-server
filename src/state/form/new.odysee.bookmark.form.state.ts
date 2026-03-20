@@ -1,12 +1,24 @@
 import { clone_with_descriptors, t } from '../../business.logic'
 import { register } from '../../business.logic/registry'
-import * as C from '@tuber/shared'
+import {
+  NOTE_FIELD_ROWS,
+  NOTE_MAX_LENGTH,
+  NOTE_MAX_LENGTH_MESSAGE,
+  START_SECONDS_REQUIRED_MESSAGE,
+  TITLE_MAX_LENGTH,
+  TITLE_MAX_LENGTH_MESSAGE,
+  TITLE_REQUIRED_MESSAGE,
+  TStateForm,
+} from '@tuber/shared'
+import STATE_KEY from '../../business.logic/state.key'
 
-register('state', '17', C.$17_STATE_KEY)
+const $17 = STATE_KEY['17']
+
+register('state', '17', $17)
 /** Form for creating a new odysee video bookmark @id 17 */
 export const newOdyseeBookmarkFormState = {
   '_id': '17',
-  '_key': C.$17_STATE_KEY,
+  '_key': $17,
   'items': [
     {
       'type': 'stack',
@@ -30,7 +42,7 @@ export const newOdyseeBookmarkFormState = {
               'inputProps': { 'readOnly': true },
               'has': {
                 'required': true, // [TODO] Make a configuration.
-                get 'requiredMessage'() { return t('213', C.START_SECONDS_REQUIRED_MESSAGE) },
+                get 'requiredMessage'() { return t('213', START_SECONDS_REQUIRED_MESSAGE) },
               }
             },
             {
@@ -64,9 +76,9 @@ export const newOdyseeBookmarkFormState = {
           },
           'has': {
             'required': true, // [TODO] Make a configuration.
-            get 'requiredMessage'() { return t('217', C.TITLE_REQUIRED_MESSAGE) },
-            'maxLength': C.TITLE_MAX_LENGTH, // [TODO] Make a configuration.
-            get 'maxLengthMessage'() { return t('218', C.TITLE_MAX_LENGTH_MESSAGE) }
+            get 'requiredMessage'() { return t('217', TITLE_REQUIRED_MESSAGE) },
+            'maxLength': TITLE_MAX_LENGTH, // [TODO] Make a configuration.
+            get 'maxLengthMessage'() { return t('218', TITLE_MAX_LENGTH_MESSAGE) }
           }
         },
         {
@@ -75,21 +87,21 @@ export const newOdyseeBookmarkFormState = {
           get 'label'() { return t('219', 'Note') },
           'props': {
             'multiline': true,  // [TODO] Make a configuration.
-            'rows': C.NOTE_FIELD_ROWS  // [TODO] Make a configuration.
+            'rows': NOTE_FIELD_ROWS  // [TODO] Make a configuration.
           },
           'has': {
-            'maxLength': C.NOTE_MAX_LENGTH,  // [TODO] Make a configuration.
-            get 'maxLengthMessage'() { return t('220', C.NOTE_MAX_LENGTH_MESSAGE) }
+            'maxLength': NOTE_MAX_LENGTH,  // [TODO] Make a configuration.
+            get 'maxLengthMessage'() { return t('220', NOTE_MAX_LENGTH_MESSAGE) }
           }
         }
       ]
     },
   ]
-} as C.TStateForm
+} as TStateForm
 
 export default newOdyseeBookmarkFormState
 
-export const $17DarkThemeMode: C.TStateForm = (() => {
+export const $17DarkThemeMode: TStateForm = (() => {
   const base = clone_with_descriptors(newOdyseeBookmarkFormState)
   return base
 })()

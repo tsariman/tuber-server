@@ -1,15 +1,18 @@
 import { SxProps } from '@mui/material'
-import { $69_STATE_KEY, TStateForm } from '@tuber/shared'
+import type { TStateForm } from '@tuber/shared'
 import { register } from '../../business.logic/registry'
 import { clone_with_descriptors, t } from '../../business.logic'
 import { title_centered } from '../html'
 import Config from '../../config'
+import STATE_KEY from '../../business.logic/state.key'
 
-register('state', '69', $69_STATE_KEY)
+const $69 = STATE_KEY['69']
+
+register('state', '69', $69)
 /** Form state to create a new user account. @id 69 */
 export const newUserFormState: TStateForm = {
   '_id': '69',
-  '_key': $69_STATE_KEY,
+  '_key': $69,
   '_type': 'box',
   'props': {
     'sx': { 'p': 3, 'width': '37ch' } as SxProps,
@@ -121,7 +124,7 @@ export const newUserFormState: TStateForm = {
             get 'title'() { return t('signup', 'Sign up') },
             'onclickHandlerDirective': {
               'type': '$form',
-              'formName': $69_STATE_KEY,
+              'formName': $69,
               'endpoint': 'users',
               'rules': [ 'disable_on_submit' ]
             }

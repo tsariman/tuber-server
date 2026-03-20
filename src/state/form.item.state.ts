@@ -1,11 +1,13 @@
 import { t } from '../business.logic'
 import {
   TStateFormItem,
-  $78_STATE_KEY,
-  $79_STATE_KEY,
   PUBLISHED_HELPER_TEXT,
   PUBLISHED_UNAVAILABLE
 } from '@tuber/shared'
+import STATE_KEY from '../business.logic/state.key'
+
+const $78 = STATE_KEY['78']
+const $79 = STATE_KEY['79']
 
 export const dialogDefaultCloseButtonJson: TStateFormItem = {
   'type': 'state_button',
@@ -19,7 +21,7 @@ export const dialogDefaultCloseButtonJson: TStateFormItem = {
 /** Switch that controls the publish state of a bookmark @id 79 */
 export const get_bookmark_switch_publish = () => ({
   '_id': '79',
-  '_key': $79_STATE_KEY,
+  '_key': $79,
   'type': 'switch_single',
   'name': 'is_published',
   get 'label'() { return t('79', 'Published') },
@@ -36,7 +38,7 @@ export const get_bookmark_switch_publish = () => ({
  */
 export const get_bookmark_switch_publish_dummy = () => ({
   '_id': '78',
-  '_key': $78_STATE_KEY,
+  '_key': $78,
   'type': 'switch_dummy',
   'name': 'is_published',
   get 'label'() { return t('79', 'Published') },

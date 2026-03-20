@@ -1,6 +1,4 @@
 import {
-  $13_STATE_KEY,
-  $15_STATE_KEY,
   THEME_DARK_DIALOG_BACKGROUND_COLOR,
   TStateDialog
 } from '@tuber/shared'
@@ -11,13 +9,17 @@ import {
 } from '../../business.logic'
 import { register } from '../../business.logic/registry'
 import { THEME_LIGHT_PAPER_SX_PROPS } from '../theme.state'
+import STATE_KEY from '../../business.logic/state.key'
 
-register('state', '15', $15_STATE_KEY)
+const $13 = STATE_KEY['13']
+const $15 = STATE_KEY['15']
+
+register('state', '15', $15)
 /** Dialog to edit an existing Vimeo video bookmark @id 15 */
 const editVimeoBookmarkDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '15',
-  '_key': $15_STATE_KEY,
+  '_key': $15,
   get 'title'() { return t('27', 'Edit Vimeo Bookmark') },
   'props': {
     'fullWidth': true,
@@ -28,7 +30,7 @@ const editVimeoBookmarkDialogState: TStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': `'$form : ${remove_form_suffix($13_STATE_KEY)} : bookmarks`,
+  'content': `$form : ${remove_form_suffix($13)} : bookmarks`,
   'actions': [
     {
       'type': 'state_button',

@@ -1,12 +1,24 @@
 import { clone_with_descriptors, t } from '../../business.logic'
 import { register } from '../../business.logic/registry'
-import * as C from '@tuber/shared'
+import {
+  TStateForm,
+  NOTE_FIELD_ROWS,
+  NOTE_MAX_LENGTH,
+  URL_REQUIRED_MESSAGE,
+  TITLE_REQUIRED_MESSAGE,
+  TITLE_MAX_LENGTH,
+  TITLE_MAX_LENGTH_MESSAGE,
+  NOTE_MAX_LENGTH_MESSAGE,
+} from '@tuber/shared'
+import STATE_KEY from '../../business.logic/state.key'
 
-register('state', '24', C.$24_STATE_KEY)
+const $24 = STATE_KEY['24']
+
+register('state', '24', $24)
 /** Form for creating a new facebook video bookmark @id 24 */
 export const newFacebookBookmarkFormState = {
   '_id': '24',
-  '_key': C.$24_STATE_KEY,
+  '_key': $24,
   'items': [
     {
       'type': 'stack',
@@ -23,7 +35,7 @@ export const newFacebookBookmarkFormState = {
           'inputProps': { 'readOnly': true },
           'has': {
             'required': true,
-            get 'requiredMessage'() { return t('201', C.URL_REQUIRED_MESSAGE) },
+            get 'requiredMessage'() { return t('201', URL_REQUIRED_MESSAGE) },
           }
         },
         {
@@ -47,9 +59,9 @@ export const newFacebookBookmarkFormState = {
           },
           'has': {
             'required': true,
-            get 'requiredMessage'() { return t('205', C.TITLE_REQUIRED_MESSAGE) },
-            'maxLength': C.TITLE_MAX_LENGTH,
-            get 'maxLengthMessage'() { return t('207', C.TITLE_MAX_LENGTH_MESSAGE) }
+            get 'requiredMessage'() { return t('205', TITLE_REQUIRED_MESSAGE) },
+            'maxLength': TITLE_MAX_LENGTH,
+            get 'maxLengthMessage'() { return t('207', TITLE_MAX_LENGTH_MESSAGE) }
           }
         },
         {
@@ -58,21 +70,21 @@ export const newFacebookBookmarkFormState = {
           get 'label'() { return t('208', 'Note') },
           'props': {
             'multiline': true,
-            'rows': C.NOTE_FIELD_ROWS
+            'rows': NOTE_FIELD_ROWS
           },
           'has': {
-            'maxLength': C.NOTE_MAX_LENGTH,
-            get 'maxLengthMessage'() { return t('211', C.NOTE_MAX_LENGTH_MESSAGE) }
+            'maxLength': NOTE_MAX_LENGTH,
+            get 'maxLengthMessage'() { return t('211', NOTE_MAX_LENGTH_MESSAGE) }
           }
         }
       ]
     },
   ]
-} as C.TStateForm
+} as TStateForm
 
 export default newFacebookBookmarkFormState
 
-export const $24DarkThemeMode: C.TStateForm = (() => {
+export const $24DarkThemeMode: TStateForm = (() => {
   const base = clone_with_descriptors(newFacebookBookmarkFormState)
   return base
 })()

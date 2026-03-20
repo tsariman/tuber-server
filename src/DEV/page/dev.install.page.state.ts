@@ -6,12 +6,8 @@ import {
   powerSignInLinkState
 } from '../../state/nav.link'
 import { register } from '../../business.logic/registry'
-import {
-  $40_STATE_KEY,
-  $44_STATE_KEY,
-  TStateAppbar,
-  TStatePage
-} from '@tuber/shared'
+import STATE_KEY from '../../business.logic/state.key'
+import type { TStateAppbar, TStatePage } from '@tuber/shared'
 import { TContextualUser } from '../../schema/user'
 import {
   clone_empty,
@@ -19,11 +15,14 @@ import {
   clone_with_descriptors
 } from '../../business.logic'
 
+const $40 = STATE_KEY['40']
+const $44 = STATE_KEY['44']
+
 export const appbarLinksState: TStateAppbar['items'] = [
   {
     'has': {
       'text': 'Research',
-      'route': $40_STATE_KEY,
+      'route': $40,
     }
   },
   {
@@ -45,7 +44,7 @@ export const authAppBarLinksState: TStateAppbar['items'] = [
   {
     'has': {
       'text': 'Research',
-      'route':  $40_STATE_KEY,
+      'route':  $40,
     }
   },
   {
@@ -63,11 +62,11 @@ export const authAppBarLinksState: TStateAppbar['items'] = [
   authenticatedLinkState
 ]
 
-register('state', '44', $44_STATE_KEY)
+register('state', '44', $44)
 /** Page state for development installation form. @id 44 */
 const devInstallPageState: TStatePage = {
   '_id': '44',
-  '_key': $44_STATE_KEY,
+  '_key': $44,
   'content': '$form:devInstall:dev-install',
   'layout': 'layout_default',
   'appbar': {
@@ -75,7 +74,7 @@ const devInstallPageState: TStatePage = {
       {
         'has': {
           'text': 'Research',
-          'route':  $40_STATE_KEY,
+          'route':  $40,
         }
       },
       {
@@ -111,7 +110,7 @@ export const $44DarkThemeMode: TStatePage = (() => {
   items.push({
     'has': {
       'text': 'Research',
-      'route':  $40_STATE_KEY,
+      'route':  $40,
     }
   })
   items.push({

@@ -1,4 +1,6 @@
-import * as C from '@tuber/shared'
+import {
+  TStateAllForms
+} from '@tuber/shared'
 import {
   newVideoUrlFormState,
   $1DarkThemeMode
@@ -93,6 +95,27 @@ import {
 import { newUserFormState, $69DarkThemeMode } from './new.user.form.state'
 import { TContextualUser } from '../../schema/user'
 import { is_dev } from '../../model/user/access'
+import STATE_KEY from '../../business.logic/state.key'
+
+const $1 = STATE_KEY['1']
+const $4 = STATE_KEY['4']
+const $5 = STATE_KEY['5']
+const $9 = STATE_KEY['9']
+const $10 = STATE_KEY['10']
+const $12 = STATE_KEY['12']
+const $13 = STATE_KEY['13']
+const $17 = STATE_KEY['17']
+const $18 = STATE_KEY['18']
+const $19 = STATE_KEY['19']
+const $20 = STATE_KEY['20']
+const $24 = STATE_KEY['24']
+const $25 = STATE_KEY['25']
+const $28 = STATE_KEY['28']
+const $29 = STATE_KEY['29']
+const $38 = STATE_KEY['38']
+const $39 = STATE_KEY['39']
+const $41 = STATE_KEY['41']
+const $69 = STATE_KEY['69']
 
 /**
  * Get the sign in form state.
@@ -113,8 +136,8 @@ function _get_signin_form_state(themeMode?: TThemeMode) {
 export function bootstrap_forms_state(
   usr?: TContextualUser,
   themeMode?: TThemeMode
-): C.TStateAllForms {
-  const forms: C.TStateAllForms = {
+): TStateAllForms {
+  const forms: TStateAllForms = {
     ...(is_dev(usr) ? dev_bootstrap_forms_state(themeMode) : {})
   }
   forms[key(signInFormState)] = _get_signin_form_state(themeMode)
@@ -134,7 +157,7 @@ export function bootstrap_forms_state(
  * @deprecated
  */
 export function bootstrap_forms_light_state(usr?: TContextualUser) {
-  const forms: C.TStateAllForms = {
+  const forms: TStateAllForms = {
     ...(is_dev(usr) ? dev_bootstrap_forms_light_state() : {})
   }
   set_state_by_key(forms, signInFormState)
@@ -154,7 +177,7 @@ export function bootstrap_forms_light_state(usr?: TContextualUser) {
  * @deprecated
  */
 export function bootstrap_forms_dark_state(usr?: TContextualUser) {
-  const forms: C.TStateAllForms = {
+  const forms: TStateAllForms = {
     ...(is_dev(usr) ? dev_bootstrap_forms_dark_state() : {})
   }
   set_state_by_key(forms, $41DarkThemeMode)
@@ -165,50 +188,50 @@ export function bootstrap_forms_dark_state(usr?: TContextualUser) {
 }
 
 /** @deprecated */
-export const STATE_FORMS_THEME_DARK: C.TStateAllForms = {
-  [C.$1_STATE_KEY]: $1DarkThemeMode,
-  [C.$4_STATE_KEY]: $4DarkThemeMode,
-  [C.$5_STATE_KEY]: $5DarkThemeMode,
-  [C.$9_STATE_KEY]: $9DarkThemeMode,
-  [C.$10_STATE_KEY]: $10DarkThemeMode,
-  [C.$12_STATE_KEY]: $12DarkThemeMode,
-  [C.$13_STATE_KEY]: $13DarkThemeMode,
-  [C.$17_STATE_KEY]: $17DarkThemeMode,
-  [C.$18_STATE_KEY]: $18DarkThemeMode,
-  [C.$19_STATE_KEY]: $19DarkThemeMode,
-  // [C.$20_STATE_KEY]: $20DarkThemeMode,
-  [C.$24_STATE_KEY]: $24DarkThemeMode,
-  [C.$25_STATE_KEY]: $25DarkThemeMode,
-  [C.$28_STATE_KEY]: $28DarkThemeMode,
-  [C.$29_STATE_KEY]: $29DarkThemeMode,
-  [C.$38_STATE_KEY]: $38DarkThemeMode,
-  [C.$39_STATE_KEY]: $39DarkThemeMode,
-  [C.$41_STATE_KEY]: $41DarkThemeMode,
-  [C.$69_STATE_KEY]: $69DarkThemeMode,
+export const STATE_FORMS_THEME_DARK: TStateAllForms = {
+  [$1]: $1DarkThemeMode,
+  [$4]: $4DarkThemeMode,
+  [$5]: $5DarkThemeMode,
+  [$9]: $9DarkThemeMode,
+  [$10]: $10DarkThemeMode,
+  [$12]: $12DarkThemeMode,
+  [$13]: $13DarkThemeMode,
+  [$17]: $17DarkThemeMode,
+  [$18]: $18DarkThemeMode,
+  [$19]: $19DarkThemeMode,
+  // [$20]: $20DarkThemeMode,
+  [$24]: $24DarkThemeMode,
+  [$25]: $25DarkThemeMode,
+  [$28]: $28DarkThemeMode,
+  [$29]: $29DarkThemeMode,
+  [$38]: $38DarkThemeMode,
+  [$39]: $39DarkThemeMode,
+  [$41]: $41DarkThemeMode,
+  [$69]: $69DarkThemeMode,
   ...(Config.DEV ? DEV_STATE_FORM_THEME_DARK : {})
 }
 
 /** @deprecated */
-export const STATE_FORMS: C.TStateAllForms = {
-  [C.$1_STATE_KEY]: newVideoUrlFormState,
-  [C.$4_STATE_KEY]: newYouTubeBookmarkFormState,
-  [C.$5_STATE_KEY]: editYouTubeBookmarkFormState,
-  [C.$9_STATE_KEY]: newRumbleBookmarkFormState,
-  [C.$10_STATE_KEY]: editRumbleBookmarkFormState,
-  [C.$12_STATE_KEY]: newVimeoBookmarkFormState,
-  [C.$13_STATE_KEY]: editVimeoBookmarkFormState,
-  [C.$17_STATE_KEY]: newOdyseeBookmarkFormState,
-  [C.$18_STATE_KEY]: editOdyseeBookmarkFormState,
-  [C.$19_STATE_KEY]: newDailyBookmarkFormState,
-  // [C.$20_STATE_KEY]: editDailyBookmarkFormState,
-  [C.$24_STATE_KEY]: newFacebookBookmarkFormState,
-  [C.$25_STATE_KEY]: editFacebookBookmarkFormState,
-  [C.$28_STATE_KEY]: newUnknownBookmarkFormState,
-  [C.$29_STATE_KEY]: editUnknownBookmarkFormState,
-  [C.$38_STATE_KEY]: newTwitchBookmarkFormState,
-  [C.$39_STATE_KEY]: editTwitchBookmarkFormState,
-  [C.$41_STATE_KEY]: signInFormState,
-  [C.$69_STATE_KEY]: newUserFormState,
+export const STATE_FORMS: TStateAllForms = {
+  [$1]: newVideoUrlFormState,
+  [$4]: newYouTubeBookmarkFormState,
+  [$5]: editYouTubeBookmarkFormState,
+  [$9]: newRumbleBookmarkFormState,
+  [$10]: editRumbleBookmarkFormState,
+  [$12]: newVimeoBookmarkFormState,
+  [$13]: editVimeoBookmarkFormState,
+  [$17]: newOdyseeBookmarkFormState,
+  [$18]: editOdyseeBookmarkFormState,
+  [$19]: newDailyBookmarkFormState,
+  // [$20]: editDailyBookmarkFormState,
+  [$24]: newFacebookBookmarkFormState,
+  [$25]: editFacebookBookmarkFormState,
+  [$28]: newUnknownBookmarkFormState,
+  [$29]: editUnknownBookmarkFormState,
+  [$38]: newTwitchBookmarkFormState,
+  [$39]: editTwitchBookmarkFormState,
+  [$41]: signInFormState,
+  [$69]: newUserFormState,
   ...(Config.DEV ? DEV_STATE_FORM : {})
 }
 
@@ -221,14 +244,14 @@ export const STATE_FORMS: C.TStateAllForms = {
  */
 export const get_contextualized_state_forms = (key: string, usr?: TContextualUser) => {
   const base = clone_with_descriptors(STATE_FORMS)
-  base[C.$5_STATE_KEY] = EditYouTubeBookmarkFormState.withContext(usr).light
-  base[C.$10_STATE_KEY] = EditRumbleBookmarkFormState.withContext(usr).light
-  base[C.$13_STATE_KEY] = EditVimeoBookmarkFormState.withContext(usr).light
-  base[C.$18_STATE_KEY] = EditOdyseeBookmarkFormState.withContext(usr).light
-  base[C.$20_STATE_KEY] = EditDailyBookmarkFormState.withContext(usr).light
-  base[C.$25_STATE_KEY] = EditFacebookBookmarkFormState.withContext(usr).light
-  base[C.$29_STATE_KEY] = EditUnknownBookmarkFormState.withContext(usr).light
-  base[C.$39_STATE_KEY] = EditTwitchBookmarkFormState.withContext(usr).light
+  base[$5] = EditYouTubeBookmarkFormState.withContext(usr).light
+  base[$10] = EditRumbleBookmarkFormState.withContext(usr).light
+  base[$13] = EditVimeoBookmarkFormState.withContext(usr).light
+  base[$18] = EditOdyseeBookmarkFormState.withContext(usr).light
+  base[$20] = EditDailyBookmarkFormState.withContext(usr).light
+  base[$25] = EditFacebookBookmarkFormState.withContext(usr).light
+  base[$29] = EditUnknownBookmarkFormState.withContext(usr).light
+  base[$39] = EditTwitchBookmarkFormState.withContext(usr).light
   return base[key]
 }
 
@@ -241,14 +264,14 @@ export const get_contextualized_state_forms = (key: string, usr?: TContextualUse
  */
 export const get_contextualized_state_forms_dark = (key: string, usr?: TContextualUser) => {
   const base = clone_with_descriptors(STATE_FORMS_THEME_DARK)
-  base[C.$5_STATE_KEY] = EditYouTubeBookmarkFormState.withContext(usr).dark
-  base[C.$10_STATE_KEY] = EditRumbleBookmarkFormState.withContext(usr).dark
-  base[C.$13_STATE_KEY] = EditVimeoBookmarkFormState.withContext(usr).dark
-  base[C.$18_STATE_KEY] = EditOdyseeBookmarkFormState.withContext(usr).dark
-  base[C.$20_STATE_KEY] = EditDailyBookmarkFormState.withContext(usr).dark
-  base[C.$25_STATE_KEY] = EditFacebookBookmarkFormState.withContext(usr).dark
-  base[C.$29_STATE_KEY] = EditUnknownBookmarkFormState.withContext(usr).dark
-  base[C.$39_STATE_KEY] = EditTwitchBookmarkFormState.withContext(usr).dark
+  base[$5] = EditYouTubeBookmarkFormState.withContext(usr).dark
+  base[$10] = EditRumbleBookmarkFormState.withContext(usr).dark
+  base[$13] = EditVimeoBookmarkFormState.withContext(usr).dark
+  base[$18] = EditOdyseeBookmarkFormState.withContext(usr).dark
+  base[$20] = EditDailyBookmarkFormState.withContext(usr).dark
+  base[$25] = EditFacebookBookmarkFormState.withContext(usr).dark
+  base[$29] = EditUnknownBookmarkFormState.withContext(usr).dark
+  base[$39] = EditTwitchBookmarkFormState.withContext(usr).dark
   return base[key]
 }
 

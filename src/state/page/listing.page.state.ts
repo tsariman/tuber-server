@@ -1,5 +1,4 @@
 import {
-  $51_STATE_KEY,
   TStatePage,
   THEME_LIGHT_APP_BAR_ICON_COLOR as ICON_COLOR
 } from '@tuber/shared'
@@ -23,12 +22,15 @@ import {
 import { IStateContext, IBootstrapThemed } from '../_state.common.types'
 import Config from '../../config'
 import Access from '../../business.logic/security/Access'
+import STATE_KEY from '../../business.logic/state.key'
 
-register('state', '51', $51_STATE_KEY)
+const $51 = STATE_KEY['51']
+
+register('state', '51', $51)
 /** Page state for listing app. @id 51 */
 const chippedListingPageState: TStatePage = {
   '_id': '51',
-  '_key': $51_STATE_KEY,
+  '_key': $51,
   'title': 'Chipped Listing',
   'content': '$webapp : tubeResearcher : listing',
   'appbar': {

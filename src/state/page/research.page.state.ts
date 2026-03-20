@@ -1,12 +1,9 @@
 import { register } from '../../business.logic/registry'
 import {
-  TStatePage,
-  $40_STATE_KEY,
-  $70_STATE_KEY,
-  $76_STATE_KEY,
+  type TStatePage,
   THEME_LIGHT_APP_BAR_ICON_COLOR as ICON_COLOR,
-  TStateAppbar,
-  TStateDialog
+  type TStateAppbar,
+  type TStateDialog
 } from '@tuber/shared'
 import researchPageAppbarState, {
   $63DarkThemeMode
@@ -35,12 +32,17 @@ import { IBootstrapThemed, IStateContext } from '../_state.common.types'
 import Config from '../../config'
 import Access from '../../business.logic/security/Access'
 import { TContextualUser } from '../../schema/user'
+import STATE_KEY from '../../business.logic/state.key'
 
-register('state', '40', $40_STATE_KEY)
+const $40 = STATE_KEY['40']
+const $70 = STATE_KEY['70']
+const $76 = STATE_KEY['76']
+
+register('state', '40', $40)
 /** Page state for research page app. @id 40 */
 const researchPageState: TStatePage = {
   '_id': '40',
-  '_key': $40_STATE_KEY,
+  '_key': $40,
   'title': 'Research',
   'content': '$webapp : tubeResearcher : bookmarks',
   'appbar': {
@@ -134,12 +136,12 @@ export const bs_researchPageState = (
   }
 }
 
-register('state', '70', $70_STATE_KEY)
+register('state', '70', $70)
 /** Listing (research alias) page state. @id 70 */
 export const listingPageState: TStatePage = (() => {
   const base = clone_with_descriptors(researchPageState)
   base['_id'] = '70'
-  base['_key'] = $70_STATE_KEY
+  base['_key'] = $70
   base['title'] = 'Listing'
   return base
 })()
@@ -220,7 +222,7 @@ const _enable_search_scope = (appbar: TStateAppbar, usr?: TContextualUser) => {
         'type': 'dialog/dialogOpenOrMount',
         'payload': {
           '_id': '76',
-          '_key': $76_STATE_KEY,
+          '_key': $76,
           'title': 'Search Mode Unavailable',
           'content': 'To use the search mode feature, please sign in to your account.',
           'actions': [{

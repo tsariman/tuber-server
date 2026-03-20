@@ -1,18 +1,20 @@
 import {
-  $49_STATE_KEY,
   THEME_DARK_PAPER_COLOR,
   THEME_LIGHT_PAPER_COLOR,
-  TStateForm
+  type TStateForm
 } from '@tuber/shared'
 import { register } from '../../business.logic/registry'
+import STATE_KEY from '../../business.logic/state.key'
 import { TBootstrapState } from '../../state/_state.common.types'
 import { clone_or_default, clone_with_descriptors } from '../../business.logic'
 
-register('state', '49', $49_STATE_KEY)
+const $49 = STATE_KEY['49']
+
+register('state', '49', $49)
 /** @id 49 */
 const devSetAuthorizationKeyFormState: TStateForm = {
   '_id': '49',
-  '_key': $49_STATE_KEY,
+  '_key': $49,
   '_type': 'stack',
   'props': {
     'sx': { 'p': 2, 'width': 476 },
@@ -98,7 +100,7 @@ export const $49DarkThemeMode: TStateForm = (() => {
 
 export const dev_set_authorization_key_form_state = {
 
-  [$49_STATE_KEY]: devSetAuthorizationKeyFormState,
+  [$49]: devSetAuthorizationKeyFormState,
 
   // TODO - Insert more form states here.
 
@@ -106,7 +108,7 @@ export const dev_set_authorization_key_form_state = {
 
 export const dev_set_authorization_key_form_state_dark = {
 
-  [$49_STATE_KEY]: $49DarkThemeMode,
+  [$49]: $49DarkThemeMode,
 
   // TODO - Insert more form states (dark themed) here.
 

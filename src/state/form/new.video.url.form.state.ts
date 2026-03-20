@@ -1,12 +1,15 @@
 import { clone_with_descriptors, t } from '../../business.logic'
-import { TStateForm, $1_STATE_KEY } from '@tuber/shared'
+import type { TStateForm } from '@tuber/shared'
 import { register } from '../../business.logic/registry'
+import STATE_KEY from '../../business.logic/state.key'
 
-register('state', '1', $1_STATE_KEY)
+const $1 = STATE_KEY['1']
+
+register('state', '1', $1)
 /** Form to insert a new video URL. @id 1 */
 export const newVideoUrlFormState: TStateForm = {
   '_id': '1',
-  '_key': $1_STATE_KEY,
+  '_key': $1,
   'items': [
     {
       'type': 'stack',

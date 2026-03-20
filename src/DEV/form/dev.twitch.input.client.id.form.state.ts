@@ -1,18 +1,20 @@
 import { TBootstrapState } from '../../state/_state.common.types'
 import { register } from '../../business.logic/registry'
+import STATE_KEY from '../../business.logic/state.key'
 import {
   TStateForm,
-  $60_STATE_KEY,
   THEME_LIGHT_PAPER_COLOR,
   THEME_DARK_PAPER_COLOR
 } from '@tuber/shared'
 import { clone_with_descriptors } from '../../business.logic'
 
-register('state', '60', $60_STATE_KEY)
+const $60 = STATE_KEY['60']
+
+register('state', '60', $60)
 /** @id 60 */
 const devTwitchInputClientIdFormState: TStateForm = {
   '_id': '60',
-  '_key': $60_STATE_KEY,
+  '_key': $60,
   '_type': 'stack',
   'props': {
     'sx': { 'p': 2, 'width': 476 },
@@ -89,7 +91,7 @@ export const $60DarkThemeMode: TStateForm = (() => {
 
 export const dev_twitch_input_client_id_form_state = {
 
-  [$60_STATE_KEY]: devTwitchInputClientIdFormState,
+  [$60]: devTwitchInputClientIdFormState,
 
   // TODO - Insert more form states here.
 
@@ -97,7 +99,7 @@ export const dev_twitch_input_client_id_form_state = {
 
 export const dev_twitch_input_client_id_form_state_dark = {
 
-  [$60_STATE_KEY]: $60DarkThemeMode,
+  [$60]: $60DarkThemeMode,
 
   // TODO - Insert more (dark themed) form states here.
 

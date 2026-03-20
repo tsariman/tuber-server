@@ -1,12 +1,15 @@
 import { clone_with_descriptors, t } from '../../business.logic'
 import { register } from '../../business.logic/registry'
-import * as C from '@tuber/shared'
+import { NOTE_FIELD_ROWS, NOTE_MAX_LENGTH, NOTE_MAX_LENGTH_MESSAGE, START_SECONDS_REQUIRED_MESSAGE, TITLE_MAX_LENGTH, TITLE_MAX_LENGTH_MESSAGE, TITLE_REQUIRED_MESSAGE, TStateForm } from '@tuber/shared'
+import STATE_KEY from '../../business.logic/state.key'
 
-register('state', '19', C.$19_STATE_KEY)
+const $19 = STATE_KEY['19']
+
+register('state', '19', $19)
 /** Form for creating a new Dailymotion video bookmark @id 19 */
 export const newDailyBookmarkFormState = {
   '_id': '19',
-  '_key': C.$19_STATE_KEY,
+  '_key': $19,
   'items': [
     {
       'type': 'stack',
@@ -41,7 +44,7 @@ export const newDailyBookmarkFormState = {
               },
               'has': {
                 'required': true,
-                get 'requiredMessage'() { return t('181', C.START_SECONDS_REQUIRED_MESSAGE) },
+                get 'requiredMessage'() { return t('181', START_SECONDS_REQUIRED_MESSAGE) },
               }
             },
             {
@@ -75,9 +78,9 @@ export const newDailyBookmarkFormState = {
           },
           'has': {
             'required': true,
-            get 'requiredMessage'() { return t('185', C.TITLE_REQUIRED_MESSAGE) },
-            'maxLength': C.TITLE_MAX_LENGTH,
-            get 'maxLengthMessage'() { return t('187', C.TITLE_MAX_LENGTH_MESSAGE) }
+            get 'requiredMessage'() { return t('185', TITLE_REQUIRED_MESSAGE) },
+            'maxLength': TITLE_MAX_LENGTH,
+            get 'maxLengthMessage'() { return t('187', TITLE_MAX_LENGTH_MESSAGE) }
           }
         },
         {
@@ -86,21 +89,21 @@ export const newDailyBookmarkFormState = {
           get 'label'() { return t('188', 'Note') },
           'props': {
             'multiline': true,
-            'rows': C.NOTE_FIELD_ROWS
+            'rows': NOTE_FIELD_ROWS
           },
           'has': {
-            'maxLength': C.NOTE_MAX_LENGTH,
-            get 'maxLengthMessage'() { return t('189', C.NOTE_MAX_LENGTH_MESSAGE) }
+            'maxLength': NOTE_MAX_LENGTH,
+            get 'maxLengthMessage'() { return t('189', NOTE_MAX_LENGTH_MESSAGE) }
           }
         }
       ]
     },
   ]
-} as C.TStateForm
+} as TStateForm
 
 export default newDailyBookmarkFormState
 
-export const $19DarkThemeMode: C.TStateForm = (() => {
+export const $19DarkThemeMode: TStateForm = (() => {
   const base = clone_with_descriptors(newDailyBookmarkFormState)
   return base
 })()

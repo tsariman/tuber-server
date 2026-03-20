@@ -1,6 +1,4 @@
 import {
-  $18_STATE_KEY,
-  $23_STATE_KEY,
   THEME_DARK_DIALOG_BACKGROUND_COLOR,
   TStateDialog
 } from '@tuber/shared'
@@ -11,13 +9,17 @@ import {
 } from '../../business.logic'
 import { register } from '../../business.logic/registry'
 import { THEME_LIGHT_PAPER_SX_PROPS } from '../theme.state'
+import STATE_KEY from '../../business.logic/state.key'
 
-register('state', '23', $23_STATE_KEY)
+const $18 = STATE_KEY['18']
+const $23 = STATE_KEY['23']
+
+register('state', '23', $23)
 /** Dialog to create a edit Odysee video bookmark @id 23 */
 const editOdyseeBookmarkDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '23',
-  '_key': $23_STATE_KEY,
+  '_key': $23,
   get 'title'() { return t('15', 'Edit Odysee Bookmark') },
   'props': {
     'fullWidth': true,
@@ -28,7 +30,7 @@ const editOdyseeBookmarkDialogState: TStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': `$form : ${remove_form_suffix($18_STATE_KEY)} : bookmarks`,
+  'content': `$form : ${remove_form_suffix($18)} : bookmarks`,
   'actions': [
     {
       'type': 'state_button',

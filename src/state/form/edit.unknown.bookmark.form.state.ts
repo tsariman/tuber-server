@@ -1,21 +1,32 @@
 import { clone_with_descriptors, t } from '../../business.logic'
 import { register } from '../../business.logic/registry'
-import * as C from '@tuber/shared'
+import {
+  NOTE_FIELD_ROWS,
+  NOTE_MAX_LENGTH,
+  NOTE_MAX_LENGTH_MESSAGE,
+  TITLE_MAX_LENGTH,
+  TITLE_MAX_LENGTH_MESSAGE,
+  TITLE_REQUIRED_MESSAGE,
+  TStateForm
+} from '@tuber/shared'
 import { TContextualUser } from '../../schema/user'
 import AbstractState from '../AbstractState'
+import STATE_KEY from '../../business.logic/state.key'
 
-register('state', '29', C.$29_STATE_KEY)
+const $29 = STATE_KEY['29']
+
+register('state', '29', $29)
 /** Form for editing an existing unknown platform video bookmark @id 29 */
-export class EditUnknownBookmarkFormState extends AbstractState<C.TStateForm> {
+export class EditUnknownBookmarkFormState extends AbstractState<TStateForm> {
   constructor(usr?: TContextualUser) { super(usr) }
   static withContext(usr?: TContextualUser) {
     const instance = new EditUnknownBookmarkFormState(usr)
     return instance
   }
-  get light(): C.TStateForm {
+  get light(): TStateForm {
     return {
       '_id': '29',
-      '_key': C.$29_STATE_KEY,
+      '_key': $29,
       'items': [
         {
           'type': 'stack',
@@ -64,9 +75,9 @@ export class EditUnknownBookmarkFormState extends AbstractState<C.TStateForm> {
               },
               'has': {
                 'required': true,
-                get 'requiredMessage'() { return t('151', C.TITLE_REQUIRED_MESSAGE) },
-                'maxLength': C.TITLE_MAX_LENGTH,
-                get 'maxLengthMessage'() { return t('153', C.TITLE_MAX_LENGTH_MESSAGE) }
+                get 'requiredMessage'() { return t('151', TITLE_REQUIRED_MESSAGE) },
+                'maxLength': TITLE_MAX_LENGTH,
+                get 'maxLengthMessage'() { return t('153', TITLE_MAX_LENGTH_MESSAGE) }
               }
             },
             {
@@ -75,11 +86,11 @@ export class EditUnknownBookmarkFormState extends AbstractState<C.TStateForm> {
               get 'label'() { return t('154', 'Note') },
               'props': {
                 'multiline': true,
-                'rows': C.NOTE_FIELD_ROWS
+                'rows': NOTE_FIELD_ROWS
               },
               'has': {
-                'maxLength': C.NOTE_MAX_LENGTH,
-                get 'maxLengthMessage'() { return t('157', C.NOTE_MAX_LENGTH_MESSAGE) }
+                'maxLength': NOTE_MAX_LENGTH,
+                get 'maxLengthMessage'() { return t('157', NOTE_MAX_LENGTH_MESSAGE) }
               }
             }
           ]
@@ -87,7 +98,7 @@ export class EditUnknownBookmarkFormState extends AbstractState<C.TStateForm> {
       ]
     }
   }
-  get dark(): C.TStateForm {
+  get dark(): TStateForm {
     const base = clone_with_descriptors(this.light)
     return base
   }
@@ -96,7 +107,7 @@ export class EditUnknownBookmarkFormState extends AbstractState<C.TStateForm> {
 /** Form for editing an existing unknown platform video bookmark @id 29 @deprecated */
 export const editUnknownBookmarkFormState = {
   '_id': '29',
-  '_key': C.$29_STATE_KEY,
+  '_key': $29,
   'items': [
     {
       'type': 'stack',
@@ -145,9 +156,9 @@ export const editUnknownBookmarkFormState = {
           },
           'has': {
             'required': true,
-            get 'requiredMessage'() { return t('151', C.TITLE_REQUIRED_MESSAGE) },
-            'maxLength': C.TITLE_MAX_LENGTH,
-            get 'maxLengthMessage'() { return t('153', C.TITLE_MAX_LENGTH_MESSAGE) }
+            get 'requiredMessage'() { return t('151', TITLE_REQUIRED_MESSAGE) },
+            'maxLength': TITLE_MAX_LENGTH,
+            get 'maxLengthMessage'() { return t('153', TITLE_MAX_LENGTH_MESSAGE) }
           }
         },
         {
@@ -156,17 +167,17 @@ export const editUnknownBookmarkFormState = {
           get 'label'() { return t('154', 'Note') },
           'props': {
             'multiline': true,
-            'rows': C.NOTE_FIELD_ROWS
+            'rows': NOTE_FIELD_ROWS
           },
           'has': {
-            'maxLength': C.NOTE_MAX_LENGTH,
-            get 'maxLengthMessage'() { return t('157', C.NOTE_MAX_LENGTH_MESSAGE) }
+            'maxLength': NOTE_MAX_LENGTH,
+            get 'maxLengthMessage'() { return t('157', NOTE_MAX_LENGTH_MESSAGE) }
           }
         }
       ]
     },
   ]
-} as C.TStateForm
+} as TStateForm
 
 export default editUnknownBookmarkFormState
 

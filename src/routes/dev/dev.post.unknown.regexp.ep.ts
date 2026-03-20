@@ -2,13 +2,12 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import JsonapiErrorBuilder from '../../business.logic/builder/JsonapiErrorBuilder'
 import { error_id } from '../../business.logic/errors'
 import { dbug, ler, log_err, task } from '../../utility/logging'
-import {
-  $57_STATE_KEY,
-  $58_STATE_KEY,
-  MSG_500_ERROR_MESSAGE,
-  TJsonapiStateResponse,
-} from '@tuber/shared'
+import { MSG_500_ERROR_MESSAGE, TJsonapiStateResponse } from '@tuber/shared'
 import axios from 'axios'
+import STATE_KEY from '../../business.logic/state.key'
+
+const $57 = STATE_KEY['57']
+const $58 = STATE_KEY['58']
 
 interface IPostRequest {
   Body: {
@@ -64,10 +63,10 @@ export default async function dev_post_unknown_regexp_endpoint(
       reply.code(200).send({
         'state': {
           'formsData': {
-            [$57_STATE_KEY]: { thumbnail_url: thumbnailUrl }
+            [$57]: { thumbnail_url: thumbnailUrl }
           },
           'pagesData': {
-            [$58_STATE_KEY]: { matches, thumbnailUrl }
+            [$58]: { matches, thumbnailUrl }
           }
         }
       } as TJsonapiStateResponse)

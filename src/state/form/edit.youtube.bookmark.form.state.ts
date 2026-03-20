@@ -1,23 +1,40 @@
 import { clone_with_descriptors, t } from '../../business.logic'
 import { register } from '../../business.logic/registry'
-import * as C from '@tuber/shared'
+import {
+  NOTE_FIELD_ROWS,
+  NOTE_MAX_LENGTH,
+  NOTE_MAX_LENGTH_MESSAGE,
+  PUBLISHED_HELPER_TEXT,
+  START_SECONDS_REQUIRED_MESSAGE,
+  TITLE_MAX_LENGTH,
+  TITLE_MAX_LENGTH_MESSAGE,
+  TITLE_REQUIRED_MESSAGE,
+  TStateForm,
+  TStateFormItem
+} from '@tuber/shared'
 import AbstractState from '../AbstractState'
 import { TContextualUser } from '../../schema/user'
 import Access from '../../business.logic/security/Access'
-import { get_bookmark_switch_publish, get_bookmark_switch_publish_dummy } from '../form.item.state'
+import {
+  get_bookmark_switch_publish,
+  get_bookmark_switch_publish_dummy
+} from '../form.item.state'
+import STATE_KEY from '../../business.logic/state.key'
 
-register('state', '5', C.$5_STATE_KEY)
+const $5 = STATE_KEY['5']
+
+register('state', '5', $5)
 /** Form for editing an existing YouTube bookmark. @id 5 */
-export class EditYouTubeBookmarkFormState extends AbstractState<C.TStateForm> {
+export class EditYouTubeBookmarkFormState extends AbstractState<TStateForm> {
   constructor(usr?: TContextualUser) { super(usr) }
   static withContext(usr?: TContextualUser) {
     const instance = new EditYouTubeBookmarkFormState(usr)
     return instance
   }
-  get light(): C.TStateForm {
+  get light(): TStateForm {
     return {
       '_id': '5',
-      '_key': C.$5_STATE_KEY,
+      '_key': $5,
       'items': [
         {
           'type': 'stack',
@@ -41,7 +58,7 @@ export class EditYouTubeBookmarkFormState extends AbstractState<C.TStateForm> {
                   'inputProps': { 'readOnly': true },
                   'has': {
                     'required': true,
-                    get 'requiredMessage'() { return t('192', C.START_SECONDS_REQUIRED_MESSAGE) },
+                    get 'requiredMessage'() { return t('192', START_SECONDS_REQUIRED_MESSAGE) },
                   }
                 },
                 {
@@ -85,9 +102,9 @@ export class EditYouTubeBookmarkFormState extends AbstractState<C.TStateForm> {
               },
               'has': {
                 'required': true,
-                get 'requiredMessage'() { return t('193', C.TITLE_REQUIRED_MESSAGE) },
-                'maxLength': C.TITLE_MAX_LENGTH,
-                get 'maxLengthMessage'() { return t('195', C.TITLE_MAX_LENGTH_MESSAGE) }
+                get 'requiredMessage'() { return t('193', TITLE_REQUIRED_MESSAGE) },
+                'maxLength': TITLE_MAX_LENGTH,
+                get 'maxLengthMessage'() { return t('195', TITLE_MAX_LENGTH_MESSAGE) }
               }
             },
             {
@@ -96,14 +113,14 @@ export class EditYouTubeBookmarkFormState extends AbstractState<C.TStateForm> {
               get 'label'() { return t('177', 'Note') },
               'props': {
                 'multiline': true,
-                'rows': C.NOTE_FIELD_ROWS
+                'rows': NOTE_FIELD_ROWS
               },
               'has': {
-                'maxLength': C.NOTE_MAX_LENGTH,
-                get 'maxLengthMessage'() { return t('198', C.NOTE_MAX_LENGTH_MESSAGE) }
+                'maxLength': NOTE_MAX_LENGTH,
+                get 'maxLengthMessage'() { return t('198', NOTE_MAX_LENGTH_MESSAGE) }
               }
             },
-            Access.the(this.usr).hasClearance('supporter').decide<C.TStateFormItem>(
+            Access.the(this.usr).hasClearance('supporter').decide<TStateFormItem>(
               get_bookmark_switch_publish(),
               get_bookmark_switch_publish_dummy()
             )
@@ -112,7 +129,7 @@ export class EditYouTubeBookmarkFormState extends AbstractState<C.TStateForm> {
       ]
     }
   }
-  get dark(): C.TStateForm {
+  get dark(): TStateForm {
     const base = clone_with_descriptors(this.light)
     return base
   }
@@ -120,7 +137,7 @@ export class EditYouTubeBookmarkFormState extends AbstractState<C.TStateForm> {
 /** Form for editing an existing YouTube bookmark. @id 5 @deprecated */
 export const editYouTubeBookmarkFormState = {
   '_id': '5',
-  '_key': C.$5_STATE_KEY,
+  '_key': $5,
   'items': [
     {
       'type': 'stack',
@@ -144,7 +161,7 @@ export const editYouTubeBookmarkFormState = {
               'inputProps': { 'readOnly': true },
               'has': {
                 'required': true,
-                get 'requiredMessage'() { return t('192', C.START_SECONDS_REQUIRED_MESSAGE) },
+                get 'requiredMessage'() { return t('192', START_SECONDS_REQUIRED_MESSAGE) },
               }
             },
             {
@@ -188,9 +205,9 @@ export const editYouTubeBookmarkFormState = {
           },
           'has': {
             'required': true,
-            get 'requiredMessage'() { return t('193', C.TITLE_REQUIRED_MESSAGE) },
-            'maxLength': C.TITLE_MAX_LENGTH,
-            get 'maxLengthMessage'() { return t('195', C.TITLE_MAX_LENGTH_MESSAGE) }
+            get 'requiredMessage'() { return t('193', TITLE_REQUIRED_MESSAGE) },
+            'maxLength': TITLE_MAX_LENGTH,
+            get 'maxLengthMessage'() { return t('195', TITLE_MAX_LENGTH_MESSAGE) }
           }
         },
         {
@@ -199,11 +216,11 @@ export const editYouTubeBookmarkFormState = {
           get 'label'() { return t('177', 'Note') },
           'props': {
             'multiline': true,
-            'rows': C.NOTE_FIELD_ROWS
+            'rows': NOTE_FIELD_ROWS
           },
           'has': {
-            'maxLength': C.NOTE_MAX_LENGTH,
-            get 'maxLengthMessage'() { return t('198', C.NOTE_MAX_LENGTH_MESSAGE) }
+            'maxLength': NOTE_MAX_LENGTH,
+            get 'maxLengthMessage'() { return t('198', NOTE_MAX_LENGTH_MESSAGE) }
           }
         },
         {
@@ -211,13 +228,13 @@ export const editYouTubeBookmarkFormState = {
           'name': 'is_published',
           get 'label'() { return t('178', 'Published') },
           'has': {
-            get 'helperText'() { return t('199', C.PUBLISHED_HELPER_TEXT) }
+            get 'helperText'() { return t('199', PUBLISHED_HELPER_TEXT) }
           }
         }
       ]
     },
   ]
-} as C.TStateForm
+} as TStateForm
 
 export default editYouTubeBookmarkFormState
 

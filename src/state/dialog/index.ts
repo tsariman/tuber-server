@@ -1,9 +1,12 @@
-import * as C from '@tuber/shared/dist/constants.server'
-import type {
-  TStateDialog,
-  TJsonapiStateResponse,
-  TNetState,
-  TStateAllDialogs
+import {
+  type TStateDialog,
+  type TJsonapiStateResponse,
+  type TNetState,
+  type TStateAllDialogs,
+  THEME_DARK_DIALOG_BACKGROUND_COLOR,
+  THEME_LIGHT_BACKGROUND_COLOR,
+  EP_AUTH,
+  EP_USERS
 } from '@tuber/shared'
 import {
   get_state_key as key,
@@ -62,14 +65,44 @@ import editTwitchBookmarkDialogState, {
 import { register } from '../../business.logic/registry'
 import { THEME_LIGHT_PAPER_SX_PROPS } from '../theme.state'
 import { TContextualUser } from '../../schema/user'
+import STATE_KEY from '../../business.logic/state.key'
 
+const $1 = STATE_KEY['1']
+const $2 = STATE_KEY['2']
+const $4 = STATE_KEY['4']
+const $5 = STATE_KEY['5']
+const $6 = STATE_KEY['6']
+const $7 = STATE_KEY['7']
+const $8 = STATE_KEY['8']
+const $11 = STATE_KEY['11']
+const $14 = STATE_KEY['14']
+const $15 = STATE_KEY['15']
+const $16 = STATE_KEY['16']
+const $21 = STATE_KEY['21']
+const $22 = STATE_KEY['22']
+const $23 = STATE_KEY['23']
+const $26 = STATE_KEY['26']
+const $27 = STATE_KEY['27']
+const $30 = STATE_KEY['30']
+const $31 = STATE_KEY['31']
+const $32 = STATE_KEY['32']
+const $33 = STATE_KEY['33']
+const $34 = STATE_KEY['34']
+const $35 = STATE_KEY['35']
+const $36 = STATE_KEY['36']
+const $37 = STATE_KEY['37']
+const $41 = STATE_KEY['41']
+const $64 = STATE_KEY['64']
+const $65 = STATE_KEY['65']
+const $68 = STATE_KEY['68']
+const $69 = STATE_KEY['69']
 
-register('state', '6', C.$6_STATE_KEY)
+register('state', '6', $6)
 /** Dialog to create a new YouTube video bookmark @id 6 */
 export const newYoutubeBookmarkDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '6',
-  '_key': C.$6_STATE_KEY,
+  '_key': $6,
   get 'title'() { return t('30', 'Insert New YouTube Bookmark') },
   'props': {
     'fullWidth': true,
@@ -80,7 +113,7 @@ export const newYoutubeBookmarkDialogState: TStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': `$form : ${remove_form_suffix(C.$4_STATE_KEY)} : bookmarks`,
+  'content': `$form : ${remove_form_suffix($4)} : bookmarks`,
   'actions': [
     {
       'type': 'state_button',
@@ -113,31 +146,31 @@ export const $6DarkThemeMode: TStateDialog = (() => {
   const paperProps = clone_or_default(props, {})
   paperProps.sx = {
     ...paperProps.sx,
-    'backgroundColor': C.THEME_DARK_DIALOG_BACKGROUND_COLOR
+    'backgroundColor': THEME_DARK_DIALOG_BACKGROUND_COLOR
   }
   props.PaperProps = paperProps
   base.props = props
   return base
 })()
 
-register('state', '2', C.$2_STATE_KEY)
+register('state', '2', $2)
 /** Dialog that contains the form to insert the new video url. @id 2 */
 export const newVideoUrlDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '2',
-  '_key': C.$2_STATE_KEY,
+  '_key': $2,
   get 'title'() { return t('33', 'Insert the URL of Video to be Bookmarked') },
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
     'PaperProps': {
-      'sx': { 'backgroundColor': C.THEME_LIGHT_BACKGROUND_COLOR }
+      'sx': { 'backgroundColor': THEME_LIGHT_BACKGROUND_COLOR }
     }
   },
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': `$form : ${remove_form_suffix(C.$1_STATE_KEY)} : bookmarks`,
+  'content': `$form : ${remove_form_suffix($1)} : bookmarks`,
   'actions': [],
   'open': true
 }
@@ -152,19 +185,19 @@ export const $2DarkThemeMode: TStateDialog = (() => {
   const paperProps = clone_or_default(props.PaperProps, {})
   paperProps.sx = {
     ...paperProps.sx,
-    'backgroundColor': C.THEME_DARK_DIALOG_BACKGROUND_COLOR
+    'backgroundColor': THEME_DARK_DIALOG_BACKGROUND_COLOR
   }
   props.PaperProps = paperProps
   base.props = props
   return base
 })()
 
-register('state', '7', C.$7_STATE_KEY)
+register('state', '7', $7)
 /** Dialog to edit an existing YouTube video bookmark @id 7 */
 export const editYoutubeBookmarkDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '7',
-  '_key': C.$7_STATE_KEY,
+  '_key': $7,
   get 'title'() { return t('34', 'Edit YouTube Bookmark') },
   'props': {
     'fullWidth': true,
@@ -175,7 +208,7 @@ export const editYoutubeBookmarkDialogState: TStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': `$form : ${remove_form_suffix(C.$5_STATE_KEY)} : bookmarks`,
+  'content': `$form : ${remove_form_suffix($5)} : bookmarks`,
   'actions': [
     {
       'type': 'state_button',
@@ -208,19 +241,19 @@ export const $7DarkThemeMode: TStateDialog = (() => {
   const paperProps = clone_or_default(props.PaperProps, {})
   paperProps.sx = {
     ...paperProps.sx,
-    'backgroundColor': C.THEME_DARK_DIALOG_BACKGROUND_COLOR
+    'backgroundColor': THEME_DARK_DIALOG_BACKGROUND_COLOR
   }
   props.PaperProps = paperProps
   base.props = props
   return base
 })()
 
-register('state', '32', C.$32_STATE_KEY)
+register('state', '32', $32)
 /** Sign in dialog state. @id 32 */
 export const signInDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '32',
-  '_key': C.$32_STATE_KEY,
+  '_key': $32,
   get 'title'() { return t('37', 'Enter Your Credentials') },
   'props': {
     'fullWidth': true,
@@ -229,7 +262,7 @@ export const signInDialogState: TStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': `$form : ${remove_form_suffix(C.$41_STATE_KEY)} : ${C.EP_AUTH.IN}`,
+  'content': `$form : ${remove_form_suffix($41)} : ${EP_AUTH.IN}`,
   'open': true
 }
 
@@ -239,12 +272,12 @@ export const $32DarkThemeMode: TStateDialog = (() => {
   return base
 })()
 
-register('state', '33', C.$33_STATE_KEY)
+register('state', '33', $33)
 /** Dialog state for registering a new user @id 33 */
 export const registerDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '33',
-  '_key': C.$33_STATE_KEY,
+  '_key': $33,
   get 'title'() { return t('38', 'Register New User') },
   'props': {
     'fullWidth': true,
@@ -253,7 +286,7 @@ export const registerDialogState: TStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': `$form : ${remove_form_suffix(C.$69_STATE_KEY)} : ${C.EP_USERS}`,
+  'content': `$form : ${remove_form_suffix($69)} : ${EP_USERS}`,
   'open': true
 }
 
@@ -263,12 +296,12 @@ export const $33DarkThemeMode: TStateDialog = (() => {
   return base
 })()
 
-register('state', '34', C.$34_STATE_KEY)
+register('state', '34', $34)
 /** Dialog state to delete a bookmark. @id 34 */
 export const deleteBookmarkDialogState: TStateDialog = {
   '_type': 'alert',
   '_id': '34',
-  '_key': C.$34_STATE_KEY,
+  '_key': $34,
   get 'title'() { return t('39', 'Delete Bookmark') },
   'props': { 'fullWidth': true },
   'titleProps': {
@@ -302,12 +335,12 @@ export const $34DarkThemeMode: TStateDialog = (() => {
   return base
 })()
 
-register('state', '35', C.$35_STATE_KEY)
+register('state', '35', $35)
 /** Client alert dialog. @id 35 */
 export const clientAlertDialogState: TStateDialog = {
   '_type': 'alert',
   '_id': '35',
-  '_key': C.$35_STATE_KEY,
+  '_key': $35,
   get 'title'() { return t('43', 'Feedback') },
   'props': { 'fullWidth': true },
   'titleProps': {
@@ -332,12 +365,12 @@ export const $35DarkThemeMode: TStateDialog = (() => {
   return base
 })()
 
-register('state', '68', C.$68_STATE_KEY)
+register('state', '68', $68)
 /** Dialog state to confirm logging out. @id 68 */
 export const confirmSignOutDialogState: TStateDialog = {
   '_type': 'alert',
   '_id': '68',
-  '_key': C.$68_STATE_KEY,
+  '_key': $68,
   'title': 'Logout',
   'props': { 'fullWidth': true },
   'titleProps': {
@@ -382,7 +415,7 @@ export function alertResponse<T=unknown>(content: T): TJsonapiStateResponse {
       'dialog': {
         '_type': 'alert',
         '_id': '64',
-        '_key': C.$64_STATE_KEY,
+        '_key': $64,
         get 'title'() { return t('48', 'Server Response') },
         'props': { 'fullWidth': true },
         'titleProps': {
@@ -414,7 +447,7 @@ export function alertDialogState<T=unknown>(content: T): TStateDialog {
   return {
     '_type': 'alert',
     '_id': '65',
-    '_key': C.$65_STATE_KEY,
+    '_key': $65,
     get 'title'() { return t('50', 'Server Response') },
     'props': { 'fullWidth': true },
     'titleProps': {
@@ -525,65 +558,65 @@ export function bootstrap_dialogs_state(themeMode?: TThemeMode) {
 
 /** @deprecated */
 export const STATE_DIALOGS_THEME_DARK: TStateAllDialogs = {
-  [C.$2_STATE_KEY]: $2DarkThemeMode,
-  [C.$6_STATE_KEY]: $6DarkThemeMode,
-  [C.$7_STATE_KEY]: $7DarkThemeMode,
-  [C.$8_STATE_KEY]: $8DarkThemeMode,
-  [C.$11_STATE_KEY]: $11DarkThemeMode,
-  [C.$14_STATE_KEY]: $14DarkThemeMode,
-  [C.$15_STATE_KEY]: $15DarkThemeMode,
-  [C.$16_STATE_KEY]: $16DarkThemeMode,
-  [C.$21_STATE_KEY]: $21DarkThemeMode,
-  [C.$22_STATE_KEY]: $22DarkThemeMode,
-  [C.$23_STATE_KEY]: $23DarkThemeMode,
-  [C.$26_STATE_KEY]: $26DarkThemeMode,
-  [C.$27_STATE_KEY]: $27DarkThemeMode,
-  [C.$30_STATE_KEY]: $30DarkThemeMode,
-  [C.$31_STATE_KEY]: $31DarkThemeMode,
-  [C.$32_STATE_KEY]: $32DarkThemeMode,
-  [C.$33_STATE_KEY]: $33DarkThemeMode,
-  [C.$34_STATE_KEY]: $34DarkThemeMode,
-  [C.$35_STATE_KEY]: $35DarkThemeMode,
-  [C.$36_STATE_KEY]: $36DarkThemeMode,
-  [C.$37_STATE_KEY]: $37DarkThemeMode,
-  [C.$68_STATE_KEY]: $68DarkThemeMode,
+  [$2]: $2DarkThemeMode,
+  [$6]: $6DarkThemeMode,
+  [$7]: $7DarkThemeMode,
+  [$8]: $8DarkThemeMode,
+  [$11]: $11DarkThemeMode,
+  [$14]: $14DarkThemeMode,
+  [$15]: $15DarkThemeMode,
+  [$16]: $16DarkThemeMode,
+  [$21]: $21DarkThemeMode,
+  [$22]: $22DarkThemeMode,
+  [$23]: $23DarkThemeMode,
+  [$26]: $26DarkThemeMode,
+  [$27]: $27DarkThemeMode,
+  [$30]: $30DarkThemeMode,
+  [$31]: $31DarkThemeMode,
+  [$32]: $32DarkThemeMode,
+  [$33]: $33DarkThemeMode,
+  [$34]: $34DarkThemeMode,
+  [$35]: $35DarkThemeMode,
+  [$36]: $36DarkThemeMode,
+  [$37]: $37DarkThemeMode,
+  [$68]: $68DarkThemeMode,
 }
 
 /** @deprecated */
 export const STATE_DIALOGS: { [key: string]: TStateDialog } = {
-  [C.$2_STATE_KEY]: newVideoUrlDialogState,
-  [C.$6_STATE_KEY]: newYoutubeBookmarkDialogState,
-  [C.$7_STATE_KEY]: editYoutubeBookmarkDialogState,
-  [C.$8_STATE_KEY]: newRumbleBookmarkDialogState,
-  [C.$11_STATE_KEY]: editRumbleBookmarkDialogState,
-  [C.$14_STATE_KEY]: newVimeoBookmarkDialogState,
-  [C.$15_STATE_KEY]: editVimeoBookmarkDialogState,
-  [C.$16_STATE_KEY]: newOdyseeBookmarkDialogState,
-  [C.$21_STATE_KEY]: newDailyBookmarkDialogState,
-  [C.$22_STATE_KEY]: editDailyBookmarkDialogState,
-  [C.$23_STATE_KEY]: editOdyseeBookmarkDialogState,
-  [C.$26_STATE_KEY]: newFacebookBookmarkDialogState,
-  [C.$27_STATE_KEY]: editFacebookBookmarkDialogState,
-  [C.$30_STATE_KEY]: newUnknownBookmarkDialogState,
-  [C.$31_STATE_KEY]: editUnknownBookmarkDialogState,
-  [C.$32_STATE_KEY]: signInDialogState,
-  [C.$33_STATE_KEY]: registerDialogState,
-  [C.$34_STATE_KEY]: deleteBookmarkDialogState,
-  [C.$35_STATE_KEY]: clientAlertDialogState,
-  [C.$36_STATE_KEY]: newTwitchBookmarkDialogState,
-  [C.$37_STATE_KEY]: editTwitchBookmarkDialogState,
-  [C.$68_STATE_KEY]: confirmSignOutDialogState,
+  [$2]: newVideoUrlDialogState,
+  [$6]: newYoutubeBookmarkDialogState,
+  [$7]: editYoutubeBookmarkDialogState,
+  [$8]: newRumbleBookmarkDialogState,
+  [$11]: editRumbleBookmarkDialogState,
+  [$14]: newVimeoBookmarkDialogState,
+  [$15]: editVimeoBookmarkDialogState,
+  [$16]: newOdyseeBookmarkDialogState,
+  [$21]: newDailyBookmarkDialogState,
+  [$22]: editDailyBookmarkDialogState,
+  [$23]: editOdyseeBookmarkDialogState,
+  [$26]: newFacebookBookmarkDialogState,
+  [$27]: editFacebookBookmarkDialogState,
+  [$30]: newUnknownBookmarkDialogState,
+  [$31]: editUnknownBookmarkDialogState,
+  [$32]: signInDialogState,
+  [$33]: registerDialogState,
+  [$34]: deleteBookmarkDialogState,
+  [$35]: clientAlertDialogState,
+  [$36]: newTwitchBookmarkDialogState,
+  [$37]: editTwitchBookmarkDialogState,
+  [$68]: confirmSignOutDialogState,
 }
 
 export const get_contextualized_dialog_state = (key: string, usr?: TContextualUser) => {
   const base = clone_with_descriptors(STATE_DIALOGS)
-  base[C.$31_STATE_KEY] = EditUnknownBookmarkDialogState.withContext(usr).light
+  base[$31] = EditUnknownBookmarkDialogState.withContext(usr).light
   return base[key]
 }
 
 export const get_contextualized_dialog_state_dark = (key: string, usr?: TContextualUser) => {
   const base = clone_with_descriptors(STATE_DIALOGS_THEME_DARK)
-  base[C.$31_STATE_KEY] = EditUnknownBookmarkDialogState.withContext(usr).dark
+  base[$31] = EditUnknownBookmarkDialogState.withContext(usr).dark
   return base[key]
 }
 

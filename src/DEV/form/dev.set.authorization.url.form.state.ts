@@ -1,18 +1,20 @@
 import { clone_with_descriptors } from '../../business.logic'
 import { register } from '../../business.logic/registry'
 import {
-  $50_STATE_KEY,
   THEME_DARK_PAPER_COLOR,
   THEME_LIGHT_PAPER_COLOR,
-  TStateForm
+  type TStateForm
 } from '@tuber/shared'
 import { TBootstrapState } from '../../state/_state.common.types'
+import STATE_KEY from '../../business.logic/state.key'
 
-register('state', '50', $50_STATE_KEY)
+const $50 = STATE_KEY['50']
+
+register('state', '50', $50)
 /** Form to set the authorization URL for a platform. @id 50 */
 const devSetAuthorizationUrlFormState: TStateForm = {
   '_id': '50',
-  '_key': $50_STATE_KEY,
+  '_key': $50,
   '_type': 'stack',
   'props': {
     'sx': { 'p': 2, 'width': 476 },
@@ -89,7 +91,7 @@ export const $50DarkThemeMode: TStateForm = (() => {
 
 export const dev_set_authorization_url_form_state = {
 
-  [$50_STATE_KEY]: devSetAuthorizationUrlFormState,
+  [$50]: devSetAuthorizationUrlFormState,
 
   // TODO - Insert more form states here.
 
@@ -97,7 +99,7 @@ export const dev_set_authorization_url_form_state = {
 
 export const dev_set_authorization_url_form_state_dark = {
 
-  [$50_STATE_KEY]: $50DarkThemeMode,
+  [$50]: $50DarkThemeMode,
 
   // TODO - Insert more form states (dark themed) here.
 

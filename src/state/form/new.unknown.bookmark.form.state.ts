@@ -1,12 +1,24 @@
 import { clone_with_descriptors, t } from '../../business.logic'
 import { register } from '../../business.logic/registry'
-import * as C from '@tuber/shared'
+import {
+  EMBED_URL_MESSAGE,
+  NOTE_FIELD_ROWS,
+  NOTE_MAX_LENGTH,
+  NOTE_MAX_LENGTH_MESSAGE,
+  TITLE_MAX_LENGTH,
+  TITLE_MAX_LENGTH_MESSAGE,
+  TITLE_REQUIRED_MESSAGE,
+  type TStateForm
+} from '@tuber/shared'
+import STATE_KEY from '../../business.logic/state.key'
 
-register('state', '28', C.$28_STATE_KEY)
+const $28 = STATE_KEY['28']
+
+register('state', '28', $28)
 /** Form for creating a new unknown video bookmark @id 28 */
 export const newUnknownBookmarkFormState = {
   '_id': '28',
-  '_key': C.$28_STATE_KEY,
+  '_key': $28,
   'items': [
     {
       'type': 'stack',
@@ -35,7 +47,7 @@ export const newUnknownBookmarkFormState = {
           },
           'has': {
             'required': true,
-            get 'requiredMessage'() { return t('243', C.EMBED_URL_MESSAGE) },
+            get 'requiredMessage'() { return t('243', EMBED_URL_MESSAGE) },
           }
         },
         {
@@ -69,9 +81,9 @@ export const newUnknownBookmarkFormState = {
           },
           'has': {
             'required': true,
-            get 'requiredMessage'() { return t('246', C.TITLE_REQUIRED_MESSAGE) },
-            'maxLength': C.TITLE_MAX_LENGTH, // [TODO] make a configuration.
-            get 'maxLengthMessage'() { return t('247', C.TITLE_MAX_LENGTH_MESSAGE) },
+            get 'requiredMessage'() { return t('246', TITLE_REQUIRED_MESSAGE) },
+            'maxLength': TITLE_MAX_LENGTH, // [TODO] make a configuration.
+            get 'maxLengthMessage'() { return t('247', TITLE_MAX_LENGTH_MESSAGE) },
           }
         },
         {
@@ -80,21 +92,21 @@ export const newUnknownBookmarkFormState = {
           get 'label'() { return t('248', 'Note') },
           'props': {
             'multiline': true,
-            'rows': C.NOTE_FIELD_ROWS // [TODO] Make a configuration.
+            'rows': NOTE_FIELD_ROWS // [TODO] Make a configuration.
           },
           'has': {
-            'maxLength': C.NOTE_MAX_LENGTH,
-            get 'maxLengthMessage'() { return t('249', C.NOTE_MAX_LENGTH_MESSAGE) }
+            'maxLength': NOTE_MAX_LENGTH,
+            get 'maxLengthMessage'() { return t('249', NOTE_MAX_LENGTH_MESSAGE) }
           }
         }
       ]
     },
   ]
-} as C.TStateForm
+} as TStateForm
 
 export default newUnknownBookmarkFormState
 
-export const $28DarkThemeMode: C.TStateForm = (() => {
+export const $28DarkThemeMode: TStateForm = (() => {
   const base = clone_with_descriptors(newUnknownBookmarkFormState)
   return base
 })()

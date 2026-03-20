@@ -1,6 +1,4 @@
 import {
-  $20_STATE_KEY,
-  $22_STATE_KEY,
   THEME_DARK_DIALOG_BACKGROUND_COLOR,
 } from '@tuber/shared'
 import {
@@ -11,13 +9,17 @@ import {
 import { TStateDialog } from '@tuber/shared'
 import { register } from '../../business.logic/registry'
 import { THEME_LIGHT_PAPER_SX_PROPS } from '../theme.state'
+import STATE_KEY from '../../business.logic/state.key'
 
-register('state', '22', $22_STATE_KEY)
+const $20 = STATE_KEY['20']
+const $22 = STATE_KEY['22']
+
+register('state', '22', $22)
 /** Dialog to edit an existing Dailymotion video bookmark @id 22 */
 const editDailyBookmarkDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '22',
-  '_key': $22_STATE_KEY,
+  '_key': $22,
   get 'title'() { return t('9', 'Edit Dailymotion Bookmark') },
   'props': {
     'fullWidth': true,
@@ -28,7 +30,7 @@ const editDailyBookmarkDialogState: TStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': `$form : ${remove_form_suffix($20_STATE_KEY)} : bookmarks`,
+  'content': `$form : ${remove_form_suffix($20)} : bookmarks`,
   'actions': [
     {
       'type': 'state_button',

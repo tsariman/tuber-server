@@ -1,13 +1,16 @@
-import { $43_STATE_KEY, TStatePage } from '@tuber/shared';
-import { register } from '../../business.logic/registry';
-import { clone_with_descriptors } from '../../business.logic';
-import { homeLinkState } from '../../state/nav.link';
+import type { TStatePage } from '@tuber/shared'
+import { register } from '../../business.logic/registry'
+import { clone_with_descriptors } from '../../business.logic'
+import { homeLinkState } from '../../state/nav.link'
+import STATE_KEY from '../../business.logic/state.key'
 
-register('state', '43', $43_STATE_KEY);
+const $43 = STATE_KEY['43']
+
+register('state', '43', $43)
 /** @id 43 */
 const devSignedInPageState: TStatePage = {
   '_id': '43',
-  '_key': $43_STATE_KEY,
+  '_key': $43,
   'appbar': {
     'items': [
       homeLinkState,
@@ -18,12 +21,12 @@ const devSignedInPageState: TStatePage = {
       }
     ]
   }
-};
+}
 
-export default devSignedInPageState;
+export default devSignedInPageState
 
 /** Dark theme mode for dev signed in page state. @id 43 */
 export const $43DarkThemeMode: TStatePage = (() => {
-  const base = clone_with_descriptors(devSignedInPageState);
-  return base;
-})();
+  const base = clone_with_descriptors(devSignedInPageState)
+  return base
+})()

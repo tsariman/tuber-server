@@ -1,23 +1,25 @@
 import { register } from '../../business.logic/registry'
+import STATE_KEY from '../../business.logic/state.key'
 import {
-  TStateForm,
-  $54_STATE_KEY,
+  type TStateForm,
   THEME_DARK_PAPER_COLOR,
   THEME_LIGHT_PAPER_COLOR
 } from '@tuber/shared'
 import { TBootstrapState } from '../../state/_state.common.types'
 import { clone_with_descriptors } from '../../business.logic'
 
-register('state', '54', $54_STATE_KEY)
+const $54 = STATE_KEY['54']
+
+register('state', '54', $54)
 /**
  * Form to test the regexp to grab both the video id and the thumbnail url from
  * the rumble video index.html page.
  *
  * @id 54
  */
-const devTestRumbleRegexpFormState = {
+const devTestRumbleRegexpFormState: TStateForm = {
   '_id': '54',
-  '_key': $54_STATE_KEY,
+  '_key': $54,
   '_type': 'stack',
   'props': {
     'sx': { 'p': 2, 'width': 476 },
@@ -95,7 +97,7 @@ const devTestRumbleRegexpFormState = {
       }
     },
   ]
-} as TStateForm
+}
 
 export default devTestRumbleRegexpFormState
 
@@ -113,7 +115,7 @@ export const $54DarkThemeMode: TStateForm = (() => {
 
 export const dev_test_rumble_regexp_form_state = {
 
-  [$54_STATE_KEY]: devTestRumbleRegexpFormState,
+  [$54]: devTestRumbleRegexpFormState,
 
   // TODO - Insert more form states here.
 
@@ -121,7 +123,7 @@ export const dev_test_rumble_regexp_form_state = {
 
 export const dev_test_rumble_regexp_form_state_dark = {
 
-  [$54_STATE_KEY]: $54DarkThemeMode,
+  [$54]: $54DarkThemeMode,
 
   // TODO - Insert more (dark themed) form states here.
 

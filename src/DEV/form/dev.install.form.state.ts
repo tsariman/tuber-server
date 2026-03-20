@@ -1,24 +1,30 @@
 import { TBootstrapState } from '../../state/_state.common.types'
-import * as C from '@tuber/shared/dist/constants.server'
-import type { TStateForm } from '@tuber/shared'
+import {
+  type TStateForm,
+  THEME_DARK_PAPER_COLOR,
+  THEME_LIGHT_PAPER_COLOR
+} from '@tuber/shared'
 import { register } from '../../business.logic/registry'
+import STATE_KEY from '../../business.logic/state.key'
 import { clone_with_descriptors } from '../../business.logic'
 import * as ITEM from '../dev.form.item.state'
 import { devFormItemSeparator as __vertical_separator__ } from '../dev.form.item.state'
 import { devHorizontalSeparator as __horizontal_separator__ } from '../dev.form.item.state'
 import devFormTestClipboardState from './dev.test.clipboard.form.state'
 
-register('state', '47', C.$47_STATE_KEY)
+const $47 = STATE_KEY['47']
+
+register('state', '47', $47)
 /** Development shortcuts form. @id 47 */
 const devInstallFormState: TStateForm = {
   '_type': 'box',
   '_id': '47',
-  '_key': C.$47_STATE_KEY,
+  '_key': $47,
   'props': { 'p': 2, 'mt': 10 },
   'paperBackground': true,
   'paperProps': {
     'elevation': 0,
-    'sx': { 'backgroundColor': C.THEME_LIGHT_PAPER_COLOR }
+    'sx': { 'backgroundColor': THEME_LIGHT_PAPER_COLOR }
   },
   'items': [
     {
@@ -43,7 +49,7 @@ const devInstallFormState: TStateForm = {
             &#128526;<span style="color:#0074d8"><b>Users</b></span> <em>({{ userCount }})</em>
           </p>
         `,
-        'key': C.$47_STATE_KEY
+        'key': $47
       }
     },
     ITEM.devCreateDevUserStateButton,
@@ -110,7 +116,7 @@ export const $47DarkThemeMode = (() => {
     'elevation': 0,
     'sx': {
       ...base.paperProps?.sx,
-      'backgroundColor': C.THEME_DARK_PAPER_COLOR
+      'backgroundColor': THEME_DARK_PAPER_COLOR
     }
   } as typeof base.paperProps
   base.paperProps = paperProps
@@ -119,7 +125,7 @@ export const $47DarkThemeMode = (() => {
 
 export const dev_install_form_state = {
 
-  [C.$47_STATE_KEY]: devInstallFormState,
+  [$47]: devInstallFormState,
 
   // TODO - Insert installation form states here.
 
@@ -127,7 +133,7 @@ export const dev_install_form_state = {
 
 export const dev_install_form_state_dark = {
 
-  [C.$47_STATE_KEY]: $47DarkThemeMode
+  [$47]: $47DarkThemeMode
 
   // TODO - Insert installation form states (dark themed) here.
 

@@ -1,14 +1,17 @@
 import { SxProps } from '@mui/material'
-import { TStateForm, $41_STATE_KEY } from '@tuber/shared'
+import type { TStateForm } from '@tuber/shared'
 import { register } from '../../business.logic/registry'
 import { clone_with_descriptors, t } from '../../business.logic'
+import STATE_KEY from '../../business.logic/state.key'
 
-register('state', '41', $41_STATE_KEY)
+const $41 = STATE_KEY['41']
+
+register('state', '41', $41)
 /** Form state to sign in. @id 41 */
 export const signInFormState: TStateForm = {
   '_type': 'box',
   '_id': '41',
-  '_key': $41_STATE_KEY,
+  '_key': $41,
   'props': {
     'sx': {
       'p': 3,

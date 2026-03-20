@@ -1,15 +1,16 @@
-import {
-  $48_STATE_KEY,
-  $66_STATE_KEY,
-  $67_STATE_KEY,
-  $72_STATE_KEY,
-  $74_STATE_KEY,
-  $75_STATE_KEY,
-  TStateLink
-} from '@tuber/shared'
+import type { TStateLink } from '@tuber/shared'
 import { clone_with_descriptors, t } from '../../business.logic'
 import { register } from '../../business.logic/registry'
 import { TContextualUser } from '../../schema/user'
+import STATE_KEY from '../../business.logic/state.key'
+
+export const $48 = STATE_KEY['48']
+export const $66 = STATE_KEY['66']
+export const $67 = STATE_KEY['67']
+export const $72 = STATE_KEY['72']
+export const $74 = STATE_KEY['74']
+export const $75 = STATE_KEY['75']
+export const $80 = STATE_KEY['80']
 
 export const homeLinkState: TStateLink = {
   'has': {
@@ -32,11 +33,11 @@ export const signInLInkState: TStateLink = {
   }
 }
 
-register('state', '67', $67_STATE_KEY)
+register('state', '67', $67)
 /** Link state for logging in. @id 67 */
 export const powerSignInLinkState: TStateLink = {
   '_id': '67',
-  '_key': $67_STATE_KEY,
+  '_key': $67,
   'type': 'icon',
   'has': {
     'icon': 'power_settings_new_outline',
@@ -54,11 +55,11 @@ export const $67DarkThemeMode: TStateLink = (() => {
   return base
 })()
 
-register('state', '66', $66_STATE_KEY)
+register('state', '66', $66)
 /** Link state for signing out. @id 66 */
 export const powerLogoutLinkState: TStateLink = {
   '_id': '66',
-  '_key': $66_STATE_KEY,
+  '_key': $66,
   'type': 'icon',
   'has': {
     'icon': 'power_settings_new_outline',
@@ -122,7 +123,7 @@ export const defaultErrorsViewLinkState: TStateLink = {
 export const researchAppErrorsViewLinkState: TStateLink = {
   'has': {
     get 'text'() { return t('clienterrors', 'Client errors') },
-    'route': $48_STATE_KEY
+    'route': $48
   }
 }
 export const darkModeLinkState: TStateLink = {
@@ -148,21 +149,21 @@ export const lightModeLinkState: TStateLink = {
 export const signupLinkState: TStateLink = {
   'has': {
     'text': 'Sign Up',
-    'route': $72_STATE_KEY
+    'route': $72
   }
 }
 export const createUserLinkState: TStateLink = {
   'type': 'icon',
   'has': {
     'icon': 'user_new',
-    'route': $74_STATE_KEY
+    'route': $74
   }
 }
 export const userLinkState: TStateLink = {
   'type': 'icon',
   'has': {
     'icon': 'user',
-    'route': $75_STATE_KEY
+    'route': $75
   }
 }
 export const account_link_state = (usr?: TContextualUser): TStateLink => ({
@@ -170,6 +171,6 @@ export const account_link_state = (usr?: TContextualUser): TStateLink => ({
   'has': {
     'icon': 'user',
     'text': usr?.name ?? t('account', 'Account'),
-    'route': 'account'
+    'route': $80
   }
 })

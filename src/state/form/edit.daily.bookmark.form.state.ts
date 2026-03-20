@@ -1,5 +1,16 @@
+import {
+  NOTE_FIELD_ROWS,
+  NOTE_MAX_LENGTH,
+  NOTE_MAX_LENGTH_MESSAGE,
+  PUBLISHED_HELPER_TEXT,
+  START_SECONDS_REQUIRED_MESSAGE,
+  TITLE_MAX_LENGTH,
+  TITLE_MAX_LENGTH_MESSAGE,
+  TITLE_REQUIRED_MESSAGE,
+  TStateForm,
+  TStateFormItem
+} from '@tuber/shared'
 import { clone_with_descriptors, t } from '../../business.logic'
-import * as C from '@tuber/shared'
 import { register } from '../../business.logic/registry'
 import { TContextualUser } from '../../schema/user'
 import Access from '../../business.logic/security/Access'
@@ -8,11 +19,14 @@ import {
   get_bookmark_switch_publish_dummy
 } from '../form.item.state'
 import AbstractState from '../AbstractState'
+import STATE_KEY from '../../business.logic/state.key'
 
-register('state', '20', C.$20_STATE_KEY)
+const $20 = STATE_KEY['20']
+
+register('state', '20', $20)
 /** Form for editing an existing Dailymotion bookmark. @id 20 */
 export default class EditDailyBookmarkFormState
-  extends AbstractState<C.TStateForm>
+  extends AbstractState<TStateForm>
 {
   constructor(usr?: TContextualUser) { super(usr) }
   static withContext(usr?: TContextualUser) {
@@ -22,7 +36,7 @@ export default class EditDailyBookmarkFormState
   get light() {
     return {
       '_id': '20',
-      '_key': C.$20_STATE_KEY,
+      '_key': $20,
       'items': [
         {
           'type': 'stack',
@@ -47,7 +61,7 @@ export default class EditDailyBookmarkFormState
                   'inputProps': { 'readOnly': true },
                   'has': {
                     'required': true,
-                    get 'requiredMessage'() { return t('93', C.START_SECONDS_REQUIRED_MESSAGE) },
+                    get 'requiredMessage'() { return t('93', START_SECONDS_REQUIRED_MESSAGE) },
                   }
                 },
                 {
@@ -81,9 +95,9 @@ export default class EditDailyBookmarkFormState
               },
               'has': {
                 'required': true,
-                get 'requiredMessage'() { return t('94', C.TITLE_REQUIRED_MESSAGE) },
-                'maxLength': C.TITLE_MAX_LENGTH,
-                get 'maxLengthMessage'() { return t('96', C.TITLE_MAX_LENGTH_MESSAGE) },
+                get 'requiredMessage'() { return t('94', TITLE_REQUIRED_MESSAGE) },
+                'maxLength': TITLE_MAX_LENGTH,
+                get 'maxLengthMessage'() { return t('96', TITLE_MAX_LENGTH_MESSAGE) },
               }
             },
             {
@@ -92,21 +106,21 @@ export default class EditDailyBookmarkFormState
               get 'label'() { return t('78', 'Note') },
               'props': {
                 'multiline': true,
-                'rows': C.NOTE_FIELD_ROWS
+                'rows': NOTE_FIELD_ROWS
               },
               'has': {
-                'maxLength': C.NOTE_MAX_LENGTH,
-                get 'maxLengthMessage'() { return t('99', C.NOTE_MAX_LENGTH_MESSAGE) }
+                'maxLength': NOTE_MAX_LENGTH,
+                get 'maxLengthMessage'() { return t('99', NOTE_MAX_LENGTH_MESSAGE) }
               }
             },
-            Access.the(this.usr).hasClearance('supporter').decide<C.TStateFormItem>(
+            Access.the(this.usr).hasClearance('supporter').decide<TStateFormItem>(
               get_bookmark_switch_publish(),
               get_bookmark_switch_publish_dummy()
             )
           ]
         },
       ]
-    } as C.TStateForm
+    } as TStateForm
   }
 
   get dark() {
@@ -118,7 +132,7 @@ export default class EditDailyBookmarkFormState
 /** Form for editing an existing Dailymotion bookmark. @id 20 @deprecated */
 export const editDailyBookmarkFormState = {
   '_id': '20',
-  '_key': C.$20_STATE_KEY,
+  '_key': $20,
   'items': [
     {
       'type': 'stack',
@@ -143,7 +157,7 @@ export const editDailyBookmarkFormState = {
               'inputProps': { 'readOnly': true },
               'has': {
                 'required': true,
-                get 'requiredMessage'() { return t('93', C.START_SECONDS_REQUIRED_MESSAGE) },
+                get 'requiredMessage'() { return t('93', START_SECONDS_REQUIRED_MESSAGE) },
               }
             },
             {
@@ -177,9 +191,9 @@ export const editDailyBookmarkFormState = {
           },
           'has': {
             'required': true,
-            get 'requiredMessage'() { return t('94', C.TITLE_REQUIRED_MESSAGE) },
-            'maxLength': C.TITLE_MAX_LENGTH,
-            get 'maxLengthMessage'() { return t('96', C.TITLE_MAX_LENGTH_MESSAGE) },
+            get 'requiredMessage'() { return t('94', TITLE_REQUIRED_MESSAGE) },
+            'maxLength': TITLE_MAX_LENGTH,
+            get 'maxLengthMessage'() { return t('96', TITLE_MAX_LENGTH_MESSAGE) },
           }
         },
         {
@@ -188,11 +202,11 @@ export const editDailyBookmarkFormState = {
           get 'label'() { return t('78', 'Note') },
           'props': {
             'multiline': true,
-            'rows': C.NOTE_FIELD_ROWS
+            'rows': NOTE_FIELD_ROWS
           },
           'has': {
-            'maxLength': C.NOTE_MAX_LENGTH,
-            get 'maxLengthMessage'() { return t('99', C.NOTE_MAX_LENGTH_MESSAGE) }
+            'maxLength': NOTE_MAX_LENGTH,
+            get 'maxLengthMessage'() { return t('99', NOTE_MAX_LENGTH_MESSAGE) }
           }
         },
         {
@@ -200,13 +214,13 @@ export const editDailyBookmarkFormState = {
           'name': 'is_published',
           get 'label'() { return t('79', 'Published') },
           'has': {
-            get 'helperText'() { return t('100', C.PUBLISHED_HELPER_TEXT) }
+            get 'helperText'() { return t('100', PUBLISHED_HELPER_TEXT) }
           }
         }
       ]
     },
   ]
-} as C.TStateForm
+} as TStateForm
 
 /** Dark theme mode of form to edit a Dailymotion bookmark @id 20 @deprecated */
 export const $20DarkThemeMode = (() => {

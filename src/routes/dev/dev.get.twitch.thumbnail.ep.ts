@@ -2,8 +2,11 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import JsonapiErrorBuilder from '../../business.logic/builder/JsonapiErrorBuilder'
 import { error_id } from '../../business.logic/errors'
 import { twitch_fetch_thumbnail_url } from '../../platform/twitch'
-import { $46_STATE_KEY, MSG_500_ERROR_MESSAGE } from '@tuber/shared'
+import { MSG_500_ERROR_MESSAGE } from '@tuber/shared'
 import { errr, ler, log_err, task } from '../../utility/logging'
+import STATE_KEY from '../../business.logic/state.key'
+
+const $46 = STATE_KEY['46']
 
 export default async function dev_get_twitch_thumbnail_endpoint(
   req: FastifyRequest<{ Querystring: { videoid?: string }}>,
@@ -31,7 +34,7 @@ export default async function dev_get_twitch_thumbnail_endpoint(
       reply.code(200).send({
         'state': {
           'pagesData': {
-            [$46_STATE_KEY]: { thumbnailUrl }
+            [$46]: { thumbnailUrl }
           }
         }
       })
@@ -41,7 +44,7 @@ export default async function dev_get_twitch_thumbnail_endpoint(
       reply.code(404).send(new JsonapiErrorBuilder()
         .withCode('NOT_FOUND')
         .withStatus(404)
-        .withTitle('not found')
+        .withTitle('Not found')
         .withDetail('Check the video ID and try again.')
         .build()
       )

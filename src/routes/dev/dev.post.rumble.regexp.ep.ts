@@ -2,12 +2,12 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import JsonapiErrorBuilder from '../../business.logic/builder/JsonapiErrorBuilder'
 import { error_id } from '../../business.logic/errors'
 import { dbug, errr, ler, log_err, task } from '../../utility/logging'
-import {
-  $54_STATE_KEY,
-  $56_STATE_KEY,
-  MSG_500_ERROR_MESSAGE
-} from '@tuber/shared'
+import { MSG_500_ERROR_MESSAGE } from '@tuber/shared'
 import axios from 'axios'
+import STATE_KEY from '../../business.logic/state.key'
+
+const $54 = STATE_KEY['54']
+const $56 = STATE_KEY['56']
 
 interface IPostRequest {
   Body: {
@@ -64,13 +64,13 @@ export default async function dev_post_rumble_regexp_endpoint(
       reply.code(200).send({
         'state': {
           'formsData': {
-            [$54_STATE_KEY]: {
+            [$54]: {
               'videoid': matches[1][1],
               'thumbnail_url': matches[0][2],
             }
           },
           'pagesData': {
-            [$56_STATE_KEY]: { matches }
+            [$56]: { matches }
           }
         }
       })

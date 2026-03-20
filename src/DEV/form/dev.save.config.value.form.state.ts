@@ -1,18 +1,20 @@
 import { TBootstrapState } from '../../state/_state.common.types'
 import {
-  TStateForm,
-   $62_STATE_KEY,
+  type TStateForm,
   THEME_LIGHT_PAPER_COLOR,
   THEME_DARK_PAPER_COLOR
 } from '@tuber/shared'
 import { register } from '../../business.logic/registry'
+import STATE_KEY from '../../business.logic/state.key'
 import { clone_or_default, clone_with_descriptors } from '../../business.logic'
 
-register('state', '62', $62_STATE_KEY)
+const $62 = STATE_KEY['62']
+
+register('state', '62', $62)
 /** @id 62 */
 const devSaveConfigValueFormState: TStateForm = {
   '_id': '62',
-  '_key': $62_STATE_KEY,
+  '_key': $62,
   '_type': 'stack',
   'props': {
     'sx': { 'p': 2, 'width': 476 },
@@ -78,15 +80,15 @@ export const $62DarkThemeMode: TStateForm = (() => {
 
 export const dev_save_config_value_form_state = {
 
-  [$62_STATE_KEY]: devSaveConfigValueFormState,
+  [$62]: devSaveConfigValueFormState,
 
-  // TODO - Instert more form states here.
+  // TODO - Insert more form states here.
 
 } as TBootstrapState<TStateForm>
 
 export const dev_save_config_value_form_state_dark = {
 
-  [$62_STATE_KEY]: $62DarkThemeMode,
+  [$62]: $62DarkThemeMode,
 
   // TODO - Insert more form states (dark themed) here.
 

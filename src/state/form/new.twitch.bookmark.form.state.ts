@@ -1,12 +1,24 @@
 import { clone_with_descriptors, t } from '../../business.logic'
 import { register } from '../../business.logic/registry'
-import * as C from '@tuber/shared'
+import {
+  NOTE_FIELD_ROWS,
+  NOTE_MAX_LENGTH,
+  NOTE_MAX_LENGTH_MESSAGE,
+  START_SECONDS_REQUIRED_MESSAGE,
+  TITLE_MAX_LENGTH,
+  TITLE_MAX_LENGTH_MESSAGE,
+  TITLE_REQUIRED_MESSAGE,
+  type TStateForm
+} from '@tuber/shared'
+import STATE_KEY from '../../business.logic/state.key'
 
-register('state', '38', C.$38_STATE_KEY)
+const $38 = STATE_KEY['38']
+
+register('state', '38', $38)
 /** Form for creating a new Twitch video bookmark @id 38 */
 export const newTwitchBookmarkFormState = {
   '_id': '38',
-  '_key': C.$38_STATE_KEY,
+  '_key': $38,
   'items': [
     {
       'type': 'stack',
@@ -30,7 +42,7 @@ export const newTwitchBookmarkFormState = {
               'inputProps': { 'readOnly': true },
               'has': {
                 'required': true, // [TODO] Make a configuration.
-                get 'requiredMessage'() { return t('232', C.START_SECONDS_REQUIRED_MESSAGE) },
+                get 'requiredMessage'() { return t('232', START_SECONDS_REQUIRED_MESSAGE) },
               }
             },
             {
@@ -64,9 +76,9 @@ export const newTwitchBookmarkFormState = {
           },
           'has': {
             'required': true,
-            get 'requiredMessage'() { return t('236', C.TITLE_REQUIRED_MESSAGE) },
-            'maxLength': C.TITLE_MAX_LENGTH, // [TODO] Make a configuration.
-            get 'maxLengthMessage'() { return t('237', C.TITLE_MAX_LENGTH_MESSAGE) }
+            get 'requiredMessage'() { return t('236', TITLE_REQUIRED_MESSAGE) },
+            'maxLength': TITLE_MAX_LENGTH, // [TODO] Make a configuration.
+            get 'maxLengthMessage'() { return t('237', TITLE_MAX_LENGTH_MESSAGE) }
           }
         },
         {
@@ -75,21 +87,21 @@ export const newTwitchBookmarkFormState = {
           get 'label'() { return t('238', 'Note') },
           'props': {
             'multiline': true,
-            'rows': C.NOTE_FIELD_ROWS // [TODO] Make a configuration.
+            'rows': NOTE_FIELD_ROWS // [TODO] Make a configuration.
           },
           'has': {
-            'maxLength': C.NOTE_MAX_LENGTH, // [TODO] Make a configuration.
-            get 'maxLengthMessage'() { return t('239', C.NOTE_MAX_LENGTH_MESSAGE) }
+            'maxLength': NOTE_MAX_LENGTH, // [TODO] Make a configuration.
+            get 'maxLengthMessage'() { return t('239', NOTE_MAX_LENGTH_MESSAGE) }
           }
         }
       ]
     },
   ]
-} as C.TStateForm
+} as TStateForm
 
 export default newTwitchBookmarkFormState
 
-export const $38DarkThemeMode: C.TStateForm = (() => {
+export const $38DarkThemeMode: TStateForm = (() => {
   const base = clone_with_descriptors(newTwitchBookmarkFormState)
   return base
 })()

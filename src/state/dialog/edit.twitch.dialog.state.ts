@@ -1,6 +1,4 @@
 import {
-  $37_STATE_KEY,
-  $39_STATE_KEY,
   THEME_DARK_DIALOG_BACKGROUND_COLOR,
   TStateDialog
 } from '@tuber/shared'
@@ -11,13 +9,17 @@ import {
 } from '../../business.logic'
 import { register } from '../../business.logic/registry'
 import { THEME_LIGHT_PAPER_SX_PROPS } from '../theme.state'
+import STATE_KEY from '../../business.logic/state.key'
 
-register('state', '37', $37_STATE_KEY)
+const $37 = STATE_KEY['37']
+const $39 = STATE_KEY['39']
+
+register('state', '37', $37)
 /** Dialog to edit an existing Twitch video bookmark @id 37 */
 const editTwitchBookmarkDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '37',
-  '_key': $37_STATE_KEY,
+  '_key': $37,
   get 'title'() { return t('21', 'Edit Twitch Bookmark') },
   'props': {
     'fullWidth': true,
@@ -28,7 +30,7 @@ const editTwitchBookmarkDialogState: TStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': `$form : ${remove_form_suffix($39_STATE_KEY)} : bookmarks`,
+  'content': `$form : ${remove_form_suffix($39)} : bookmarks`,
   'actions': [
     {
       'type': 'state_button',

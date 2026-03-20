@@ -1,23 +1,40 @@
+import {
+  NOTE_FIELD_ROWS,
+  NOTE_MAX_LENGTH,
+  NOTE_MAX_LENGTH_MESSAGE,
+  PUBLISHED_HELPER_TEXT,
+  START_SECONDS_REQUIRED_MESSAGE,
+  TITLE_MAX_LENGTH,
+  TITLE_MAX_LENGTH_MESSAGE,
+  TITLE_REQUIRED_MESSAGE,
+  TStateForm,
+  TStateFormItem
+} from '@tuber/shared'
 import { clone_with_descriptors, t } from '../../business.logic'
 import { register } from '../../business.logic/registry'
-import * as C from '@tuber/shared'
 import { TContextualUser } from '../../schema/user'
 import AbstractState from '../AbstractState'
 import Access from '../../business.logic/security/Access'
-import { get_bookmark_switch_publish, get_bookmark_switch_publish_dummy } from '../form.item.state'
+import {
+  get_bookmark_switch_publish,
+  get_bookmark_switch_publish_dummy
+} from '../form.item.state'
+import STATE_KEY from '../../business.logic/state.key'
 
-register('state', '10', C.$10_STATE_KEY)
+const $10 = STATE_KEY['10']
+
+register('state', '10', $10)
 /** Form for editing an existing Rumble video bookmark @id 10 */
-export class EditRumbleBookmarkFormState extends AbstractState<C.TStateForm> {
+export class EditRumbleBookmarkFormState extends AbstractState<TStateForm> {
   constructor(usr?: TContextualUser) { super(usr) }
   static withContext(usr?: TContextualUser) {
     const instance = new EditRumbleBookmarkFormState(usr)
     return instance
   }
-  get light(): C.TStateForm {
+  get light(): TStateForm {
     return {
       '_id': '10',
-      '_key': C.$10_STATE_KEY,
+      '_key': $10,
       'items': [
         {
           'type': 'stack',
@@ -51,7 +68,7 @@ export class EditRumbleBookmarkFormState extends AbstractState<C.TStateForm> {
                   'inputProps': { 'readOnly': true },
                   'has': {
                     'required': true,
-                    get 'requiredMessage'() { return t('119', C.START_SECONDS_REQUIRED_MESSAGE) },
+                    get 'requiredMessage'() { return t('119', START_SECONDS_REQUIRED_MESSAGE) },
                   }
                 },
                 {
@@ -85,9 +102,9 @@ export class EditRumbleBookmarkFormState extends AbstractState<C.TStateForm> {
               },
               'has': {
                 'required': true,
-                get 'requiredMessage'() { return t('123', C.TITLE_REQUIRED_MESSAGE) },
-                'maxLength': C.TITLE_MAX_LENGTH,
-                get 'maxLengthMessage'() { return t('125', C.TITLE_MAX_LENGTH_MESSAGE) }
+                get 'requiredMessage'() { return t('123', TITLE_REQUIRED_MESSAGE) },
+                'maxLength': TITLE_MAX_LENGTH,
+                get 'maxLengthMessage'() { return t('125', TITLE_MAX_LENGTH_MESSAGE) }
               }
             },
             {
@@ -96,14 +113,14 @@ export class EditRumbleBookmarkFormState extends AbstractState<C.TStateForm> {
               get 'label'() { return t('126', 'Note') },
               'props': {
                 'multiline': true,
-                'rows': C.NOTE_FIELD_ROWS
+                'rows': NOTE_FIELD_ROWS
               },
               'has': {
-                'maxLength': C.NOTE_MAX_LENGTH,
-                get 'maxLengthMessage'() { return t('129', C.NOTE_MAX_LENGTH_MESSAGE) }
+                'maxLength': NOTE_MAX_LENGTH,
+                get 'maxLengthMessage'() { return t('129', NOTE_MAX_LENGTH_MESSAGE) }
               }
             },
-            Access.the(this.usr).hasClearance('supporter').decide<C.TStateFormItem>(
+            Access.the(this.usr).hasClearance('supporter').decide<TStateFormItem>(
               get_bookmark_switch_publish(),
               get_bookmark_switch_publish_dummy()
             )
@@ -112,7 +129,7 @@ export class EditRumbleBookmarkFormState extends AbstractState<C.TStateForm> {
       ]
     }
   }
-  get dark(): C.TStateForm {
+  get dark(): TStateForm {
     const base = clone_with_descriptors(this.light)
     return base
   }
@@ -121,7 +138,7 @@ export class EditRumbleBookmarkFormState extends AbstractState<C.TStateForm> {
 /** Form for editing an existing Rumble video bookmark @id 10 @deprecated */
 export const editRumbleBookmarkFormState = {
   '_id': '10',
-  '_key': C.$10_STATE_KEY,
+  '_key': $10,
   'items': [
     {
       'type': 'stack',
@@ -155,7 +172,7 @@ export const editRumbleBookmarkFormState = {
               'inputProps': { 'readOnly': true },
               'has': {
                 'required': true,
-                get 'requiredMessage'() { return t('119', C.START_SECONDS_REQUIRED_MESSAGE) },
+                get 'requiredMessage'() { return t('119', START_SECONDS_REQUIRED_MESSAGE) },
               }
             },
             {
@@ -189,9 +206,9 @@ export const editRumbleBookmarkFormState = {
           },
           'has': {
             'required': true,
-            get 'requiredMessage'() { return t('123', C.TITLE_REQUIRED_MESSAGE) },
-            'maxLength': C.TITLE_MAX_LENGTH,
-            get 'maxLengthMessage'() { return t('125', C.TITLE_MAX_LENGTH_MESSAGE) }
+            get 'requiredMessage'() { return t('123', TITLE_REQUIRED_MESSAGE) },
+            'maxLength': TITLE_MAX_LENGTH,
+            get 'maxLengthMessage'() { return t('125', TITLE_MAX_LENGTH_MESSAGE) }
           }
         },
         {
@@ -200,11 +217,11 @@ export const editRumbleBookmarkFormState = {
           get 'label'() { return t('126', 'Note') },
           'props': {
             'multiline': true,
-            'rows': C.NOTE_FIELD_ROWS
+            'rows': NOTE_FIELD_ROWS
           },
           'has': {
-            'maxLength': C.NOTE_MAX_LENGTH,
-            get 'maxLengthMessage'() { return t('129', C.NOTE_MAX_LENGTH_MESSAGE) }
+            'maxLength': NOTE_MAX_LENGTH,
+            get 'maxLengthMessage'() { return t('129', NOTE_MAX_LENGTH_MESSAGE) }
           }
         },
         {
@@ -212,13 +229,13 @@ export const editRumbleBookmarkFormState = {
           'name': 'is_published',
           get 'label'() { return t('130', 'Published') },
           'has': {
-            get 'helperText'() { return t('131', C.PUBLISHED_HELPER_TEXT) }
+            get 'helperText'() { return t('131', PUBLISHED_HELPER_TEXT) }
           }
         }
       ]
     },
   ]
-} as C.TStateForm
+} as TStateForm
 
 export default editRumbleBookmarkFormState
 

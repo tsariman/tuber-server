@@ -2,14 +2,13 @@ import { FastifyRequest, FastifyReply } from 'fastify'
 import JsonapiErrorBuilder from '../../business.logic/builder/JsonapiErrorBuilder'
 import { error_id } from '../../business.logic/errors'
 import Config from '../../config'
-import {
-  $62_STATE_KEY,
-  MSG_500_ERROR_MESSAGE,
-  TJsonapiStateResponse
-} from '@tuber/shared'
+import { MSG_500_ERROR_MESSAGE, TJsonapiStateResponse } from '@tuber/shared'
 import { TJsonapiRequest } from '@tuber/shared'
 import JsonapiRequestDriver from '../../business.logic/JsonapiRequestDriver'
 import { errr, ler, log_err, task } from '../../utility/logging'
+import STATE_KEY from '../../business.logic/state.key'
+
+const $62 = STATE_KEY['62']
 
 interface IPostRequest {
   Body: TJsonapiRequest<{
@@ -53,7 +52,7 @@ export default async function dev_post_save_config_value_endpoint(
     reply.code(200).send({
       'state': {
         'formsData': {
-          [$62_STATE_KEY]: { key: '', value: '' }
+          [$62]: { key: '', value: '' }
         }
       }
     } as TJsonapiStateResponse)

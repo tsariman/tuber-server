@@ -1,15 +1,18 @@
 import { register } from '../../business.logic/registry'
+import STATE_KEY from '../../business.logic/state.key'
 import {
-  TStateForm,
-  $57_STATE_KEY,
-  $58_STATE_KEY,
+  type TStateForm,
   THEME_DARK_PAPER_COLOR,
   THEME_LIGHT_PAPER_COLOR
 } from '@tuber/shared'
 import { TBootstrapState } from '../../state/_state.common.types'
 import { clone_with_descriptors } from '../../business.logic'
 
-register('state', '57', $57_STATE_KEY)
+const $57 = STATE_KEY['57']
+const $58 = STATE_KEY['58']
+
+register('state', '57', $57)
+
 /**
  * Form to test the regexp to grab the thumbnail url from
  * the html page source of an unknown platform.
@@ -18,7 +21,7 @@ register('state', '57', $57_STATE_KEY)
  */
 const devTestUnknownRegexpFormState = {
   '_id': '57',
-  '_key': $57_STATE_KEY,
+  '_key': $57,
   '_type': 'stack',
   'props': {
     'sx': { 'p': 2, 'width': 476 },
@@ -96,7 +99,7 @@ const devTestUnknownRegexpFormState = {
             alt="Supposed to load thumbnail of video URL."
           />
         `,
-        'key': $58_STATE_KEY
+        'key': $58
       }
     }
   ]
@@ -122,7 +125,7 @@ export const $57DarkThemeMode: TStateForm = (() => {
 
 export const dev_test_unknown_regexp_form_state = {
 
-  [$57_STATE_KEY]: devTestUnknownRegexpFormState,
+  [$57]: devTestUnknownRegexpFormState,
 
   // TODO - Insert more form states here.
 
@@ -131,7 +134,7 @@ export const dev_test_unknown_regexp_form_state = {
 
 export const dev_test_unknown_regexp_form_state_dark = {
 
-  [$57_STATE_KEY]: $57DarkThemeMode,
+  [$57]: $57DarkThemeMode,
 
   // TODO - Insert more (dark themed) form states here.
 

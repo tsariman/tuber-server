@@ -1,12 +1,24 @@
 import { clone_with_descriptors, t } from '../../business.logic'
 import { register } from '../../business.logic/registry'
-import * as C from '@tuber/shared'
+import {
+  NOTE_FIELD_ROWS,
+  NOTE_MAX_LENGTH,
+  NOTE_MAX_LENGTH_MESSAGE,
+  START_SECONDS_REQUIRED_MESSAGE,
+  TITLE_MAX_LENGTH,
+  TITLE_MAX_LENGTH_MESSAGE,
+  TITLE_REQUIRED_MESSAGE,
+  TStateForm
+} from '@tuber/shared'
+import STATE_KEY from '../../business.logic/state.key'
 
-register('state', '9', C.$9_STATE_KEY)
+const $9 = STATE_KEY['9']
+
+register('state', '9', $9)
 /** Form for creating a new rumble video bookmark @id 9 */
 export const newRumbleBookmarkFormState = {
   '_id': '9',
-  '_key': C.$9_STATE_KEY,
+  '_key': $9,
   'items': [
     {
       'type': 'stack',
@@ -40,7 +52,7 @@ export const newRumbleBookmarkFormState = {
               'inputProps': { 'readOnly': true },
               'has': {
                 'required': true, // [TODO] Make a configuration.
-                get 'requiredMessage'() { return t('223', C.START_SECONDS_REQUIRED_MESSAGE) },
+                get 'requiredMessage'() { return t('223', START_SECONDS_REQUIRED_MESSAGE) },
               }
             },
             {
@@ -74,9 +86,9 @@ export const newRumbleBookmarkFormState = {
           },
           'has': {
             'required': true, // [TODO] Make a configuration.
-            get 'requiredMessage'() { return t('227', C.TITLE_REQUIRED_MESSAGE) },
-            'maxLength': C.TITLE_MAX_LENGTH, // [TODO] Make a configuration.
-            get 'maxLengthMessage'() { return t('228', C.TITLE_MAX_LENGTH_MESSAGE) }
+            get 'requiredMessage'() { return t('227', TITLE_REQUIRED_MESSAGE) },
+            'maxLength': TITLE_MAX_LENGTH, // [TODO] Make a configuration.
+            get 'maxLengthMessage'() { return t('228', TITLE_MAX_LENGTH_MESSAGE) }
           }
         },
         {
@@ -85,21 +97,21 @@ export const newRumbleBookmarkFormState = {
           get 'label'() { return t('229', 'Note') },
           'props': {
             'multiline': true, // [TODO] Make a configuration.
-            'rows': C.NOTE_FIELD_ROWS, // [TODO] Make a configuration.
+            'rows': NOTE_FIELD_ROWS, // [TODO] Make a configuration.
           },
           'has': {
-            'maxLength': C.NOTE_MAX_LENGTH, // [TODO] Make a configuration.
-            get 'maxLengthMessage'() { return t('230', C.NOTE_MAX_LENGTH_MESSAGE) }
+            'maxLength': NOTE_MAX_LENGTH, // [TODO] Make a configuration.
+            get 'maxLengthMessage'() { return t('230', NOTE_MAX_LENGTH_MESSAGE) }
           }
         }
       ]
     },
   ]
-} as C.TStateForm
+} as TStateForm
 
 export default newRumbleBookmarkFormState
 
-export const $9DarkThemeMode: C.TStateForm = (() => {
+export const $9DarkThemeMode: TStateForm = (() => {
   const base = clone_with_descriptors(newRumbleBookmarkFormState)
   return base
 })()

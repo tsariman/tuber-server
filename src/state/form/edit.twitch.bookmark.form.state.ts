@@ -1,23 +1,29 @@
 import { clone_with_descriptors, t } from '../../business.logic'
 import { register } from '../../business.logic/registry'
-import * as C from '@tuber/shared'
+import { NOTE_FIELD_ROWS, NOTE_MAX_LENGTH, NOTE_MAX_LENGTH_MESSAGE, PUBLISHED_HELPER_TEXT, START_SECONDS_REQUIRED_MESSAGE, TITLE_MAX_LENGTH, TITLE_MAX_LENGTH_MESSAGE, TITLE_REQUIRED_MESSAGE, TStateForm, TStateFormItem } from '@tuber/shared'
 import { TContextualUser } from '../../schema/user'
 import AbstractState from '../AbstractState'
 import Access from '../../business.logic/security/Access'
-import { get_bookmark_switch_publish, get_bookmark_switch_publish_dummy } from '../form.item.state'
+import {
+  get_bookmark_switch_publish,
+  get_bookmark_switch_publish_dummy
+} from '../form.item.state'
+import STATE_KEY from '../../business.logic/state.key'
 
-register('state', '39', C.$39_STATE_KEY)
+const $39 = STATE_KEY['39']
+
+register('state', '39', $39)
 /** Form for editing an existing Twitch bookmark. @id 39 */
-export class EditTwitchBookmarkFormState extends AbstractState<C.TStateForm> {
+export class EditTwitchBookmarkFormState extends AbstractState<TStateForm> {
   constructor(usr?: TContextualUser) { super(usr) }
   static withContext(usr?: TContextualUser) {
     const instance = new EditTwitchBookmarkFormState(usr)
     return instance
   }
-  get light(): C.TStateForm {
+  get light(): TStateForm {
     return {
       '_id': '39',
-      '_key': C.$39_STATE_KEY,
+      '_key': $39,
       'items': [
         {
           'type': 'stack',
@@ -41,7 +47,7 @@ export class EditTwitchBookmarkFormState extends AbstractState<C.TStateForm> {
                   'inputProps': { 'readOnly': true },
                   'has': {
                     'required': true,
-                    get 'requiredMessage'() { return t('133', C.START_SECONDS_REQUIRED_MESSAGE) },
+                    get 'requiredMessage'() { return t('133', START_SECONDS_REQUIRED_MESSAGE) },
                   }
                 },
                 {
@@ -75,9 +81,9 @@ export class EditTwitchBookmarkFormState extends AbstractState<C.TStateForm> {
               },
               'has': {
                 'required': true,
-                get 'requiredMessage'() { return t('137', C.TITLE_REQUIRED_MESSAGE) },
-                'maxLength': C.TITLE_MAX_LENGTH,
-                get 'maxLengthMessage'() { return t('139', C.TITLE_MAX_LENGTH_MESSAGE) },
+                get 'requiredMessage'() { return t('137', TITLE_REQUIRED_MESSAGE) },
+                'maxLength': TITLE_MAX_LENGTH,
+                get 'maxLengthMessage'() { return t('139', TITLE_MAX_LENGTH_MESSAGE) },
               }
             },
             {
@@ -86,14 +92,14 @@ export class EditTwitchBookmarkFormState extends AbstractState<C.TStateForm> {
               get 'label'() { return t('140', 'Note') },
               'props': {
                 'multiline': true,
-                'rows': C.NOTE_FIELD_ROWS
+                'rows': NOTE_FIELD_ROWS
               },
               'has': {
-                'maxLength': C.NOTE_MAX_LENGTH,
-                get 'maxLengthMessage'() { return t('143', C.NOTE_MAX_LENGTH_MESSAGE) }
+                'maxLength': NOTE_MAX_LENGTH,
+                get 'maxLengthMessage'() { return t('143', NOTE_MAX_LENGTH_MESSAGE) }
               }
             },
-            Access.the(this.usr).hasClearance('supporter').decide<C.TStateFormItem>(
+            Access.the(this.usr).hasClearance('supporter').decide<TStateFormItem>(
               get_bookmark_switch_publish(),
               get_bookmark_switch_publish_dummy()
             )
@@ -102,7 +108,7 @@ export class EditTwitchBookmarkFormState extends AbstractState<C.TStateForm> {
       ]
     }
   }
-  get dark(): C.TStateForm {
+  get dark(): TStateForm {
     const base = clone_with_descriptors(this.light)
     return base
   }
@@ -111,7 +117,7 @@ export class EditTwitchBookmarkFormState extends AbstractState<C.TStateForm> {
 /** Form for editing an existing Twitch bookmark. @id 39 @deprecated */
 export const editTwitchBookmarkFormState = {
   '_id': '39',
-  '_key': C.$39_STATE_KEY,
+  '_key': $39,
   'items': [
     {
       'type': 'stack',
@@ -135,7 +141,7 @@ export const editTwitchBookmarkFormState = {
               'inputProps': { 'readOnly': true },
               'has': {
                 'required': true,
-                get 'requiredMessage'() { return t('133', C.START_SECONDS_REQUIRED_MESSAGE) },
+                get 'requiredMessage'() { return t('133', START_SECONDS_REQUIRED_MESSAGE) },
               }
             },
             {
@@ -169,9 +175,9 @@ export const editTwitchBookmarkFormState = {
           },
           'has': {
             'required': true,
-            get 'requiredMessage'() { return t('137', C.TITLE_REQUIRED_MESSAGE) },
-            'maxLength': C.TITLE_MAX_LENGTH,
-            get 'maxLengthMessage'() { return t('139', C.TITLE_MAX_LENGTH_MESSAGE) },
+            get 'requiredMessage'() { return t('137', TITLE_REQUIRED_MESSAGE) },
+            'maxLength': TITLE_MAX_LENGTH,
+            get 'maxLengthMessage'() { return t('139', TITLE_MAX_LENGTH_MESSAGE) },
           }
         },
         {
@@ -180,11 +186,11 @@ export const editTwitchBookmarkFormState = {
           get 'label'() { return t('140', 'Note') },
           'props': {
             'multiline': true,
-            'rows': C.NOTE_FIELD_ROWS
+            'rows': NOTE_FIELD_ROWS
           },
           'has': {
-            'maxLength': C.NOTE_MAX_LENGTH,
-            get 'maxLengthMessage'() { return t('143', C.NOTE_MAX_LENGTH_MESSAGE) }
+            'maxLength': NOTE_MAX_LENGTH,
+            get 'maxLengthMessage'() { return t('143', NOTE_MAX_LENGTH_MESSAGE) }
           }
         },
         {
@@ -192,13 +198,13 @@ export const editTwitchBookmarkFormState = {
           'name': 'is_published',
           get 'label'() { return t('144', 'Published') },
           'has': {
-            get 'helperText'() { return t('145', C.PUBLISHED_HELPER_TEXT) }
+            get 'helperText'() { return t('145', PUBLISHED_HELPER_TEXT) }
           }
         }
       ]
     },
   ]
-} as C.TStateForm
+} as TStateForm
 
 export default editTwitchBookmarkFormState
 

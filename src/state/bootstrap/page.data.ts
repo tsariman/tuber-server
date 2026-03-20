@@ -2,13 +2,15 @@ import { TObj } from '../../common.types'
 import { IStateContext, TBootstrapState } from '../_state.common.types'
 import Config from '../../config'
 import dev_get_pages_data_state from '../../dev/dev.pages.data.state'
-import { $40_STATE_KEY } from '@tuber/shared'
+import STATE_KEY from '../../business.logic/state.key'
+
+const $40 = STATE_KEY['40']
 
 const bootstrap_pages_data_state: TBootstrapState<Promise<TObj<TObj>>> = {
 
   DEFAULT: async (context: IStateContext): Promise<TObj<TObj>> => {
-    const { usr } = context;
-    const inDev = Config.DEV && usr?.role === 'developer';
+    const { usr } = context
+    const inDev = Config.DEV && usr?.role === 'developer'
     const pagesData: TObj<TObj> = {
 
       'bookmarks': {
@@ -16,19 +18,19 @@ const bootstrap_pages_data_state: TBootstrapState<Promise<TObj<TObj>>> = {
         'showThumbnail': true,
         'bookmarkToPlay': undefined
       },
-      [$40_STATE_KEY]: {
+      [$40]: {
         'searchMode': 'public',
         'icon': 'public_outline',
         'placeholder': 'Search public bookmarks…'
       },
 
       ...(inDev ? await dev_get_pages_data_state() : {})
-    };
+    }
 
-    return pagesData;
+    return pagesData
   }
 
   // TODO - Insert more page data states here.
-};
+}
 
-export { bootstrap_pages_data_state };
+export { bootstrap_pages_data_state }

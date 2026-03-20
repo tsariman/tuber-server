@@ -1,12 +1,24 @@
 import { clone_with_descriptors, t } from '../../business.logic'
 import { register } from '../../business.logic/registry'
-import * as C from '@tuber/shared'
+import {
+  NOTE_FIELD_ROWS,
+  NOTE_MAX_LENGTH,
+  NOTE_MAX_LENGTH_MESSAGE,
+  START_SECONDS_REQUIRED_MESSAGE,
+  TITLE_MAX_LENGTH,
+  TITLE_MAX_LENGTH_MESSAGE,
+  TITLE_REQUIRED_MESSAGE,
+  type TStateForm
+} from '@tuber/shared'
+import STATE_KEY from '../../business.logic/state.key'
 
-register('state', '4', C.$4_STATE_KEY)
+const $4 = STATE_KEY['4']
+
+register('state', '4', $4)
 /** Form for creating a new YouTube video bookmark @id 4 */
 export const newYouTubeBookmarkFormState = {
   '_id': '4',
-  '_key': C.$4_STATE_KEY,
+  '_key': $4,
   'items': [
     {
       'type': 'stack',
@@ -33,7 +45,7 @@ export const newYouTubeBookmarkFormState = {
               },
               'has': {
                 'required': true,
-                get 'requiredMessage'() { return t('262', C.START_SECONDS_REQUIRED_MESSAGE) },
+                get 'requiredMessage'() { return t('262', START_SECONDS_REQUIRED_MESSAGE) },
               }
             },
             {
@@ -76,9 +88,9 @@ export const newYouTubeBookmarkFormState = {
           },
           'has': {
             'required': true,
-            get 'requiredMessage'() { return t('267', C.TITLE_REQUIRED_MESSAGE) },
-            'maxLength': C.TITLE_MAX_LENGTH,
-            get 'maxLengthMessage'() { return t('268', C.TITLE_MAX_LENGTH_MESSAGE) },
+            get 'requiredMessage'() { return t('267', TITLE_REQUIRED_MESSAGE) },
+            'maxLength': TITLE_MAX_LENGTH,
+            get 'maxLengthMessage'() { return t('268', TITLE_MAX_LENGTH_MESSAGE) },
             get 'invalidationRegex'() { return t('269', '[/#.]') },
             get 'invalidationMessage'() { return t('270', `Characters not allowed: '/', '#', '.'`) }
           }
@@ -89,21 +101,21 @@ export const newYouTubeBookmarkFormState = {
           get 'label'() { return t('271', 'Note') },
           'props': {
             'multiline': true,
-            'rows': C.NOTE_FIELD_ROWS
+            'rows': NOTE_FIELD_ROWS
           },
           'has': {
-            'maxLength': C.NOTE_MAX_LENGTH,
-            get 'maxLengthMessage'() { return t('272', C.NOTE_MAX_LENGTH_MESSAGE) }
+            'maxLength': NOTE_MAX_LENGTH,
+            get 'maxLengthMessage'() { return t('272', NOTE_MAX_LENGTH_MESSAGE) }
           }
         }
       ]
     },
   ]
-} as C.TStateForm
+} as TStateForm
 
 export default newYouTubeBookmarkFormState
 
-export const $4DarkThemeMode: C.TStateForm = (() => {
+export const $4DarkThemeMode: TStateForm = (() => {
   const base = clone_with_descriptors(newYouTubeBookmarkFormState)
   return base
 })()

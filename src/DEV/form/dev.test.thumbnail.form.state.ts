@@ -1,20 +1,22 @@
 import { TBootstrapState } from '../../state/_state.common.types'
 import { register } from '../../business.logic/registry'
+import STATE_KEY from '../../business.logic/state.key'
 import {
-  TStateForm,
-  $45_STATE_KEY,
-  $46_STATE_KEY,
+  type TStateForm,
   THEME_DARK_PAPER_COLOR,
   THEME_LIGHT_PAPER_COLOR
 } from '@tuber/shared'
 import { clone_with_descriptors } from '../../business.logic'
 
-register('state', '45', $45_STATE_KEY)
+const $45 = STATE_KEY['45']
+const $46 = STATE_KEY['46']
+
+register('state', '45', $45)
 /** @id 45 */
 const devTestThumbnailFormState: TStateForm = {
   '_type': 'box',
   '_id': '45',
-  '_key': $45_STATE_KEY,
+  '_key': $45,
   'props': {
     'sx': { 'p': 2, 'width': 476 },
   },
@@ -56,7 +58,7 @@ const devTestThumbnailFormState: TStateForm = {
             alt="Supposed to load thumbnail of video URL."
           />
         `,
-        'key': $46_STATE_KEY
+        'key': $46
       }
     }
   ]
@@ -78,7 +80,7 @@ export const $45DarkThemeMode: TStateForm = (() => {
 
 export const dev_test_thumbnail_form_state = {
 
-  [$45_STATE_KEY]: devTestThumbnailFormState,
+  [$45]: devTestThumbnailFormState,
 
   // TODO - Insert more form states here.
 
@@ -86,7 +88,7 @@ export const dev_test_thumbnail_form_state = {
 
 export const dev_test_thumbnail_form_state_dark = {
 
-  [$45_STATE_KEY]: $45DarkThemeMode,
+  [$45]: $45DarkThemeMode,
 
   // TODO - Insert more form states (dark themed) here.
 

@@ -1,6 +1,4 @@
 import {
-  $8_STATE_KEY,
-  $9_STATE_KEY,
   THEME_DARK_DIALOG_BACKGROUND_COLOR,
   TStateDialog
 } from '@tuber/shared'
@@ -12,13 +10,17 @@ import {
 } from '../../business.logic'
 import { register } from '../../business.logic/registry'
 import { THEME_LIGHT_PAPER_SX_PROPS } from '../theme.state'
+import STATE_KEY from '../../business.logic/state.key'
 
-register('state', '8', $8_STATE_KEY)
+const $8 = STATE_KEY['8']
+const $9 = STATE_KEY['9']
+
+register('state', '8', $8)
 /** Dialog to create a new Rumble video bookmark @id 8 */
 const newRumbleBookmarkDialogState: TStateDialog = {
   '_type': 'form',
   '_id': '8',
-  '_key': $8_STATE_KEY,
+  '_key': $8,
   get 'title'() { return t('61', 'Insert new Rumble Bookmark') },
   'props': {
     'fullWidth': true,
@@ -29,7 +31,7 @@ const newRumbleBookmarkDialogState: TStateDialog = {
   'titleProps': {
     'sx': { 'textAlign': 'center' }
   },
-  'content': `$form : ${remove_form_suffix($9_STATE_KEY)} : bookmarks`,
+  'content': `$form : ${remove_form_suffix($9)} : bookmarks`,
   'actions': [
     {
       'type': 'state_button',

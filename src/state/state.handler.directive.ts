@@ -1,9 +1,8 @@
-import {
-  $77_STATE_KEY,
-  IHandlerDirective,
-  TStateDialog
-} from '@tuber/shared'
+import { IHandlerDirective, TStateDialog } from '@tuber/shared'
 import { t } from '../business.logic'
+import STATE_KEY from '../business.logic/state.key'
+
+const $77 = STATE_KEY['77']
 
 /**
  * Message shown to users when they attempt to publish bookmarks without
@@ -23,7 +22,7 @@ export const get_77_onchange_handler_directive = () => ({
     'type': 'dialog/dialogOpenOrMount',
     'payload': {
       '_id': '77',
-      '_key': $77_STATE_KEY,
+      '_key': $77,
       get 'title'() { return t('publishing_unavailable', 'Publishing Unavailable') },
       get 'content'() { return t('publishing_unavailable_description', 'To publish bookmarks, please upgrade your account to supporter or above.') },
       'actions': [{

@@ -1,9 +1,12 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import JsonapiErrorBuilder from '../../business.logic/builder/JsonapiErrorBuilder'
 import { error_id } from '../../business.logic/errors'
-import { $46_STATE_KEY, MSG_500_ERROR_MESSAGE } from '@tuber/shared'
+import { MSG_500_ERROR_MESSAGE } from '@tuber/shared'
 import { odysee_fetch_thumbnail_url } from '../../platform/odysee'
 import { errr, ler, log_err, task } from '../../utility/logging'
+import STATE_KEY from '../../business.logic/state.key'
+
+const $46 = STATE_KEY['46']
 
 /** 
  * Example URL: http://localhost:8080/dev/odysee/thumbnails?slug=<paste-slug-here>
@@ -33,7 +36,7 @@ export default async function dev_get_odysee_thumbnail_endpoint(
       reply.code(200).send({
         'state': {
           'pagesData': {
-            [$46_STATE_KEY]: { thumbnailUrl }
+            [$46]: { thumbnailUrl }
           }
         }
       })

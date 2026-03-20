@@ -1,7 +1,11 @@
 import { defaultAppBarState } from '../default.content'
 import Config from '../../config'
 import { register } from '../../business.logic/registry'
-import * as C from '@tuber/shared'
+import {
+  EP_AUTH,
+  type TStateAllPages,
+  type TStatePage
+} from '@tuber/shared'
 import researchPageState, {
   $40DarkThemeMode,
   $70DarkThemeMode,
@@ -19,13 +23,21 @@ import chippedListingPageState, {
 $51DarkThemeMode,
 } from './listing.page.state'
 import { homeLinkState } from '../nav.link'
+import STATE_KEY from '../../business.logic/state.key'
 
-register('state', '42', C.$42_STATE_KEY)
+const $40 = STATE_KEY['40']
+const $51 = STATE_KEY['51']
+const $70 = STATE_KEY['70']
+const $53 = STATE_KEY['53']
+const $41 = STATE_KEY['41']
+const $42 = STATE_KEY['42']
+
+register('state', '42', $42)
 /** Sign in page state @id 42 */
-export const signInPageState: C.TStatePage = {
+export const signInPageState: TStatePage = {
   '_id': '42',
-  '_key': C.$42_STATE_KEY,
-  'content': `$form : ${remove_form_suffix(C.$41_STATE_KEY)} : ${C.EP_AUTH.IN}`,
+  '_key': $42,
+  'content': `$form : ${remove_form_suffix($41)} : ${EP_AUTH.IN}`,
   'layout': 'layout_centered_no_scroll',
   'appbar': {
     'appbarStyle': 'mini',
@@ -36,17 +48,17 @@ export const signInPageState: C.TStatePage = {
 }
 
 /** Dark theme mode sign in page state @id 42 */
-export const $42DarkThemeMode: C.TStatePage = (() => {
+export const $42DarkThemeMode: TStatePage = (() => {
   const base = clone_with_descriptors(signInPageState)
   return base
 })()
 
 /** All pages state for dark theme mode. */
-export const STATE_PAGES_THEME_DARK: C.TStateAllPages = {
-  [C.$40_STATE_KEY]: $40DarkThemeMode,
-  [C.$42_STATE_KEY]: $42DarkThemeMode,
-  [C.$51_STATE_KEY]: $51DarkThemeMode,
-  [C.$70_STATE_KEY]: $70DarkThemeMode,
+export const STATE_PAGES_THEME_DARK: TStateAllPages = {
+  [$40]: $40DarkThemeMode,
+  [$42]: $42DarkThemeMode,
+  [$51]: $51DarkThemeMode,
+  [$70]: $70DarkThemeMode,
 
   // TODO: For a page to be accessible in dark mode, you must insert it here.
 
@@ -54,11 +66,11 @@ export const STATE_PAGES_THEME_DARK: C.TStateAllPages = {
 }
 
 /** All pages state. */
-export const STATE_PAGES: C.TStateAllPages = {
-  [C.$40_STATE_KEY]: researchPageState,
-  [C.$42_STATE_KEY]: signInPageState,
-  [C.$51_STATE_KEY]: chippedListingPageState,
-  [C.$70_STATE_KEY]: listingPageState,
+export const STATE_PAGES: TStateAllPages = {
+  [$40]: researchPageState,
+  [$42]: signInPageState,
+  [$51]: chippedListingPageState,
+  [$70]: listingPageState,
 
   // TODO: For a page to be accessible in light mode, you must insert it here.
 
@@ -66,4 +78,4 @@ export const STATE_PAGES: C.TStateAllPages = {
 }
 
 // [TODO] Wrap in a conditional to check if the user is an admin
-STATE_PAGES[C.$53_STATE_KEY] = adminReadablePageState
+STATE_PAGES[$53] = adminReadablePageState
