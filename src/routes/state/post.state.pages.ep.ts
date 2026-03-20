@@ -13,9 +13,10 @@ export default async function post_state_pages_endpoint (
   req: FastifyRequest<IStatePost>,
   reply: FastifyReply
 ) {
+  const { key, theme_mode: themeMode } = req.body
   try {
     task('Validating request body ')
-    if (!req.body.key || !req.body.theme_mode) {
+    if (!key || !themeMode) {
       task.end('[❌]')
       dbug('[400] Malformed request received.', req.body)
       reply.code(400).send(new JsonapiErrorBuilder()
@@ -27,12 +28,15 @@ export default async function post_state_pages_endpoint (
       return
     }
     task.end('[✔️]')
-    const { key, theme_mode: themeMode } = req.body
     task(`Loading '${key}' state with theme mode '${themeMode}' `)
+
+    // TODO Move to business logic and optimize by caching the normalized key
     const normalizedKey = normalize_key(key)
     const light = STATE_PAGES[normalizedKey]
     const dark = STATE_PAGES_THEME_DARK[normalizedKey]
     const pageState = themed(light, dark, themeMode)
+    // ------------------------------------------------------------------------
+  
     if (pageState) {
       task.end('[✔️]')
       reply.code(200).send({
@@ -47,8 +51,12 @@ export default async function post_state_pages_endpoint (
     } else {
       task.end('[❌]')
       dbug(`[404] Page state for key '${key}' not found.`)
-      reply.code(404).send({
-        'state': {
+      reply.code(404).send(new JsonapiErrorBuilder()
+        .withStatus(404)
+        .withCode('MISSING_STATE')
+        .withTitle('Page state not found.')
+        .withDetail(`No page state found for key '${key}'.`)
+        .withState({
           'pages': {
             [normalizedKey]: {
               'appbarInherited': 'default-notfound',
@@ -57,8 +65,8 @@ export default async function post_state_pages_endpoint (
               'data': { 'message': `Page not found!` },
             }
           }
-        }
-      } as TJsonapiStateResponse)
+        })
+        .build())
     }
   } catch (e) {
     ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[5040]'))

@@ -172,7 +172,7 @@ export interface IQueryEnvVar {
  */
 export interface IQueryDirective { Querystring: { d?: string } }
 
-/** [**Key**] & [**Mode**] Body data for `POST /state/*` endpoint */
+/** [**Key**] & [**Theme Mode**] Body data for `POST /state/*` endpoint */
 export interface IStatePost {
   Body: {
     key?: string
