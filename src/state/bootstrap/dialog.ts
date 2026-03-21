@@ -1,7 +1,5 @@
-import { THEME_MODE, TStateAllDialogs } from '@tuber/shared'
-import { TThemeMode } from '../../common.types'
+import { TStateAllDialogs } from '@tuber/shared'
 import { IStateContext, TBootstrapState } from '../_state.common.types'
-import Config from '../../config'
 import { PrepareState } from '../PrepareState'
 import {
   $32DarkThemeMode,
@@ -17,7 +15,10 @@ const $68 = STATE_KEY['68']
 const bootstrap_dialogs_state: TBootstrapState<TStateAllDialogs> = {
 
   DEFAULT: (context: IStateContext): TStateAllDialogs => {
-    const themeMode = context.theme ?? Config.read<TThemeMode>(THEME_MODE, Config.DEFAULT_THEME_MODE)
+    const { theme: themeMode } = context
+    if (!themeMode) {
+      throw new Error('State bootstrap requires context.theme.')
+    }
 
     switch (themeMode) {
       case 'dark':

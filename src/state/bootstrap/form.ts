@@ -1,7 +1,6 @@
-import { TThemeMode } from '../../common.types'
 import { IStateContext, TBootstrapState } from '../_state.common.types'
 import Config from '../../config'
-import { TStateAllForms, THEME_MODE } from '@tuber/shared'
+import { TStateAllForms } from '@tuber/shared'
 import { PrepareState } from '../PrepareState'
 import devInstallFormState, {
   $47DarkThemeMode
@@ -17,7 +16,10 @@ const $69 = STATE_KEY['69']
 const bootstrap_forms_state: TBootstrapState<TStateAllForms> = {
 
   DEFAULT: (context: IStateContext): TStateAllForms => {
-    const themeMode = context.theme ?? Config.read<TThemeMode>(THEME_MODE, Config.DEFAULT_THEME_MODE)
+    const { theme: themeMode } = context
+    if (!themeMode) {
+      throw new Error('State bootstrap requires context.theme.')
+    }
 
     switch (themeMode) {
       case 'dark':

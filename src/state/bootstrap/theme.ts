@@ -1,8 +1,5 @@
-import { TThemeMode } from '../../common.types'
 import { IStateContext, TBootstrapState } from '../_state.common.types'
 import { PrepareState } from '../PrepareState'
-import { THEME_MODE } from '@tuber/shared'
-import Config from '../../config'
 import { ThemeOptions } from '@mui/material'
 
 const bootstrap_theme_light_state: TBootstrapState<ThemeOptions> = {
@@ -130,10 +127,10 @@ const bootstrap_theme_dark_state: TBootstrapState<ThemeOptions> = {
 const bootstrap_theme_state: TBootstrapState<ThemeOptions> = {
 
   DEFAULT: (context: IStateContext): ThemeOptions => {
-    const themeMode = context.theme ?? Config.read<TThemeMode>(
-      THEME_MODE,
-      Config.DEFAULT_THEME_MODE
-    )
+    const { theme: themeMode } = context
+    if (!themeMode) {
+      throw new Error('State bootstrap requires context.theme.')
+    }
 
     switch (themeMode) {
       case 'dark':

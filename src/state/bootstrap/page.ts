@@ -1,13 +1,11 @@
-import { TThemeMode } from '../../common.types'
 import { IStateContext, TBootstrapState } from '../_state.common.types'
-import { TStateAllPages, THEME_MODE } from '@tuber/shared'
+import { TStateAllPages } from '@tuber/shared'
 import {
   bs_listingPageState,
   bs_researchPageState,
 } from '../page/research.page.state'
 import { bs_chippedListingPageState } from '../page/listing.page.state'
 import { bs_newUserPageState } from '../page/new.user.page.state'
-import Config from '../../config'
 import { PrepareState } from '../PrepareState'
 import devInstallPageState, {
   $44DarkThemeMode
@@ -30,7 +28,11 @@ const $74 = STATE_KEY['74']
 const bootstrap_pages_state: TBootstrapState<TStateAllPages> = {
 
   DEFAULT: (context: IStateContext): TStateAllPages => {
-    const themeMode = context.theme ?? Config.read<TThemeMode>(THEME_MODE, Config.DEFAULT_THEME_MODE)
+    const { theme: themeMode } = context
+    if (!themeMode) {
+      throw new Error('State bootstrap requires context.theme.')
+    }
+
     switch (themeMode) {
       case 'dark':
         return new PrepareState<TStateAllPages>(context)

@@ -10,6 +10,9 @@ const bootstrap_app_state = {
 
     DEFAULT: (context: IStateContext) => {
       const { usr, theme: themeMode } = context;
+      if (!themeMode) {
+        throw new Error('State bootstrap requires context.theme.')
+      }
       const inDev = Config.DEV && !!usr && usr.role === 'developer';
       const app: TStateApp = {
         'fetchingStateAllowed': true,
