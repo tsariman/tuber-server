@@ -16,6 +16,7 @@ import {
   clone_or_default,
   clone_with_descriptors
 } from '../../business.logic'
+import Config from '../../config'
 import Access from '../../business.logic/security/Access'
 import STATE_KEY from '../../business.logic/state.key'
 
@@ -65,7 +66,7 @@ const bootstrap_pages_light_state: TBootstrapState<TStateAllPages> = {
       lightPages[$74] = bs_newUserPageState(context).light
     }
 
-    if (Access.the(usr).can('dev_install_page.view')) {
+    if (Config.DEV && Access.the(usr).can('dev_install_page.view')) {
       lightPages[$44] = (() => {
         const base = clone_with_descriptors(devInstallPageState)
         const appbar = clone_or_default(base.appbar, {})
@@ -99,7 +100,7 @@ const bootstrap_pages_dark_state: TBootstrapState<TStateAllPages> = {
       darkPages[$74] = bs_newUserPageState(context).dark
     }
 
-    if (Access.the(usr).can('dev_install_page.view')) {
+    if (Config.DEV && Access.the(usr).can('dev_install_page.view')) {
       darkPages[$44] = (() => {
         const base = clone_with_descriptors($44DarkThemeMode)
         const appbar = clone_or_default(base.appbar, {})

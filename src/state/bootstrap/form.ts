@@ -1,6 +1,7 @@
 import { IStateContext, TBootstrapState } from '../_state.common.types'
 import Config from '../../config'
 import { TStateAllForms } from '@tuber/shared'
+import Access from '../../business.logic/security/Access'
 import { PrepareState } from '../PrepareState'
 import devInstallFormState, {
   $47DarkThemeMode
@@ -41,7 +42,7 @@ const bootstrap_forms_light_state: TBootstrapState<TStateAllForms> = {
 
   DEFAULT: (context: IStateContext): TStateAllForms => {
     const { usr } = context
-    const inDev = Config.DEV && !!usr && usr.role === 'developer'
+    const inDev = Config.DEV && Access.the(usr).can('dev_install_page.view')
 
     const lightForms: TStateAllForms = {
       [$41]: signInFormState,
@@ -62,7 +63,7 @@ const bootstrap_forms_dark_state: TBootstrapState<TStateAllForms> = {
 
   DEFAULT: (context: IStateContext): TStateAllForms => {
     const { usr } = context
-    const inDev = Config.DEV && !!usr && usr.role === 'developer'
+    const inDev = Config.DEV && Access.the(usr).can('dev_install_page.view')
 
     const darkForms: TStateAllForms = {
       [$41]: $41DarkThemeMode,

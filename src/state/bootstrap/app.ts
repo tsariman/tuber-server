@@ -1,6 +1,7 @@
 import { IStateContext, TBootstrapState } from '../_state.common.types'
 import Config from '../../config'
 import { TStateApp } from '@tuber/shared'
+import Access from '../../business.logic/security/Access'
 import STATE_KEY from '../../business.logic/state.key'
 
 const $40 = STATE_KEY['40']
@@ -13,7 +14,7 @@ const bootstrap_app_state = {
       if (!themeMode) {
         throw new Error('State bootstrap requires context.theme.')
       }
-      const inDev = Config.DEV && !!usr && usr.role === 'developer';
+      const inDev = Config.DEV && Access.the(usr).can('dev_install_page.view');
       const app: TStateApp = {
         'fetchingStateAllowed': true,
         'inDebugMode': inDev,

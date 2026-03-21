@@ -92,7 +92,7 @@ export const bs_researchPageState = (
       const link = create_empty_collection(appbar.items)
       if (Config.DEV) {
         link.add(researchAppErrorsViewLinkState)
-        if (Access.the(context.usr).can('dev_install_page.view')) {
+        if (Config.DEV && Access.the(context.usr).can('dev_install_page.view')) {
           link.add(homeLinkState)
         }
       } else if (context.usr) {
@@ -116,7 +116,7 @@ export const bs_researchPageState = (
       const link = create_empty_collection(appbar.items)
       if (Config.DEV) {
         link.add(researchAppErrorsViewLinkState)
-        if (Access.the(context.usr).can('dev_install_page.view')) {
+        if (Config.DEV && Access.the(context.usr).can('dev_install_page.view')) {
           link.add(homeLinkState)
         }
       } else if (context.usr) {
@@ -162,7 +162,7 @@ export const bs_listingPageState = (
       const link = clone_as_collection(appbar.items)
       if (Config.DEV) {
         link.add(researchAppErrorsViewLinkState)
-        if (Access.the(context.usr).can('dev_install_page.view')) {
+        if (Config.DEV && Access.the(context.usr).can('dev_install_page.view')) {
           link.add(homeLinkState)
         }
       } else if (context.usr) {
@@ -181,7 +181,7 @@ export const bs_listingPageState = (
       _enable_search_scope(appbar, context.usr)
       if (Config.DEV) {
         link.add(researchAppErrorsViewLinkState)
-        if (Access.the(context.usr).can('dev_install_page.view')) {
+        if (Config.DEV && Access.the(context.usr).can('dev_install_page.view')) {
           link.add(homeLinkState)
         }
       } else if (context.usr) {

@@ -1,6 +1,7 @@
 import { TObj } from '../../common.types'
 import { IStateContext, TBootstrapState } from '../_state.common.types'
 import Config from '../../config'
+import Access from '../../business.logic/security/Access'
 import dev_get_pages_data_state from '../../dev/dev.pages.data.state'
 import STATE_KEY from '../../business.logic/state.key'
 
@@ -10,7 +11,7 @@ const bootstrap_pages_data_state: TBootstrapState<Promise<TObj<TObj>>> = {
 
   DEFAULT: async (context: IStateContext): Promise<TObj<TObj>> => {
     const { usr } = context
-    const inDev = Config.DEV && usr?.role === 'developer'
+    const inDev = Config.DEV && Access.the(usr).can('dev_install_page.view')
     const pagesData: TObj<TObj> = {
 
       'bookmarks': {
