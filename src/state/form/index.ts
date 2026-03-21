@@ -77,6 +77,10 @@ import {
   signInFormState,
   $41DarkThemeMode
 } from './sign.in.form.state'
+import {
+  editUserFormState,
+  $82DarkThemeMode
+} from './edit.user.form.state'
 import Config from '../../config'
 import { TThemeMode } from '../../common.types'
 import DEV_STATE_FORM, {
@@ -116,6 +120,7 @@ const $38 = STATE_KEY['38']
 const $39 = STATE_KEY['39']
 const $41 = STATE_KEY['41']
 const $69 = STATE_KEY['69']
+const $82 = STATE_KEY['82']
 
 /**
  * Get the sign in form state.
@@ -208,6 +213,7 @@ export const STATE_FORMS_THEME_DARK: TStateAllForms = {
   [$39]: $39DarkThemeMode,
   [$41]: $41DarkThemeMode,
   [$69]: $69DarkThemeMode,
+  [$82]: $82DarkThemeMode,
   ...(Config.DEV ? DEV_STATE_FORM_THEME_DARK : {})
 }
 
@@ -232,6 +238,7 @@ export const STATE_FORMS: TStateAllForms = {
   [$39]: editTwitchBookmarkFormState,
   [$41]: signInFormState,
   [$69]: newUserFormState,
+  [$82]: editUserFormState,
   ...(Config.DEV ? DEV_STATE_FORM : {})
 }
 

@@ -85,6 +85,8 @@ const STATE_KEY = {
   '78': 'bookmarkEditPublishSwitchDummy',
   '79': 'bookmarkEditPublishSwitch',
   '80': 'account',
+  '81': 'accountPageAppbar',
+  '82': 'editUserForm',
 } as const
 
 export type TStateKey = typeof STATE_KEY[keyof typeof STATE_KEY]

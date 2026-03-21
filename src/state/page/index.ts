@@ -24,6 +24,7 @@ $51DarkThemeMode,
 } from './listing.page.state'
 import { homeLinkState } from '../nav.link'
 import STATE_KEY from '../../business.logic/state.key'
+import accountPageState, { $80DarkThemeMode } from './account.page.state'
 
 const $40 = STATE_KEY['40']
 const $51 = STATE_KEY['51']
@@ -31,6 +32,7 @@ const $70 = STATE_KEY['70']
 const $53 = STATE_KEY['53']
 const $41 = STATE_KEY['41']
 const $42 = STATE_KEY['42']
+const $80 = STATE_KEY['80']
 
 register('state', '42', $42)
 /** Sign in page state @id 42 */
@@ -59,6 +61,7 @@ export const STATE_PAGES_THEME_DARK: TStateAllPages = {
   [$42]: $42DarkThemeMode,
   [$51]: $51DarkThemeMode,
   [$70]: $70DarkThemeMode,
+  [$80]: $80DarkThemeMode,
 
   // TODO: For a page to be accessible in dark mode, you must insert it here.
 
@@ -71,6 +74,7 @@ export const STATE_PAGES: TStateAllPages = {
   [$42]: signInPageState,
   [$51]: chippedListingPageState,
   [$70]: listingPageState,
+  [$80]: accountPageState,
 
   // TODO: For a page to be accessible in light mode, you must insert it here.
 

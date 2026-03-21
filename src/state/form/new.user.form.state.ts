@@ -1,5 +1,5 @@
 import { SxProps } from '@mui/material'
-import type { TStateForm } from '@tuber/shared'
+import { EP_USERS, type TStateForm } from '@tuber/shared'
 import { register } from '../../business.logic/registry'
 import { clone_with_descriptors, t } from '../../business.logic'
 import { title_centered } from '../html'
@@ -125,7 +125,7 @@ export const newUserFormState: TStateForm = {
             'onclickHandlerDirective': {
               'type': '$form',
               'formName': $69,
-              'endpoint': 'users',
+              'endpoint': EP_USERS,
               'rules': [ 'disable_on_submit' ]
             }
           }

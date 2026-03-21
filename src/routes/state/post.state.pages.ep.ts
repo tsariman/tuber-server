@@ -15,6 +15,7 @@ export default async function post_state_pages_endpoint (
 ) {
   const { key, theme_mode: themeMode } = req.body
   try {
+    dbug(`Received request to load page state for key '${key}' with theme mode '${themeMode}'.`)
     task('Validating request body ')
     if (!key || !themeMode) {
       task.end('[❌]')
@@ -28,7 +29,7 @@ export default async function post_state_pages_endpoint (
       return
     }
     task.end('[✔️]')
-    task(`Loading '${key}' state with theme mode '${themeMode}' `)
+    task(`Loading page '${key}' state with theme mode '${themeMode}' `)
 
     // TODO Move to business logic and optimize by caching the normalized key
     const normalizedKey = normalize_key(key)

@@ -1,6 +1,8 @@
 
 # Development Log
 
+## `202603211656` [Feature] Add account and edit user form states with corresponding dark theme modes
+
 ## `202603201804` Refactor state management to use centralized STATE_KEY mapping
 
 - Updated various form states to replace legacy state key constants with a centralized STATE_KEY object.
