@@ -200,6 +200,8 @@ test('POST /signin - valid credentials (admin/admin123)', async (t) => {
   if (response.statusCode === 200) {
     const body = JSON.parse(response.payload)
     assert.ok(body.state)
+    assert.ok(body.state.net)
+    assert.strictEqual(body.state.net.token, undefined)
   }
 })
 

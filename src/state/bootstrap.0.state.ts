@@ -114,7 +114,6 @@ export default async function get_bootstrap_authenticated_state(
     ...(context.usr && { 'net': {
       'name': context.usr.name,
       'role': context.usr.role,
-      'token': context.token,
       '_id': context.usr._id,
     }}),
   }

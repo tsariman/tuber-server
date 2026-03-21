@@ -135,7 +135,6 @@ const authentication: FastifyPluginAsync = async (fastify, rootOpts): Promise<vo
                 .send({
                   'state': await get_bootstrap_authenticated_state({
                     usr,
-                    token,
                     theme
                   })
                 } as TJsonapiStateResponse)
