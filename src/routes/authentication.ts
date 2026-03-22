@@ -6,7 +6,13 @@ import {
   error_id,
   shielded_401_error_response
 } from '../business.logic/errors'
-import { TJsonapiStateResponse, MSG_500_ERROR_MESSAGE } from '@tuber/shared'
+import {
+  TJsonapiStateResponse,
+  MSG_500_ERROR_MESSAGE,
+  THEME_MODE,
+  TThemeMode,
+  THEME_DEFAULT_MODE
+} from '@tuber/shared'
 import get_bootstrap_authenticated_state from '../state/bootstrap'
 import { get_contextual_user, read_user } from '../model/session'
 import { option } from '../business.logic'
@@ -20,6 +26,7 @@ import JsonapiErrorBuilder from '../business.logic/builder/JsonapiErrorBuilder'
 import { UserModel } from '../model/user'
 import { is_record } from '../utility'
 import OnRequestAuthorization from '../business.logic/OnRequestAuthorization'
+import Config from '../config'
 
 // Lightweight rate limiter for signin (fallback if plugin not used)
 const signinAttempts: Map<string, { count: number; resetAt: number }> = new Map()
@@ -89,91 +96,106 @@ const authentication: FastifyPluginAsync = async (fastify, rootOpts): Promise<vo
       return
     }
     task.end('[✔️]')
+    const title = 'Wrong username or password!'
     task('Looking up user in the database ')
-    if (username) {
-      try {
-        const user = await read_user({ name: username, includePassword: true }) // include password for verification
-        if (user) {
-          task.end('[✔️]')
-          dbug('User found for authentication:', username)
-          task('Verifying password ')
-          if (password && user.password) {
-            const passwordIsCorrect = await check_password(password, user.password)
-            if (passwordIsCorrect) {
-              task.end('[✔️]')
-              
-              // Update last_signin_at timestamp
-              task('Updating last_signin_at timestamp ')
-              user.last_signin_at = new Date()
-              await user.save()
-              task.end('[✔️]')
-
-              // Generate JWT token
-              task('Generating authentication token ')
-              USER_CACHE.set(user.name, user)
-              const usr = get_contextual_user(user)
-              const expiresIn = option<string>(o)('keep-signed-in', '60d', '1d')
-              const token = await reply.jwtSign(usr, { expiresIn })
-              task.end('[✔️]')
-              dbug('Expires in', expiresIn === '60d'
-                  ? '2 months.'
-                  : '24 hours.')
-              task('Setting authentication cookie ')
-              const theme = req.themeMode // get_theme_mode(req.body.cookie)
-              
-              // Set HTTP-only cookie for token
-              reply.setCookie('token', token, {
-                httpOnly: true,
-                secure: process.env.NODE_ENV === 'production',
-                sameSite: 'strict',
-                maxAge: expiresIn === '60d' ? 60 * 24 * 60 * 60 * 1000 : 24 * 60 * 60 * 1000,
-                path: '/'
-              })
-              task.end('[✔️]')
-              reply
-                .code(200)
-                .send({
-                  'state': await get_bootstrap_authenticated_state({
-                    usr,
-                    theme
-                  })
-                } as TJsonapiStateResponse)
-              return
-            } else {
-              task.end('[❌]')
-              dbug('[401] Incorrect password for user:', username)
-            }
-          } else {
-            task.end('[❌]')
-            dbug('[401] Missing password for user:', username)
-          }
-        } else {
-          dbug('Looking up user in the database... ❌')
-        }
-      } catch (e) {
-        task.end(MSG_500_ERROR_MESSAGE.replace('[500]', '[5005]'))
-        log_err_safe('[5005] Error attempting to authenticate user', {
-          error: e,
-          username
-        })
-        reply.code(500).send({
-          ...error_id(5005).default_500_error_response(e),
-          ...alert((e as Error).message),
+    try {
+      const user = await read_user({ name: username, includePassword: true }) // include password for verification
+      if (!user) {
+        task.end('[❌]')
+        dbug('[401] No user found with username:', username)
+        reply.code(401).send({
+          ...alert(title),
+          ...new JsonapiErrorBuilder()
+            .withStatus(401)
+            .withCode('AUTHENTICATION_REQUIRED')
+            .withTitle(title)
+            .build()
         })
         return
       }
+      task.end('[✔️]')
+      dbug('User found for authentication:', username)
+      task('Verifying password ')
+      if (!user.password) {
+        task.end('[❌]')
+        dbug('[401] Missing password for user:', username)
+        reply.code(401).send({
+          ...alert(title),
+          ...new JsonapiErrorBuilder()
+            .withStatus(401)
+            .withCode('AUTHENTICATION_REQUIRED')
+            .withTitle(title)
+            .build()
+        })
+        return
+      }
+      const passwordIsCorrect = await check_password(password, user.password)
+      if (!passwordIsCorrect) {
+        task.end('[❌]')
+        dbug('[401] Incorrect password for user:', username)
+        reply.code(401).send({
+          ...alert(title),
+          ...new JsonapiErrorBuilder()
+            .withStatus(401)
+            .withCode('AUTHENTICATION_REQUIRED')
+            .withTitle(title)
+            .build()
+        })
+        return
+      }
+      task.end('[✔️]')
+
+      // Update last_signin_at timestamp
+      task('Updating last_signin_at timestamp ')
+      user.last_signin_at = new Date()
+      await user.save()
+      task.end('[✔️]')
+
+      // Generate JWT token
+      task('Generating authentication token ')
+      USER_CACHE.set(user.name, user)
+      const usr = get_contextual_user(user)
+      const expiresIn = option<string>(o)('keep-signed-in', '60d', '1d')
+      const token = await reply.jwtSign(usr, { expiresIn })
+      task.end('[✔️]')
+      dbug('Expires in', expiresIn === '60d'
+        ? '2 months.'
+        : '24 hours.')
+      const theme = req.themeMode
+        ?? driver.getAttribute('theme_mode')
+        ?? Config.read<TThemeMode>(THEME_MODE, THEME_DEFAULT_MODE)
+ 
+      // Set HTTP-only cookie for token
+      task('Setting authentication cookie ')
+      reply.setCookie('token', token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict',
+        maxAge: expiresIn === '60d' ? 60 * 24 * 60 * 60 * 1000 : 24 * 60 * 60 * 1000,
+        path: '/'
+      })
+      task.end('[✔️]')
+      reply
+        .code(200)
+        .send({
+          'state': await get_bootstrap_authenticated_state({
+            usr,
+            theme
+          })
+        } as TJsonapiStateResponse)
+      return
+    } catch (e) {
+      task.end(MSG_500_ERROR_MESSAGE.replace('[500]', '[5005]'))
+      log_err_safe('[5005] Error attempting to authenticate user', {
+        error: e,
+        username
+      })
+      reply.code(500).send({
+        ...error_id(5005).default_500_error_response(e),
+        ...alert((e as Error).message),
+      })
+      return
     }
-    const title = 'Wrong username or password!'
-    task.end('[❌]')
-    dbug('[401] Authentication failed for user:', username)
-    reply.code(401).send({
-      ...alert(title),
-      ...new JsonapiErrorBuilder()
-        .withStatus(401)
-        .withCode('AUTHENTICATION_REQUIRED')
-        .withTitle(title)
-        .build()
-    })
   }) // End /signin
 
   const signoutOpts: Partial<RouteOptions> = {
