@@ -3,8 +3,8 @@ import JsonapiErrorBuilder from '../../business.logic/builder/JsonapiErrorBuilde
 import { error_id } from '../../business.logic/errors'
 import { errr, ler, log_err, task } from '../../utility/logging'
 import {
-  get_contextualized_state_forms,
-  get_contextualized_state_forms_dark
+  get_contextualized_form_state,
+  get_contextualized_form_state_dark
 } from '../../state/form'
 import {  MSG_500_ERROR_MESSAGE, TJsonapiStateResponse } from '@tuber/shared'
 import { IStatePost } from '../../common.types'
@@ -36,8 +36,8 @@ export default async function post_state_forms_endpoint (
       return
     }
     task(`Loading '${key}' state with theme mode '${themeMode}' `)
-    const light = get_contextualized_state_forms(key, usr)
-    const dark = get_contextualized_state_forms_dark(key, usr)
+    const light = get_contextualized_form_state(key, usr)
+    const dark = get_contextualized_form_state_dark(key, usr)
     const formState = themed(light, dark, themeMode)
     if (formState) {
       task.end('[✔️]')

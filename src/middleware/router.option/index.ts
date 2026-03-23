@@ -1,14 +1,17 @@
 import { RouteShorthandOptions } from 'fastify'
-import on_request_default, { on_request_dev, on_request_optional } from '../on.request'
+import on_request_default, {
+  on_request_dev,
+  on_request_optional
+} from '../on.request'
 
-/** Use on all routes by default, unless using custom options. */
+/** Use on all routes by default, unless using custom options.  */
 export const DEFAULT_ROUTE_OPTIONS: RouteShorthandOptions = {
   // preHandler: pre_handler_authenticate,
   onRequest: on_request_default
 }
 
 /** Use on all development routes by default. */
-export const DEV_ROUTE_POTIONS: RouteShorthandOptions = {
+export const DEV_ROUTE_OPTIONS: RouteShorthandOptions = {
   // preHandler: pre_handler_authenticate,
   onRequest: on_request_dev
 }

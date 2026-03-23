@@ -123,6 +123,16 @@ export default class Access {
     return this
   }
   /**
+   * @returns `true` if the contextual user has the required clearance level
+   *          set by `hasClearance`
+   * @example
+   * Access.the(user).hasClearance('supporter').then // returns true if user has clearance level of supporter or higher
+   * Access.the(user).hasClearance('administrator').then // returns true if user has clearance level of administrator or higher
+   */
+  get then() {
+    return CLEARANCE_LEVEL[this.role] >= this._requiredClearanceLevel
+  }
+  /**
    * Decides which value to return based on whether the contextual user has the
    * required clearance level.  
    * __Note__: This method relies on the `hasClearance` method to set the

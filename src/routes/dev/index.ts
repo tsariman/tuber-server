@@ -11,7 +11,7 @@ import {
   dev_post_load_test_drawer,
   dev_post_unload_test_drawer
 } from './dev.post.test.drawer.ep'
-import { DEV_ROUTE_POTIONS } from '../../middleware/router.option'
+import { DEV_ROUTE_OPTIONS } from '../../middleware/router.option'
 import dev_post_user_endpoint from './dev.post.user.ep'
 import {
   dev_post_bookmarks_populate_endpoint,
@@ -90,7 +90,7 @@ const dev: FastifyPluginAsync = async (fastify, rootOpts): Promise<void> => {
   if (Config.DEV) {
     const opts = {
       ...rootOpts,
-      ...DEV_ROUTE_POTIONS
+      ...DEV_ROUTE_OPTIONS
       // TODO Add custom route options here
     }
 

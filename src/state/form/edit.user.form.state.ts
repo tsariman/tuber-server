@@ -191,6 +191,9 @@ export const editUserFormState: TStateForm = {
       ]
     }
   ],
+  'hydrateFromServer': true,
+  'hydrationEndpoint': EP_ACCOUNT,
+  'disableOnHydration': true
 }
 
 export const $82DarkThemeMode: TStateForm = (() => {

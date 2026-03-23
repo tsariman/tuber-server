@@ -2,7 +2,7 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import { dbug, log_err, task, ler } from '../../utility/logging'
 import JsonapiErrorBuilder from '../../business.logic/builder/JsonapiErrorBuilder'
 import { error_id } from '../../business.logic/errors'
-import  { STATE_PAGES, STATE_PAGES_THEME_DARK } from '../../state/page'
+import  { get_contextualized_page_state } from '../../state/page'
 import { MSG_500_ERROR_MESSAGE, type TJsonapiStateResponse } from '@tuber/shared'
 import type { IStatePost } from '../../common.types'
 import { themed } from '../../business.logic'
@@ -13,7 +13,7 @@ export default async function post_state_pages_endpoint (
   req: FastifyRequest<IStatePost>,
   reply: FastifyReply
 ) {
-  const { key, theme_mode: themeMode } = req.body
+  const { body: { key, theme_mode: themeMode }, usr } = req
   try {
     dbug(`Received request to load page state for key '${key}' with theme mode '${themeMode}'.`)
     task('Validating request body ')
@@ -33,8 +33,7 @@ export default async function post_state_pages_endpoint (
 
     // TODO Move to business logic and optimize by caching the normalized key
     const normalizedKey = normalize_key(key)
-    const light = STATE_PAGES[normalizedKey]
-    const dark = STATE_PAGES_THEME_DARK[normalizedKey]
+    const { light, dark } = get_contextualized_page_state(normalizedKey, usr)
     const pageState = themed(light, dark, themeMode)
     // ------------------------------------------------------------------------
   
@@ -43,10 +42,8 @@ export default async function post_state_pages_endpoint (
       reply.code(200).send({
         'state': {
           'pages': { [normalizedKey]: pageState },
-          'pagesLight': { [normalizedKey]: STATE_PAGES[normalizedKey] },
-          'pagesDark': {
-            [normalizedKey]: STATE_PAGES_THEME_DARK[normalizedKey]
-          },
+          'pagesLight': { [normalizedKey]: light },
+          'pagesDark': { [normalizedKey]: dark },
         }
       } as TJsonapiStateResponse)
     } else {
@@ -57,16 +54,6 @@ export default async function post_state_pages_endpoint (
         .withCode('MISSING_STATE')
         .withTitle('Page state not found.')
         .withDetail(`No page state found for key '${key}'.`)
-        .withState({
-          'pages': {
-            [normalizedKey]: {
-              'appbarInherited': 'default-notfound',
-              'contentInherited': 'default-notfound',
-              'layout': 'layout_centered',
-              'data': { 'message': `Page not found!` },
-            }
-          }
-        })
         .build())
     }
   } catch (e) {

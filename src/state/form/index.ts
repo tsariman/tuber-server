@@ -100,6 +100,7 @@ import { newUserFormState, $69DarkThemeMode } from './new.user.form.state'
 import { TContextualUser } from '../../schema/user'
 import { is_dev } from '../../model/user/access'
 import STATE_KEY from '../../business.logic/state.key'
+import Access from '../../business.logic/security/Access'
 
 const $1 = STATE_KEY['1']
 const $4 = STATE_KEY['4']
@@ -213,7 +214,6 @@ export const STATE_FORMS_THEME_DARK: TStateAllForms = {
   [$39]: $39DarkThemeMode,
   [$41]: $41DarkThemeMode,
   [$69]: $69DarkThemeMode,
-  [$82]: $82DarkThemeMode,
   ...(Config.DEV ? DEV_STATE_FORM_THEME_DARK : {})
 }
 
@@ -238,7 +238,6 @@ export const STATE_FORMS: TStateAllForms = {
   [$39]: editTwitchBookmarkFormState,
   [$41]: signInFormState,
   [$69]: newUserFormState,
-  [$82]: editUserFormState,
   ...(Config.DEV ? DEV_STATE_FORM : {})
 }
 
@@ -249,7 +248,7 @@ export const STATE_FORMS: TStateAllForms = {
  * @param key form state key
  * @returns light theme mode form state
  */
-export const get_contextualized_state_forms = (key: string, usr?: TContextualUser) => {
+export const get_contextualized_form_state = (key: string, usr?: TContextualUser) => {
   const base = clone_with_descriptors(STATE_FORMS)
   base[$5] = EditYouTubeBookmarkFormState.withContext(usr).light
   base[$10] = EditRumbleBookmarkFormState.withContext(usr).light
@@ -259,6 +258,9 @@ export const get_contextualized_state_forms = (key: string, usr?: TContextualUse
   base[$25] = EditFacebookBookmarkFormState.withContext(usr).light
   base[$29] = EditUnknownBookmarkFormState.withContext(usr).light
   base[$39] = EditTwitchBookmarkFormState.withContext(usr).light
+  if (Access.the(usr).hasClearance('free').then) {
+    base[$82] = editUserFormState
+  }
   return base[key]
 }
 
@@ -269,7 +271,7 @@ export const get_contextualized_state_forms = (key: string, usr?: TContextualUse
  * @param key form state key
  * @returns dark theme mode form state
  */
-export const get_contextualized_state_forms_dark = (key: string, usr?: TContextualUser) => {
+export const get_contextualized_form_state_dark = (key: string, usr?: TContextualUser) => {
   const base = clone_with_descriptors(STATE_FORMS_THEME_DARK)
   base[$5] = EditYouTubeBookmarkFormState.withContext(usr).dark
   base[$10] = EditRumbleBookmarkFormState.withContext(usr).dark
@@ -279,6 +281,9 @@ export const get_contextualized_state_forms_dark = (key: string, usr?: TContextu
   base[$25] = EditFacebookBookmarkFormState.withContext(usr).dark
   base[$29] = EditUnknownBookmarkFormState.withContext(usr).dark
   base[$39] = EditTwitchBookmarkFormState.withContext(usr).dark
+  if (Access.the(usr).hasClearance('free').then) {
+    base[$82] = $82DarkThemeMode
+  }
   return base[key]
 }
 

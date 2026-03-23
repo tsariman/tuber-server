@@ -25,6 +25,10 @@ $51DarkThemeMode,
 import { homeLinkState } from '../nav.link'
 import STATE_KEY from '../../business.logic/state.key'
 import accountPageState, { $80DarkThemeMode } from './account.page.state'
+import { TContextualUser } from '../../schema/user'
+import Access from '../../business.logic/security/Access'
+import { IBootstrapThemed } from '../_state.common.types'
+import { warn } from '../../utility/logging'
 
 const $40 = STATE_KEY['40']
 const $51 = STATE_KEY['51']
@@ -33,6 +37,7 @@ const $53 = STATE_KEY['53']
 const $41 = STATE_KEY['41']
 const $42 = STATE_KEY['42']
 const $80 = STATE_KEY['80']
+const $83 = STATE_KEY['83']
 
 register('state', '42', $42)
 /** Sign in page state @id 42 */
@@ -55,13 +60,28 @@ export const $42DarkThemeMode: TStatePage = (() => {
   return base
 })()
 
+/**
+ * Get a generic "not found" page state.
+ * @param id page id
+ * @param key page key
+ * @returns generic "not found" page state
+ * @id 83
+ */
+export const get_generic_not_found_page_state = (key?: string): TStatePage => ({
+  '_id': '83',
+  '_key': key ?? $83,
+  'appbarInherited': 'default-notfound',
+  'contentInherited': 'default-notfound',
+  'layout': 'layout_centered',
+  'data': { 'message': `Page not found!` },
+})
+
 /** All pages state for dark theme mode. */
-export const STATE_PAGES_THEME_DARK: TStateAllPages = {
+export const STATE_PAGES_DARK: TStateAllPages = {
   [$40]: $40DarkThemeMode,
   [$42]: $42DarkThemeMode,
   [$51]: $51DarkThemeMode,
   [$70]: $70DarkThemeMode,
-  [$80]: $80DarkThemeMode,
 
   // TODO: For a page to be accessible in dark mode, you must insert it here.
 
@@ -74,11 +94,36 @@ export const STATE_PAGES: TStateAllPages = {
   [$42]: signInPageState,
   [$51]: chippedListingPageState,
   [$70]: listingPageState,
-  [$80]: accountPageState,
 
   // TODO: For a page to be accessible in light mode, you must insert it here.
 
   ...(Config.DEV ? DEV_STATE_PAGES : {})
+}
+
+/** Get page state based on user context */
+export const get_contextualized_page_state = (
+  key: string,
+  usr?: TContextualUser
+): IBootstrapThemed<TStatePage> => {
+  const contextuaStatePages = clone_with_descriptors(STATE_PAGES)
+  const contextuaStatePagesDark = clone_with_descriptors(STATE_PAGES_DARK)
+  if (Access.the(usr).hasClearance('free').then) {
+    contextuaStatePages[$80] = accountPageState
+    contextuaStatePagesDark[$80] = $80DarkThemeMode
+  }
+  if (contextuaStatePages[key] && contextuaStatePagesDark[key]) {
+    // If the requested page exists, return it contextualized to the user
+    return {
+      'light': contextuaStatePages[key],
+      'dark': contextuaStatePagesDark[key]
+    }
+  }
+  // If the requested page doesn't exist, return a generic not found page
+  warn(`Page state for key '${key}' not found. Returning generic not found page state.`)
+  return {
+    'light': get_generic_not_found_page_state(key),
+    'dark': get_generic_not_found_page_state(key)
+  }
 }
 
 // [TODO] Wrap in a conditional to check if the user is an admin
