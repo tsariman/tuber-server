@@ -1,6 +1,8 @@
 
 # Development Log
 
+## `202603250011` [Feature] Add confirm delete account dialog and integrate with edit user form
+
 ## `202603231037` [Feature] Implement account retrieval endpoint and enhance state management with clearance checks
 
 ## `202603211656` [Feature] Add account and edit user form states with corresponding dark theme modes

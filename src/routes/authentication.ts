@@ -24,7 +24,7 @@ import signInFormState from '../state/form/sign.in.form.state'
 import { blacklist_token } from '../model/blacklisted.token'
 import JsonapiErrorBuilder from '../business.logic/builder/JsonapiErrorBuilder'
 import { UserModel } from '../model/user'
-import { is_record } from '../utility'
+import { is_record, to_error_object } from '../utility'
 import OnRequestAuthorization from '../business.logic/OnRequestAuthorization'
 import Config from '../config'
 
@@ -186,13 +186,14 @@ const authentication: FastifyPluginAsync = async (fastify, rootOpts): Promise<vo
       return
     } catch (e) {
       task.end(MSG_500_ERROR_MESSAGE.replace('[500]', '[5005]'))
+      const error = to_error_object(e)
       log_err_safe('[5005] Error attempting to authenticate user', {
-        error: e,
+        error,
         username
       })
       reply.code(500).send({
         ...error_id(5005).default_500_error_response(e),
-        ...alert((e as Error).message),
+        ...alert(error.message),
       })
       return
     }

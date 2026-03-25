@@ -87,7 +87,8 @@ const STATE_KEY = {
   '80': 'account',
   '81': 'accountPageAppbar',
   '82': 'editUserForm',
-  '83': 'generic-not-found-page'
+  '83': 'generic-not-found-page',
+  '84': 'confirmDeleteAccountDialog'
 } as const
 
 export type TStateKey = typeof STATE_KEY[keyof typeof STATE_KEY]

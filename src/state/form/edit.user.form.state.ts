@@ -3,6 +3,7 @@ import { EP_ACCOUNT, TStateForm } from '@tuber/shared'
 import { register } from '../../business.logic/registry'
 import { clone_with_descriptors, t } from '../../business.logic'
 import { title_centered } from '../html'
+import confirmDeleteAccountDialogState from '../dialog/confirm.delete.account.dialog.state'
 import STATE_KEY from '../../business.logic/state.key'
 
 const $82 = STATE_KEY['82']
@@ -186,6 +187,27 @@ export const editUserFormState: TStateForm = {
           'props': {
             'variant': 'contained',
             'color': 'primary'
+          }
+        },
+        {
+          'type': 'state_button',
+          'has': {
+            get 'label'() { return t('delete_account', 'Delete Account') },
+            'icon': 'delete',
+            'iconPosition': 'left',
+            'onclickHandlerDirective': {
+              'type': '$redux_actions',
+              'actions': [
+                {
+                  'type': 'dialog/dialogOpenOrMount',
+                  'payload': confirmDeleteAccountDialogState
+                }
+              ]
+            }
+          },
+          'props': {
+            'variant': 'outlined',
+            'color': 'error'
           }
         }
       ]
