@@ -78,6 +78,10 @@ import {
   $41DarkThemeMode
 } from './sign.in.form.state'
 import {
+  passwordRecoveryFormState,
+  $86DarkThemeMode
+} from './password.recovery.form.state'
+import {
   editUserFormState,
   $82DarkThemeMode
 } from './edit.user.form.state'
@@ -122,6 +126,7 @@ const $39 = STATE_KEY['39']
 const $41 = STATE_KEY['41']
 const $69 = STATE_KEY['69']
 const $82 = STATE_KEY['82']
+const $86 = STATE_KEY['86']
 
 /**
  * Get the sign in form state.
@@ -147,6 +152,11 @@ export function bootstrap_forms_state(
     ...(is_dev(usr) ? dev_bootstrap_forms_state(themeMode) : {})
   }
   forms[key(signInFormState)] = _get_signin_form_state(themeMode)
+  forms[key(passwordRecoveryFormState)] = themed(
+    passwordRecoveryFormState,
+    $86DarkThemeMode,
+    themeMode
+  )
 
   // TODO Insert your new form here if you want it to be load in the
   //      bootstrapping process.
@@ -167,6 +177,7 @@ export function bootstrap_forms_light_state(usr?: TContextualUser) {
     ...(is_dev(usr) ? dev_bootstrap_forms_light_state() : {})
   }
   set_state_by_key(forms, signInFormState)
+  set_state_by_key(forms, passwordRecoveryFormState)
 
   // TODO: Don't forget to insert light mode version of each form state.
   //       Note: The light mode is the original version.
@@ -187,6 +198,7 @@ export function bootstrap_forms_dark_state(usr?: TContextualUser) {
     ...(is_dev(usr) ? dev_bootstrap_forms_dark_state() : {})
   }
   set_state_by_key(forms, $41DarkThemeMode)
+  set_state_by_key(forms, $86DarkThemeMode)
 
   // TODO: Don't forget to insert dark mode version of each form state.
 
@@ -213,6 +225,7 @@ export const STATE_FORMS_THEME_DARK: TStateAllForms = {
   [$38]: $38DarkThemeMode,
   [$39]: $39DarkThemeMode,
   [$41]: $41DarkThemeMode,
+  [$86]: $86DarkThemeMode,
   [$69]: $69DarkThemeMode,
   ...(Config.DEV ? DEV_STATE_FORM_THEME_DARK : {})
 }
@@ -237,6 +250,7 @@ export const STATE_FORMS: TStateAllForms = {
   [$38]: newTwitchBookmarkFormState,
   [$39]: editTwitchBookmarkFormState,
   [$41]: signInFormState,
+  [$86]: passwordRecoveryFormState,
   [$69]: newUserFormState,
   ...(Config.DEV ? DEV_STATE_FORM : {})
 }

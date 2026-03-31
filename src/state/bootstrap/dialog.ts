@@ -7,10 +7,14 @@ import {
   confirmSignOutDialogState,
   signInDialogState
 } from '../dialog'
+import passwordRecoveryDialogState, {
+  $85DarkThemeMode
+} from '../dialog/password.recovery.dialog.state'
 import STATE_KEY from '../../business.logic/state.key'
 
 const $32 = STATE_KEY['32']
 const $68 = STATE_KEY['68']
+const $85 = STATE_KEY['85']
 
 const bootstrap_dialogs_state: TBootstrapState<TStateAllDialogs> = {
 
@@ -40,6 +44,7 @@ const bootstrap_dialogs_light_state: TBootstrapState<TStateAllDialogs> = {
 
   DEFAULT: {
     [$32]: signInDialogState,
+    [$85]: passwordRecoveryDialogState,
     [$68]: confirmSignOutDialogState
   }
 
@@ -50,6 +55,7 @@ const bootstrap_dialogs_dark_state: TBootstrapState<TStateAllDialogs> = {
 
   DEFAULT: {
     [$32]: $32DarkThemeMode,
+    [$85]: $85DarkThemeMode,
     [$68]: $68DarkThemeMode
   }
 

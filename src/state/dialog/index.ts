@@ -62,6 +62,9 @@ import newTwitchBookmarkDialogState, {
 import editTwitchBookmarkDialogState, {
   $37DarkThemeMode
 } from './edit.twitch.dialog.state'
+import passwordRecoveryDialogState, {
+  $85DarkThemeMode
+} from './password.recovery.dialog.state'
 import { register } from '../../business.logic/registry'
 import { THEME_LIGHT_PAPER_SX_PROPS } from '../theme.state'
 import { TContextualUser } from '../../schema/user'
@@ -96,6 +99,7 @@ const $64 = STATE_KEY['64']
 const $65 = STATE_KEY['65']
 const $68 = STATE_KEY['68']
 const $69 = STATE_KEY['69']
+const $85 = STATE_KEY['85']
 
 register('state', '6', $6)
 /** Dialog to create a new YouTube video bookmark @id 6 */
@@ -486,6 +490,7 @@ export const alertState = <T = unknown>(string: T): TNetState => ({
 export function bootstrap_dialogs_light_state() {
   const dialogs: TStateAllDialogs = {}
   set_state_by_key(dialogs, signInDialogState)
+  set_state_by_key(dialogs, passwordRecoveryDialogState)
   set_state_by_key(dialogs, confirmSignOutDialogState)
   // TODO: Don't forget to insert light mode state for each dialog
 
@@ -501,6 +506,7 @@ export function bootstrap_dialogs_light_state() {
 export function bootstrap_dialogs_dark_state() {
   const dialogs: TStateAllDialogs = {}
   set_state_by_key(dialogs, $32DarkThemeMode)
+  set_state_by_key(dialogs, $85DarkThemeMode)
   set_state_by_key(dialogs, $68DarkThemeMode)
   // TODO: Don't forget to insert dark mode state for each dialog
 
@@ -514,7 +520,7 @@ export function bootstrap_dialogs_dark_state() {
  * @param themeMode theme mode
  * @returns void
  */
-function _get_signin_dialog_state(themeMode?: TThemeMode) {
+function $get_signin_dialog_state(themeMode?: TThemeMode) {
   return themed(
     signInDialogState,
     $32DarkThemeMode,
@@ -529,7 +535,7 @@ function _get_signin_dialog_state(themeMode?: TThemeMode) {
  * @param themeMode theme mode
  * @returns void
  */
-function _get_signout_dialog_state (themeMode?: TThemeMode) {
+function $get_signout_dialog_state (themeMode?: TThemeMode) {
   return themed(
     confirmSignOutDialogState,
     $68DarkThemeMode,
@@ -547,8 +553,13 @@ function _get_signout_dialog_state (themeMode?: TThemeMode) {
  */
 export function bootstrap_dialogs_state(themeMode?: TThemeMode) {
   const dialogs: TStateAllDialogs = {}
-  dialogs[key(signInDialogState)] = _get_signin_dialog_state(themeMode)
-  dialogs[key(confirmSignOutDialogState)] = _get_signout_dialog_state(themeMode)
+  dialogs[key(signInDialogState)] = $get_signin_dialog_state(themeMode)
+  dialogs[key(passwordRecoveryDialogState)] = themed(
+    passwordRecoveryDialogState,
+    $85DarkThemeMode,
+    themeMode
+  )
+  dialogs[key(confirmSignOutDialogState)] = $get_signout_dialog_state(themeMode)
 
   // TODO Insert your new dialog here if you want it to be load in the
   //      bootstrapping process.
@@ -556,7 +567,6 @@ export function bootstrap_dialogs_state(themeMode?: TThemeMode) {
   return dialogs
 }
 
-/** @deprecated */
 export const STATE_DIALOGS_THEME_DARK: TStateAllDialogs = {
   [$2]: $2DarkThemeMode,
   [$6]: $6DarkThemeMode,
@@ -579,10 +589,10 @@ export const STATE_DIALOGS_THEME_DARK: TStateAllDialogs = {
   [$35]: $35DarkThemeMode,
   [$36]: $36DarkThemeMode,
   [$37]: $37DarkThemeMode,
+  [$85]: $85DarkThemeMode,
   [$68]: $68DarkThemeMode,
 }
 
-/** @deprecated */
 export const STATE_DIALOGS: { [key: string]: TStateDialog } = {
   [$2]: newVideoUrlDialogState,
   [$6]: newYoutubeBookmarkDialogState,
@@ -605,6 +615,7 @@ export const STATE_DIALOGS: { [key: string]: TStateDialog } = {
   [$35]: clientAlertDialogState,
   [$36]: newTwitchBookmarkDialogState,
   [$37]: editTwitchBookmarkDialogState,
+  [$85]: passwordRecoveryDialogState,
   [$68]: confirmSignOutDialogState,
 }
 

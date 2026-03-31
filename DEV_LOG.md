@@ -1,6 +1,8 @@
 
 # Development Log
 
+## `202603311448` [Feature] Add password recovery dialog and form states
+
 ## `202603250011` [Feature] Add confirm delete account dialog and integrate with edit user form
 
 ## `202603231037` [Feature] Implement account retrieval endpoint and enhance state management with clearance checks

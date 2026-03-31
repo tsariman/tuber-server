@@ -3,6 +3,7 @@ import type { TStateForm } from '@tuber/shared'
 import { register } from '../../business.logic/registry'
 import { clone_with_descriptors, t } from '../../business.logic'
 import STATE_KEY from '../../business.logic/state.key'
+import { passwordRecoveryDialogState } from '../dialog/password.recovery.dialog.state'
 
 const $41 = STATE_KEY['41']
 
@@ -45,6 +46,39 @@ export const signInFormState: TStateForm = {
           }
         },
         {
+          'type': 'div',
+          'props': { 'sx': {
+            'mt': '0 !important',
+            'textAlign': 'right'
+          }},
+          'items': [
+            {
+              'type': 'a',
+              'props': {
+                'href': '#forgot-password',
+                'sx': {
+                  'mt': '0 !important',
+                  'fontSize': '0.875rem',
+                  'textDecoration': 'none',
+                  '&:hover': {
+                    'textDecoration': 'underline'
+                  }
+                }
+              },
+              'has': {
+                get 'text'() { return t('279', 'Forgot password?') },
+                'onclickHandlerDirective': {
+                  'type': '$redux_actions',
+                  'actions': [
+                    { 'type': 'dialog/dialogClose' },
+                    { 'type': 'dialog/dialogOpenOrMount', 'payload': passwordRecoveryDialogState }
+                  ]
+                }
+              }
+            },
+          ]
+        },
+        {
           'type': 'checkboxes',
           get 'label'() { return t('276', 'Available options') },
           'name': 'options',
@@ -59,6 +93,7 @@ export const signInFormState: TStateForm = {
         },
         {
           'type': 'submit',
+          'props': { 'type': 'submit' },
           'has': {
             'icon': 'vpn_key',
             'iconPosition': 'right',
@@ -66,11 +101,7 @@ export const signInFormState: TStateForm = {
             'onclickHandler': 'tuberCallbacks.$41_C_1'
           }
         }
-      ],
-      'eventPropagationEnabled': true,
-      'has': {
-        'onkeydownHandler': 'tuberCallbacks.$41_C_2'
-      }
+      ]
     }
   ]
 }

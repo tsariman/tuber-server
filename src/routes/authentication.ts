@@ -8,6 +8,8 @@ import {
 } from '../business.logic/errors'
 import {
   TJsonapiStateResponse,
+  TJsonapiRequest,
+  EP_AUTH,
   MSG_500_ERROR_MESSAGE,
   THEME_MODE,
   TThemeMode,
@@ -21,6 +23,7 @@ import { log_safe, log_err_safe, task, errr, dbug } from '../utility/logging'
 import JsonapiRequestDriver from '../business.logic/JsonapiRequestDriver'
 import RequestDataValidator from '../business.logic/RequestDataValidator'
 import signInFormState from '../state/form/sign.in.form.state'
+import passwordRecoveryFormState from '../state/form/password.recovery.form.state'
 import { blacklist_token } from '../model/blacklisted.token'
 import JsonapiErrorBuilder from '../business.logic/builder/JsonapiErrorBuilder'
 import { UserModel } from '../model/user'
@@ -198,6 +201,36 @@ const authentication: FastifyPluginAsync = async (fastify, rootOpts): Promise<vo
       return
     }
   }) // End /signin
+
+  fastify.post(`/${EP_AUTH.RECOVERY}`, opts, async function (
+    req: FastifyRequest<{ Body: TJsonapiRequest<{ email?: string }> }>,
+    reply: FastifyReply,
+  ) {
+    const driver = new JsonapiRequestDriver(req.body)
+    const attributes = driver.getAttributes()
+
+    if (!is_record(attributes)) {
+      reply.code(400).send(new JsonapiErrorBuilder()
+        .withStatus(400)
+        .withCode('MALFORMED_REQUEST')
+        .withTitle('Invalid Request')
+        .withDetail('No form data was provided in the request.')
+        .build())
+      return
+    }
+
+    const validator = new RequestDataValidator(attributes, passwordRecoveryFormState)
+    const errorResponse = validator.validateAgainstFormState()
+    if (errorResponse) {
+      reply.code(400).send(errorResponse)
+      return
+    }
+
+    // Phase 2 stub: route defined and validated, delivery implementation pending.
+    reply.code(200).send(alert(
+      'If an account exists for this email, password recovery instructions will be sent.'
+    ))
+  }) // End /password/recovery
 
   const signoutOpts: Partial<RouteOptions> = {
     ...opts,
