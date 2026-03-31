@@ -32,8 +32,8 @@ export const get_bookmark_switch_publish = () => ({
 
 /**
  * A dummy switch item that mimics the appearance of the publish switch but
- * shows a dialog on change instead of updating the form state. Used for users
- * without sufficient access level.
+ * opens the Patreon upgrade page on change instead of updating form state.
+ * Used for users without sufficient access level.
  * @id 78
  */
 export const get_bookmark_switch_publish_dummy = () => ({
@@ -43,10 +43,10 @@ export const get_bookmark_switch_publish_dummy = () => ({
   'name': 'is_published',
   get 'label'() { return t('79', 'Published') },
   'has': {
+    'onchangeHandler': 'tuberCallbacks.openPatreonUpgrade',
     get 'helperText'() { return t('279', PUBLISHED_UNAVAILABLE) },
     'formControlLabelProps': {
       'sx': { 'flex': 1, 'ml': 1 }
     }
   },
-  // 'onchangeHandlerDirective': get_77_onchange_handler_directive()
 } as TStateFormItem)

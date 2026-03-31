@@ -1,6 +1,8 @@
 
 # Development Log
 
+## `202603311948` [Refactor] Dummy switch now opens patreon page when toggled
+
 ## `202603311448` [Feature] Add password recovery dialog and form states
 
 ## `202603250011` [Feature] Add confirm delete account dialog and integrate with edit user form
