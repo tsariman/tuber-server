@@ -110,3 +110,17 @@
 ## Security question for AI
 
 - What are the common pitfalls, edge-cases, and exploits when a user account is created?
+
+## [Refactor]: Major permissions system overhaul
+
+- Redesigned role hierarchy with new paid tiers (donor, investor, sponsor, patron, member, supporter)
+- Expanded permission system with granular bookmark and user operation controls
+- Added detailed permission levels for bookmark publishing with platform awareness
+- Introduced comprehensive bookmark CRUD permissions with role-based access
+- Standardized TypeScript code style across codebase (semicolons, error handling)
+- Enhanced error handling with proper type casting (unknown -> Error)
+- Added default user creation system for empty database scenarios
+- Improved environment configuration management
+- Created shared types system for client-server compatibility
+- Added comprehensive JSDoc comments for permission definitions
+- Migrated from `any` types to proper TypeScript typing throughout
