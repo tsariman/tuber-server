@@ -160,7 +160,9 @@ export const editUserFormState: TStateForm = {
                   'type': 'state_button',
                   'has': {
                     get 'label'() { return t('connect_patreon', 'Connect Patreon') },
-                    'icon': 'link'
+                    'icon': 'link',
+                    'iconPosition': 'left',
+                    'onclickHandler': 'tuberCallbacks.openPatreonUpgrade'
                   },
                   'props': {
                     'variant': 'contained',
