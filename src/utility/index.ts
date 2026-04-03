@@ -22,6 +22,11 @@ export const die = (message: string): void => {
   }
 }
 
+/** Checks if the argument is a string. Returns `true` if it is. */
+export const is_string = (value: unknown): value is string => {
+  return typeof value === 'string'
+}
+
 /** Checks if the argument is an object. Returns `true` if it is. */
 export const is_object = (obj: unknown): obj is object => {
   return typeof obj === 'object' && obj !== null && !Array.isArray(obj)

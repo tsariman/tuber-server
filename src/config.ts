@@ -59,7 +59,18 @@ interface IConfiguration {
   SMTP_FROM: string
   APP_BASE_URL: string
   ENABLE_TOKEN_BLACKLIST: boolean
+
+  // Patreon OAuth
+
+  /** Patreon OAuth client ID. */
+  PATREON_CLIENT_ID: string
+  /** Patreon OAuth client secret. */
+  PATREON_CLIENT_SECRET: string
+  /** Patreon OAuth state secret. Should be a long random string. */
+  PATREON_OAUTH_STATE_SECRET: string
 }
+
+const trim_env = (value?: string): string => (value ?? '').trim()
 
 /** App configuration values. */
 const USER_CONFIG: IConfiguration = {
@@ -158,7 +169,46 @@ const USER_CONFIG: IConfiguration = {
   SMTP_FROM: process.env.SMTP_FROM ?? 'no-reply@localhost',
   APP_BASE_URL: process.env.APP_BASE_URL ?? 'http://localhost:8080',
   ENABLE_TOKEN_BLACKLIST: (process.env.ENABLE_TOKEN_BLACKLIST ?? 'false') === 'true',
+
+  // Patreon OAuth
+  PATREON_CLIENT_ID: trim_env(process.env.PATREON_CLIENT_ID),
+  PATREON_CLIENT_SECRET: trim_env(process.env.PATREON_CLIENT_SECRET),
+  PATREON_OAUTH_STATE_SECRET: trim_env(process.env.PATREON_OAUTH_STATE_SECRET)
 }
+
+const is_local_url = (value: string): boolean => {
+  const lowered = value.toLowerCase()
+  return lowered.includes('localhost') || lowered.includes('127.0.0.1')
+}
+
+const validate_runtime_security_config = (): void => {
+  const isProduction = USER_CONFIG.NODE_ENV === 'production'
+  const patreonId = USER_CONFIG.PATREON_CLIENT_ID
+  const patreonSecret = USER_CONFIG.PATREON_CLIENT_SECRET
+  const patreonStateSecret = USER_CONFIG.PATREON_OAUTH_STATE_SECRET
+  const hasAnyPatreonOAuthSetting = Boolean(patreonId || patreonSecret || patreonStateSecret)
+  const hasAllPatreonOAuthSettings = Boolean(patreonId && patreonSecret && patreonStateSecret)
+
+  if (hasAnyPatreonOAuthSetting && !hasAllPatreonOAuthSettings) {
+    throw new Error(
+      'Patreon OAuth config is incomplete. Set PATREON_CLIENT_ID, PATREON_CLIENT_SECRET, and PATREON_OAUTH_STATE_SECRET together.'
+    )
+  }
+
+  if (hasAllPatreonOAuthSettings && patreonStateSecret.length < 32) {
+    throw new Error('PATREON_OAUTH_STATE_SECRET must be at least 32 characters long.')
+  }
+
+  if (isProduction && is_local_url(USER_CONFIG.APP_BASE_URL)) {
+    throw new Error('APP_BASE_URL must be a non-local URL in production.')
+  }
+
+  if (isProduction && is_local_url(USER_CONFIG.CLIENT_DOMAIN)) {
+    throw new Error('CLIENT_DOMAIN must be a non-local URL in production.')
+  }
+}
+
+validate_runtime_security_config()
 
 const USER_CACHE = new NodeCache({ stdTTL: Number(process.env.STDTTL) || 900 })
 const SLUG_CACHE = new NodeCache({ stdTTL: Number(process.env.STDTTL) || 900 })
