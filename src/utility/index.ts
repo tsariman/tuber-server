@@ -27,6 +27,16 @@ export const is_string = (value: unknown): value is string => {
   return typeof value === 'string'
 }
 
+/** Checks if the argument is a number. Returns `true` if it is. */
+export const is_number = (value: unknown): value is number => {
+  return typeof value === 'number'
+}
+
+/** Checks if the argument is a finite number. Returns `true` if it is. */
+export const is_finite_number = (value: unknown): value is number => {
+  return typeof value === 'number' && Number.isFinite(value)
+}
+
 /** Checks if the argument is an object. Returns `true` if it is. */
 export const is_object = (obj: unknown): obj is object => {
   return typeof obj === 'object' && obj !== null && !Array.isArray(obj)
