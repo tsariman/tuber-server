@@ -33,6 +33,7 @@ export default async function get_bookmark_collection_endpoint (
     if (searchQuery) {
       dbug('Running search query:', searchQuery)
       dbug(`Getting bookmarks collection with search (page ${page}, limit ${limit}) `)
+
       const pipeline = get_bookmark_search_query_pipeline({
         searchQuery,
         page,

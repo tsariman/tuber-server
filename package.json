@@ -16,7 +16,8 @@
     "dev": "npm run build:ts && concurrently -k -p \"[{name}]\" -n \"TypeScript,App\" -c \"yellow.bold,cyan.bold\" \"npm:watch:ts\" \"npm:dev:start\"",
     "dev:start": "fastify start --ignore-watch=.ts$ -w -l info -P dist/app.js | pino-pretty",
     "clean": "rimraf dist",
-    "migrate:users-collation": "ts-node src/install/ensure.users.collation.ts"
+    "migrate:users-collation": "ts-node src/install/ensure.users.collation.ts",
+    "bench:bookmarks": "node scripts/load-test-bookmarks.mjs"
   },
   "keywords": [],
   "author": "",

@@ -15,6 +15,7 @@ export default function get_bookmark_search_query_pipeline(
   const pipeline: PipelineStage[] = []
 
   const { searchQuery, page, limit, searchMode } = query
+  const skip = (page - 1) * limit
 
   if (searchQuery) {
     pipeline.push({
@@ -44,40 +45,47 @@ export default function get_bookmark_search_query_pipeline(
       $match: matchQuery
     })
     pipeline.push({
-      $group: {
-        _id: null,
-        totalItems: { $sum: 1 },
-        results: { $push: '$$ROOT' } // Store the matched documents in an
-                                      // array
+      $facet: {
+        metadata: [
+          { $count: 'totalItems' }
+        ],
+        results: [
+          { $skip: skip },
+          { $limit: limit },
+          {
+            $project: {
+              _id: 1,
+              created_at: 1,
+              modified_at: 1,
+              user_id: 1,
+              inception_clearance: 1,
+              videoid: 1,
+              platform: 1,
+              start_seconds: 1,
+              end_seconds: 1,
+              title: 1,
+              note: 1,
+              upvotes: 1,
+              downvotes: 1,
+              url: 1,
+              thumbnail_url: 1,
+              author: 1,
+              is_published: 1,
+              score: { $meta: 'searchScore' },
+            }
+          }
+        ]
       }
     })
     pipeline.push({
       $project: {
-        _id: 1,
-        is_active: 1,
-        created_at: 1,
-        modified_at: 1,
-        user_id: 1,
-        inception_clearance: 1,
-        videoid: 1,
-        platform: 1,
-        start_seconds: 1,
-        end_seconds: 1,
-        title: 1,
-        note: 1,
-        upvotes: 1,
-        downvotes: 1,
-        url: 1,
-        thumbnail_url: 1,
-        restrictions: 1,
-        rules: 1,
-        author: 1,
-        is_published: 1,
-        results: {
-          $slice: ['$results', (page - 1) * limit, limit]
-        },
-        score: { $meta: 'searchScore' },
-        totalItems: 1,
+        results: 1,
+        totalItems: {
+          $ifNull: [
+            { $arrayElemAt: ['$metadata.totalItems', 0] },
+            0
+          ]
+        }
       }
     })
   }
