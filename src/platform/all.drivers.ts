@@ -15,6 +15,7 @@ import get_bookmark_by_videoid from '../model/bookmark/get.bookmark.by.videoid'
 import { errr, log_err, task, warn } from '../utility/logging'
 import { TContextualUser } from '../schema/user'
 import { PLATFORM_URL } from '.'
+import Access from '../business.logic/security/Access'
 
 /**
  * Fill-in missing data for a bookmark.
@@ -28,15 +29,15 @@ export default async function fix_missing_bookmark_data (
   if (!attributes) { return null }
   const map: Record<TPlatform, () => Promise<IBookmark|null>> = {
     _blank: async () => null,
-    youtube: async () => _youtube_data(attributes, usr),
-    rumble: async () => _rumble_data(attributes, usr),
-    odysee: async () => _odysee_data(attributes, usr),
-    vimeo: async () => _vimeo_data(attributes, usr),
-    dailymotion: async () => _dailymotion_data(attributes, usr),
-    facebook: async () => _facebook_data(attributes, usr),
+    youtube: async () => $youtube_data(attributes, usr),
+    rumble: async () => $rumble_data(attributes, usr),
+    odysee: async () => $odysee_data(attributes, usr),
+    vimeo: async () => $vimeo_data(attributes, usr),
+    dailymotion: async () => $dailymotion_data(attributes, usr),
+    facebook: async () => $facebook_data(attributes, usr),
     bitchute: async () => null, // TODO BitChute not supported yet.
-    twitch: async () => _twitch_data(attributes, usr),
-    unknown: async () => _unknown_data(attributes, usr),
+    twitch: async () => $twitch_data(attributes, usr),
+    unknown: async () => $unknown_data(attributes, usr),
   }
   return map[attributes.platform]()
 }
@@ -67,7 +68,7 @@ export function get_video_thumbnail_url (body: TBookmarkFrag) {
   throw new Error('get_video_thumbnail_url(): Undefined bookmark platform')
 }
 
-async function _youtube_data(
+async function $youtube_data(
   attributes: IBookmark,
   usr?: TContextualUser
 ): Promise<IBookmark|null> {
@@ -77,7 +78,7 @@ async function _youtube_data(
   return fixedBookmark
 }
 
-async function _dailymotion_data(
+async function $dailymotion_data(
   attributes: IBookmark,
   usr?: TContextualUser
 ): Promise<IBookmark|null> {
@@ -87,7 +88,7 @@ async function _dailymotion_data(
   return fixedBookmark
 }
 
-async function _rumble_data(
+async function $rumble_data(
   attributes: IBookmark,
   usr?: TContextualUser
 ): Promise<IBookmark|null> {
@@ -144,7 +145,7 @@ async function _rumble_data(
   return null
 }
 
-async function _twitch_data(
+async function $twitch_data(
   attributes: IBookmark,
   usr?: TContextualUser
 ): Promise<IBookmark|null> {
@@ -173,7 +174,7 @@ async function _twitch_data(
   return null
 }
 
-async function _vimeo_data(
+async function $vimeo_data(
   attributes: IBookmark,
   usr?: TContextualUser
 ): Promise<IBookmark|null> {
@@ -201,7 +202,7 @@ async function _vimeo_data(
   return null
 }
 
-async function _odysee_data(
+async function $odysee_data(
   attributes: IBookmark,
   usr?: TContextualUser
 ): Promise<IBookmark|null> {
@@ -229,17 +230,21 @@ async function _odysee_data(
   return null
 }
 
-async function _unknown_data(
+async function $unknown_data(
   attributes: IBookmark,
   usr?: TContextualUser
 ): Promise<IBookmark|null> {
   const { platform, url } = attributes
   if (!url || !usr || !usr._id) { return null }
   try {
+    const canPublishUnknownBookmark = Access.the(usr).can('publish.unknown.bookmark')
     const fixedBookmark = {
       ...attributes,
       user_id: usr._id,
-      is_published: undefined // Enforces the policy that unknown bookmarks cannot be published.
+      // Unknown bookmarks can only be published by moderators and above.
+      is_published: canPublishUnknownBookmark
+        ? attributes.is_published
+        : undefined
     } as IBookmark
     if (!fixedBookmark.thumbnail_url) {
       task(`Fetching thumbnail url for '${url}' URL `)
@@ -254,7 +259,7 @@ async function _unknown_data(
   return null
 }
 
-async function _facebook_data(
+async function $facebook_data(
   attributes: IBookmark,
   usr?: TContextualUser
 ): Promise<IBookmark|null> {

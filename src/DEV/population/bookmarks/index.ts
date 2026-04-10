@@ -121,7 +121,7 @@ const randomNote = (): string => {
   return notes[Math.floor(Math.random() * notes.length)]
 }
 
-const _get_dev_user_id = async (): Promise<string> => {
+const $get_dev_user_id = async (): Promise<string> => {
   const buffer = await fs.readFile(DEV_USER_FILENAME)
   const id = buffer.toString()
   return id
@@ -129,7 +129,7 @@ const _get_dev_user_id = async (): Promise<string> => {
 
 const gen_random_bookmarks = async (number = 100): Promise<TBookmark[] | null> => {
   try {
-    const user_id = await _get_dev_user_id()
+    const user_id = await $get_dev_user_id()
     const bookmarks: TBookmark[] = []
     let p = 0
     for (let i = 0; i < number; i++) {

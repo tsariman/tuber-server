@@ -68,6 +68,8 @@ export default function get_bookmark_search_query_pipeline(
               upvotes: 1,
               downvotes: 1,
               url: 1,
+              embed_url: 1,
+              slug: 1,
               thumbnail_url: 1,
               author: 1,
               is_published: 1,

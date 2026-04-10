@@ -91,6 +91,23 @@ export default async function patch_bookmark_by_id_endpoint (
       return
     }
     task.end('[✔️]')
+    const targetPlatform = attributes.platform ?? bookmark.platform
+    const targetIsPublished = attributes.is_published ?? bookmark.is_published
+
+    if (
+      targetPlatform === 'unknown'
+      && targetIsPublished === true
+      && Access.the(request.usr).cannot('publish.unknown.bookmark')
+    ) {
+      task.end('[❌]')
+      reply.code(403).send(new JsonapiErrorBuilder()
+        .withStatus(403)
+        .withTitle('Forbidden')
+        .withDetail('Only moderators and above can publish unknown bookmarks.')
+        .build())
+      return
+    }
+
     task('Checking access control ')
     // Check access control
     if (Access.the(request.usr).canEdit(bookmark)) {

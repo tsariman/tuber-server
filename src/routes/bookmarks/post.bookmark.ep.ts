@@ -65,6 +65,20 @@ export default async function post_bookmark_endpoint (
       return
     }
 
+    if (
+      newBookmarkData.platform === 'unknown'
+      && newBookmarkData.is_published === true
+      && accessingUser.cannot('publish.unknown.bookmark')
+    ) {
+      task.end('[❌]')
+      reply.code(403).send(new JsonapiErrorBuilder()
+        .withStatus(403)
+        .withTitle('Forbidden')
+        .withDetail('Only moderators and above can publish unknown bookmarks.')
+        .build())
+      return
+    }
+
     task.end('[✔️]')
 
     const fixedBookmarkData = await fix_missing_bookmark_data(
