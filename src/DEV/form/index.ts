@@ -25,7 +25,7 @@ import devSaveConfigValueFormState, {
 } from './dev.save.config.value.form.state'
 import { get_state_key as key, themed } from '../../business.logic'
 
-function _get_dev_install_form_state(themeMode?: TThemeMode) {
+function $get_dev_install_form_state(themeMode?: TThemeMode) {
   return themed(
     devInstallFormState,
     $47DarkThemeMode,
@@ -35,7 +35,7 @@ function _get_dev_install_form_state(themeMode?: TThemeMode) {
 
 export function dev_bootstrap_forms_state(themeMode?: TThemeMode): TStateAllForms {
   const forms: TStateAllForms = {}
-  forms[key(devInstallFormState)] = _get_dev_install_form_state(themeMode)
+  forms[key(devInstallFormState)] = $get_dev_install_form_state(themeMode)
 
   // TODO Insert your new form here if you want it to be load in the
   //      bootstrapping process.
@@ -71,7 +71,6 @@ const $57 = STATE_KEY['57']
 const $60 = STATE_KEY['60']
 const $62 = STATE_KEY['62']
 
-/** @deprecated */
 export const DEV_STATE_FORM_THEME_DARK: TStateAllForms = {
   [$45]: $45DarkThemeMode,
   [$47]: $47DarkThemeMode,
@@ -83,7 +82,6 @@ export const DEV_STATE_FORM_THEME_DARK: TStateAllForms = {
   [$62]: $62DarkThemeMode,
 }
 
-/** @deprecated */
 const DEV_STATE_FORM: TStateAllForms = {
   [$45]: devTestThumbnailFormState,
   [$47]: devInstallFormState,

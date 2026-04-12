@@ -82,6 +82,10 @@ import {
   $86DarkThemeMode
 } from './password.recovery.form.state'
 import {
+  feedbackFormState,
+  $88DarkThemeMode
+} from './feedback.form.state'
+import {
   editUserFormState,
   $82DarkThemeMode
 } from './edit.user.form.state'
@@ -127,6 +131,7 @@ const $41 = STATE_KEY['41']
 const $69 = STATE_KEY['69']
 const $82 = STATE_KEY['82']
 const $86 = STATE_KEY['86']
+const $88 = STATE_KEY['88']
 
 /**
  * Get the sign in form state.
@@ -157,6 +162,11 @@ export function bootstrap_forms_state(
     $86DarkThemeMode,
     themeMode
   )
+  forms[key(feedbackFormState)] = themed(
+    feedbackFormState,
+    $88DarkThemeMode,
+    themeMode
+  )
 
   // TODO Insert your new form here if you want it to be load in the
   //      bootstrapping process.
@@ -178,6 +188,7 @@ export function bootstrap_forms_light_state(usr?: TContextualUser) {
   }
   set_state_by_key(forms, signInFormState)
   set_state_by_key(forms, passwordRecoveryFormState)
+  set_state_by_key(forms, feedbackFormState)
 
   // TODO: Don't forget to insert light mode version of each form state.
   //       Note: The light mode is the original version.
@@ -199,13 +210,13 @@ export function bootstrap_forms_dark_state(usr?: TContextualUser) {
   }
   set_state_by_key(forms, $41DarkThemeMode)
   set_state_by_key(forms, $86DarkThemeMode)
+  set_state_by_key(forms, $88DarkThemeMode)
 
   // TODO: Don't forget to insert dark mode version of each form state.
 
   return forms
 }
 
-/** @deprecated */
 export const STATE_FORMS_THEME_DARK: TStateAllForms = {
   [$1]: $1DarkThemeMode,
   [$4]: $4DarkThemeMode,
@@ -226,11 +237,11 @@ export const STATE_FORMS_THEME_DARK: TStateAllForms = {
   [$39]: $39DarkThemeMode,
   [$41]: $41DarkThemeMode,
   [$86]: $86DarkThemeMode,
+  [$88]: $88DarkThemeMode,
   [$69]: $69DarkThemeMode,
   ...(Config.DEV ? DEV_STATE_FORM_THEME_DARK : {})
 }
 
-/** @deprecated */
 export const STATE_FORMS: TStateAllForms = {
   [$1]: newVideoUrlFormState,
   [$4]: newYouTubeBookmarkFormState,
@@ -251,6 +262,7 @@ export const STATE_FORMS: TStateAllForms = {
   [$39]: editTwitchBookmarkFormState,
   [$41]: signInFormState,
   [$86]: passwordRecoveryFormState,
+  [$88]: feedbackFormState,
   [$69]: newUserFormState,
   ...(Config.DEV ? DEV_STATE_FORM : {})
 }

@@ -65,6 +65,9 @@ import editTwitchBookmarkDialogState, {
 import passwordRecoveryDialogState, {
   $85DarkThemeMode
 } from './password.recovery.dialog.state'
+import feedbackDialogState, {
+  $87DarkThemeMode
+} from './feedback.dialog.state'
 import { register } from '../../business.logic/registry'
 import { THEME_LIGHT_PAPER_SX_PROPS } from '../theme.state'
 import { TContextualUser } from '../../schema/user'
@@ -100,6 +103,7 @@ const $65 = STATE_KEY['65']
 const $68 = STATE_KEY['68']
 const $69 = STATE_KEY['69']
 const $85 = STATE_KEY['85']
+const $87 = STATE_KEY['87']
 
 register('state', '6', $6)
 /** Dialog to create a new YouTube video bookmark @id 6 */
@@ -559,6 +563,11 @@ export function bootstrap_dialogs_state(themeMode?: TThemeMode) {
     $85DarkThemeMode,
     themeMode
   )
+  dialogs[key(feedbackDialogState)] = themed(
+    feedbackDialogState,
+    $87DarkThemeMode,
+    themeMode
+  )
   dialogs[key(confirmSignOutDialogState)] = $get_signout_dialog_state(themeMode)
 
   // TODO Insert your new dialog here if you want it to be load in the
@@ -590,6 +599,7 @@ export const STATE_DIALOGS_THEME_DARK: TStateAllDialogs = {
   [$36]: $36DarkThemeMode,
   [$37]: $37DarkThemeMode,
   [$85]: $85DarkThemeMode,
+  [$87]: $87DarkThemeMode,
   [$68]: $68DarkThemeMode,
 }
 
@@ -616,6 +626,7 @@ export const STATE_DIALOGS: { [key: string]: TStateDialog } = {
   [$36]: newTwitchBookmarkDialogState,
   [$37]: editTwitchBookmarkDialogState,
   [$85]: passwordRecoveryDialogState,
+  [$87]: feedbackDialogState,
   [$68]: confirmSignOutDialogState,
 }
 
