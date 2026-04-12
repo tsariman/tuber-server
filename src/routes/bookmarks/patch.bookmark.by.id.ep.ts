@@ -9,6 +9,7 @@ import { MSG_500_ERROR_MESSAGE } from '@tuber/shared'
 import Access from '../../business.logic/security/Access'
 import JsonapiRequestDriver from '../../business.logic/JsonapiRequestDriver'
 import { get_platform_specific_validator } from './_bookmarks.common.logic'
+import { validate_bookmark_note_link_access } from '../../business.logic/security/bookmark.note.links'
 
 /** `PATCH /bookmarks/:id` endpoint handler */
 export default async function patch_bookmark_by_id_endpoint (
@@ -29,6 +30,16 @@ export default async function patch_bookmark_by_id_endpoint (
         .withTitle('Failed to acquire the `attributes` member')
         .build()
       )
+      return
+    }
+
+    const noteLinkAccessError = validate_bookmark_note_link_access(
+      attributes.note,
+      request.usr
+    )
+    if (noteLinkAccessError) {
+      task.end('[❌]')
+      reply.code(403).send(noteLinkAccessError)
       return
     }
     task.end('[✔️]')

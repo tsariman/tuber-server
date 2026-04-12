@@ -19,7 +19,11 @@ const bootstrap_pages_data_state: TBootstrapState<Promise<TObj<TObj>>> = {
         'showThumbnail': true,
         'bookmarkToPlay': undefined
       },
-      [$40]: {
+      [$40]: usr ? {
+        'searchMode': 'private',
+        'icon': 'lock',
+        'placeholder': 'Search your bookmarks…'
+      } : {
         'searchMode': 'public',
         'icon': 'public_outline',
         'placeholder': 'Search public bookmarks…'

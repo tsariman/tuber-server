@@ -1,6 +1,10 @@
-/** Union of possible actions needing access privilege */
+/**
+ * Union of possible actions needing access privilege
+ * TODO - Add more actions as their required clearance here.
+ */
 export type TAccessKey = 'dev_install_page.view'
   | 'create.bookmark'
+  | 'bookmark.note.links'
   | 'read.unpublished.bookmark'
   | 'read.user.collection'
   | 'get.user'
@@ -12,5 +16,3 @@ export type TAccessKey = 'dev_install_page.view'
   | 'toggle.search.scope'
   | 'publish.bookmark'
   | 'publish.unknown.bookmark'
-
-  // TODO: Add more actions are their required clearance here.

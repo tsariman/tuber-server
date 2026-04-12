@@ -11,6 +11,7 @@ import { get_platform_specific_validator } from './_bookmarks.common.logic'
 import JsonapiErrorBuilder from '../../business.logic/builder/JsonapiErrorBuilder'
 import Access from '../../business.logic/security/Access'
 import CLEARANCE_LEVEL from '../../business.logic/security/clearance.level'
+import { validate_bookmark_note_link_access } from '../../business.logic/security/bookmark.note.links'
 
 /** `POST /bookmarks` endpoint handler */
 export default async function post_bookmark_endpoint (
@@ -41,6 +42,16 @@ export default async function post_bookmark_endpoint (
         .withCode('MALFORMED_REQUEST')
         .withTitle('The request format is invalid')
         .build())
+      return
+    }
+
+    const noteLinkAccessError = validate_bookmark_note_link_access(
+      newBookmarkData.note,
+      req.usr
+    )
+    if (noteLinkAccessError) {
+      task.end('[❌]')
+      reply.code(403).send(noteLinkAccessError)
       return
     }
     

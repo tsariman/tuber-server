@@ -8,6 +8,7 @@ import { is_struct, resolve } from '../../utility'
 export default class Access {
   static GATE: Readonly<Record<TAccessKey, number>> = {
     'create.bookmark': CLEARANCE_LEVEL.free,
+    'bookmark.note.links': CLEARANCE_LEVEL.member,
     'read.unpublished.bookmark': CLEARANCE_LEVEL.moderator,
     'read.user.collection': CLEARANCE_LEVEL.moderator,
     'get.user': CLEARANCE_LEVEL.moderator,

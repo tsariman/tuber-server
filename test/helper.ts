@@ -3,6 +3,7 @@ import * as path from 'node:path'
 import * as test from 'node:test'
 import mongoose from 'mongoose'
 import { UserModel } from '../src/model/user'
+import type { TContextualUser } from '../src/schema/user'
 const helper = require('fastify-cli/helper.js')
 
 export type TestContext = {
@@ -90,6 +91,33 @@ export async function generateTestToken(app: any, user = mockCipheredUser) {
   } catch (error) {
     console.error('Failed to generate test token:', error)
     return null
+  }
+}
+
+export async function generateTestAuthForRole(
+  app: any,
+  role: TContextualUser['role'] = 'free'
+) {
+  try {
+    const suffix = `${role}-${Date.now().toString(36)}`
+    const dbUser = await UserModel.create({
+      name: `testauth-${suffix}`,
+      email: `testauth.${suffix}@example.com`,
+      role,
+    })
+
+    const user = {
+      _id: dbUser._id.toString(),
+      name: dbUser.name,
+      jwt_version: dbUser.jwt_version ?? 0,
+      role: dbUser.role,
+    }
+
+    const token = await app.jwt.sign(user, { expiresIn: '1h' })
+    return { token, user }
+  } catch (error) {
+    console.error('Failed to generate role-based test token:', error)
+    return { token: null, user: null }
   }
 }
 

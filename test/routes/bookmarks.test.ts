@@ -1,6 +1,14 @@
 import { test } from 'node:test'
 import * as assert from 'node:assert'
-import { build, generateTestToken, getAuthHeaders, createJsonapiRequest, mockBookmark } from '../helper'
+import { BookmarkModel } from '../../src/model/bookmark'
+import {
+  build,
+  generateTestAuthForRole,
+  generateTestToken,
+  getAuthHeaders,
+  createJsonapiRequest,
+  mockBookmark,
+} from '../helper'
 
 test('GET /bookmarks - should return bookmarks collection (public route)', async (t) => {
   const app = await build(t)
@@ -248,4 +256,63 @@ test('POST /bookmarks with invalid JSONAPI structure', async (t) => {
 
     assert.ok(response.statusCode >= 400)
   }
+})
+
+test('POST /bookmarks - should block note links for non-members', async (t) => {
+  const app = await build(t)
+  const auth = await generateTestAuthForRole(app, 'free')
+
+  assert.ok(auth.token)
+  assert.ok(auth.user)
+
+  const response = await app.inject({
+    method: 'POST',
+    url: '/bookmarks',
+    headers: getAuthHeaders(auth.token!),
+    payload: createJsonapiRequest('bookmarks', {
+      ...mockBookmark,
+      user_id: auth.user!._id,
+      note: 'https://spam.example/buy-now'
+    })
+  })
+
+  assert.strictEqual(response.statusCode, 403)
+  const body = JSON.parse(response.payload)
+  assert.strictEqual(body.errors?.[0]?.title, 'Note links require a member account')
+})
+
+test('PATCH /bookmarks/:id - should block note links for non-members', async (t) => {
+  const app = await build(t)
+  const auth = await generateTestAuthForRole(app, 'free')
+
+  assert.ok(auth.token)
+  assert.ok(auth.user)
+
+  const bookmark = await BookmarkModel.create({
+    ...mockBookmark,
+    note: 'Plain note only',
+    user_id: auth.user!._id,
+    inception_clearance: 1,
+  })
+
+  const response = await app.inject({
+    method: 'PATCH',
+    url: `/bookmarks/${bookmark._id}`,
+    headers: getAuthHeaders(auth.token!),
+    payload: {
+      data: {
+        type: 'bookmarks',
+        id: bookmark._id.toString(),
+        attributes: {
+          ...mockBookmark,
+          user_id: auth.user!._id,
+          note: '[spam](https://spam.example/buy-now)'
+        }
+      }
+    }
+  })
+
+  assert.strictEqual(response.statusCode, 403)
+  const body = JSON.parse(response.payload)
+  assert.strictEqual(body.errors?.[0]?.title, 'Note links require a member account')
 })

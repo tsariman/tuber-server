@@ -6,34 +6,54 @@ import {
   get_contextualized_form_state,
   get_contextualized_form_state_dark
 } from '../../state/form'
-import {  MSG_500_ERROR_MESSAGE, TJsonapiStateResponse } from '@tuber/shared'
+import { MSG_500_ERROR_MESSAGE, TJsonapiStateResponse, type TStateForm } from '@tuber/shared'
 import { IStatePost } from '../../common.types'
-import { themed } from '../../business.logic'
+import { t, themed } from '../../business.logic'
 import { read_user_by_id } from '../../model/user'
 import { is_record } from '../../utility'
+import Access from '../../business.logic/security/Access'
+import type { TContextualUser } from '../../schema/user'
+import {
+  BOOKMARK_NOTE_LINK_REGEX,
+  BOOKMARK_NOTE_LINKS_FIELD_MESSAGE,
+  BOOKMARK_NOTE_LINKS_HELPER_TEXT,
+} from '../../business.logic/security/bookmark.note.links'
 
-const apply_account_patreon_context = (
-  formState: unknown,
-  linked: boolean
-) => {
-  if (!is_record(formState)) { return }
-
+const rewrite_form_state = (
+  formState: TStateForm,
+  rewriter: (node: Record<string, unknown>) => Record<string, unknown>
+) : TStateForm => {
   const rewrite_node = (node: unknown): unknown => {
     if (!is_record(node)) { return node }
 
-    const nextNode: Record<string, unknown> = { ...node }
-    const has = is_record(node.has) ? node.has : undefined
-
+    let nextNode: Record<string, unknown> = { ...node }
     if (Array.isArray(node.items)) {
       nextNode.items = node.items.map(rewrite_node)
     }
 
+    nextNode = rewriter(nextNode)
+    return nextNode
+  }
+
+  return rewrite_node(formState) as TStateForm
+}
+
+const apply_account_patreon_context = (
+  formState: TStateForm,
+  linked: boolean
+) : TStateForm => {
+  return rewrite_form_state(formState, (node) => {
+    const has = is_record(node.has) ? node.has : undefined
+
     if (node.type === 'state_button' && has) {
       const currentLabel = has.label
       if (currentLabel === 'Connect Patreon' || currentLabel === 'Reconnect Patreon') {
-        nextNode.has = {
-          ...has,
-          label: linked ? 'Reconnect Patreon' : 'Connect Patreon'
+        return {
+          ...node,
+          has: {
+            ...has,
+            label: linked ? 'Reconnect Patreon' : 'Connect Patreon'
+          }
         }
       }
     }
@@ -41,22 +61,55 @@ const apply_account_patreon_context = (
     if (node.type === 'html' && has) {
       const content = has.content
       if (typeof content === 'string' && content.includes('Status:</strong>')) {
-        nextNode.has = {
-          ...has,
-          content: content.replace(
-            /(Status:\s*<\/strong>\s*)(Not connected|Connected)/i,
-            `$1${linked ? 'Connected' : 'Not connected'}`
-          )
+        return {
+          ...node,
+          has: {
+            ...has,
+            content: content.replace(
+              /(Status:\s*<\/strong>\s*)(Not connected|Connected)/i,
+              `$1${linked ? 'Connected' : 'Not connected'}`
+            )
+          }
         }
       }
     }
 
-    return nextNode
+    return node
+  })
+}
+
+const apply_bookmark_note_links_context = (
+  formState: TStateForm,
+  usr?: TContextualUser
+) : TStateForm => {
+  if (Access.the(usr).can('bookmark.note.links')) {
+    return formState
   }
 
-  if (Array.isArray(formState.items)) {
-    formState.items = formState.items.map(rewrite_node)
-  }
+  return rewrite_form_state(formState, (node) => {
+    if (node.type !== 'textarea' || node.name !== 'note') {
+      return node
+    }
+
+    const has = is_record(node.has) ? node.has : {}
+    const props = is_record(node.props) ? node.props : {}
+
+    return {
+      ...node,
+      props: {
+        ...props,
+        helperText: BOOKMARK_NOTE_LINKS_HELPER_TEXT
+      },
+      has: {
+        ...has,
+        invalidationRegex: BOOKMARK_NOTE_LINK_REGEX.source,
+        invalidationMessage: t(
+          'bookmark_note_links_unavailable',
+          BOOKMARK_NOTE_LINKS_FIELD_MESSAGE
+        )
+      }
+    }
+  })
 }
 
 /** `POST /state/forms` endpoint handler */
@@ -85,15 +138,18 @@ export default async function post_state_forms_endpoint (
       return
     }
     task(`Loading '${key}' state with theme mode '${themeMode}' `)
-    const light = get_contextualized_form_state(key, usr)
-    const dark = get_contextualized_form_state_dark(key, usr)
+    let light = get_contextualized_form_state(key, usr)
+    let dark = get_contextualized_form_state_dark(key, usr)
+
+    light = apply_bookmark_note_links_context(light, usr)
+    dark = apply_bookmark_note_links_context(dark, usr)
 
     if (key === 'editUserForm' && usr?._id) {
       const user = await read_user_by_id(String(usr._id))
       const linked = typeof user?.patreon_user_id === 'string'
         && user.patreon_user_id.trim() !== ''
-      apply_account_patreon_context(light, linked)
-      apply_account_patreon_context(dark, linked)
+      light = apply_account_patreon_context(light, linked)
+      dark = apply_account_patreon_context(dark, linked)
     }
 
     const formState = themed(light, dark, themeMode)
