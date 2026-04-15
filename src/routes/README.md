@@ -28,3 +28,37 @@ functionality into the `plugins` folder, and share it via
 
 If you're a bit confused about using `async/await` to write routes, you would
 better take a look at [Promise resolution](https://fastify.dev/docs/latest/Reference/Routes/#promise-resolution) for more details.
+
+## Re-enabling profile editing on the account page
+
+Profile editing is temporarily disabled by design.
+When you want to restore it, use this checklist:
+
+1. **Re-enable the route handler**
+   - Open `src/routes/account.ts`.
+   - Change `ACCOUNT_PROFILE_EDITING_ENABLED` from `false` to `true`.
+   - This restores `POST /account` updates for authenticated users.
+
+2. **Unlock the profile fields in the form state**
+   - Open `src/state/form/edit.user.form.state.ts`.
+   - Remove the `inputProps.readOnly` flags from the editable profile fields:
+     - `name`
+     - `firstname`
+     - `lastname`
+     - `email`
+     - `phone`
+   - Keep the `role` field read-only unless role editing is intentionally being added.
+
+3. **Restore the save button**
+   - In the same form state file, change the submit button title back to `Save Changes` if needed.
+   - Remove the disabled flag from the submit button props.
+
+4. **Verify before shipping**
+   - Run the account tests:
+     - `pnpm exec node --test -r ts-node/register test/routes/account.test.ts`
+   - Run the TypeScript build:
+     - `pnpm run build:ts`
+
+5. **Optional cleanup**
+   - Update any helper text on the account page so it no longer says the form is view-only.
+   - Keep the visible role field in place so users can still see their current clearance level.

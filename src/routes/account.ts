@@ -52,6 +52,7 @@ const get_account_endpoint = async (
 const USERNAME_REGEX = /^[a-zA-Z0-9_-]{3,21}$/
 const NAME_REGEX = /^[a-zA-Z\s\-']{0,21}$/
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+const ACCOUNT_PROFILE_EDITING_ENABLED = false
 
 /** `POST /account` endpoint handler for updating authenticated account details. */
 const post_account_endpoint = async (
@@ -67,6 +68,16 @@ const post_account_endpoint = async (
         .withCode('AUTHENTICATION_REQUIRED')
         .withTitle('Authorization failed.')
         .withDetail('No authenticated user context was found for this request.')
+        .build())
+      return
+    }
+
+    if (!ACCOUNT_PROFILE_EDITING_ENABLED) {
+      reply.code(503).send(new JsonapiErrorBuilder()
+        .withStatus(503)
+        .withCode('SERVICE_UNAVAILABLE')
+        .withTitle('Account editing temporarily unavailable')
+        .withDetail('Updating profile details is temporarily disabled.')
         .build())
       return
     }

@@ -47,7 +47,7 @@ export const editUserFormState: TStateForm = {
           'type': 'html',
           'has': {
             get 'content'() {
-              return `<h2>${t('profile_details', 'Profile Details')}</h2><p>${t('profile_details_help', 'Update the information associated with your account.')}</p>`
+              return `<h2>${t('profile_details', 'Profile Details')}</h2><p>${t('profile_details_help', 'Your account information is currently view-only while profile editing is temporarily disabled.')}</p>`
             }
           }
         },
@@ -58,6 +58,9 @@ export const editUserFormState: TStateForm = {
           'props': {
             'fullWidth': true,
             'autoComplete': 'username'
+          },
+          'inputProps': {
+            'readOnly': true
           },
           'has': {
             'required': true,
@@ -74,6 +77,9 @@ export const editUserFormState: TStateForm = {
             'fullWidth': true,
             'autoComplete': 'given-name'
           },
+          'inputProps': {
+            'readOnly': true
+          },
           'has': {
             'validationRegex': '^[a-zA-Z\\s\\-\']{0,21}$',
             get 'validationMessage'() { return t('invalid_firstname', 'First name must be 1-21 characters and contain only letters, spaces, hyphens, and apostrophes.') }
@@ -86,6 +92,9 @@ export const editUserFormState: TStateForm = {
           'props': {
             'fullWidth': true,
             'autoComplete': 'family-name'
+          },
+          'inputProps': {
+            'readOnly': true
           },
           'has': {
             'validationRegex': '^[a-zA-Z\\s\\-\']{0,21}$',
@@ -100,6 +109,9 @@ export const editUserFormState: TStateForm = {
             'fullWidth': true,
             'autoComplete': 'email',
             'type': 'email'
+          },
+          'inputProps': {
+            'readOnly': true
           },
           'has': {
             'required': true,
@@ -116,6 +128,20 @@ export const editUserFormState: TStateForm = {
             'fullWidth': true,
             'autoComplete': 'tel',
             'type': 'tel'
+          },
+          'inputProps': {
+            'readOnly': true
+          }
+        },
+        {
+          'type': 'textfield',
+          'name': 'role',
+          get 'label'() { return t('role', 'Role') },
+          'props': {
+            'fullWidth': true
+          },
+          'inputProps': {
+            'readOnly': true
           }
         },
         {
@@ -178,7 +204,7 @@ export const editUserFormState: TStateForm = {
           'has': {
             'icon': 'save',
             'iconPosition': 'right',
-            get 'title'() { return t('save_changes', 'Save Changes') },
+            get 'title'() { return t('save_changes_disabled', 'Editing Temporarily Disabled') },
             'onclickHandlerDirective': {
               'type': '$form',
               'formName': $82,
@@ -188,7 +214,8 @@ export const editUserFormState: TStateForm = {
           },
           'props': {
             'variant': 'contained',
-            'color': 'primary'
+            'color': 'primary',
+            'disabled': true
           }
         },
         {
