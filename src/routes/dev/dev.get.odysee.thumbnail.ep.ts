@@ -52,8 +52,8 @@ export default async function dev_get_odysee_thumbnail_endpoint(
       )
     }
   } catch (e) {
-    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[5019]'))
-    log_err('[5019] DEV GET ODYSEE THUMBNAIL ERROR', e)
-    reply.code(500).send(error_id(5019).default_500_error_response(e))
+    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[50019]'))
+    log_err('[50019] DEV GET ODYSEE THUMBNAIL ERROR', e)
+    reply.code(500).send(error_id(50019).default_500_error_response(e))
   }
 }

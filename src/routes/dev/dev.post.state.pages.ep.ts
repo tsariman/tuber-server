@@ -55,8 +55,8 @@ export default async function dev_post_state_pages_endpoint(
       } as TJsonapiStateResponse)
     }
   } catch (e) {
-    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[5028]'))
-    log_err('[5028] DEV POST STATE PAGES ERROR', e)
-    reply.code(500).send(error_id(5028).default_500_error_response(e))
+    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[50028]'))
+    log_err('[50028] DEV POST STATE PAGES ERROR', e)
+    reply.code(500).send(error_id(50028).default_500_error_response(e))
   }
 }

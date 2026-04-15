@@ -35,8 +35,8 @@ export default async function get_user_by_id_endpoint (
         .build())
     }
   } catch (e) {
-    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[5041]'))
-    log_err('[5041] GET user by id', e)
-    reply.code(500).send(error_id(5041).default_500_error_response(e))
+    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[50041]'))
+    log_err('[50041] GET user by id', e)
+    reply.code(500).send(error_id(50041).default_500_error_response(e))
   }
 }

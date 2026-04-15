@@ -104,8 +104,8 @@ export default async function post_listing_endpoint (
       return
     }
 
-    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[5036]'))
-    log_err('[5036] POST listing', e)
-    reply.code(500).send(error_id(5036).default_500_error_response(e))
+    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[50036]'))
+    log_err('[50036] POST listing', e)
+    reply.code(500).send(error_id(50036).default_500_error_response(e))
   }
 }

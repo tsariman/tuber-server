@@ -57,8 +57,8 @@ export default async function post_state_pages_endpoint (
         .build())
     }
   } catch (e) {
-    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[5040]'))
-    log_err('[5040] POST state pages', e)
-    reply.code(500).send(error_id(5040).default_500_error_response(e))
+    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[50040]'))
+    log_err('[50040] POST state pages', e)
+    reply.code(500).send(error_id(50040).default_500_error_response(e))
   }
 }

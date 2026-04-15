@@ -18,6 +18,6 @@ export default async function dev_get_switch_single_builder_endpoint(
     task_end('Done.')
   } catch (error) {
     errr(`dev_get_switch_single_builder_state: ${error}`)
-    reply.code(500).send(error_id(5034).default_500_error_response(error))
+    reply.code(500).send(error_id(50034).default_500_error_response(error))
   }
 }

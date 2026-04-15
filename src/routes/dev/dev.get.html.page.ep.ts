@@ -38,8 +38,8 @@ export default async function dev_get_html_page_endpoint(
     task.end('[✔️]')
     reply.send(html)
   } catch (e) {
-    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[5018]'))
-    log_err('[5018] DEV GET HTML PAGE ERROR', e)
-    reply.code(500).send(error_id(5018).default_500_error_response(e))
+    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[50018]'))
+    log_err('[50018] DEV GET HTML PAGE ERROR', e)
+    reply.code(500).send(error_id(50018).default_500_error_response(e))
   }
 }

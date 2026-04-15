@@ -73,9 +73,9 @@ export async function get_bookmark_vote_by_id_endpoint(
       }
     })
   } catch (e) {
-    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[5012]'))
-    log_err('[5012] GET bookmark vote by id error', e)
-    reply.code(500).send(error_id(5012).default_500_error_response(e))
+    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[50012]'))
+    log_err('[50012] GET bookmark vote by id error', e)
+    reply.code(500).send(error_id(50012).default_500_error_response(e))
   }
 }
 

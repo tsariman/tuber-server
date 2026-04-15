@@ -36,8 +36,8 @@ export default function dev_get_env_var_enpoint (
     }
     console.log('\n')
   } catch (e) {
-    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[5017]'))
-    log_err('[5017] DEV GET ENV VAR ERROR', e)
-    reply.code(500).send(error_id(5017).default_500_error_response(e))
+    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[50017]'))
+    log_err('[50017] DEV GET ENV VAR ERROR', e)
+    reply.code(500).send(error_id(50017).default_500_error_response(e))
   }
 }

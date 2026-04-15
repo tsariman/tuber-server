@@ -61,8 +61,8 @@ export default async function get_bookmark_by_id_endpoint (
       )
     }
   } catch (e) {
-    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[5010]'))
-    log_err('[5010] GET bookmark by id', e)
-    reply.code(500).send(error_id(5010).default_500_error_response(e))
+    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[50010]'))
+    log_err('[50010] GET bookmark by id', e)
+    reply.code(500).send(error_id(50010).default_500_error_response(e))
   }
 }

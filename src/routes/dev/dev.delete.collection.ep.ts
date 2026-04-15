@@ -38,6 +38,6 @@ export default async function dev_delete_collection_endpoint (
   } catch (e) {
     const error = to_error_object(e)
     ler(`${MSG_500_ERROR_MESSAGE} - ${error.message}`)
-    error_id(5051).default_500_error_response(e)
+    error_id(50051).default_500_error_response(e)
   }
 }

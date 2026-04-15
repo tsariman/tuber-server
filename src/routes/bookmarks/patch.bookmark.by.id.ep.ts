@@ -151,8 +151,8 @@ export default async function patch_bookmark_by_id_endpoint (
         .build())
     }
   } catch (e) {
-    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[5013]'))
-    log_err('[5013] PATCH bookmark by id error', e)
-    reply.code(500).send(error_id(5013).default_500_error_response(e))
+    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[50013]'))
+    log_err('[50013] PATCH bookmark by id error', e)
+    reply.code(500).send(error_id(50013).default_500_error_response(e))
   }
 }

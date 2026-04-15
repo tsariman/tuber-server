@@ -112,8 +112,8 @@ export default async function get_bookmark_collection_endpoint (
       reply.code(200).send(builder.buildCollection())
     }
   } catch (e) {
-    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[5011]'))
-    log_err('[5011] GET bookmark collection error', e)
-    reply.code(500).send(error_id(5011).default_500_error_response(e))
+    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[50011]'))
+    log_err('[50011] GET bookmark collection error', e)
+    reply.code(500).send(error_id(50011).default_500_error_response(e))
   }
 }

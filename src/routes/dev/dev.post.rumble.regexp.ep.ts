@@ -33,11 +33,11 @@ export default async function dev_post_rumble_regexp_endpoint(
   const url = req.body.url
   if (!regexp || !url) {
     task.end('[❌]')
-    errr('URL and regexp are required')
+    errr('Request body parameters "url" and "regexp" are required')
     reply.code(400).send(new JsonapiErrorBuilder()
       .withCode('MISSING_DATA')
       .withStatus(400)
-      .withTitle('Query parameter is required')
+      .withTitle('Request body parameters "url" and "regexp" are required')
       .build()
     )
     return
@@ -81,12 +81,13 @@ export default async function dev_post_rumble_regexp_endpoint(
         .withCode('NOT_FOUND')
         .withStatus(404)
         .withTitle('Invalid Rumble URL')
+        .withDetail('No matches were found using the provided "regexp" on the HTML fetched from the "url".')
         .build()
       )
     }
   } catch (e) {
-    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[5025]'))
-    log_err('[5025] DEV POST RUMBLE REGEXP ERROR', e)
-    reply.code(500).send(error_id(5025).default_500_error_response(e))
+    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[50025]'))
+    log_err('[50025] DEV POST RUMBLE REGEXP ERROR', e)
+    reply.code(500).send(error_id(50025).default_500_error_response(e))
   }
 }

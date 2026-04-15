@@ -43,9 +43,9 @@ const get_account_endpoint = async (
       .withId(user._id)
       .build())
   } catch (e) {
-    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[5052]'))
-    log_err('[5052] GET account', e)
-    reply.code(500).send(error_id(5052).default_500_error_response(e))
+    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[50052]'))
+    log_err('[50052] GET account', e)
+    reply.code(500).send(error_id(50052).default_500_error_response(e))
   }
 }
 
@@ -210,9 +210,9 @@ const post_account_endpoint = async (
       .withId(updatedUser._id)
       .build())
   } catch (e) {
-    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[5054]'))
-    log_err('[5054] POST account', e)
-    reply.code(500).send(error_id(5054).default_500_error_response(e))
+    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[50054]'))
+    log_err('[50054] POST account', e)
+    reply.code(500).send(error_id(50054).default_500_error_response(e))
   }
 }
 
@@ -260,9 +260,9 @@ const delete_account_endpoint = async (
     reply.clearCookie('token', { path: '/' })
     reply.code(204).send()
   } catch (e) {
-    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[5053]'))
-    log_err('[5053] DELETE account', e)
-    reply.code(500).send(error_id(5053).default_500_error_response(e))
+    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[50053]'))
+    log_err('[50053] DELETE account', e)
+    reply.code(500).send(error_id(50053).default_500_error_response(e))
   }
 }
 

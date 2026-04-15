@@ -34,8 +34,8 @@ export default async function dev_get_dialog_builder_endpoint(
     )
     task.end('[✔️]')
   } catch (e) {
-    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[5032]'))
-    log_err('[5032] DEV GET DIALOG BUILDER ERROR', e)
-    reply.code(500).send(error_id(5032).default_500_error_response(e))
+    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[50032]'))
+    log_err('[50032] DEV GET DIALOG BUILDER ERROR', e)
+    reply.code(500).send(error_id(50032).default_500_error_response(e))
   }
 }

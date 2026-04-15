@@ -28,8 +28,8 @@ export default async function get_user_collection_endpoint (
       .withMongoosePaginatedResult(result, 'users', transform_user_doc)
       .build())
   } catch (e) {
-    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[5044]'))
-    log_err('[5044] GET user collection', e)
-    reply.code(500).send(error_id(5044).default_500_error_response(e))
+    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[50044]'))
+    log_err('[50044] GET user collection', e)
+    reply.code(500).send(error_id(50044).default_500_error_response(e))
   }
 }

@@ -1,6 +1,14 @@
 
 # Development Log
 
+## `202604151206` Refactor error handling in various endpoints to standardize error IDs and messages
+
+- Updated error IDs in account-related endpoints to follow the new format.
+- Adjusted error handling in bookmark endpoints to use consistent error IDs.
+- Modified error handling in dev endpoints to align with new error ID conventions.
+- Standardized error IDs in user-related endpoints for consistency.
+- Updated feedback and listing endpoints to reflect new error ID structure.
+
 ## `202603311948` [Refactor] Dummy switch now opens patreon page when toggled
 
 ## `202603311448` [Feature] Add password recovery dialog and form states

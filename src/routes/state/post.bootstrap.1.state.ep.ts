@@ -105,7 +105,7 @@ const post_bootstrap_1_state_endpoint = async (
     } as TJsonapiStateResponse)
   } catch (e) {
     log_err('in attempting to bootstrap state', e)
-    reply.code(500).send(error_id(5037).default_500_error_response(e))
+    reply.code(500).send(error_id(50037).default_500_error_response(e))
   }
 }
 

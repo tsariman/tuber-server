@@ -36,11 +36,11 @@ export default async function dev_post_save_config_value_endpoint(
 
     if (!key || !value) {
       task.end('[❌]')
-      errr('Key and value are required.')
+      errr('Request body parameters "key" and "value" are required.')
       reply.code(400).send(new JsonapiErrorBuilder()
         .withCode('MISSING_DATA')
         .withStatus(400)
-        .withTitle('Query parameter is required')
+        .withTitle('Request body parameters "key" and "value" are required')
         .build()
       )
       return
@@ -57,8 +57,8 @@ export default async function dev_post_save_config_value_endpoint(
       }
     } as TJsonapiStateResponse)
   } catch (e) {
-    ler(`${MSG_500_ERROR_MESSAGE.replace('[500]', '[5026]')} while saving configuration value.`)
-    log_err('[5026] DEV POST SAVE CONFIG VALUE ERROR', e)
-    reply.code(500).send(error_id(5026).default_500_error_response(e))
+    ler(`${MSG_500_ERROR_MESSAGE.replace('[500]', '[50026]')} while saving configuration value.`)
+    log_err('[50026] DEV POST SAVE CONFIG VALUE ERROR', e)
+    reply.code(500).send(error_id(50026).default_500_error_response(e))
   }
 }

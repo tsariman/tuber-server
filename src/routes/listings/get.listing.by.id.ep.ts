@@ -203,8 +203,8 @@ export default async function get_listing_by_id_endpoint (
 
     reply.code(200).send(responseBuilder.build())
   } catch (e) {
-    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[5035]'))
-    log_err('[5035] GET listing by id with bookmarks', e)
-    reply.code(500).send(error_id(5035).default_500_error_response(e))
+    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[50035]'))
+    log_err('[50035] GET listing by id with bookmarks', e)
+    reply.code(500).send(error_id(50035).default_500_error_response(e))
   }
 }

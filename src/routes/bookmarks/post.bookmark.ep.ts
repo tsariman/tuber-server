@@ -97,7 +97,7 @@ export default async function post_bookmark_endpoint (
       req.usr
     )
     if (!fixedBookmarkData) {
-      reply.code(500).send(error_id(5014).default_500_error_response({
+      reply.code(500).send(error_id(50014).default_500_error_response({
         title: 'Failed to fix bookmark missing data',
         detail: 'Bookmark is null.'
       }))
@@ -114,8 +114,8 @@ export default async function post_bookmark_endpoint (
     dbug('Sending response...', response)
     reply.code(201).send(response)
   } catch (e) {
-    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[5015]'))
-    log_err('[5015] POST bookmark', e)
-    reply.code(500).send(error_id(5015).default_500_error_response(e))
+    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[50015]'))
+    log_err('[50015] POST bookmark', e)
+    reply.code(500).send(error_id(50015).default_500_error_response(e))
   }
 }

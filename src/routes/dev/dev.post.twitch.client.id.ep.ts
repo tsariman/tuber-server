@@ -59,8 +59,8 @@ export default async function dev_post_twitch_client_id_endpoint(
       }
     } as TJsonapiStateResponse)
   } catch (e) {
-    ler(`${MSG_500_ERROR_MESSAGE.replace('[500]', '[5029]')} while saving Twitch Client ID and Secret.`)
-    log_err('[5029] DEV POST Twitch Client ID endpoint', e)
-    reply.code(500).send(error_id(5029).default_500_error_response(e))
+    ler(`${MSG_500_ERROR_MESSAGE.replace('[500]', '[50029]')} while saving Twitch Client ID and Secret.`)
+    log_err('[50029] DEV POST Twitch Client ID endpoint', e)
+    reply.code(500).send(error_id(50029).default_500_error_response(e))
   }
 }

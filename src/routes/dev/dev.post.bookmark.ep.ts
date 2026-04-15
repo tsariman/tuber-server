@@ -24,7 +24,7 @@ export default async function dev_post_bookmark_endpoint (
 
     if (!bookmark) {
       task.end('[❌]')
-      reply.code(500).send(error_id(5023).default_500_error_response({
+      reply.code(500).send(error_id(50023).default_500_error_response({
         title: 'Failed to create bookmark.',
         detail: 'Bookmark is null.'
       }))
@@ -36,8 +36,8 @@ export default async function dev_post_bookmark_endpoint (
       JsonapiResponseBuilder.forSingleResource(dbBookmark, 'bookmarks').build()
     )
   } catch (e) {
-    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[5024]'))
-    log_err('[5024] DEV POST BOOKMARK ERROR', e)
-    reply.code(500).send(error_id(5024).default_500_error_response(e))
+    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[50024]'))
+    log_err('[50024] DEV POST BOOKMARK ERROR', e)
+    reply.code(500).send(error_id(50024).default_500_error_response(e))
   }
 }

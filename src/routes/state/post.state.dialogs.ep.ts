@@ -68,8 +68,8 @@ export default async function post_state_dialogs_endpoint (
       } as TJsonapiStateResponse)
     }
   } catch (e) {
-    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[5038]'))
-    log_err('[5038] POST state dialogs', e)
-    reply.code(500).send(error_id(5038).default_500_error_response(e))
+    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[50038]'))
+    log_err('[50038] POST state dialogs', e)
+    reply.code(500).send(error_id(50038).default_500_error_response(e))
   }
 }

@@ -160,8 +160,8 @@ export async function put_bookmark_vote_by_id_endpoint(
       return
     }
   } catch (e) {
-    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[5016]'))
-    log_err('[5016] PUT bookmark vote by id', e)
-    reply.code(500).send(error_id(5016).default_500_error_response(e))
+    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[50016]'))
+    log_err('[50016] PUT bookmark vote by id', e)
+    reply.code(500).send(error_id(50016).default_500_error_response(e))
   }
 }

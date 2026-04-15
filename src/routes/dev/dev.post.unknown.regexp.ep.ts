@@ -81,8 +81,8 @@ export default async function dev_post_unknown_regexp_endpoint(
       )
     }
   } catch (e) {
-    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[5030]'))
-    log_err('[5030] DEV POST unknown regexp endpoint', e)
-    reply.code(500).send(error_id(5030).default_500_error_response(e))
+    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[50030]'))
+    log_err('[50030] DEV POST unknown regexp endpoint', e)
+    reply.code(500).send(error_id(50030).default_500_error_response(e))
   }
 }

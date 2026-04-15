@@ -53,8 +53,8 @@ export default async function dev_get_rumble_thumbnail_endpoint(
       )
     }
   } catch (e) {
-    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[5020]'))
-    log_err('[5020] DEV GET RUMBLE THUMBNAIL ERROR', e)
-    reply.code(500).send(error_id(5020).default_500_error_response(e))
+    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[50020]'))
+    log_err('[50020] DEV GET RUMBLE THUMBNAIL ERROR', e)
+    reply.code(500).send(error_id(50020).default_500_error_response(e))
   }
 }

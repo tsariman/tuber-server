@@ -21,7 +21,7 @@ export default async function dev_get_vimeo_thumbnail_endpoint(
       reply.code(400).send(new JsonapiErrorBuilder()
         .withCode('MISSING_DATA')
         .withStatus(400)
-        .withTitle('Query parameter is required')
+        .withTitle('Query parameter "videoid" is required')
         .build()
       )
       return
@@ -50,8 +50,8 @@ export default async function dev_get_vimeo_thumbnail_endpoint(
       )
     }
   } catch (e) {
-    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[5022]'))
-    log_err('[5022] DEV GET VIMEO THUMBNAIL ERROR', e)
-    reply.code(500).send(error_id(5022).default_500_error_response(e))
+    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[50022]'))
+    log_err('[50022] DEV GET VIMEO THUMBNAIL ERROR', e)
+    reply.code(500).send(error_id(50022).default_500_error_response(e))
   }
 }

@@ -86,8 +86,8 @@ export default async function dev_get_form_builder_endpoint(
     )
     task_end('Done.')
   } catch (e) {
-    ler(C.MSG_500_ERROR_MESSAGE.replace('[500]', '[5033]'))
-    log_err('[5033] DEV GET FORM BUILDER ERROR', e)
-    reply.code(500).send(error_id(5033).default_500_error_response(e))
+    ler(C.MSG_500_ERROR_MESSAGE.replace('[500]', '[50033]'))
+    log_err('[50033] DEV GET FORM BUILDER ERROR', e)
+    reply.code(500).send(error_id(50033).default_500_error_response(e))
   }
 }

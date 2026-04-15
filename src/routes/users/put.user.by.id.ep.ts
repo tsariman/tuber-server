@@ -45,9 +45,9 @@ export async function put_user_vote_by_id_endpoint(
         .build())
     }
   } catch (e) {
-    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[5048]'))
-    log_err('[5048] PUT user vote by id', e)
-    reply.code(500).send(error_id(5048).default_500_error_response(e))
+    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[50048]'))
+    log_err('[50048] PUT user vote by id', e)
+    reply.code(500).send(error_id(50048).default_500_error_response(e))
   }
 
 }

@@ -48,8 +48,8 @@ export default async function dev_post_state_forms_endpoint(
       } as TJsonapiStateResponse)
     }
   } catch (e) {
-    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[5027]'))
-    log_err('[5027] DEV POST STATE FORMS ERROR', e)
-    reply.code(500).send(error_id(5027).default_500_error_response(e))
+    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[50027]'))
+    log_err('[50027] DEV POST STATE FORMS ERROR', e)
+    reply.code(500).send(error_id(50027).default_500_error_response(e))
   }
 }

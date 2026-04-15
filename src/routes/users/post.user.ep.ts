@@ -117,9 +117,9 @@ export default async function post_user_endpoint (
         .withDetail(mongoDbError.detail)
         .build())
     } else {
-      ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[5047]'))
-      log_err('[5047] POST user', error)
-      reply.code(500).send(error_id(5047).default_500_error_response(error))
+      ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[50047]'))
+      log_err('[50047] POST user', error)
+      reply.code(500).send(error_id(50047).default_500_error_response(error))
     }
   }
 }

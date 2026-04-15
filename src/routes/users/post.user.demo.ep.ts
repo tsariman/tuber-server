@@ -37,9 +37,9 @@ export default async function post_demo_user_endpoint (
         .withDetail(mongoDbError.detail)
         .build())
     } else {
-      ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[5046]'))
-      log_err('[5046] POST demo user', e)
-      reply.code(500).send(error_id(5046).default_500_error_response(e))
+      ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[50046]'))
+      log_err('[50046] POST demo user', e)
+      reply.code(500).send(error_id(50046).default_500_error_response(e))
     }
   }
 }
