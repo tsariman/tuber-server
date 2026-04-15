@@ -170,7 +170,7 @@ export const account_link_state = (usr?: TContextualUser): TStateLink => ({
   'type': 'hybrid',
   'has': {
     'icon': 'user',
-    'text': usr?.name ?? t('account', 'Account'),
+    'text': usr?.name ? `${usr.name} (${usr.role})` : t('account', 'Account'),
     'route': $80
   }
 })
