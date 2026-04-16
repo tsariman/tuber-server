@@ -24,8 +24,12 @@ const editRumbleBookmarkDialogState: TStateDialog = {
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
-    'PaperProps': { 'sx': { ...THEME_LIGHT_PAPER_SX_PROPS } },
-    'sx': { 'overflowX': 'hidden' }
+    'PaperProps': {
+      'sx': {
+        ...THEME_LIGHT_PAPER_SX_PROPS,
+        'overflowX': 'hidden !important'
+      }
+    }
   },
   'titleProps': {
     'sx': { 'textAlign': 'center' }

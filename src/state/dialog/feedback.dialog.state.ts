@@ -15,7 +15,12 @@ export const feedbackDialogState: TStateDialog = {
   get 'title'() { return t('feedback_dialog_title', 'Feedback') },
   'props': {
     'fullWidth': true,
-    'maxWidth': 'sm'
+    'maxWidth': 'sm',
+    'PaperProps': {
+      'sx': {
+        'overflowX': 'hidden !important'
+      }
+    }
   },
   'titleProps': {
     'sx': { 'textAlign': 'center' }
