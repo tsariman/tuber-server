@@ -13,6 +13,8 @@ const envFile = process.env.NODE_ENV === 'production'
 dotenv.config({ path: envFile })
 
 interface IConfiguration {
+  /** Get the current application version. */
+  VERSION: string
   /** Get the current development mode. */
   NODE_ENV: string
   /** Is `true` if the app is in development mode. */
@@ -74,6 +76,8 @@ const trim_env = (value?: string): string => (value ?? '').trim()
 
 /** App configuration values. */
 const USER_CONFIG: IConfiguration = {
+  /** Get the current application version. */
+  VERSION: process.env.VERSION ?? '0.0.1-alpha',
   NODE_ENV: process.env.NODE_ENV ?? 'development',
   DEV: process.env.NODE_ENV === 'development',
 

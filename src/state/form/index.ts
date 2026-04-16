@@ -82,6 +82,10 @@ import {
   $86DarkThemeMode
 } from './password.recovery.form.state'
 import {
+  passwordResetFormState,
+  $89DarkThemeMode
+} from './password.reset.form.state'
+import {
   feedbackFormState,
   $88DarkThemeMode
 } from './feedback.form.state'
@@ -130,6 +134,7 @@ const $39 = STATE_KEY['39']
 const $41 = STATE_KEY['41']
 const $69 = STATE_KEY['69']
 const $82 = STATE_KEY['82']
+const $89 = STATE_KEY['89']
 const $86 = STATE_KEY['86']
 const $88 = STATE_KEY['88']
 
@@ -188,6 +193,7 @@ export function bootstrap_forms_light_state(usr?: TContextualUser) {
   }
   set_state_by_key(forms, signInFormState)
   set_state_by_key(forms, passwordRecoveryFormState)
+  set_state_by_key(forms, passwordResetFormState)
   set_state_by_key(forms, feedbackFormState)
 
   // TODO: Don't forget to insert light mode version of each form state.
@@ -210,6 +216,7 @@ export function bootstrap_forms_dark_state(usr?: TContextualUser) {
   }
   set_state_by_key(forms, $41DarkThemeMode)
   set_state_by_key(forms, $86DarkThemeMode)
+  set_state_by_key(forms, $89DarkThemeMode)
   set_state_by_key(forms, $88DarkThemeMode)
 
   // TODO: Don't forget to insert dark mode version of each form state.
@@ -237,6 +244,7 @@ export const STATE_FORMS_THEME_DARK: TStateAllForms = {
   [$39]: $39DarkThemeMode,
   [$41]: $41DarkThemeMode,
   [$86]: $86DarkThemeMode,
+  [$89]: $89DarkThemeMode,
   [$88]: $88DarkThemeMode,
   [$69]: $69DarkThemeMode,
   ...(Config.DEV ? DEV_STATE_FORM_THEME_DARK : {})
@@ -262,6 +270,7 @@ export const STATE_FORMS: TStateAllForms = {
   [$39]: editTwitchBookmarkFormState,
   [$41]: signInFormState,
   [$86]: passwordRecoveryFormState,
+  [$89]: passwordResetFormState,
   [$88]: feedbackFormState,
   [$69]: newUserFormState,
   ...(Config.DEV ? DEV_STATE_FORM : {})

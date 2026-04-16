@@ -6,6 +6,7 @@ import {
 } from '../page/research.page.state'
 import { bs_chippedListingPageState } from '../page/listing.page.state'
 import { bs_newUserPageState } from '../page/new.user.page.state'
+import { bs_resetPasswordPageState } from '../page/password.reset.page.state'
 import { PrepareState } from '../PrepareState'
 import devInstallPageState, {
   $44DarkThemeMode
@@ -25,6 +26,7 @@ const $44 = STATE_KEY['44']
 const $51 = STATE_KEY['51']
 const $70 = STATE_KEY['70']
 const $74 = STATE_KEY['74']
+const $90 = STATE_KEY['90']
 
 const bootstrap_pages_state: TBootstrapState<TStateAllPages> = {
 
@@ -64,6 +66,7 @@ const bootstrap_pages_light_state: TBootstrapState<TStateAllPages> = {
     // Pages that's only available when the user is not authenticated.
     if (!usr) {
       lightPages[$74] = bs_newUserPageState(context).light
+      lightPages[$90] = bs_resetPasswordPageState(context).light
     }
 
     if (Config.DEV && Access.the(usr).can('dev_install_page.view')) {
@@ -98,6 +101,7 @@ const bootstrap_pages_dark_state: TBootstrapState<TStateAllPages> = {
     // Pages that's only available when the user is not authenticated.
     if (!usr) {
       darkPages[$74] = bs_newUserPageState(context).dark
+      darkPages[$90] = bs_resetPasswordPageState(context).dark
     }
 
     if (Config.DEV && Access.the(usr).can('dev_install_page.view')) {

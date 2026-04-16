@@ -88,7 +88,7 @@ export const bs_researchPageState = (
     'dark': (() => {
       const base = clone_with_descriptors($40DarkThemeMode)
       const appbar = clone_with_descriptors($63DarkThemeMode)
-      _enable_search_scope(appbar, context.usr)
+      $enable_search_scope(appbar, context.usr)
       const link = create_empty_collection(appbar.items)
       if (Config.DEV) {
         link.add(researchAppErrorsViewLinkState)
@@ -112,7 +112,7 @@ export const bs_researchPageState = (
     'light': (() => {
       const base = clone_with_descriptors(researchPageState)
       const appbar = clone_with_descriptors(researchPageAppbarState)
-      _enable_search_scope(appbar, context.usr)
+      $enable_search_scope(appbar, context.usr)
       const link = create_empty_collection(appbar.items)
       if (Config.DEV) {
         link.add(researchAppErrorsViewLinkState)
@@ -158,7 +158,7 @@ export const bs_listingPageState = (
     'dark': (() => {
       const base = clone_with_descriptors($70DarkThemeMode)
       const appbar = clone_with_descriptors($63DarkThemeMode)
-      _enable_search_scope(appbar, context.usr)
+      $enable_search_scope(appbar, context.usr)
       const link = clone_as_collection(appbar.items)
       if (Config.DEV) {
         link.add(researchAppErrorsViewLinkState)
@@ -178,7 +178,7 @@ export const bs_listingPageState = (
       const base = clone_with_descriptors(listingPageState)
       const appbar = clone_with_descriptors(researchPageAppbarState)
       const link = clone_as_collection(appbar.items)
-      _enable_search_scope(appbar, context.usr)
+      $enable_search_scope(appbar, context.usr)
       if (Config.DEV) {
         link.add(researchAppErrorsViewLinkState)
         if (Config.DEV && Access.the(context.usr).can('dev_install_page.view')) {
@@ -202,7 +202,7 @@ export const bs_listingPageState = (
  * field is disabled.
  * @id CREF1
  */
-const _enable_search_scope = (appbar: TStateAppbar, usr?: TContextualUser) => {
+const $enable_search_scope = (appbar: TStateAppbar, usr?: TContextualUser) => {
   const buttonState = clone_or_default(appbar.startAdornmentButton, {})
   // Placeholder for search scope activation logic
   if (Access.the(usr).can('toggle.search.scope')) {

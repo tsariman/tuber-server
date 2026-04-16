@@ -13,6 +13,8 @@ export interface IUser {
   email_verification_code?: string
   email_verification_code_expires?: Date
   email_verified_at?: Date
+  password_reset_token?: string
+  password_reset_expires?: Date
   email_2?: string
   email_3?: string
   phone?: string
@@ -105,6 +107,8 @@ const userSchema = new Schema<IUserDocument>({
   email_verification_code: String,
   email_verification_code_expires: Date,
   email_verified_at: Date,
+  password_reset_token: String,
+  password_reset_expires: Date,
   email_2: String,
   email_3: String,
   phone: String,

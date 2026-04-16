@@ -93,6 +93,8 @@ const STATE_KEY = {
   '86': 'passwordRecoveryForm',
   '87': 'feedbackDialog',
   '88': 'feedbackForm',
+  '89': 'resetPasswordForm',
+  '90': 'reset-password',
 } as const
 
 export type TStateKey = typeof STATE_KEY[keyof typeof STATE_KEY]

@@ -1,5 +1,6 @@
+import crypto from 'crypto'
 import { FastifyRequest, FastifyReply, FastifyPluginAsync, RouteOptions } from 'fastify'
-import { check_password } from '../business.logic/security'
+import { check_password, get_hashed_password } from '../business.logic/security'
 import { alertResponse as alert } from '../state/dialog'
 import { IRequestAuth } from '../common.types'
 import {
@@ -30,11 +31,13 @@ import { UserModel } from '../model/user'
 import { is_record, to_error_object } from '../utility'
 import OnRequestAuthorization from '../business.logic/OnRequestAuthorization'
 import Config from '../config'
+import { sendPasswordRecoveryEmail } from '../utility/mailer'
 
 // Lightweight rate limiter for signin (fallback if plugin not used)
 const signinAttempts: Map<string, { count: number; resetAt: number }> = new Map()
 const SIGNIN_WINDOW_MS = 60 * 1000
 const SIGNIN_MAX_ATTEMPTS = 20
+const PASSWORD_RECOVERY_TOKEN_TTL_MS = 60 * 60 * 1000
 
 const authentication: FastifyPluginAsync = async (fastify, rootOpts): Promise<void> => {
   const skipRateLimit = process.env.SKIP_RATE_LIMIT === 'true'
@@ -206,31 +209,146 @@ const authentication: FastifyPluginAsync = async (fastify, rootOpts): Promise<vo
     req: FastifyRequest<{ Body: TJsonapiRequest<{ email?: string }> }>,
     reply: FastifyReply,
   ) {
-    const driver = new JsonapiRequestDriver(req.body)
-    const attributes = driver.getAttributes()
+    try {
+      const driver = new JsonapiRequestDriver(req.body)
+      const attributes = driver.getAttributes()
 
-    if (!is_record(attributes)) {
-      reply.code(400).send(new JsonapiErrorBuilder()
-        .withStatus(400)
-        .withCode('MALFORMED_REQUEST')
-        .withTitle('Invalid Request')
-        .withDetail('No form data was provided in the request.')
-        .build())
-      return
+      if (!is_record(attributes)) {
+        reply.code(400).send(new JsonapiErrorBuilder()
+          .withStatus(400)
+          .withCode('MALFORMED_REQUEST')
+          .withTitle('Invalid Request')
+          .withDetail('No form data was provided in the request.')
+          .build())
+        return
+      }
+
+      const validator = new RequestDataValidator(attributes, passwordRecoveryFormState)
+      const errorResponse = validator.validateAgainstFormState()
+      if (errorResponse) {
+        reply.code(400).send(errorResponse)
+        return
+      }
+
+      const email = typeof attributes.email === 'string'
+        ? attributes.email.trim().toLowerCase()
+        : ''
+
+      if (email) {
+        const user = await UserModel.findOne({
+          email,
+          is_active: { $ne: false }
+        })
+
+        if (user) {
+          const token = crypto.randomBytes(32).toString('hex')
+          user.password_reset_token = token
+          user.password_reset_expires = new Date(Date.now() + PASSWORD_RECOVERY_TOKEN_TTL_MS)
+          user.modified_at = new Date()
+          await user.save()
+
+          sendPasswordRecoveryEmail(user.email, token).catch((error) => {
+            log_err_safe('[5008] Password recovery email delivery failed', {
+              error: to_error_object(error),
+              email,
+            })
+          })
+        }
+      }
+
+      reply.code(200).send(alert(
+        'If an account exists for this email, password recovery instructions will be sent.'
+      ))
+    } catch (e) {
+      log_err_safe('[5008] Error creating password recovery token', {
+        error: to_error_object(e),
+      })
+      reply.code(500).send(error_id(5008).default_500_error_response(e))
     }
-
-    const validator = new RequestDataValidator(attributes, passwordRecoveryFormState)
-    const errorResponse = validator.validateAgainstFormState()
-    if (errorResponse) {
-      reply.code(400).send(errorResponse)
-      return
-    }
-
-    // Phase 2 stub: route defined and validated, delivery implementation pending.
-    reply.code(200).send(alert(
-      'If an account exists for this email, password recovery instructions will be sent.'
-    ))
   }) // End /password/recovery
+
+  fastify.post(`/${EP_AUTH.RESET}`, opts, async function (
+    req: FastifyRequest<{ Body: TJsonapiRequest<{ email?: string; token?: string; password?: string }> }>,
+    reply: FastifyReply,
+  ) {
+    try {
+      const driver = new JsonapiRequestDriver(req.body)
+      const attributes = driver.getAttributes()
+
+      if (!is_record(attributes)) {
+        reply.code(400).send(new JsonapiErrorBuilder()
+          .withStatus(400)
+          .withCode('MALFORMED_REQUEST')
+          .withTitle('Invalid Request')
+          .withDetail('Email, token, and password are required.')
+          .build())
+        return
+      }
+
+      const email = typeof attributes.email === 'string'
+        ? attributes.email.trim().toLowerCase()
+        : ''
+      const token = typeof attributes.token === 'string'
+        ? attributes.token.trim()
+        : ''
+      const password = typeof attributes.password === 'string'
+        ? attributes.password.trim()
+        : ''
+
+      if (!email || !token || !password) {
+        reply.code(400).send(new JsonapiErrorBuilder()
+          .withStatus(400)
+          .withCode('VALIDATION_ERROR')
+          .withTitle('Missing recovery data')
+          .withDetail('Email, token, and a new password are required.')
+          .build())
+        return
+      }
+
+      if (password.length < 8) {
+        reply.code(400).send(new JsonapiErrorBuilder()
+          .withStatus(400)
+          .withCode('VALIDATION_ERROR')
+          .withTitle('Password is too weak')
+          .withDetail('Password must be at least 8 characters long.')
+          .build())
+        return
+      }
+
+      const user = await UserModel.findOne({
+        email,
+        password_reset_token: token,
+        is_active: { $ne: false }
+      })
+
+      if (!user || !user.password_reset_expires || user.password_reset_expires.getTime() < Date.now()) {
+        reply.code(400).send(new JsonapiErrorBuilder()
+          .withStatus(400)
+          .withCode('TOKEN_EXPIRED')
+          .withTitle('Invalid or expired recovery token')
+          .withDetail('Please request a new password recovery email and try again.')
+          .build())
+        return
+      }
+
+      user.password = await get_hashed_password(password)
+      user.password_reset_token = undefined
+      user.password_reset_expires = undefined
+      user.jwt_version = (user.jwt_version ?? 0) + 1
+      user.modified_at = new Date()
+      await user.save()
+      USER_CACHE.del(user.name)
+
+      reply.code(200).send(alert(
+        'Your password has been updated. You can now sign in with your new password.'
+      ))
+    } catch (e) {
+      log_err_safe('[5009] Error resetting password with recovery token', {
+        error: to_error_object(e),
+      })
+      reply.code(500).send(error_id(5009).default_500_error_response(e))
+    }
+  }) // End /password/reset
 
   const signoutOpts: Partial<RouteOptions> = {
     ...opts,

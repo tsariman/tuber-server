@@ -1,6 +1,7 @@
 import { test } from 'node:test'
 import * as assert from 'node:assert'
 import { build, generateTestToken, createJsonapiRequest } from '../helper'
+import { create_user, UserModel } from '../../src/model/user'
 
 // Test RequestDataValidator separately
 import RequestDataValidator from '../../src/business.logic/RequestDataValidator'
@@ -285,4 +286,82 @@ test('POST /signout - with invalid token', async (t) => {
 
   // Should return authentication error
   assert.ok(response.statusCode >= 400)
+})
+
+test('POST /password/recovery - stores a reset token for an existing account', async (t) => {
+  const app = await build(t)
+  const suffix = Date.now().toString(36)
+  const name = `recover-${suffix}`
+  const email = `recover.${suffix}@example.com`
+
+  await create_user({
+    name,
+    email,
+    password: 'OldPass123!'
+  })
+
+  const response = await app.inject({
+    method: 'POST',
+    url: '/password/recovery',
+    payload: createJsonapiRequest('password-recovery', { email })
+  })
+
+  assert.strictEqual(response.statusCode, 200)
+
+  const updatedUser = await UserModel.findOne({ email })
+  assert.ok(updatedUser)
+  assert.ok(updatedUser?.password_reset_token)
+  assert.ok(updatedUser?.password_reset_expires)
+})
+
+test('POST /password/reset - accepts a valid recovery token and changes the password', async (t) => {
+  const app = await build(t)
+  const suffix = Date.now().toString(36)
+  const name = `reset-${suffix}`
+  const email = `reset.${suffix}@example.com`
+  const newPassword = 'NewPass123!@#'
+
+  await create_user({
+    name,
+    email,
+    password: 'OldPass123!'
+  })
+
+  await app.inject({
+    method: 'POST',
+    url: '/password/recovery',
+    payload: createJsonapiRequest('password-recovery', { email })
+  })
+
+  const pendingUser = await UserModel.findOne({ email })
+  assert.ok(pendingUser?.password_reset_token)
+
+  const resetResponse = await app.inject({
+    method: 'POST',
+    url: '/password/reset',
+    payload: createJsonapiRequest('password-reset', {
+      email,
+      token: pendingUser?.password_reset_token,
+      password: newPassword
+    })
+  })
+
+  assert.strictEqual(resetResponse.statusCode, 200)
+
+  const signinResponse = await app.inject({
+    method: 'POST',
+    url: '/signin',
+    payload: createJsonapiRequest('signins', {
+      credentials: {
+        username: name,
+        password: newPassword
+      }
+    })
+  })
+
+  assert.strictEqual(signinResponse.statusCode, 200)
+
+  const clearedUser = await UserModel.findOne({ email })
+  assert.ok(!clearedUser?.password_reset_token)
+  assert.ok(!clearedUser?.password_reset_expires)
 })

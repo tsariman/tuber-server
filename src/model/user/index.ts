@@ -69,6 +69,8 @@ export const transform_user_doc = (user: IUserDocument) => {
     rules,
     email_verification_code,
     email_verification_code_expires,
+    password_reset_token,
+    password_reset_expires,
     _id,
     __v,
     ...userDoc
