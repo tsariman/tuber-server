@@ -64,9 +64,11 @@ export async function initialize_app(): Promise<void> {
       console.log('Failed.')
       note(`Search index, '${Config.DB_ATLAS_BOOKMARK_SEARCH_INDEX_NAME}'`)
       log(' not defined for current database.')
-      dbug(`Visit endpoint: /dev/setup-collection-index-search/bookmarks`)
-      dbug('OR')
-      dbug(`Visit endpoint: /install/setup-collection-index-search/bookmarks`)
+      if (Config.DEV) {
+        dbug('Run a POST request to: /dev/setup-collection-index-search/bookmarks')
+      } else {
+        dbug('Create the Atlas search index using the production deploy task or Atlas API.')
+      }
     }
   }
 

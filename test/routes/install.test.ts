@@ -5,7 +5,7 @@ import { build } from '../helper'
 // Note: Install routes are only available in DEV mode
 // These tests will only work when Config.DEV is true
 
-test('POST /install/setup-collection-index-search/bookmarks - DEV mode only', async (t) => {
+test('POST /install/setup-collection-index-search/bookmarks returns a structured response', async (t) => {
   const app = await build(t)
 
   const response = await app.inject({
@@ -13,17 +13,17 @@ test('POST /install/setup-collection-index-search/bookmarks - DEV mode only', as
     url: '/install/setup-collection-index-search/bookmarks'
   })
 
-  // Should either work in DEV mode (200/201) or be not found in production (404)
   assert.ok(
-    response.statusCode === 200 || 
-    response.statusCode === 201 || 
-    response.statusCode === 404 ||
+    response.statusCode === 201 ||
+    response.statusCode === 409 ||
     response.statusCode === 500
   )
-  
-  if (response.statusCode === 404) {
-    // This is expected in production mode
-    console.log('Install route not available - likely in production mode')
+
+  const body = JSON.parse(response.payload)
+  assert.ok(body.state || body.meta || body.errors)
+
+  if (response.statusCode === 201) {
+    assert.strictEqual(body.meta?.status, 'created')
   }
 })
 
@@ -48,10 +48,9 @@ test('POST /install/readable - DEV mode only', async (t) => {
   }
 })
 
-test('Install routes - check DEV mode behavior', async (t) => {
+test('Install routes are registered and reachable', async (t) => {
   const app = await build(t)
 
-  // Test that install routes behave consistently
   const setupResponse = await app.inject({
     method: 'POST',
     url: '/install/setup-collection-index-search/bookmarks'
@@ -62,12 +61,8 @@ test('Install routes - check DEV mode behavior', async (t) => {
     url: '/install/readable'
   })
 
-  // Both should have the same availability (both work in DEV, both 404 in production)
-  if (setupResponse.statusCode === 404) {
-    assert.strictEqual(readableResponse.statusCode, 404)
-  } else {
-    assert.ok(readableResponse.statusCode !== 404)
-  }
+  assert.notStrictEqual(setupResponse.statusCode, 404)
+  assert.strictEqual(readableResponse.statusCode, 200)
 })
 
 test('GET /install/* - should not be available (only POST supported)', async (t) => {

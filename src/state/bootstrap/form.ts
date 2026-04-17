@@ -21,10 +21,7 @@ const $89 = STATE_KEY['89']
 const bootstrap_forms_state: TBootstrapState<TStateAllForms> = {
 
   DEFAULT: (context: IStateContext): TStateAllForms => {
-    const { theme: themeMode } = context
-    if (!themeMode) {
-      throw new Error('State bootstrap requires context.theme.')
-    }
+    const themeMode = context.theme || Config.DEFAULT_THEME_MODE
 
     switch (themeMode) {
       case 'dark':

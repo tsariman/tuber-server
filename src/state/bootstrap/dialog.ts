@@ -10,6 +10,7 @@ import {
 import passwordRecoveryDialogState, {
   $85DarkThemeMode
 } from '../dialog/password.recovery.dialog.state'
+import Config from '../../config'
 import STATE_KEY from '../../business.logic/state.key'
 
 const $32 = STATE_KEY['32']
@@ -19,10 +20,7 @@ const $85 = STATE_KEY['85']
 const bootstrap_dialogs_state: TBootstrapState<TStateAllDialogs> = {
 
   DEFAULT: (context: IStateContext): TStateAllDialogs => {
-    const { theme: themeMode } = context
-    if (!themeMode) {
-      throw new Error('State bootstrap requires context.theme.')
-    }
+    const themeMode = context.theme || Config.DEFAULT_THEME_MODE
 
     switch (themeMode) {
       case 'dark':

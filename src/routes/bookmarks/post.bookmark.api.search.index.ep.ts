@@ -1,8 +1,12 @@
 import { request } from 'urllib'
 import Config from '../../config'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { alertResponse as alert } from '../../state/dialog'
+import {
+  alertResponse as alert,
+  alertState,
+} from '../../state/dialog'
 import JsonapiErrorBuilder from '../../business.logic/builder/JsonapiErrorBuilder'
+import JsonapiResponseBuilder from '../../business.logic/builder/JsonapiResponseBuilder'
 import { COLLECTION_NAME } from '@tuber/shared'
 import { log, log_err } from '../../utility/logging'
 
@@ -15,15 +19,15 @@ export default async function post_bookmarks_api_setup_search_index_endpoint (
   reply: FastifyReply
 ) {
   try {
-    const bookmarkSearchIndex = await find_index_by_name(
-      Config.DB_ATLAS_BOOKMARK_SEARCH_INDEX_NAME
-    )
+    const indexName = Config.DB_ATLAS_BOOKMARK_SEARCH_INDEX_NAME
+    const bookmarkSearchIndex = await find_index_by_name(indexName)
+
     if (!bookmarkSearchIndex) {
       const httpResponse = await request(Config.DB_ATLAS_SEARCH_INDEX_API_URL, {
         data: {
           database: Config.DB_NAME,
           collectionName: COLLECTION_NAME,
-          name: Config.DB_ATLAS_BOOKMARK_SEARCH_INDEX_NAME,
+          name: indexName,
           // https://www.mongodb.com/docs/atlas/atlas-search/index-definitions/#sys
           mappings: {
             dynamic: true,
@@ -34,23 +38,51 @@ export default async function post_bookmarks_api_setup_search_index_endpoint (
         method: 'POST',
         digestAuth: Config.DB_ATLAS_DIGEST_AUTH,
       })
+
+      const message = `Search index '${indexName}' created successfully.`
       log('[DEBUG] Creating atlas bookmark search index... ')
       log('[DEBUG] http response:', httpResponse)
-    } else {
-      const message = 'bookmark_search index already exist.'
-      log(`[DEBUG] ${message}`)
-      reply.code(409).send({
-        ...alert('bookmark_search index already exist!'),
-        ...new JsonapiErrorBuilder()
-          .withCode('DUPLICATE_RESOURCE')
-          .withStatus(409)
-          .withTitle(message)
+
+      return reply.code(201).send(
+        JsonapiResponseBuilder.empty()
+          .withMeta({
+            status: 'created',
+            indexName,
+            collectionName: COLLECTION_NAME,
+            atlasStatus: httpResponse.status ?? 201,
+          })
+          .withState(alertState(message))
           .build()
-      })
+      )
     }
 
+    const message = 'bookmark_search index already exists.'
+    log(`[DEBUG] ${message}`)
+    return reply.code(409).send({
+      ...alert('bookmark_search index already exists!'),
+      ...new JsonapiErrorBuilder()
+        .withCode('DUPLICATE_RESOURCE')
+        .withStatus(409)
+        .withTitle(message)
+        .withMeta('indexName', indexName)
+        .withMeta('collectionName', COLLECTION_NAME)
+        .build()
+    })
   } catch (e) {
-    log_err((e as Error).message, e)
+    const message = e instanceof Error ? e.message : String(e)
+    log_err(message, e)
+
+    return reply.code(500).send({
+      ...alert('Failed to create bookmark search index.'),
+      ...new JsonapiErrorBuilder()
+        .withCode('INTERNAL_ERROR')
+        .withStatus(500)
+        .withTitle('Failed to create bookmark search index.')
+        .withDetail(message)
+        .withMeta('indexName', Config.DB_ATLAS_BOOKMARK_SEARCH_INDEX_NAME)
+        .withMeta('collectionName', COLLECTION_NAME)
+        .build()
+    })
   }
 }
 

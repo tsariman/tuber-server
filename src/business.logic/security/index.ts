@@ -15,6 +15,13 @@ export async function check_password(password: string, hash: string) {
 
 const hardcodedPrefix = '3dad18f2d7bf2214a082c735880bcde9'
 
+const normalize_origin = (value?: string): string => {
+  const trimmed = (value ?? '').trim().replace(/\/+$/, '')
+  if (!trimmed) { return '' }
+  if (/^https?:\/\//i.test(trimmed)) { return trimmed }
+  return `http://${trimmed.replace(/^\/+/, '')}`
+}
+
 /** Global variable to store the current bootstrap prefix */
 let BOOTSTRAP_PREFIX: string
 
@@ -28,9 +35,9 @@ export function get_bootstrap_key(): string {
 }
 
 export function get_server_domain(): string {
-  return Config.DOMAIN
+  return normalize_origin(Config.APP_BASE_URL || Config.DOMAIN)
 }
 
 export function get_client_domain(): string {
-  return Config.CLIENT_DOMAIN
+  return normalize_origin(Config.CLIENT_DOMAIN || Config.APP_BASE_URL || Config.DOMAIN)
 }

@@ -225,6 +225,43 @@ test('POST /signin - with keep-signed-in option', async (t) => {
   assert.ok(response.statusCode === 200 || response.statusCode === 401)
 })
 
+test('POST /signin - sets an http-usable auth cookie on non-https requests', async (t) => {
+  const previousNodeEnv = process.env.NODE_ENV
+  process.env.NODE_ENV = 'production'
+
+  const app = await build(t)
+  const suffix = Date.now().toString(36)
+  const username = `cookie-${suffix}`
+  const email = `cookie.${suffix}@example.com`
+
+  await create_user({
+    name: username,
+    email,
+    password: 'CookiePass123!'
+  })
+
+  const response = await app.inject({
+    method: 'POST',
+    url: '/signin',
+    payload: createJsonapiRequest('signins', {
+      credentials: {
+        username,
+        password: 'CookiePass123!',
+        options: [ 'keep-signed-in' ]
+      }
+    })
+  })
+
+  process.env.NODE_ENV = previousNodeEnv
+
+  assert.strictEqual(response.statusCode, 200)
+  const cookies = response.headers['set-cookie']
+  assert.ok(cookies)
+  const cookieHeader = Array.isArray(cookies) ? cookies.join('; ') : cookies
+  assert.ok(cookieHeader.includes('token='))
+  assert.ok(!cookieHeader.toLowerCase().includes('secure'))
+})
+
 test('POST /signin - invalid JSONAPI structure', async (t) => {
   const app = await build(t)
 

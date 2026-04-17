@@ -31,10 +31,7 @@ const $90 = STATE_KEY['90']
 const bootstrap_pages_state: TBootstrapState<TStateAllPages> = {
 
   DEFAULT: (context: IStateContext): TStateAllPages => {
-    const { theme: themeMode } = context
-    if (!themeMode) {
-      throw new Error('State bootstrap requires context.theme.')
-    }
+    const themeMode = context.theme || Config.DEFAULT_THEME_MODE
 
     switch (themeMode) {
       case 'dark':

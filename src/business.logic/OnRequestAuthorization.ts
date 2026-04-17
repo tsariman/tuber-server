@@ -50,7 +50,10 @@ export default class OnRequestAuthorization {
    * @returns void
    */
   private _setThemeMode(): void {
-    this._request.themeMode = this._parsedCookie.theme_mode || Config.DEFAULT_THEME_MODE
+    const themeMode = this._parsedCookie.theme_mode
+    this._request.themeMode = themeMode === 'light' || themeMode === 'dark'
+      ? themeMode
+      : Config.DEFAULT_THEME_MODE
   }
   
   /**

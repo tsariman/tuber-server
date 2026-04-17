@@ -73,6 +73,10 @@ interface IConfiguration {
 }
 
 const trim_env = (value?: string): string => (value ?? '').trim()
+const clean_env = (value?: string): string => trim_env(value)
+  .replace(/\s+#.*$/, '')
+  .replace(/^['"]|['"]$/g, '')
+const env_true = (value?: string): boolean => clean_env(value).toLowerCase().startsWith('true')
 
 /** App configuration values. */
 const USER_CONFIG: IConfiguration = {
@@ -83,11 +87,11 @@ const USER_CONFIG: IConfiguration = {
 
   /** Whether the app is in debugging mode or not. */
   DEBUG: process.env.NODE_ENV === 'development'
-    || process.env.DEBUG === 'true',
+    || env_true(process.env.DEBUG),
 
-  DOMAIN: process.env.DOMAIN ?? '127.0.0.1:8080',
-  CLIENT_DOMAIN: process.env.CLIENT_DOMAIN ?? 'http://localhost:3000',
-  DEMO: process.env.DEMO === 'true',
+  DOMAIN: clean_env(process.env.DOMAIN) || '127.0.0.1:8080',
+  CLIENT_DOMAIN: clean_env(process.env.CLIENT_DOMAIN) || 'http://localhost:3000',
+  DEMO: env_true(process.env.DEMO),
 
   /** Application port */
   FASTIFY_PORT: Number(process.env.FASTIFY_PORT) || 8080,
@@ -95,10 +99,10 @@ const USER_CONFIG: IConfiguration = {
   IMAGE_FOLDER: process.env.IMAGE_FOLDER || '',
 
   /** Mongodb database location. */
-  DB_REMOTE: process.env.DB_REMOTE === 'true',
+  DB_REMOTE: env_true(process.env.DB_REMOTE),
 
   /** Mongodb database protocol. */
-  DB_PROTOCOL: process.env.DB_PROTOCOL || 'mongodb://',
+  DB_PROTOCOL: clean_env(process.env.DB_PROTOCOL) || 'mongodb://',
 
   /** Mongodb production database name. */
   DB_PROD_NAME: process.env.DB_NAME || missing_db_name(),
@@ -115,12 +119,12 @@ const USER_CONFIG: IConfiguration = {
   DB_PASSWORD: process.env.DB_PASSWORD ?? '',
 
   /** The domain name or the IP address of the mongodb URL. */
-  DB_HOST: process.env.DB_HOST ?? '127.0.0.1',
+  DB_HOST: clean_env(process.env.DB_HOST) || '127.0.0.1',
 
   /** Mongodb database port. */
-  DB_PORT: process.env.DB_PORT ?? '', // 27017
+  DB_PORT: clean_env(process.env.DB_PORT) || '', // 27017
 
-  DB_URI_QUERYSTRING: process.env.DB_URI_QUERYSTRING ?? '',
+  DB_URI_QUERYSTRING: clean_env(process.env.DB_URI_QUERYSTRING),
 
   /** @see https://youtu.be/Z05rVI5mhzE?si=zAKs8NByVUvxdo03&t=464 */
   DB_ATLAS_API_PUBLIC_KEY: process.env.DB_ATLAS_API_PUBLIC_KEY ?? '',
@@ -167,12 +171,12 @@ const USER_CONFIG: IConfiguration = {
   // Email / SMTP configuration
   SMTP_HOST: process.env.SMTP_HOST ?? '',
   SMTP_PORT: Number(process.env.SMTP_PORT ?? 0),
-  SMTP_SECURE: (process.env.SMTP_SECURE ?? 'false') === 'true',
+  SMTP_SECURE: env_true(process.env.SMTP_SECURE),
   SMTP_USER: process.env.SMTP_USER ?? '',
   SMTP_PASS: process.env.SMTP_PASS ?? '',
   SMTP_FROM: process.env.SMTP_FROM ?? 'no-reply@localhost',
-  APP_BASE_URL: process.env.APP_BASE_URL ?? 'http://localhost:8080',
-  ENABLE_TOKEN_BLACKLIST: (process.env.ENABLE_TOKEN_BLACKLIST ?? 'false') === 'true',
+  APP_BASE_URL: clean_env(process.env.APP_BASE_URL) || 'http://localhost:8080',
+  ENABLE_TOKEN_BLACKLIST: env_true(process.env.ENABLE_TOKEN_BLACKLIST),
 
   // Patreon OAuth
   PATREON_CLIENT_ID: trim_env(process.env.PATREON_CLIENT_ID),

@@ -1,5 +1,6 @@
 import { IStateContext, TBootstrapState } from '../_state.common.types'
 import { PrepareState } from '../PrepareState'
+import Config from '../../config'
 import { ThemeOptions } from '@mui/material'
 
 const bootstrap_theme_light_state: TBootstrapState<ThemeOptions> = {
@@ -127,10 +128,7 @@ const bootstrap_theme_dark_state: TBootstrapState<ThemeOptions> = {
 const bootstrap_theme_state: TBootstrapState<ThemeOptions> = {
 
   DEFAULT: (context: IStateContext): ThemeOptions => {
-    const { theme: themeMode } = context
-    if (!themeMode) {
-      throw new Error('State bootstrap requires context.theme.')
-    }
+    const themeMode = context.theme || Config.DEFAULT_THEME_MODE
 
     switch (themeMode) {
       case 'dark':

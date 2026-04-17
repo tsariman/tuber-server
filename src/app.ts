@@ -74,7 +74,8 @@ const app: FastifyPluginAsync<AppOptions> = async (
     void fastify.register(fastifyStatic, {
       root: staticRoot,
       prefix: '/',
-      wildcard: false // let route handlers take priority over static files
+      wildcard: false,
+      index: false // let the explicit root route serve index.html
     })
   } else {
     log(`[WARN] Static root not found, skipping static plugin: ${staticRoot}`)

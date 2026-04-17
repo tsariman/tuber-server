@@ -16,6 +16,12 @@ if (-not $KeyPath) {
     exit 1
 }
 
+$envFile = Join-Path $PSScriptRoot ".env.production.local"
+if (-not (Test-Path $envFile)) {
+    Write-Host "Production env file not found at $envFile" -ForegroundColor Red
+    exit 1
+}
+
 Write-Host "Starting deployment to EC2..." -ForegroundColor Green
 
 # Must run from parent directory containing all three project folders
@@ -36,6 +42,7 @@ tar -czf tuber-deployment.tar.gz `
 # Upload files to EC2
 Write-Host "Uploading files to EC2..." -ForegroundColor Yellow
 scp -i $KeyPath tuber-deployment.tar.gz "${EC2User}@${EC2Host}:/tmp/"
+scp -i $KeyPath $envFile "${EC2User}@${EC2Host}:/tmp/tuber-server.env.production.local"
 
 # Deploy on EC2
 Write-Host "Setting up application on EC2..." -ForegroundColor Yellow
@@ -52,6 +59,31 @@ cd /opt/tuber-app
 
 # Extract application
 sudo tar -xzf /tmp/tuber-deployment.tar.gz
+sudo mkdir -p /opt/tuber-app/tuber-server
+sudo mv /tmp/tuber-server.env.production.local /opt/tuber-app/tuber-server/.env.production.local
+sudo python3 - <<'PY'
+from pathlib import Path
+path = Path('/opt/tuber-app/tuber-server/.env.production.local')
+text = path.read_text()
+updates = {
+    'APP_BASE_URL': 'http://${EC2Host}',
+    'CLIENT_DOMAIN': 'http://${EC2Host}',
+    'DOMAIN': 'http://${EC2Host}'
+}
+for key, value in updates.items():
+    marker = f'{key}='
+    lines = text.splitlines()
+    replaced = False
+    for i, line in enumerate(lines):
+        if line.startswith(marker):
+            lines[i] = f'{key}={value}'
+            replaced = True
+            break
+    if not replaced:
+        lines.append(f'{key}={value}')
+    text = '\n'.join(lines) + '\n'
+path.write_text(text)
+PY
 
 # Build Docker image (context = parent dir with all 3 projects)
 sudo docker build -f tuber-server/Dockerfile -t tuber-app .

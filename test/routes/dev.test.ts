@@ -191,10 +191,16 @@ test('POST /dev/setup-collection-index-search/bookmarks - setup search index', a
   })
 
   assert.ok(
-    response.statusCode === 200 || 
+    response.statusCode === 201 ||
+    response.statusCode === 409 ||
     response.statusCode === 404 ||
     response.statusCode === 500
   )
+
+  if (response.statusCode !== 404) {
+    const body = JSON.parse(response.payload)
+    assert.ok(body.state || body.meta || body.errors)
+  }
 })
 
 test('POST /dev/state/pages - get state pages', async (t) => {

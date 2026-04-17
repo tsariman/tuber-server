@@ -39,6 +39,23 @@ const SIGNIN_WINDOW_MS = 60 * 1000
 const SIGNIN_MAX_ATTEMPTS = 20
 const PASSWORD_RECOVERY_TOKEN_TTL_MS = 60 * 60 * 1000
 
+const is_https_request = (req: FastifyRequest): boolean => {
+  const forwardedProtoHeader = req.headers['x-forwarded-proto']
+  const forwardedProto = Array.isArray(forwardedProtoHeader)
+    ? forwardedProtoHeader[0]
+    : forwardedProtoHeader?.split(',')[0]?.trim()
+
+  return req.protocol === 'https' || forwardedProto === 'https'
+}
+
+const get_auth_cookie_options = (req: FastifyRequest, maxAge: number) => ({
+  httpOnly: true,
+  secure: is_https_request(req),
+  sameSite: 'lax' as const,
+  maxAge,
+  path: '/'
+})
+
 const authentication: FastifyPluginAsync = async (fastify, rootOpts): Promise<void> => {
   const skipRateLimit = process.env.SKIP_RATE_LIMIT === 'true'
   const opts = { ...rootOpts }
@@ -167,19 +184,23 @@ const authentication: FastifyPluginAsync = async (fastify, rootOpts): Promise<vo
       dbug('Expires in', expiresIn === '60d'
         ? '2 months.'
         : '24 hours.')
-      const theme = req.themeMode
-        ?? driver.getAttribute('theme_mode')
-        ?? Config.read<TThemeMode>(THEME_MODE, THEME_DEFAULT_MODE)
- 
+      const themeCandidate = req.themeMode
+        || driver.getAttribute('theme_mode')
+        || Config.read<TThemeMode>(THEME_MODE, THEME_DEFAULT_MODE)
+      const theme: TThemeMode = themeCandidate === 'light' || themeCandidate === 'dark'
+        ? themeCandidate
+        : THEME_DEFAULT_MODE
+
       // Set HTTP-only cookie for token
       task('Setting authentication cookie ')
-      reply.setCookie('token', token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'strict',
-        maxAge: expiresIn === '60d' ? 60 * 24 * 60 * 60 * 1000 : 24 * 60 * 60 * 1000,
-        path: '/'
-      })
+      reply.setCookie(
+        'token',
+        token,
+        get_auth_cookie_options(
+          req,
+          expiresIn === '60d' ? 60 * 24 * 60 * 60 * 1000 : 24 * 60 * 60 * 1000
+        )
+      )
       task.end('[✔️]')
       reply
         .code(200)
@@ -416,7 +437,7 @@ const authentication: FastifyPluginAsync = async (fastify, rootOpts): Promise<vo
       USER_CACHE.del(name)
 
       // Clear the token cookie
-      reply.clearCookie('token', { path: '/' })
+      reply.clearCookie('token', get_auth_cookie_options(req, 0))
 
       // Increment jwt_version on signout to invalidate outstanding tokens
       task('Incrementing jwt_version on signout ')

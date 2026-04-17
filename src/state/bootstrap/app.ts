@@ -10,10 +10,8 @@ const $44 = STATE_KEY['44']
 const bootstrap_app_state = {
 
     DEFAULT: (context: IStateContext) => {
-      const { usr, theme: themeMode } = context;
-      if (!themeMode) {
-        throw new Error('State bootstrap requires context.theme.')
-      }
+      const { usr, theme } = context;
+      const themeMode = theme || Config.DEFAULT_THEME_MODE
       const inDev = Config.DEV && Access.the(usr).can('dev_install_page.view');
       const app: TStateApp = {
         'fetchingStateAllowed': true,
