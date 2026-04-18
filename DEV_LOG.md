@@ -1,6 +1,17 @@
 
 # Development Log
 
+## `202604181038` feat: implement email verification for account editing
+
+- Refactor error exports to use consistent naming conventions.
+- Update configuration to allow dynamic domain and client domain settings.
+- Enhance authentication middleware to handle email verification status.
+- Add endpoint for resending email verification.
+- Modify account route to check email verification before allowing profile edits.
+- Update user schema to include email verification status.
+- Create form state for editing user details with email verification checks.
+- Adjust tests to cover new email verification logic and resend functionality.
+
 ## `202604151206` Refactor error handling in various endpoints to standardize error IDs and messages
 
 - Updated error IDs in account-related endpoints to follow the new format.

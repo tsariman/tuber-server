@@ -6,6 +6,7 @@ import {
   get_contextualized_form_state,
   get_contextualized_form_state_dark
 } from '../../state/form'
+import { EditUserFormState } from '../../state/form/edit.user.form.state'
 import { MSG_500_ERROR_MESSAGE, TJsonapiStateResponse, type TStateForm } from '@tuber/shared'
 import { IStatePost } from '../../common.types'
 import { t, themed } from '../../business.logic'
@@ -146,6 +147,10 @@ export default async function post_state_forms_endpoint (
 
     if (key === 'editUserForm' && usr?._id) {
       const user = await read_user_by_id(String(usr._id))
+      if (user) {
+        light = EditUserFormState.withContext(user).light
+        dark = EditUserFormState.withContext(user).dark
+      }
       const linked = typeof user?.patreon_user_id === 'string'
         && user.patreon_user_id.trim() !== ''
       light = apply_account_patreon_context(light, linked)

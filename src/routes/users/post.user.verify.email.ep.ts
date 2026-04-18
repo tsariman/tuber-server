@@ -3,6 +3,7 @@ import { TUsersFastifyRequest } from '../../schema/user'
 import JsonapiErrorBuilder from '../../business.logic/builder/JsonapiErrorBuilder'
 import JsonapiResponseBuilder from '../../business.logic/builder/JsonapiResponseBuilder'
 import { UserModel, transform_user_doc } from '../../model/user'
+import { USER_CACHE } from '../../business.logic/cache'
 import { to_error_object } from '../../utility'
 
 /** `POST /users/email/verify` endpoint handler */
@@ -57,6 +58,7 @@ export default async function post_user_verify_email_endpoint (
     user.email_verification_code = undefined
     user.email_verification_code_expires = undefined
     await user.save()
+    USER_CACHE.del(user.name)
 
     reply.code(200).send(
       JsonapiResponseBuilder.forSingleResource(transform_user_doc(user), 'users')

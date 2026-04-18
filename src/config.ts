@@ -77,6 +77,7 @@ const clean_env = (value?: string): string => trim_env(value)
   .replace(/\s+#.*$/, '')
   .replace(/^['"]|['"]$/g, '')
 const env_true = (value?: string): boolean => clean_env(value).toLowerCase().startsWith('true')
+const publicOrigin = clean_env(process.env.PUBLIC_ORIGIN)
 
 /** App configuration values. */
 const USER_CONFIG: IConfiguration = {
@@ -89,8 +90,8 @@ const USER_CONFIG: IConfiguration = {
   DEBUG: process.env.NODE_ENV === 'development'
     || env_true(process.env.DEBUG),
 
-  DOMAIN: clean_env(process.env.DOMAIN) || '127.0.0.1:8080',
-  CLIENT_DOMAIN: clean_env(process.env.CLIENT_DOMAIN) || 'http://localhost:3000',
+  DOMAIN: clean_env(process.env.DOMAIN) || publicOrigin || '127.0.0.1:8080',
+  CLIENT_DOMAIN: clean_env(process.env.CLIENT_DOMAIN) || publicOrigin || 'http://localhost:3000',
   DEMO: env_true(process.env.DEMO),
 
   /** Application port */
@@ -175,7 +176,7 @@ const USER_CONFIG: IConfiguration = {
   SMTP_USER: process.env.SMTP_USER ?? '',
   SMTP_PASS: process.env.SMTP_PASS ?? '',
   SMTP_FROM: process.env.SMTP_FROM ?? 'no-reply@localhost',
-  APP_BASE_URL: clean_env(process.env.APP_BASE_URL) || 'http://localhost:8080',
+  APP_BASE_URL: clean_env(process.env.APP_BASE_URL) || publicOrigin || 'http://localhost:8080',
   ENABLE_TOKEN_BLACKLIST: env_true(process.env.ENABLE_TOKEN_BLACKLIST),
 
   // Patreon OAuth

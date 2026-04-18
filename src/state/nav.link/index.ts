@@ -104,7 +104,7 @@ export const authenticatedLinkState: TStateLink = {
     'text': '',
   }
 }
-/** Link to create a new bookmark from a video URL. */
+/** Link to create a new bookmark from a video URL. @deprecated */
 export const bookmarkAddFromUrlLinkState: TStateLink = {
   'type': 'icon',
   '_id': '3',

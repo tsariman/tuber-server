@@ -12,7 +12,6 @@ import {
   $66DarkThemeMode,
   $67DarkThemeMode,
   account_link_state,
-  bookmarkAddFromUrlLinkState,
   createUserLinkState,
   darkModeLinkState,
   homeLinkState,
@@ -95,8 +94,6 @@ export const bs_researchPageState = (
         if (Config.DEV && Access.the(context.usr).can('dev_install_page.view')) {
           link.add(homeLinkState)
         }
-      } else if (context.usr) {
-        link.add(bookmarkAddFromUrlLinkState)
       }
       link.add(darkModeLinkState)
       if (context.usr) {
@@ -119,8 +116,6 @@ export const bs_researchPageState = (
         if (Config.DEV && Access.the(context.usr).can('dev_install_page.view')) {
           link.add(homeLinkState)
         }
-      } else if (context.usr) {
-        link.add(bookmarkAddFromUrlLinkState)
       }
       link.add(lightModeLinkState)
       if (context.usr) {
@@ -165,8 +160,6 @@ export const bs_listingPageState = (
         if (Config.DEV && Access.the(context.usr).can('dev_install_page.view')) {
           link.add(homeLinkState)
         }
-      } else if (context.usr) {
-        link.add(bookmarkAddFromUrlLinkState)
       }
       link.add(darkModeLinkState)
       link.add(context.usr ? $66DarkThemeMode : $67DarkThemeMode)
@@ -184,8 +177,6 @@ export const bs_listingPageState = (
         if (Config.DEV && Access.the(context.usr).can('dev_install_page.view')) {
           link.add(homeLinkState)
         }
-      } else if (context.usr) {
-        link.add(bookmarkAddFromUrlLinkState)
       }
       link.add(lightModeLinkState)
       link.add(context.usr ? powerLogoutLinkState : powerSignInLinkState)

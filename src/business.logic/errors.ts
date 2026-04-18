@@ -169,25 +169,25 @@ export function isCustomError(error: unknown): error is AuthenticationError | Da
   return isAuthenticationError(error) || isDatabaseError(error) || isValidationError(error)
 }
 
-export const $401_MISSING_ACCESS_TOKEN = {
+export const E401_MISSING_ACCESS_TOKEN = {
   'status': '401',
   'title': 'Unauthorized',
   'detail': 'Missing access token in authorization header in format \'Bearer <token>\''
 } as TJsonapiError
 
-export const $401_UNAUTHORIZED_ACCESS = {
+export const E401_UNAUTHORIZED_ACCESS = {
   'status': '401',
   'title': 'Unauthorized',
   'detail': 'Unauthorized access to resource.'
 } as TJsonapiError
 
-export const $403_ACCESS_TOKEN_FORBIDDEN = {
+export const E403_ACCESS_TOKEN_FORBIDDEN = {
   'status': '403',
   'title': 'Forbidden token',
   'detail': 'Token does not have the privilege to access the resource.'
 } as TJsonapiError
 
-export const $400_MISSING_PAYLOAD = {
+export const E400_MISSING_PAYLOAD = {
   'status': '400',
   'title': 'Missing payload',
   'detail': 'Although the token was valid, payload was unavailable.'

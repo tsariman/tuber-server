@@ -90,8 +90,7 @@ import {
   $88DarkThemeMode
 } from './feedback.form.state'
 import {
-  editUserFormState,
-  $82DarkThemeMode
+  EditUserFormState
 } from './edit.user.form.state'
 import Config from '../../config'
 import { TThemeMode } from '../../common.types'
@@ -294,7 +293,7 @@ export const get_contextualized_form_state = (key: string, usr?: TContextualUser
   base[$29] = EditUnknownBookmarkFormState.withContext(usr).light
   base[$39] = EditTwitchBookmarkFormState.withContext(usr).light
   if (Access.the(usr).hasClearance('free').then) {
-    base[$82] = editUserFormState
+    base[$82] = EditUserFormState.withContext(usr).light
   }
   return base[key]
 }
@@ -317,7 +316,7 @@ export const get_contextualized_form_state_dark = (key: string, usr?: TContextua
   base[$29] = EditUnknownBookmarkFormState.withContext(usr).dark
   base[$39] = EditTwitchBookmarkFormState.withContext(usr).dark
   if (Access.the(usr).hasClearance('free').then) {
-    base[$82] = $82DarkThemeMode
+    base[$82] = EditUserFormState.withContext(usr).dark
   }
   return base[key]
 }

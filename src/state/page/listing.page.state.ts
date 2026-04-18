@@ -7,7 +7,6 @@ import { $71DarkThemeMode, listingPageAppbarState } from '../appbar'
 import {
   $66DarkThemeMode,
   $67DarkThemeMode,
-  bookmarkAddFromUrlLinkState,
   darkModeLinkState,
   homeLinkState,
   lightModeLinkState,
@@ -92,8 +91,6 @@ export const bs_chippedListingPageState = (
         if (Config.DEV && Access.the(context.usr).can('dev_install_page.view')) {
           link.add(homeLinkState)
         }
-      } else if (context.usr) {
-        link.add(bookmarkAddFromUrlLinkState)
       }
       link.add(darkModeLinkState)
       link.add(context.usr ? $66DarkThemeMode : $67DarkThemeMode)
@@ -110,8 +107,6 @@ export const bs_chippedListingPageState = (
         if (Config.DEV && Access.the(context.usr).can('dev_install_page.view')) {
           link.add(homeLinkState)
         }
-      } else if (context.usr) {
-        link.add(bookmarkAddFromUrlLinkState)
       }
       link.add(lightModeLinkState)
       link.add(context.usr ? powerLogoutLinkState : powerSignInLinkState)

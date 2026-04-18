@@ -96,7 +96,7 @@ export type TUser = WithRequired<IUser,
 export interface IUserDocument extends TUser, mongoose.Document<string> {}
 
 /** User object decoded from JWT token */
-export type TContextualUser = Pick<IUserDocument, '_id' | 'name' | 'jwt_version' | 'role'>
+export type TContextualUser = Pick<IUserDocument, '_id' | 'name' | 'jwt_version' | 'role' | 'email_verified'>
 export type TUsr = TContextualUser | null
 
 const userSchema = new Schema<IUserDocument>({
