@@ -1,6 +1,13 @@
 
 # Development Log
 
+## `202604182349` Enhance email verification process and SMTP configuration validation
+
+- Added GET /users/email/verify endpoint to handle email verification via query parameters.
+- Improved email verification logic to redirect browser navigations appropriately.
+- Implemented SMTP configuration validation to ensure proper settings in production.
+- Added tests for email verification and mailer configuration validation.
+
 ## `202604181038` feat: implement email verification for account editing
 
 - Refactor error exports to use consistent naming conventions.

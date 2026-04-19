@@ -350,6 +350,61 @@ test('POST /users/email/verify - should verify email with valid code', async (t)
   }
 })
 
+test('GET /users/email/verify - should verify email from query params', async (t) => {
+  const app = await build(t)
+
+  const uniqueEmail = `verifyget${Date.now()}@example.com`
+  const code = `code-${Date.now()}`
+
+  await UserModel.create({
+    name: `verifygetuser${Date.now()}`,
+    email: uniqueEmail,
+    email_verified: false,
+    email_verification_code: code,
+    email_verification_code_expires: new Date(Date.now() + 60_000)
+  })
+
+  const verifyResponse = await app.inject({
+    method: 'GET',
+    url: `/users/email/verify?email=${encodeURIComponent(uniqueEmail)}&code=${encodeURIComponent(code)}`
+  })
+
+  assert.strictEqual(verifyResponse.statusCode, 200)
+
+  const verifiedUser = await UserModel.findOne({ email: uniqueEmail })
+  assert.ok(verifiedUser)
+  assert.strictEqual(verifiedUser!.email_verified, true)
+  assert.ok(verifiedUser!.email_verified_at)
+  assert.strictEqual(verifiedUser!.email_verification_code, undefined)
+  assert.strictEqual(verifiedUser!.email_verification_code_expires, undefined)
+})
+
+test('GET /users/email/verify - should redirect browser navigations back into the app', async (t) => {
+  const app = await build(t)
+
+  const uniqueEmail = `verifybrowser${Date.now()}@example.com`
+  const code = `browser-code-${Date.now()}`
+
+  await UserModel.create({
+    name: `verifybrowseruser${Date.now()}`,
+    email: uniqueEmail,
+    email_verified: false,
+    email_verification_code: code,
+    email_verification_code_expires: new Date(Date.now() + 60_000)
+  })
+
+  const verifyResponse = await app.inject({
+    method: 'GET',
+    url: `/users/email/verify?email=${encodeURIComponent(uniqueEmail)}&code=${encodeURIComponent(code)}`,
+    headers: { accept: 'text/html,application/xhtml+xml' }
+  })
+
+  assert.strictEqual(verifyResponse.statusCode, 302)
+  assert.ok(verifyResponse.headers.location)
+  assert.ok(verifyResponse.headers.location.includes('email_verification=success'))
+  assert.ok(verifyResponse.headers.location.includes('return_route=%2Faccount'))
+})
+
 test('POST /users/email/verify - should fail with invalid code', async (t) => {
   const app = await build(t)
   const token = await generateTestToken(app)

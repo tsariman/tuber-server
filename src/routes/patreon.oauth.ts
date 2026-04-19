@@ -108,7 +108,10 @@ const get_redirect_uri = (): string => {
 const to_callback_redirect_url = (origin: string | undefined, status: string): string => {
   const fallback = normalize_origin(Config.CLIENT_DOMAIN) || 'http://localhost:5173'
   const safeOrigin = normalize_origin(origin) || fallback
-  return `${safeOrigin}/account?patreon_oauth=${encodeURIComponent(status)}`
+  const redirectUrl = new URL(safeOrigin)
+  redirectUrl.searchParams.set('patreon_oauth', status)
+  redirectUrl.searchParams.set('return_route', '/account')
+  return redirectUrl.toString()
 }
 
 const exchange_code_for_token = async (code: string): Promise<string | null> => {

@@ -19,6 +19,13 @@ const users: FastifyPluginAsync = async (fastify, rootOpts): Promise<void> => {
 
   // GET /users
   fastify.get<IUsersEndpoint>('/', opts, get_user_collection_endpoint)
+
+  // GET /users/email/verify
+  fastify.get<IUsersEndpoint>('/email/verify', {
+    ...rootOpts,
+    ...PUBLIC_ROUTE_OPTIONS
+  }, post_user_verify_email_endpoint)
+
   // GET /users/:name
   fastify.get<IUsersEndpoint>('/:name', opts, get_user_by_name_endpoint)
 

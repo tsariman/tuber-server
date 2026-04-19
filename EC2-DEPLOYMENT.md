@@ -128,7 +128,17 @@ COOKIE_SECRET=<your-random-cookie-secret>
 
 # Port
 FASTIFY_PORT=8080
+
+# SMTP / transactional email
+SMTP_HOST=smtp.your-provider.com
+SMTP_PORT=587
+SMTP_SECURE=false
+SMTP_USER=<smtp-username>
+SMTP_PASS=<smtp-password>
+SMTP_FROM=no-reply@yourdomain.com
 ```
+
+> For outbound email delivery, SMTP plus SPF/DKIM are the important pieces. MX records are only needed if you want to receive mail at your domain.
 
 ## Step 7: Deploy
 

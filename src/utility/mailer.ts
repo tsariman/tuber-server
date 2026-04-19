@@ -1,8 +1,40 @@
 import nodemailer from 'nodemailer'
 import Config from '../config'
 
+type TMailerRuntimeConfig = {
+  NODE_ENV: string
+  SMTP_HOST: string
+  SMTP_PORT: number
+  SMTP_FROM: string
+  SMTP_USER?: string
+  SMTP_PASS?: string
+}
+
+export function validate_mailer_runtime_config(config: TMailerRuntimeConfig): void {
+  const isProduction = config.NODE_ENV === 'production'
+  const hasHost = Boolean(config.SMTP_HOST?.trim())
+  const hasPort = Number(config.SMTP_PORT) > 0
+  const normalizedFrom = config.SMTP_FROM?.trim().toLowerCase() ?? ''
+  const hasFrom = Boolean(normalizedFrom) && !normalizedFrom.includes('localhost')
+  const hasUser = Boolean(config.SMTP_USER?.trim())
+  const hasPass = Boolean(config.SMTP_PASS?.trim())
+
+  if (hasUser !== hasPass) {
+    throw new Error('SMTP auth is incomplete. Set SMTP_USER and SMTP_PASS together.')
+  }
+
+  if (isProduction && (!hasHost || !hasPort || !hasFrom)) {
+    throw new Error(
+      'SMTP is not configured for production. Set SMTP_HOST, SMTP_PORT, and SMTP_FROM to enable verification and recovery emails.'
+    )
+  }
+}
+
+validate_mailer_runtime_config(Config)
+
 const hasSmtpConfig = Boolean(Config.SMTP_HOST && Config.SMTP_PORT)
 const trimTrailingSlash = (value: string): string => value.replace(/\/+$/, '')
+let hasVerifiedTransport = false
 
 export const transporter = hasSmtpConfig
   ? nodemailer.createTransport({
@@ -17,6 +49,16 @@ export const transporter = hasSmtpConfig
         : undefined,
     })
   : nodemailer.createTransport({ jsonTransport: true })
+
+async function verifyTransport(): Promise<void> {
+  if (!hasSmtpConfig || hasVerifiedTransport) {
+    return
+  }
+
+  await transporter.verify()
+  hasVerifiedTransport = true
+  console.info('[MAILER] SMTP transport verified.')
+}
 
 function logMailPreview(subject: string, to: string, url: string) {
   if (!hasSmtpConfig) {
@@ -34,6 +76,7 @@ export async function sendVerificationEmail(to: string, code: string) {
     `<p>${verifyUrl}</p>`
   ].join('\n')
 
+  await verifyTransport()
   const info = await transporter.sendMail({
     from: Config.SMTP_FROM,
     to,
@@ -57,6 +100,7 @@ export async function sendPasswordRecoveryEmail(to: string, token: string) {
     `<p>${resetUrl}</p>`
   ].join('\n')
 
+  await verifyTransport()
   const info = await transporter.sendMail({
     from: Config.SMTP_FROM,
     to,
