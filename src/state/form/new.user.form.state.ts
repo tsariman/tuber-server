@@ -72,7 +72,7 @@ export const newUserFormState: TStateForm = {
           'type': 'text',
           'name': 'email',
           get 'label'() { return t('email', 'Email') },
-          'props': { 'autoComplete': 'email', 'type': 'email' },
+          'props': { 'autoComplete': 'off', 'type': 'email' },
           'has': {
             'required': true,
             get 'requiredMessage'() { return t('no_email', 'Email is required.') },
@@ -84,6 +84,7 @@ export const newUserFormState: TStateForm = {
           'type': 'password',
           'name': 'password',
           get 'label'() { return t('password', 'Password') },
+          'props': { 'autoComplete': 'new-password' },
           'has': {
             'required': true,
             get 'requiredMessage'() { return t('no_password', 'You forgot the password.') },
@@ -98,6 +99,7 @@ export const newUserFormState: TStateForm = {
           'type': 'password',
           'name': 're_entered_password',
           get 'label'() { return t('password', 'Re-enter Password') },
+          'props': { 'autoComplete': 'new-password' },
           'has': {
             'required': true,
             get 'requiredMessage'() { return t('no_password', 'You forgot the password.') },

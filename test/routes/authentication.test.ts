@@ -6,6 +6,7 @@ import { create_user, UserModel } from '../../src/model/user'
 // Test RequestDataValidator separately
 import RequestDataValidator from '../../src/business.logic/RequestDataValidator'
 import signInFormState from '../../src/state/form/sign.in.form.state'
+import newUserFormState from '../../src/state/form/new.user.form.state'
 
 test('RequestDataValidator - valid data', () => {
   const validData = {
@@ -76,6 +77,22 @@ test('RequestDataValidator - empty password', () => {
   assert.ok(result!.errors.length > 0)
   const firstError = result!.errors[0]
   assert.ok(firstError.source?.pointer?.includes('password'))
+})
+
+test('new user form disables saved credential autofill', () => {
+  const fields = ((newUserFormState.items?.[0] as {
+    items?: Array<{ name?: string, props?: Record<string, unknown> }>
+  })?.items) ?? []
+
+  const usernameField = fields.find(field => field.name === 'name')
+  const emailField = fields.find(field => field.name === 'email')
+  const passwordField = fields.find(field => field.name === 'password')
+  const confirmField = fields.find(field => field.name === 're_entered_password')
+
+  assert.strictEqual(usernameField?.props?.autoComplete, 'off')
+  assert.strictEqual(emailField?.props?.autoComplete, 'off')
+  assert.strictEqual(passwordField?.props?.autoComplete, 'new-password')
+  assert.strictEqual(confirmField?.props?.autoComplete, 'new-password')
 })
 
 // Authentication route tests - now with proper error handling

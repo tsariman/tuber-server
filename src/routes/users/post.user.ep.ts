@@ -20,6 +20,18 @@ const signupAttempts: Map<string, { count: number; resetAt: number }> = new Map(
 const SIGNUP_WINDOW_MS = 60 * 1000
 const SIGNUP_MAX_ATTEMPTS = 5
 
+const signupSnackbarState = (
+  message: string,
+  variant: 'success' | 'error' | 'warning' | 'info' = 'info'
+) => ({
+  'snackbar': {
+    'open': true,
+    'type': 'message' as const,
+    'variant': variant,
+    'message': message
+  }
+})
+
 /** `POST /users` endpoint handler */
 export default async function post_user_endpoint (
   req: TUsersFastifyRequest,
@@ -42,6 +54,7 @@ export default async function post_user_endpoint (
             .withCode('RATE_LIMITED')
             .withTitle('Too Many Requests')
             .withDetail('Please wait a minute before trying again.')
+            .withState(signupSnackbarState('Too many sign-up attempts. Please wait a minute and try again.', 'warning'))
             .build())
           return
         }
@@ -52,7 +65,10 @@ export default async function post_user_endpoint (
       const validator = new RequestDataValidator(newUserResource, newUserFormState)
       const errorResponse = validator.validateAgainstFormState()
       if (errorResponse) {
-        reply.code(400).send(errorResponse)
+        reply.code(400).send({
+          ...errorResponse,
+          'state': signupSnackbarState('Please review the form and try again.', 'error')
+        })
         return
       }
 
@@ -69,6 +85,7 @@ export default async function post_user_endpoint (
             .withCode('VALIDATION_ERROR')
             .withTitle('Password is too weak')
             .withDetail('Password must be at least 12 characters and include uppercase, lowercase, numbers, and symbols.')
+            .withState(signupSnackbarState('Password must be at least 12 characters and include uppercase, lowercase, numbers, and symbols.', 'error'))
             .build())
           return
         }
@@ -97,6 +114,7 @@ export default async function post_user_endpoint (
             'app': {
               'route': 'default-success',
             },
+            ...signupSnackbarState(`Welcome, ${user.name}! Your account was created successfully.`, 'success'),
             'tmp': {
               'default-success': {
                 'message': `User <strong>${user.name}</strong> successfully created!`
@@ -110,11 +128,18 @@ export default async function post_user_endpoint (
     const error = to_error_object(e)
     const mongoDbError = get_mongodb_error(error.message)
     if (mongoDbError.code === MONGODB_DUPLICATE_KEY_ERROR) {
+      const duplicateMessage = /name/i.test(mongoDbError.detail)
+        ? 'That username is already taken. Please choose another one.'
+        : /email/i.test(mongoDbError.detail)
+          ? 'That email is already registered. Try signing in or use another address.'
+          : 'That account already exists. Please use different details and try again.'
+
       reply.code(409).send(new JsonapiErrorBuilder()
         .withCode('DUPLICATE_RESOURCE')
         .withStatus(409)
-        .withTitle('Conflict')
-        .withDetail(mongoDbError.detail)
+        .withTitle('Account already exists')
+        .withDetail(duplicateMessage)
+        .withState(signupSnackbarState(duplicateMessage, 'error'))
         .build())
     } else {
       ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[50047]'))

@@ -228,6 +228,15 @@ test('POST /users with duplicate username', async (t) => {
 
     // Should return conflict error for duplicate username
     assert.ok(response.statusCode === 409 || response.statusCode === 400)
+
+    if (response.statusCode === 409) {
+      const body = JSON.parse(response.payload)
+      assert.ok(body.state)
+      assert.ok(body.state.snackbar)
+      assert.strictEqual(body.state.snackbar.open, true)
+      assert.strictEqual(body.state.snackbar.variant, 'error')
+      assert.ok(String(body.state.snackbar.message || '').length > 0)
+    }
   }
 })
 
