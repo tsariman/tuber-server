@@ -181,6 +181,138 @@ test('POST /webhooks/patreon keeps supporter role active on members:update', asy
   }
 })
 
+test('POST /webhooks/patreon keeps a higher existing role when Patreon grants a lower one', async (t) => {
+  const app = await build(t)
+  const suffix = uniqueSuffix()
+  const email = `patreon-existing-role-${suffix}@example.com`
+  const patreonUserId = `patreon-user-${suffix}`
+  const membershipId = `membership-${suffix}`
+  const secret = `secret-${suffix}`
+  const previousSecret = process.env.PATREON_WEBHOOK_SECRET
+  const previousTierIds = process.env.PATREON_SUPPORTER_TIER_IDS
+
+  process.env.PATREON_WEBHOOK_SECRET = secret
+  process.env.PATREON_SUPPORTER_TIER_IDS = 'tier-supporter'
+  try {
+    const user = await UserModel.create({
+      name: `patreonexistingrole${suffix}`,
+      email,
+      role: 'member',
+    })
+
+    const jwtVersionBefore = user.jwt_version ?? 0
+
+    const response = await app.inject({
+      method: 'POST',
+      url: '/webhooks/patreon',
+      headers: {
+        'content-type': 'application/json',
+        'x-patreon-event': 'members:create',
+        'x-tuber-webhook-secret': secret,
+      },
+      payload: createWebhookPayload({
+        event: 'members:create',
+        membershipId,
+        patreonUserId,
+        email,
+        patronStatus: 'active_patron',
+        entitledAmountCents: 300,
+        tierIds: ['tier-supporter'],
+      })
+    })
+
+    assert.strictEqual(response.statusCode, 200)
+
+    const updatedUser = await UserModel.findById(user._id)
+    assert.ok(updatedUser)
+    assert.strictEqual(updatedUser!.role, 'member')
+    assert.strictEqual(updatedUser!.baseline_role, 'member')
+    assert.strictEqual(updatedUser!.supporter_source, undefined)
+    assert.strictEqual(updatedUser!.jwt_version, jwtVersionBefore)
+
+    const body = JSON.parse(response.payload)
+    assert.strictEqual(body.ok, true)
+    assert.strictEqual(body.sync.roleBefore, 'member')
+    assert.strictEqual(body.sync.roleAfter, 'member')
+  } finally {
+    process.env.PATREON_WEBHOOK_SECRET = previousSecret
+    process.env.PATREON_SUPPORTER_TIER_IDS = previousTierIds
+    await UserModel.deleteMany({ email })
+  }
+})
+
+test('POST /webhooks/patreon restores the original higher baseline role on members:delete', async (t) => {
+  const app = await build(t)
+  const suffix = uniqueSuffix()
+  const email = `patreon-restore-role-${suffix}@example.com`
+  const patreonUserId = `patreon-user-${suffix}`
+  const membershipId = `membership-${suffix}`
+  const secret = `secret-${suffix}`
+  const previousSecret = process.env.PATREON_WEBHOOK_SECRET
+
+  process.env.PATREON_WEBHOOK_SECRET = secret
+  try {
+    const user = await UserModel.create({
+      name: `patreonrestorerole${suffix}`,
+      email,
+      role: 'supporter',
+      patreon_user_id: patreonUserId,
+      patreon_membership_id: membershipId,
+      patreon_subscription_status: 'active',
+      patreon_last_event: 'members:update',
+      supporter_source: 'patreon',
+    })
+
+    await UserModel.updateOne(
+      { _id: user._id },
+      {
+        $set: {
+          role: 'supporter',
+          supporter_source: 'patreon',
+          baseline_role: 'member',
+        }
+      }
+    )
+
+    const jwtVersionBefore = user.jwt_version ?? 0
+
+    const response = await app.inject({
+      method: 'POST',
+      url: '/webhooks/patreon',
+      headers: {
+        'content-type': 'application/json',
+        'x-patreon-event': 'members:delete',
+        'x-tuber-webhook-secret': secret,
+      },
+      payload: createWebhookPayload({
+        event: 'members:delete',
+        membershipId,
+        patreonUserId,
+        email,
+        patronStatus: 'former_patron',
+        entitledAmountCents: 0,
+        tierIds: [],
+      })
+    })
+
+    assert.strictEqual(response.statusCode, 200)
+
+    const updatedUser = await UserModel.findById(user._id)
+    assert.ok(updatedUser)
+    assert.strictEqual(updatedUser!.role, 'member')
+    assert.strictEqual(updatedUser!.supporter_source, undefined)
+    assert.strictEqual(updatedUser!.jwt_version, jwtVersionBefore + 1)
+
+    const body = JSON.parse(response.payload)
+    assert.strictEqual(body.ok, true)
+    assert.strictEqual(body.sync.roleBefore, 'supporter')
+    assert.strictEqual(body.sync.roleAfter, 'member')
+  } finally {
+    process.env.PATREON_WEBHOOK_SECRET = previousSecret
+    await UserModel.deleteMany({ email })
+  }
+})
+
 test('POST /webhooks/patreon downgrades supporter to free on members:delete', async (t) => {
   const app = await build(t)
   const suffix = uniqueSuffix()

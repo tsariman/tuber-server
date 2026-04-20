@@ -117,7 +117,10 @@ export default async function post_user_endpoint (
             ...signupSnackbarState(`Welcome, ${user.name}! Your account was created successfully.`, 'success'),
             'tmp': {
               'default-success': {
-                'message': `User <strong>${user.name}</strong> successfully created!`
+                'message': `
+                  Success! Your username: <strong class="new-username">${user.name}</strong><br>
+                  Check your email to verify your account and complete the sign-up process.
+                `
               }
             }
           })

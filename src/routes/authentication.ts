@@ -32,6 +32,7 @@ import { is_record, to_error_object } from '../utility'
 import OnRequestAuthorization from '../business.logic/OnRequestAuthorization'
 import Config from '../config'
 import { sendPasswordRecoveryEmail } from '../utility/mailer'
+import JsonapiResponseBuilder from '../business.logic/builder/JsonapiResponseBuilder'
 
 // Lightweight rate limiter for signin (fallback if plugin not used)
 const signinAttempts: Map<string, { count: number; resetAt: number }> = new Map()
@@ -360,9 +361,20 @@ const authentication: FastifyPluginAsync = async (fastify, rootOpts): Promise<vo
       await user.save()
       USER_CACHE.del(user.name)
 
-      reply.code(200).send(alert(
-        'Your password has been updated. You can now sign in with your new password.'
-      ))
+      reply.code(200).send(JsonapiResponseBuilder.empty()
+        .withMeta({ status: 'password_reset_success' })
+        .withState({
+          'app': {
+            'route': 'default-success',
+          },
+          'tmp': {
+            'default-success': {
+              'message': 'Your password has been updated. You can now sign in with your new password.'
+            }
+          }
+        })
+        .build()
+      )
     } catch (e) {
       log_err_safe('[5009] Error resetting password with recovery token', {
         error: to_error_object(e),

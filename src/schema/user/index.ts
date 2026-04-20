@@ -20,6 +20,8 @@ export interface IUser {
   phone?: string
   password?: string
   role?: TRole
+  /** Baseline non-Patreon role to restore when paid support ends. */
+  baseline_role?: TRole
   /** Patreon user id linked to this account. */
   patreon_user_id?: string
   /** Patreon membership id linked to this account. */
@@ -28,7 +30,7 @@ export interface IUser {
   patreon_subscription_status?: 'active' | 'inactive'
   /** Last Patreon webhook event processed for this user. */
   patreon_last_event?: string
-  /** Optional provenance for supporter role automation. */
+  /** Optional provenance for Patreon role automation. */
   supporter_source?: 'patreon'
   username?: string
   firstname?: string
@@ -114,6 +116,7 @@ const userSchema = new Schema<IUserDocument>({
   phone: String,
   password: { type: String, default: null },
   role: { type: String, default: 'free' },
+  baseline_role: { type: String, default: undefined },
   patreon_user_id: { type: String, default: undefined },
   patreon_membership_id: { type: String, default: undefined },
   patreon_subscription_status: { type: String, default: undefined },

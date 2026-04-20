@@ -5,6 +5,7 @@ import {
 } from 'mongoose'
 import { IMPV2Doc } from '../../common.types'
 import { get_hashed_password } from '../../business.logic/security'
+import CLEARANCE_LEVEL from '../../business.logic/security/clearance.level'
 import Config from '../../config'
 import { USER_CACHE } from '../../business.logic/cache'
 import userSchema, {
@@ -40,6 +41,18 @@ export const UserPaginationModel = model<
 
 /** User model with no pagination */
 export const UserModel = model<IUserDocument>('users', userSchema)
+
+const DEFAULT_PATREON_ROLE: NonNullable<IUserDocument['role']> = 'supporter'
+
+const normalize_role = (
+  role?: IUserDocument['role']
+): NonNullable<IUserDocument['role']> => {
+  return role ?? 'free'
+}
+
+const get_role_clearance = (role?: IUserDocument['role']): number => {
+  return CLEARANCE_LEVEL[normalize_role(role)]
+}
 
 /** Exclude fields from the user document. @deprecated */
 export const exclude_user_fields_IMPV2Doc = (user: IMPV2Doc<IUserDocument>) => {
@@ -107,6 +120,7 @@ export const create_user = async (userInfo: IUser): Promise<IUserDocument> => {
     ...userInfo,
     name,
     email,
+    baseline_role: userInfo.baseline_role ?? userInfo.role ?? 'free',
   }
 
   if (userInfo.password) {
@@ -154,6 +168,7 @@ export interface IPatreonSupporterSyncInput {
   membershipId?: string
   email?: string
   event?: string
+  targetRole?: IUserDocument['role']
   isActive: boolean
 }
 
@@ -169,9 +184,10 @@ export interface IPatreonSupporterSyncResult {
 /**
  * Synchronize user role based on Patreon subscription status.
  *
- * - Active Patreon subscription upgrades `free -> supporter`.
- * - Inactive/cancelled subscription downgrades `supporter -> free` only when
- *   the supporter role came from Patreon automation.
+ * - Active Patreon support only elevates a user when the Patreon role is
+ *   higher than their baseline role.
+ * - Inactive/cancelled support restores the baseline role instead of forcing
+ *   the account back to free.
  */
 export const sync_user_supporter_role_from_patreon = async (
   input: IPatreonSupporterSyncInput
@@ -209,6 +225,9 @@ export const sync_user_supporter_role_from_patreon = async (
 
   const roleBefore = user.role
   let changed = false
+  let shouldBumpJwtVersion = false
+  const currentRole = normalize_role(user.role)
+  const targetRole = normalize_role(input.targetRole ?? DEFAULT_PATREON_ROLE)
 
   if (patreonUserId && user.patreon_user_id !== patreonUserId) {
     user.patreon_user_id = patreonUserId
@@ -231,18 +250,38 @@ export const sync_user_supporter_role_from_patreon = async (
     changed = true
   }
 
-  if (input.isActive && user.role === 'free') {
-    user.role = 'supporter'
-    user.supporter_source = 'patreon'
-    user.jwt_version = (user.jwt_version ?? 0) + 1
+  if (input.isActive && user.supporter_source !== 'patreon' && user.baseline_role !== currentRole) {
+    user.baseline_role = currentRole
     changed = true
   }
 
-  if (!input.isActive && user.role === 'supporter' && user.supporter_source === 'patreon') {
-    user.role = 'free'
-    user.supporter_source = undefined
-    user.jwt_version = (user.jwt_version ?? 0) + 1
+  const baselineRole = normalize_role(
+    user.baseline_role ?? (user.supporter_source === 'patreon' ? 'free' : currentRole)
+  )
+
+  if (user.baseline_role !== baselineRole) {
+    user.baseline_role = baselineRole
     changed = true
+  }
+
+  const shouldApplyPatreonRole = input.isActive
+    && get_role_clearance(targetRole) > get_role_clearance(baselineRole)
+  const desiredRole = shouldApplyPatreonRole ? targetRole : baselineRole
+  const desiredSupporterSource = shouldApplyPatreonRole ? 'patreon' : undefined
+
+  if (currentRole !== desiredRole) {
+    user.role = desiredRole
+    changed = true
+    shouldBumpJwtVersion = true
+  }
+
+  if (user.supporter_source !== desiredSupporterSource) {
+    user.supporter_source = desiredSupporterSource
+    changed = true
+  }
+
+  if (shouldBumpJwtVersion) {
+    user.jwt_version = (user.jwt_version ?? 0) + 1
   }
 
   if (!changed) {
