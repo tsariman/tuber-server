@@ -372,3 +372,10 @@ export function create_empty_collection<T=unknown>(ofType?: T[]): ICollection<T>
   };
   return encapsulation;
 }
+
+/** Normalize route by trimming whitespace and leading/trailing slashes. */
+export const normalize_route = (route?: string): string => {
+  const value = (route ?? '').trim()
+  if (!value) { return '' }
+  return value.replace(/^\/+|\/+$/g, '')
+}

@@ -18,7 +18,7 @@ import {
 } from '@tuber/shared'
 import get_bootstrap_authenticated_state from '../state/bootstrap'
 import { get_contextual_user, read_user } from '../model/session'
-import { option } from '../business.logic'
+import { normalize_route, option } from '../business.logic'
 import { USER_CACHE } from '../business.logic/cache'
 import { log_safe, log_err_safe, task, errr, dbug } from '../utility/logging'
 import JsonapiRequestDriver from '../business.logic/JsonapiRequestDriver'
@@ -32,7 +32,7 @@ import { is_record, to_error_object } from '../utility'
 import OnRequestAuthorization from '../business.logic/OnRequestAuthorization'
 import Config from '../config'
 import { sendPasswordRecoveryEmail } from '../utility/mailer'
-import JsonapiResponseBuilder from '../business.logic/builder/JsonapiResponseBuilder'
+import STATE_KEY from '../business.logic/state.key'
 
 // Lightweight rate limiter for signin (fallback if plugin not used)
 const signinAttempts: Map<string, { count: number; resetAt: number }> = new Map()
@@ -57,11 +57,13 @@ const get_auth_cookie_options = (req: FastifyRequest, maxAge: number) => ({
   path: '/'
 })
 
+const $90 = STATE_KEY['90']
+
 const authentication: FastifyPluginAsync = async (fastify, rootOpts): Promise<void> => {
   const skipRateLimit = process.env.SKIP_RATE_LIMIT === 'true'
   const opts = { ...rootOpts }
 
-  fastify.post('/signin', opts, async function  (
+  fastify.post(`/${EP_AUTH.IN}`, opts, async function  ( // signin
     req: FastifyRequest<IRequestAuth>,
     reply: FastifyReply,
   ) {
@@ -203,14 +205,23 @@ const authentication: FastifyPluginAsync = async (fastify, rootOpts): Promise<vo
         )
       )
       task.end('[✔️]')
-      reply
-        .code(200)
-        .send({
-          'state': await get_bootstrap_authenticated_state({
-            usr,
-            theme
-          })
-        } as TJsonapiStateResponse)
+      const normalizedRoute = normalize_route(driver.getAttribute('route'))
+      const isSigninPage = normalizedRoute === EP_AUTH.CLIENT_IN
+      const bootstrapState = await get_bootstrap_authenticated_state({ usr, theme })
+      // Force client to redirect to home page if signed in from sign-in page
+      if (isSigninPage) {
+        bootstrapState.app ??= {}
+        bootstrapState.app.route = '/'
+        // Provide empty page state for signin page to prevent client from
+        // rendering signin page content after successful signin
+        bootstrapState.pages ??= {}
+        bootstrapState.pages[EP_AUTH.CLIENT_IN] = { __delete: true }
+        bootstrapState.pagesDark ??= {}
+        bootstrapState.pagesDark[EP_AUTH.CLIENT_IN] = { __delete: true }
+        bootstrapState.pagesLight ??= {}
+        bootstrapState.pagesLight[EP_AUTH.CLIENT_IN] = { __delete: true }
+      }
+      reply.code(200).send({ 'state': bootstrapState } as TJsonapiStateResponse)
       return
     } catch (e) {
       task.end(MSG_500_ERROR_MESSAGE.replace('[500]', '[5005]'))
@@ -360,10 +371,8 @@ const authentication: FastifyPluginAsync = async (fastify, rootOpts): Promise<vo
       user.modified_at = new Date()
       await user.save()
       USER_CACHE.del(user.name)
-
-      reply.code(200).send(JsonapiResponseBuilder.empty()
-        .withMeta({ status: 'password_reset_success' })
-        .withState({
+      reply.code(200).send({
+        'state': {
           'app': {
             'route': 'default-success',
           },
@@ -371,10 +380,13 @@ const authentication: FastifyPluginAsync = async (fastify, rootOpts): Promise<vo
             'default-success': {
               'message': 'Your password has been updated. You can now sign in with your new password.'
             }
-          }
-        })
-        .build()
-      )
+          },
+          // After reseting the password, remove the password reset page state
+          'pages': { [$90]: { __delete: true } },
+          'pagesDark': { [$90]: { __delete: true } },
+          'pagesLight': { [$90]: { __delete: true } },
+        }
+      } as TJsonapiStateResponse)
     } catch (e) {
       log_err_safe('[5009] Error resetting password with recovery token', {
         error: to_error_object(e),

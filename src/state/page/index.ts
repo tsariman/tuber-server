@@ -114,6 +114,8 @@ export const get_contextualized_page_state = (
   if (Access.the(usr).hasClearance('free').then) {
     contextuaStatePages[$80] = accountPageState
     contextuaStatePagesDark[$80] = $80DarkThemeMode
+    delete contextuaStatePages[$42]
+    delete contextuaStatePagesDark[$42]
   }
   if (contextuaStatePages[key] && contextuaStatePagesDark[key]) {
     // If the requested page exists, return it contextualized to the user

@@ -6,6 +6,7 @@ import { UserModel, transform_user_doc } from '../../model/user'
 import { USER_CACHE } from '../../business.logic/cache'
 import Config from '../../config'
 import { to_error_object } from '../../utility'
+import { EP_AUTH } from '@tuber/shared'
 
 const normalize_origin = (origin?: string): string | undefined => {
   if (!origin || typeof origin !== 'string') {
@@ -33,7 +34,7 @@ const to_client_redirect_url = (status: string, message: string): string => {
   const redirectUrl = new URL(fallback)
   redirectUrl.searchParams.set('email_verification', status)
   redirectUrl.searchParams.set('message', message)
-  redirectUrl.searchParams.set('return_route', '/account')
+  redirectUrl.searchParams.set('return_route', `/${EP_AUTH.CLIENT_IN}`)
   return redirectUrl.toString()
 }
 

@@ -411,7 +411,7 @@ test('GET /users/email/verify - should redirect browser navigations back into th
   assert.strictEqual(verifyResponse.statusCode, 302)
   assert.ok(verifyResponse.headers.location)
   assert.ok(verifyResponse.headers.location.includes('email_verification=success'))
-  assert.ok(verifyResponse.headers.location.includes('return_route=%2Faccount'))
+  assert.ok(verifyResponse.headers.location.includes('return_route=%2Fsign-in'))
 })
 
 test('POST /users/email/verify - should fail with invalid code', async (t) => {
