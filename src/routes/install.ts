@@ -1,5 +1,6 @@
 import { FastifyPluginAsync, FastifyReply, FastifyRequest } from 'fastify'
 import post_bookmarks_api_setup_search_index_endpoint from './bookmarks/post.bookmark.api.search.index.ep'
+import post_install_content_privacy_policy_endpoint from './install/post.install.content.privacy.policy.ep'
 
 const install: FastifyPluginAsync = async (fastify, rootOpts): Promise<void> => {
   const opts = { ...rootOpts }
@@ -14,6 +15,9 @@ const install: FastifyPluginAsync = async (fastify, rootOpts): Promise<void> => 
     void reply
     return { status: 'ok' }
   })
+
+  /** POST /install/content/privacy-policy */
+  fastify.post('/install/content/privacy-policy', opts, post_install_content_privacy_policy_endpoint)
 }
 
 export default install

@@ -30,7 +30,7 @@ export const BookmarkVotePaginationModel = model<
 >('bookmarkVotes', bookmarkVoteSchema, 'bookmarkVotes')
 
 /** Bookmark vote model with no pagination */
-export const BookmarkVoteModel = model<IBookmarkVoteDocument>('BookmarkVote', bookmarkVoteSchema)
+export const BookmarkVoteModel = model<IBookmarkVoteDocument>('BookmarkVote', bookmarkVoteSchema, 'bookmarkVotes')
 
 /** Excludes sensitive fields from the user document. */
 export const transform_bookmark_vote_doc = (bookmarkVote: IBookmarkVoteDocument) => {

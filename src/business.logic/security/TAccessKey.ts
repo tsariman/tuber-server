@@ -5,7 +5,7 @@
 export type TAccessKey = 'dev_install_page.view'
   | 'create.bookmark'
   | 'bookmark.note.links'
-  | 'read.unpublished.bookmark'
+  | 'read.all.unpublished.bookmark'
   | 'read.user.collection'
   | 'get.user'
   | 'user.get'

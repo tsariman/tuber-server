@@ -3,7 +3,6 @@ import { PipelineStage } from 'mongoose'
 import { DB_PAGINATION_QUERY, TO } from '@tuber/shared'
 import { TContextualUser } from '../../schema/user'
 import { IBookmarkQuerySearch } from '../../schema/bookmark'
-import Access from '../../business.logic/security/Access'
 import CLEARANCE_LEVEL from '../../business.logic/security/clearance.level'
 import { TSearchMode } from '../../common.types'
 
@@ -33,7 +32,8 @@ export default function get_bookmark_search_query_pipeline(
     // 'public' - search only published bookmarks, excluding user's published bookmarks
     // 'private' - search only user's bookmarks, whether they're published or not
     // 'all' - search published bookmarks and user's own bookmarks, regardless of
-    //         publication status
+    //         publication status; moderators (clearance >= 4) see all bookmarks
+    //         where inception_clearance < roleClearance
     const matchConditions: unknown[] = buildMatchConditions(searchMode, usr)
     
     const matchQuery = { ...DB_PAGINATION_QUERY } as TO
@@ -125,20 +125,22 @@ function buildMatchConditions(
     default:
       // Search published bookmarks and user's own bookmarks
       if (usr?._id) {
+        const roleClearance = CLEARANCE_LEVEL[usr.role]
+
+        // Moderators (clearance >= 4) see all bookmarks where
+        // inception_clearance < roleClearance, plus their own bookmarks
+        // regardless of inception_clearance
+        if (roleClearance >= CLEARANCE_LEVEL.moderator) {
+          matchConditions.push({ inception_clearance: { $lt: roleClearance } })
+          matchConditions.push({ user_id: String(usr._id) })
+          break
+        }
+
         // Published bookmarks are visible to everyone
         matchConditions.push({ is_published: { $eq: true } })
 
         // User's own bookmarks (regardless of publish status)
         matchConditions.push({ user_id: String(usr._id) })
-
-        // Users can see unpublished bookmarks where their clearance is greater
-        // than the bookmark's inception_clearance
-        if (usr && Access.the(usr).can('read.unpublished.bookmark')) {
-          matchConditions.push({
-            is_published: { $ne: true },
-            inception_clearance: { $lt: CLEARANCE_LEVEL[usr.role] }
-          })
-        }
       } else {
         // Non-authenticated users can only see published bookmarks
         matchConditions.push({ is_published: { $eq: true } })

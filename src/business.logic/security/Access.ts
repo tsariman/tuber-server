@@ -9,7 +9,7 @@ export default class Access {
   static GATE: Readonly<Record<TAccessKey, number>> = {
     'create.bookmark': CLEARANCE_LEVEL.free,
     'bookmark.note.links': CLEARANCE_LEVEL.member,
-    'read.unpublished.bookmark': CLEARANCE_LEVEL.moderator,
+    'read.all.unpublished.bookmark': CLEARANCE_LEVEL.moderator,
     'read.user.collection': CLEARANCE_LEVEL.moderator,
     'get.user': CLEARANCE_LEVEL.moderator,
     'dev_install_page.view': CLEARANCE_LEVEL.developer,

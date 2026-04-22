@@ -1,7 +1,6 @@
 import { FastifyPluginAsync, FastifyReply } from 'fastify'
 import crypto from 'node:crypto'
 import { DEFAULT_ROUTE_OPTIONS, PUBLIC_ROUTE_OPTIONS } from '../middleware/router.option'
-import JsonapiErrorBuilder from '../business.logic/builder/JsonapiErrorBuilder'
 import { UserModel } from '../model/user'
 import { USER_CACHE } from '../business.logic/cache'
 import { is_record } from '../utility'
@@ -209,22 +208,16 @@ const patreon_oauth: FastifyPluginAsync = async (fastify, rootOpts): Promise<voi
     reply: FastifyReply
   ) => {
     const uid = req.usr?._id
+    const returnOrigin = normalize_origin(req.query.returnOrigin)
+      || normalize_origin(req.headers.origin)
+
     if (!uid) {
-      reply.code(401).send(new JsonapiErrorBuilder()
-        .withStatus(401)
-        .withCode('AUTHENTICATION_REQUIRED')
-        .withTitle('Authorization failed.')
-        .withDetail('You must be signed in to link a Patreon account.')
-        .build())
+      reply.redirect(to_callback_redirect_url(returnOrigin, 'error:authentication_required'))
       return
     }
 
     if (!is_patreon_oauth_configured()) {
-      const returnOrigin = normalize_origin(req.query.returnOrigin)
-        || normalize_origin(req.headers.origin)
-      reply.redirect(
-        to_callback_redirect_url(returnOrigin, 'error:not_configured')
-      )
+      reply.redirect(to_callback_redirect_url(returnOrigin, 'error:not_configured'))
       return
     }
 
@@ -232,7 +225,7 @@ const patreon_oauth: FastifyPluginAsync = async (fastify, rootOpts): Promise<voi
       uid: String(uid),
       iat: Date.now(),
       nonce: crypto.randomBytes(12).toString('base64url'),
-      returnOrigin: normalize_origin(req.query.returnOrigin) || normalize_origin(req.headers.origin)
+      returnOrigin: returnOrigin
     })
 
     const authUrl = new URL(PATREON_AUTH_URL)

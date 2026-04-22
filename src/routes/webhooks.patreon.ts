@@ -1,4 +1,5 @@
 import { FastifyPluginAsync, FastifyReply, FastifyRequest } from 'fastify'
+import { TRole } from '@tuber/shared'
 import { PUBLIC_ROUTE_OPTIONS } from '../middleware/router.option'
 import { sync_user_supporter_role_from_patreon } from '../model/user'
 import { is_record } from '../utility'
@@ -19,6 +20,34 @@ interface IPatreonStatus {
 const ACTIVE_STATUSES = new Set(['active_patron', 'paid_patron'])
 const INACTIVE_STATUSES = new Set(['former_patron', 'declined_patron'])
 const INACTIVE_EVENTS = new Set(['members:delete', 'pledges:delete'])
+
+/**
+ * Each entry maps a comma-separated env var to the role it grants.
+ * Listed highest-to-lowest so the first match wins for a user with multiple tiers.
+ */
+const TIER_ROLE_MAP: Array<{ envVar: string; role: TRole }> = [
+  { envVar: 'PATREON_SPONSOR_TIER_IDS', role: 'sponsor' },
+  { envVar: 'PATREON_PATRON_TIER_IDS', role: 'patron' },
+  { envVar: 'PATREON_MEMBER_TIER_IDS', role: 'member' },
+  { envVar: 'PATREON_SUPPORTER_TIER_IDS', role: 'supporter' },
+]
+
+const parse_tier_ids = (envVar: string): string[] =>
+  (process.env[envVar] ?? '').split(',').map(x => x.trim()).filter(Boolean)
+
+/**
+ * Returns the highest role earned by the entitled tier IDs, or `undefined`
+ * when no tier env vars are configured (allowing any active patron through).
+ */
+const resolve_tier_role = (tierIds: string[]): TRole | undefined => {
+  for (const { envVar, role } of TIER_ROLE_MAP) {
+    const allowed = parse_tier_ids(envVar)
+    if (allowed.length > 0 && tierIds.some(id => allowed.includes(id))) {
+      return role
+    }
+  }
+  return undefined
+}
 
 const getHeaderValue = (
   value: string | string[] | undefined
@@ -169,13 +198,9 @@ const patreon_webhooks: FastifyPluginAsync = async (fastify, rootOpts): Promise<
         return
       }
 
-      const allowedTierIds = (process.env.PATREON_SUPPORTER_TIER_IDS ?? '')
-        .split(',')
-        .map(x => x.trim())
-        .filter(Boolean)
-
-      const isTierAllowed = allowedTierIds.length === 0
-        || identity.tierIds.some(tierId => allowedTierIds.includes(tierId))
+      const resolvedRole = resolve_tier_role(identity.tierIds)
+      const anyTierConfigured = TIER_ROLE_MAP.some(({ envVar }) => parse_tier_ids(envVar).length > 0)
+      const isTierAllowed = !anyTierConfigured || resolvedRole !== undefined
 
       const derivedStatus = derive_subscription_status(eventType, req.body, identity.tierIds)
       const isActive = isTierAllowed && derivedStatus.isActive
@@ -186,6 +211,7 @@ const patreon_webhooks: FastifyPluginAsync = async (fastify, rootOpts): Promise<
         membershipId: identity.membershipId,
         event: eventType,
         isActive,
+        targetRole: resolvedRole,
       })
 
       reply.code(200).send({

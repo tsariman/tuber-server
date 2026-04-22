@@ -1,6 +1,8 @@
 
 # Development Log
 
+## `202604221927` Implement privacy policy content and related endpoints; update access control for unpublished bookmarks; enhance user role management and state handling.
+
 ## `202604182349` Enhance email verification process and SMTP configuration validation
 
 - Added GET /users/email/verify endpoint to handle email verification via query parameters.

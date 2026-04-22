@@ -7,8 +7,9 @@ import {
   DEFAULT_ROUTE_OPTIONS,
   PUBLIC_ROUTE_OPTIONS
 } from '../../middleware/router.option'
-import { IUsersEndpoint, IUsersVoteEndpoint } from '../../schema/user'
+import { IPatchUserById, IUsersEndpoint, IUsersVoteEndpoint } from '../../schema/user'
 import { put_user_vote_by_id_endpoint } from './put.user.by.id.ep'
+import patch_user_by_id_endpoint from './patch.user.by.id.ep'
 
 const users: FastifyPluginAsync = async (fastify, rootOpts): Promise<void> => {
 
@@ -40,6 +41,9 @@ const users: FastifyPluginAsync = async (fastify, rootOpts): Promise<void> => {
     ...rootOpts,
     ...PUBLIC_ROUTE_OPTIONS
   }, post_user_verify_email_endpoint)
+
+  // PATCH /users/:id (admin update: role, is_active, etc.)
+  fastify.patch<IPatchUserById>('/:id', opts, patch_user_by_id_endpoint)
 
   // PUT /users/:id (update)
   // PUT /users/:userId/vote (upvote/downvote)

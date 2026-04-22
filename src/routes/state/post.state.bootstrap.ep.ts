@@ -31,7 +31,7 @@ import { log_err } from '../../utility/logging'
 import { error_id } from '../../business.logic/errors'
 
 /** `POST /<random_prefix>` endpoint handler */
-const post_bootstrap_1_state_endpoint = async (
+const post_state_bootstrap_endpoint = async (
   req: FastifyRequest,
   reply: FastifyReply
 ) => {
@@ -109,4 +109,4 @@ const post_bootstrap_1_state_endpoint = async (
   }
 }
 
-export default post_bootstrap_1_state_endpoint
+export default post_state_bootstrap_endpoint

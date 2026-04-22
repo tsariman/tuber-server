@@ -101,6 +101,16 @@ export interface IUserDocument extends TUser, mongoose.Document<string> {}
 export type TContextualUser = Pick<IUserDocument, '_id' | 'name' | 'jwt_version' | 'role' | 'email_verified'>
 export type TUsr = TContextualUser | null
 
+export interface IPatchUserById {
+  Params: { id: string }
+  Body: {
+    data: {
+      type: string
+      attributes: Partial<IUser>
+    }
+  }
+}
+
 const userSchema = new Schema<IUserDocument>({
   is_active: {type: Boolean, default: true },
   name: {type: String, unique: true, trim: true, lowercase: true},

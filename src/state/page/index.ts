@@ -26,6 +26,7 @@ import { homeLinkState } from '../nav.link'
 import STATE_KEY from '../../business.logic/state.key'
 import accountPageState, { $80DarkThemeMode } from './account.page.state'
 import passwordResetPageState, { $90DarkThemeMode } from './password.reset.page.state'
+import privacyPolicyPageState, { $91DarkThemeMode } from './privacy.policy.page.state'
 import { TContextualUser } from '../../schema/user'
 import Access from '../../business.logic/security/Access'
 import { IBootstrapThemed } from '../_state.common.types'
@@ -40,6 +41,7 @@ const $42 = STATE_KEY['42']
 const $80 = STATE_KEY['80']
 const $83 = STATE_KEY['83']
 const $90 = STATE_KEY['90']
+const $91 = STATE_KEY['91']
 
 register('state', '42', $42)
 /** Sign in page state @id 42 */
@@ -85,6 +87,7 @@ export const STATE_PAGES_DARK: TStateAllPages = {
   [$51]: $51DarkThemeMode,
   [$70]: $70DarkThemeMode,
   [$90]: $90DarkThemeMode,
+  [$91]: $91DarkThemeMode,
 
   // TODO: For a page to be accessible in dark mode, you must insert it here.
 
@@ -98,6 +101,7 @@ export const STATE_PAGES: TStateAllPages = {
   [$51]: chippedListingPageState,
   [$70]: listingPageState,
   [$90]: passwordResetPageState,
+  [$91]: privacyPolicyPageState,
 
   // TODO: For a page to be accessible in light mode, you must insert it here.
 
