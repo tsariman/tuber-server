@@ -18,10 +18,9 @@ export async function delete_bookmark_vote_by_id_endpoint(
 ) {
   task('Processing bookmark vote removal ')
   try {
-    const { id: bookmarkId } = req.params
+    const { usr, params: { id: bookmarkId } } = req
     // Authenticated user required
-    const cUsr = req.usr
-    if (!cUsr?._id) {
+    if (!usr?._id) {
       task.end('[❌]')
       errr('Authentication required to remove vote')
       reply.code(401).send(new JsonapiErrorBuilder()
@@ -64,7 +63,7 @@ export async function delete_bookmark_vote_by_id_endpoint(
     }
     task.end('[✔️]')
     task('Verifying authenticated user existence in the database ')
-    const user = await UserModel.findById(cUsr._id)
+    const user = await UserModel.findById(usr._id)
     if (!user) {
       task.end('[❌]')
       errr('Authenticated user not found in database')
@@ -79,7 +78,7 @@ export async function delete_bookmark_vote_by_id_endpoint(
     }
     task.end('[✔️]')
     task('Removing bookmark vote ')
-    const previousRating = await delete_bookmark_vote(String(cUsr._id), String(bookmarkId))
+    const previousRating = await delete_bookmark_vote(String(usr._id), String(bookmarkId))
     if (previousRating === null) {
       task.end('[❌]')
       errr('Vote not found to remove')

@@ -64,6 +64,24 @@ export default async function post_user_verify_email_endpoint (
     }
 
     const user = await UserModel.findOne({ email })
+
+    if (user && user.email_verified === true) {
+      if (is_browser_navigation(req)) {
+        reply.redirect(to_client_redirect_url('success', 'Email is already verified'))
+        return
+      }
+
+      reply.code(200).send(
+        JsonapiResponseBuilder.forSingleResource(transform_user_doc(user), 'users')
+          .withState({
+            app: { route: 'default-success' },
+            tmp: { 'default-success': { 'message': 'Email is already verified' }}
+          })
+          .build()
+      )
+      return
+    }
+
     if (!user || !user.email_verification_code) {
       if (is_browser_navigation(req)) {
         reply.redirect(to_client_redirect_url('error:not_found', 'User or verification request not found'))

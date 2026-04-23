@@ -487,7 +487,7 @@ const authentication: FastifyPluginAsync = async (fastify, rootOpts): Promise<vo
       task.end(MSG_500_ERROR_MESSAGE.replace('[500]', '[5007]'))
       log_err_safe('[5007] Error attempting signout user', {
         error: e,
-        user: req.user
+        user: req.usr
       })
       reply.code(500).send(error_id(5007).default_500_error_response(e))
       return

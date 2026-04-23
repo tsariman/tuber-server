@@ -157,8 +157,8 @@ export const read_user = async ({
 export const get_contextual_user = function (
   user: IUserDocument
 ): TContextualUser {
-  const { _id, name, jwt_version, role } = user
-  return { _id: _id.toString(), name, jwt_version, role }
+  const { _id, name, jwt_version, role, email_verified } = user
+  return { _id: _id.toString(), name, jwt_version, role, email_verified }
 }
 
 export const create_user_in_session = async function (

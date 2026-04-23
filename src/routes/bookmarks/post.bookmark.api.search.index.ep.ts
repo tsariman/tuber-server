@@ -15,9 +15,10 @@ import { log, log_err } from '../../utility/logging'
  * TODO - Don't forget to set permission for this endpoint. `Dev` and above.
  */
 export default async function post_bookmarks_api_setup_search_index_endpoint (
-  _req: FastifyRequest,
+  req: FastifyRequest,
   reply: FastifyReply
 ) {
+  void req
   try {
     const indexName = Config.DB_ATLAS_BOOKMARK_SEARCH_INDEX_NAME
     const bookmarkSearchIndex = await find_index_by_name(indexName)

@@ -4,6 +4,14 @@ import { log } from './utility/logging'
 
 /** Reference to the scheduled Twitch token renewal timeout */
 let twitchRenewalTimeout: NodeJS.Timeout | null = null
+/** Reference to an in-flight Twitch token renewal to prevent overlap */
+let twitchRenewalInFlight: Promise<boolean> | null = null
+
+interface ITwitchRenewalResult {
+  ok: boolean
+  reason: string
+  attempts: number
+}
 
 /**
  * Start all cron jobs on app startup.
@@ -50,7 +58,7 @@ export function schedule_twitch_token_renewal(expirationTimestamp: number) {
   // If the renewal time has already passed, renew immediately
   if (renewalTimestamp <= now) {
     log('[CRON] Twitch token renewal time has passed. Renewing immediately...')
-    run_twitch_token_renewal()
+    void run_twitch_token_renewal()
     return
   }
 
@@ -93,28 +101,49 @@ export function schedule_twitch_token_renewal(expirationTimestamp: number) {
  * Execute the Twitch token renewal.
  * Uses dynamic import to avoid circular dependency issues.
  * 
- * Error Handling Behavior:
- * - On success: Saves new token and automatically schedules next renewal
- * - On failure: 
- *   - Logs detailed error information
- *   - Disables automatic token renewal (CONF_TWITCH_DISABLE_TOKEN_RENEWAL = true)
- *   - Disables Twitch thumbnail retrieval (CONF_TWITCH_DISABLE_THUMBNAIL_RETRIEVAL = true)
- *   - Clears all stored Twitch configuration keys (access token, expiration, etc.)
- *   - No automatic rescheduling occurs - requires manual intervention
- *   - Manual recovery: Visit /dev/twitch/renew-access-token endpoint or update .env.twitch file
+ * Returns `true` on successful renewal and `false` otherwise.
+ * The endpoint performs bounded retries before disabling renewal.
  */
 export async function run_twitch_token_renewal() {
-  log('[CRON] Running Twitch token renewal...')
-  try {
+  return run_twitch_token_renewal_with_runner(async () => {
     // Dynamic import to avoid circular dependency
     const module = await import('./platform/endpoint/get.twitch.renew.access.token.ep.js')
-    await module.get_twitch_renew_access_token_endpoint()
-    log('[CRON] Twitch token renewal completed.')
-  } catch (error) {
-    log(`[CRON] Twitch token renewal failed: ${error}`)
-    // Note: On failure, the endpoint disables renewal and clears keys.
-    // No automatic rescheduling - requires manual intervention.
+    return module.renew_twitch_access_token() as Promise<ITwitchRenewalResult>
+  })
+}
+
+/**
+ * Execute Twitch token renewal with a runner function.
+ * Exported for focused unit testing without network calls.
+ */
+export async function run_twitch_token_renewal_with_runner(
+  runner: () => Promise<ITwitchRenewalResult>
+): Promise<boolean> {
+  if (twitchRenewalInFlight) {
+    log('[CRON] Twitch token renewal already in progress. Reusing in-flight operation.')
+    return twitchRenewalInFlight
   }
+
+  twitchRenewalInFlight = (async () => {
+    log('[CRON] Running Twitch token renewal...')
+    try {
+      const result = await runner()
+      if (result.ok) {
+        log(`[CRON] Twitch token renewal completed (attempts=${result.attempts}).`)
+        return true
+      }
+
+      log(`[CRON] Twitch token renewal failed (${result.reason}, attempts=${result.attempts}).`)
+      return false
+    } catch (error) {
+      log(`[CRON] Twitch token renewal failed: ${error}`)
+      return false
+    } finally {
+      twitchRenewalInFlight = null
+    }
+  })()
+
+  return twitchRenewalInFlight
 }
 
 /**

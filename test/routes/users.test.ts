@@ -414,6 +414,53 @@ test('GET /users/email/verify - should redirect browser navigations back into th
   assert.ok(verifyResponse.headers.location.includes('return_route=%2Fsign-in'))
 })
 
+test('GET /users/email/verify - should return success redirect when email is already verified', async (t) => {
+  const app = await build(t)
+
+  const uniqueEmail = `verifyalreadybrowser${Date.now()}@example.com`
+
+  await UserModel.create({
+    name: `verifyalreadybrowseruser${Date.now()}`,
+    email: uniqueEmail,
+    email_verified: true,
+    email_verified_at: new Date(),
+  })
+
+  const verifyResponse = await app.inject({
+    method: 'GET',
+    url: `/users/email/verify?email=${encodeURIComponent(uniqueEmail)}&code=ignored-code`,
+    headers: { accept: 'text/html,application/xhtml+xml' }
+  })
+
+  assert.strictEqual(verifyResponse.statusCode, 302)
+  assert.ok(verifyResponse.headers.location)
+  assert.ok(verifyResponse.headers.location.includes('email_verification=success'))
+  assert.ok(verifyResponse.headers.location.includes('Email+is+already+verified'))
+})
+
+test('POST /users/email/verify - should return success when email is already verified', async (t) => {
+  const app = await build(t)
+
+  const uniqueEmail = `verifyalreadyapi${Date.now()}@example.com`
+  await UserModel.create({
+    name: `verifyalreadyapiuser${Date.now()}`,
+    email: uniqueEmail,
+    email_verified: true,
+    email_verified_at: new Date(),
+  })
+
+  const verifyResponse = await app.inject({
+    method: 'POST',
+    url: '/users/email/verify',
+    payload: createJsonapiRequest('users', { email: uniqueEmail, code: 'ignored-code' })
+  })
+
+  assert.strictEqual(verifyResponse.statusCode, 200)
+  const body = JSON.parse(verifyResponse.payload)
+  assert.ok(body.state)
+  assert.strictEqual(body.state.tmp?.['default-success']?.message, 'Email is already verified')
+})
+
 test('POST /users/email/verify - should fail with invalid code', async (t) => {
   const app = await build(t)
   const token = await generateTestToken(app)

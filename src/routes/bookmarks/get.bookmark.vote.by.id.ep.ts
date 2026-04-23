@@ -14,7 +14,7 @@ export async function get_bookmark_vote_by_id_endpoint(
 ) {
   task('Reading bookmark vote state ')
   try {
-    const { id: bookmarkId } = req.params
+    const { usr, params: { id: bookmarkId } } = req
     if (!bookmarkId) {
       task.end('[❌]')
       errr('Missing bookmark id in vote state request')
@@ -30,8 +30,7 @@ export async function get_bookmark_vote_by_id_endpoint(
     task.end('[✔️]')
     task('Verifying authenticated user ')
     // Authenticated user (from preHandler cache); fallback not allowed
-    const cUsr = req.usr
-    if (!cUsr?._id) {
+    if (!usr?._id) {
       task.end('[❌]')
       errr('Authentication required to read vote state')
       reply.code(401).send(new JsonapiErrorBuilder()
@@ -59,7 +58,7 @@ export async function get_bookmark_vote_by_id_endpoint(
       return
     }
     task.end('[✔️]')
-    const voteDoc = await BookmarkVoteModel.findOne({ user_id: String(cUsr._id), bookmark_id: String(bookmarkId) }, { rating: 1 })
+    const voteDoc = await BookmarkVoteModel.findOne({ user_id: String(usr._id), bookmark_id: String(bookmarkId) }, { rating: 1 })
     const currentRating: 1 | -1 | null = voteDoc ? (voteDoc.rating as 1 | -1) : null
     reply.code(200).send({
       data: {
