@@ -484,7 +484,7 @@ export function alertDialogState<T=unknown>(content: T): TStateDialog {
 
 export const visitorAlertDialogState: TStateDialog = {
   '_type': 'alert',
-  '_id': '69',
+  '_id': '92',
   '_key': $92,
   get 'title'() { return t('welcome_visitor', 'About This Website') },
   'props': { 'fullWidth': true },
