@@ -54,7 +54,7 @@ const buildResendVerificationButton = (): TStateFormItem => ({
     'iconPosition': 'left',
     'onclickHandlerDirective': {
       'type': '$form_none',
-      'endpoint': 'account/resend-verification'
+      'endpoint': `${EP_ACCOUNT}/resend-verification`
     }
   },
   'props': {

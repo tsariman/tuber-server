@@ -12,7 +12,7 @@ import { IUser } from '../schema/user'
 import { sendVerificationEmail } from '../utility/mailer'
 import { ler, log_err } from '../utility/logging'
 
-/** `GET /account` endpoint handler */
+/** `GET /api/account` endpoint handler */
 const get_account_endpoint = async (
   req: FastifyRequest,
   reply: FastifyReply
@@ -57,7 +57,7 @@ const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
 const ACCOUNT_PROFILE_EDITING_ENABLED = true
 const EMAIL_VERIFICATION_WINDOW_MS = 24 * 60 * 60 * 1000
 
-/** `POST /account` endpoint handler for updating authenticated account details. */
+/** `POST /api/account` endpoint handler for updating authenticated account details. */
 const post_account_endpoint = async (
   req: FastifyRequest,
   reply: FastifyReply
@@ -244,7 +244,7 @@ const post_account_endpoint = async (
   }
 }
 
-/** `POST /account/resend-verification` endpoint handler. */
+/** `POST /api/account/resend-verification` endpoint handler. */
 const post_account_resend_verification_endpoint = async (
   req: FastifyRequest,
   reply: FastifyReply
@@ -331,7 +331,7 @@ const post_account_resend_verification_endpoint = async (
   }
 }
 
-/** `DELETE /account` endpoint handler (soft delete for authenticated account). */
+/** `DELETE /api/account` endpoint handler (soft delete for authenticated account). */
 const delete_account_endpoint = async (
   req: FastifyRequest,
   reply: FastifyReply
@@ -387,10 +387,10 @@ const account: FastifyPluginAsync = async (fastify, rootOpts): Promise<void> => 
     ...DEFAULT_ROUTE_OPTIONS,
   }
 
-  fastify.get('/account', opts, get_account_endpoint)
-  fastify.post('/account', opts, post_account_endpoint)
-  fastify.post('/account/resend-verification', opts, post_account_resend_verification_endpoint)
-  fastify.delete('/account', opts, delete_account_endpoint)
+  fastify.get('/api/account', opts, get_account_endpoint)
+  fastify.post('/api/account', opts, post_account_endpoint)
+  fastify.post('/api/account/resend-verification', opts, post_account_resend_verification_endpoint)
+  fastify.delete('/api/account', opts, delete_account_endpoint)
 }
 
 export default account

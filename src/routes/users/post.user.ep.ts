@@ -75,7 +75,7 @@ export default async function post_user_endpoint (
       // Additional server-side password strength validation
       if (!Config.DEV) {
         const password = validator.getAttribute('password')
-        if (!password || password.length < 12
+        if (!password || password.length < 8
           || !/[A-Z]/.test(password)
           || !/[a-z]/.test(password)
           || !/[0-9]/.test(password)
@@ -84,8 +84,8 @@ export default async function post_user_endpoint (
             .withStatus(400)
             .withCode('VALIDATION_ERROR')
             .withTitle('Password is too weak')
-            .withDetail('Password must be at least 12 characters and include uppercase, lowercase, numbers, and symbols.')
-            .withState(signupSnackbarState('Password must be at least 12 characters and include uppercase, lowercase, numbers, and symbols.', 'error'))
+            .withDetail('Password must be at least 8 characters and include uppercase, lowercase, numbers, and symbols.')
+            .withState(signupSnackbarState('Password must be at least 8 characters and include uppercase, lowercase, numbers, and symbols.', 'error'))
             .build())
           return
         }

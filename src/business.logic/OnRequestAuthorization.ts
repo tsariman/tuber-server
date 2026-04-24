@@ -95,9 +95,15 @@ export default class OnRequestAuthorization {
       return
     }
     task.end('[❌]')
-    task('Extract cookie from JSON API request body ')
+    task('Extract JWT token from JSON API request body ')
     if (is_object(this._request.body) && Object.keys(this._request.body).length > 0) {
-      const driver = new JsonapiRequestDriver<{ cookie?: string }>(this._request.body)
+      const driver = new JsonapiRequestDriver<{ cookie?: string, token?: string }>(this._request.body)
+      token = driver.getAttribute('token')?.trim()
+      if (token) {
+        this._request.token = token
+        task.end('[✔️]')
+        return
+      }
       const cookie = driver.getAttribute('cookie')
       if (cookie) {
         const parsed = parse_cookie(cookie)
@@ -119,9 +125,13 @@ export default class OnRequestAuthorization {
    * @returns void
    */
   private async _setContextualUser(): Promise<void> {
-    // The @fastify/jwt plugin with cookie configuration should automatically check both
-    // Authorization header and cookies when jwtVerify() is called
-    const payload = await this._request.jwtVerify()
+    if (!this._request.token) {
+      throw new Error('Missing JWT token')
+    }
+
+    // Verify the exact token extracted by _setToken so admin-panel Bearer auth
+    // does not depend on implicit cookie lookup.
+    const payload = await this._request.server.jwt.verify(this._request.token)
     if (payload) {
       this._request.usr = payload as TContextualUser
     }

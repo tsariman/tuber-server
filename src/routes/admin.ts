@@ -145,7 +145,7 @@ const admin: FastifyPluginAsync = async (fastify): Promise<void> => {
   })
 
   fastify.post('/admin/twitch/renew-access-token', {
-    onRequest: async (req, reply): Promise<void> => {
+    preHandler: async (req, reply): Promise<void> => {
       try {
         await (new OnRequestAuthorization(req)).authorizeRequest()
       } catch {

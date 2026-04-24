@@ -104,6 +104,8 @@ const $68 = STATE_KEY['68']
 const $69 = STATE_KEY['69']
 const $85 = STATE_KEY['85']
 const $87 = STATE_KEY['87']
+const $92 = STATE_KEY['92']
+const VISITOR_PATREON_URL = 'https://www.patreon.com/c/bookmarktube/membership'
 
 register('state', '6', $6)
 /** Dialog to create a new YouTube video bookmark @id 6 */
@@ -478,6 +480,50 @@ export function alertDialogState<T=unknown>(content: T): TStateDialog {
     ],
     'open': true
   }
+}
+
+export const visitorAlertDialogState: TStateDialog = {
+  '_type': 'alert',
+  '_id': '69',
+  '_key': $92,
+  get 'title'() { return t('welcome_visitor', 'About This Website') },
+  'props': { 'fullWidth': true },
+  'titleProps': {
+    'sx': { 'textAlign': 'center' }
+  },
+  get 'content'() {
+    return t(
+      'visitor_alert_dialog_content',
+      `<div>
+      <p>
+      It allows you to <em>bookmark</em> a specific moment in an <span style="text-decoration:underline;">online video</span> and return to it later.
+      </p>
+      <p>
+      This feature is currently experimental. You can help by creating an account
+      and saving bookmarks. Support me on Patreon to make your bookmarks public.
+      </p>
+      <p style="text-align:center;">
+      <a
+      href="${VISITOR_PATREON_URL}"
+      target="_blank"
+      rel="noopener noreferrer"
+      style="display:inline-block;padding:0.625rem 1rem;border-radius:0.5rem;background:#ff424d;color:#fff;text-decoration:none;font-weight:600;"
+      >Open Patreon</a>
+      </p>
+      </div>`
+    )
+  },
+  'actions': [
+    {
+      'type': 'state_button',
+      'props': { 'color': 'secondary' },
+      'has': {
+        get 'text'() { return t('51', 'Close') },
+        'onclickHandler': 'tuberCallbacks.defaultClose'
+      }
+    }
+  ],
+  'open': true
 }
 
 /**

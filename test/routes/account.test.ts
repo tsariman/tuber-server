@@ -43,7 +43,7 @@ test('account form should expose a resend verification action while email is unv
   const resendButton = getStateButton('Resend Verification Email')
   assert.strictEqual(resendButton.has?.icon, 'mark_email_unread')
   assert.strictEqual(resendButton.has?.onclickHandlerDirective?.type, '$form_none')
-  assert.strictEqual(resendButton.has?.onclickHandlerDirective?.endpoint, 'account/resend-verification')
+  assert.strictEqual(resendButton.has?.onclickHandlerDirective?.endpoint, 'api/account/resend-verification')
 })
 
 test('account form should keep Patreon connect action enabled', () => {
@@ -61,7 +61,7 @@ test('account form should keep Patreon connect action enabled', () => {
   assert.notStrictEqual(connectButton.props?.disabled, true)
 })
 
-test('POST /account should reject profile updates until the email is verified', async (t) => {
+test('POST /api/account should reject profile updates until the email is verified', async (t) => {
   const app = await build(t)
   const auth = await generateTestAuthForRole(app, 'free')
 
@@ -69,7 +69,7 @@ test('POST /account should reject profile updates until the email is verified', 
 
   const response = await app.inject({
     method: 'POST',
-    url: '/account',
+    url: '/api/account',
     headers: getAuthHeaders(auth.token!),
     payload: createJsonapiRequest('account', {
       firstname: 'Updated',
@@ -82,7 +82,7 @@ test('POST /account should reject profile updates until the email is verified', 
   assert.strictEqual(body.errors?.[0]?.code, 'EMAIL_NOT_VERIFIED')
 })
 
-test('POST /account/resend-verification should send a fresh verification email for unverified users', async (t) => {
+test('POST /api/account/resend-verification should send a fresh verification email for unverified users', async (t) => {
   const app = await build(t)
   const auth = await generateTestAuthForRole(app, 'free')
 
@@ -90,7 +90,7 @@ test('POST /account/resend-verification should send a fresh verification email f
 
   const response = await app.inject({
     method: 'POST',
-    url: '/account/resend-verification',
+    url: '/api/account/resend-verification',
     headers: getAuthHeaders(auth.token!),
     payload: {}
   })
@@ -103,7 +103,7 @@ test('POST /account/resend-verification should send a fresh verification email f
   assert.ok(user?.email_verification_code)
 })
 
-test('POST /account should allow profile updates after the email is verified', async (t) => {
+test('POST /api/account should allow profile updates after the email is verified', async (t) => {
   const app = await build(t)
   const auth = await generateTestAuthForRole(app, 'free')
 
@@ -122,7 +122,7 @@ test('POST /account should allow profile updates after the email is verified', a
 
   const response = await app.inject({
     method: 'POST',
-    url: '/account',
+    url: '/api/account',
     headers: getAuthHeaders(auth.token!),
     payload: createJsonapiRequest('account', {
       firstname: 'Updated',

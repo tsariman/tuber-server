@@ -191,9 +191,12 @@ test('POST /users - should validate password strength', async (t) => {
   
   if (token) {
     const weakPasswordUser = {
-      name: 'testuser',
-      email: 'test@example.com',
-      password: '123' // Weak password
+      name: `weakpwd${Date.now()}`,
+      firstname: 'Weak',
+      lastname: 'Password',
+      email: `weakpwd${Date.now()}@example.com`,
+      password: 'Weak1!',
+      re_entered_password: 'Weak1!'
     }
 
     const response = await app.inject({
@@ -203,8 +206,11 @@ test('POST /users - should validate password strength', async (t) => {
       payload: createJsonapiRequest('users', weakPasswordUser)
     })
 
-    // Should return validation error for weak password
-    assert.ok(response.statusCode >= 400 || response.statusCode === 200)
+    // Should return validation error specifically for weak password policy
+    assert.strictEqual(response.statusCode, 400)
+    const body = JSON.parse(response.payload)
+    assert.strictEqual(body.errors?.[0]?.code, 'VALIDATION_ERROR')
+    assert.strictEqual(body.errors?.[0]?.title, 'Password must be at least 8 characters and include uppercase, lowercase, numbers, and symbols.')
   }
 })
 

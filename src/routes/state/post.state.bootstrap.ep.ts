@@ -29,6 +29,8 @@ import {
 import { get_registry } from '../../business.logic/registry'
 import { log_err } from '../../utility/logging'
 import { error_id } from '../../business.logic/errors'
+import { TStateDialog } from '@tuber/shared'
+import { visitorAlertDialogState } from '../../state/dialog'
 
 /** `POST /<random_prefix>` endpoint handler */
 const post_state_bootstrap_endpoint = async (
@@ -37,6 +39,7 @@ const post_state_bootstrap_endpoint = async (
 ) => {
   const { usr, token, themeMode: theme } = req
   const context: IStateContext = { usr, token, theme }
+  const dialogState: TStateDialog = usr ? {} : visitorAlertDialogState
   try {
     reply.send({
       'state': {
@@ -82,6 +85,7 @@ const post_state_bootstrap_endpoint = async (
         'formsDark': new PrepareState(context).process(
           bootstrap_forms_dark_state
         ).get(),
+        'dialog': dialogState,
         'dialogs': new PrepareState(context).process(
           bootstrap_dialogs_state
         ).get(),

@@ -32,6 +32,29 @@ test('POST /admin/twitch/renew-access-token - forbids non-admin roles', async (t
   assert.strictEqual(response.statusCode, 403)
 })
 
+test('POST /admin/twitch/renew-access-token - accepts token from JSONAPI body', async (t) => {
+  const app = await build(t)
+  const { token } = await generateTestAuthForRole(app, 'free')
+  assert.ok(token)
+
+  const response = await app.inject({
+    method: 'POST',
+    url: '/admin/twitch/renew-access-token',
+    headers: { 'Content-Type': 'application/json' },
+    payload: {
+      data: {
+        type: 'admin-maintenance',
+        attributes: {
+          token,
+        },
+      },
+    },
+  })
+
+  // Token is accepted, then route-level role check rejects non-admin.
+  assert.strictEqual(response.statusCode, 403)
+})
+
 test('POST /admin/twitch/renew-access-token - enforces maintenance secret when configured', async (t) => {
   const previousSecret = process.env.ADMIN_TWITCH_RENEWAL_SECRET
   process.env.ADMIN_TWITCH_RENEWAL_SECRET = 'top-secret-token'
