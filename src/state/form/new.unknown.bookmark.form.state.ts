@@ -46,7 +46,7 @@ export const newUnknownBookmarkFormState = {
             'fullWidth': true,
           },
           'has': {
-            'required': true,
+            // 'required': true,
             get 'requiredMessage'() { return t('243', EMBED_URL_MESSAGE) },
           }
         },
