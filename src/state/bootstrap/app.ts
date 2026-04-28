@@ -20,7 +20,7 @@ const bootstrap_app_state = {
         // 'logoUri': '../tuber.png', // TODO Uncomment when logo is ready
         // 'logoWidth': 212,
         // 'logoHeight': 35,
-        'title': Config.DEV ? `BookmarkTube [DEV]` : `BookmarkTube [${Config.VERSION}]`,
+        'title': Config.DEV ? `BookmarkTube [DEV]` : `BookmarkTube`,
         'homepage': inDev ? $44 : $40, // gives developers a different homepage
         'themeMode': themeMode,
         'isBootstrapped': true

@@ -496,7 +496,8 @@ export const visitorAlertDialogState: TStateDialog = {
       'visitor_alert_dialog_content',
       `<div>
       <p>
-      It allows you to <em>bookmark</em> a specific moment in an <span style="text-decoration:underline;">online video</span> and return to it later.
+      It allows you to <em>bookmark</em> a specific moment in an <span style="text-decoration:underline;">online video</span> and return to it later. 
+      It's like a search engine for moments in videos but people decide what's listed not algorithms.
       </p>
       <p>
       This feature is currently experimental. You can help by creating an account
@@ -510,19 +511,15 @@ export const visitorAlertDialogState: TStateDialog = {
       style="display:inline-block;padding:0.625rem 1rem;border-radius:0.5rem;background:#ff424d;color:#fff;text-decoration:none;font-weight:600;"
       >Open Patreon</a>
       </p>
+      <p style="text-align:center;">
+      Contact me at:<br />
+      <span style="display:inline-block;margin-top:0.5rem;padding:0.625rem 1rem;border-radius:0.5rem;background:#0073e6;color:#fff;text-decoration:none;font-weight:600;">
+      <a href="mailto:bookmarktube@yahoo.com" style="color:inherit;text-decoration:none;font-weight:inherit;">bookmarktube@yahoo.com</a>
+      </span>
+      </p>
       </div>`
     )
   },
-  'actions': [
-    {
-      'type': 'state_button',
-      'props': { 'color': 'secondary' },
-      'has': {
-        get 'text'() { return t('51', 'Close') },
-        'onclickHandler': 'tuberCallbacks.defaultClose'
-      }
-    }
-  ],
   'open': true
 }
 

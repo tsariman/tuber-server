@@ -104,11 +104,27 @@ export default async function patch_bookmark_by_id_endpoint (
     task.end('[✔️]')
     const targetPlatform = attributes.platform ?? bookmark.platform
     const targetIsPublished = attributes.is_published ?? bookmark.is_published
+    const canPublishUnknownBookmark = Access.the(request.usr).can('publish.unknown.bookmark')
+    const wantsToEditEmbedUrl = Object.prototype.hasOwnProperty.call(attributes, 'embed_url')
+
+    if (
+      targetPlatform === 'unknown'
+      && wantsToEditEmbedUrl
+      && !canPublishUnknownBookmark
+    ) {
+      task.end('[❌]')
+      reply.code(403).send(new JsonapiErrorBuilder()
+        .withStatus(403)
+        .withTitle('Forbidden')
+        .withDetail('Only moderators and above can edit unknown bookmark embed URLs.')
+        .build())
+      return
+    }
 
     if (
       targetPlatform === 'unknown'
       && targetIsPublished === true
-      && Access.the(request.usr).cannot('publish.unknown.bookmark')
+      && !canPublishUnknownBookmark
     ) {
       task.end('[❌]')
       reply.code(403).send(new JsonapiErrorBuilder()

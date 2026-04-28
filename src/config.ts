@@ -82,7 +82,7 @@ const publicOrigin = clean_env(process.env.PUBLIC_ORIGIN)
 /** App configuration values. */
 const USER_CONFIG: IConfiguration = {
   /** Get the current application version. */
-  VERSION: process.env.VERSION ?? '0.0.1-alpha',
+  VERSION: process.env.VERSION ?? '0.0.0-alpha',
   NODE_ENV: process.env.NODE_ENV ?? 'development',
   DEV: process.env.NODE_ENV === 'development',
 
