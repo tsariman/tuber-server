@@ -181,7 +181,6 @@ export const newVideoUrlDialogState: TStateDialog = {
     'sx': { 'textAlign': 'center' }
   },
   'content': `$form : ${remove_form_suffix($1)} : bookmarks`,
-  'actions': [],
   'open': true
 }
 

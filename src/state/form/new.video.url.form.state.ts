@@ -52,12 +52,15 @@ export const newVideoUrlFormState: TStateForm = {
             }
           },
           'has': {
-            'onkeydownHandler': `tuberCallbacks.$1_C_2`,
             'required': true,
             get 'requiredMessage'() { return t('251', 'You forgot the URL of the video') }
           }
         },
-      ]
+      ],
+      'eventPropagationEnabled': true,
+      'has': {
+        'onkeydownHandler': `tuberCallbacks.$1_C_2`
+      }
     }
   ]
 }
