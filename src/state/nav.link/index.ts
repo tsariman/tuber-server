@@ -174,3 +174,9 @@ export const account_link_state = (usr?: TContextualUser): TStateLink => ({
     'route': $80
   }
 })
+export const privacyPolicyLinkState: TStateLink = {
+  'has': {
+    get 'text'() { return t('privacypolicy', 'Privacy policy') },
+    'route': 'privacy-policy'
+  }
+}

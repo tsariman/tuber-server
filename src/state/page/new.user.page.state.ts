@@ -8,7 +8,7 @@ import {
 } from '../../business.logic'
 import { defaultAppBarState } from '../default.content'
 import { IBootstrapThemed, IStateContext } from '../_state.common.types'
-import { homeLinkState } from '../nav.link'
+import { homeLinkState, privacyPolicyLinkState } from '../nav.link'
 import STATE_KEY from '../../business.logic/state.key'
 
 const $69 = STATE_KEY['69']
@@ -24,6 +24,7 @@ export const newUserPageState: TStatePage = {
     const base = clone_with_descriptors(defaultAppBarState)
     base.appbarStyle = 'basic'
     const link = clone_as_collection(base.items)
+    link.add(privacyPolicyLinkState)
     link.add(homeLinkState)
     base.items = link.items
     return base
