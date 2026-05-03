@@ -25,6 +25,8 @@ import JsonapiRequestDriver from '../business.logic/JsonapiRequestDriver'
 import RequestDataValidator from '../business.logic/RequestDataValidator'
 import signInFormState from '../state/form/sign.in.form.state'
 import passwordRecoveryFormState from '../state/form/password.recovery.form.state'
+import passwordRecoveryCodeDialogState from '../state/dialog/password.recovery.code.dialog.state'
+import passwordResetDialogState from '../state/dialog/password.reset.dialog.state'
 import { blacklist_token } from '../model/blacklisted.token'
 import JsonapiErrorBuilder from '../business.logic/builder/JsonapiErrorBuilder'
 import { UserModel } from '../model/user'
@@ -39,6 +41,7 @@ const signinAttempts: Map<string, { count: number; resetAt: number }> = new Map(
 const SIGNIN_WINDOW_MS = 60 * 1000
 const SIGNIN_MAX_ATTEMPTS = 20
 const PASSWORD_RECOVERY_TOKEN_TTL_MS = 60 * 60 * 1000
+const PASSWORD_RECOVERY_CODE_REGEX = /^\d{6}$/
 
 const is_https_request = (req: FastifyRequest): boolean => {
   const forwardedProtoHeader = req.headers['x-forwarded-proto']
@@ -58,73 +61,81 @@ const get_auth_cookie_options = (req: FastifyRequest, maxAge: number) => ({
 })
 
 const $90 = STATE_KEY['90']
+const $93 = STATE_KEY['93']
+const $89 = STATE_KEY['89']
 
 const authentication: FastifyPluginAsync = async (fastify, rootOpts): Promise<void> => {
   const skipRateLimit = process.env.SKIP_RATE_LIMIT === 'true'
   const opts = { ...rootOpts }
 
-  fastify.post(`/${EP_AUTH.IN}`, opts, async function  ( // signin
+  // POST /signin route to handle user authentication
+  fastify.post(`/${EP_AUTH.IN}`, opts, async function  (
     req: FastifyRequest<IRequestAuth>,
     reply: FastifyReply,
   ) {
-    // Basic per-IP rate limiting (production and development)
-    // Bypass during tests when TEST env is set
-    task('Enforcing rate limiting ')
-    if (!skipRateLimit) {
-      const ip = (req.ip || req.headers['x-forwarded-for'] as string || 'unknown').toString()
-      const now = Date.now()
-      const entry = signinAttempts.get(ip)
-      if (!entry || now > entry.resetAt) {
-        signinAttempts.set(ip, { count: 1, resetAt: now + SIGNIN_WINDOW_MS })
-      } else {
-        entry.count += 1
-        if (entry.count > SIGNIN_MAX_ATTEMPTS) {
-          task.end('[❌]')
-          dbug('[429] Rate limit exceeded for IP:', ip)
-          reply.code(429).send(new JsonapiErrorBuilder()
-            .withStatus(429)
-            .withCode('RATE_LIMITED')
-            .withTitle('Too Many Requests')
-            .withDetail('Please wait a minute before trying again.')
-            .build())
-          return
+    let usernameForLog = '(unknown)'
+    try {
+      // Basic per-IP rate limiting (production and development)
+      // Bypass during tests when TEST env is set
+      task('Enforcing rate limiting ')
+      if (!skipRateLimit) {
+        const ip = (req.ip || req.headers['x-forwarded-for'] as string || 'unknown').toString()
+        const now = Date.now()
+        const entry = signinAttempts.get(ip)
+        if (!entry || now > entry.resetAt) {
+          signinAttempts.set(ip, { count: 1, resetAt: now + SIGNIN_WINDOW_MS })
+        } else {
+          entry.count += 1
+          if (entry.count > SIGNIN_MAX_ATTEMPTS) {
+            task.end('[❌]')
+            dbug('[429] Rate limit exceeded for IP:', ip)
+            reply.code(429).send(new JsonapiErrorBuilder()
+              .withStatus(429)
+              .withCode('RATE_LIMITED')
+              .withTitle('Too Many Requests')
+              .withDetail('Please wait a minute before trying again.')
+              .build())
+            return
+          }
         }
+        task.end('[✔️]')
+      } else {
+        task.end('[⚠️]') // Skip rate limiting
+        dbug('Rate limiting is disabled')
+      }
+
+      task('Checking credentials ')
+      const driver = new JsonapiRequestDriver(req.body)
+      const credentials = driver.getAttribute('credentials')
+      if (!is_record(credentials) || !credentials.username || !credentials.password) {
+        task.end('[❌]')
+        dbug('[400] Invalid or missing credentials')
+        reply.code(400).send(new JsonapiErrorBuilder()
+          .withStatus(400)
+          .withCode('MALFORMED_REQUEST')
+          .withTitle('Credentials Required')
+          .withDetail('No credentials were provided in the request')
+          .build())
+        return
       }
       task.end('[✔️]')
-    } else {
-      task.end('[⚠️]') // Skip rate limiting
-      dbug('Rate limiting is disabled')
-    }
-    task('Checking credentials ')
-    const driver = new JsonapiRequestDriver(req.body)
-    const credentials = driver.getAttribute('credentials')
-    if (!is_record(credentials) || !credentials.username || !credentials.password) {
-      task.end('[❌]')
-      dbug('[400] Invalid or missing credentials')
-      reply.code(400).send(new JsonapiErrorBuilder()
-        .withStatus(400)
-        .withCode('MALFORMED_REQUEST')
-        .withTitle('Credentials Required')
-        .withDetail('No credentials were provided in the request')
-        .build())
-      return
-    }
-    task.end('[✔️]')
-    const { username, password, options: o } = credentials
-    const validator = new RequestDataValidator(credentials, signInFormState)
-    log_safe('Authenticating user credentials', req.body)
-    task('Validating signin request data ')
-    const errorResponse = validator.validateAgainstFormState()
-    if (errorResponse) {
-      task.end('[❌]')
-      dbug('[400] Validation errors in signin request', errorResponse)
-      reply.code(400).send(errorResponse)
-      return
-    }
-    task.end('[✔️]')
-    const title = 'Wrong username or password!'
-    task('Looking up user in the database ')
-    try {
+
+      const { username, password, options: o } = credentials
+      usernameForLog = username
+      const validator = new RequestDataValidator(credentials, signInFormState)
+      log_safe('Authenticating user credentials', req.body)
+      task('Validating signin request data ')
+      const errorResponse = validator.validateAgainstFormState()
+      if (errorResponse) {
+        task.end('[❌]')
+        dbug('[400] Validation errors in signin request', errorResponse)
+        reply.code(400).send(errorResponse)
+        return
+      }
+      task.end('[✔️]')
+
+      const title = 'Wrong username or password!'
+      task('Looking up user in the database ')
       const user = await read_user({ name: username, includePassword: true }) // include password for verification
       if (!user) {
         task.end('[❌]')
@@ -228,7 +239,7 @@ const authentication: FastifyPluginAsync = async (fastify, rootOpts): Promise<vo
       const error = to_error_object(e)
       log_err_safe('[5005] Error attempting to authenticate user', {
         error,
-        username
+        username: usernameForLog
       })
       reply.code(500).send({
         ...error_id(5005).default_500_error_response(e),
@@ -238,6 +249,7 @@ const authentication: FastifyPluginAsync = async (fastify, rootOpts): Promise<vo
     }
   }) // End /signin
 
+  // POST /password/recovery route to handle password recovery requests
   fastify.post(`/${EP_AUTH.RECOVERY}`, opts, async function (
     req: FastifyRequest<{ Body: TJsonapiRequest<{ email?: string }> }>,
     reply: FastifyReply,
@@ -274,7 +286,7 @@ const authentication: FastifyPluginAsync = async (fastify, rootOpts): Promise<vo
         })
 
         if (user) {
-          const token = crypto.randomBytes(32).toString('hex')
+          const token = crypto.randomInt(0, 1000000).toString().padStart(6, '0')
           user.password_reset_token = token
           user.password_reset_expires = new Date(Date.now() + PASSWORD_RECOVERY_TOKEN_TTL_MS)
           user.modified_at = new Date()
@@ -289,9 +301,16 @@ const authentication: FastifyPluginAsync = async (fastify, rootOpts): Promise<vo
         }
       }
 
-      reply.code(200).send(alert(
-        'If an account exists for this email, password recovery instructions will be sent.'
-      ))
+      reply.code(200).send({
+        'state': {
+          'dialog': passwordRecoveryCodeDialogState,
+          'formsData': {
+            [$93]: {
+              email
+            }
+          }
+        }
+      } as TJsonapiStateResponse)
     } catch (e) {
       log_err_safe('[5008] Error creating password recovery token', {
         error: to_error_object(e),
@@ -300,6 +319,88 @@ const authentication: FastifyPluginAsync = async (fastify, rootOpts): Promise<vo
     }
   }) // End /password/recovery
 
+  // POST /password/verify route to verify a recovery code and open the reset form
+  fastify.post(`/${EP_AUTH.VERIFY}`, opts, async function (
+    req: FastifyRequest<{ Body: TJsonapiRequest<{ email?: string; code?: string }> }>,
+    reply: FastifyReply,
+  ) {
+    try {
+      const driver = new JsonapiRequestDriver(req.body)
+      const attributes = driver.getAttributes()
+
+      if (!is_record(attributes)) {
+        reply.code(400).send(new JsonapiErrorBuilder()
+          .withStatus(400)
+          .withCode('MALFORMED_REQUEST')
+          .withTitle('Invalid Request')
+          .withDetail('Email and recovery code are required.')
+          .build())
+        return
+      }
+
+      const email = typeof attributes.email === 'string'
+        ? attributes.email.trim().toLowerCase()
+        : ''
+      const code = typeof attributes.code === 'string'
+        ? attributes.code.trim()
+        : ''
+
+      if (!email || !code) {
+        reply.code(400).send(new JsonapiErrorBuilder()
+          .withStatus(400)
+          .withCode('VALIDATION_ERROR')
+          .withTitle('Missing data')
+          .withDetail('Email and recovery code are required.')
+          .build())
+        return
+      }
+
+      if (!PASSWORD_RECOVERY_CODE_REGEX.test(code)) {
+        reply.code(400).send(new JsonapiErrorBuilder()
+          .withStatus(400)
+          .withCode('VALIDATION_ERROR')
+          .withTitle('Invalid recovery code')
+          .withDetail('Recovery code must be exactly 6 digits.')
+          .build())
+        return
+      }
+
+      const user = await UserModel.findOne({
+        email,
+        password_reset_token: code,
+        is_active: { $ne: false }
+      })
+
+      if (!user || !user.password_reset_expires || user.password_reset_expires.getTime() < Date.now()) {
+        reply.code(400).send(new JsonapiErrorBuilder()
+          .withStatus(400)
+          .withCode('TOKEN_EXPIRED')
+          .withTitle('Invalid or expired recovery code')
+          .withDetail('Please request a new password recovery email and try again.')
+          .build())
+        return
+      }
+
+      reply.code(200).send({
+        'state': {
+          'dialog': passwordResetDialogState,
+          'formsData': {
+            [$89]: {
+              email,
+              token: code
+            }
+          }
+        }
+      } as TJsonapiStateResponse)
+    } catch (e) {
+      log_err_safe('[5010] Error verifying password recovery code', {
+        error: to_error_object(e),
+      })
+      reply.code(500).send(error_id(5010).default_500_error_response(e))
+    }
+  }) // End /password/verify
+
+  // POST /password/reset route to handle password reset requests
   fastify.post(`/${EP_AUTH.RESET}`, opts, async function (
     req: FastifyRequest<{ Body: TJsonapiRequest<{ email?: string; token?: string; password?: string }> }>,
     reply: FastifyReply,
@@ -334,6 +435,16 @@ const authentication: FastifyPluginAsync = async (fastify, rootOpts): Promise<vo
           .withCode('VALIDATION_ERROR')
           .withTitle('Missing recovery data')
           .withDetail('Email, token, and a new password are required.')
+          .build())
+        return
+      }
+
+      if (!PASSWORD_RECOVERY_CODE_REGEX.test(token)) {
+        reply.code(400).send(new JsonapiErrorBuilder()
+          .withStatus(400)
+          .withCode('VALIDATION_ERROR')
+          .withTitle('Invalid recovery token')
+          .withDetail('Recovery token must be exactly 6 digits.')
           .build())
         return
       }
@@ -381,6 +492,7 @@ const authentication: FastifyPluginAsync = async (fastify, rootOpts): Promise<vo
               'message': 'Your password has been updated. You can now sign in with your new password.'
             }
           },
+          'dialog': { open: false },
           // After reseting the password, remove the password reset page state
           'pages': { [$90]: { __delete: true } },
           'pagesDark': { [$90]: { __delete: true } },
@@ -409,7 +521,8 @@ const authentication: FastifyPluginAsync = async (fastify, rootOpts): Promise<vo
     }
   }
 
-  fastify.post('/signout', signoutOpts, async function (
+  // POST /signout route to handle user signout and token blacklisting
+  fastify.post(`/${EP_AUTH.OUT}`, signoutOpts, async function (
     req: FastifyRequest,
     reply: FastifyReply
   ) {

@@ -81,8 +81,8 @@ export default async function delete_bookmark_by_id_endpoint (
       )
     }
   } catch (e) {
-    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[5008]'))
-    log_err('[5008] DELETE bookmark by id', e)
-    reply.code(500).send(error_id(5008).default_500_error_response(e))
+    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[50045]'))
+    log_err('[50045] DELETE bookmark by id', e)
+    reply.code(500).send(error_id(50045).default_500_error_response(e))
   }
 }

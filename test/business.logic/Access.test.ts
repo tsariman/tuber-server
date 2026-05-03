@@ -68,8 +68,8 @@ describe('Access.GATE', () => {
     assert.strictEqual(Access.GATE['bookmark.note.links'], CLEARANCE_LEVEL.member)
   })
 
-  it('read.unpublished.bookmark requires moderator clearance', () => {
-    assert.strictEqual(Access.GATE['read.unpublished.bookmark'], CLEARANCE_LEVEL.moderator)
+  it('read.all.unpublished.bookmark requires moderator clearance', () => {
+    assert.strictEqual(Access.GATE['read.all.unpublished.bookmark'], CLEARANCE_LEVEL.moderator)
   })
 
   it('bookmark.publish requires supporter clearance', () => {
@@ -150,12 +150,12 @@ describe('Access – can()', () => {
 
   it('moderator can read unpublished bookmarks', () => {
     const access = Access.the(makeUser({ role: 'moderator' }))
-    assert.strictEqual(access.can('read.unpublished.bookmark'), true)
+    assert.strictEqual(access.can('read.all.unpublished.bookmark'), true)
   })
 
   it('supporter cannot read unpublished bookmarks', () => {
     const access = Access.the(makeUser({ role: 'supporter' }))
-    assert.strictEqual(access.can('read.unpublished.bookmark'), false)
+    assert.strictEqual(access.can('read.all.unpublished.bookmark'), false)
   })
 
   it('moderator cannot perform user.admin', () => {

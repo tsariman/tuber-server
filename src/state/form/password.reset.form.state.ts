@@ -2,7 +2,7 @@ import { SxProps } from '@mui/material'
 import { EP_AUTH, type TStateForm } from '@tuber/shared'
 import { register } from '../../business.logic/registry'
 import { clone_with_descriptors, t } from '../../business.logic'
-import { title_centered } from '../html'
+// import { title_centered } from '../html'
 import STATE_KEY from '../../business.logic/state.key'
 
 const $89 = STATE_KEY['89']
@@ -26,27 +26,28 @@ export const passwordResetFormState: TStateForm = {
       'type': 'stack',
       'props': { 'spacing': 2 },
       'items': [
-        {
-          'type': 'html',
-          'has': {
-            get 'content'() {
-              return title_centered(t('reset_password_title', 'Choose a New Password'))
-            }
-          }
-        },
-        {
-          'type': 'html',
-          'has': {
-            get 'content'() {
-              return '<p style="margin:0;text-align:center;opacity:.85;">Open the link from your email and finish resetting your password.</p>'
-            }
-          }
-        },
+        // {
+        //   'type': 'html',
+        //   'has': {
+        //     get 'content'() {
+        //       return title_centered(t('reset_password_title', 'Choose a New Password'))
+        //     }
+        //   }
+        // },
+        // {
+        //   'type': 'html',
+        //   'has': {
+        //     get 'content'() {
+        //       return '<p style="margin:0;text-align:center;opacity:.85;">Open the link from your email and finish resetting your password.</p>'
+        //     }
+        //   }
+        // },
         {
           'type': 'text',
           'name': 'email',
           get 'label'() { return t('email', 'Email') },
           'props': {
+            'sx': { 'display': 'none' },
             'autoComplete': 'email',
             'type': 'email'
           },
@@ -63,6 +64,7 @@ export const passwordResetFormState: TStateForm = {
           'name': 'token',
           get 'label'() { return t('recovery_token', 'Recovery Token') },
           'props': {
+            'sx': { 'display': 'none' },
             'autoComplete': 'off'
           },
           'has': {

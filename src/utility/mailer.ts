@@ -60,9 +60,9 @@ async function verifyTransport(): Promise<void> {
   console.info('[MAILER] SMTP transport verified.')
 }
 
-function logMailPreview(subject: string, to: string, url: string) {
+function logMailPreview(subject: string, to: string, preview: string) {
   if (!hasSmtpConfig) {
-    console.info(`[MAILER][DEV] ${subject} prepared for ${to}: ${url}`)
+    console.info(`[MAILER][DEV] ${subject} prepared for ${to}: ${preview}`)
   }
 }
 
@@ -89,15 +89,12 @@ export async function sendVerificationEmail(to: string, code: string) {
 }
 
 export async function sendPasswordRecoveryEmail(to: string, token: string) {
-  const resetBaseUrl = trimTrailingSlash(Config.CLIENT_DOMAIN || Config.APP_BASE_URL)
-  const resetUrl = `${resetBaseUrl}/reset-password?email=${encodeURIComponent(to)}&token=${encodeURIComponent(token)}`
   const html = [
     `<p>We received a request to reset your password.</p>`,
-    `<p>Click the link below to choose a new password:</p>`,
-    `<p><a href="${resetUrl}">Reset Password</a></p>`,
-    `<p>This link expires in 1 hour.</p>`,
-    `<p>If you did not request this change, you can safely ignore this email.</p>`,
-    `<p>${resetUrl}</p>`
+    `<p>Use the 6-digit recovery code below in the app:</p>`,
+    `<p style="font-size:2rem;font-weight:700;letter-spacing:0.35rem;margin:0.75rem 0 1rem;">${token}</p>`,
+    `<p>This code expires in 1 hour.</p>`,
+    `<p>If you did not request this change, you can safely ignore this email.</p>`
   ].join('\n')
 
   await verifyTransport()
@@ -108,6 +105,6 @@ export async function sendPasswordRecoveryEmail(to: string, token: string) {
     html,
   })
 
-  logMailPreview('Reset your password', to, resetUrl)
+  logMailPreview('Reset your password', to, `Recovery code: ${token}`)
   return info
 }

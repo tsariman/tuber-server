@@ -8,6 +8,7 @@ import devInstallFormState, {
 } from '../../dev/form/dev.install.form.state'
 import signInFormState, { $41DarkThemeMode } from '../form/sign.in.form.state'
 import passwordRecoveryFormState, { $86DarkThemeMode } from '../form/password.recovery.form.state'
+import passwordRecoveryCodeFormState, { $93DarkThemeMode } from '../form/password.recovery.code.form.state'
 import passwordResetFormState, { $89DarkThemeMode } from '../form/password.reset.form.state'
 import newUserFormState, { $69DarkThemeMode } from '../form/new.user.form.state'
 import STATE_KEY from '../../business.logic/state.key'
@@ -17,6 +18,7 @@ const $47 = STATE_KEY['47']
 const $69 = STATE_KEY['69']
 const $86 = STATE_KEY['86']
 const $89 = STATE_KEY['89']
+const $93 = STATE_KEY['93']
 
 const bootstrap_forms_state: TBootstrapState<TStateAllForms> = {
 
@@ -48,6 +50,7 @@ const bootstrap_forms_light_state: TBootstrapState<TStateAllForms> = {
     const lightForms: TStateAllForms = {
       [$41]: signInFormState,
       [$86]: passwordRecoveryFormState,
+      [$93]: passwordRecoveryCodeFormState,
       [$89]: passwordResetFormState,
       [$69]: newUserFormState
     }
@@ -71,6 +74,7 @@ const bootstrap_forms_dark_state: TBootstrapState<TStateAllForms> = {
     const darkForms: TStateAllForms = {
       [$41]: $41DarkThemeMode,
       [$86]: $86DarkThemeMode,
+      [$93]: $93DarkThemeMode,
       [$89]: $89DarkThemeMode,
       [$69]: $69DarkThemeMode
     }

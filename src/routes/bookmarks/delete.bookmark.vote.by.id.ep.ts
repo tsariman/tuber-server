@@ -129,8 +129,8 @@ export async function delete_bookmark_vote_by_id_endpoint(
       }
     })
   } catch (e) {
-    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[5009]'))
-    log_err('[5009] DELETE bookmark vote by id', e)
-    reply.code(500).send(error_id(5009).default_500_error_response(e))
+    ler(MSG_500_ERROR_MESSAGE.replace('[500]', '[50049]'))
+    log_err('[50049] DELETE bookmark vote by id', e)
+    reply.code(500).send(error_id(50049).default_500_error_response(e))
   }
 }

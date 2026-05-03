@@ -368,6 +368,81 @@ test('POST /password/recovery - stores a reset token for an existing account', a
   assert.ok(updatedUser?.password_reset_expires)
 })
 
+test('POST password recovery full flow - recovery, verify, and reset', async (t) => {
+  const app = await build(t)
+  const suffix = Date.now().toString(36)
+  const name = `fullflow-${suffix}`
+  const email = `fullflow.${suffix}@example.com`
+  const newPassword = 'NewPass123!@#'
+
+  await create_user({
+    name,
+    email,
+    password: 'OldPass123!'
+  })
+
+  const recoveryResponse = await app.inject({
+    method: 'POST',
+    url: '/password/recovery',
+    payload: createJsonapiRequest('password-recovery', { email })
+  })
+
+  assert.strictEqual(recoveryResponse.statusCode, 200)
+
+  const recoveryBody = JSON.parse(recoveryResponse.payload)
+  assert.strictEqual(recoveryBody?.state?.dialog?._id, '94')
+  assert.strictEqual(recoveryBody?.state?.formsData?.passwordRecoveryCodeForm?.email, email)
+
+  const pendingUser = await UserModel.findOne({ email })
+  assert.ok(pendingUser?.password_reset_token)
+  assert.ok(/^\d{6}$/.test(pendingUser!.password_reset_token!))
+
+  const verifyResponse = await app.inject({
+    method: 'POST',
+    url: '/password/verify',
+    payload: createJsonapiRequest('password-verify', {
+      email,
+      code: pendingUser?.password_reset_token
+    })
+  })
+
+  assert.strictEqual(verifyResponse.statusCode, 200)
+
+  const verifyBody = JSON.parse(verifyResponse.payload)
+  assert.strictEqual(verifyBody?.state?.dialog?._id, '95')
+  assert.strictEqual(verifyBody?.state?.formsData?.resetPasswordForm?.email, email)
+  assert.strictEqual(verifyBody?.state?.formsData?.resetPasswordForm?.token, pendingUser?.password_reset_token)
+
+  const resetResponse = await app.inject({
+    method: 'POST',
+    url: '/password/reset',
+    payload: createJsonapiRequest('password-reset', {
+      email,
+      token: pendingUser?.password_reset_token,
+      password: newPassword
+    })
+  })
+
+  assert.strictEqual(resetResponse.statusCode, 200)
+
+  const signinResponse = await app.inject({
+    method: 'POST',
+    url: '/signin',
+    payload: createJsonapiRequest('signins', {
+      credentials: {
+        username: name,
+        password: newPassword
+      }
+    })
+  })
+
+  assert.strictEqual(signinResponse.statusCode, 200)
+
+  const clearedUser = await UserModel.findOne({ email })
+  assert.ok(!clearedUser?.password_reset_token)
+  assert.ok(!clearedUser?.password_reset_expires)
+})
+
 test('POST /password/reset - accepts a valid recovery token and changes the password', async (t) => {
   const app = await build(t)
   const suffix = Date.now().toString(36)

@@ -65,6 +65,12 @@ import editTwitchBookmarkDialogState, {
 import passwordRecoveryDialogState, {
   $85DarkThemeMode
 } from './password.recovery.dialog.state'
+import passwordRecoveryCodeDialogState, {
+  $94DarkThemeMode
+} from './password.recovery.code.dialog.state'
+import passwordResetDialogState, {
+  $95DarkThemeMode
+} from './password.reset.dialog.state'
 import feedbackDialogState, {
   $87DarkThemeMode
 } from './feedback.dialog.state'
@@ -104,6 +110,8 @@ const $68 = STATE_KEY['68']
 const $69 = STATE_KEY['69']
 const $85 = STATE_KEY['85']
 const $87 = STATE_KEY['87']
+const $94 = STATE_KEY['94']
+const $95 = STATE_KEY['95']
 const $92 = STATE_KEY['92']
 const VISITOR_PATREON_URL = 'https://www.patreon.com/c/bookmarktube/membership'
 
@@ -512,8 +520,13 @@ export const visitorAlertDialogState: TStateDialog = {
       </p>
       <p style="text-align:center;">
       Contact me at:<br />
-      <span style="display:inline-block;margin-top:0.5rem;padding:0.625rem 1rem;border-radius:0.5rem;background:#0073e6;color:#fff;text-decoration:none;font-weight:600;">
+      <span style="display:inline-flex;gap:0.5rem;flex-wrap:wrap;justify-content:center;margin-top:0.5rem;">
+      <span style="display:inline-block;padding:0.625rem 1rem;border-radius:0.5rem;background:#0073e6;color:#fff;text-decoration:none;font-weight:600;">
       <a href="mailto:bookmarktube@yahoo.com" style="color:inherit;text-decoration:none;font-weight:inherit;">bookmarktube@yahoo.com</a>
+      </span>
+      <span style="display:inline-block;padding:0.625rem 1rem;border-radius:0.5rem;background:#111;color:#fff;text-decoration:none;font-weight:600;">
+      <a href="https://x.com/riviereking" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;font-weight:inherit;">@riviereking</a>
+      </span>
       </span>
       </p>
       </div>`
@@ -622,6 +635,7 @@ export function bootstrap_dialogs_state(themeMode?: TThemeMode) {
   return dialogs
 }
 
+/** Insert your new dialog state here so it can be lazy loaded */
 export const STATE_DIALOGS_THEME_DARK: TStateAllDialogs = {
   [$2]: $2DarkThemeMode,
   [$6]: $6DarkThemeMode,
@@ -645,10 +659,13 @@ export const STATE_DIALOGS_THEME_DARK: TStateAllDialogs = {
   [$36]: $36DarkThemeMode,
   [$37]: $37DarkThemeMode,
   [$85]: $85DarkThemeMode,
+  [$94]: $94DarkThemeMode,
+  [$95]: $95DarkThemeMode,
   [$87]: $87DarkThemeMode,
   [$68]: $68DarkThemeMode,
 }
 
+/** Insert your new dialog state here so it can be lazy loaded */
 export const STATE_DIALOGS: { [key: string]: TStateDialog } = {
   [$2]: newVideoUrlDialogState,
   [$6]: newYoutubeBookmarkDialogState,
@@ -672,6 +689,8 @@ export const STATE_DIALOGS: { [key: string]: TStateDialog } = {
   [$36]: newTwitchBookmarkDialogState,
   [$37]: editTwitchBookmarkDialogState,
   [$85]: passwordRecoveryDialogState,
+  [$94]: passwordRecoveryCodeDialogState,
+  [$95]: passwordResetDialogState,
   [$87]: feedbackDialogState,
   [$68]: confirmSignOutDialogState,
 }

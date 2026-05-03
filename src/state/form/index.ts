@@ -82,6 +82,10 @@ import {
   $86DarkThemeMode
 } from './password.recovery.form.state'
 import {
+  passwordRecoveryCodeFormState,
+  $93DarkThemeMode
+} from './password.recovery.code.form.state'
+import {
   passwordResetFormState,
   $89DarkThemeMode
 } from './password.reset.form.state'
@@ -133,8 +137,9 @@ const $39 = STATE_KEY['39']
 const $41 = STATE_KEY['41']
 const $69 = STATE_KEY['69']
 const $82 = STATE_KEY['82']
-const $89 = STATE_KEY['89']
 const $86 = STATE_KEY['86']
+const $89 = STATE_KEY['89']
+const $93 = STATE_KEY['93']
 const $88 = STATE_KEY['88']
 
 /**
@@ -243,6 +248,7 @@ export const STATE_FORMS_THEME_DARK: TStateAllForms = {
   [$39]: $39DarkThemeMode,
   [$41]: $41DarkThemeMode,
   [$86]: $86DarkThemeMode,
+  [$93]: $93DarkThemeMode,
   [$89]: $89DarkThemeMode,
   [$88]: $88DarkThemeMode,
   [$69]: $69DarkThemeMode,
@@ -269,6 +275,7 @@ export const STATE_FORMS: TStateAllForms = {
   [$39]: editTwitchBookmarkFormState,
   [$41]: signInFormState,
   [$86]: passwordRecoveryFormState,
+  [$93]: passwordRecoveryCodeFormState,
   [$89]: passwordResetFormState,
   [$88]: feedbackFormState,
   [$69]: newUserFormState,

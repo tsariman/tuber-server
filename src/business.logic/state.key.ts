@@ -99,6 +99,9 @@ const STATE_KEY = {
   // '--': 'terms-of-service',
   // '--': 'cookie-policy',
   '92': 'visitorAlertDialog',
+  '93': 'passwordRecoveryCodeForm',
+  '94': 'passwordRecoveryCodeDialog',
+  '95': 'passwordResetDialog',
 } as const
 
 export type TStateKey = typeof STATE_KEY[keyof typeof STATE_KEY]
