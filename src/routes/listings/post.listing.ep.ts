@@ -4,7 +4,8 @@ import {
   error_id
 } from '../../business.logic/errors'
 import JsonapiResponseBuilder from '../../business.logic/builder/JsonapiResponseBuilder'
-import { dbug, ler, log_err, task, task_end } from '../../utility/logging'
+import JsonapiErrorBuilder from '../../business.logic/builder/JsonapiErrorBuilder'
+import { dbug, ler, log_err, task } from '../../utility/logging'
 import { create_listing } from '../../model/listing'
 import { IListingPost, IListing } from '../../schema/listing'
 import { MSG_500_ERROR_MESSAGE } from '@tuber/shared'
@@ -15,11 +16,22 @@ export default async function post_listing_endpoint (
   reply: FastifyReply
 ) {
   try {
+    const authenticatedUserId = req.usr?._id
+    if (!authenticatedUserId) {
+      reply.code(401).send(new JsonapiErrorBuilder()
+        .withStatus(401)
+        .withCode('AUTHENTICATION_REQUIRED')
+        .withTitle('Authorization failed.')
+        .withDetail('No authenticated user context was found for this request.')
+        .build())
+      return
+    }
+
     const driver = new JsonapiRequestDriver(req.body)
     const attr = driver.getAttributes()
     task('Checking request data to create listing... ')
     if (!attr) {
-      task_end('Failed.')
+      task.end('Failed.')
       reply.code(400).send(default_400_error_response({
         title: 'Failed to create listing.',
         detail: 'Invalid request data.'
@@ -31,7 +43,7 @@ export default async function post_listing_endpoint (
     
     // Validate required fields
     if (!attr.name) {
-      task_end('Failed.')
+      task.end('Failed.')
       reply.code(400).send(default_400_error_response({
         title: 'Failed to create listing.',
         detail: 'Listing name is required.'
@@ -39,17 +51,11 @@ export default async function post_listing_endpoint (
       return
     }
 
-    if (!attr.user_id) {
-      task_end('Failed.')
-      reply.code(400).send(default_400_error_response({
-        title: 'Failed to create listing.',
-        detail: 'User ID is required.'
-      }))
-      return
-    }
-
     // Handle JSON:API relationships -> IListing.bookmarks conversion
-    const listingData: IListing = { ...attr }
+    const listingData: IListing = {
+      ...attr,
+      user_id: String(authenticatedUserId)
+    }
     
     // Get bookmark relationships from the request
     const bookmarkRelationshipData = driver.getRelationshipData('bookmarks')
@@ -81,9 +87,9 @@ export default async function post_listing_endpoint (
     }
 
     const dbListing = await create_listing(listingData)
-    task_end('Done.')
+    task.end('Done.')
     task('Sending response...')
-    task_end(dbListing)
+    task.end(dbListing)
     
     // Separate _id from attributes for JSON:API format
     const { _id, ...listingAttributes } = dbListing.toObject()
@@ -96,7 +102,7 @@ export default async function post_listing_endpoint (
   } catch (e) {
     // Handle duplicate name error (MongoDB duplicate key error)
     if (e && typeof e === 'object' && 'code' in e && e.code === 11000) {
-      task_end('Failed.')
+      task.end('Failed.')
       reply.code(409).send(default_400_error_response({
         title: 'Failed to create listing.',
         detail: 'A listing with this name already exists.'
