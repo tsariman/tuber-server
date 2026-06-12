@@ -1,8 +1,12 @@
-import { SxProps } from '@mui/material'
 import { type TStateForm, EP_AUTH } from '@tuber/shared'
 import { register } from '../../business.logic/registry'
 import { clone_with_descriptors, t } from '../../business.logic'
 import STATE_KEY from '../../business.logic/state.key'
+import {
+  ADMIN_PANEL_FIELD_SX,
+  ADMIN_PANEL_FORM_SX,
+  ADMIN_PANEL_PRIMARY_ACTION_SX
+} from './_state.form.admin.panel.styles'
 
 const $93 = STATE_KEY['93']
 
@@ -13,17 +17,17 @@ export const passwordRecoveryCodeFormState: TStateForm = {
   '_id': '93',
   '_key': $93,
   'props': {
-    'sx': {
-      'p': 3,
-      'width': '37ch',
-    } as SxProps,
+    'sx': ADMIN_PANEL_FORM_SX,
   },
   'paperBackground': true,
   'paperProps': { 'elevation': 24 },
   'items': [
     {
       'type': 'stack',
-      'props': { 'spacing': 2 },
+      'props': {
+        'spacing': 2,
+        'sx': { 'pt': 1 }
+      },
       'items': [
         {
           'type': 'text',
@@ -46,6 +50,7 @@ export const passwordRecoveryCodeFormState: TStateForm = {
           'name': 'code',
           get 'label'() { return t('recovery_code', 'Recovery Code') },
           'props': {
+            'sx': ADMIN_PANEL_FIELD_SX,
             'autoComplete': 'off',
             'placeholder': t('code_placeholder', 'Enter the code from your email')
           },
@@ -57,7 +62,8 @@ export const passwordRecoveryCodeFormState: TStateForm = {
         {
           'type': 'submit',
           'props': {
-            'type': 'submit'
+            'type': 'submit',
+            'sx': ADMIN_PANEL_PRIMARY_ACTION_SX
           },
           'has': {
             'icon': 'check_circle',

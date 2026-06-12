@@ -74,6 +74,7 @@ export const newYouTubeBookmarkFormState = {
               get 'label'() { return t('265', 'Platform') },
               'props': {
                 'sx': { 'width': 240 },
+                'variant': 'filled'
               },
               'inputProps': { 'readOnly': true }
             },

@@ -38,7 +38,10 @@ export class EditRumbleBookmarkFormState extends AbstractState<TStateForm> {
       'items': [
         {
           'type': 'stack',
-          'props': { 'spacing': 2 },
+          'props': {
+            'spacing': 2,
+            'sx': { 'pt': 1 }
+          },
           'items': [
             {
               'type': 'textfield',

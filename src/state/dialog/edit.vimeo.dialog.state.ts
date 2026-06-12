@@ -1,5 +1,4 @@
 import {
-  THEME_DARK_DIALOG_BACKGROUND_COLOR,
   TStateDialog
 } from '@tuber/shared'
 import {
@@ -8,7 +7,6 @@ import {
   clone_or_default
 } from '../../business.logic'
 import { register } from '../../business.logic/registry'
-import { THEME_LIGHT_PAPER_SX_PROPS } from '../theme.state'
 import STATE_KEY from '../../business.logic/state.key'
 
 const $13 = STATE_KEY['13']
@@ -26,7 +24,6 @@ const editVimeoBookmarkDialogState: TStateDialog = {
     'maxWidth': 'md',
     'PaperProps': {
       'sx': {
-        ...THEME_LIGHT_PAPER_SX_PROPS,
         'overflowX': 'hidden !important'
       }
     }
@@ -69,7 +66,6 @@ export const $15DarkThemeMode: TStateDialog = (() => {
   const paperProps = clone_or_default(props.PaperProps, {})
   const sx: typeof paperProps['sx'] = {
     ...paperProps.sx,
-    'backgroundColor': THEME_DARK_DIALOG_BACKGROUND_COLOR
   }
   paperProps.sx = sx
   props.PaperProps = paperProps

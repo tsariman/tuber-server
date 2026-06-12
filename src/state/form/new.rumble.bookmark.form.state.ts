@@ -22,7 +22,10 @@ export const newRumbleBookmarkFormState = {
   'items': [
     {
       'type': 'stack',
-      'props': { 'spacing': 2 },
+      'props': {
+        'spacing': 2,
+        'sx': { 'pt': 1 }
+      },
       'items': [
         {
           'type': 'textfield',

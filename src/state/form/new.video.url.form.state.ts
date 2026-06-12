@@ -38,8 +38,11 @@ export const newVideoUrlFormState: TStateForm = {
         {
           'type': 'text',
           'name': 'url',
-          get 'label'() { return t('250', 'Paste shared video link Here ...') },
-          'props': { 'fullWidth': true },
+          get 'label'() { return t('shared_video_link', 'Shared Video Link') },
+          'props': {
+            'fullWidth': true,
+            get 'placeholder'() { return t('250', 'Paste shared video link here ...') },
+          },
           'inputProps': {
             'end': {
               'icon': {

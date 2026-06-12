@@ -3,8 +3,6 @@ import {
   type TJsonapiStateResponse,
   type TNetState,
   type TStateAllDialogs,
-  THEME_DARK_DIALOG_BACKGROUND_COLOR,
-  THEME_LIGHT_BACKGROUND_COLOR,
   EP_AUTH,
   EP_USERS
 } from '@tuber/shared'
@@ -75,7 +73,6 @@ import feedbackDialogState, {
   $87DarkThemeMode
 } from './feedback.dialog.state'
 import { register } from '../../business.logic/registry'
-import { THEME_LIGHT_PAPER_SX_PROPS } from '../theme.state'
 import { TContextualUser } from '../../schema/user'
 import STATE_KEY from '../../business.logic/state.key'
 
@@ -125,7 +122,7 @@ export const newYoutubeBookmarkDialogState: TStateDialog = {
   'props': {
     'fullWidth': true,
     'maxWidth': 'md',
-    'PaperProps': { 'sx': { ...THEME_LIGHT_PAPER_SX_PROPS } },
+    'PaperProps': { 'sx': {  } },
     'sx': { 'overflowX': 'hidden' }
   },
   'titleProps': {
@@ -161,10 +158,9 @@ export const newYoutubeBookmarkDialogState: TStateDialog = {
 export const $6DarkThemeMode: TStateDialog = (() => {
   const base = clone_with_descriptors(newYoutubeBookmarkDialogState)
   const props = clone_or_default(base.props, {})
-  const paperProps = clone_or_default(props, {})
+  const paperProps = clone_or_default(props.PaperProps, {})
   paperProps.sx = {
     ...paperProps.sx,
-    'backgroundColor': THEME_DARK_DIALOG_BACKGROUND_COLOR
   }
   props.PaperProps = paperProps
   base.props = props
@@ -182,7 +178,7 @@ export const newVideoUrlDialogState: TStateDialog = {
     'fullWidth': true,
     'maxWidth': 'md',
     'PaperProps': {
-      'sx': { 'backgroundColor': THEME_LIGHT_BACKGROUND_COLOR }
+      'sx': {}
     }
   },
   'titleProps': {
@@ -202,7 +198,6 @@ export const $2DarkThemeMode: TStateDialog = (() => {
   const paperProps = clone_or_default(props.PaperProps, {})
   paperProps.sx = {
     ...paperProps.sx,
-    'backgroundColor': THEME_DARK_DIALOG_BACKGROUND_COLOR
   }
   props.PaperProps = paperProps
   base.props = props
@@ -221,7 +216,6 @@ export const editYoutubeBookmarkDialogState: TStateDialog = {
     'maxWidth': 'md',
     'PaperProps': {
       'sx': {
-        ...THEME_LIGHT_PAPER_SX_PROPS,
         'overflowX': 'hidden !important'
       }
     },
@@ -262,7 +256,6 @@ export const $7DarkThemeMode: TStateDialog = (() => {
   const paperProps = clone_or_default(props.PaperProps, {})
   paperProps.sx = {
     ...paperProps.sx,
-    'backgroundColor': THEME_DARK_DIALOG_BACKGROUND_COLOR
   }
   props.PaperProps = paperProps
   base.props = props

@@ -1,5 +1,4 @@
 import {
-  THEME_DARK_DIALOG_BACKGROUND_COLOR,
   TStateDialog
 } from '@tuber/shared'
 import {
@@ -9,7 +8,6 @@ import {
   clone_or_default
 } from '../../business.logic'
 import { register } from '../../business.logic/registry'
-import { THEME_LIGHT_PAPER_SX_PROPS } from '../theme.state'
 import STATE_KEY from '../../business.logic/state.key'
 
 const $19 = STATE_KEY['19']
@@ -27,7 +25,6 @@ const newDailyBookmarkDialogState: TStateDialog = {
     'maxWidth': 'md',
     'PaperProps': {
       'sx': {
-        ...THEME_LIGHT_PAPER_SX_PROPS,
         'overflowX': 'hidden !important'
       }
     }
@@ -69,7 +66,6 @@ export const $21DarkThemeMode: TStateDialog = (() => {
   const paperProps = clone_or_default(props.PaperProps, {})
   paperProps.sx = {
     ...paperProps.sx,
-    'backgroundColor': THEME_DARK_DIALOG_BACKGROUND_COLOR
   }
   props.PaperProps = paperProps
   base.props = props

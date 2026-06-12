@@ -1,5 +1,4 @@
 import {
-  THEME_DARK_DIALOG_BACKGROUND_COLOR,
   TStateDialog
 } from '@tuber/shared'
 import {
@@ -8,7 +7,6 @@ import {
   clone_with_descriptors
 } from '../../business.logic'
 import { register } from '../../business.logic/registry'
-import { THEME_LIGHT_PAPER_SX_PROPS } from '../theme.state'
 import STATE_KEY from '../../business.logic/state.key'
 
 const $25 = STATE_KEY['25']
@@ -26,7 +24,6 @@ const editFacebookBookmarkDialogState: TStateDialog = {
     'maxWidth': 'md',
     'PaperProps': {
       'sx': {
-        ...THEME_LIGHT_PAPER_SX_PROPS,
         'overflowX': 'hidden !important'
       }
     }
@@ -70,7 +67,6 @@ export const $27DarkThemeMode: TStateDialog = (() => {
   const paperProps = clone_with_descriptors(props.PaperProps ?? {})
   const sx = {
     ...paperProps.sx,
-    'backgroundColor': THEME_DARK_DIALOG_BACKGROUND_COLOR
   } as typeof paperProps.sx
   paperProps.sx = sx
   props.PaperProps = paperProps

@@ -1,9 +1,13 @@
-import { SxProps } from '@mui/material'
 import { EP_AUTH, type TStateForm } from '@tuber/shared'
 import { register } from '../../business.logic/registry'
 import { clone_with_descriptors, t } from '../../business.logic'
 // import { title_centered } from '../html'
 import STATE_KEY from '../../business.logic/state.key'
+import {
+  ADMIN_PANEL_FIELD_SX,
+  ADMIN_PANEL_FORM_SX,
+  ADMIN_PANEL_PRIMARY_ACTION_SX
+} from './_state.form.admin.panel.styles'
 
 const $89 = STATE_KEY['89']
 
@@ -14,17 +18,17 @@ export const passwordResetFormState: TStateForm = {
   '_id': '89',
   '_key': $89,
   'props': {
-    'sx': {
-      'p': 3,
-      'width': '37ch',
-    } as SxProps,
+    'sx': ADMIN_PANEL_FORM_SX,
   },
   'paperBackground': true,
   'paperProps': { 'elevation': 24 },
   'items': [
     {
       'type': 'stack',
-      'props': { 'spacing': 2 },
+      'props': {
+        'spacing': 2,
+        'sx': { 'pt': 1 }
+      },
       'items': [
         // {
         //   'type': 'html',
@@ -77,6 +81,9 @@ export const passwordResetFormState: TStateForm = {
           'type': 'password',
           'name': 'password',
           get 'label'() { return t('new_password', 'New Password') },
+          'props': {
+            'sx': ADMIN_PANEL_FIELD_SX
+          },
           'has': {
             'required': true,
             get 'requiredMessage'() { return t('no_password', 'You forgot the password.') },
@@ -90,6 +97,9 @@ export const passwordResetFormState: TStateForm = {
           'type': 'password',
           'name': 're_entered_password',
           get 'label'() { return t('re_enter_password', 'Re-enter Password') },
+          'props': {
+            'sx': ADMIN_PANEL_FIELD_SX
+          },
           'has': {
             'required': true,
             get 'requiredMessage'() { return t('no_password', 'You forgot the password.') },
@@ -100,7 +110,8 @@ export const passwordResetFormState: TStateForm = {
         {
           'type': 'submit',
           'props': {
-            'type': 'submit'
+            'type': 'submit',
+            'sx': ADMIN_PANEL_PRIMARY_ACTION_SX
           },
           'has': {
             'icon': 'vpn_key',

@@ -1,8 +1,12 @@
-import { SxProps } from '@mui/material'
 import  { type TStateForm, EP_AUTH } from '@tuber/shared'
 import { register } from '../../business.logic/registry'
 import { clone_with_descriptors, t } from '../../business.logic'
 import STATE_KEY from '../../business.logic/state.key'
+import {
+  ADMIN_PANEL_FIELD_SX,
+  ADMIN_PANEL_FORM_SX,
+  ADMIN_PANEL_PRIMARY_ACTION_SX
+} from './_state.form.admin.panel.styles'
 
 const $86 = STATE_KEY['86']
 
@@ -13,23 +17,24 @@ export const passwordRecoveryFormState: TStateForm = {
   '_id': '86',
   '_key': $86,
   'props': {
-    'sx': {
-      'p': 3,
-      'width': '37ch',
-    } as SxProps,
+    'sx': ADMIN_PANEL_FORM_SX,
   },
   'paperBackground': true,
   'paperProps': { 'elevation': 24 },
   'items': [
     {
       'type': 'stack',
-      'props': { 'spacing': 2 },
+      'props': {
+        'spacing': 2,
+        'sx': { 'pt': 1 }
+      },
       'items': [
         {
           'type': 'text',
           'name': 'email',
           get 'label'() { return t('email', 'Email') },
           'props': {
+            'sx': ADMIN_PANEL_FIELD_SX,
             'autoComplete': 'email',
             'type': 'email'
           },
@@ -43,7 +48,8 @@ export const passwordRecoveryFormState: TStateForm = {
         {
           'type': 'submit',
           'props': {
-            'type': 'submit'
+            'type': 'submit',
+            'sx': ADMIN_PANEL_PRIMARY_ACTION_SX
           },
           'has': {
             'icon': 'mail',

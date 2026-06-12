@@ -1,9 +1,15 @@
-import { SxProps } from '@mui/material'
 import type { TStateForm } from '@tuber/shared'
 import { register } from '../../business.logic/registry'
 import { clone_with_descriptors, t } from '../../business.logic'
 import STATE_KEY from '../../business.logic/state.key'
 import { passwordRecoveryDialogState } from '../dialog/password.recovery.dialog.state'
+import {
+  ADMIN_PANEL_FIELD_SX,
+  ADMIN_PANEL_FORM_SX,
+  ADMIN_PANEL_LINK_ROW_SX,
+  ADMIN_PANEL_LINK_SX,
+  ADMIN_PANEL_PRIMARY_ACTION_SX
+} from './_state.form.admin.panel.styles'
 
 const $41 = STATE_KEY['41']
 
@@ -14,23 +20,26 @@ export const signInFormState: TStateForm = {
   '_id': '41',
   '_key': $41,
   'props': {
-    'sx': {
-      'p': 3,
-      'width': '37ch',
-    } as SxProps,
+    'sx': ADMIN_PANEL_FORM_SX,
   },
   'paperBackground': true,
   'paperProps': { 'elevation': 24 },
   'items': [
     {
       'type': 'stack',
-      'props': { 'spacing': 2 },
+      'props': {
+        'spacing': 2,
+        'sx': { 'pt': 1 }
+      },
       'items': [
         {
           'type': 'text',
           'name': 'username',
           get 'label'() { return t('278', 'Username') },
-          'props': { 'autoComplete': 'off' },
+          'props': {
+            'autoComplete': 'off',
+            'sx': ADMIN_PANEL_FIELD_SX
+          },
           'has': {
             'required': true,
             get 'requiredMessage'() { return t('required_username', 'Type-in your username first') }
@@ -40,6 +49,9 @@ export const signInFormState: TStateForm = {
           'type': 'password',
           get 'label'() { return t('277', 'Password') },
           'name': 'password',
+          'props': {
+            'sx': ADMIN_PANEL_FIELD_SX
+          },
           'has': {
             'required': true,
             get 'requiredMessage'() { return t('no-password', 'You forgot the password') }
@@ -47,23 +59,13 @@ export const signInFormState: TStateForm = {
         },
         {
           'type': 'div',
-          'props': { 'sx': {
-            'mt': '0 !important',
-            'textAlign': 'right'
-          }},
+          'props': { 'sx': ADMIN_PANEL_LINK_ROW_SX },
           'items': [
             {
               'type': 'a',
               'props': {
                 'href': '#forgot-password',
-                'sx': {
-                  'mt': '0 !important',
-                  'fontSize': '0.875rem',
-                  'textDecoration': 'none',
-                  '&:hover': {
-                    'textDecoration': 'underline'
-                  }
-                }
+                'sx': ADMIN_PANEL_LINK_SX
               },
               'has': {
                 get 'text'() { return t('279', 'Forgot password?') },
@@ -93,7 +95,10 @@ export const signInFormState: TStateForm = {
         },
         {
           'type': 'submit',
-          'props': { 'type': 'submit' },
+          'props': {
+            'type': 'submit',
+            'sx': ADMIN_PANEL_PRIMARY_ACTION_SX
+          },
           'has': {
             'icon': 'vpn_key',
             'iconPosition': 'right',

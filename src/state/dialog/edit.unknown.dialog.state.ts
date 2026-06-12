@@ -1,5 +1,4 @@
 import {
-  THEME_DARK_DIALOG_BACKGROUND_COLOR,
   TStateDialog
 } from '@tuber/shared'
 import {
@@ -8,7 +7,6 @@ import {
   clone_with_descriptors
 } from '../../business.logic'
 import { register } from '../../business.logic/registry'
-import { THEME_LIGHT_PAPER_SX_PROPS } from '../theme.state'
 import AbstractState from '../AbstractState'
 import { TContextualUser } from '../../schema/user'
 import Access from '../../business.logic/security/Access'
@@ -37,7 +35,6 @@ export class EditUnknownBookmarkDialogState extends AbstractState<TStateDialog> 
         'maxWidth': 'md',
         'PaperProps': {
           'sx': {
-            ...THEME_LIGHT_PAPER_SX_PROPS,
             'overflowX': 'hidden !important'
           }
         }
@@ -88,7 +85,6 @@ export class EditUnknownBookmarkDialogState extends AbstractState<TStateDialog> 
     const paperProps = clone_with_descriptors(props.PaperProps ?? {})
     const sx: typeof paperProps['sx'] = {
       ...paperProps.sx,
-      'backgroundColor': THEME_DARK_DIALOG_BACKGROUND_COLOR
     }
     paperProps.sx = sx
     props.PaperProps = paperProps
@@ -108,7 +104,6 @@ const editUnknownBookmarkDialogState: TStateDialog = {
     'maxWidth': 'md',
     'PaperProps': {
       'sx': {
-        ...THEME_LIGHT_PAPER_SX_PROPS,
         'overflowX': 'hidden !important'
       }
     }
@@ -164,7 +159,6 @@ export const $31DarkThemeMode: TStateDialog = (() => {
   const paperProps = clone_with_descriptors(props.PaperProps ?? {})
   const sx: typeof paperProps['sx'] = {
     ...paperProps.sx,
-    'backgroundColor': THEME_DARK_DIALOG_BACKGROUND_COLOR
   }
   paperProps.sx = sx
   props.PaperProps = paperProps

@@ -20,7 +20,7 @@ const devInstallFormState: TStateForm = {
   '_type': 'box',
   '_id': '47',
   '_key': $47,
-  'props': { 'p': 2, 'mt': 10 },
+  'props': { 'p': 2 },
   'paperBackground': true,
   'paperProps': {
     'elevation': 0,

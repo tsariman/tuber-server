@@ -18,7 +18,7 @@ export const feedbackDialogState: TStateDialog = {
     'maxWidth': 'sm',
     'PaperProps': {
       'sx': {
-        'overflowX': 'hidden !important'
+        'overflow': 'hidden !important'
       }
     }
   },

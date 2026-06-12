@@ -1,5 +1,4 @@
 import {
-  THEME_DARK_DIALOG_BACKGROUND_COLOR,
   EP_ACCOUNT,
   TStateDialog
 } from '@tuber/shared'
@@ -68,7 +67,6 @@ export const $84DarkThemeMode: TStateDialog = (() => {
   const paperProps = clone_with_descriptors(props.PaperProps ?? {})
   const sx: typeof paperProps['sx'] = {
     ...paperProps.sx,
-    'backgroundColor': THEME_DARK_DIALOG_BACKGROUND_COLOR
   }
   paperProps.sx = sx
   props.PaperProps = paperProps

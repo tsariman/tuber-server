@@ -1,6 +1,14 @@
 
 # Development Log
 
+## `202606121904` feat(theme): add light and dark theme configurations for Material UI components
+
+- Implemented light and dark theme states in `theme.ts` with custom styles for components like MuiDrawer, MuiAppBar, and MuiButton.
+- Removed unused theme constants from dialog states to streamline code.
+- Updated dialog states to remove background color references and adjusted styles accordingly.
+- Introduced new admin panel form styles in `_state.form.admin.panel.styles.ts` for consistent UI across forms.
+- Refactored various form states to utilize new admin panel styles for improved maintainability and visual consistency.
+
 ## `202604221927` Implement privacy policy content and related endpoints; update access control for unpublished bookmarks; enhance user role management and state handling.
 
 ## `202604182349` Enhance email verification process and SMTP configuration validation

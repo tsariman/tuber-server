@@ -154,9 +154,6 @@ export const devDropCollectionSelect: TStateFormItem = {
     'formControlProps': {
       'sx': { 'm': 1, 'minWidth': 200 }
     },
-    'inputLabelProps': {
-      'sx': { 'm': 1 }
-    },
     'items': [
       { 'label': 'Bookmarks', 'value': 'bookmarks' },
       { 'label': 'Users', 'value': 'users' }
@@ -187,9 +184,6 @@ export const devPopulateCollectionSelect: TStateFormItem = {
     'formControlProps': {
       'sx': { 'm': 1, 'minWidth': 200 }
     },
-    'inputLabelProps': {
-      'sx': { 'm': 1 }
-    },
     'items': [
       { 'label': 'Bookmarks', 'value': 'bookmarks' },
       { 'label': 'Users', 'value': 'users' }
@@ -207,9 +201,6 @@ export const devPopulationQuantity: TStateFormItem = {
   'has': {
     'formControlProps': {
       'sx': { 'm': 1, 'minWidth': 200 }
-    },
-    'inputLabelProps': {
-      'sx': { 'm': 1 }
     },
     'items': [
       { 'label': '50', 'value': '50' },
