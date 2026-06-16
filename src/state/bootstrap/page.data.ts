@@ -1,20 +1,20 @@
-import { TObj } from '../../common.types'
 import { IStateContext, TBootstrapState } from '../_state.common.types'
 import Config from '../../config'
 import Access from '../../business.logic/security/Access'
 import dev_get_pages_data_state from '../../dev/dev.pages.data.state'
 import STATE_KEY from '../../business.logic/state.key'
+import { EP_BOOKMARKS, TO } from '@tuber/shared'
 
 const $40 = STATE_KEY['40']
 
-const bootstrap_pages_data_state: TBootstrapState<Promise<TObj<TObj>>> = {
+const bootstrap_pages_data_state: TBootstrapState<Promise<TO<TO>>> = {
 
-  DEFAULT: async (context: IStateContext): Promise<TObj<TObj>> => {
+  DEFAULT: async (context: IStateContext): Promise<TO<TO>> => {
     const { usr } = context
     const inDev = Config.DEV && Access.the(usr).can('dev_install_page.view')
-    const pagesData: TObj<TObj> = {
+    const pagesData: TO<TO> = {
 
-      'bookmarks': {
+      [EP_BOOKMARKS]: {
         'playerOpen': false,
         'showThumbnail': true,
         'bookmarkToPlay': undefined

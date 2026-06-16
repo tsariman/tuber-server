@@ -237,7 +237,7 @@ const bootstrap_theme_light_state: TBootstrapState<ThemeOptions> = {
       },
     },
     'typography': {
-      'fontFamily': '\'Quicksand\', sans-serif'
+      'fontFamily': '\'IBM Plex Sans\', \'Segoe UI\', sans-serif'
     }
   }
 
@@ -289,7 +289,7 @@ const bootstrap_theme_dark_state: TBootstrapState<ThemeOptions> = {
       }
     },
     'typography': {
-      'fontFamily': '\'Quicksand\', sans-serif'
+      'fontFamily': '\'IBM Plex Sans\', \'Segoe UI\', sans-serif'
     }
   }
 

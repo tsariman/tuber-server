@@ -1,6 +1,17 @@
 
 # Development Log
 
+## `202606152202` feat(authentication): implement authentication endpoints including sign in, sign out, password recovery, and reset
+
+- Added `post_sign_in_endpoint` for user authentication with rate limiting.
+- Implemented `post_sign_out_endpoint` to handle user sign out and token blacklisting.
+- Created `post_password_recovery_endpoint` to initiate password recovery via email.
+- Developed `post_password_verify_endpoint` to verify recovery codes.
+- Added `post_password_reset_endpoint` to reset the password using the recovery token.
+- Introduced shared utilities for authentication, including cookie options and rate limiting logic.
+- Updated state management to include new authentication states and themes.
+- Refactored existing code for better readability and maintainability.
+
 ## `202606121904` feat(theme): add light and dark theme configurations for Material UI components
 
 - Implemented light and dark theme states in `theme.ts` with custom styles for components like MuiDrawer, MuiAppBar, and MuiButton.

@@ -98,14 +98,15 @@ export interface IJsonapiQuerystring {
   'filter[search]'?: string
 }
 
-/** Values that may be needed to customize the returned bootstrap state. */
+/** Values that may be needed to customize the returned bootstrap state. @deprecated */
 export interface IStateContext {
   usr?: TContextualUser
   token?: string
   theme?: TThemeMode
+  query?: string
 }
 
-/** Dedicated to managing requested states from server. */
+/** Dedicated to managing requested states from server. @deprecated */
 export type TBootstrapState<T> = Record<string, T | ((context: IStateContext) => T)>
 
 /**
@@ -157,6 +158,12 @@ export interface IRequestAuth {
     theme_mode?: TThemeMode
     cookie?: string
   }>
+  Querystring: {
+    player_open?: string // 'true' | 'false'
+    show_thumbnail?: string // 'true' | 'false'
+    bookmark_to_play?: string // bookmark id
+    search_mode?: TSearchMode
+  }
 }
 
 /** [**variable**] Query string for environment variables endpoint */

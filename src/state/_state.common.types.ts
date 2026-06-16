@@ -6,6 +6,7 @@ export interface IStateContext {
   usr?: TContextualUser
   token?: string
   theme?: TThemeMode
+  query?: string
 }
 
 /** Dedicated to managing requested states in the bootstrap phase. */

@@ -62,9 +62,9 @@ export default async function post_install_content_privacy_policy_endpoint(
   reply: FastifyReply
 ) {
   try {
-    const existing = await content_get_by_name(PRIVACY_POLICY_NAME)
+    const privacyPolicyDoc = await content_get_by_name(PRIVACY_POLICY_NAME)
 
-    if (existing) {
+    if (privacyPolicyDoc) {
       const message = `Content '${PRIVACY_POLICY_NAME}' already exists. Nothing to do.`
       log(`[INFO] ${message}`)
       return reply.code(409).send({
