@@ -237,3 +237,17 @@ export const to_jsonapi_bookmark_resources = (
   
   return { resources, included }
 }
+
+export {
+  build_bookmark_filter_query,
+  get_normalized_bookmark_limit,
+  get_normalized_bookmark_page,
+  read_bookmark_collection_by_query,
+  read_bookmark_votes_for_user,
+} from './read.bookmark.collection.by.query'
+
+export type {
+  TBookmarkVoteMap,
+  IBookmarkCollectionQueryInput,
+  IBookmarkCollectionQueryResult,
+} from './read.bookmark.collection.by.query'

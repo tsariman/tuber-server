@@ -36,8 +36,6 @@ dev.user.current.token.json
 
 # Ignored documentation files
 NOTES.md
-designdoc.md
-designdoc.ai.md
 DEV.md
 JWT-PRODUCTION.md
 JWT-TOKEN-LIFESPAN.md

@@ -1,6 +1,15 @@
 
 # Development Log
 
+## `202607021745` feat: update version to 0.2.0-alpha and refactor bookmark search functionality
+
+- Bump version in package.json to 0.2.0-alpha.
+- Refactor bookmark search query pipeline to improve clarity and remove unnecessary clearance level checks.
+- Introduce new read_bookmark_collection_by_query function to handle bookmark retrieval with search capabilities.
+- Update get_bookmark_collection_endpoint to utilize the new query function and handle pagination and search modes.
+- Implement tests for unauthenticated and authenticated bookmark retrieval, ensuring proper visibility rules are applied.
+- Add state bootstrap endpoint tests to verify correct behavior when searching for bookmarks and handling playing bookmark keys.
+
 ## `202606152202` feat(authentication): implement authentication endpoints including sign in, sign out, password recovery, and reset
 
 - Added `post_sign_in_endpoint` for user authentication with rate limiting.

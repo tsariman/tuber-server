@@ -316,3 +316,127 @@ test('PATCH /bookmarks/:id - should block note links for non-members', async (t)
   const body = JSON.parse(response.payload)
   assert.strictEqual(body.errors?.[0]?.title, 'Note links require a member account')
 })
+
+test('GET /bookmarks - unauthenticated requests should exclude unpublished bookmarks', async (t) => {
+  const app = await build(t)
+  const suffix = Date.now().toString(36)
+  const publishedTitle = `visibility-published-${suffix}`
+  const unpublishedTitle = `visibility-unpublished-${suffix}`
+
+  await BookmarkModel.create({
+    user_id: `public-owner-${suffix}`,
+    platform: 'youtube',
+    start_seconds: 0,
+    title: publishedTitle,
+    is_published: true,
+    is_active: true,
+  })
+
+  await BookmarkModel.create({
+    user_id: `public-owner-${suffix}`,
+    platform: 'youtube',
+    start_seconds: 0,
+    title: unpublishedTitle,
+    is_published: false,
+    is_active: true,
+  })
+
+  const response = await app.inject({
+    method: 'GET',
+    url: '/bookmarks?page[number]=1&page[size]=100'
+  })
+
+  assert.strictEqual(response.statusCode, 200)
+  const body = JSON.parse(response.payload)
+  const titles = (body.data || [])
+    .map((resource: { attributes?: { title?: string } }) => resource.attributes?.title)
+    .filter(Boolean)
+
+  assert.ok(titles.includes(publishedTitle))
+  assert.ok(!titles.includes(unpublishedTitle))
+})
+
+test('GET /bookmarks - authenticated requests should include own unpublished bookmarks only', async (t) => {
+  const app = await build(t)
+  const auth = await generateTestAuthForRole(app, 'free')
+  assert.ok(auth.token)
+  assert.ok(auth.user)
+
+  const suffix = Date.now().toString(36)
+  const ownUnpublishedTitle = `visibility-own-unpublished-${suffix}`
+  const otherUnpublishedTitle = `visibility-other-unpublished-${suffix}`
+
+  await BookmarkModel.create({
+    user_id: auth.user!._id,
+    platform: 'youtube',
+    start_seconds: 0,
+    title: ownUnpublishedTitle,
+    is_published: false,
+    is_active: true,
+  })
+
+  await BookmarkModel.create({
+    user_id: `other-owner-${suffix}`,
+    platform: 'youtube',
+    start_seconds: 0,
+    title: otherUnpublishedTitle,
+    is_published: false,
+    is_active: true,
+  })
+
+  const response = await app.inject({
+    method: 'GET',
+    url: '/bookmarks?page[number]=1&page[size]=100',
+    headers: getAuthHeaders(auth.token!)
+  })
+
+  assert.strictEqual(response.statusCode, 200)
+  const body = JSON.parse(response.payload)
+  const titles = (body.data || [])
+    .map((resource: { attributes?: { title?: string } }) => resource.attributes?.title)
+    .filter(Boolean)
+
+  assert.ok(titles.includes(ownUnpublishedTitle))
+  assert.ok(!titles.includes(otherUnpublishedTitle))
+})
+
+test('GET /bookmarks - unauthenticated search should coerce private mode to public', async (t) => {
+  const app = await build(t)
+  const suffix = Date.now().toString(36)
+  const query = `force-public-${suffix}`
+  const publishedTitle = `published-${query}`
+  const unpublishedTitle = `unpublished-${query}`
+
+  await BookmarkModel.create({
+    user_id: `public-owner-${suffix}`,
+    platform: 'youtube',
+    start_seconds: 0,
+    title: publishedTitle,
+    is_published: true,
+    is_active: true,
+  })
+
+  await BookmarkModel.create({
+    user_id: `private-owner-${suffix}`,
+    platform: 'youtube',
+    start_seconds: 0,
+    title: unpublishedTitle,
+    is_published: false,
+    is_active: true,
+  })
+
+  const response = await app.inject({
+    method: 'GET',
+    url: `/bookmarks?filter[search]=${encodeURIComponent(query)}&filter[mode]=private&page[number]=1&page[size]=100`
+  })
+
+  assert.strictEqual(response.statusCode, 200)
+  const body = JSON.parse(response.payload)
+  const titles = (body.data || [])
+    .map((resource: { attributes?: { title?: string } }) => resource.attributes?.title)
+    .filter(Boolean)
+
+  assert.ok(titles.includes(publishedTitle))
+  assert.ok(!titles.includes(unpublishedTitle))
+  assert.ok((body.links?.self || '').includes('filter%5Bmode%5D=public'))
+})

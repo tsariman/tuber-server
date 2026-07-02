@@ -6,9 +6,9 @@ import {
   TStateAllPages,
   TStateBackground,
   TStateAllForms,
-  TStateAllDialogs
+  TStateAllDialogs,
+  TO
 } from '@tuber/shared'
-import { TObj } from '../../common.types'
 import {
   bootstrap_pages_dark_state,
   bootstrap_pages_light_state,
@@ -71,7 +71,7 @@ export default async function get_bootstrap_authenticated_state(
     ).get(),
     'pagesData': (await new PrepareState(context).processAsync(
       bootstrap_pages_data_state
-    )).get() as TObj,
+    )).get() as TO,
     'background': new PrepareState<TStateBackground>(context).process(
       bootstrap_background_state
     ).get(),
