@@ -244,6 +244,7 @@ export {
   get_normalized_bookmark_page,
   read_bookmark_collection_by_query,
   read_bookmark_votes_for_user,
+  resolve_bookmark_page_by_query,
 } from './read.bookmark.collection.by.query'
 
 export type {

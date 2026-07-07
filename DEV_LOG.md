@@ -1,5 +1,12 @@
 
 # Development Log
+ 
+## `202607071429` Enhance bookmark search functionality and add pagination resolution
+
+- Added score field to search results for better ranking.
+- Implemented resolve_bookmark_page_by_query function for determining bookmark page based on search context.
+- Updated endpoint to utilize new pagination resolution logic.
+- Improved documentation for clarity on endpoint behavior.
 
 ## `202607021745` feat: update version to 0.2.0-alpha and refactor bookmark search functionality
 

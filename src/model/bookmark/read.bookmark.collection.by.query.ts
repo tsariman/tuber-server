@@ -31,6 +31,14 @@ export interface IBookmarkCollectionQueryResult {
   pagination?: PaginateResult<IBookmarkDocument<Types.ObjectId>>
 }
 
+interface IResolveBookmarkPageByQueryInput {
+  limit?: number
+  searchQuery?: string
+  searchMode?: TSearchMode
+  usr?: TContextualUser
+  playingBookmarkKey: string
+}
+
 /** Clamp the bookmarks page number to valid lower bound. */
 export const get_normalized_bookmark_page = (requestedPage?: number): number => {
   return Math.max(1, requestedPage ?? 1)
@@ -68,6 +76,204 @@ const get_effective_search_mode = (
     }
   }
   return searchMode
+}
+
+const to_object_id_or_undefined = (value?: string): Types.ObjectId | undefined => {
+  if (!value || !Types.ObjectId.isValid(value)) {
+    return undefined
+  }
+  return new Types.ObjectId(value)
+}
+
+const build_search_mode_match_conditions = (
+  searchMode: TSearchMode | undefined,
+  usr?: TContextualUser
+): unknown[] => {
+  switch (searchMode) {
+    case 'private':
+      return usr?._id ? [{ user_id: String(usr._id) }] : [{ _id: null }]
+    case 'public':
+      return [{ is_published: { $eq: true } }]
+    case 'all':
+    default:
+      if (usr?._id) {
+        return [
+          { is_published: { $eq: true } },
+          { user_id: String(usr._id) }
+        ]
+      }
+      return [{ is_published: { $eq: true } }]
+  }
+}
+
+const get_non_search_visibility_filter = (
+  searchMode: TSearchMode | undefined,
+  usr?: TContextualUser
+): Record<string, unknown> | undefined => {
+  if (searchMode === 'public' || searchMode === 'all') {
+    return undefined
+  }
+
+  if (searchMode === 'private') {
+    if (!usr?._id) {
+      return undefined
+    }
+
+    return {
+      ...DB_PAGINATION_QUERY,
+      user_id: String(usr._id)
+    }
+  }
+
+  if (usr?._id) {
+    return {
+      ...DB_PAGINATION_QUERY,
+      $or: [
+        { is_published: { $eq: true } },
+        { user_id: String(usr._id) }
+      ]
+    }
+  }
+
+  return {
+    ...DB_PAGINATION_QUERY,
+    is_published: { $eq: true }
+  }
+}
+
+const get_page_for_desc_created_at_sort = async ({
+  bookmarkObjectId,
+  visibilityFilter,
+  limit
+}: {
+  bookmarkObjectId: Types.ObjectId
+  visibilityFilter: Record<string, unknown>
+  limit: number
+}): Promise<number | undefined> => {
+  const target = await BookmarkModel.findOne({
+    ...visibilityFilter,
+    _id: bookmarkObjectId
+  }).select({ _id: 1, created_at: 1 })
+
+  if (!target) {
+    return undefined
+  }
+
+  const countBefore = await BookmarkModel.countDocuments({
+    ...visibilityFilter,
+    $or: [
+      { created_at: { $gt: target.created_at } },
+      {
+        created_at: target.created_at,
+        _id: { $gt: target._id }
+      }
+    ]
+  })
+
+  return Math.floor(countBefore / limit) + 1
+}
+
+/**
+ * Resolve which page contains a playing bookmark for the active query context.
+ * Returns undefined if the key does not resolve in the active result set.
+ */
+export const resolve_bookmark_page_by_query = async (
+  input: IResolveBookmarkPageByQueryInput
+): Promise<number | undefined> => {
+  const bookmarkObjectId = to_object_id_or_undefined(input.playingBookmarkKey)
+  if (!bookmarkObjectId) {
+    return undefined
+  }
+
+  const searchMode = get_effective_search_mode(input.searchMode, input.usr)
+  const searchQuery = typeof input.searchQuery === 'string'
+    ? input.searchQuery.trim()
+    : ''
+
+  if (searchQuery) {
+    const limit = get_normalized_bookmark_limit(input.limit)
+    const matchConditions = build_search_mode_match_conditions(searchMode, input.usr)
+    const matchQuery = { ...DB_PAGINATION_QUERY } as Record<string, unknown>
+    if (matchConditions.length > 0) {
+      matchQuery.$or = matchConditions
+    }
+
+    const targetScorePipeline = [
+      {
+        $search: {
+          index: Config.DB_ATLAS_BOOKMARK_SEARCH_INDEX_NAME,
+          text: {
+            query: searchQuery,
+            path: ['title', 'note'],
+            fuzzy: {}
+          }
+        }
+      },
+      { $match: matchQuery },
+      { $addFields: { __search_score: { $meta: 'searchScore' } } },
+      { $match: { _id: bookmarkObjectId } },
+      {
+        $project: {
+          _id: 0,
+          score: '$__search_score'
+        }
+      },
+      { $limit: 1 }
+    ]
+
+    const targetScoreResult = await BookmarkModel.aggregate<{ score: number }>(targetScorePipeline)
+    const targetScore = targetScoreResult[0]?.score
+
+    if (typeof targetScore !== 'number') {
+      return undefined
+    }
+
+    const countAheadPipeline = [
+      {
+        $search: {
+          index: Config.DB_ATLAS_BOOKMARK_SEARCH_INDEX_NAME,
+          text: {
+            query: searchQuery,
+            path: ['title', 'note'],
+            fuzzy: {}
+          }
+        }
+      },
+      { $match: matchQuery },
+      { $addFields: { __search_score: { $meta: 'searchScore' } } },
+      {
+        $match: {
+          $or: [
+            { __search_score: { $gt: targetScore } },
+            {
+              __search_score: targetScore,
+              _id: { $gt: bookmarkObjectId }
+            }
+          ]
+        }
+      },
+      { $count: 'countAhead' }
+    ]
+
+    const countAheadResult = await BookmarkModel.aggregate<{ countAhead: number }>(countAheadPipeline)
+    const countAhead = countAheadResult[0]?.countAhead ?? 0
+    return Math.floor(countAhead / limit) + 1
+  }
+
+  const visibilityFilter = get_non_search_visibility_filter(searchMode, input.usr)
+  if (!visibilityFilter) {
+    return undefined
+  }
+
+  const limit = searchMode === 'private'
+    ? NO_SEARCH_PRIVATE_RECENTS_LIMIT
+    : get_normalized_bookmark_limit(input.limit)
+
+  return get_page_for_desc_created_at_sort({
+    bookmarkObjectId,
+    visibilityFilter,
+    limit
+  })
 }
 
 /**

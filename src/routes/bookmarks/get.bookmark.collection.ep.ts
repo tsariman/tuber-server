@@ -27,7 +27,7 @@ const to_valid_search_mode = (mode?: string): TSearchMode | undefined => {
   return undefined
 }
 
-/** `GET /bookmarks` */
+/** `GET /bookmarks` endpoint handler */
 export default async function get_bookmark_collection_endpoint (
   req: FastifyRequest<IBookmarkGet>,
   reply: FastifyReply

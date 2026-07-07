@@ -43,11 +43,17 @@ export default function get_bookmark_search_query_pipeline(
       $match: matchQuery
     })
     pipeline.push({
+      $addFields: {
+        score: { $meta: 'searchScore' }
+      }
+    })
+    pipeline.push({
       $facet: {
         metadata: [
           { $count: 'totalItems' }
         ],
         results: [
+          { $sort: { score: -1, _id: -1 } },
           { $skip: skip },
           { $limit: limit },
           {
@@ -71,7 +77,7 @@ export default function get_bookmark_search_query_pipeline(
               thumbnail_url: 1,
               author: 1,
               is_published: 1,
-              score: { $meta: 'searchScore' },
+              score: 1,
             }
           }
         ]

@@ -34,8 +34,8 @@ import { visitorAlertDialogState } from '../../state/dialog'
 import STATE_KEY from '../../business.logic/state.key'
 import {
   read_bookmark_collection_by_query,
-  IBookmarkCollectionQueryResult,
   read_bookmark_votes_for_user,
+  resolve_bookmark_page_by_query,
   to_jsonapi_bookmark_resources,
 } from '../../model/bookmark'
 import { TSearchMode } from '../../common.types'
@@ -129,65 +129,6 @@ const get_resource_key = (resource: TJsonapiResponseResource): string | undefine
     || to_optional_string(resource.attributes?.url)
 }
 
-const get_doc_key = (doc: unknown): string | undefined => {
-  const candidate = doc as Record<string, unknown> | undefined
-  if (!candidate) {
-    return undefined
-  }
-
-  return to_optional_string(candidate.id)
-    || to_optional_string(candidate._id)
-    || to_optional_string(candidate.videoid)
-    || to_optional_string(candidate.slug)
-    || to_optional_string(candidate.url)
-}
-
-const find_collection_page_for_playing_bookmark = async ({
-  searchQuery,
-  searchMode,
-  limit,
-  usr,
-  playingBookmarkKey,
-}: {
-  searchQuery?: string
-  searchMode: TSearchMode
-  limit?: number
-  usr: FastifyRequest['usr']
-  playingBookmarkKey: string
-}): Promise<IBookmarkCollectionQueryResult> => {
-  const firstPage = await read_bookmark_collection_by_query({
-    searchQuery,
-    searchMode,
-    page: 1,
-    limit,
-    usr,
-  })
-
-  const keyOnFirstPage = firstPage.docs.some((doc) => get_doc_key(doc) === playingBookmarkKey)
-  if (keyOnFirstPage) {
-    return firstPage
-  }
-
-  const totalPages = Math.max(1, Math.ceil(firstPage.totalItems / firstPage.limit))
-  for (let page = 2; page <= totalPages; page += 1) {
-    const candidate = await read_bookmark_collection_by_query({
-      searchQuery,
-      searchMode,
-      page,
-      limit,
-      usr,
-    })
-
-    const hasKey = candidate.docs.some((doc) => get_doc_key(doc) === playingBookmarkKey)
-    if (hasKey) {
-      return candidate
-    }
-  }
-
-  // If key is stale or inaccessible, return the first page of the active search query.
-  return firstPage
-}
-
 /** `POST /<random_prefix>` endpoint handler */
 const post_state_bootstrap_endpoint = async (
   req: FastifyRequest,
@@ -211,21 +152,23 @@ const post_state_bootstrap_endpoint = async (
       bootstrap_pages_data_state
     )).get() as Record<string, Record<string, unknown>>
 
-    const bookmarksCollection = playingBookmarkKey
-      ? await find_collection_page_for_playing_bookmark({
+    const resolvedPage = playingBookmarkKey
+      ? await resolve_bookmark_page_by_query({
         searchQuery,
         searchMode,
         limit: query.page?.size,
         usr,
         playingBookmarkKey,
       })
-      : await read_bookmark_collection_by_query({
-        searchQuery,
-        searchMode,
-        page: requestedPage,
-        limit: query.page?.size,
-        usr
-      })
+      : undefined
+
+    const bookmarksCollection = await read_bookmark_collection_by_query({
+      searchQuery,
+      searchMode,
+      page: resolvedPage || requestedPage || 1,
+      limit: query.page?.size,
+      usr
+    })
     const bookmarkVotes = await read_bookmark_votes_for_user(usr, bookmarksCollection.docs)
     const {
       resources: bookmarksResources,
