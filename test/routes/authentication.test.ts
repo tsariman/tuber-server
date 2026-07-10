@@ -1,12 +1,33 @@
-import { test } from 'node:test'
+import { before, after, test } from 'node:test'
 import * as assert from 'node:assert'
-import { build, generateTestToken, createJsonapiRequest } from '../helper'
+import { build, generateTestToken, createJsonapiRequest, type TestContext } from '../helper'
 import { create_user, UserModel } from '../../src/model/user'
+import { BookmarkModel } from '../../src/model/bookmark'
 
 // Test RequestDataValidator separately
 import RequestDataValidator from '../../src/business.logic/RequestDataValidator'
 import signInFormState from '../../src/state/form/sign.in.form.state'
 import newUserFormState from '../../src/state/form/new.user.form.state'
+
+let app: Awaited<ReturnType<typeof build>>
+const teardownCallbacks: Array<() => void | Promise<void>> = []
+
+before(async () => {
+  // Reuse one app for this file and defer teardown until file-level after hook.
+  const setupContext = {
+    after: (fn: () => void | Promise<void>) => {
+      teardownCallbacks.push(fn)
+      return undefined as unknown as void
+    }
+  } as unknown as TestContext
+  app = await build(setupContext)
+})
+
+after(async () => {
+  for (const callback of teardownCallbacks) {
+    await callback()
+  }
+})
 
 test('RequestDataValidator - valid data', () => {
   const validData = {
@@ -97,7 +118,7 @@ test('new user form disables saved credential autofill', () => {
 
 // Authentication route tests - now with proper error handling
 test('POST /signin - validation error for missing username', async (t) => {
-  const app = await build(t)
+  void t
 
   const response = await app.inject({
     method: 'POST',
@@ -119,7 +140,7 @@ test('POST /signin - validation error for missing username', async (t) => {
 })
 
 test('POST /signin - validation error for missing password', async (t) => {
-  const app = await build(t)
+  void t
 
   const response = await app.inject({
     method: 'POST',
@@ -141,7 +162,7 @@ test('POST /signin - validation error for missing password', async (t) => {
 })
 
 test('POST /signin - validation error for empty username', async (t) => {
-  const app = await build(t)
+  void t
 
   const response = await app.inject({
     method: 'POST',
@@ -160,7 +181,7 @@ test('POST /signin - validation error for empty username', async (t) => {
 })
 
 test('POST /signin - validation error for empty password', async (t) => {
-  const app = await build(t)
+  void t
 
   const response = await app.inject({
     method: 'POST',
@@ -179,7 +200,7 @@ test('POST /signin - validation error for empty password', async (t) => {
 })
 
 test('POST /signin - wrong credentials', async (t) => {
-  const app = await build(t)
+  void t
 
   const response = await app.inject({
     method: 'POST',
@@ -198,7 +219,7 @@ test('POST /signin - wrong credentials', async (t) => {
 })
 
 test('POST /signin - valid credentials (admin/admin123)', async (t) => {
-  const app = await build(t)
+  void t
 
   const response = await app.inject({
     method: 'POST',
@@ -224,7 +245,7 @@ test('POST /signin - valid credentials (admin/admin123)', async (t) => {
 })
 
 test('POST /signin - with keep-signed-in option', async (t) => {
-  const app = await build(t)
+  void t
 
   const response = await app.inject({
     method: 'POST',
@@ -242,11 +263,126 @@ test('POST /signin - with keep-signed-in option', async (t) => {
   assert.ok(response.statusCode === 200 || response.statusCode === 401)
 })
 
+test('POST /signin - preserves query continuity intent in bootstrap state', async (t) => {
+  void t
+
+  const response = await app.inject({
+    method: 'POST',
+    url: '/signin',
+    payload: createJsonapiRequest('signins', {
+      credentials: {
+        username: 'admin',
+        password: 'admin123',
+      },
+      query: '?filter[search_mode]=all&filter[player_open]=true',
+    })
+  })
+
+  // This environment may or may not have the default admin account.
+  assert.ok(response.statusCode === 200 || response.statusCode === 401)
+
+  if (response.statusCode === 200) {
+    const body = JSON.parse(response.payload)
+    const researchPageKey = body?.state?.staticRegistry?.['40']
+    assert.ok(typeof researchPageKey === 'string' && researchPageKey.length > 0)
+    assert.strictEqual(body?.state?.pagesData?.[researchPageKey]?.searchMode, 'all')
+    assert.strictEqual(body?.state?.pagesData?.bookmarks?.playerOpen, true)
+  }
+})
+
+test('POST /signin - continuity private mode ignores link search text and returns private recents', async (t) => {
+  void t
+  const suffix = Date.now().toString(36)
+  const username = `continuity-private-${suffix}`
+  const email = `continuity.private.${suffix}@example.com`
+
+  const user = await create_user({
+    name: username,
+    email,
+    password: 'PrivateFlow123!'
+  })
+
+  await BookmarkModel.create({
+    user_id: String(user._id),
+    platform: 'youtube',
+    start_seconds: 0,
+    title: 'Private continuity bookmark',
+    videoid: `private-continuity-${suffix}`,
+    is_published: false,
+    is_active: true,
+    created_at: new Date(),
+    modified_at: new Date(),
+  })
+
+  const response = await app.inject({
+    method: 'POST',
+    url: '/signin',
+    payload: createJsonapiRequest('signins', {
+      credentials: {
+        username,
+        password: 'PrivateFlow123!',
+      },
+      query: '?filter[search_mode]=private&filter[search]=this-will-be-ignored',
+    })
+  })
+
+  assert.strictEqual(response.statusCode, 200)
+  const body = JSON.parse(response.payload)
+  assert.strictEqual(body?.meta?.collection_endpoint, 'bookmarks')
+  assert.strictEqual(body?.meta?.replace_collection, true)
+  assert.ok(Array.isArray(body?.data))
+  assert.ok(body.data.length > 0)
+})
+
+test('POST /signin - continuity all mode reruns query and returns bookmarks payload', async (t) => {
+  void t
+  const suffix = Date.now().toString(36)
+  const username = `continuity-all-${suffix}`
+  const email = `continuity.all.${suffix}@example.com`
+
+  const user = await create_user({
+    name: username,
+    email,
+    password: 'AllFlow123!'
+  })
+
+  await BookmarkModel.create({
+    user_id: String(user._id),
+    platform: 'youtube',
+    start_seconds: 0,
+    title: `all continuity match ${suffix}`,
+    videoid: `all-continuity-${suffix}`,
+    is_published: true,
+    is_active: true,
+    created_at: new Date(),
+    modified_at: new Date(),
+  })
+
+  const response = await app.inject({
+    method: 'POST',
+    url: '/signin',
+    payload: createJsonapiRequest('signins', {
+      credentials: {
+        username,
+        password: 'AllFlow123!',
+      },
+      query: `?filter[search_mode]=all&filter[search]=${encodeURIComponent(`all continuity match ${suffix}`)}`,
+    })
+  })
+
+  assert.strictEqual(response.statusCode, 200)
+  const body = JSON.parse(response.payload)
+  assert.strictEqual(body?.meta?.collection_endpoint, 'bookmarks')
+  assert.strictEqual(body?.meta?.replace_collection, true)
+  assert.ok(Array.isArray(body?.data))
+  assert.ok(body.data.length > 0)
+})
+
 test('POST /signin - sets an http-usable auth cookie on non-https requests', async (t) => {
   const previousNodeEnv = process.env.NODE_ENV
   process.env.NODE_ENV = 'production'
 
-  const app = await build(t)
+  void t
   const suffix = Date.now().toString(36)
   const username = `cookie-${suffix}`
   const email = `cookie.${suffix}@example.com`
@@ -280,7 +416,7 @@ test('POST /signin - sets an http-usable auth cookie on non-https requests', asy
 })
 
 test('POST /signin - invalid JSONAPI structure', async (t) => {
-  const app = await build(t)
+  void t
 
   const response = await app.inject({
     method: 'POST',
@@ -296,7 +432,7 @@ test('POST /signin - invalid JSONAPI structure', async (t) => {
 })
 
 test('POST /signout - requires authentication', async (t) => {
-  const app = await build(t)
+  void t
 
   const response = await app.inject({
     method: 'POST',
@@ -308,7 +444,7 @@ test('POST /signout - requires authentication', async (t) => {
 })
 
 test('POST /signout - with valid authentication', async (t) => {
-  const app = await build(t)
+  void t
   const token = await generateTestToken(app)
   
   if (token) {
@@ -327,7 +463,7 @@ test('POST /signout - with valid authentication', async (t) => {
 })
 
 test('POST /signout - with invalid token', async (t) => {
-  const app = await build(t)
+  void t
 
   const response = await app.inject({
     method: 'POST',
@@ -343,7 +479,7 @@ test('POST /signout - with invalid token', async (t) => {
 })
 
 test('POST /password/recovery - stores a reset token for an existing account', async (t) => {
-  const app = await build(t)
+  void t
   const suffix = Date.now().toString(36)
   const name = `recover-${suffix}`
   const email = `recover.${suffix}@example.com`
@@ -369,7 +505,7 @@ test('POST /password/recovery - stores a reset token for an existing account', a
 })
 
 test('POST password recovery full flow - recovery, verify, and reset', async (t) => {
-  const app = await build(t)
+  void t
   const suffix = Date.now().toString(36)
   const name = `fullflow-${suffix}`
   const email = `fullflow.${suffix}@example.com`
@@ -444,7 +580,7 @@ test('POST password recovery full flow - recovery, verify, and reset', async (t)
 })
 
 test('POST /password/reset - accepts a valid recovery token and changes the password', async (t) => {
-  const app = await build(t)
+  void t
   const suffix = Date.now().toString(36)
   const name = `reset-${suffix}`
   const email = `reset.${suffix}@example.com`

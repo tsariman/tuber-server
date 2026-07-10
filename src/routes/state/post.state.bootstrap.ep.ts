@@ -7,7 +7,20 @@ import bootstrap_theme_state, {
   bootstrap_theme_light_state
 } from '../../state/bootstrap/theme'
 import { bootstrap_appbar_state } from '../../state/bootstrap/appbar'
-import { TJsonapiStateResponse, TStateAllIcons } from '@tuber/shared'
+import type {
+  TJsonapiStateResponse,
+  TNetState,
+  TStateAllDialogs,
+  TStateAllForms,
+  TStateAllIcons,
+  TStateAllPages,
+  TStateApp,
+  TStateAppbar,
+  TStateBackground,
+  TJsonapiResponseResource,
+  TStateDialog
+} from '@tuber/shared'
+import { EP_BOOKMARKS } from '@tuber/shared'
 import { bootstrap_icons_state } from '../../state/bootstrap/icon'
 import {
   bootstrap_pages_dark_state,
@@ -29,7 +42,6 @@ import {
 import { get_registry } from '../../business.logic/registry'
 import { log_err } from '../../utility/logging'
 import { error_id } from '../../business.logic/errors'
-import { EP_BOOKMARKS, TJsonapiResponseResource, TStateDialog } from '@tuber/shared'
 import { visitorAlertDialogState } from '../../state/dialog'
 import STATE_KEY from '../../business.logic/state.key'
 import {
@@ -41,6 +53,7 @@ import {
 import { TSearchMode } from '../../common.types'
 import Config from '../../config'
 import JsonapiPaginationBuilder, { get_pagination_options } from '../../business.logic/builder/JsonapiPaginationBuilder'
+import { ThemeOptions } from '@mui/material'
 
 const $40 = STATE_KEY['40']
 const VALID_SEARCH_MODE: TSearchMode[] = ['public', 'private', 'all']
@@ -206,68 +219,69 @@ const post_state_bootstrap_endpoint = async (
       placeholder: SEARCH_PLACEHOLDER[searchMode]
     }
 
-    const state = {
-        'app': new PrepareState(context).process(
-          bootstrap_app_state
-        ).get(),
-        'theme': new PrepareState(context).process(
-          bootstrap_theme_state
-        ).get(),
-        'themeLight': new PrepareState(context).process(
-          bootstrap_theme_light_state
-        ).get(),
-        'themeDark': new PrepareState(context).process(
-          bootstrap_theme_dark_state
-        ).get(),
-        'appbar': new PrepareState(context).process(
-          bootstrap_appbar_state
-        ).get(),
-        'icons': new PrepareState<TStateAllIcons>(context).process(
-          bootstrap_icons_state
-        ).get(),
-        'pages': new PrepareState(context).process(
-          bootstrap_pages_state
-        ).get(),
-        'pagesLight': new PrepareState(context).process(
-          bootstrap_pages_light_state
-        ).get(),
-        'pagesDark': new PrepareState(context).process(
-          bootstrap_pages_dark_state
-        ).get(),
-        'pagesData': bootstrapPagesData,
-        'background': new PrepareState(context).process(
-          bootstrap_background_state
-        ).get(),
-        'forms': new PrepareState(context).process(
-          bootstrap_forms_state
-        ).get(),
-        'formsLight': new PrepareState(context).process(
-          bootstrap_forms_light_state
-        ).get(),
-        'formsDark': new PrepareState(context).process(
-          bootstrap_forms_dark_state
-        ).get(),
-        'dialog': dialogState,
-        'dialogs': new PrepareState(context).process(
-          bootstrap_dialogs_state
-        ).get(),
-        'dialogsLight': new PrepareState(context).process(
-          bootstrap_dialogs_light_state
-        ).get(),
-        'dialogsDark': new PrepareState(context).process(
-          bootstrap_dialogs_dark_state
-        ).get(),
-        'staticRegistry': get_registry('state'),
-        ...(usr ? { 'net': {
-          'name': usr.name,
-          'role': usr.role,
-          'token': token,
-          '_id': usr._id.toString(),
-        }} : {
-          // Originally, session was null but it crashed the app
-          'net': undefined,
-        })
-      }
+    const state: TNetState = {
+      'app': new PrepareState<TStateApp>(context).process(
+        bootstrap_app_state
+      ).get(),
+      'theme': new PrepareState<ThemeOptions>(context).process(
+        bootstrap_theme_state
+      ).get(),
+      'themeLight': new PrepareState<ThemeOptions>(context).process(
+        bootstrap_theme_light_state
+      ).get(),
+      'themeDark': new PrepareState<ThemeOptions>(context).process(
+        bootstrap_theme_dark_state
+      ).get(),
+      'appbar': new PrepareState<TStateAppbar>(context).process(
+        bootstrap_appbar_state
+      ).get(),
+      'appbarQueries': { [$40]: { 'value': searchQuery } },
+      'icons': new PrepareState<TStateAllIcons>(context).process(
+        bootstrap_icons_state
+      ).get(),
+      'pages': new PrepareState<TStateAllPages>(context).process(
+        bootstrap_pages_state
+      ).get(),
+      'pagesLight': new PrepareState<TStateAllPages>(context).process(
+        bootstrap_pages_light_state
+      ).get(),
+      'pagesDark': new PrepareState<TStateAllPages>(context).process(
+        bootstrap_pages_dark_state
+      ).get(),
+      'pagesData': bootstrapPagesData,
+      'background': new PrepareState<TStateBackground>(context).process(
+        bootstrap_background_state
+      ).get(),
+      'forms': new PrepareState<TStateAllForms>(context).process(
+        bootstrap_forms_state
+      ).get(),
+      'formsLight': new PrepareState<TStateAllForms>(context).process(
+        bootstrap_forms_light_state
+      ).get(),
+      'formsDark': new PrepareState<TStateAllForms>(context).process(
+        bootstrap_forms_dark_state
+      ).get(),
+      'dialog': dialogState,
+      'dialogs': new PrepareState<TStateAllDialogs>(context).process(
+        bootstrap_dialogs_state
+      ).get(),
+      'dialogsLight': new PrepareState<TStateAllDialogs>(context).process(
+        bootstrap_dialogs_light_state
+      ).get(),
+      'dialogsDark': new PrepareState<TStateAllDialogs>(context).process(
+        bootstrap_dialogs_dark_state
+      ).get(),
+      'staticRegistry': get_registry('state'),
+      ...(usr ? { 'net': {
+        'name': usr.name,
+        'role': usr.role,
+        'token': token,
+        '_id': usr._id.toString(),
+      }} : {
+        // Originally, session was null but it crashed the app
+        'net': undefined,
+      })
+    }
 
     const paginationLinks = new JsonapiPaginationBuilder(
       get_pagination_options({

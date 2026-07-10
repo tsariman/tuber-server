@@ -155,6 +155,7 @@ export interface IRequestAuth {
       options?: string[]
     }
     route?: string
+    query?: string
     theme_mode?: TThemeMode
     cookie?: string
   }>

@@ -8,10 +8,12 @@ import {
 import {
 	TJsonapiStateResponse,
 	EP_AUTH,
+	EP_BOOKMARKS,
 	MSG_500_ERROR_MESSAGE,
 	THEME_MODE,
 	TThemeMode,
-	THEME_DEFAULT_MODE
+	THEME_DEFAULT_MODE,
+	type TJsonapiResponseResource
 } from '@tuber/shared'
 import get_bootstrap_authenticated_state from '../../state/bootstrap'
 import { get_contextual_user, read_user } from '../../model/session'
@@ -25,6 +27,53 @@ import JsonapiErrorBuilder from '../../business.logic/builder/JsonapiErrorBuilde
 import { is_record, to_error_object } from '../../utility'
 import Config from '../../config'
 import { get_auth_cookie_options, SIGNIN_MAX_ATTEMPTS, SIGNIN_WINDOW_MS, signinAttempts } from './shared'
+import { read_bookmark_collection_by_query, read_bookmark_votes_for_user, to_jsonapi_bookmark_resources } from '../../model/bookmark'
+import JsonapiPaginationBuilder, { get_pagination_options } from '../../business.logic/builder/JsonapiPaginationBuilder'
+import { TSearchMode } from '../../common.types'
+
+const VALID_SEARCH_MODE: TSearchMode[] = ['public', 'private', 'all']
+
+const to_valid_search_mode = (mode?: string): TSearchMode | undefined => {
+	if (!mode) {
+		return undefined
+	}
+	if (VALID_SEARCH_MODE.includes(mode as TSearchMode)) {
+		return mode as TSearchMode
+	}
+	return undefined
+}
+
+const to_valid_search_query = (query?: string): string | undefined => {
+	if (!query) {
+		return undefined
+	}
+	const trimmed = query.trim()
+	if (!trimmed || trimmed.length > 255) {
+		return undefined
+	}
+	return trimmed
+}
+
+const parse_query_continuity_intent = (query?: string): {
+	searchMode?: TSearchMode
+	searchQuery?: string
+} => {
+	if (typeof query !== 'string' || !query.trim()) {
+		return {}
+	}
+
+	const normalized = query.startsWith('?') ? query.substring(1) : query
+	const params = new URLSearchParams(normalized)
+	const searchMode = to_valid_search_mode(
+		params.get('filter[search_mode]') || params.get('filter[mode]') || undefined
+	)
+	const searchQuery = to_valid_search_query(params.get('filter[search]') || undefined)
+
+	return {
+		searchMode,
+		searchQuery,
+	}
+}
 
 /** `POST /signin` endpoint handler */
 export default async function post_sign_in_endpoint (
@@ -173,7 +222,15 @@ export default async function post_sign_in_endpoint (
 		task.end('[✔️]')
 		const normalizedRoute = normalize_route(driver.getAttribute('route'))
 		const isSigninPage = normalizedRoute === EP_AUTH.CLIENT_IN
-		const bootstrapState = await get_bootstrap_authenticated_state({ usr, theme })
+		const query = driver.getAttribute('query')
+		const continuityIntent = parse_query_continuity_intent(
+			typeof query === 'string' ? query : undefined
+		)
+		const bootstrapState = await get_bootstrap_authenticated_state({
+			usr,
+			theme,
+			query: typeof query === 'string' ? query : undefined
+		})
 		if (isSigninPage) {
 			bootstrapState.app ??= {}
 			bootstrapState.app.route = '/'
@@ -184,7 +241,51 @@ export default async function post_sign_in_endpoint (
 			bootstrapState.pagesLight ??= {}
 			bootstrapState.pagesLight[EP_AUTH.CLIENT_IN] = { __delete: true }
 		}
-		reply.code(200).send({ 'state': bootstrapState } as TJsonapiStateResponse)
+
+		if (!continuityIntent.searchMode || continuityIntent.searchMode === 'public') {
+			reply.code(200).send({ 'state': bootstrapState } as TJsonapiStateResponse)
+			return
+		}
+
+		const continuitySearchQuery = continuityIntent.searchMode === 'all'
+			? continuityIntent.searchQuery
+			: undefined
+
+		const bookmarksCollection = await read_bookmark_collection_by_query({
+			searchMode: continuityIntent.searchMode,
+			searchQuery: continuitySearchQuery,
+			page: 1,
+			usr
+		})
+		const bookmarkVotes = await read_bookmark_votes_for_user(usr, bookmarksCollection.docs)
+		const {
+			resources: bookmarksResources,
+			included: bookmarksIncluded,
+		} = to_jsonapi_bookmark_resources(
+			bookmarksCollection.docs,
+			bookmarkVotes
+		)
+
+		const paginationLinks = new JsonapiPaginationBuilder(
+			get_pagination_options({
+				totalDocs: bookmarksCollection.totalItems,
+				page: bookmarksCollection.page,
+				limit: bookmarksCollection.limit,
+				filter: bookmarksCollection.filter,
+			})
+		).build()
+
+		reply.code(200).send({
+			state: bootstrapState,
+			data: bookmarksResources as unknown as TJsonapiResponseResource[],
+			links: paginationLinks,
+			meta: {
+				max_loaded_pages: Config.MAX_LOADED_BOOKMARK_PAGES,
+				collection_endpoint: EP_BOOKMARKS,
+				replace_collection: true,
+			},
+			...(bookmarksIncluded.length > 0 ? { included: bookmarksIncluded } : {}),
+		} as TJsonapiStateResponse)
 	} catch (e) {
 		task.end(MSG_500_ERROR_MESSAGE.replace('[500]', '[5005]'))
 		const error = to_error_object(e)

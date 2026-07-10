@@ -1,14 +1,15 @@
-import {
+import type {
   TNetState,
-  TStateApp,
-  TStateAllIcons,
-  TStateAppbar,
-  TStateAllPages,
-  TStateBackground,
-  TStateAllForms,
+  TO,
   TStateAllDialogs,
-  TO
+  TStateAllForms,
+  TStateAllIcons,
+  TStateAllPages,
+  TStateApp,
+  TStateAppbar,
+  TStateBackground,
 } from '@tuber/shared'
+import { EP_BOOKMARKS } from '@tuber/shared'
 import {
   bootstrap_pages_dark_state,
   bootstrap_pages_light_state,
@@ -34,14 +35,59 @@ import {
   bootstrap_dialogs_state
 } from './dialog'
 import { bootstrap_icons_state } from './icon'
-import { ThemeOptions } from '@mui/material'
 import { get_registry } from '../../business.logic/registry'
 import { IStateContext } from '../_state.common.types'
+import STATE_KEY from '../../business.logic/state.key'
+import { TSearchMode } from '../../common.types'
+import { ThemeOptions } from '@mui/material'
+
+const $40 = STATE_KEY['40']
+const VALID_SEARCH_MODE: TSearchMode[] = ['public', 'private', 'all']
+const SEARCH_ICON: Record<TSearchMode, string> = {
+  public: 'public_outline',
+  private: 'lock',
+  all: 'user_circle'
+}
+const SEARCH_PLACEHOLDER: Record<TSearchMode, string> = {
+  public: 'Search public bookmarks…',
+  private: 'Search your bookmarks…',
+  all: 'Search all bookmarks…'
+}
+
+interface IPostAuthContinuityIntent {
+  searchMode?: TSearchMode
+  playerOpen?: boolean
+}
+
+const parse_post_auth_continuity_intent = (query?: string): IPostAuthContinuityIntent => {
+  if (typeof query !== 'string' || !query.trim()) {
+    return {}
+  }
+
+  const normalized = query.startsWith('?') ? query.substring(1) : query
+  const params = new URLSearchParams(normalized)
+  const rawSearchMode = params.get('filter[search_mode]') || params.get('filter[mode]')
+  const rawPlayerOpen = params.get('filter[player_open]')
+
+  const searchMode = VALID_SEARCH_MODE.includes(rawSearchMode as TSearchMode)
+    ? rawSearchMode as TSearchMode
+    : undefined
+  const playerOpen = rawPlayerOpen === 'true'
+    ? true
+    : rawPlayerOpen === 'false'
+      ? false
+      : undefined
+
+  return {
+    searchMode,
+    playerOpen
+  }
+}
 
 export default async function get_bootstrap_authenticated_state(
   context: IStateContext
 ): Promise<TNetState> {
-  return {
+  const state: TNetState = {
     'app': new PrepareState<TStateApp>(context).process(
       bootstrap_app_state
     ).get(),
@@ -100,4 +146,34 @@ export default async function get_bootstrap_authenticated_state(
       '_id': context.usr._id.toString(),
     }}),
   }
+
+  const continuity = parse_post_auth_continuity_intent(context.query)
+  if (continuity.searchMode || typeof continuity.playerOpen === 'boolean') {
+    const pagesData = (state.pagesData || {}) as TO
+
+    if (continuity.searchMode) {
+      pagesData[$40] = {
+        ...(pagesData[$40] as TO || {}),
+        searchMode: continuity.searchMode,
+        icon: SEARCH_ICON[continuity.searchMode],
+        placeholder: SEARCH_PLACEHOLDER[continuity.searchMode]
+      }
+
+      pagesData[EP_BOOKMARKS] = {
+        ...(pagesData[EP_BOOKMARKS] as TO || {}),
+        searchMode: continuity.searchMode
+      }
+    }
+
+    if (typeof continuity.playerOpen === 'boolean') {
+      pagesData[EP_BOOKMARKS] = {
+        ...(pagesData[EP_BOOKMARKS] as TO || {}),
+        playerOpen: continuity.playerOpen
+      }
+    }
+
+    state.pagesData = pagesData
+  }
+
+  return state
 }

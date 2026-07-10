@@ -7,9 +7,9 @@ import {
   TStateAllPages,
   TStateBackground,
   TStateAllForms,
-  TStateAllDialogs
+  TStateAllDialogs,
+  TO
 } from '@tuber/shared'
-import { TObj } from '../common.types'
 import {
   bootstrap_pages_dark_state,
   bootstrap_pages_light_state,
@@ -43,73 +43,57 @@ export default async function get_bootstrap_authenticated_state(
   context: IStateContext
 ): Promise<TNetState> {
   return {
-    // 'app': _get_default_app_info(usr, themeMode),
-    'app': new PrepareState<TStateApp>(context)
-                .process(bootstrap_app_state)
-                .get(),
-    // 'theme': get_theme_state(themeMode),
-    'theme': new PrepareState<ThemeOptions>(context)
-                  .process(bootstrap_theme_state)
-                  .get(),
-    // 'themeLight': lightThemeState,
-    'themeLight': new PrepareState<ThemeOptions>(context)
-                  .process(bootstrap_theme_light_state)
-                  .get(),
-    // 'themeDark': darkThemeState,
-    'themeDark': new PrepareState<ThemeOptions>(context)
-                  .process(bootstrap_theme_dark_state)
-                  .get(),
-    // 'appbar': bootstrap_default_appbar_state(),
-    'appbar': new PrepareState<TStateAppbar>(context)
-                  .process(bootstrap_appbar_state)
-                  .get(),
-    'icons': new PrepareState<TStateAllIcons>(context)
-              .process(bootstrap_icons_state)
-              .get(),
-    // 'pages': bootstrap_pages_state(usr, themeMode),
-    'pages': new PrepareState<TStateAllPages>(context)
-                  .process(bootstrap_pages_state)
-                  .get(),
-    // 'pagesLight': bootstrap_pages_light_state(usr),
-    'pagesLight': new PrepareState<TStateAllPages>(context)
-                        .process(bootstrap_pages_light_state)
-                        .get(),
-    // 'pagesDark': bootstrap_pages_dark_state(usr),
-    'pagesDark': new PrepareState<TStateAllPages>(context)
-                      .process(bootstrap_pages_dark_state)
-                      .get(),
-    // 'pagesData': await bootstrap_pages_data_state(usr),
-    'pagesData': (await new PrepareState(context)
-                              .processAsync(bootstrap_pages_data_state))
-                              .get() as TObj,
-    //'background': bootstrap_background_state(),
-    'background': new PrepareState<TStateBackground>(context)
-                        .process(bootstrap_background_state)
-                        .get(),
-    // 'forms': bootstrap_forms_state(usr, themeMode),
-    'forms': new PrepareState<TStateAllForms>(context)
-                  .process(bootstrap_forms_state)
-                  .get(),
-    // 'formsLight': bootstrap_forms_light_state(usr),
-    'formsLight': new PrepareState<TStateAllForms>(context)
-                        .process(bootstrap_forms_light_state)
-                        .get(),
-    // 'formsDark': bootstrap_forms_dark_state(usr),
-    'formsDark': new PrepareState<TStateAllForms>(context)
-                      .process(bootstrap_forms_dark_state)
-                      .get(),
-    // 'dialogs': bootstrap_dialogs_state(themeMode),
-    'dialogs': new PrepareState<TStateAllDialogs>(context)
-                    .process(bootstrap_dialogs_state)
-                    .get(),
-    // 'dialogsLight': bootstrap_dialogs_light_state(),
-    'dialogsLight': new PrepareState<TStateAllDialogs>(context)
-                          .process(bootstrap_dialogs_light_state)
-                          .get(),
-    // 'dialogsDark': bootstrap_dialogs_dark_state(),
-    'dialogsDark': new PrepareState<TStateAllDialogs>(context)
-                          .process(bootstrap_dialogs_dark_state)
-                          .get(),
+    'app': new PrepareState<TStateApp>(context).process(
+      bootstrap_app_state
+    ).get(),
+    'theme': new PrepareState<ThemeOptions>(context).process(
+      bootstrap_theme_state
+    ).get(),
+    'themeLight': new PrepareState<ThemeOptions>(context).process(
+      bootstrap_theme_light_state
+    ).get(),
+    'themeDark': new PrepareState<ThemeOptions>(context).process(
+      bootstrap_theme_dark_state
+    ).get(),
+    'appbar': new PrepareState<TStateAppbar>(context).process(
+      bootstrap_appbar_state
+    ).get(),
+    'icons': new PrepareState<TStateAllIcons>(context).process(
+      bootstrap_icons_state
+    ).get(),
+    'pages': new PrepareState<TStateAllPages>(context).process(
+      bootstrap_pages_state
+    ).get(),
+    'pagesLight': new PrepareState<TStateAllPages>(context).process(
+      bootstrap_pages_light_state
+    ).get(),
+    'pagesDark': new PrepareState<TStateAllPages>(context).process(
+      bootstrap_pages_dark_state
+    ).get(),
+    'pagesData': (await new PrepareState(context).processAsync(
+      bootstrap_pages_data_state
+    )).get() as TO,
+    'background': new PrepareState<TStateBackground>(context).process(
+      bootstrap_background_state
+    ).get(),
+    'forms': new PrepareState<TStateAllForms>(context).process(
+      bootstrap_forms_state
+    ).get(),
+    'formsLight': new PrepareState<TStateAllForms>(context).process(
+      bootstrap_forms_light_state
+    ).get(),
+    'formsDark': new PrepareState<TStateAllForms>(context).process(
+      bootstrap_forms_dark_state
+    ).get(),
+    'dialogs': new PrepareState<TStateAllDialogs>(context).process(
+      bootstrap_dialogs_state
+    ).get(),
+    'dialogsLight': new PrepareState<TStateAllDialogs>(context).process(
+      bootstrap_dialogs_light_state
+    ).get(),
+    'dialogsDark': new PrepareState<TStateAllDialogs>(context).process(
+      bootstrap_dialogs_dark_state
+    ).get(),
     'staticRegistry': get_registry('state'),
     ...(context.usr && { 'net': {
       'name': context.usr.name,

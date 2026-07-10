@@ -1,29 +1,29 @@
-import { TContextualUser } from '../schema/user';
-import { TBootstrapState, IStateContext } from './_state.common.types';
-import { TThemeMode } from '../common.types';
-import { ensure_context } from './_state.common.logic';
-import { ler as err } from '../utility/logging';
+import { TContextualUser } from '../schema/user'
+import { TBootstrapState, IStateContext } from './_state.common.types'
+import { TThemeMode } from '../common.types'
+import { ensure_context } from './_state.common.logic'
+import { ler as err } from '../utility/logging'
 
 export class PrepareState<T> {
 
-  private _state: T;
-  private _context: IStateContext;
+  private _state: T
+  private _context: IStateContext
 
   constructor(context?: IStateContext) {
-    this._context = ensure_context(context);
-    this._state = {} as T;
+    this._context = ensure_context(context)
+    this._state = {} as T
   }
 
-  setUser(usr: TContextualUser) {
-    this._context.usr = usr;
+  setUser(usr: TContextualUser): this {
+    this._context.usr = usr
 
-    return this;
+    return this
   }
 
-  setTheme(theme: TThemeMode) {
-    this._context.theme = theme;
+  setTheme(theme: TThemeMode): this {
+    this._context.theme = theme
 
-    return this;
+    return this
   }
 
   /**
@@ -33,20 +33,20 @@ export class PrepareState<T> {
    * @param stateDictionary Can contain both raw states and functions returning processed states.
    * @returns 
    */
-  process(stateDictionary: TBootstrapState<T>, selectedKey?: string) {
+  process(stateDictionary: TBootstrapState<T>, selectedKey?: string): this {
     if (!selectedKey) {
-      const firstKey = Object.keys(stateDictionary)[0];
+      const firstKey = Object.keys(stateDictionary)[0]
       if (firstKey) {
-        const firstState = stateDictionary[firstKey];
-        this._setState(firstState);
+        const firstState = stateDictionary[firstKey]
+        this._setState(firstState)
       }
     } else if (selectedKey && stateDictionary[selectedKey]) {
-      const selectedState = stateDictionary[selectedKey];
-      this._setState(selectedState);
+      const selectedState = stateDictionary[selectedKey]
+      this._setState(selectedState)
     } else if (selectedKey) {
-      err(`[ERROR] Invalid key (${selectedKey}) for state selection.`);
+      err(`[ERROR] Invalid key (${selectedKey}) for state selection.`)
     }
-    return this;
+    return this
   }
 
   /**
@@ -59,48 +59,48 @@ export class PrepareState<T> {
    */
   async processAsync(stateDictionary: TBootstrapState<T>, selectedKey?: string): Promise<this> {
     if (!selectedKey) {
-      const firstKey = Object.keys(stateDictionary)[0];
+      const firstKey = Object.keys(stateDictionary)[0]
       if (firstKey) {
-        const firstState = stateDictionary[firstKey];
-        await this._setStateAsync(firstState);
+        const firstState = stateDictionary[firstKey]
+        await this._setStateAsync(firstState)
       }
     } else if (selectedKey && stateDictionary[selectedKey]) {
-      const selectedState = stateDictionary[selectedKey];
-      await this._setStateAsync(selectedState);
+      const selectedState = stateDictionary[selectedKey]
+      await this._setStateAsync(selectedState)
     } else if (selectedKey) {
-      err(`[ERROR] Invalid key (${selectedKey}) for state selection.`);
+      err(`[ERROR] Invalid key (${selectedKey}) for state selection.`)
     }
-    return this;
+    return this
   }
 
   private _setState(state: T | ((c: IStateContext) => T)): void {
     if (typeof state === 'function') {
-      this._state = (state as (c: IStateContext) => T)(this._context);
+      this._state = (state as (c: IStateContext) => T)(this._context)
     } else {
-      this._state = state as T;
+      this._state = state as T
     }
   }
 
   private async _setStateAsync(state: T | ((c: IStateContext) => T | Promise<T>)): Promise<void> {
     if (typeof state === 'function') {
-      const result = (state as (c: IStateContext) => T | Promise<T>)(this._context);
+      const result = (state as (c: IStateContext) => T | Promise<T>)(this._context)
       if (result instanceof Promise) {
-        this._state = await result;
+        this._state = await result
       } else {
-        this._state = result;
+        this._state = result
       }
     } else {
-      this._state = state as T;
+      this._state = state as T
     }
   }
 
   get() {
-    return this._state;
+    return this._state
   }
 
   cleanup() {
-    this._state = {} as T;
+    this._state = {} as T
 
-    return this;
+    return this
   }
 }
