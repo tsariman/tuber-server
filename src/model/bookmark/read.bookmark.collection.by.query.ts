@@ -66,6 +66,16 @@ export const build_bookmark_filter_query = (
   return filterParts.join('&')
 }
 
+export const build_bookmark_search_mode_filter = (
+  searchMode?: TSearchMode
+): string => {
+  if (!searchMode) {
+    return ''
+  }
+
+  return `filter[mode]=${encodeURIComponent(searchMode)}`
+}
+
 const get_effective_search_mode = (
   searchMode: TSearchMode | undefined,
   usr?: TContextualUser
@@ -287,6 +297,7 @@ export const read_bookmark_collection_by_query = async (
 ): Promise<IBookmarkCollectionQueryResult> => {
   const page = get_normalized_bookmark_page(input.page)
   const limit = get_normalized_bookmark_limit(input.limit)
+  const isAuthenticated = Boolean(input.usr?._id)
   const searchMode = get_effective_search_mode(input.searchMode, input.usr)
   const searchQuery = typeof input.searchQuery === 'string'
     ? input.searchQuery.trim()
@@ -316,13 +327,26 @@ export const read_bookmark_collection_by_query = async (
   // No-search behavior by mode:
   // - public/all: do not include collection (empty list)
   // - private: include user's most recent bookmarks (25 per page)
+  // - unauthenticated + no mode/search: do not include collection (empty list)
+  if (!isAuthenticated) {
+    return {
+      docs: [],
+      totalItems: 0,
+      page,
+      limit,
+      searchMode,
+      filter: build_bookmark_search_mode_filter(searchMode)
+    }
+  }
+
   if (searchMode === 'public' || searchMode === 'all') {
     return {
       docs: [],
       totalItems: 0,
       page,
       limit,
-      searchMode
+      searchMode,
+      filter: build_bookmark_search_mode_filter(searchMode)
     }
   }
 
@@ -333,7 +357,8 @@ export const read_bookmark_collection_by_query = async (
         totalItems: 0,
         page,
         limit: NO_SEARCH_PRIVATE_RECENTS_LIMIT,
-        searchMode
+        searchMode,
+        filter: build_bookmark_search_mode_filter(searchMode)
       }
     }
 
@@ -357,7 +382,8 @@ export const read_bookmark_collection_by_query = async (
       totalItems,
       page,
       limit: privateLimit,
-      searchMode
+      searchMode,
+      filter: build_bookmark_search_mode_filter(searchMode)
     }
   }
 
@@ -388,6 +414,7 @@ export const read_bookmark_collection_by_query = async (
     totalItems,
     page,
     limit,
+    filter: build_bookmark_search_mode_filter(searchMode)
   }
 }
 

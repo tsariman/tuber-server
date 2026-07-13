@@ -77,6 +77,9 @@ export default async function get_bookmark_collection_endpoint (
 
       reply.code(200).send(builder.buildCollection())
     } else {
+      if (searchMode === 'private') {
+        dbug(`Getting private bookmarks in reverse chronological order (page ${requestedPage ?? 1}, fixed limit 25)`)
+      }
       dbug(`Getting bookmarks collection (page ${requestedPage ?? 1}, limit ${requestedLimit ?? parseInt(Config.PAGINATION_BOOKMARKS_LIMIT)}) `)
       const collection = await read_bookmark_collection_by_query({
         searchMode,
@@ -94,7 +97,8 @@ export default async function get_bookmark_collection_endpoint (
         .withCollectionPagination(
           collection.totalItems,
           collection.page,
-          collection.limit
+          collection.limit,
+          collection.filter
         )
         .withMeta({
           max_loaded_pages: Config.MAX_LOADED_BOOKMARK_PAGES

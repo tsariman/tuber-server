@@ -5,8 +5,13 @@ import get_config, { IConfigManager } from './business.logic/Configuration'
 import { missing_db_name, missing_db_user } from './utility/logging'
 import { COLLECTION_NAME } from '@tuber/shared'
 
+const isTestMode = process.env.TEST === 'true'
+const runtimeNodeEnv = process.env.NODE_ENV ?? (isTestMode ? 'test' : 'development')
+const isProductionEnv = runtimeNodeEnv === 'production'
+const isDevelopmentLikeEnv = runtimeNodeEnv === 'development' || runtimeNodeEnv === 'test'
+
 // Load environment-specific config file
-const envFile = process.env.NODE_ENV === 'production' 
+const envFile = isProductionEnv
   ? `${__dirname}/../.env.production.local`
   : `${__dirname}/../.env.development.local`
 
@@ -83,11 +88,11 @@ const publicOrigin = clean_env(process.env.PUBLIC_ORIGIN)
 const USER_CONFIG: IConfiguration = {
   /** Get the current application version. */
   VERSION: process.env.VERSION ?? '0.0.0-alpha',
-  NODE_ENV: process.env.NODE_ENV ?? 'development',
-  DEV: process.env.NODE_ENV === 'development',
+  NODE_ENV: runtimeNodeEnv,
+  DEV: isDevelopmentLikeEnv,
 
   /** Whether the app is in debugging mode or not. */
-  DEBUG: process.env.NODE_ENV === 'development'
+  DEBUG: isDevelopmentLikeEnv
     || env_true(process.env.DEBUG),
 
   DOMAIN: clean_env(process.env.DOMAIN) || publicOrigin || '127.0.0.1:8080',

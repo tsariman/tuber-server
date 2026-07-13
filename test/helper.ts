@@ -25,7 +25,9 @@ async function build (t: TestContext) {
   // you can set all the options supported by the fastify CLI command
   const argv = [AppPath]
   const previousTestEnv = process.env.TEST
+  const previousNodeEnv = process.env.NODE_ENV
   process.env.TEST = 'true'
+  process.env.NODE_ENV = 'test'
 
   // fastify-plugin ensures that all decorators
   // are exposed for testing purposes, this is
@@ -36,6 +38,7 @@ async function build (t: TestContext) {
   // eslint-disable-next-line no-void
   t.after(async () => {
     process.env.TEST = previousTestEnv
+    process.env.NODE_ENV = previousNodeEnv
     await app.close()
     if (mongoose.connection.readyState !== 0) {
       await mongoose.disconnect()

@@ -25,11 +25,6 @@ import { get_bookmark_vote_by_id_endpoint } from './get.bookmark.vote.by.id.ep'
 const bookmarks: FastifyPluginAsync = async (fastify, rootOpts): Promise<void> => {
 
   const opts = { ...rootOpts, ...DEFAULT_ROUTE_OPTIONS }
-
-  // const postBookmark = Config.DEV
-  //   ? dev_post_bookmark_endpoint
-  //   : post_bookmark_endpoint
-
   const $public = { ...rootOpts, ...PUBLIC_ROUTE_OPTIONS }
 
   // GET /bookmarks (read)

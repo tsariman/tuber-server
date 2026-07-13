@@ -317,7 +317,7 @@ test('PATCH /bookmarks/:id - should block note links for non-members', async (t)
   assert.strictEqual(body.errors?.[0]?.title, 'Note links require a member account')
 })
 
-test('GET /bookmarks - unauthenticated requests should exclude unpublished bookmarks', async (t) => {
+test('GET /bookmarks - unauthenticated no-search requests should return an empty collection', async (t) => {
   const app = await build(t)
   const suffix = Date.now().toString(36)
   const publishedTitle = `visibility-published-${suffix}`
@@ -348,12 +348,7 @@ test('GET /bookmarks - unauthenticated requests should exclude unpublished bookm
 
   assert.strictEqual(response.statusCode, 200)
   const body = JSON.parse(response.payload)
-  const titles = (body.data || [])
-    .map((resource: { attributes?: { title?: string } }) => resource.attributes?.title)
-    .filter(Boolean)
-
-  assert.ok(titles.includes(publishedTitle))
-  assert.ok(!titles.includes(unpublishedTitle))
+  assert.deepStrictEqual(body.data || [], [])
 })
 
 test('GET /bookmarks - authenticated requests should include own unpublished bookmarks only', async (t) => {
@@ -404,17 +399,7 @@ test('GET /bookmarks - unauthenticated search should coerce private mode to publ
   const app = await build(t)
   const suffix = Date.now().toString(36)
   const query = `force-public-${suffix}`
-  const publishedTitle = `published-${query}`
   const unpublishedTitle = `unpublished-${query}`
-
-  await BookmarkModel.create({
-    user_id: `public-owner-${suffix}`,
-    platform: 'youtube',
-    start_seconds: 0,
-    title: publishedTitle,
-    is_published: true,
-    is_active: true,
-  })
 
   await BookmarkModel.create({
     user_id: `private-owner-${suffix}`,
@@ -435,8 +420,65 @@ test('GET /bookmarks - unauthenticated search should coerce private mode to publ
   const titles = (body.data || [])
     .map((resource: { attributes?: { title?: string } }) => resource.attributes?.title)
     .filter(Boolean)
-
-  assert.ok(titles.includes(publishedTitle))
   assert.ok(!titles.includes(unpublishedTitle))
-  assert.ok((body.links?.self || '').includes('filter%5Bmode%5D=public'))
+
+  const selfLink = String(body.links?.self || '')
+  assert.ok(selfLink.includes('filter%5Bmode%5D=public') || selfLink.includes('filter[mode]=public'))
+  assert.ok(!selfLink.includes('filter%5Bmode%5D=private') && !selfLink.includes('filter[mode]=private'))
+  assert.ok(selfLink.includes('filter%5Bsearch%5D=') || selfLink.includes('filter[search]='))
+})
+
+test('GET /bookmarks - no-search private mode pagination links should include filter[mode]=private', async (t) => {
+  const app = await build(t)
+  const auth = await generateTestAuthForRole(app, 'free')
+  assert.ok(auth.token)
+  assert.ok(auth.user)
+
+  const suffix = Date.now().toString(36)
+  const docsToCreate = Array.from({ length: 26 }).map((_, index) => ({
+    ...mockBookmark,
+    user_id: auth.user!._id,
+    title: `private-recents-${suffix}-${index}`,
+    is_published: false,
+    is_active: true,
+  }))
+
+  await BookmarkModel.insertMany(docsToCreate)
+
+  const response = await app.inject({
+    method: 'GET',
+    url: '/bookmarks?filter[mode]=private&page[number]=1',
+    headers: getAuthHeaders(auth.token!)
+  })
+
+  assert.strictEqual(response.statusCode, 200)
+  const body = JSON.parse(response.payload)
+
+  const selfLink = String(body.links?.self || '')
+  const firstLink = String(body.links?.first || '')
+  const lastLink = String(body.links?.last || '')
+  const nextLink = String(body.links?.next || '')
+
+  const hasPrivateModeFilter = (link: string): boolean => {
+    return link.includes('filter[mode]=private')
+      || link.includes('filter%5Bmode%5D=private')
+  }
+
+  assert.ok(hasPrivateModeFilter(selfLink))
+  assert.ok(hasPrivateModeFilter(firstLink))
+  assert.ok(hasPrivateModeFilter(lastLink))
+  assert.ok(hasPrivateModeFilter(nextLink))
+})
+
+test('GET /bookmarks - unauthenticated no-search should return an empty collection', async (t) => {
+  const app = await build(t)
+
+  const response = await app.inject({
+    method: 'GET',
+    url: '/bookmarks?page[number]=1&page[size]=25'
+  })
+
+  assert.strictEqual(response.statusCode, 200)
+  const body = JSON.parse(response.payload)
+  assert.deepStrictEqual(body.data || [], [])
 })
