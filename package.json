@@ -1,6 +1,6 @@
 {
   "name": "tuber-server",
-  "version": "0.2.2-alpha",
+  "version": "0.2.3-alpha",
   "description": "This project was bootstrapped with Fastify-CLI.",
   "main": "app.ts",
   "directories": {

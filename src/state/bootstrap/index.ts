@@ -158,11 +158,6 @@ export default async function get_bootstrap_authenticated_state(
         icon: SEARCH_ICON[continuity.searchMode],
         placeholder: SEARCH_PLACEHOLDER[continuity.searchMode]
       }
-
-      pagesData[EP_BOOKMARKS] = {
-        ...(pagesData[EP_BOOKMARKS] as TO || {}),
-        searchMode: continuity.searchMode
-      }
     }
 
     if (typeof continuity.playerOpen === 'boolean') {
